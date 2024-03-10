@@ -2,12 +2,16 @@
   "name": "benkim0414",
   "version": "0.0.0",
   "license": "MIT",
-  "scripts": {},
+  "scripts": {
+    "prepare": "husky",
+    "commitlint": "commitlint --edit"
+  },
   "private": true,
   "devDependencies": {
     "@commitlint/cli": "^19.0.3",
     "@commitlint/config-conventional": "^19.0.3",
     "@nx/js": "18.0.8",
+    "husky": "^9.0.11",
     "nx": "18.0.8"
   }
 }
