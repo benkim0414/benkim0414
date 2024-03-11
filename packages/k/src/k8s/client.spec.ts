@@ -1,5 +1,6 @@
-import { CoreV1Api, V1Pod } from '@kubernetes/client-node';
+import { CoreV1Api } from '@kubernetes/client-node';
 import { AggregatedCoreV1Api } from './client';
+import { createV1Pod } from './testutil';
 
 describe('AggregatedCoreV1Api', () => {
   describe('searchNamespacedPod', () => {
@@ -26,11 +27,3 @@ describe('AggregatedCoreV1Api', () => {
     });
   });
 });
-
-function createV1Pod(name: string): V1Pod {
-  return {
-    metadata: {
-      name,
-    },
-  } as V1Pod;
-}

@@ -1,11 +1,7 @@
 # k
 
-This library was generated with [Nx](https://nx.dev).
+[![Conventional Commits](https://img.shields.io/badge/Conventional%20Commits-1.0.0-%23FE5196?logo=conventionalcommits&logoColor=white)](https://conventionalcommits.org)
+[![Commitizen friendly](https://img.shields.io/badge/commitizen-friendly-brightgreen.svg)](http://commitizen.github.io/cz-cli/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-## Building
-
-Run `nx build k` to build the library.
-
-## Running unit tests
-
-Run `nx test k` to execute the unit tests via [Jest](https://jestjs.io).
+An opinionated command line tool for communicating with a Kubernetes.

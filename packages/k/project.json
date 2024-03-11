@@ -1,7 +1,7 @@
 {
   "name": "k",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
-  "sourceRoot": "packages/k/src",
+  "sourceRoot": "packages/k",
   "projectType": "library",
   "targets": {
     "build": {
@@ -9,7 +9,7 @@
       "outputs": ["{options.outputPath}"],
       "options": {
         "outputPath": "dist/packages/k",
-        "main": "packages/k/src/index.ts",
+        "main": "packages/k/bin/k.ts",
         "tsConfig": "packages/k/tsconfig.lib.json",
         "assets": ["packages/k/*.md"]
       }

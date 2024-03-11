@@ -15,8 +15,11 @@ const defaultSearchPodOptions: SearchPodOptions = {
 };
 
 export class AggregatedCoreV1Api extends CoreV1Api {
-  constructor() {
+  constructor(basePath?: string) {
     super();
+    if (basePath) {
+      this.basePath = basePath;
+    }
   }
 
   async searchNamespacedPod(
