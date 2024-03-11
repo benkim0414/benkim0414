@@ -1,0 +1,31 @@
+name: build
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+jobs:
+  main:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: pnpm/action-setup@v3
+        with:
+          version: 8
+      - name: Restore cached npm dependencies
+        id: cache-dependencies-restore
+        uses: actions/cache/restore@v4
+        with:
+          path: node_modules
+          key: npm-dependencies-${{ hashFiles('pnpm-lock.yaml') }}
+      - run: pnpm install --frozen-lockfile
+      - name: Cache npm dependencies
+        id: cache-dependencies-save
+        uses: actions/cache/save@v4
+        with:
+          path: node_modules
+          key: ${{ steps.cache-dependencies-restore.outputs.cache-primary-key }}
+      - uses: nrwl/nx-set-shas@v3
+      - run: pnpm nx affected -t lint test build --parallel=3 --exclude=benkim0414
