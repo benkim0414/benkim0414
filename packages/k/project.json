@@ -1,0 +1,23 @@
+{
+  "name": "k",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "packages/k",
+  "projectType": "library",
+  "targets": {
+    "build": {
+      "executor": "@nx/js:tsc",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/packages/k",
+        "main": "packages/k/bin/k.ts",
+        "tsConfig": "packages/k/tsconfig.lib.json",
+        "assets": ["packages/k/*.md"]
+      }
+    },
+    "publish": {
+      "command": "node tools/scripts/publish.mjs k {args.ver} {args.tag}",
+      "dependsOn": ["build"]
+    }
+  },
+  "tags": []
+}

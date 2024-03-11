@@ -1,0 +1,24 @@
+{
+  "name": "@benkim0414/k",
+  "version": "0.0.1",
+  "description": "An opinionated command line tool for communicating with a Kubernetes",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/benkim0414/benkim0414",
+    "directory": "packages/k"
+  },
+  "author": "Gunwoo Ben Kim <benkim0414@gmail.com>",
+  "license": "MIT",
+  "bin": {
+    "k": "bin/k.js"
+  },
+  "dependencies": {
+    "@kubernetes/client-node": "^0.20.0",
+    "fuse.js": "^7.0.0",
+    "tslib": "^2.3.0",
+    "yargs": "^17.7.2"
+  },
+  "devDependencies": {
+    "@types/yargs": "^17.0.32"
+  }
+}
