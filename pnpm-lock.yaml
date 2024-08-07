@@ -17,6 +17,9 @@ importers:
       '@nx/js':
         specifier: 19.5.6
         version: 19.5.6(@babel/traverse@7.25.3)(@types/node@22.1.0)(nx@19.5.6)(typescript@5.5.4)
+      husky:
+        specifier: ^9.1.4
+        version: 9.1.4
       nx:
         specifier: 19.5.6
         version: 19.5.6
@@ -1333,6 +1336,11 @@ packages:
   human-signals@5.0.0:
     resolution: {integrity: sha512-AXcZb6vzzrFAUE61HnN4mpLqd/cSIwNQjtNWR0euPm6y0iqx3G4gOXaIDdtdDwZmhwe82LA6+zinmW4UBWVePQ==}
     engines: {node: '>=16.17.0'}
+
+  husky@9.1.4:
+    resolution: {integrity: sha512-bho94YyReb4JV7LYWRWxZ/xr6TtOTt8cMfmQ39MQYJ7f/YE268s3GdghGwi+y4zAeqewE5zYLvuhV0M0ijsDEA==}
+    engines: {node: '>=18'}
+    hasBin: true
 
   ieee754@1.2.1:
     resolution: {integrity: sha512-dcyqhDvX1C46lXZcVqCpK+FtMRQVdIMN6/Df5js2zouUsqG7I6sFxitIC+7KYK29KdXOLHdu9zL4sFnoVQnqaA==}
@@ -3542,6 +3550,8 @@ snapshots:
       lru-cache: 10.4.3
 
   human-signals@5.0.0: {}
+
+  husky@9.1.4: {}
 
   ieee754@1.2.1: {}
 
