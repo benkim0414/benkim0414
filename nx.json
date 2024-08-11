@@ -1,4 +1,20 @@
 {
   "extends": "nx/presets/npm.json",
-  "$schema": "./node_modules/nx/schemas/nx-schema.json"
+  "$schema": "./node_modules/nx/schemas/nx-schema.json",
+  "plugins": ["@nxtensions/astro"],
+  "targetDefaults": {
+    "@nxtensions/astro:build": {
+      "inputs": ["default", "^default"],
+      "outputs": ["{workspaceRoot}/dist/{projectRoot}"],
+      "cache": true
+    },
+    "@nxtensions/astro:check": {
+      "inputs": ["default", "^default"],
+      "cache": true
+    },
+    "@nxtensions/astro:preview": {
+      "dependsOn": ["build"]
+    }
+  },
+  "defaultProject": "gh-pages"
 }
