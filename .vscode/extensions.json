@@ -1,6 +1,7 @@
 {
   "recommendations": [
-    
-    "nrwl.angular-console"
+    "nrwl.angular-console",
+    "astro-build.astro-vscode",
+    "esbenp.prettier-vscode"
   ]
 }
