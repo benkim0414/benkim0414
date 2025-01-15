@@ -1,0 +1,12 @@
+{
+  "name": "@benkim0414/date-interval",
+  "version": "0.0.1",
+  "dependencies": {
+    "@date-fns/tz": "^1.2.0",
+    "date-fns": "^4.1.0",
+    "invariant": "^2.2.4"
+  },
+  "devDependencies": {
+    "@types/invariant": "^2.2.37"
+  }
+}
