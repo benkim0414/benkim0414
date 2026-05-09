@@ -20,3 +20,12 @@ test('cycles and persists theme mode', async ({ page }) => {
   await page.reload();
   await expect(page.getByRole('button', { name: /Theme: light/i })).toBeVisible();
 });
+
+test('loads search state from the URL and shows empty results', async ({ page }) => {
+  await page.goto('/?q=no-such-skill');
+
+  await expect(page.getByRole('textbox', { name: 'Search skills' })).toHaveValue(
+    'no-such-skill'
+  );
+  await expect(page.getByText('No skills match your search.')).toBeVisible();
+});

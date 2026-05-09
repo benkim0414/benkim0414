@@ -1,6 +1,7 @@
 import NxWelcome from "./nx-welcome";
 import { ThemeProvider } from "@/components/theme-provider";
 import { ThemeToggle } from "@/components/theme-toggle";
+import { SkillSearchPanel } from "@/features/search/skill-search-panel";
 
 export function App() {
   return (
@@ -10,10 +11,10 @@ export function App() {
           <ThemeToggle />
         </div>
         <NxWelcome title="github.io" />
+        <SkillSearchPanel />
       </main>
     </ThemeProvider>
   );
 }
 
 export default App;
-
