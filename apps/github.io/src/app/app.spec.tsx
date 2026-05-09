@@ -10,6 +10,11 @@ describe('App', () => {
 
   it('should have a greeting as the title', () => {
     const { getAllByText } = render(<App />);
-    expect(getAllByText(new RegExp('Welcome github.io', 'gi')).length > 0).toBeTruthy();
+    expect(getAllByText(/Welcome github\.io/i).length > 0).toBeTruthy();
+  });
+
+  it('should render the theme toggle', () => {
+    const { getByRole } = render(<App />);
+    expect(getByRole('button', { name: /theme/i })).toBeTruthy();
   });
 });
