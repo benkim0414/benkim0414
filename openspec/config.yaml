@@ -1,0 +1,26 @@
+schema: spec-driven
+
+context: |
+  This is a personal Nx monorepo managed with pnpm.
+  Runtime: use the existing Node 24 environment; do not change Node versions as part of OpenSpec work.
+  Package manager: pnpm is the source of truth. Keep packageManager and pnpm-lock.yaml in sync.
+  Tooling: Nx is used for workspace validation and project orchestration.
+  Git workflow: all tracked edits happen from isolated worktree branches, not directly on main.
+  Commit workflow: stage files selectively, use conventional commits, run the no-PR review loop, merge back to main with a merge commit, then push with git push origin HEAD:main.
+  OpenSpec role: specs capture intent and requirements for future Codex sessions; implementation still follows the repository's existing AGENTS.md rules.
+
+rules:
+  proposal:
+    - State the user-facing intent and the affected capability.
+    - Include explicit non-goals when a request could expand beyond the immediate personal-project need.
+    - Note any repository workflow impact, especially git, pnpm, Nx, or Codex behavior changes.
+  specs:
+    - Write requirements in clear SHALL language.
+    - Use concrete scenarios with GIVEN, WHEN, and THEN where behavior can be observed.
+    - Prefer capability-oriented specs over file-by-file implementation notes.
+  design:
+    - Explain configuration choices and tradeoffs, not only the selected setting.
+    - Call out generated files, global Codex prompt files, and any machine-local state separately from repo-tracked files.
+  tasks:
+    - Include verification commands relevant to the changed surface, such as pnpm install --frozen-lockfile, pnpm nx report, and git diff --check.
+    - Keep tasks small enough to map to selective staging and conventional commits.
