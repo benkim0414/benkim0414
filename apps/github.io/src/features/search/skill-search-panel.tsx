@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import { skillCategories, skillLevels } from '@/data/skills';
+import { skillCategories, skillLevels, skillsWithProjects } from '@/data/skills';
 
 import {
   defaultSearchState,
@@ -38,8 +38,11 @@ export function SkillSearchPanel() {
     >
       <div className="mb-6 space-y-3">
         <h2 id="skill-search-heading" className="text-2xl font-semibold">
-          Search skills
+          Skills search
         </h2>
+        <p className="text-sm text-muted-foreground">
+          {results.length} of {skillsWithProjects.length} skills shown
+        </p>
         <input
           className="h-11 w-full rounded-md border border-input bg-background px-3 text-sm outline-none ring-offset-background placeholder:text-muted-foreground focus-visible:ring-2 focus-visible:ring-ring"
           aria-label="Search skills"
@@ -125,6 +128,19 @@ export function SkillSearchPanel() {
                 <span className="rounded-md bg-secondary px-2.5 py-1 text-sm text-secondary-foreground">
                   Level {skill.level}: {skillLevels[skill.level]}
                 </span>
+              </div>
+              <div className="mt-3 flex flex-wrap gap-2">
+                <span className="rounded-md border border-border px-2 py-1 text-xs">
+                  {skill.category}
+                </span>
+                {skill.tags.map((tag) => (
+                  <span
+                    key={tag}
+                    className="rounded-md bg-muted px-2 py-1 text-xs text-muted-foreground"
+                  >
+                    {tag}
+                  </span>
+                ))}
               </div>
               <p className="mt-3 text-sm">{skill.usage}</p>
               <p className="mt-2 text-sm text-muted-foreground">

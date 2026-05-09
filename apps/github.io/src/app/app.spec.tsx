@@ -8,13 +8,24 @@ describe('App', () => {
     expect(baseElement).toBeTruthy();
   });
 
-  it('should have a greeting as the title', () => {
-    const { getAllByText } = render(<App />);
-    expect(getAllByText(/Welcome github\.io/i).length > 0).toBeTruthy();
+  it('should show the portfolio owner and search', () => {
+    const { getByRole } = render(<App />);
+    expect(getByRole('heading', { name: 'Gunwoo Ben Kim' })).toBeTruthy();
+    expect(getByRole('textbox', { name: 'Search skills' })).toBeTruthy();
   });
 
   it('should render the theme toggle', () => {
     const { getByRole } = render(<App />);
     expect(getByRole('button', { name: /theme/i })).toBeTruthy();
+  });
+
+  it('should render contact links', () => {
+    const { getByRole } = render(<App />);
+    expect(getByRole('link', { name: 'Email' }).getAttribute('href')).toBe(
+      'mailto:benkim0414@gmail.com'
+    );
+    expect(getByRole('link', { name: 'LinkedIn' }).getAttribute('href')).toBe(
+      'https://www.linkedin.com/in/gunwoobenkim0414'
+    );
   });
 });
