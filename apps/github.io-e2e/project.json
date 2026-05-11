@@ -1,0 +1,12 @@
+{
+  "name": "github.io-e2e",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "application",
+  "sourceRoot": "apps/github.io-e2e/src",
+  "implicitDependencies": [
+    "github.io"
+  ],
+  "tags": [],
+  "// targets": "to see all targets run: nx show project github.io-e2e --web",
+  "targets": {}
+}
