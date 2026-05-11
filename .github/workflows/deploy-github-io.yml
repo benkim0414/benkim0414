@@ -1,0 +1,96 @@
+name: Deploy github.io
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+    paths:
+      - ".github/workflows/deploy-github-io.yml"
+      - "apps/github.io/**"
+      - "apps/github.io-e2e/**"
+      - "package.json"
+      - "pnpm-lock.yaml"
+      - "pnpm-workspace.yaml"
+      - "nx.json"
+      - "tsconfig*.json"
+      - "vitest.workspace.ts"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: deploy-github-io
+  cancel-in-progress: true
+
+env:
+  NODE_VERSION: "24"
+  TARGET_REPOSITORY: git@github.com:benkim0414/benkim0414.github.io.git
+  BUILD_DIRECTORY: apps/github.io/dist
+
+jobs:
+  deploy:
+    name: Build and publish
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out source
+        uses: actions/checkout@v6
+
+      - name: Set up pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          run_install: false
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Install Playwright browser
+        run: pnpm exec playwright install --with-deps chromium
+
+      - name: Run unit tests
+        run: pnpm nx test github.io
+
+      - name: Run browser smoke tests
+        run: pnpm nx e2e github.io-e2e
+
+      - name: Build static site
+        run: pnpm nx build github.io
+
+      - name: Start SSH agent
+        uses: webfactory/ssh-agent@v0.10.0
+        with:
+          ssh-private-key: ${{ secrets.GH_PAGES_DEPLOY_KEY }}
+
+      - name: Trust GitHub SSH host
+        run: ssh-keyscan github.com >> ~/.ssh/known_hosts
+
+      - name: Publish to user site repository
+        run: |
+          set -euo pipefail
+
+          publish_dir="${RUNNER_TEMP}/github-pages"
+          git clone --depth 1 "${TARGET_REPOSITORY}" "${publish_dir}"
+
+          find "${publish_dir}" -mindepth 1 -maxdepth 1 ! -name ".git" -exec rm -rf {} +
+          cp -R "${BUILD_DIRECTORY}/." "${publish_dir}/"
+          touch "${publish_dir}/.nojekyll"
+
+          cd "${publish_dir}"
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+
+          if git diff --cached --quiet; then
+            echo "No GitHub Pages changes to publish."
+            exit 0
+          fi
+
+          git commit -m "Deploy github.io"
+          git push origin HEAD:main
