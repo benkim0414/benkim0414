@@ -1,2 +1,7 @@
 packages:
-  - 'packages/*'
+  - "packages/*"
+  - "apps/*"
+allowBuilds:
+  "@fission-ai/openspec": true
+  "@swc/core": true
+  nx: true
