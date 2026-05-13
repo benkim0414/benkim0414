@@ -28,4 +28,15 @@ describe('App', () => {
       'https://www.linkedin.com/in/gunwoobenkim0414'
     );
   });
+
+  it('should render action-like contact links through the shadcn Button primitive', () => {
+    const { getByRole } = render(<App />);
+
+    expect(getByRole('link', { name: 'Email' }).getAttribute('data-slot')).toBe(
+      'button'
+    );
+    expect(getByRole('link', { name: 'LinkedIn' }).getAttribute('data-slot')).toBe(
+      'button'
+    );
+  });
 });
