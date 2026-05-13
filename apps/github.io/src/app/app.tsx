@@ -1,5 +1,6 @@
 import { ThemeProvider } from "@/components/theme-provider";
 import { ThemeToggle } from "@/components/theme-toggle";
+import { Button } from "@/components/ui/button";
 import { SkillSearchPanel } from "@/features/search/skill-search-panel";
 
 export function App() {
@@ -12,18 +13,12 @@ export function App() {
               github.io
             </a>
             <div className="flex items-center gap-2">
-              <a
-                className="rounded-md px-3 py-2 text-sm text-muted-foreground hover:text-foreground"
-                href="mailto:benkim0414@gmail.com"
-              >
-                Email
-              </a>
-              <a
-                className="rounded-md px-3 py-2 text-sm text-muted-foreground hover:text-foreground"
-                href="https://www.linkedin.com/in/gunwoobenkim0414"
-              >
-                LinkedIn
-              </a>
+              <Button asChild variant="ghost" className="text-muted-foreground">
+                <a href="mailto:benkim0414@gmail.com">Email</a>
+              </Button>
+              <Button asChild variant="ghost" className="text-muted-foreground">
+                <a href="https://www.linkedin.com/in/gunwoobenkim0414">LinkedIn</a>
+              </Button>
               <ThemeToggle />
             </div>
           </div>
