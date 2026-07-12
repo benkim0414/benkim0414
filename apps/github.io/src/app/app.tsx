@@ -1,13 +1,11 @@
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-import styles from './app.module.css';
-
-import NxWelcome from './nx-welcome';
+import { Theme } from '@astryxdesign/core';
+import { neutralTheme } from '@astryxdesign/theme-neutral/built';
 
 export function App() {
   return (
-    <div>
-      <NxWelcome title="github.io" />
-    </div>
+    <Theme theme={neutralTheme}>
+      <main>Layout skeleton</main>
+    </Theme>
   );
 }
 
