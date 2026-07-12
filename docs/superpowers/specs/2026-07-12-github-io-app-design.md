@@ -87,4 +87,3 @@ If an expected verification target does not exist after generation, record that 
 - Keep changes scoped to the new app and required workspace configuration.
 - Stage explicit paths only when committing.
 - Use conventional commit messages.
-
