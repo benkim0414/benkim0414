@@ -8,8 +8,14 @@ describe('App', () => {
     expect(baseElement).toBeTruthy();
   });
 
-  it('should have a greeting as the title', () => {
-    const { getByText } = render(<App />);
-    expect(getByText(/Welcome github.io/gi)).toBeTruthy();
+  it('should render the generic app shell', () => {
+    const { getByLabelText, getByRole, getByText } = render(<App />);
+
+    expect(
+      getByRole('heading', { level: 1, name: 'Generic Layout Skeleton' })
+    ).toBeTruthy();
+    expect(getByRole('link', { name: 'Home' }).textContent).toBe('App Shell');
+    expect(getByLabelText('Primary navigation')).toBeTruthy();
+    expect(getByText('Footer Region')).toBeTruthy();
   });
 });
