@@ -1,2 +1,10 @@
 packages:
+  - 'apps/*'
   - 'packages/*'
+
+onlyBuiltDependencies:
+  - nx
+allowBuilds:
+  '@swc/core': true
+  esbuild: true
+  nx: true
