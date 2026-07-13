@@ -4,6 +4,9 @@ import { AppShell } from './app-shell';
 
 const meta: Meta<typeof AppShell> = {
   component: AppShell,
+  parameters: {
+    layout: 'fullscreen',
+  },
   title: 'GitHub.io/App Shell/Full Shell',
 };
 
