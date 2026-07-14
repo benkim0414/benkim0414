@@ -1,11 +1,34 @@
-import { useMemo, useState } from 'react';
+import { useId, useMemo, useState } from 'react';
 import { Badge } from '@astryxdesign/core/Badge';
 import { List, ListItem } from '@astryxdesign/core/List';
-import { TextInput } from '@astryxdesign/core/TextInput';
+import { PowerSearch } from '@astryxdesign/core/PowerSearch';
+import type {
+  PowerSearchConfig,
+  PowerSearchFilter,
+} from '@astryxdesign/core/PowerSearch';
 
 import { SkillLogo } from './skill-logo';
 import { SkillRating } from './skill-rating';
 import type { Skill, SkillListProps } from './skill-list.types';
+
+const skillSearchConfig: PowerSearchConfig = {
+  name: 'SkillSearch',
+  contentSearchFieldKey: 'query',
+  fields: [
+    {
+      key: 'query',
+      label: 'Skills',
+      defaultOperator: 'contains',
+      operators: [
+        {
+          key: 'contains',
+          label: 'contains',
+          value: { type: 'string' },
+        },
+      ],
+    },
+  ],
+};
 
 export function skillMatchesQuery(skill: Skill, query: string) {
   const normalizedQuery = query.trim().toLowerCase();
@@ -20,22 +43,27 @@ export function skillMatchesQuery(skill: Skill, query: string) {
 }
 
 export function SkillList({ skills, heading = 'Skills' }: SkillListProps) {
-  const [query, setQuery] = useState('');
+  const headingId = useId();
+  const [filters, setFilters] = useState<ReadonlyArray<PowerSearchFilter>>([]);
+  const query = filters.find(
+    (filter) => filter.field === 'query' && filter.value.type === 'string'
+  )?.value.value;
   const filteredSkills = useMemo(
-    () => skills.filter((skill) => skillMatchesQuery(skill, query)),
+    () => skills.filter((skill) => skillMatchesQuery(skill, query ?? '')),
     [query, skills]
   );
 
   return (
-    <section className="skill-list" aria-labelledby="skill-list-heading">
+    <section className="skill-list" aria-labelledby={headingId}>
       <div className="skill-list__header">
-        <h2 id="skill-list-heading">{heading}</h2>
-        <TextInput
+        <h2 id={headingId}>{heading}</h2>
+        <PowerSearch
+          config={skillSearchConfig}
+          filters={filters}
           isLabelHidden
           label="Search skills"
-          onChange={setQuery}
           placeholder="Search skills"
-          value={query}
+          onChange={(nextFilters) => setFilters(nextFilters)}
         />
       </div>
 
