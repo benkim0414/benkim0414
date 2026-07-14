@@ -1,4 +1,4 @@
-import { fireEvent, render } from '@testing-library/react';
+import { fireEvent, render, waitFor } from '@testing-library/react';
 
 import { sampleSkills } from './skill-list.data';
 import { SkillList, skillMatchesQuery } from './skill-list';
@@ -28,28 +28,52 @@ describe('SkillList', () => {
     expect(getAllByLabelText('5 out of 5')).not.toHaveLength(0);
   });
 
-  it('filters by search query', () => {
-    const { getByLabelText, getByText, queryByText } = render(
+  it('filters by search query', async () => {
+    const { getByRole, getByText, queryByText } = render(
       <SkillList skills={sampleSkills} />
     );
 
-    fireEvent.change(getByLabelText('Search skills'), {
+    fireEvent.change(getByRole('combobox', { name: 'Search skills' }), {
       target: { value: 'terraform' },
     });
+    fireEvent.click(
+      await waitFor(() => getByRole('option', { name: '"terraform"' }))
+    );
 
     expect(getByText('Terraform')).toBeTruthy();
     expect(queryByText('React')).toBeNull();
   });
 
-  it('shows an empty state when no skills match', () => {
-    const { getByLabelText, getByText } = render(
+  it('shows an empty state when no skills match', async () => {
+    const { getByRole, getByText } = render(
       <SkillList skills={sampleSkills} />
     );
 
-    fireEvent.change(getByLabelText('Search skills'), {
+    fireEvent.change(getByRole('combobox', { name: 'Search skills' }), {
       target: { value: 'does-not-exist' },
     });
+    fireEvent.click(
+      await waitFor(() =>
+        getByRole('option', { name: '"does-not-exist"' })
+      )
+    );
 
     expect(getByText('No skills match your search.')).toBeTruthy();
+  });
+
+  it('uses distinct accessible headings for each instance', () => {
+    const { getAllByRole } = render(
+      <>
+        <SkillList heading="Frontend skills" skills={sampleSkills} />
+        <SkillList heading="Platform skills" skills={sampleSkills} />
+      </>
+    );
+
+    const sections = getAllByRole('region');
+    const headings = getAllByRole('heading');
+
+    expect(sections[0].getAttribute('aria-labelledby')).toBe(headings[0].id);
+    expect(sections[1].getAttribute('aria-labelledby')).toBe(headings[1].id);
+    expect(headings[0].id).not.toBe(headings[1].id);
   });
 });
