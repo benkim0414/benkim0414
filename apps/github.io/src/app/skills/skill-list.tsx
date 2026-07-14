@@ -9,9 +9,13 @@ import type {
 
 import { SkillLogo } from './skill-logo';
 import { SkillRating } from './skill-rating';
-import type { Skill, SkillListProps } from './skill-list.types';
+import {
+  skillCategories,
+  type Skill,
+  type SkillListProps,
+} from './skill-list.types';
 
-const skillSearchConfig: PowerSearchConfig = {
+export const skillSearchConfig: PowerSearchConfig = {
   name: 'SkillSearch',
   contentSearchFieldKey: 'query',
   fields: [
@@ -24,6 +28,24 @@ const skillSearchConfig: PowerSearchConfig = {
           key: 'contains',
           label: 'contains',
           value: { type: 'string' },
+        },
+      ],
+    },
+    {
+      key: 'category',
+      label: 'Category',
+      defaultOperator: 'is',
+      operators: [
+        {
+          key: 'is',
+          label: 'is',
+          value: {
+            type: 'enum',
+            values: skillCategories.map((category) => ({
+              label: category,
+              value: category,
+            })),
+          },
         },
       ],
     },
@@ -42,15 +64,30 @@ export function skillMatchesQuery(skill: Skill, query: string) {
   );
 }
 
+export function skillMatchesFilters(
+  skill: Skill,
+  filters: ReadonlyArray<PowerSearchFilter>
+) {
+  const queryFilters = filters.filter(
+    (filter) => filter.field === 'query' && filter.value.type === 'string'
+  );
+  const categoryFilters = filters.filter(
+    (filter) => filter.field === 'category' && filter.value.type === 'enum'
+  );
+
+  return (
+    queryFilters.every((filter) => skillMatchesQuery(skill, filter.value.value)) &&
+    (categoryFilters.length === 0 ||
+      categoryFilters.some((filter) => skill.category === filter.value.value))
+  );
+}
+
 export function SkillList({ skills, heading = 'Skills' }: SkillListProps) {
   const headingId = useId();
   const [filters, setFilters] = useState<ReadonlyArray<PowerSearchFilter>>([]);
-  const query = filters.find(
-    (filter) => filter.field === 'query' && filter.value.type === 'string'
-  )?.value.value;
   const filteredSkills = useMemo(
-    () => skills.filter((skill) => skillMatchesQuery(skill, query ?? '')),
-    [query, skills]
+    () => skills.filter((skill) => skillMatchesFilters(skill, filters)),
+    [filters, skills]
   );
 
   return (
@@ -63,11 +100,27 @@ export function SkillList({ skills, heading = 'Skills' }: SkillListProps) {
           isLabelHidden
           label="Search skills"
           placeholder="Search skills"
-          onChange={(nextFilters) => setFilters(nextFilters)}
+          onChange={(nextFilters, changeType, changedIndex) => {
+            const changedFilter = nextFilters[changedIndex];
+
+            if (changeType === 'add' && changedFilter?.field === 'query') {
+              setFilters(
+                nextFilters.filter(
+                  (filter, index) =>
+                    filter.field !== 'query' || index === changedIndex
+                )
+              );
+              return;
+            }
+
+            setFilters(nextFilters);
+          }}
         />
       </div>
 
-      {filteredSkills.length > 0 ? (
+      {skills.length === 0 ? (
+        <p className="skill-list__empty">No skills have been supplied.</p>
+      ) : filteredSkills.length > 0 ? (
         <List className="skill-list__items" density="compact" hasDividers>
           {filteredSkills.map((skill) => (
             <ListItem

@@ -1,7 +1,13 @@
 import { fireEvent, render, waitFor } from '@testing-library/react';
 
 import { sampleSkills } from './skill-list.data';
-import { SkillList, skillMatchesQuery } from './skill-list';
+import { skillCategories } from './skill-list.types';
+import {
+  SkillList,
+  skillMatchesFilters,
+  skillMatchesQuery,
+  skillSearchConfig,
+} from './skill-list';
 
 describe('skillMatchesQuery', () => {
   it('matches by name, category, and keyword', () => {
@@ -44,6 +50,25 @@ describe('SkillList', () => {
     expect(queryByText('React')).toBeNull();
   });
 
+  it('replaces an earlier free-text query with the next committed query', async () => {
+    const { getByRole, getByText, queryByText } = render(
+      <SkillList skills={sampleSkills} />
+    );
+    const search = getByRole('combobox', { name: 'Search skills' });
+
+    fireEvent.change(search, { target: { value: 'terraform' } });
+    fireEvent.click(
+      await waitFor(() => getByRole('option', { name: '"terraform"' }))
+    );
+    fireEvent.change(search, { target: { value: 'react' } });
+    fireEvent.click(
+      await waitFor(() => getByRole('option', { name: '"react"' }))
+    );
+
+    expect(getByText('React')).toBeTruthy();
+    expect(queryByText('Terraform')).toBeNull();
+  });
+
   it('shows an empty state when no skills match', async () => {
     const { getByRole, getByText } = render(
       <SkillList skills={sampleSkills} />
@@ -61,6 +86,13 @@ describe('SkillList', () => {
     expect(getByText('No skills match your search.')).toBeTruthy();
   });
 
+  it('shows a distinct empty state when no skills are supplied', () => {
+    const { getByText, queryByText } = render(<SkillList skills={[]} />);
+
+    expect(getByText('No skills have been supplied.')).toBeTruthy();
+    expect(queryByText('No skills match your search.')).toBeNull();
+  });
+
   it('uses distinct accessible headings for each instance', () => {
     const { getAllByRole } = render(
       <>
@@ -75,5 +107,61 @@ describe('SkillList', () => {
     expect(sections[0].getAttribute('aria-labelledby')).toBe(headings[0].id);
     expect(sections[1].getAttribute('aria-labelledby')).toBe(headings[1].id);
     expect(headings[0].id).not.toBe(headings[1].id);
+  });
+});
+
+describe('structured category filtering', () => {
+  it('declares categories as an Astryx enum field', () => {
+    const categoryField = skillSearchConfig.fields.find(
+      (field) => field.key === 'category'
+    );
+
+    expect(categoryField?.operators[0].value).toEqual({
+      type: 'enum',
+      values: skillCategories.map((category) => ({
+        label: category,
+        value: category,
+      })),
+    });
+  });
+
+  it('filters skills with a structured PowerSearch category filter', async () => {
+    const { getByRole, getByText, queryByText } = render(
+      <SkillList skills={sampleSkills} />
+    );
+
+    fireEvent.change(getByRole('combobox', { name: 'Search skills' }), {
+      target: { value: 'category framework' },
+    });
+    fireEvent.click(
+      await waitFor(() =>
+        getByRole('option', { name: 'Category is Framework' })
+      )
+    );
+
+    expect(getByText('React')).toBeTruthy();
+    expect(queryByText('TypeScript')).toBeNull();
+  });
+
+  it('applies category filters together with text search', () => {
+    const react = sampleSkills.find((skill) => skill.id === 'react');
+    const terraform = sampleSkills.find((skill) => skill.id === 'terraform');
+    const filters = [
+      {
+        field: 'query',
+        operator: 'contains',
+        value: { type: 'string' as const, value: 'frontend' },
+      },
+      {
+        field: 'category',
+        operator: 'is',
+        value: { type: 'enum' as const, value: 'Framework' },
+      },
+    ];
+
+    expect(react).toBeTruthy();
+    expect(terraform).toBeTruthy();
+    expect(skillMatchesFilters(react!, filters)).toBe(true);
+    expect(skillMatchesFilters(terraform!, filters)).toBe(false);
   });
 });
