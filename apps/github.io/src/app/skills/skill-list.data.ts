@@ -1,0 +1,68 @@
+import type { Skill } from './skill-list.types';
+
+export const sampleSkills: readonly Skill[] = [
+  {
+    id: 'typescript',
+    name: 'TypeScript',
+    category: 'Language',
+    level: 5,
+    iconSlug: 'typescript',
+    keywords: ['javascript', 'typed', 'frontend', 'node'],
+  },
+  {
+    id: 'react',
+    name: 'React',
+    category: 'Framework',
+    level: 5,
+    iconSlug: 'react',
+    keywords: ['frontend', 'ui', 'components'],
+  },
+  {
+    id: 'nx',
+    name: 'Nx',
+    category: 'Build',
+    level: 4,
+    iconSlug: 'nx',
+    keywords: ['monorepo', 'workspace', 'build system'],
+  },
+  {
+    id: 'aws',
+    name: 'AWS',
+    category: 'Cloud',
+    level: 4,
+    iconSlug: 'amazonaws',
+    keywords: ['cloud', 'infrastructure'],
+  },
+  {
+    id: 'terraform',
+    name: 'Terraform',
+    category: 'IaC',
+    level: 4,
+    iconSlug: 'terraform',
+    keywords: ['infrastructure as code', 'provisioning'],
+  },
+  {
+    id: 'docker',
+    name: 'Docker',
+    category: 'Container',
+    level: 4,
+    iconSlug: 'docker',
+    keywords: ['container', 'image', 'runtime'],
+  },
+  {
+    id: 'github-actions',
+    name: 'GitHub Actions',
+    category: 'CI/CD',
+    level: 4,
+    iconSlug: 'githubactions',
+    keywords: ['ci', 'cd', 'automation', 'workflow'],
+  },
+  {
+    id: 'storybook',
+    name: 'Storybook',
+    category: 'Design System',
+    level: 4,
+    iconSlug: 'storybook',
+    keywords: ['components', 'ui', 'visual testing'],
+  },
+];
