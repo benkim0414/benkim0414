@@ -25,13 +25,11 @@ describe('skillMatchesQuery', () => {
 
 describe('SkillList', () => {
   it('renders skill rows with category and rating content', () => {
-    const { getAllByLabelText, getByText } = render(
-      <SkillList skills={sampleSkills} />
-    );
+    const { getAllByText, getByText } = render(<SkillList skills={sampleSkills} />);
 
     expect(getByText('TypeScript')).toBeTruthy();
     expect(getByText('Language')).toBeTruthy();
-    expect(getAllByLabelText('5 out of 5')).not.toHaveLength(0);
+    expect(getAllByText('5 out of 5')).not.toHaveLength(0);
   });
 
   it('filters by search query', async () => {
