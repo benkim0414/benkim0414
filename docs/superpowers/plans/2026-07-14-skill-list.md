@@ -80,7 +80,7 @@ describe('SkillRating', () => {
 Run:
 
 ```bash
-PATH=/tmp/corepack-shims:$PATH NX_DAEMON=false corepack pnpm nx test github.io --skip-nx-cache --runInBand
+PATH=/tmp/corepack-shims:$PATH NX_DAEMON=false corepack pnpm nx test github.io --skip-nx-cache
 ```
 
 Expected: FAIL because `./skill-rating` does not exist.
@@ -227,7 +227,7 @@ export function SkillRating({ level }: SkillRatingProps) {
 Run:
 
 ```bash
-PATH=/tmp/corepack-shims:$PATH NX_DAEMON=false corepack pnpm nx test github.io --skip-nx-cache --runInBand
+PATH=/tmp/corepack-shims:$PATH NX_DAEMON=false corepack pnpm nx test github.io --skip-nx-cache
 ```
 
 Expected: PASS for the new rating test and existing tests.
@@ -359,7 +359,7 @@ describe('SkillList', () => {
 Run:
 
 ```bash
-PATH=/tmp/corepack-shims:$PATH NX_DAEMON=false corepack pnpm nx test github.io --skip-nx-cache --runInBand
+PATH=/tmp/corepack-shims:$PATH NX_DAEMON=false corepack pnpm nx test github.io --skip-nx-cache
 ```
 
 Expected: FAIL because `./skill-list` does not exist.
@@ -539,7 +539,7 @@ Append to `apps/github.io/src/styles.css`:
 Run:
 
 ```bash
-PATH=/tmp/corepack-shims:$PATH NX_DAEMON=false corepack pnpm nx test github.io --skip-nx-cache --runInBand
+PATH=/tmp/corepack-shims:$PATH NX_DAEMON=false corepack pnpm nx test github.io --skip-nx-cache
 ```
 
 Expected: PASS. If TypeScript fails because Astryx prop names differ, update only the imports/props in `skill-logo.tsx` and `skill-list.tsx` to match the installed `.d.ts` files. Do not replace the component with custom cards.
@@ -618,7 +618,7 @@ export const FocusedResults: Story = {
 Run:
 
 ```bash
-PATH=/tmp/corepack-shims:$PATH NX_DAEMON=false corepack pnpm nx test github.io --skip-nx-cache --runInBand
+PATH=/tmp/corepack-shims:$PATH NX_DAEMON=false corepack pnpm nx test github.io --skip-nx-cache
 ```
 
 Expected: PASS.
