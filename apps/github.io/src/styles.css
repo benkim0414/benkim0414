@@ -147,16 +147,26 @@ a {
 
 .skill-list__item-copy {
   display: flex;
+  flex: 1 1 auto;
   align-items: center;
   gap: var(--spacing-2);
   min-width: 0;
+  max-width: 100%;
 }
 
 .skill-list__name {
+  display: block;
+  flex: 1 1 auto;
+  min-width: 0;
+  max-width: 100%;
   overflow: hidden;
   font-weight: 700;
   text-overflow: ellipsis;
   white-space: nowrap;
+}
+
+.skill-list__item-copy > :not(.skill-list__name) {
+  flex: 0 0 auto;
 }
 
 .skill-avatar {
@@ -181,5 +191,9 @@ a {
   .skill-list__item-copy {
     align-items: flex-start;
     flex-direction: column;
+  }
+
+  .skill-list__name {
+    width: 100%;
   }
 }

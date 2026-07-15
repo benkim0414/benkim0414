@@ -36,3 +36,14 @@ export const Infrastructure: Story = {
   },
   render: (args) => <SkillListItemStory {...args} />,
 };
+
+export const LongName: Story = {
+  args: {
+    skill: {
+      ...sampleSkills[0],
+      id: 'long-name',
+      name: 'TypeScript and React Component Architecture Governance',
+    },
+  },
+  render: (args) => <SkillListItemStory {...args} />,
+};
