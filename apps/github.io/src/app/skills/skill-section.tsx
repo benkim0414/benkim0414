@@ -9,6 +9,7 @@ export function SkillSection({
   skills,
   heading = 'Skills',
   emptyMessage = 'No skills have been supplied.',
+  isHeadingHidden = false,
 }: SkillListProps) {
   const [filters, setFilters] = useState<ReadonlyArray<PowerSearchFilter>>([]);
   const filteredSkills = useMemo(
@@ -27,6 +28,7 @@ export function SkillSection({
           skills.length === 0 ? emptyMessage : 'No skills match your search.'
         }
         heading={heading}
+        isHeadingHidden={isHeadingHidden}
         skills={filteredSkills}
       />
     </div>
