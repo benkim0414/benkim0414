@@ -45,7 +45,7 @@ a {
   gap: var(--spacing-3);
 }
 
-.skill-list__header h2 {
+.skill-list__heading {
   margin: 0;
   font-size: var(--font-size-2xl);
 }

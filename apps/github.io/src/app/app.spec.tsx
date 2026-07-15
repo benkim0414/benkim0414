@@ -5,8 +5,10 @@ import App from './app';
 describe('App', () => {
   it('renders the skills-first page successfully', () => {
     const { getByRole, getByText } = render(<App />);
+    const heading = getByRole('heading', { level: 1, name: 'Skills' });
 
     expect(getByRole('main', { name: 'Skills' })).toBeTruthy();
+    expect(heading.closest('span')).toBeNull();
     expect(getByRole('combobox', { name: 'Search skills' })).toBeTruthy();
     expect(getByText('TypeScript')).toBeTruthy();
     expect(getByText('React')).toBeTruthy();

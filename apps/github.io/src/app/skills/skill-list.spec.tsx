@@ -5,8 +5,11 @@ import { SkillList } from './skill-list';
 
 describe('SkillList', () => {
   it('renders skill rows with category and rating content', () => {
-    const { getAllByText, getByText } = render(<SkillList skills={sampleSkills} />);
+    const { getAllByText, getByRole, getByText } = render(
+      <SkillList skills={sampleSkills} />
+    );
 
+    expect(getByRole('list', { name: 'Skills' })).toBeTruthy();
     expect(getByText('TypeScript')).toBeTruthy();
     expect(getByText('Language')).toBeTruthy();
     expect(getAllByText('5 out of 5')).not.toHaveLength(0);
@@ -48,9 +51,11 @@ describe('SkillList', () => {
     );
 
     const region = getByRole('region', { name: 'Skills' });
+    const list = getByRole('list', { name: 'Skills' });
     const heading = getByRole('heading', { level: 2, name: 'Skills' });
 
     expect(region.getAttribute('aria-labelledby')).toBe(heading.id);
+    expect(list.getAttribute('aria-labelledby')).toBeTruthy();
     expect(heading.closest('span')).toBeNull();
   });
 });
