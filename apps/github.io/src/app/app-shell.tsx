@@ -12,8 +12,8 @@ export function AppShell() {
         aria-labelledby="skills-page-title"
         className="page page--skills"
       >
-        <VisuallyHidden>
-          <h1 id="skills-page-title">Skills</h1>
+        <VisuallyHidden as="h1" id="skills-page-title">
+          Skills
         </VisuallyHidden>
 
         <SkillSection heading="Skills" isHeadingHidden skills={sampleSkills} />

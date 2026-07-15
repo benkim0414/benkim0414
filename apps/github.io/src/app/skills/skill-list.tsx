@@ -19,7 +19,9 @@ export function SkillList({
     <section className="skill-list" aria-labelledby={headingId}>
       <div className="skill-list__header">
         {isHeadingHidden ? (
-          <VisuallyHidden>{headingElement}</VisuallyHidden>
+          <VisuallyHidden as="h2" id={headingId}>
+            {heading}
+          </VisuallyHidden>
         ) : (
           headingElement
         )}

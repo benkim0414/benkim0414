@@ -51,5 +51,6 @@ describe('SkillList', () => {
     const heading = getByRole('heading', { level: 2, name: 'Skills' });
 
     expect(region.getAttribute('aria-labelledby')).toBe(heading.id);
+    expect(heading.closest('span')).toBeNull();
   });
 });
