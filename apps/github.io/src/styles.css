@@ -157,7 +157,7 @@ a {
 .skill-avatar img {
   box-sizing: border-box;
   object-fit: contain;
-  padding: 6px;
+  padding: var(--skill-avatar-padding, 3px);
 }
 
 .skill-rating {
