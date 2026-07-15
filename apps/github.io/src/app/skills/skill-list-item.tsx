@@ -1,7 +1,7 @@
-import { Badge } from '@astryxdesign/core/Badge';
 import { ListItem } from '@astryxdesign/core/List';
 
 import { SkillAvatar } from './skill-avatar';
+import { SkillCategory } from './skill-category';
 import { SkillRating } from './skill-rating';
 import type { Skill } from './skill-list.types';
 
@@ -16,7 +16,7 @@ export function SkillListItem({ skill }: SkillListItemProps) {
       label={
         <div className="skill-list__item-copy">
           <span className="skill-list__name">{skill.name}</span>
-          <Badge label={skill.category} />
+          <SkillCategory name={skill.category} />
         </div>
       }
       startContent={<SkillAvatar skill={skill} />}
