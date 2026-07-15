@@ -20,7 +20,11 @@ export function SkillSection({
   return (
     <div className="skill-section">
       <div className="skill-section__search">
-        <SkillSearch filters={filters} onFiltersChange={setFilters} />
+        <SkillSearch
+          filters={filters}
+          onFiltersChange={setFilters}
+          resultCount={filteredSkills.length}
+        />
       </div>
 
       <SkillList

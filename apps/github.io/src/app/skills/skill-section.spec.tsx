@@ -5,9 +5,11 @@ import { sampleSkills } from './skill-list.data';
 
 describe('SkillSection', () => {
   it('wires search filters to the presentational skill list', async () => {
-    const { getByRole, getByText, queryByText } = render(
+    const { getAllByText, getByRole, getByText, queryByText } = render(
       <SkillSection heading="Skills" skills={sampleSkills} />
     );
+
+    expect(getByText('8 results')).toBeTruthy();
 
     fireEvent.change(getByRole('combobox', { name: 'Search skills' }), {
       target: { value: 'terraform' },
@@ -17,6 +19,7 @@ describe('SkillSection', () => {
     );
 
     expect(getByText('Terraform')).toBeTruthy();
+    expect(getAllByText('1 result')).not.toHaveLength(0);
     expect(queryByText('React')).toBeNull();
   });
 

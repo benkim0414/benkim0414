@@ -27,10 +27,22 @@ describe('skillMatchesQuery', () => {
 describe('SkillSearch', () => {
   it('renders the Astryx PowerSearch input', () => {
     const { getByRole } = render(
-      <SkillSearch filters={[]} onFiltersChange={() => undefined} />
+      <SkillSearch
+        filters={[]}
+        onFiltersChange={() => undefined}
+        resultCount={sampleSkills.length}
+      />
     );
 
     expect(getByRole('combobox', { name: 'Search skills' })).toBeTruthy();
+  });
+
+  it('passes the result count to Astryx PowerSearch', () => {
+    const { getByText } = render(
+      <SkillSearch filters={[]} onFiltersChange={() => undefined} resultCount={8} />
+    );
+
+    expect(getByText('8 results')).toBeTruthy();
   });
 
   it('replaces an earlier free-text query with the next committed query', async () => {
@@ -39,7 +51,11 @@ describe('SkillSearch', () => {
       filters = nextFilters;
     });
     const { getByRole, rerender } = render(
-      <SkillSearch filters={filters} onFiltersChange={onFiltersChange} />
+      <SkillSearch
+        filters={filters}
+        onFiltersChange={onFiltersChange}
+        resultCount={sampleSkills.length}
+      />
     );
     const search = getByRole('combobox', { name: 'Search skills' });
 
@@ -47,7 +63,13 @@ describe('SkillSearch', () => {
     fireEvent.click(
       await waitFor(() => getByRole('option', { name: '"terraform"' }))
     );
-    rerender(<SkillSearch filters={filters} onFiltersChange={onFiltersChange} />);
+    rerender(
+      <SkillSearch
+        filters={filters}
+        onFiltersChange={onFiltersChange}
+        resultCount={1}
+      />
+    );
     fireEvent.change(search, { target: { value: 'react' } });
     fireEvent.click(
       await waitFor(() => getByRole('option', { name: '"react"' }))

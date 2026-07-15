@@ -12,6 +12,7 @@ import {
 interface SkillSearchProps {
   filters: ReadonlyArray<PowerSearchFilter>;
   onFiltersChange: (filters: ReadonlyArray<PowerSearchFilter>) => void;
+  resultCount: number;
 }
 
 export const skillSearchConfig: PowerSearchConfig = {
@@ -81,7 +82,11 @@ export function skillMatchesFilters(
   );
 }
 
-export function SkillSearch({ filters, onFiltersChange }: SkillSearchProps) {
+export function SkillSearch({
+  filters,
+  onFiltersChange,
+  resultCount,
+}: SkillSearchProps) {
   return (
     <PowerSearch
       config={skillSearchConfig}
@@ -89,6 +94,7 @@ export function SkillSearch({ filters, onFiltersChange }: SkillSearchProps) {
       isLabelHidden
       label="Search skills"
       placeholder="Search skills"
+      resultCount={resultCount}
       onChange={(nextFilters, changeType, changedIndex) => {
         const changedFilter = nextFilters[changedIndex];
 

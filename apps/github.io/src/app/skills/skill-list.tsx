@@ -13,24 +13,30 @@ export function SkillList({
   isHeadingHidden = false,
 }: SkillListProps) {
   const headingId = useId();
-  const headingElement = <h2 id={headingId}>{heading}</h2>;
+  const headingElement = isHeadingHidden ? (
+    <VisuallyHidden as="h2" id={headingId}>
+      {heading}
+    </VisuallyHidden>
+  ) : (
+    <h2 className="skill-list__heading" id={headingId}>
+      {heading}
+    </h2>
+  );
 
   return (
     <section className="skill-list" aria-labelledby={headingId}>
-      <div className="skill-list__header">
-        {isHeadingHidden ? (
-          <VisuallyHidden as="h2" id={headingId}>
-            {heading}
-          </VisuallyHidden>
-        ) : (
-          headingElement
-        )}
-      </div>
-
       {skills.length === 0 ? (
-        <EmptyState headingLevel={3} isCompact title={emptyMessage} />
+        <>
+          <div className="skill-list__header">{headingElement}</div>
+          <EmptyState headingLevel={3} isCompact title={emptyMessage} />
+        </>
       ) : (
-        <List className="skill-list__items" density="compact" hasDividers>
+        <List
+          className="skill-list__items"
+          density="compact"
+          hasDividers
+          header={headingElement}
+        >
           {skills.map((skill) => (
             <SkillListItem key={skill.id} skill={skill} />
           ))}
