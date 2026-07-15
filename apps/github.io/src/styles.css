@@ -154,6 +154,12 @@ a {
   flex: 0 0 auto;
 }
 
+.skill-avatar img {
+  box-sizing: border-box;
+  object-fit: contain;
+  padding: 6px;
+}
+
 .skill-rating {
   display: inline-flex;
   flex: 0 0 auto;
