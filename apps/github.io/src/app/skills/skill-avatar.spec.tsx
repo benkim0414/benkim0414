@@ -66,27 +66,17 @@ describe('SkillAvatar', () => {
     ).toContain('<title>GitHub Actions</title>');
   });
 
-  it('sets per-logo padding so marks fit inside the circular avatar', () => {
+  it('lets Astryx Avatar own image sizing inside the circular mask', () => {
     const nx = sampleSkills.find((skill) => skill.id === 'nx');
-    const githubActions = sampleSkills.find(
-      (skill) => skill.id === 'github-actions'
-    );
 
     expect(nx).toBeTruthy();
-    expect(githubActions).toBeTruthy();
 
     const nxAvatar = render(<SkillAvatar skill={nx!} />);
-    const githubActionsAvatar = render(<SkillAvatar skill={githubActions!} />);
 
     expect(
       (nxAvatar.container.firstElementChild as HTMLElement).style.getPropertyValue(
         '--skill-avatar-padding'
       )
-    ).toBe('3px');
-    expect(
-      (
-        githubActionsAvatar.container.firstElementChild as HTMLElement
-      ).style.getPropertyValue('--skill-avatar-padding')
-    ).toBe('2px');
+    ).toBe('');
   });
 });
