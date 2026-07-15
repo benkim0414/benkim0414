@@ -41,4 +41,15 @@ describe('SkillList', () => {
     expect(sections[1].getAttribute('aria-labelledby')).toBe(headings[1].id);
     expect(headings[0].id).not.toBe(headings[1].id);
   });
+
+  it('can hide its visible heading while keeping the region accessible', () => {
+    const { getByRole } = render(
+      <SkillList heading="Skills" isHeadingHidden skills={sampleSkills} />
+    );
+
+    const region = getByRole('region', { name: 'Skills' });
+    const heading = getByRole('heading', { level: 2, name: 'Skills' });
+
+    expect(region.getAttribute('aria-labelledby')).toBe(heading.id);
+  });
 });
