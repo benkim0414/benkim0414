@@ -7,7 +7,7 @@ const meta: Meta<typeof AppShell> = {
   parameters: {
     layout: 'fullscreen',
   },
-  title: 'GitHub.io/App Shell/Full Shell',
+  title: 'GitHub.io/App Shell/Skills Page',
 };
 
 export default meta;
