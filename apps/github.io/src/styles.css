@@ -85,10 +85,24 @@ a {
 .skill-rating {
   display: inline-flex;
   flex: 0 0 auto;
-  gap: 1px;
   color: var(--color-text-primary);
   letter-spacing: 0;
   white-space: nowrap;
+}
+
+.skill-rating__stars,
+.skill-rating__compact {
+  display: inline-flex;
+  align-items: center;
+}
+
+.skill-rating__stars {
+  gap: 1px;
+}
+
+.skill-rating__compact {
+  display: none;
+  gap: var(--spacing-1);
 }
 
 .skill-list__empty {
@@ -104,5 +118,13 @@ a {
 
   .skill-list__name {
     width: 100%;
+  }
+
+  .skill-rating__stars {
+    display: none;
+  }
+
+  .skill-rating__compact {
+    display: inline-flex;
   }
 }
