@@ -42,6 +42,17 @@ describe('SkillAvatar', () => {
     expect(getByText('US')).toBeTruthy();
   });
 
+  it('uses initials for AWS because Simple Icons has no AWS logo', () => {
+    const aws = sampleSkills.find((skill) => skill.id === 'aws');
+
+    expect(aws).toBeTruthy();
+
+    const { container, getByText } = render(<SkillAvatar skill={aws!} />);
+
+    expect(container.querySelector('img')).toBeNull();
+    expect(getByText('A')).toBeTruthy();
+  });
+
   it('uses official Simple Icons art for Nx and GitHub Actions', () => {
     const nx = sampleSkills.find((skill) => skill.id === 'nx');
     const githubActions = sampleSkills.find(
