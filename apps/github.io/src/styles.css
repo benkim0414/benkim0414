@@ -122,6 +122,15 @@ a {
   gap: var(--spacing-4);
 }
 
+.skill-section {
+  display: grid;
+  gap: var(--spacing-4);
+}
+
+.skill-section__search {
+  width: 100%;
+}
+
 .skill-list__header {
   display: grid;
   gap: var(--spacing-3);

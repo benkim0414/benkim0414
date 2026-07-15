@@ -28,4 +28,5 @@ export interface Skill {
 export interface SkillListProps {
   skills: readonly Skill[];
   heading?: string;
+  emptyMessage?: string;
 }
