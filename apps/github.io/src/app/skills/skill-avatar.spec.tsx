@@ -1,17 +1,20 @@
 import { fireEvent, render } from '@testing-library/react';
 
 import { sampleSkills } from './skill-list.data';
-import { SkillLogo } from './skill-logo';
+import { SkillAvatar } from './skill-avatar';
 
-describe('SkillLogo', () => {
+describe('SkillAvatar', () => {
   it('renders a bundled logo source and falls back to initials when unavailable', () => {
     const typeScript = sampleSkills.find((skill) => skill.id === 'typescript');
 
     expect(typeScript).toBeTruthy();
 
-    const { container, getByText } = render(<SkillLogo skill={typeScript!} />);
+    const { container, getByRole, getByText } = render(
+      <SkillAvatar skill={typeScript!} />
+    );
     const image = container.querySelector('img');
 
+    expect(getByRole('img', { name: 'TypeScript' })).toBeTruthy();
     expect(image).toBeTruthy();
     expect(image?.getAttribute('src')).toContain('data:image/svg+xml');
 
@@ -27,7 +30,7 @@ describe('SkillLogo', () => {
       iconSlug: 'missing-logo',
       name: 'Unknown Skill',
     };
-    const { container, getByText } = render(<SkillLogo skill={skill} />);
+    const { container, getByText } = render(<SkillAvatar skill={skill} />);
 
     expect(container.querySelector('img')).toBeNull();
     expect(getByText('US')).toBeTruthy();
