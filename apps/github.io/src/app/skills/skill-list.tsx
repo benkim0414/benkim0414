@@ -1,14 +1,12 @@
 import { useId, useMemo, useState } from 'react';
-import { Badge } from '@astryxdesign/core/Badge';
-import { List, ListItem } from '@astryxdesign/core/List';
+import { List } from '@astryxdesign/core/List';
 import { PowerSearch } from '@astryxdesign/core/PowerSearch';
 import type {
   PowerSearchConfig,
   PowerSearchFilter,
 } from '@astryxdesign/core/PowerSearch';
 
-import { SkillLogo } from './skill-logo';
-import { SkillRating } from './skill-rating';
+import { SkillListItem } from './skill-list-item';
 import {
   skillCategories,
   type Skill,
@@ -123,17 +121,7 @@ export function SkillList({ skills, heading = 'Skills' }: SkillListProps) {
       ) : filteredSkills.length > 0 ? (
         <List className="skill-list__items" density="compact" hasDividers>
           {filteredSkills.map((skill) => (
-            <ListItem
-              key={skill.id}
-              endContent={<SkillRating level={skill.level} />}
-              label={
-                <div className="skill-list__item-copy">
-                  <span className="skill-list__name">{skill.name}</span>
-                  <Badge label={skill.category} />
-                </div>
-              }
-              startContent={<SkillLogo skill={skill} />}
-            />
+            <SkillListItem key={skill.id} skill={skill} />
           ))}
         </List>
       ) : (

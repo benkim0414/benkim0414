@@ -2,7 +2,7 @@ import { Avatar } from '@astryxdesign/core/Avatar';
 
 import type { Skill } from './skill-list.types';
 
-interface SkillLogoProps {
+interface SkillAvatarProps {
   skill: Skill;
 }
 
@@ -10,7 +10,7 @@ function svgDataUrl(content: string) {
   return `data:image/svg+xml,${encodeURIComponent(content)}`;
 }
 
-const skillLogoSources: Readonly<Record<string, string>> = {
+const skillAvatarSources: Readonly<Record<string, string>> = {
   typescript: svgDataUrl(
     '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128"><path fill="#3178c6" d="M0 0h128v128H0z"/><path fill="#fff" d="M22 51h57v12H58v53H44V63H22zm64 43c5 6 11 10 18 10 6 0 10-3 10-7 0-5-4-7-13-11-10-4-17-9-17-20 0-11 9-19 23-19 9 0 16 3 21 8l-8 10c-4-4-8-6-13-6-5 0-8 2-8 6 0 4 4 6 13 10 11 4 18 10 18 21 0 12-9 20-25 20-11 0-21-5-27-12z"/></svg>'
   ),
@@ -37,13 +37,12 @@ const skillLogoSources: Readonly<Record<string, string>> = {
   ),
 };
 
-export function SkillLogo({ skill }: SkillLogoProps) {
+export function SkillAvatar({ skill }: SkillAvatarProps) {
   return (
     <Avatar
-      aria-hidden="true"
-      className="skill-logo"
+      className="skill-avatar"
       name={skill.name}
-      src={skillLogoSources[skill.iconSlug]}
+      src={skillAvatarSources[skill.iconSlug]}
     />
   );
 }
