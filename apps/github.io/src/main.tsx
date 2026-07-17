@@ -1,6 +1,7 @@
 import '@astryxdesign/core/reset.css';
 import '@astryxdesign/core/astryx.css';
 import '@astryxdesign/theme-neutral/theme.css';
+import '@xyflow/react/dist/style.css';
 import './styles.css';
 
 import { StrictMode } from 'react';
