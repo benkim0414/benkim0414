@@ -16,11 +16,13 @@
 - Show only the purple-ticked roadmap recommendation/opinion items as chips under the matching core node.
 - Use React Flow through the current `@xyflow/react` package.
 - Keep the component read-only: no dragging, connecting, editing, or node selection workflows.
+- Allow callers to render the timeline in reverse order through a component prop, without adding in-component controls in v1.
 - Follow Astryx design guidance, components, and theme tokens before introducing local styling.
 - Do not replace the current skills list page or remove existing skills components.
 - Do not render the full roadmap.sh DevOps graph.
 - Do not include non-core nodes, unticked items, or user-defined chips outside the roadmap.sh purple-ticked items.
 - Do not add page routing, navigation, persistence, filtering, search, or editing in v1.
+- Do not add a visible reverse-order button, toggle, segmented control, or other runtime ordering control in v1.
 - Do not reuse implementations from existing roadmap-related worktrees.
 - Source content is the roadmap.sh DevOps PDF as accessed on 2026-07-17.
 
@@ -80,7 +82,7 @@ export const devOpsRoadmapItems = [
 
 **Interfaces:**
 - Produces: `DevOpsRoadmapItem` with `{ id: string; title: string; skills: readonly string[] }`.
-- Produces: `DevOpsRoadmapProps` with `{ items?: readonly DevOpsRoadmapItem[]; heading?: string; isHeadingHidden?: boolean }`.
+- Produces: `DevOpsRoadmapProps` with `{ items?: readonly DevOpsRoadmapItem[]; heading?: string; isHeadingHidden?: boolean; isReversed?: boolean }`.
 - Produces: `devOpsRoadmapItems: readonly DevOpsRoadmapItem[]`.
 
 - [ ] **Step 1: Add React Flow**
@@ -170,6 +172,7 @@ export interface DevOpsRoadmapProps {
   items?: readonly DevOpsRoadmapItem[];
   heading?: string;
   isHeadingHidden?: boolean;
+  isReversed?: boolean;
 }
 ```
 
@@ -565,9 +568,14 @@ export function DevOpsRoadmap({
   items = devOpsRoadmapItems,
   heading = 'DevOps Roadmap',
   isHeadingHidden = false,
+  isReversed = false,
 }: DevOpsRoadmapProps) {
   const headingId = useId();
-  const { nodes, edges, height } = useMemo(() => buildTimelineElements(items), [items]);
+  const orderedItems = useMemo(
+    () => (isReversed ? [...items].reverse() : [...items]),
+    [isReversed, items]
+  );
+  const { nodes, edges, height } = useMemo(() => buildTimelineElements(orderedItems), [orderedItems]);
   const headingElement = isHeadingHidden ? (
     <VisuallyHidden as="h2" id={headingId}>
       {heading}
@@ -714,6 +722,12 @@ export const HiddenHeading: Story = {
     items: compactItems,
     heading: 'DevOps Roadmap',
     isHeadingHidden: true,
+  },
+};
+
+export const Reversed: Story = {
+  args: {
+    isReversed: true,
   },
 };
 ```
