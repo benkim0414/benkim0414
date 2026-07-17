@@ -8,4 +8,5 @@ export interface DevOpsRoadmapProps {
   items?: readonly DevOpsRoadmapItem[];
   heading?: string;
   isHeadingHidden?: boolean;
+  isReversed?: boolean;
 }

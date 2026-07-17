@@ -208,4 +208,14 @@ describe('DevOpsRoadmap', () => {
       devOpsRoadmapItems.map((item) => item.title)
     );
   });
+
+  it('can render the roadmap in reverse order without mutating source data', () => {
+    const originalOrder = devOpsRoadmapItems.map((item) => item.title);
+    const { getAllByRole } = render(<DevOpsRoadmap isReversed />);
+
+    expect(getAllByRole('heading', { level: 3 }).map((heading) => heading.textContent)).toEqual(
+      originalOrder.toReversed()
+    );
+    expect(devOpsRoadmapItems.map((item) => item.title)).toEqual(originalOrder);
+  });
 });
