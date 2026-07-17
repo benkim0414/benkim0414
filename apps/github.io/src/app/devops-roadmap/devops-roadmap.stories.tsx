@@ -22,15 +22,6 @@ export const Default: Story = {};
 export const CompactFixture: Story = {
   args: {
     items: compactItems,
-    heading: 'DevOps Roadmap Fixture',
-  },
-};
-
-export const HiddenHeading: Story = {
-  args: {
-    items: compactItems,
-    heading: 'DevOps Roadmap',
-    isHeadingHidden: true,
   },
 };
 
