@@ -167,16 +167,6 @@ a {
   border-color: var(--color-purple-300, #c7b6ff);
 }
 
-.devops-roadmap {
-  display: grid;
-  gap: var(--spacing-4);
-}
-
-.devops-roadmap__heading {
-  margin: 0;
-  font-size: var(--font-size-2xl);
-}
-
 .devops-roadmap__flow {
   width: 100%;
   min-width: 0;

@@ -1,6 +1,5 @@
-import { useId, useMemo } from 'react';
+import { useMemo } from 'react';
 import { Background, ReactFlow, type Edge, type Node } from '@xyflow/react';
-import { VisuallyHidden } from '@astryxdesign/core/VisuallyHidden';
 
 import { devOpsRoadmapItems } from './devops-roadmap.data';
 import { DevOpsRoadmapNode } from './devops-roadmap-node';
@@ -46,11 +45,8 @@ function buildTimelineElements(items: readonly DevOpsRoadmapItem[]) {
 
 export function DevOpsRoadmap({
   items = devOpsRoadmapItems,
-  heading = 'DevOps Roadmap',
-  isHeadingHidden = false,
   isReversed = false,
 }: DevOpsRoadmapProps) {
-  const headingId = useId();
   const orderedItems = useMemo(
     () => (isReversed ? [...items].reverse() : [...items]),
     [isReversed, items]
@@ -59,41 +55,29 @@ export function DevOpsRoadmap({
     () => buildTimelineElements(orderedItems),
     [orderedItems]
   );
-  const headingElement = isHeadingHidden ? (
-    <VisuallyHidden as="h2" id={headingId}>
-      {heading}
-    </VisuallyHidden>
-  ) : (
-    <h2 className="devops-roadmap__heading" id={headingId}>
-      {heading}
-    </h2>
-  );
 
   return (
-    <section aria-labelledby={headingId} className="devops-roadmap">
-      {headingElement}
-      <div className="devops-roadmap__flow" style={{ height }}>
-        <ReactFlow
-          colorMode="light"
-          disableKeyboardA11y
-          edges={edges}
-          elementsSelectable={false}
-          fitView
-          nodes={nodes}
-          nodesConnectable={false}
-          nodesDraggable={false}
-          nodesFocusable={false}
-          nodeTypes={nodeTypes}
-          panOnDrag={false}
-          preventScrolling={false}
-          proOptions={{ hideAttribution: true }}
-          zoomOnDoubleClick={false}
-          zoomOnPinch={false}
-          zoomOnScroll={false}
-        >
-          <Background />
-        </ReactFlow>
-      </div>
-    </section>
+    <div className="devops-roadmap__flow" style={{ height }}>
+      <ReactFlow
+        colorMode="light"
+        disableKeyboardA11y
+        edges={edges}
+        elementsSelectable={false}
+        fitView
+        nodes={nodes}
+        nodesConnectable={false}
+        nodesDraggable={false}
+        nodesFocusable={false}
+        nodeTypes={nodeTypes}
+        panOnDrag={false}
+        preventScrolling={false}
+        proOptions={{ hideAttribution: true }}
+        zoomOnDoubleClick={false}
+        zoomOnPinch={false}
+        zoomOnScroll={false}
+      >
+        <Background />
+      </ReactFlow>
+    </div>
   );
 }

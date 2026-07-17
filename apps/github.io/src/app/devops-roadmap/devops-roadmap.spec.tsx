@@ -161,8 +161,8 @@ describe('DevOpsRoadmapNode', () => {
 });
 
 describe('DevOpsRoadmap', () => {
-  it('renders a semantic readonly roadmap section', () => {
-    const { getByRole, getByTestId, getByText } = render(
+  it('renders only the readonly roadmap diagram', () => {
+    const { container, getByTestId, getByText } = render(
       <DevOpsRoadmap
         items={[
           { id: 'language', title: 'Learn a Programming Language', skills: ['Python', 'Go'] },
@@ -171,7 +171,8 @@ describe('DevOpsRoadmap', () => {
       />
     );
 
-    expect(getByRole('region', { name: 'DevOps Roadmap' })).toBeTruthy();
+    expect(container.querySelector('.devops-roadmap__heading')).toBeNull();
+    expect(container.querySelector('.devops-roadmap')).toBeNull();
     expect(getByText('Learn a Programming Language')).toBeTruthy();
     expect(getByText('Python')).toBeTruthy();
     expect(getByText('Go')).toBeTruthy();
