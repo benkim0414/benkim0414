@@ -22,6 +22,8 @@ vi.mock('@xyflow/react', () => ({
     nodesDraggable,
     nodesConnectable,
     elementsSelectable,
+    nodesFocusable,
+    disableKeyboardA11y,
     panOnDrag,
     zoomOnScroll,
     zoomOnDoubleClick,
@@ -34,6 +36,8 @@ vi.mock('@xyflow/react', () => ({
     nodesDraggable: boolean;
     nodesConnectable: boolean;
     elementsSelectable: boolean;
+    nodesFocusable: boolean;
+    disableKeyboardA11y: boolean;
     panOnDrag: boolean;
     zoomOnScroll: boolean;
     zoomOnDoubleClick: boolean;
@@ -42,11 +46,13 @@ vi.mock('@xyflow/react', () => ({
   }) => (
     <div
       data-edge-count={edges.length}
+      data-disable-keyboard-a11y={String(disableKeyboardA11y)}
       data-elements-selectable={String(elementsSelectable)}
       data-fit-view={String(fitView)}
       data-node-count={nodes.length}
       data-nodes-connectable={String(nodesConnectable)}
       data-nodes-draggable={String(nodesDraggable)}
+      data-nodes-focusable={String(nodesFocusable)}
       data-pan-on-drag={String(panOnDrag)}
       data-testid="react-flow"
       data-zoom-on-double-click={String(zoomOnDoubleClick)}
@@ -176,6 +182,8 @@ describe('DevOpsRoadmap', () => {
     expect(getByTestId('react-flow').getAttribute('data-nodes-draggable')).toBe('false');
     expect(getByTestId('react-flow').getAttribute('data-nodes-connectable')).toBe('false');
     expect(getByTestId('react-flow').getAttribute('data-elements-selectable')).toBe('false');
+    expect(getByTestId('react-flow').getAttribute('data-nodes-focusable')).toBe('false');
+    expect(getByTestId('react-flow').getAttribute('data-disable-keyboard-a11y')).toBe('true');
   });
 
   it('gives the React Flow wrapper a definite timeline height', () => {
