@@ -67,12 +67,14 @@ export function DevOpsRoadmap({
       <div className="devops-roadmap__flow" style={{ height }}>
         <ReactFlow
           colorMode="light"
+          disableKeyboardA11y
           edges={edges}
           elementsSelectable={false}
           fitView
           nodes={nodes}
           nodesConnectable={false}
           nodesDraggable={false}
+          nodesFocusable={false}
           nodeTypes={nodeTypes}
           panOnDrag={false}
           preventScrolling={false}
