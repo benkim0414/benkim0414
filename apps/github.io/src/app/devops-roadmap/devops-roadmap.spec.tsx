@@ -178,6 +178,21 @@ describe('DevOpsRoadmap', () => {
     expect(getByTestId('react-flow').getAttribute('data-elements-selectable')).toBe('false');
   });
 
+  it('gives the React Flow wrapper a definite timeline height', () => {
+    const { container } = render(
+      <DevOpsRoadmap
+        items={[
+          { id: 'language', title: 'Learn a Programming Language', skills: ['Python', 'Go'] },
+          { id: 'containers', title: 'Containers', skills: ['Docker'] },
+        ]}
+      />
+    );
+
+    const flowWrapper = container.querySelector<HTMLElement>('.devops-roadmap__flow');
+
+    expect(flowWrapper?.style.height).toBe('344px');
+  });
+
   it('preserves the default roadmap data order in the rendered timeline', () => {
     const { getAllByRole } = render(<DevOpsRoadmap />);
 

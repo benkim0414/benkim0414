@@ -64,7 +64,7 @@ export function DevOpsRoadmap({
   return (
     <section aria-labelledby={headingId} className="devops-roadmap">
       {headingElement}
-      <div className="devops-roadmap__flow" style={{ minHeight: height }}>
+      <div className="devops-roadmap__flow" style={{ height }}>
         <ReactFlow
           colorMode="light"
           edges={edges}
