@@ -150,7 +150,7 @@ describe('devOpsRoadmapItems', () => {
 Run:
 
 ```bash
-PATH=/tmp/corepack-shims:$PATH corepack pnpm nx test github.io --runInBand --testFile=apps/github.io/src/app/devops-roadmap/devops-roadmap.spec.tsx
+PATH=/tmp/corepack-shims:$PATH corepack pnpm nx test github.io src/app/devops-roadmap/devops-roadmap.spec.tsx
 ```
 
 Expected: FAIL because `./devops-roadmap.data` does not exist.
@@ -212,7 +212,7 @@ export const devOpsRoadmapItems = [
 Run:
 
 ```bash
-PATH=/tmp/corepack-shims:$PATH corepack pnpm nx test github.io --runInBand --testFile=apps/github.io/src/app/devops-roadmap/devops-roadmap.spec.tsx
+PATH=/tmp/corepack-shims:$PATH corepack pnpm nx test github.io src/app/devops-roadmap/devops-roadmap.spec.tsx
 ```
 
 Expected: PASS.
@@ -283,7 +283,7 @@ describe('DevOpsRoadmapNode', () => {
 Run:
 
 ```bash
-PATH=/tmp/corepack-shims:$PATH corepack pnpm nx test github.io --runInBand --testFile=apps/github.io/src/app/devops-roadmap/devops-roadmap.spec.tsx
+PATH=/tmp/corepack-shims:$PATH corepack pnpm nx test github.io src/app/devops-roadmap/devops-roadmap.spec.tsx
 ```
 
 Expected: FAIL because `./devops-roadmap-node` does not exist.
@@ -368,7 +368,7 @@ Append to `apps/github.io/src/styles.css`:
 Run:
 
 ```bash
-PATH=/tmp/corepack-shims:$PATH corepack pnpm nx test github.io --runInBand --testFile=apps/github.io/src/app/devops-roadmap/devops-roadmap.spec.tsx
+PATH=/tmp/corepack-shims:$PATH corepack pnpm nx test github.io src/app/devops-roadmap/devops-roadmap.spec.tsx
 ```
 
 Expected: PASS.
@@ -504,7 +504,7 @@ describe('DevOpsRoadmap', () => {
 Run:
 
 ```bash
-PATH=/tmp/corepack-shims:$PATH corepack pnpm nx test github.io --runInBand --testFile=apps/github.io/src/app/devops-roadmap/devops-roadmap.spec.tsx
+PATH=/tmp/corepack-shims:$PATH corepack pnpm nx test github.io src/app/devops-roadmap/devops-roadmap.spec.tsx
 ```
 
 Expected: FAIL because `./devops-roadmap` does not exist.
@@ -653,7 +653,7 @@ Append to `apps/github.io/src/styles.css`:
 Run:
 
 ```bash
-PATH=/tmp/corepack-shims:$PATH corepack pnpm nx test github.io --runInBand --testFile=apps/github.io/src/app/devops-roadmap/devops-roadmap.spec.tsx
+PATH=/tmp/corepack-shims:$PATH corepack pnpm nx test github.io src/app/devops-roadmap/devops-roadmap.spec.tsx
 ```
 
 Expected: PASS.
@@ -750,7 +750,7 @@ git commit -m "feat(github.io): add devops roadmap stories"
 Run:
 
 ```bash
-PATH=/tmp/corepack-shims:$PATH corepack pnpm nx test github.io --runInBand --testFile=apps/github.io/src/app/devops-roadmap/devops-roadmap.spec.tsx
+PATH=/tmp/corepack-shims:$PATH corepack pnpm nx test github.io src/app/devops-roadmap/devops-roadmap.spec.tsx
 ```
 
 Expected: PASS.
