@@ -1,4 +1,7 @@
+import { render } from '@testing-library/react';
+
 import { devOpsRoadmapItems } from './devops-roadmap.data';
+import { DevOpsRoadmapNode } from './devops-roadmap-node';
 
 describe('devOpsRoadmapItems', () => {
   it('keeps roadmap.sh core nodes in vertical timeline order', () => {
@@ -41,5 +44,37 @@ describe('devOpsRoadmapItems', () => {
       title: 'Application Monitoring',
       skills: [],
     });
+  });
+});
+
+describe('DevOpsRoadmapNode', () => {
+  it('renders the core node title and purple-ticked skill chips', () => {
+    const { getByText } = render(
+      <DevOpsRoadmapNode
+        item={{
+          id: 'containers',
+          title: 'Containers',
+          skills: ['Docker'],
+        }}
+      />
+    );
+
+    expect(getByText('Containers')).toBeTruthy();
+    expect(getByText('Docker')).toBeTruthy();
+  });
+
+  it('does not render an empty chip list when a node has no purple-ticked skills', () => {
+    const { container, getByText } = render(
+      <DevOpsRoadmapNode
+        item={{
+          id: 'cloud-design-patterns',
+          title: 'Cloud Design Patterns',
+          skills: [],
+        }}
+      />
+    );
+
+    expect(getByText('Cloud Design Patterns')).toBeTruthy();
+    expect(container.querySelector('.devops-roadmap-node__skills')).toBeNull();
   });
 });
