@@ -14,6 +14,7 @@ Build a standalone `DevOpsRoadmap` React component that represents the core DevO
 - Show only the purple-ticked roadmap recommendation/opinion items as chips under the matching core node.
 - Use React Flow through the current `@xyflow/react` package.
 - Keep the component read-only: no dragging, connecting, editing, or node selection workflows.
+- Allow callers to render the timeline in reverse order through a component prop, without adding in-component controls in v1.
 - Follow Astryx design guidance, components, and theme tokens before introducing local styling.
 - Ship the roadmap as an isolated reusable component with focused tests and Storybook coverage.
 
@@ -23,6 +24,7 @@ Build a standalone `DevOpsRoadmap` React component that represents the core DevO
 - Do not render the full roadmap.sh DevOps graph.
 - Do not include non-core nodes, unticked items, or user-defined chips outside the roadmap.sh purple-ticked items.
 - Do not add page routing, navigation, persistence, filtering, search, or editing in v1.
+- Do not add a visible reverse-order button, toggle, segmented control, or other runtime ordering control in v1.
 - Do not reuse implementations from existing roadmap-related worktrees.
 
 ## Source Data
@@ -47,7 +49,7 @@ Add a new roadmap feature area under the `github.io` app, separate from the exis
 - `devops-roadmap-node.tsx` for the custom node body.
 - colocated tests and Storybook stories.
 
-`DevOpsRoadmap` should accept an optional `items` prop for testability and future reuse, defaulting to the transcribed DevOps roadmap data. It should convert ordered items into fixed React Flow nodes and edges. Positions can be deterministic, using a consistent vertical gap and a single x-coordinate, because the v1 layout is a timeline rather than an editable graph.
+`DevOpsRoadmap` should accept an optional `items` prop for testability and future reuse, defaulting to the transcribed DevOps roadmap data. It should also accept an optional reverse-order prop so callers can render bottom-to-top order while keeping the source data unchanged. It should convert the derived ordered items into fixed React Flow nodes and edges. Positions can be deterministic, using a consistent vertical gap and a single x-coordinate, because the v1 layout is a timeline rather than an editable graph.
 
 Use React Flow custom node types so the visual node body can use Astryx-compatible markup and styling. The React Flow wrapper should disable interactive editor behavior with the available props, including node dragging, connecting, element selection, pane dragging where appropriate, zoom-on-scroll if it harms page scroll, and keyboard deletion/editing affordances.
 
