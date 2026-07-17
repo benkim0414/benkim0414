@@ -166,3 +166,39 @@ a {
   background: var(--color-purple-100, #eee7ff);
   border-color: var(--color-purple-300, #c7b6ff);
 }
+
+.devops-roadmap {
+  display: grid;
+  gap: var(--spacing-4);
+}
+
+.devops-roadmap__heading {
+  margin: 0;
+  font-size: var(--font-size-2xl);
+}
+
+.devops-roadmap__flow {
+  width: 100%;
+  min-width: 0;
+}
+
+.devops-roadmap__flow .react-flow__node {
+  width: min(100%, 320px);
+}
+
+.devops-roadmap__flow .react-flow__handle {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.devops-roadmap__flow .react-flow__edge-path {
+  stroke: var(--color-border-strong, var(--color-text-secondary));
+  stroke-width: 2;
+}
+
+@media (max-width: 640px) {
+  .devops-roadmap-node {
+    width: min(100%, 280px);
+    padding: var(--spacing-3);
+  }
+}
