@@ -6,7 +6,6 @@ import { devOpsRoadmapItems } from './devops-roadmap.data';
 import { DevOpsRoadmapNode } from './devops-roadmap-node';
 import type { DevOpsRoadmapItem, DevOpsRoadmapProps } from './devops-roadmap.types';
 
-const NODE_WIDTH = 320;
 const NODE_HEIGHT = 148;
 const NODE_GAP = 48;
 const TIMELINE_X = 0;
