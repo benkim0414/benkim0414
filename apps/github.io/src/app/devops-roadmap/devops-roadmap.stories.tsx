@@ -33,3 +33,9 @@ export const HiddenHeading: Story = {
     isHeadingHidden: true,
   },
 };
+
+export const Reversed: Story = {
+  args: {
+    isReversed: true,
+  },
+};

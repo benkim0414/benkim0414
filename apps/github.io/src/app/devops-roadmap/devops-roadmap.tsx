@@ -48,9 +48,17 @@ export function DevOpsRoadmap({
   items = devOpsRoadmapItems,
   heading = 'DevOps Roadmap',
   isHeadingHidden = false,
+  isReversed = false,
 }: DevOpsRoadmapProps) {
   const headingId = useId();
-  const { nodes, edges, height } = useMemo(() => buildTimelineElements(items), [items]);
+  const orderedItems = useMemo(
+    () => (isReversed ? [...items].reverse() : [...items]),
+    [isReversed, items]
+  );
+  const { nodes, edges, height } = useMemo(
+    () => buildTimelineElements(orderedItems),
+    [orderedItems]
+  );
   const headingElement = isHeadingHidden ? (
     <VisuallyHidden as="h2" id={headingId}>
       {heading}
