@@ -8,6 +8,13 @@ import { DevOpsRoadmap } from './devops-roadmap';
 
 vi.mock('@xyflow/react', () => ({
   Background: () => <div data-testid="react-flow-background" />,
+  Handle: ({ id, position, type }: { id: string; position: string; type: string }) => (
+    <div data-handle-position={position} data-handle-type={type} data-testid={`handle-${id}`} />
+  ),
+  Position: {
+    Bottom: 'bottom',
+    Top: 'top',
+  },
   ReactFlow: ({
     nodes,
     edges,
@@ -127,6 +134,23 @@ describe('DevOpsRoadmapNode', () => {
 
     expect(getByText('Cloud Design Patterns')).toBeTruthy();
     expect(container.querySelector('.devops-roadmap-node__skills')).toBeNull();
+  });
+
+  it('renders hidden target and source handles for timeline edges', () => {
+    const { getByTestId } = render(
+      <DevOpsRoadmapNode
+        item={{
+          id: 'containers',
+          title: 'Containers',
+          skills: ['Docker'],
+        }}
+      />
+    );
+
+    expect(getByTestId('handle-target').getAttribute('data-handle-type')).toBe('target');
+    expect(getByTestId('handle-target').getAttribute('data-handle-position')).toBe('top');
+    expect(getByTestId('handle-source').getAttribute('data-handle-type')).toBe('source');
+    expect(getByTestId('handle-source').getAttribute('data-handle-position')).toBe('bottom');
   });
 });
 
