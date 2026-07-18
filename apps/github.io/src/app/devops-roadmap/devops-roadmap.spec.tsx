@@ -6,6 +6,12 @@ import { devOpsRoadmapItems } from './devops-roadmap.data';
 import { DevOpsRoadmapNode } from './devops-roadmap-node';
 import { DevOpsRoadmap } from './devops-roadmap';
 
+vi.mock('@astryxdesign/core/Badge', () => ({
+  Badge: ({ label, variant }: { label: ReactNode; variant?: string }) => (
+    <span data-badge-variant={variant}>{label}</span>
+  ),
+}));
+
 vi.mock('@xyflow/react', () => ({
   Background: () => <div data-testid="react-flow-background" />,
   Handle: ({ id, position, type }: { id: string; position: string; type: string }) => (
@@ -125,6 +131,7 @@ describe('DevOpsRoadmapNode', () => {
 
     expect(getByText('Containers')).toBeTruthy();
     expect(getByText('Docker')).toBeTruthy();
+    expect(getByText('Docker').getAttribute('data-badge-variant')).toBe('purple');
   });
 
   it('does not render an empty chip list when a node has no purple-ticked skills', () => {
@@ -162,7 +169,7 @@ describe('DevOpsRoadmapNode', () => {
 
 describe('DevOpsRoadmap', () => {
   it('renders only the readonly roadmap diagram', () => {
-    const { container, getByTestId, getByText } = render(
+    const { container, getByRole, getByTestId, getByText } = render(
       <DevOpsRoadmap
         items={[
           { id: 'language', title: 'Learn a Programming Language', skills: ['Python', 'Go'] },
@@ -173,6 +180,7 @@ describe('DevOpsRoadmap', () => {
 
     expect(container.querySelector('.devops-roadmap__heading')).toBeNull();
     expect(container.querySelector('.devops-roadmap')).toBeNull();
+    expect(getByRole('group', { name: 'DevOps roadmap diagram' })).toBeTruthy();
     expect(getByText('Learn a Programming Language')).toBeTruthy();
     expect(getByText('Python')).toBeTruthy();
     expect(getByText('Go')).toBeTruthy();
@@ -199,7 +207,33 @@ describe('DevOpsRoadmap', () => {
 
     const flowWrapper = container.querySelector<HTMLElement>('.devops-roadmap__flow');
 
-    expect(flowWrapper?.style.height).toBe('344px');
+    expect(flowWrapper?.style.height).toBe('640px');
+  });
+
+  it('reserves stable timeline space for chip-heavy nodes', () => {
+    const { container } = render(
+      <DevOpsRoadmap
+        items={[
+          {
+            id: 'terminal-knowledge',
+            title: 'Terminal Knowledge',
+            skills: [
+              'Bash',
+              'Process Monitoring',
+              'Performance Monitoring',
+              'Networking Tools',
+              'Text Manipulation',
+              'Vim / Nano / Emacs',
+            ],
+          },
+          { id: 'containers', title: 'Containers', skills: ['Docker'] },
+        ]}
+      />
+    );
+
+    const flowWrapper = container.querySelector<HTMLElement>('.devops-roadmap__flow');
+
+    expect(flowWrapper?.style.height).toBe('640px');
   });
 
   it('preserves the default roadmap data order in the rendered timeline', () => {

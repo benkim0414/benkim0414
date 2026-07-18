@@ -22,7 +22,7 @@ export function DevOpsRoadmapNode({ item }: DevOpsRoadmapNodeProps) {
         <ul className="devops-roadmap-node__skills" aria-label={`${item.title} skills`}>
           {item.skills.map((skill) => (
             <li className="devops-roadmap-node__skill" key={skill}>
-              <Badge label={skill} />
+              <Badge label={skill} variant="purple" />
             </li>
           ))}
         </ul>
