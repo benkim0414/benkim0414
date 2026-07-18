@@ -131,8 +131,10 @@ a {
 
 .devops-roadmap-node {
   display: grid;
+  align-content: start;
   gap: var(--spacing-3);
   width: min(100%, 320px);
+  min-height: 288px;
   padding: var(--spacing-4);
   color: var(--color-text-primary);
   background: var(--color-background-surface, var(--color-background-body));
@@ -158,13 +160,6 @@ a {
 
 .devops-roadmap-node__skill {
   display: inline-flex;
-}
-
-.devops-roadmap-node__skill [class*='badge'],
-.devops-roadmap-node__skill [class*='Badge'] {
-  color: var(--color-purple-700, #5b2bd6);
-  background: var(--color-purple-100, #eee7ff);
-  border-color: var(--color-purple-300, #c7b6ff);
 }
 
 .devops-roadmap__flow {

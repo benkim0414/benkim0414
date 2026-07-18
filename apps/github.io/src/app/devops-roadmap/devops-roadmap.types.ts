@@ -5,6 +5,7 @@ export interface DevOpsRoadmapItem {
 }
 
 export interface DevOpsRoadmapProps {
+  ariaLabel?: string;
   items?: readonly DevOpsRoadmapItem[];
   isReversed?: boolean;
 }
