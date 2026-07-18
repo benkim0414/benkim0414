@@ -134,7 +134,7 @@ a {
   align-content: start;
   gap: var(--spacing-3);
   width: min(100%, 320px);
-  min-height: 288px;
+  min-height: 148px;
   padding: var(--spacing-4);
   color: var(--color-text-primary);
   background: var(--color-background-surface, var(--color-background-body));
