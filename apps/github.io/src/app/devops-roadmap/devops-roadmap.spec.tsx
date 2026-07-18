@@ -36,7 +36,7 @@ vi.mock('@xyflow/react', () => ({
     fitView,
     children,
   }: {
-    nodes: Array<{ id: string; data: { item: { title: string } } }>;
+    nodes: Array<{ id: string; data: { item: { title: string } }; position: { y: number } }>;
     edges: Array<{ id: string }>;
     nodeTypes: Record<string, (props: { data: { item: { id: string; title: string; skills: readonly string[] } } }) => ReactNode>;
     nodesDraggable: boolean;
@@ -56,6 +56,7 @@ vi.mock('@xyflow/react', () => ({
       data-elements-selectable={String(elementsSelectable)}
       data-fit-view={String(fitView)}
       data-node-count={nodes.length}
+      data-node-positions={nodes.map((node) => `${node.id}:${node.position.y}`).join('|')}
       data-nodes-connectable={String(nodesConnectable)}
       data-nodes-draggable={String(nodesDraggable)}
       data-nodes-focusable={String(nodesFocusable)}
@@ -207,7 +208,10 @@ describe('DevOpsRoadmap', () => {
 
     const flowWrapper = container.querySelector<HTMLElement>('.devops-roadmap__flow');
 
-    expect(flowWrapper?.style.height).toBe('640px');
+    expect(flowWrapper?.style.height).toBe('344px');
+    expect(container.querySelector('[data-testid="react-flow"]')?.getAttribute('data-node-positions')).toBe(
+      'language:0|containers:196'
+    );
   });
 
   it('reserves stable timeline space for chip-heavy nodes', () => {
@@ -233,7 +237,10 @@ describe('DevOpsRoadmap', () => {
 
     const flowWrapper = container.querySelector<HTMLElement>('.devops-roadmap__flow');
 
-    expect(flowWrapper?.style.height).toBe('640px');
+    expect(flowWrapper?.style.height).toBe('444px');
+    expect(container.querySelector('[data-testid="react-flow"]')?.getAttribute('data-node-positions')).toBe(
+      'terminal-knowledge:0|containers:296'
+    );
   });
 
   it('preserves the default roadmap data order in the rendered timeline', () => {

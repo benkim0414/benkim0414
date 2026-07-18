@@ -5,8 +5,10 @@ import { devOpsRoadmapItems } from './devops-roadmap.data';
 import { DevOpsRoadmapNode } from './devops-roadmap-node';
 import type { DevOpsRoadmapItem, DevOpsRoadmapProps } from './devops-roadmap.types';
 
-const NODE_HEIGHT = 288;
-const NODE_GAP = 64;
+const BASE_NODE_HEIGHT = 148;
+const NODE_GAP = 48;
+const EXTRA_SKILL_ROW_HEIGHT = 50;
+const SKILLS_PER_ROW = 2;
 const TIMELINE_X = 0;
 const nodeTypes = {
   roadmapNode: ({ data }: { data: { item: DevOpsRoadmapItem } }) => (
@@ -14,18 +16,32 @@ const nodeTypes = {
   ),
 };
 
+function getEstimatedNodeHeight(item: DevOpsRoadmapItem) {
+  const skillRows = Math.ceil(item.skills.length / SKILLS_PER_ROW);
+  const extraRows = Math.max(0, skillRows - 1);
+
+  return BASE_NODE_HEIGHT + extraRows * EXTRA_SKILL_ROW_HEIGHT;
+}
+
 function buildTimelineElements(items: readonly DevOpsRoadmapItem[]) {
-  const nodes: Node<{ item: DevOpsRoadmapItem }>[] = items.map((item, index) => ({
-    id: item.id,
-    type: 'roadmapNode',
-    position: {
-      x: TIMELINE_X,
-      y: index * (NODE_HEIGHT + NODE_GAP),
-    },
-    data: { item },
-    draggable: false,
-    selectable: false,
-  }));
+  let currentY = 0;
+  const nodes: Node<{ item: DevOpsRoadmapItem }>[] = items.map((item) => {
+    const node: Node<{ item: DevOpsRoadmapItem }> = {
+      id: item.id,
+      type: 'roadmapNode',
+      position: {
+        x: TIMELINE_X,
+        y: currentY,
+      },
+      data: { item },
+      draggable: false,
+      selectable: false,
+    };
+
+    currentY += getEstimatedNodeHeight(item) + NODE_GAP;
+
+    return node;
+  });
 
   const edges: Edge[] = items.slice(1).map((item, index) => ({
     id: `${items[index].id}-${item.id}`,
@@ -39,7 +55,7 @@ function buildTimelineElements(items: readonly DevOpsRoadmapItem[]) {
   return {
     nodes,
     edges,
-    height: Math.max(NODE_HEIGHT, items.length * NODE_HEIGHT + Math.max(0, items.length - 1) * NODE_GAP),
+    height: items.length === 0 ? BASE_NODE_HEIGHT : currentY - NODE_GAP,
   };
 }
 
