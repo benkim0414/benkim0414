@@ -2,7 +2,7 @@
 
 ## Goal
 
-Add optional Simple Icons logos to reusable skill tokens, starting with the DevOps roadmap nodes. The roadmap remains a read-only React Flow diagram with no heading or UI controls. Tokens keep their compact purple Astryx-aligned shape for roadmap skills, and logos appear only when a matching Simple Icons asset is available.
+Add optional Simple Icons logos to reusable skill tokens, starting with the DevOps roadmap nodes. The roadmap remains a read-only React Flow diagram with no heading or UI controls. Tokens keep their compact Astryx-aligned shape, and mapped tokens use the matching Simple Icons brand color.
 
 ## Current Context
 
@@ -10,14 +10,15 @@ The skills list already uses `simple-icons` through `SkillAvatar`, with an expli
 
 ## Recommended Approach
 
-Create a reusable `SkillToken` component that can be used by the DevOps roadmap now and by other skill surfaces later. It should render a compact token with the same visual radius as the token itself and an optional leading icon slot. For DevOps roadmap skills, the token should preserve the current purple visual treatment. The token should use Astryx tokens and existing component patterns, but can be a small custom inline element if Astryx `Badge` does not support the required icon/radius composition cleanly.
+Create a reusable `SkillToken` component that can be used by the DevOps roadmap now and by other skill surfaces later. It should render a compact token with the same visual radius as the token itself and an optional leading icon slot. When a Simple Icons match exists, the token background should use that icon's brand color. When no match exists, the token should preserve the current purple roadmap skill treatment. The token should use Astryx tokens and existing component patterns, but can be a small custom inline element if Astryx `Badge` does not support the required icon/color/radius composition cleanly.
 
 ## Behavior
 
 - Each roadmap skill token shows its text label.
 - If Simple Icons has a logo for the skill, render a small inline logo before the label.
-- The logo uses the brand color from the Simple Icons metadata (`hex`) rather than forcing the glyph to inherit the token color.
-- If no logo is available, render the token without an icon.
+- The whole token uses the brand color from the Simple Icons metadata (`hex`) when a logo is available.
+- The logo glyph should remain readable on the brand-colored token. Prefer a high-contrast neutral glyph color over reusing the same brand color for the glyph.
+- If no logo is available, render the token without an icon and keep the current purple roadmap token treatment.
 - Do not render initials, placeholders, broken images, or fallback icons for missing logos.
 - Keep the icon decorative with `aria-hidden="true"` because the visible label already names the skill.
 - Preserve existing roadmap node order, reverse-order prop behavior, and content-aware row spacing.
@@ -32,7 +33,8 @@ The initial map should include obvious available DevOps skills already in the ro
 
 - Keep tokens compact and scannable inside roadmap nodes.
 - Use a small icon size that does not dominate the label.
-- Render available icons in their Simple Icons brand color while keeping the token shape aligned with the requested roadmap purple skill treatment.
+- Render mapped tokens with their Simple Icons brand color while keeping the token shape compact and Astryx-aligned.
+- Use a readable foreground color on brand-colored tokens; do not sacrifice label contrast for exact logo-color purity.
 - Match the icon container radius to the token radius directionally, avoiding a circular avatar treatment.
 - Do not add extra explanatory text, controls, or decorative chrome.
 - Ensure long labels still wrap or fit cleanly without overlapping neighboring nodes.
@@ -46,8 +48,9 @@ The token label remains visible text. Icons are decorative and hidden from assis
 Add or update tests to verify:
 
 - A known mapped skill renders a token with an icon and text label.
-- A known mapped skill icon uses its Simple Icons brand color.
+- A known mapped skill token uses its Simple Icons brand color.
 - A skill without a mapped icon renders text-only without fallback initials or placeholder art.
+- A skill without a mapped icon keeps the purple roadmap token treatment.
 - The icon is hidden from assistive technology.
 - Existing reverse-order, diagram-only, Badge/purple-token, and spacing behavior still pass.
 
