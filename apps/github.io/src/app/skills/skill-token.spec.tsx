@@ -21,7 +21,7 @@ describe('SkillToken', () => {
     expect(icon?.getAttribute('aria-hidden')).toBe('true');
   });
 
-  it('chooses dark text for a light brand background', () => {
+  it('chooses the neutral foreground for a light brand background', () => {
     const { getByText } = render(<SkillToken label="GitLab CI" />);
     const token = getByText('GitLab CI').closest('.skill-token');
 
@@ -30,7 +30,7 @@ describe('SkillToken', () => {
     );
   });
 
-  it('chooses light text for a dark brand background', () => {
+  it('chooses the inverse foreground for a dark brand background', () => {
     const { getByText } = render(<SkillToken label="GitHub" />);
     const token = getByText('GitHub').closest('.skill-token');
 
