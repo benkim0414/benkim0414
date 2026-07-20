@@ -1,6 +1,6 @@
-import { Badge } from '@astryxdesign/core/Badge';
 import { Handle, Position } from '@xyflow/react';
 
+import { SkillToken } from '../skills/skill-token';
 import type { DevOpsRoadmapItem } from './devops-roadmap.types';
 
 interface DevOpsRoadmapNodeProps {
@@ -22,7 +22,7 @@ export function DevOpsRoadmapNode({ item }: DevOpsRoadmapNodeProps) {
         <ul className="devops-roadmap-node__skills" aria-label={`${item.title} skills`}>
           {item.skills.map((skill) => (
             <li className="devops-roadmap-node__skill" key={skill}>
-              <Badge label={skill} variant="purple" />
+              <SkillToken label={skill} />
             </li>
           ))}
         </ul>
