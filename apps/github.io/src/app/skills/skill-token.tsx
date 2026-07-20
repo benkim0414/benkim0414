@@ -53,6 +53,9 @@ const skillIcons: Readonly<Record<string, SimpleIcon>> = {
   Vault: siVault,
 };
 
+const ASTRYX_NEUTRAL_FOREGROUND = '#111827';
+const ASTRYX_INVERSE_FOREGROUND = '#ffffff';
+
 function relativeLuminance(hex: string) {
   const channels = [0, 2, 4].map(
     (offset) => Number.parseInt(hex.slice(offset, offset + 2), 16) / 255,
@@ -75,21 +78,20 @@ function contrastRatio(firstLuminance: number, secondLuminance: number) {
   return (lighter + 0.05) / (darker + 0.05);
 }
 
-function readableForeground(hex: string) {
+function brandTokenForeground(hex: string) {
   const backgroundLuminance = relativeLuminance(hex);
-  const darkForeground = '#111827';
-  const lightForeground = '#ffffff';
-
-  return contrastRatio(
-    relativeLuminance(darkForeground.slice(1)),
+  const neutralContrast = contrastRatio(
+    relativeLuminance(ASTRYX_NEUTRAL_FOREGROUND.slice(1)),
     backgroundLuminance,
-  ) >=
-    contrastRatio(
-      relativeLuminance(lightForeground.slice(1)),
-      backgroundLuminance,
-    )
-    ? darkForeground
-    : lightForeground;
+  );
+  const inverseContrast = contrastRatio(
+    relativeLuminance(ASTRYX_INVERSE_FOREGROUND.slice(1)),
+    backgroundLuminance,
+  );
+
+  return neutralContrast >= inverseContrast
+    ? ASTRYX_NEUTRAL_FOREGROUND
+    : ASTRYX_INVERSE_FOREGROUND;
 }
 
 function tokenStyle(icon: SimpleIcon | undefined): CSSProperties | undefined {
@@ -101,7 +103,7 @@ function tokenStyle(icon: SimpleIcon | undefined): CSSProperties | undefined {
 
   return {
     '--skill-token-background': background,
-    '--skill-token-foreground': readableForeground(icon.hex),
+    '--skill-token-foreground': brandTokenForeground(icon.hex),
   } as CSSProperties;
 }
 
