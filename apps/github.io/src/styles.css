@@ -78,6 +78,36 @@ a {
   flex: 0 0 auto;
 }
 
+.skill-token {
+  --skill-token-background: var(--color-purple-100, #eee7ff);
+  --skill-token-foreground: var(--color-purple-700, #5b2bd6);
+
+  display: inline-flex;
+  align-items: center;
+  max-width: 100%;
+  min-height: var(--spacing-5);
+  gap: var(--spacing-1);
+  padding-block: 0;
+  padding-inline: var(--spacing-2);
+  color: var(--skill-token-foreground);
+  background: var(--skill-token-background);
+  border-radius: var(--radius-full, 999px);
+  font-size: var(--text-supporting-size, 0.75rem);
+  font-weight: var(--font-weight-medium, 500);
+  line-height: var(--text-supporting-leading, 1rem);
+}
+
+.skill-token__icon {
+  flex: 0 0 auto;
+  width: 0.875rem;
+  height: 0.875rem;
+}
+
+.skill-token__label {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
 .skill-avatar {
   flex: 0 0 auto;
 }
