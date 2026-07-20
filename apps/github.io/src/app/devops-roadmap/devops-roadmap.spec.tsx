@@ -6,9 +6,11 @@ import { devOpsRoadmapItems } from './devops-roadmap.data';
 import { DevOpsRoadmapNode } from './devops-roadmap-node';
 import { DevOpsRoadmap } from './devops-roadmap';
 
-vi.mock('@astryxdesign/core/Badge', () => ({
-  Badge: ({ label, variant }: { label: ReactNode; variant?: string }) => (
-    <span data-badge-variant={variant}>{label}</span>
+vi.mock('../skills/skill-token', () => ({
+  SkillToken: ({ label }: { label: string }) => (
+    <span className="skill-token" data-testid={`skill-token-${label}`}>
+      {label}
+    </span>
   ),
 }));
 
@@ -119,8 +121,8 @@ describe('devOpsRoadmapItems', () => {
 });
 
 describe('DevOpsRoadmapNode', () => {
-  it('renders the core node title and purple-ticked skill chips', () => {
-    const { getByText } = render(
+  it('renders the core node title and purple-ticked skill tokens', () => {
+    const { getByTestId, getByText } = render(
       <DevOpsRoadmapNode
         item={{
           id: 'containers',
@@ -131,8 +133,7 @@ describe('DevOpsRoadmapNode', () => {
     );
 
     expect(getByText('Containers')).toBeTruthy();
-    expect(getByText('Docker')).toBeTruthy();
-    expect(getByText('Docker').getAttribute('data-badge-variant')).toBe('purple');
+    expect(getByTestId('skill-token-Docker')).toBeTruthy();
   });
 
   it('does not render an empty chip list when a node has no purple-ticked skills', () => {
