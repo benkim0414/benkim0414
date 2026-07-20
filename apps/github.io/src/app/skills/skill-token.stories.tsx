@@ -21,3 +21,20 @@ export const TextOnly: Story = {
     label: 'Forward Proxy',
   },
 };
+
+export const ContrastExamples: Story = {
+  render: () => (
+    <div
+      style={{
+        display: 'flex',
+        flexWrap: 'wrap',
+        gap: 'var(--spacing-2)',
+      }}
+    >
+      <SkillToken label="Docker" />
+      <SkillToken label="GitLab CI" />
+      <SkillToken label="GitHub" />
+      <SkillToken label="Forward Proxy" />
+    </div>
+  ),
+};
