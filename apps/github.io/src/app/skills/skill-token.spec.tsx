@@ -30,6 +30,15 @@ describe('SkillToken', () => {
     );
   });
 
+  it('chooses light text for a dark brand background', () => {
+    const { getByText } = render(<SkillToken label="GitHub" />);
+    const token = getByText('GitHub').closest('.skill-token');
+
+    expect(token?.getAttribute('style')).toContain(
+      '--skill-token-foreground: #ffffff',
+    );
+  });
+
   it('keeps unmapped skills text-only with the purple roadmap treatment', () => {
     const { container, getByText } = render(
       <SkillToken label="Forward Proxy" />,
