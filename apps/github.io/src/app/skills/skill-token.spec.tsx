@@ -11,13 +11,29 @@ describe('SkillToken', () => {
     expect(token).toBeTruthy();
     expect(token?.getAttribute('data-has-icon')).toBe('true');
     expect(token?.getAttribute('data-token-color')).toBe('#2496ED');
-    expect(token?.getAttribute('style')).toContain('--skill-token-background: #2496ED');
+    expect(token?.getAttribute('style')).toContain(
+      '--skill-token-background: #2496ED',
+    );
+    expect(token?.getAttribute('style')).toContain(
+      '--skill-token-foreground: #111827',
+    );
     expect(icon).toBeTruthy();
     expect(icon?.getAttribute('aria-hidden')).toBe('true');
   });
 
+  it('chooses dark text for a light brand background', () => {
+    const { getByText } = render(<SkillToken label="GitLab CI" />);
+    const token = getByText('GitLab CI').closest('.skill-token');
+
+    expect(token?.getAttribute('style')).toContain(
+      '--skill-token-foreground: #111827',
+    );
+  });
+
   it('keeps unmapped skills text-only with the purple roadmap treatment', () => {
-    const { container, getByText } = render(<SkillToken label="Forward Proxy" />);
+    const { container, getByText } = render(
+      <SkillToken label="Forward Proxy" />,
+    );
     const token = getByText('Forward Proxy').closest('.skill-token');
 
     expect(token).toBeTruthy();

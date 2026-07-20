@@ -53,13 +53,43 @@ const skillIcons: Readonly<Record<string, SimpleIcon>> = {
   Vault: siVault,
 };
 
-function readableForeground(hex: string) {
-  const red = Number.parseInt(hex.slice(0, 2), 16);
-  const green = Number.parseInt(hex.slice(2, 4), 16);
-  const blue = Number.parseInt(hex.slice(4, 6), 16);
-  const luminance = (0.299 * red + 0.587 * green + 0.114 * blue) / 255;
+function relativeLuminance(hex: string) {
+  const channels = [0, 2, 4].map(
+    (offset) => Number.parseInt(hex.slice(offset, offset + 2), 16) / 255,
+  );
+  const linearChannels = channels.map((channel) =>
+    channel <= 0.03928 ? channel / 12.92 : ((channel + 0.055) / 1.055) ** 2.4,
+  );
 
-  return luminance > 0.62 ? '#111827' : '#ffffff';
+  return (
+    0.2126 * linearChannels[0] +
+    0.7152 * linearChannels[1] +
+    0.0722 * linearChannels[2]
+  );
+}
+
+function contrastRatio(firstLuminance: number, secondLuminance: number) {
+  const lighter = Math.max(firstLuminance, secondLuminance);
+  const darker = Math.min(firstLuminance, secondLuminance);
+
+  return (lighter + 0.05) / (darker + 0.05);
+}
+
+function readableForeground(hex: string) {
+  const backgroundLuminance = relativeLuminance(hex);
+  const darkForeground = '#111827';
+  const lightForeground = '#ffffff';
+
+  return contrastRatio(
+    relativeLuminance(darkForeground.slice(1)),
+    backgroundLuminance,
+  ) >=
+    contrastRatio(
+      relativeLuminance(lightForeground.slice(1)),
+      backgroundLuminance,
+    )
+    ? darkForeground
+    : lightForeground;
 }
 
 function tokenStyle(icon: SimpleIcon | undefined): CSSProperties | undefined {
@@ -75,7 +105,10 @@ function tokenStyle(icon: SimpleIcon | undefined): CSSProperties | undefined {
   } as CSSProperties;
 }
 
-export function SkillToken({ label, variant = 'purple' }: SkillTokenProps) {
+export function SkillToken({
+  label,
+  variant = 'purple',
+}: SkillTokenProps): JSX.Element {
   const icon = skillIcons[label];
   const tokenColor = icon ? `#${icon.hex}` : undefined;
 
