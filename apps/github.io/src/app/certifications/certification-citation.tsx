@@ -4,6 +4,8 @@ import type { CSSProperties } from 'react';
 
 import { getSkillBrand, type SkillBrand } from '../skills/skill-brand';
 
+const ASTRYX_SECONDARY_TEXT = '#737373';
+
 export interface CertificationCitationProps {
   title: string;
   url: string;
@@ -29,14 +31,32 @@ function isActive(expiresAt: string, currentDate: Date) {
   return new Date(expiresAt).getTime() > currentDate.getTime();
 }
 
-function citationStyle(brand: SkillBrand | undefined): CSSProperties | undefined {
+function iconDataUrl(iconPath: string, color: string) {
+  const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="${color}" d="${iconPath}"/></svg>`;
+
+  return `data:image/svg+xml;utf8,${encodeURIComponent(svg)}`;
+}
+
+function citationStyle(
+  brand: SkillBrand | undefined,
+  status: 'active' | 'expired',
+): CSSProperties | undefined {
   if (!brand) {
     return undefined;
   }
 
+  const background =
+    status === 'active'
+      ? brand.color
+      : 'var(--color-background-surface, var(--color-background-body))';
+  const border = brand.color;
+  const text =
+    status === 'active' ? brand.foreground : ASTRYX_SECONDARY_TEXT;
+
   return {
-    '--certification-citation-color': brand.color,
-    '--certification-citation-foreground': brand.foreground,
+    '--certification-citation-background': background,
+    '--certification-citation-border': border,
+    '--certification-citation-text': text,
   } as CSSProperties;
 }
 
@@ -50,13 +70,19 @@ export function CertificationCitation({
 }: CertificationCitationProps): JSX.Element {
   const primary = findPrimaryBrand(skills);
   const status = isActive(expiresAt, currentDate) ? 'active' : 'expired';
+  const iconColor =
+    status === 'active'
+      ? primary?.brand.foreground
+      : primary
+        ? ASTRYX_SECONDARY_TEXT
+        : undefined;
 
   return (
     <span
       className={`certification-citation certification-citation--${status}${primary ? ' certification-citation--branded' : ''}`}
       data-certification-primary-skill={primary?.skill}
       data-certification-status={status}
-      style={citationStyle(primary?.brand)}
+      style={citationStyle(primary?.brand, status)}
     >
       <Citation
         className="certification-citation__source"
@@ -64,7 +90,10 @@ export function CertificationCitation({
         source={{
           title,
           url,
-          icon: primary?.brand.iconDataUrl,
+          icon:
+            primary && iconColor
+              ? iconDataUrl(primary.brand.iconPath, iconColor)
+              : undefined,
         }}
         variant="label"
       />
