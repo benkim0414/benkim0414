@@ -17,7 +17,7 @@
 - Certification data uses `skills: readonly string[]` because a certification can link to multiple skills.
 - Use the first linked skill with known brand metadata as the primary certification icon and color.
 - Active certifications keep the default Astryx Citation surface and border, but use the primary skill brand color for citation text and logo.
-- Expired certifications use default Astryx Citation colors without branded styling or a custom logo treatment.
+- Expired certifications use default Astryx Citation colors without branded text or surface styling, while still showing the primary skill logo when available.
 - `expiresAt` must be a full ISO 8601 date-time string with timezone offset.
 - Treat supplied expiry times as Australia/Melbourne local times.
 - Do not add certificate verification API calls, runtime PDF parsing, filtering UI, a new route, or visible expiry date text in roadmap nodes.
