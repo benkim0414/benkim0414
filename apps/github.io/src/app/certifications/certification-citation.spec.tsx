@@ -86,7 +86,8 @@ describe('CertificationCitation', () => {
     const wrapper = container.querySelector('.certification-citation');
 
     expect(wrapper?.getAttribute('data-certification-primary-skill')).toBeNull();
-    expect(wrapper?.getAttribute('style')).not.toContain('--certification-citation-color');
+    expect(wrapper?.getAttribute('style')).toBeNull();
+    expect(wrapper?.classList.contains('certification-citation--branded')).toBe(false);
     expect(container.querySelector('img')).toBeNull();
   });
 });

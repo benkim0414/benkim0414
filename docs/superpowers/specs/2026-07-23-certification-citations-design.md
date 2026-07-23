@@ -106,6 +106,7 @@ Behavior:
   - `.certification-citation`
   - `.certification-citation--active`
   - `.certification-citation--expired`
+  - `.certification-citation--branded` only when a primary skill brand is found
   - `data-certification-status="active" | "expired"`
   - `data-certification-primary-skill="<skill>"`
 
@@ -163,7 +164,7 @@ Expired certifications:
 - Use the primary skill brand color for border and icon/accent only.
 - Keep text neutral so expired certifications read as historical credentials.
 
-All certifications should wrap within the roadmap node without resizing fixed-format layout unexpectedly. Existing node height estimation should account for certification rows similarly to skill rows.
+**Superseding user decision:** Certifications wrap naturally within the roadmap node using normal flex wrapping; there is no items-per-row setting. When a node has at least one certification, its roadmap height estimate reserves one fixed certification-section allowance.
 
 ## Accessibility
 
@@ -185,7 +186,7 @@ Add focused tests for:
 - It falls back gracefully when no linked skill has known brand metadata.
 - `DevOpsRoadmapNode` renders certification citations below skills.
 - The Container Orchestration default data includes CKA, CKAD, and KCNA.
-- Timeline height remains stable when nodes include certification rows.
+- Timeline height remains stable when nodes include a certification section.
 
 ## Out Of Scope
 
