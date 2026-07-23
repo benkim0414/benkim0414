@@ -60,7 +60,7 @@ describe('CertificationCitation', () => {
     expect(icon?.getAttribute('src')).toContain('fill%3D%22%23326CE5%22');
   });
 
-  it('uses default Citation colors for expired certifications', () => {
+  it('uses default Citation colors and skill logo for expired certifications', () => {
     const { container } = render(
       <CertificationCitation
         currentDate={new Date('2029-01-01T00:00:00+11:00')}
@@ -72,10 +72,12 @@ describe('CertificationCitation', () => {
     );
 
     const wrapper = container.querySelector('.certification-citation');
+    const icon = container.querySelector('img');
 
     expect(wrapper?.getAttribute('style')).toBeNull();
     expect(wrapper?.classList.contains('certification-citation--branded')).toBe(false);
-    expect(container.querySelector('img')).toBeNull();
+    expect(icon?.getAttribute('src')).toContain('data:image/svg+xml;utf8,');
+    expect(icon?.getAttribute('src')).toContain('fill%3D%22%23326CE5%22');
   });
 
   it('marks future expiry dates as active', () => {

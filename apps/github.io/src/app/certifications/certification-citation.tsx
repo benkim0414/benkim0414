@@ -59,7 +59,7 @@ export function CertificationCitation({
   const primary = findPrimaryBrand(skills);
   const status = isActive(expiresAt, currentDate) ? 'active' : 'expired';
   const isBranded = Boolean(primary && status === 'active');
-  const iconColor = isBranded ? primary?.brand.color : undefined;
+  const iconColor = primary?.brand.color;
 
   return (
     <span
