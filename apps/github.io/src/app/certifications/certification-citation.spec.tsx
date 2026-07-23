@@ -38,8 +38,60 @@ describe('CertificationCitation', () => {
     const wrapper = container.querySelector('.certification-citation');
 
     expect(wrapper?.getAttribute('data-certification-primary-skill')).toBe('Kubernetes');
-    expect(wrapper?.getAttribute('style')).toContain('--certification-citation-color: #326CE5');
+    expect(wrapper?.getAttribute('style')).toContain('--certification-citation-border: #326CE5');
     expect(container.querySelector('img')?.getAttribute('src')).toContain('data:image/svg+xml;utf8,');
+  });
+
+  it('keeps the Citation icon colors aligned with the citation treatment', () => {
+    const { container } = render(
+      <CertificationCitation
+        currentDate={new Date('2026-07-23T00:00:00+10:00')}
+        expiresAt="2027-04-20T10:00:00+10:00"
+        skills={['Kubernetes']}
+        title="CKA"
+        url={certificateUrl}
+      />,
+    );
+
+    const wrapper = container.querySelector('.certification-citation');
+    const icon = container.querySelector('img');
+
+    expect(wrapper?.getAttribute('style')).toContain(
+      '--certification-citation-background: #326CE5',
+    );
+    expect(wrapper?.getAttribute('style')).toContain(
+      '--certification-citation-border: #326CE5',
+    );
+    expect(wrapper?.getAttribute('style')).toContain(
+      '--certification-citation-text: #ffffff',
+    );
+    expect(icon?.getAttribute('src')).toContain('fill%3D%22%23ffffff%22');
+  });
+
+  it('uses neutral citation text color for expired certification icons', () => {
+    const { container } = render(
+      <CertificationCitation
+        currentDate={new Date('2029-01-01T00:00:00+11:00')}
+        expiresAt="2028-02-26T10:59:00+11:00"
+        skills={['Kubernetes']}
+        title="KCNA"
+        url={certificateUrl}
+      />,
+    );
+
+    const wrapper = container.querySelector('.certification-citation');
+    const icon = container.querySelector('img');
+
+    expect(wrapper?.getAttribute('style')).toContain(
+      '--certification-citation-background: var(--color-background-surface, var(--color-background-body))',
+    );
+    expect(wrapper?.getAttribute('style')).toContain(
+      '--certification-citation-border: #326CE5',
+    );
+    expect(wrapper?.getAttribute('style')).toContain(
+      '--certification-citation-text: #737373',
+    );
+    expect(icon?.getAttribute('src')).toContain('fill%3D%22%23737373%22');
   });
 
   it('marks future expiry dates as active', () => {

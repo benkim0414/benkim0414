@@ -109,8 +109,9 @@ a {
 }
 
 .certification-citation {
-  --certification-citation-color: var(--color-border, rgba(15, 23, 42, 0.16));
-  --certification-citation-foreground: var(--color-text-primary);
+  --certification-citation-background: var(--color-background-surface, var(--color-background-body));
+  --certification-citation-border: var(--color-border, rgba(15, 23, 42, 0.16));
+  --certification-citation-text: var(--color-text-primary);
 
   display: inline-flex;
   align-items: center;
@@ -122,15 +123,20 @@ a {
 }
 
 .certification-citation--branded.certification-citation--active .certification-citation__source {
-  color: var(--certification-citation-foreground);
-  background: var(--certification-citation-color);
-  border-color: var(--certification-citation-color);
+  color: var(--certification-citation-text);
+  background: var(--certification-citation-background);
+  border-color: var(--certification-citation-border);
 }
 
 .certification-citation--branded.certification-citation--expired .certification-citation__source {
-  color: var(--color-text-secondary);
-  background: var(--color-background-surface, var(--color-background-body));
-  border-color: var(--certification-citation-color);
+  color: var(--certification-citation-text);
+  background: var(--certification-citation-background);
+  border-color: var(--certification-citation-border);
+}
+
+.certification-citation--branded .certification-citation__source > span:has(> img) {
+  background: var(--certification-citation-background);
+  border-color: var(--certification-citation-border);
 }
 
 .skill-avatar {
