@@ -108,6 +108,31 @@ a {
   overflow-wrap: anywhere;
 }
 
+.certification-citation {
+  --certification-citation-color: var(--color-border, rgba(15, 23, 42, 0.16));
+  --certification-citation-foreground: var(--color-text-primary);
+
+  display: inline-flex;
+  align-items: center;
+  max-width: 100%;
+}
+
+.certification-citation__source {
+  max-width: 100%;
+}
+
+.certification-citation--active .certification-citation__source {
+  color: var(--certification-citation-foreground);
+  background: var(--certification-citation-color);
+  border-color: var(--certification-citation-color);
+}
+
+.certification-citation--expired .certification-citation__source {
+  color: var(--color-text-secondary);
+  background: var(--color-background-surface, var(--color-background-body));
+  border-color: var(--certification-citation-color);
+}
+
 .skill-avatar {
   flex: 0 0 auto;
 }
