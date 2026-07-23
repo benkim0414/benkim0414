@@ -163,6 +163,7 @@ Expired certifications:
 - Keep the default Astryx Citation colors.
 - Do not apply branded citation text or surface styles.
 - Show the primary skill icon when available, filled with the default Citation text color.
+- Keep the expired icon wrapper transparent so the default surface background does not read as a white icon.
 
 **Superseding user decision:** Certifications wrap naturally within the roadmap node using normal flex wrapping; there is no items-per-row setting. When a node has at least one certification, its roadmap height estimate reserves one fixed certification-section allowance.
 
