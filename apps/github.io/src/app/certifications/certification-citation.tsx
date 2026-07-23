@@ -4,6 +4,8 @@ import type { CSSProperties } from 'react';
 
 import { getSkillBrand, type SkillBrand } from '../skills/skill-brand';
 
+const ASTRYX_CITATION_LABEL_TEXT = '#737373';
+
 export interface CertificationCitationProps {
   title: string;
   url: string;
@@ -59,7 +61,8 @@ export function CertificationCitation({
   const primary = findPrimaryBrand(skills);
   const status = isActive(expiresAt, currentDate) ? 'active' : 'expired';
   const isBranded = Boolean(primary && status === 'active');
-  const iconColor = primary?.brand.color;
+  const iconColor =
+    status === 'active' ? primary?.brand.color : ASTRYX_CITATION_LABEL_TEXT;
 
   return (
     <span

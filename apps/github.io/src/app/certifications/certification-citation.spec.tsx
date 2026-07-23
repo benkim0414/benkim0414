@@ -77,7 +77,7 @@ describe('CertificationCitation', () => {
     expect(wrapper?.getAttribute('style')).toBeNull();
     expect(wrapper?.classList.contains('certification-citation--branded')).toBe(false);
     expect(icon?.getAttribute('src')).toContain('data:image/svg+xml;utf8,');
-    expect(icon?.getAttribute('src')).toContain('fill%3D%22%23326CE5%22');
+    expect(icon?.getAttribute('src')).toContain('fill%3D%22%23737373%22');
   });
 
   it('marks future expiry dates as active', () => {
