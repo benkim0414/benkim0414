@@ -99,7 +99,7 @@ Behavior:
 - Render Astryx `Citation` with `variant="label"`.
 - Pass `source.title = title`.
 - Pass `source.url = url`.
-- Pass `source.icon` from the primary linked skill logo when available.
+- Pass `source.icon` from the primary linked skill logo only for active branded certifications.
 - Use `number ?? 1` as the citation number.
 - Derive active versus expired from `expiresAt` and `currentDate ?? new Date()`.
 - Add stable classes/data attributes for styling and tests:
@@ -154,15 +154,14 @@ The roadmap should not compute expiry, icons, colors, or Citation source objects
 
 Active certifications:
 
-- Use the primary skill brand color as the filled citation treatment.
-- Keep text contrast readable using the same contrast helper used by skill tokens.
-- Use the primary skill icon.
+- Keep the default Astryx Citation surface and border treatment.
+- Use the primary skill brand color for citation text.
+- Use the primary skill icon filled with the same brand color.
 
 Expired certifications:
 
-- Use a neutral citation background.
-- Use the primary skill brand color for border and icon/accent only.
-- Keep text neutral so expired certifications read as historical credentials.
+- Keep the default Astryx Citation colors.
+- Do not apply branded citation styles or custom logo color treatment.
 
 **Superseding user decision:** Certifications wrap naturally within the roadmap node using normal flex wrapping; there is no items-per-row setting. When a node has at least one certification, its roadmap height estimate reserves one fixed certification-section allowance.
 
