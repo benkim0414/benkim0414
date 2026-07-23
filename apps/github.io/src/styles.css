@@ -118,10 +118,6 @@ a {
   max-width: 100%;
 }
 
-.certification-citation--branded .certification-citation__source {
-  border-color: var(--certification-citation-border);
-}
-
 .skill-avatar {
   flex: 0 0 auto;
 }

@@ -42,8 +42,8 @@ describe('CertificationCitation', () => {
     expect(container.querySelector('img')?.getAttribute('src')).toContain('data:image/svg+xml;utf8,');
   });
 
-  it('keeps default Citation text styles and uses brand color for active certification logo', () => {
-    const { container } = render(
+  it('uses secondary text color and brand color logo for active certifications', () => {
+    const { container, getByRole } = render(
       <CertificationCitation
         currentDate={new Date('2026-07-23T00:00:00+10:00')}
         expiresAt="2027-04-20T10:00:00+10:00"
@@ -54,15 +54,17 @@ describe('CertificationCitation', () => {
     );
 
     const wrapper = container.querySelector('.certification-citation');
+    const citation = getByRole('doc-noteref', { name: 'Citation 1: CKA' });
     const icon = container.querySelector('img');
 
     expect(wrapper?.getAttribute('style')).toBeNull();
     expect(wrapper?.classList.contains('certification-citation--branded')).toBe(false);
+    expect(citation.getAttribute('style')).toContain('color: rgb(115, 115, 115)');
     expect(icon?.getAttribute('src')).toContain('fill%3D%22%23326CE5%22');
   });
 
-  it('uses default Citation colors and skill logo for expired certifications', () => {
-    const { container } = render(
+  it('uses secondary text color and secondary color logo for expired certifications', () => {
+    const { container, getByRole } = render(
       <CertificationCitation
         currentDate={new Date('2029-01-01T00:00:00+11:00')}
         expiresAt="2028-02-26T10:59:00+11:00"
@@ -73,10 +75,12 @@ describe('CertificationCitation', () => {
     );
 
     const wrapper = container.querySelector('.certification-citation');
+    const citation = getByRole('doc-noteref', { name: 'Citation 1: KCNA' });
     const icon = container.querySelector('img');
 
     expect(wrapper?.getAttribute('style')).toBeNull();
     expect(wrapper?.classList.contains('certification-citation--branded')).toBe(false);
+    expect(citation.getAttribute('style')).toContain('color: rgb(115, 115, 115)');
     expect(icon?.getAttribute('src')).toContain('data:image/svg+xml;utf8,');
     expect(icon?.getAttribute('src')).toContain('fill%3D%22%23737373%22');
   });

@@ -37,17 +37,19 @@ function iconDataUrl(iconPath: string, color: string) {
   return `data:image/svg+xml;utf8,${encodeURIComponent(svg)}`;
 }
 
-function citationStyle(
+function citationSourceStyle(
   brand: SkillBrand | undefined,
   hasSkillLogo: boolean,
-): CSSProperties | undefined {
-  if (!brand || hasSkillLogo) {
-    return undefined;
+): CSSProperties {
+  const style: CSSProperties = {
+    color: ASTRYX_CITATION_LABEL_TEXT,
+  };
+
+  if (brand && !hasSkillLogo) {
+    style.borderColor = brand.color;
   }
 
-  return {
-    '--certification-citation-border': brand.color,
-  } as CSSProperties;
+  return style;
 }
 
 export function CertificationCitation({
@@ -70,7 +72,6 @@ export function CertificationCitation({
       className={`certification-citation certification-citation--${status}${isBranded ? ' certification-citation--branded' : ''}`}
       data-certification-primary-skill={primary?.skill}
       data-certification-status={status}
-      style={citationStyle(primary?.brand, hasSkillLogo)}
     >
       <Citation
         className="certification-citation__source"
@@ -83,6 +84,7 @@ export function CertificationCitation({
               ? iconDataUrl(primary.brand.iconPath, iconColor)
               : undefined,
         }}
+        style={citationSourceStyle(primary?.brand, hasSkillLogo)}
         variant="label"
       />
       <VisuallyHidden>

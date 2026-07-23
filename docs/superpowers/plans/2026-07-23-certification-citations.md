@@ -16,8 +16,8 @@
 - Use Astryx `Citation` in `variant="label"` mode for certifications.
 - Certification data uses `skills: readonly string[]` because a certification can link to multiple skills.
 - Use the first linked skill with known brand metadata as the primary certification icon and color.
-- Active certifications keep the default Astryx Citation text, surface, and border, but use the primary skill brand color for the logo.
-- Expired certifications use default Astryx Citation text, surface, and border, while still showing the primary skill logo in the default Citation text color when available.
+- Active certifications use the Astryx label secondary text color for the title and the primary skill brand color for the logo.
+- Expired certifications use the Astryx label secondary text color for the title and the same secondary color for the primary skill logo when available.
 - If a linked skill has known brand color metadata but no available logo, use the brand color as a Citation border accent instead of changing the text color.
 - `expiresAt` must be a full ISO 8601 date-time string with timezone offset.
 - Treat supplied expiry times as Australia/Melbourne local times.
@@ -521,10 +521,6 @@ Append these styles near `.skill-token` in `apps/github.io/src/styles.css`:
 
 .certification-citation__source {
   max-width: 100%;
-}
-
-.certification-citation--branded .certification-citation__source {
-  border-color: var(--certification-citation-border);
 }
 ```
 

@@ -106,7 +106,7 @@ Behavior:
   - `.certification-citation`
   - `.certification-citation--active`
   - `.certification-citation--expired`
-  - `.certification-citation--branded` only when a primary skill brand is found
+  - `.certification-citation--branded` only when a primary skill brand is found without an available logo
   - `data-certification-status="active" | "expired"`
   - `data-certification-primary-skill="<skill>"`
 
@@ -154,12 +154,14 @@ The roadmap should not compute expiry, icons, colors, or Citation source objects
 
 Active certifications:
 
-- Keep the default Astryx Citation text, surface, and border treatment.
+- Use the Astryx label secondary text color for the citation title.
+- Keep the default Astryx Citation surface and border treatment.
 - Use the primary skill icon filled with the skill brand color.
 
 Expired certifications:
 
-- Keep the default Astryx Citation text, surface, and border treatment.
+- Use the Astryx label secondary text color for the citation title.
+- Keep the default Astryx Citation surface and border treatment.
 - Do not apply branded citation text or surface styles.
 - Show the primary skill icon when available, filled with the default Citation text color.
 
