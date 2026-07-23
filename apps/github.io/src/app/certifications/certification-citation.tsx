@@ -29,9 +29,9 @@ function isActive(expiresAt: string, currentDate: Date) {
   return new Date(expiresAt).getTime() > currentDate.getTime();
 }
 
-function citationStyle(brand: SkillBrand | undefined): CSSProperties {
+function citationStyle(brand: SkillBrand | undefined): CSSProperties | undefined {
   if (!brand) {
-    return { outline: 'none' };
+    return undefined;
   }
 
   return {
@@ -53,7 +53,7 @@ export function CertificationCitation({
 
   return (
     <span
-      className={`certification-citation certification-citation--${status}`}
+      className={`certification-citation certification-citation--${status}${primary ? ' certification-citation--branded' : ''}`}
       data-certification-primary-skill={primary?.skill}
       data-certification-status={status}
       style={citationStyle(primary?.brand)}

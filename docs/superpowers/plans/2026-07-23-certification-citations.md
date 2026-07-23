@@ -4,9 +4,11 @@
 
 **Goal:** Add reusable certification citations and render CKA, CKAD, and KCNA below the Container Orchestration roadmap node's Kubernetes skill.
 
-**Architecture:** Extract shared skill brand metadata from `SkillToken` so both skill tokens and certifications use the same Simple Icons map, colors, SVG paths, data URLs, and contrast helper. Add a reusable `CertificationCitation` component under `apps/github.io/src/app/certifications/` that wraps Astryx `Citation`, derives active/expired status from `expiresAt`, and uses the first known linked skill as its primary brand. Update roadmap types, data, node rendering, CSS, and height estimation so certifications appear on their own row below skills.
+**Architecture:** Extract shared skill brand metadata from `SkillToken` so both skill tokens and certifications use the same Simple Icons map, colors, SVG paths, data URLs, and contrast helper. Add a reusable `CertificationCitation` component under `apps/github.io/src/app/certifications/` that wraps Astryx `Citation`, derives active/expired status from `expiresAt`, and uses the first known linked skill as its primary brand. Update roadmap types, data, node rendering, CSS, and height estimation so certifications appear on their own line below skills, wrap normally with flex, and reserve one fixed certification-section allowance whenever present.
 
 **Tech Stack:** React 19, TypeScript, Vitest, React Testing Library, Astryx `Citation`, Astryx `VisuallyHidden`, Simple Icons, React Flow, Nx `github.io` project.
+
+**Superseding user decision:** Certifications use normal flex wrapping with no items-per-row setting. Node-height estimation reserves one fixed certification-section allowance whenever a node has at least one certification.
 
 ## Global Constraints
 
@@ -707,7 +709,7 @@ it('renders certification citations below skill tokens', () => {
 Add this height test inside `describe('DevOpsRoadmap', ...)`:
 
 ```tsx
-it('reserves stable timeline space for certification rows', () => {
+it('reserves stable timeline space for a certification section', () => {
   const { container } = render(
     <DevOpsRoadmap
       items={[
@@ -879,21 +881,20 @@ Update constants and `getEstimatedNodeHeight` in `apps/github.io/src/app/devops-
 const BASE_NODE_HEIGHT = 148;
 const NODE_GAP = 48;
 const EXTRA_SKILL_ROW_HEIGHT = 50;
-const CERTIFICATION_ROW_HEIGHT = 50;
+const CERTIFICATION_SECTION_HEIGHT = 50;
 const SKILLS_PER_ROW = 2;
-const CERTIFICATIONS_PER_ROW = 2;
 ```
 
 ```tsx
 function getEstimatedNodeHeight(item: DevOpsRoadmapItem) {
   const skillRows = Math.ceil(item.skills.length / SKILLS_PER_ROW);
   const extraRows = Math.max(0, skillRows - 1);
-  const certificationRows = Math.ceil((item.certifications?.length ?? 0) / CERTIFICATIONS_PER_ROW);
+  const certificationSectionHeight = item.certifications?.length ? CERTIFICATION_SECTION_HEIGHT : 0;
 
   return (
     BASE_NODE_HEIGHT +
     extraRows * EXTRA_SKILL_ROW_HEIGHT +
-    certificationRows * CERTIFICATION_ROW_HEIGHT
+    certificationSectionHeight
   );
 }
 ```

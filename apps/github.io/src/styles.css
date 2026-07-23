@@ -121,13 +121,13 @@ a {
   max-width: 100%;
 }
 
-.certification-citation--active .certification-citation__source {
+.certification-citation--branded.certification-citation--active .certification-citation__source {
   color: var(--certification-citation-foreground);
   background: var(--certification-citation-color);
   border-color: var(--certification-citation-color);
 }
 
-.certification-citation--expired .certification-citation__source {
+.certification-citation--branded.certification-citation--expired .certification-citation__source {
   color: var(--color-text-secondary);
   background: var(--color-background-surface, var(--color-background-body));
   border-color: var(--certification-citation-color);

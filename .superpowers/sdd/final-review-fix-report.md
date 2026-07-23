@@ -66,3 +66,36 @@ DONE
   `nxViteTsPaths`; it does not affect test execution.
 - Scope is restricted to the specified roadmap component, its test, and the
   Storybook preview stylesheet imports.
+
+# Certification Citation Final Review Fixes
+
+## Status
+
+DONE
+
+## Findings Resolved
+
+1. Unbranded certification citations now omit inline styles and the branded
+   modifier, preserving Astryx defaults. Active and expired visual overrides
+   apply only to branded citations.
+2. Added an unbranded Storybook case and updated the fallback regression test
+   to assert the default, unbranded markup.
+3. Updated the certification design and plan with the superseding layout
+   decision: normal flex wrapping, no items-per-row setting, and one fixed
+   certification-section height allowance whenever certifications are present.
+
+## Verification
+
+| Command | Result |
+| --- | --- |
+| `git diff --check` | PASS |
+| `PATH=/tmp/corepack-shims:$PATH corepack pnpm exec vitest run apps/github.io/src/app/certifications/certification-citation.spec.tsx` | BLOCKED before Vitest: Corepack reported `ERR_SQLITE_ERROR: unable to open database file`, then could not fetch pnpm from the restricted npm registry. |
+| `PATH=/tmp/corepack-shims:$PATH corepack pnpm exec vitest run apps/github.io/src/app/certifications/certification-citation.spec.tsx apps/github.io/src/app/devops-roadmap/devops-roadmap.spec.tsx` | BLOCKED before Vitest by the same Corepack SQLite/cache and restricted-registry failure. |
+| `NODE_PATH=/home/benkim0414/workspace/benkim0414/node_modules node /home/benkim0414/workspace/benkim0414/node_modules/vitest/vitest.mjs run apps/github.io/src/app/certifications/certification-citation.spec.tsx apps/github.io/src/app/devops-roadmap/devops-roadmap.spec.tsx` | PASS - 2 files, 18 tests. |
+| `NODE_PATH=/home/benkim0414/workspace/benkim0414/node_modules node /home/benkim0414/workspace/benkim0414/node_modules/vitest/vitest.mjs run apps/github.io/src/app/skills/skill-brand.spec.ts apps/github.io/src/app/skills/skill-token.spec.tsx apps/github.io/src/app/certifications/certification-citation.spec.tsx apps/github.io/src/app/devops-roadmap/devops-roadmap.spec.tsx` | PASS - 4 files, 27 tests. |
+
+## Concerns
+
+- Corepack remains blocked by its SQLite/cache and restricted-registry failure,
+  but direct Vitest verification succeeded using the existing main-workspace
+  dependencies read-only.

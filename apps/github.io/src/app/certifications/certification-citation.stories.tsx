@@ -39,3 +39,13 @@ export const MultipleSkills: Story = {
     url: 'https://example.com/ckad.pdf',
   },
 };
+
+export const Unbranded: Story = {
+  args: {
+    currentDate: new Date('2026-07-23T00:00:00+10:00'),
+    expiresAt: '2027-04-20T10:00:00+10:00',
+    skills: ['Unknown Skill'],
+    title: 'Custom Cert',
+    url: 'https://example.com/custom-cert.pdf',
+  },
+};
