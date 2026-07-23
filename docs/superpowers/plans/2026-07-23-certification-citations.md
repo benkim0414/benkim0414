@@ -16,8 +16,9 @@
 - Use Astryx `Citation` in `variant="label"` mode for certifications.
 - Certification data uses `skills: readonly string[]` because a certification can link to multiple skills.
 - Use the first linked skill with known brand metadata as the primary certification icon and color.
-- Active certifications keep the default Astryx Citation surface and border, but use the primary skill brand color for citation text and logo.
-- Expired certifications use default Astryx Citation colors without branded text or surface styling, while still showing the primary skill logo in the default Citation text color when available. The expired icon wrapper background stays transparent so it does not read as a white icon.
+- Active certifications keep the default Astryx Citation text, surface, and border, but use the primary skill brand color for the logo.
+- Expired certifications use default Astryx Citation text, surface, and border, while still showing the primary skill logo in the default Citation text color when available.
+- If a linked skill has known brand color metadata but no available logo, use the brand color as a Citation border accent instead of changing the text color.
 - `expiresAt` must be a full ISO 8601 date-time string with timezone offset.
 - Treat supplied expiry times as Australia/Melbourne local times.
 - Do not add certificate verification API calls, runtime PDF parsing, filtering UI, a new route, or visible expiry date text in roadmap nodes.
@@ -513,8 +514,6 @@ Append these styles near `.skill-token` in `apps/github.io/src/styles.css`:
 
 ```css
 .certification-citation {
-  --certification-citation-text: var(--color-text-primary);
-
   display: inline-flex;
   align-items: center;
   max-width: 100%;
@@ -524,8 +523,8 @@ Append these styles near `.skill-token` in `apps/github.io/src/styles.css`:
   max-width: 100%;
 }
 
-.certification-citation--branded.certification-citation--active .certification-citation__source {
-  color: var(--certification-citation-text);
+.certification-citation--branded .certification-citation__source {
+  border-color: var(--certification-citation-border);
 }
 ```
 

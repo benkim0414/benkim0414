@@ -1,10 +1,8 @@
-import { readFileSync } from 'node:fs';
 import { render } from '@testing-library/react';
 
 import { CertificationCitation } from './certification-citation';
 
 const certificateUrl = 'https://example.com/certificate.pdf';
-const styles = readFileSync('apps/github.io/src/styles.css', 'utf8');
 
 describe('CertificationCitation', () => {
   it('renders an Astryx label citation link for a certification', () => {
@@ -40,11 +38,11 @@ describe('CertificationCitation', () => {
     const wrapper = container.querySelector('.certification-citation');
 
     expect(wrapper?.getAttribute('data-certification-primary-skill')).toBe('Kubernetes');
-    expect(wrapper?.getAttribute('style')).toContain('--certification-citation-text: #326CE5');
+    expect(wrapper?.getAttribute('style')).toBeNull();
     expect(container.querySelector('img')?.getAttribute('src')).toContain('data:image/svg+xml;utf8,');
   });
 
-  it('uses brand color for active certification text and logo', () => {
+  it('keeps default Citation text styles and uses brand color for active certification logo', () => {
     const { container } = render(
       <CertificationCitation
         currentDate={new Date('2026-07-23T00:00:00+10:00')}
@@ -58,7 +56,8 @@ describe('CertificationCitation', () => {
     const wrapper = container.querySelector('.certification-citation');
     const icon = container.querySelector('img');
 
-    expect(wrapper?.getAttribute('style')).toBe('--certification-citation-text: #326CE5;');
+    expect(wrapper?.getAttribute('style')).toBeNull();
+    expect(wrapper?.classList.contains('certification-citation--branded')).toBe(false);
     expect(icon?.getAttribute('src')).toContain('fill%3D%22%23326CE5%22');
   });
 
@@ -80,13 +79,6 @@ describe('CertificationCitation', () => {
     expect(wrapper?.classList.contains('certification-citation--branded')).toBe(false);
     expect(icon?.getAttribute('src')).toContain('data:image/svg+xml;utf8,');
     expect(icon?.getAttribute('src')).toContain('fill%3D%22%23737373%22');
-  });
-
-  it('does not leave expired certification icon wrappers on the white surface background', () => {
-    expect(styles).toContain(
-      '.certification-citation--expired .certification-citation__source > span:has(> img)',
-    );
-    expect(styles).toContain('background: transparent;');
   });
 
   it('marks future expiry dates as active', () => {
