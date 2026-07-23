@@ -14,6 +14,20 @@ vi.mock('../skills/skill-token', () => ({
   ),
 }));
 
+vi.mock('../certifications/certification-citation', () => ({
+  CertificationCitation: ({
+    title,
+    number,
+  }: {
+    title: string;
+    number?: number;
+  }) => (
+    <a data-certification-number={number} data-testid={`certification-citation-${title}`} href={`#${title}`}>
+      {title}
+    </a>
+  ),
+}));
+
 vi.mock('@xyflow/react', () => ({
   Background: () => <div data-testid="react-flow-background" />,
   Handle: ({ id, position, type }: { id: string; position: string; type: string }) => (
@@ -40,7 +54,7 @@ vi.mock('@xyflow/react', () => ({
   }: {
     nodes: Array<{ id: string; data: { item: { title: string } }; position: { y: number } }>;
     edges: Array<{ id: string }>;
-    nodeTypes: Record<string, (props: { data: { item: { id: string; title: string; skills: readonly string[] } } }) => ReactNode>;
+    nodeTypes: Record<string, (props: { data: { item: { id: string; title: string; skills: readonly string[]; certifications?: readonly unknown[] } } }) => ReactNode>;
     nodesDraggable: boolean;
     nodesConnectable: boolean;
     elementsSelectable: boolean;
@@ -118,6 +132,30 @@ describe('devOpsRoadmapItems', () => {
       skills: [],
     });
   });
+
+  it('stores Kubernetes certifications under Container Orchestration', () => {
+    expect(devOpsRoadmapItems.find((item) => item.id === 'container-orchestration')).toMatchObject({
+      title: 'Container Orchestration',
+      skills: ['Kubernetes'],
+      certifications: [
+        {
+          title: 'CKA',
+          skills: ['Kubernetes'],
+          expiresAt: '2027-04-20T10:00:00+10:00',
+        },
+        {
+          title: 'CKAD',
+          skills: ['Kubernetes'],
+          expiresAt: '2028-02-25T11:00:00+11:00',
+        },
+        {
+          title: 'KCNA',
+          skills: ['Kubernetes'],
+          expiresAt: '2028-02-26T10:59:00+11:00',
+        },
+      ],
+    });
+  });
 });
 
 describe('DevOpsRoadmapNode', () => {
@@ -149,6 +187,30 @@ describe('DevOpsRoadmapNode', () => {
 
     expect(getByText('Cloud Design Patterns')).toBeTruthy();
     expect(container.querySelector('.devops-roadmap-node__skills')).toBeNull();
+  });
+
+  it('renders certification citations below skill tokens', () => {
+    const { container, getByTestId } = render(
+      <DevOpsRoadmapNode
+        item={{
+          id: 'container-orchestration',
+          title: 'Container Orchestration',
+          skills: ['Kubernetes'],
+          certifications: [
+            {
+              title: 'CKA',
+              skills: ['Kubernetes'],
+              expiresAt: '2027-04-20T10:00:00+10:00',
+              url: 'https://example.com/cka.pdf',
+            },
+          ],
+        }}
+      />,
+    );
+
+    expect(getByTestId('skill-token-Kubernetes')).toBeTruthy();
+    expect(getByTestId('certification-citation-CKA')).toBeTruthy();
+    expect(container.querySelector('.devops-roadmap-node__skills + .devops-roadmap-node__certifications')).toBeTruthy();
   });
 
   it('renders hidden target and source handles for timeline edges', () => {
@@ -241,6 +303,48 @@ describe('DevOpsRoadmap', () => {
     expect(flowWrapper?.style.height).toBe('444px');
     expect(container.querySelector('[data-testid="react-flow"]')?.getAttribute('data-node-positions')).toBe(
       'terminal-knowledge:0|containers:296'
+    );
+  });
+
+  it('reserves stable timeline space for certification rows', () => {
+    const { container } = render(
+      <DevOpsRoadmap
+        items={[
+          {
+            id: 'container-orchestration',
+            title: 'Container Orchestration',
+            skills: ['Kubernetes'],
+            certifications: [
+              {
+                title: 'CKA',
+                skills: ['Kubernetes'],
+                expiresAt: '2027-04-20T10:00:00+10:00',
+                url: 'https://example.com/cka.pdf',
+              },
+              {
+                title: 'CKAD',
+                skills: ['Kubernetes'],
+                expiresAt: '2028-02-25T11:00:00+11:00',
+                url: 'https://example.com/ckad.pdf',
+              },
+              {
+                title: 'KCNA',
+                skills: ['Kubernetes'],
+                expiresAt: '2028-02-26T10:59:00+11:00',
+                url: 'https://example.com/kcna.pdf',
+              },
+            ],
+          },
+          { id: 'gitops', title: 'GitOps', skills: ['ArgoCD'] },
+        ]}
+      />
+    );
+
+    const flowWrapper = container.querySelector<HTMLElement>('.devops-roadmap__flow');
+
+    expect(flowWrapper?.style.height).toBe('394px');
+    expect(container.querySelector('[data-testid="react-flow"]')?.getAttribute('data-node-positions')).toBe(
+      'container-orchestration:0|gitops:246'
     );
   });
 

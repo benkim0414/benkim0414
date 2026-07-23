@@ -8,6 +8,7 @@ import type { DevOpsRoadmapItem, DevOpsRoadmapProps } from './devops-roadmap.typ
 const BASE_NODE_HEIGHT = 148;
 const NODE_GAP = 48;
 const EXTRA_SKILL_ROW_HEIGHT = 50;
+const CERTIFICATION_SECTION_HEIGHT = 50;
 const SKILLS_PER_ROW = 2;
 const TIMELINE_X = 0;
 const nodeTypes = {
@@ -19,8 +20,9 @@ const nodeTypes = {
 function getEstimatedNodeHeight(item: DevOpsRoadmapItem) {
   const skillRows = Math.ceil(item.skills.length / SKILLS_PER_ROW);
   const extraRows = Math.max(0, skillRows - 1);
+  const certificationSectionHeight = item.certifications?.length ? CERTIFICATION_SECTION_HEIGHT : 0;
 
-  return BASE_NODE_HEIGHT + extraRows * EXTRA_SKILL_ROW_HEIGHT;
+  return BASE_NODE_HEIGHT + extraRows * EXTRA_SKILL_ROW_HEIGHT + certificationSectionHeight;
 }
 
 function buildTimelineElements(items: readonly DevOpsRoadmapItem[]) {
