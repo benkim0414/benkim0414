@@ -124,6 +124,10 @@ a {
   color: var(--certification-citation-text);
 }
 
+.certification-citation--expired .certification-citation__source > span:has(> img) {
+  background: transparent;
+}
+
 .skill-avatar {
   flex: 0 0 auto;
 }

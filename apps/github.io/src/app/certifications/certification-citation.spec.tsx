@@ -1,8 +1,10 @@
+import { readFileSync } from 'node:fs';
 import { render } from '@testing-library/react';
 
 import { CertificationCitation } from './certification-citation';
 
 const certificateUrl = 'https://example.com/certificate.pdf';
+const styles = readFileSync('apps/github.io/src/styles.css', 'utf8');
 
 describe('CertificationCitation', () => {
   it('renders an Astryx label citation link for a certification', () => {
@@ -78,6 +80,13 @@ describe('CertificationCitation', () => {
     expect(wrapper?.classList.contains('certification-citation--branded')).toBe(false);
     expect(icon?.getAttribute('src')).toContain('data:image/svg+xml;utf8,');
     expect(icon?.getAttribute('src')).toContain('fill%3D%22%23737373%22');
+  });
+
+  it('does not leave expired certification icon wrappers on the white surface background', () => {
+    expect(styles).toContain(
+      '.certification-citation--expired .certification-citation__source > span:has(> img)',
+    );
+    expect(styles).toContain('background: transparent;');
   });
 
   it('marks future expiry dates as active', () => {
