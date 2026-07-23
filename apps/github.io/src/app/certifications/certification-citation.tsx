@@ -39,14 +39,14 @@ function iconDataUrl(iconPath: string, color: string) {
 
 function citationStyle(
   brand: SkillBrand | undefined,
-  status: 'active' | 'expired',
+  hasSkillLogo: boolean,
 ): CSSProperties | undefined {
-  if (!brand || status === 'expired') {
+  if (!brand || hasSkillLogo) {
     return undefined;
   }
 
   return {
-    '--certification-citation-text': brand.color,
+    '--certification-citation-border': brand.color,
   } as CSSProperties;
 }
 
@@ -60,7 +60,8 @@ export function CertificationCitation({
 }: CertificationCitationProps): JSX.Element {
   const primary = findPrimaryBrand(skills);
   const status = isActive(expiresAt, currentDate) ? 'active' : 'expired';
-  const isBranded = Boolean(primary && status === 'active');
+  const hasSkillLogo = Boolean(primary?.brand.iconPath);
+  const isBranded = Boolean(primary && !hasSkillLogo);
   const iconColor =
     status === 'active' ? primary?.brand.color : ASTRYX_CITATION_LABEL_TEXT;
 
@@ -69,7 +70,7 @@ export function CertificationCitation({
       className={`certification-citation certification-citation--${status}${isBranded ? ' certification-citation--branded' : ''}`}
       data-certification-primary-skill={primary?.skill}
       data-certification-status={status}
-      style={citationStyle(primary?.brand, status)}
+      style={citationStyle(primary?.brand, hasSkillLogo)}
     >
       <Citation
         className="certification-citation__source"
@@ -78,7 +79,7 @@ export function CertificationCitation({
           title,
           url,
           icon:
-            primary && iconColor
+            primary && hasSkillLogo && iconColor
               ? iconDataUrl(primary.brand.iconPath, iconColor)
               : undefined,
         }}

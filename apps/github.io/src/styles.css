@@ -109,8 +109,6 @@ a {
 }
 
 .certification-citation {
-  --certification-citation-text: var(--color-text-primary);
-
   display: inline-flex;
   align-items: center;
   max-width: 100%;
@@ -120,12 +118,8 @@ a {
   max-width: 100%;
 }
 
-.certification-citation--branded.certification-citation--active .certification-citation__source {
-  color: var(--certification-citation-text);
-}
-
-.certification-citation--expired .certification-citation__source > span:has(> img) {
-  background: transparent;
+.certification-citation--branded .certification-citation__source {
+  border-color: var(--certification-citation-border);
 }
 
 .skill-avatar {

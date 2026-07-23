@@ -154,16 +154,16 @@ The roadmap should not compute expiry, icons, colors, or Citation source objects
 
 Active certifications:
 
-- Keep the default Astryx Citation surface and border treatment.
-- Use the primary skill brand color for citation text.
-- Use the primary skill icon filled with the same brand color.
+- Keep the default Astryx Citation text, surface, and border treatment.
+- Use the primary skill icon filled with the skill brand color.
 
 Expired certifications:
 
-- Keep the default Astryx Citation colors.
+- Keep the default Astryx Citation text, surface, and border treatment.
 - Do not apply branded citation text or surface styles.
 - Show the primary skill icon when available, filled with the default Citation text color.
-- Keep the expired icon wrapper transparent so the default surface background does not read as a white icon.
+
+If a linked skill has known brand color metadata but no available logo, use the brand color as a Citation border accent instead of changing the text color.
 
 **Superseding user decision:** Certifications wrap naturally within the roadmap node using normal flex wrapping; there is no items-per-row setting. When a node has at least one certification, its roadmap height estimate reserves one fixed certification-section allowance.
 
