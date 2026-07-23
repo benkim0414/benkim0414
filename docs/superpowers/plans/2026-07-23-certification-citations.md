@@ -16,8 +16,8 @@
 - Use Astryx `Citation` in `variant="label"` mode for certifications.
 - Certification data uses `skills: readonly string[]` because a certification can link to multiple skills.
 - Use the first linked skill with known brand metadata as the primary certification icon and color.
-- Active certifications use the primary skill brand color as filled treatment.
-- Expired certifications use neutral fill and the primary skill brand color for border/icon/accent only.
+- Active certifications keep the default Astryx Citation surface and border, but use the primary skill brand color for citation text and logo.
+- Expired certifications use default Astryx Citation colors without branded styling or a custom logo treatment.
 - `expiresAt` must be a full ISO 8601 date-time string with timezone offset.
 - Treat supplied expiry times as Australia/Melbourne local times.
 - Do not add certificate verification API calls, runtime PDF parsing, filtering UI, a new route, or visible expiry date text in roadmap nodes.
@@ -513,8 +513,7 @@ Append these styles near `.skill-token` in `apps/github.io/src/styles.css`:
 
 ```css
 .certification-citation {
-  --certification-citation-color: var(--color-border, rgba(15, 23, 42, 0.16));
-  --certification-citation-foreground: var(--color-text-primary);
+  --certification-citation-text: var(--color-text-primary);
 
   display: inline-flex;
   align-items: center;
@@ -525,16 +524,8 @@ Append these styles near `.skill-token` in `apps/github.io/src/styles.css`:
   max-width: 100%;
 }
 
-.certification-citation--active .certification-citation__source {
-  color: var(--certification-citation-foreground);
-  background: var(--certification-citation-color);
-  border-color: var(--certification-citation-color);
-}
-
-.certification-citation--expired .certification-citation__source {
-  color: var(--color-text-secondary);
-  background: var(--color-background-surface, var(--color-background-body));
-  border-color: var(--certification-citation-color);
+.certification-citation--branded.certification-citation--active .certification-citation__source {
+  color: var(--certification-citation-text);
 }
 ```
 

@@ -4,8 +4,6 @@ import type { CSSProperties } from 'react';
 
 import { getSkillBrand, type SkillBrand } from '../skills/skill-brand';
 
-const ASTRYX_SECONDARY_TEXT = '#737373';
-
 export interface CertificationCitationProps {
   title: string;
   url: string;
@@ -41,22 +39,12 @@ function citationStyle(
   brand: SkillBrand | undefined,
   status: 'active' | 'expired',
 ): CSSProperties | undefined {
-  if (!brand) {
+  if (!brand || status === 'expired') {
     return undefined;
   }
 
-  const background =
-    status === 'active'
-      ? brand.color
-      : 'var(--color-background-surface, var(--color-background-body))';
-  const border = brand.color;
-  const text =
-    status === 'active' ? brand.foreground : ASTRYX_SECONDARY_TEXT;
-
   return {
-    '--certification-citation-background': background,
-    '--certification-citation-border': border,
-    '--certification-citation-text': text,
+    '--certification-citation-text': brand.color,
   } as CSSProperties;
 }
 
@@ -70,16 +58,12 @@ export function CertificationCitation({
 }: CertificationCitationProps): JSX.Element {
   const primary = findPrimaryBrand(skills);
   const status = isActive(expiresAt, currentDate) ? 'active' : 'expired';
-  const iconColor =
-    status === 'active'
-      ? primary?.brand.foreground
-      : primary
-        ? ASTRYX_SECONDARY_TEXT
-        : undefined;
+  const isBranded = Boolean(primary && status === 'active');
+  const iconColor = isBranded ? primary?.brand.color : undefined;
 
   return (
     <span
-      className={`certification-citation certification-citation--${status}${primary ? ' certification-citation--branded' : ''}`}
+      className={`certification-citation certification-citation--${status}${isBranded ? ' certification-citation--branded' : ''}`}
       data-certification-primary-skill={primary?.skill}
       data-certification-status={status}
       style={citationStyle(primary?.brand, status)}
