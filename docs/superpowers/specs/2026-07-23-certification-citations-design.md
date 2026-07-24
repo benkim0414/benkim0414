@@ -120,8 +120,8 @@ Extract the Simple Icons skill lookup from `SkillToken` into a small shared help
 getSkillBrand(skill: string): {
   name: string;
   color: string;
-  iconPath: string;
-  iconDataUrl: string;
+  iconPath?: string;
+  iconDataUrl?: string;
 } | undefined
 ```
 

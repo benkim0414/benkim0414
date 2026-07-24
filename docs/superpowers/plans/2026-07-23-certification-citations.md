@@ -37,7 +37,7 @@
 
 **Interfaces:**
 - Produces:
-  - `export interface SkillBrand { name: string; color: string; foreground: string; iconPath: string; iconDataUrl: string; }`
+  - `export interface SkillBrand { name: string; color: string; foreground: string; iconPath?: string; iconDataUrl?: string; }`
   - `export function getSkillBrand(label: string): SkillBrand | undefined`
 - Consumes: selected Simple Icons imports already used by `SkillToken`.
 
@@ -120,8 +120,8 @@ export interface SkillBrand {
   name: string;
   color: string;
   foreground: string;
-  iconPath: string;
-  iconDataUrl: string;
+  iconPath?: string;
+  iconDataUrl?: string;
 }
 
 const skillIcons: Readonly<Record<string, SimpleIcon>> = {

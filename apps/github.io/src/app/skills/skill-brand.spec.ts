@@ -14,6 +14,18 @@ describe('getSkillBrand', () => {
     expect(brand?.iconDataUrl).toContain('fill%3D%22%23326CE5%22');
   });
 
+  it('returns color-only brand metadata when no logo is available', () => {
+    const brand = getSkillBrand('AWS');
+
+    expect(brand).toMatchObject({
+      name: 'AWS',
+      color: '#FF9900',
+      foreground: '#111827',
+    });
+    expect(brand?.iconPath).toBeUndefined();
+    expect(brand?.iconDataUrl).toBeUndefined();
+  });
+
   it('returns undefined for skills without Simple Icons metadata', () => {
     expect(getSkillBrand('Forward Proxy')).toBeUndefined();
   });
