@@ -1,3 +1,4 @@
+import * as stylex from '@stylexjs/stylex';
 import { Citation } from '@astryxdesign/core/Citation';
 import { VisuallyHidden } from '@astryxdesign/core/VisuallyHidden';
 import type { CSSProperties } from 'react';
@@ -5,6 +6,17 @@ import type { CSSProperties } from 'react';
 import { getSkillBrand, type SkillBrand } from '../skills/skill-brand';
 
 const ASTRYX_CITATION_LABEL_TEXT = '#737373';
+
+const styles = stylex.create({
+  root: {
+    display: 'inline-flex',
+    alignItems: 'center',
+    maxWidth: '100%',
+  },
+  source: {
+    maxWidth: '100%',
+  },
+});
 
 export interface CertificationCitationProps {
   title: string;
@@ -64,18 +76,18 @@ export function CertificationCitation({
   const status = isActive(expiresAt, currentDate) ? 'active' : 'expired';
   const iconPath = primary?.brand.iconPath;
   const hasSkillLogo = Boolean(iconPath);
-  const isBranded = Boolean(primary && !hasSkillLogo);
   const iconColor =
     status === 'active' ? primary?.brand.color : ASTRYX_CITATION_LABEL_TEXT;
 
   return (
     <span
-      className={`certification-citation certification-citation--${status}${isBranded ? ' certification-citation--branded' : ''}`}
+      {...stylex.props(styles.root)}
       data-certification-primary-skill={primary?.skill}
       data-certification-status={status}
+      data-testid="certification-citation"
     >
       <Citation
-        className="certification-citation__source"
+        className={stylex.props(styles.source).className}
         number={number}
         source={{
           title,

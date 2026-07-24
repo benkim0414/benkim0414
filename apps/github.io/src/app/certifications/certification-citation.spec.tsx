@@ -35,11 +35,17 @@ describe('CertificationCitation', () => {
       />,
     );
 
-    const wrapper = container.querySelector('.certification-citation');
+    const wrapper = container.querySelector(
+      '[data-testid="certification-citation"]',
+    );
 
-    expect(wrapper?.getAttribute('data-certification-primary-skill')).toBe('Kubernetes');
+    expect(wrapper?.getAttribute('data-certification-primary-skill')).toBe(
+      'Kubernetes',
+    );
     expect(wrapper?.getAttribute('style')).toBeNull();
-    expect(container.querySelector('img')?.getAttribute('src')).toContain('data:image/svg+xml;utf8,');
+    expect(container.querySelector('img')?.getAttribute('src')).toContain(
+      'data:image/svg+xml;utf8,',
+    );
   });
 
   it('uses secondary text color and brand color logo for active certifications', () => {
@@ -53,13 +59,16 @@ describe('CertificationCitation', () => {
       />,
     );
 
-    const wrapper = container.querySelector('.certification-citation');
+    const wrapper = container.querySelector(
+      '[data-testid="certification-citation"]',
+    );
     const citation = getByRole('doc-noteref', { name: 'Citation 1: CKA' });
     const icon = container.querySelector('img');
 
     expect(wrapper?.getAttribute('style')).toBeNull();
-    expect(wrapper?.classList.contains('certification-citation--branded')).toBe(false);
-    expect(citation.getAttribute('style')).toContain('color: rgb(115, 115, 115)');
+    expect(citation.getAttribute('style')).toContain(
+      'color: rgb(115, 115, 115)',
+    );
     expect(icon?.getAttribute('src')).toContain('fill%3D%22%23326CE5%22');
   });
 
@@ -74,13 +83,16 @@ describe('CertificationCitation', () => {
       />,
     );
 
-    const wrapper = container.querySelector('.certification-citation');
+    const wrapper = container.querySelector(
+      '[data-testid="certification-citation"]',
+    );
     const citation = getByRole('doc-noteref', { name: 'Citation 1: KCNA' });
     const icon = container.querySelector('img');
 
     expect(wrapper?.getAttribute('style')).toBeNull();
-    expect(wrapper?.classList.contains('certification-citation--branded')).toBe(false);
-    expect(citation.getAttribute('style')).toContain('color: rgb(115, 115, 115)');
+    expect(citation.getAttribute('style')).toContain(
+      'color: rgb(115, 115, 115)',
+    );
     expect(icon?.getAttribute('src')).toContain('data:image/svg+xml;utf8,');
     expect(icon?.getAttribute('src')).toContain('fill%3D%22%23737373%22');
   });
@@ -96,12 +108,17 @@ describe('CertificationCitation', () => {
       />,
     );
 
-    const wrapper = container.querySelector('.certification-citation');
+    const wrapper = container.querySelector(
+      '[data-testid="certification-citation"]',
+    );
     const citation = getByRole('doc-noteref', { name: 'Citation 1: AWS Cert' });
 
-    expect(wrapper?.getAttribute('data-certification-primary-skill')).toBe('AWS');
-    expect(wrapper?.classList.contains('certification-citation--branded')).toBe(true);
-    expect(citation.getAttribute('style')).toContain('color: rgb(115, 115, 115)');
+    expect(wrapper?.getAttribute('data-certification-primary-skill')).toBe(
+      'AWS',
+    );
+    expect(citation.getAttribute('style')).toContain(
+      'color: rgb(115, 115, 115)',
+    );
     expect(citation.getAttribute('style')).toContain('border-color: #ff9900');
     expect(container.querySelector('img')).toBeNull();
   });
@@ -117,7 +134,11 @@ describe('CertificationCitation', () => {
       />,
     );
 
-    expect(container.querySelector('.certification-citation')?.getAttribute('data-certification-status')).toBe('active');
+    expect(
+      container
+        .querySelector('[data-testid="certification-citation"]')
+        ?.getAttribute('data-certification-status'),
+    ).toBe('active');
     expect(getByText('Active certification')).toBeTruthy();
   });
 
@@ -132,7 +153,11 @@ describe('CertificationCitation', () => {
       />,
     );
 
-    expect(container.querySelector('.certification-citation')?.getAttribute('data-certification-status')).toBe('expired');
+    expect(
+      container
+        .querySelector('[data-testid="certification-citation"]')
+        ?.getAttribute('data-certification-status'),
+    ).toBe('expired');
     expect(getByText('Expired certification')).toBeTruthy();
   });
 
@@ -147,11 +172,14 @@ describe('CertificationCitation', () => {
       />,
     );
 
-    const wrapper = container.querySelector('.certification-citation');
+    const wrapper = container.querySelector(
+      '[data-testid="certification-citation"]',
+    );
 
-    expect(wrapper?.getAttribute('data-certification-primary-skill')).toBeNull();
+    expect(
+      wrapper?.getAttribute('data-certification-primary-skill'),
+    ).toBeNull();
     expect(wrapper?.getAttribute('style')).toBeNull();
-    expect(wrapper?.classList.contains('certification-citation--branded')).toBe(false);
     expect(container.querySelector('img')).toBeNull();
   });
 });

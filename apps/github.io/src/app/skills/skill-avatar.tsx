@@ -22,7 +22,7 @@ function svgDataUrl(content: string) {
 
 function simpleIconSource(icon: SimpleIcon) {
   return svgDataUrl(
-    `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><title>${icon.title}</title><path fill="#${icon.hex}" d="${icon.path}"/></svg>`
+    `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><title>${icon.title}</title><path fill="#${icon.hex}" d="${icon.path}"/></svg>`,
   );
 }
 
@@ -49,7 +49,7 @@ function skillAvatarPresentation(iconSlug: string) {
 export function SkillAvatar({ skill }: SkillAvatarProps) {
   return (
     <Avatar
-      className="skill-avatar"
+      className="flex-none"
       name={skill.name}
       src={skillAvatarPresentation(skill.iconSlug)}
     />

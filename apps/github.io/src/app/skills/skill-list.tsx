@@ -18,21 +18,21 @@ export function SkillList({
       {heading}
     </VisuallyHidden>
   ) : (
-    <h2 className="skill-list__heading" id={headingId}>
+    <h2 className="m-0 text-2xl" id={headingId}>
       {heading}
     </h2>
   );
 
   return (
-    <section className="skill-list" aria-labelledby={headingId}>
+    <section className="grid gap-4" aria-labelledby={headingId}>
       {skills.length === 0 ? (
         <>
-          <div className="skill-list__header">{headingElement}</div>
+          <div className="grid gap-3">{headingElement}</div>
           <EmptyState headingLevel={3} isCompact title={emptyMessage} />
         </>
       ) : (
         <List
-          className="skill-list__items"
+          className="w-full"
           density="compact"
           hasDividers
           header={headingElement}
