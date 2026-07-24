@@ -1,3 +1,4 @@
+import { HStack } from '@astryxdesign/core/Layout';
 import { ListItem } from '@astryxdesign/core/List';
 
 import { SkillAvatar } from './skill-avatar';
@@ -12,15 +13,13 @@ interface SkillListItemProps {
 export function SkillListItem({ skill }: SkillListItemProps) {
   return (
     <ListItem
-      endContent={<SkillRating level={skill.level} />}
-      label={
-        <div className="flex min-w-0 max-w-full flex-1 items-center gap-2 max-[640px]:flex-col max-[640px]:items-start">
-          <span className="block min-w-0 max-w-full flex-1 overflow-hidden text-ellipsis whitespace-nowrap font-bold max-[640px]:w-full">
-            {skill.name}
-          </span>
+      endContent={
+        <HStack gap={2} vAlign="center">
           <SkillCategory name={skill.category} />
-        </div>
+          <SkillRating level={skill.level} />
+        </HStack>
       }
+      label={skill.name}
       startContent={<SkillAvatar skill={skill} />}
     />
   );
