@@ -1,4 +1,5 @@
 import { useMemo, useState } from 'react';
+import { VStack } from '@astryxdesign/core/Layout';
 import type { PowerSearchFilter } from '@astryxdesign/core/PowerSearch';
 
 import { SkillList } from './skill-list';
@@ -18,14 +19,12 @@ export function SkillSection({
   );
 
   return (
-    <div className="grid gap-4">
-      <div className="w-full">
-        <SkillSearch
-          filters={filters}
-          onFiltersChange={setFilters}
-          resultCount={filteredSkills.length}
-        />
-      </div>
+    <VStack gap={2}>
+      <SkillSearch
+        filters={filters}
+        onFiltersChange={setFilters}
+        resultCount={filteredSkills.length}
+      />
 
       <SkillList
         emptyMessage={
@@ -35,6 +34,6 @@ export function SkillSection({
         isHeadingHidden={isHeadingHidden}
         skills={filteredSkills}
       />
-    </div>
+    </VStack>
   );
 }

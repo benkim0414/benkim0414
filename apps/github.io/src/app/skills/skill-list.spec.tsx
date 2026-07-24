@@ -9,7 +9,8 @@ describe('SkillList', () => {
       <SkillList skills={sampleSkills} />
     );
 
-    expect(getByRole('list', { name: 'Skills' })).toBeTruthy();
+    expect(getByRole('region', { name: 'Skills' })).toBeTruthy();
+    expect(getByRole('list')).toBeTruthy();
     expect(getByText('TypeScript')).toBeTruthy();
     expect(getByText('Language')).toBeTruthy();
     expect(getAllByText('5 out of 5')).not.toHaveLength(0);
@@ -38,24 +39,21 @@ describe('SkillList', () => {
     );
 
     const sections = getAllByRole('region');
-    const headings = getAllByRole('heading');
 
-    expect(sections[0].getAttribute('aria-labelledby')).toBe(headings[0].id);
-    expect(sections[1].getAttribute('aria-labelledby')).toBe(headings[1].id);
-    expect(headings[0].id).not.toBe(headings[1].id);
+    expect(sections[0].getAttribute('aria-label')).toBe('Frontend skills');
+    expect(sections[1].getAttribute('aria-label')).toBe('Platform skills');
   });
 
-  it('can hide its visible heading while keeping the region accessible', () => {
-    const { getByRole } = render(
-      <SkillList heading="Skills" isHeadingHidden skills={sampleSkills} />
+  it('does not render a visible heading inside the list region', () => {
+    const { getByRole, queryByRole } = render(
+      <SkillList heading="Skills" skills={sampleSkills} />
     );
 
     const region = getByRole('region', { name: 'Skills' });
-    const list = getByRole('list', { name: 'Skills' });
-    const heading = getByRole('heading', { level: 2, name: 'Skills' });
+    const list = getByRole('list');
 
-    expect(region.getAttribute('aria-labelledby')).toBe(heading.id);
-    expect(list.getAttribute('aria-labelledby')).toBeTruthy();
-    expect(heading.closest('span')).toBeNull();
+    expect(region).toBeTruthy();
+    expect(list.getAttribute('aria-labelledby')).toBeNull();
+    expect(queryByRole('heading', { level: 2, name: 'Skills' })).toBeNull();
   });
 });
