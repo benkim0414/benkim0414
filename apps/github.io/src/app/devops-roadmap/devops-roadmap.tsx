@@ -76,7 +76,12 @@ export function DevOpsRoadmap({
   );
 
   return (
-    <div aria-label={ariaLabel} className="devops-roadmap__flow" role="group" style={{ height }}>
+    <div
+      aria-label={ariaLabel}
+      className="devops-roadmap__flow w-full min-w-0"
+      role="group"
+      style={{ height }}
+    >
       <ReactFlow
         colorMode="light"
         disableKeyboardA11y

@@ -26,58 +26,6 @@ a {
   text-decoration: none;
 }
 
-.devops-roadmap-node {
-  display: grid;
-  align-content: start;
-  gap: var(--spacing-3);
-  width: min(100%, 320px);
-  min-height: 148px;
-  padding: var(--spacing-4);
-  color: var(--color-text-primary);
-  background: var(--color-background-surface, var(--color-background-body));
-  border: 1px solid var(--color-border-subtle, rgba(15, 23, 42, 0.16));
-  border-radius: var(--radius-2, 8px);
-  box-shadow: var(--shadow-xs, 0 1px 2px rgba(15, 23, 42, 0.08));
-}
-
-.devops-roadmap-node__title {
-  margin: 0;
-  font-size: var(--font-size-lg);
-  line-height: var(--line-height-tight);
-}
-
-.devops-roadmap-node__skills {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--spacing-2);
-  padding: 0;
-  margin: 0;
-  list-style: none;
-}
-
-.devops-roadmap-node__skill {
-  display: inline-flex;
-}
-
-.devops-roadmap-node__certifications {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--spacing-2);
-  padding: 0;
-  margin: 0;
-  list-style: none;
-}
-
-.devops-roadmap-node__certification {
-  display: inline-flex;
-  max-width: 100%;
-}
-
-.devops-roadmap__flow {
-  width: 100%;
-  min-width: 0;
-}
-
 .devops-roadmap__flow .react-flow__node {
   width: min(100%, 320px);
 }
@@ -90,11 +38,4 @@ a {
 .devops-roadmap__flow .react-flow__edge-path {
   stroke: var(--color-border-strong, var(--color-text-secondary));
   stroke-width: 2;
-}
-
-@media (max-width: 640px) {
-  .devops-roadmap-node {
-    width: min(100%, 280px);
-    padding: var(--spacing-3);
-  }
 }
