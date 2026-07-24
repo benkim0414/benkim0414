@@ -1,5 +1,13 @@
 import * as stylex from '@stylexjs/stylex';
 import { Handle, Position } from '@xyflow/react';
+import {
+  borderVars,
+  colorVars,
+  radiusVars,
+  shadowVars,
+  spacingVars,
+  typeScaleVars,
+} from '@astryxdesign/core/theme/tokens.stylex';
 
 import { CertificationCitation } from '../certifications/certification-citation';
 import { SkillToken } from '../skills/skill-token';
@@ -13,33 +21,33 @@ const styles = stylex.create({
   root: {
     display: 'grid',
     alignContent: 'start',
-    gap: 'var(--spacing-3)',
+    gap: spacingVars['--spacing-3'],
     width: {
-      default: 'min(100%, 320px)',
-      '@media (max-width: 640px)': 'min(100%, 280px)',
+      default: `min(100%, calc(${spacingVars['--spacing-10']} * 8))`,
+      '@media (max-width: 640px)': `min(100%, calc(${spacingVars['--spacing-10']} * 7))`,
     },
-    minHeight: 148,
+    minHeight: `calc(${spacingVars['--spacing-12']} * 3 + ${spacingVars['--spacing-1']})`,
     padding: {
-      default: 'var(--spacing-4)',
-      '@media (max-width: 640px)': 'var(--spacing-3)',
+      default: spacingVars['--spacing-4'],
+      '@media (max-width: 640px)': spacingVars['--spacing-3'],
     },
-    color: 'var(--color-text-primary)',
-    backgroundColor: 'var(--color-background-surface, var(--color-background-body))',
-    borderWidth: 1,
+    color: colorVars['--color-text-primary'],
+    backgroundColor: colorVars['--color-background-surface'],
+    borderWidth: borderVars['--border-width'],
     borderStyle: 'solid',
-    borderColor: 'var(--color-border-subtle, rgba(15, 23, 42, 0.16))',
-    borderRadius: 'var(--radius-2, 8px)',
-    boxShadow: 'var(--shadow-xs, 0 1px 2px rgba(15, 23, 42, 0.08))',
+    borderColor: colorVars['--color-border'],
+    borderRadius: radiusVars['--radius-element'],
+    boxShadow: shadowVars['--shadow-low'],
   },
   title: {
     margin: 0,
-    fontSize: 'var(--font-size-lg)',
-    lineHeight: 'var(--line-height-tight)',
+    fontSize: typeScaleVars['--text-heading-3-size'],
+    lineHeight: typeScaleVars['--text-heading-3-leading'],
   },
   list: {
     display: 'flex',
     flexWrap: 'wrap',
-    gap: 'var(--spacing-2)',
+    gap: spacingVars['--spacing-2'],
     padding: 0,
     margin: 0,
     listStyle: 'none',
@@ -62,7 +70,11 @@ export function DevOpsRoadmapNode({ item }: DevOpsRoadmapNodeProps) {
       />
       <h3 {...stylex.props(styles.title)}>{item.title}</h3>
       {item.skills.length > 0 ? (
-        <ul {...stylex.props(styles.list)} aria-label={`${item.title} skills`} data-roadmap-node-skills>
+        <ul
+          {...stylex.props(styles.list)}
+          aria-label={`${item.title} skills`}
+          data-roadmap-node-skills
+        >
           {item.skills.map((skill) => (
             <li {...stylex.props(styles.listItem)} key={skill}>
               <SkillToken label={skill} />

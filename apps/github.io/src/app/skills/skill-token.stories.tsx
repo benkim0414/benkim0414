@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
+import { HStack } from '@astryxdesign/core/Layout';
 
 import { SkillToken } from './skill-token';
 
@@ -24,17 +25,11 @@ export const TextOnly: Story = {
 
 export const ContrastExamples: Story = {
   render: () => (
-    <div
-      style={{
-        display: 'flex',
-        flexWrap: 'wrap',
-        gap: 'var(--spacing-2)',
-      }}
-    >
+    <HStack gap={2} wrap="wrap">
       <SkillToken label="Docker" />
       <SkillToken label="GitLab CI" />
       <SkillToken label="GitHub" />
       <SkillToken label="Forward Proxy" />
-    </div>
+    </HStack>
   ),
 };
