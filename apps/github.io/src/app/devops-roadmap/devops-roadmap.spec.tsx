@@ -163,7 +163,7 @@ describe('devOpsRoadmapItems', () => {
 
 describe('DevOpsRoadmapNode', () => {
   it('renders the core node title and purple-ticked skill tokens', () => {
-    const { getByTestId, getByText } = render(
+    const { getByRole, getByTestId } = render(
       <DevOpsRoadmapNode
         item={{
           id: 'containers',
@@ -173,7 +173,7 @@ describe('DevOpsRoadmapNode', () => {
       />
     );
 
-    expect(getByText('Containers')).toBeTruthy();
+    expect(getByRole('article', { name: 'Containers' })).toBeTruthy();
     expect(getByTestId('skill-token-Docker')).toBeTruthy();
   });
 
@@ -189,7 +189,7 @@ describe('DevOpsRoadmapNode', () => {
     );
 
     expect(getByText('Cloud Design Patterns')).toBeTruthy();
-    expect(container.querySelector('.devops-roadmap-node__skills')).toBeNull();
+    expect(container.querySelector('[data-roadmap-node-skills]')).toBeNull();
   });
 
   it('renders certification citations below skill tokens', () => {
@@ -213,7 +213,9 @@ describe('DevOpsRoadmapNode', () => {
 
     expect(getByTestId('skill-token-Kubernetes')).toBeTruthy();
     expect(getByTestId('certification-citation-CKA')).toBeTruthy();
-    expect(container.querySelector('.devops-roadmap-node__skills + .devops-roadmap-node__certifications')).toBeTruthy();
+    expect(
+      container.querySelector('[data-roadmap-node-skills] + [data-roadmap-node-certifications]')
+    ).toBeTruthy();
   });
 
   it('renders hidden target and source handles for timeline edges', () => {
