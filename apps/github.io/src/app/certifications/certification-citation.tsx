@@ -1,5 +1,9 @@
 import * as stylex from '@stylexjs/stylex';
 import { Citation } from '@astryxdesign/core/Citation';
+import {
+  radiusVars,
+  spacingVars,
+} from '@astryxdesign/core/theme/tokens.stylex';
 import { VisuallyHidden } from '@astryxdesign/core/VisuallyHidden';
 
 import { getSkillBrand } from '../skills/skill-brand';
@@ -11,6 +15,10 @@ const styles = stylex.create({
     display: 'inline-flex',
     alignItems: 'center',
     maxWidth: '100%',
+  },
+  sourceWithIcon: {
+    borderRadius: radiusVars['--radius-element'],
+    paddingInlineStart: spacingVars['--spacing-0-5'],
   },
 });
 
@@ -78,6 +86,7 @@ export function CertificationCitation({
               : undefined,
         }}
         variant="label"
+        xstyle={hasSkillLogo && styles.sourceWithIcon}
       />
       <VisuallyHidden>
         {status === 'active' ? 'Active certification' : 'Expired certification'}
