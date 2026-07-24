@@ -1,7 +1,6 @@
 import * as stylex from '@stylexjs/stylex';
 import { Citation } from '@astryxdesign/core/Citation';
 import { VisuallyHidden } from '@astryxdesign/core/VisuallyHidden';
-import type { CSSProperties } from 'react';
 
 import { getSkillBrand } from '../skills/skill-brand';
 
@@ -11,9 +10,6 @@ const styles = stylex.create({
   root: {
     display: 'inline-flex',
     alignItems: 'center',
-    maxWidth: '100%',
-  },
-  source: {
     maxWidth: '100%',
   },
 });
@@ -49,12 +45,6 @@ function iconDataUrl(iconPath: string, color: string) {
   return `data:image/svg+xml;utf8,${encodeURIComponent(svg)}`;
 }
 
-function citationSourceStyle(): CSSProperties {
-  return {
-    color: ASTRYX_CITATION_LABEL_TEXT,
-  };
-}
-
 export function CertificationCitation({
   title,
   url,
@@ -87,9 +77,7 @@ export function CertificationCitation({
               ? iconDataUrl(iconPath, iconColor)
               : undefined,
         }}
-        style={citationSourceStyle()}
         variant="label"
-        xstyle={styles.source}
       />
       <VisuallyHidden>
         {status === 'active' ? 'Active certification' : 'Expired certification'}
