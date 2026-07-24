@@ -69,7 +69,7 @@ describe('CertificationCitation', () => {
     expect(citation.getAttribute('style')).toContain(
       'color: rgb(115, 115, 115)',
     );
-    expect(citation.getAttribute('style')).toContain('border-color: #326ce5');
+    expect(citation.getAttribute('style')).not.toContain('border-color');
     expect(icon?.getAttribute('src')).toContain('fill%3D%22%23326CE5%22');
   });
 
@@ -98,7 +98,7 @@ describe('CertificationCitation', () => {
     expect(icon?.getAttribute('src')).toContain('fill%3D%22%23737373%22');
   });
 
-  it('uses brand color as a Citation border accent when no skill logo is available', () => {
+  it('keeps Citation border styling with Astryx instead of brand color', () => {
     const { container, getByRole } = render(
       <CertificationCitation
         currentDate={new Date('2026-07-23T00:00:00+10:00')}
@@ -120,7 +120,7 @@ describe('CertificationCitation', () => {
     expect(citation.getAttribute('style')).toContain(
       'color: rgb(115, 115, 115)',
     );
-    expect(citation.getAttribute('style')).toContain('border-color: #ff9900');
+    expect(citation.getAttribute('style')).not.toContain('border-color');
     expect(container.querySelector('img')).toBeNull();
   });
 
