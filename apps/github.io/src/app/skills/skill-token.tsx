@@ -1,4 +1,5 @@
 import * as stylex from '@stylexjs/stylex';
+import { Token } from '@astryxdesign/core/Token';
 import type { CSSProperties } from 'react';
 
 import { getSkillBrand, type SkillBrand } from './skill-brand';
@@ -9,30 +10,15 @@ export interface SkillTokenProps {
 }
 
 const styles = stylex.create({
-  root: {
-    display: 'inline-flex',
-    alignItems: 'center',
-    maxWidth: '100%',
-    minHeight: 'var(--spacing-5)',
-    gap: 'var(--spacing-1)',
-    paddingBlock: 0,
-    paddingInline: 'var(--spacing-2)',
+  brandToken: {
     color: 'var(--skill-token-foreground, var(--color-purple-700, #5b2bd6))',
     backgroundColor:
       'var(--skill-token-background, var(--color-purple-100, #eee7ff))',
-    borderRadius: 'var(--radius-full, 999px)',
-    fontSize: 'var(--text-supporting-size, 0.75rem)',
-    fontWeight: 'var(--font-weight-medium, 500)',
-    lineHeight: 'var(--text-supporting-leading, 1rem)',
   },
   icon: {
     flex: '0 0 auto',
     width: '0.875rem',
     height: '0.875rem',
-  },
-  label: {
-    minWidth: 0,
-    overflowWrap: 'anywhere',
   },
 });
 
@@ -52,24 +38,25 @@ export function SkillToken({ label }: SkillTokenProps): JSX.Element {
   const hasIcon = Boolean(brand?.iconPath);
 
   return (
-    <span
-      {...stylex.props(styles.root)}
-      data-has-icon={String(hasIcon)}
+    <Token
+      color="purple"
       data-testid="skill-token"
-      data-token-color={hasIcon ? brand?.color : undefined}
+      icon={
+        brand?.iconPath ? (
+          <svg
+            aria-hidden="true"
+            {...stylex.props(styles.icon)}
+            focusable="false"
+            viewBox="0 0 24 24"
+          >
+            <path d={brand.iconPath} fill="currentColor" />
+          </svg>
+        ) : undefined
+      }
+      label={label}
+      size="sm"
       style={tokenStyle(brand)}
-    >
-      {brand?.iconPath ? (
-        <svg
-          aria-hidden="true"
-          {...stylex.props(styles.icon)}
-          focusable="false"
-          viewBox="0 0 24 24"
-        >
-          <path d={brand.iconPath} fill="currentColor" />
-        </svg>
-      ) : null}
-      <span {...stylex.props(styles.label)}>{label}</span>
-    </span>
+      xstyle={hasIcon ? styles.brandToken : undefined}
+    />
   );
 }
