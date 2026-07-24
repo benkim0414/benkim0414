@@ -69,6 +69,7 @@ describe('CertificationCitation', () => {
     expect(citation.getAttribute('style')).toContain(
       'color: rgb(115, 115, 115)',
     );
+    expect(citation.getAttribute('style')).toContain('border-color: #326ce5');
     expect(icon?.getAttribute('src')).toContain('fill%3D%22%23326CE5%22');
   });
 
