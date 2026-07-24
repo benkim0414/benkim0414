@@ -10,7 +10,7 @@ export function AppShell() {
     <Theme theme={neutralTheme}>
       <main
         aria-labelledby="skills-page-title"
-        className="mx-auto w-[min(calc(100%_-_32px),960px)] pt-[clamp(var(--spacing-5),5vw,var(--spacing-10))] pb-8"
+        className="mx-auto w-full max-w-[60rem] px-4 pt-[clamp(var(--spacing-5),5vw,var(--spacing-10))] pb-8"
       >
         <VisuallyHidden as="h1" id="skills-page-title">
           Skills

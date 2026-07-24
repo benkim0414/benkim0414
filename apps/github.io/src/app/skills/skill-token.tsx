@@ -1,5 +1,6 @@
 import * as stylex from '@stylexjs/stylex';
 import { Token } from '@astryxdesign/core/Token';
+import { colorVars, spacingVars } from '@astryxdesign/core/theme/tokens.stylex';
 import type { CSSProperties } from 'react';
 
 import { getSkillBrand, type SkillBrand } from './skill-brand';
@@ -11,14 +12,13 @@ export interface SkillTokenProps {
 
 const styles = stylex.create({
   brandToken: {
-    color: 'var(--skill-token-foreground, var(--color-purple-700, #5b2bd6))',
-    backgroundColor:
-      'var(--skill-token-background, var(--color-purple-100, #eee7ff))',
+    color: `var(--skill-token-foreground, ${colorVars['--color-text-purple']})`,
+    backgroundColor: `var(--skill-token-background, ${colorVars['--color-background-purple']})`,
   },
   icon: {
     flex: '0 0 auto',
-    width: '0.875rem',
-    height: '0.875rem',
+    width: spacingVars['--spacing-3'],
+    height: spacingVars['--spacing-3'],
   },
 });
 
