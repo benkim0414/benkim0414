@@ -7,9 +7,9 @@ problem_type: best_practice
 component: tooling
 severity: medium
 applies_when:
-  - "Migrating github.io React components to Astryx, StyleX, and Tailwind"
-  - "Choosing between Astryx base components, StyleX overrides, Tailwind utilities, and global CSS"
-  - "Fixing spacing, radius, color, or wrapper styling drift in Astryx-based UI"
+  - 'Migrating github.io React components to Astryx, StyleX, and Tailwind'
+  - 'Choosing between Astryx base components, StyleX overrides, Tailwind utilities, and global CSS'
+  - 'Fixing spacing, radius, color, or wrapper styling drift in Astryx-based UI'
 related_components:
   - github.io Astryx Foundation
   - github.io skill components
