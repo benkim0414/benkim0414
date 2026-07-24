@@ -66,10 +66,7 @@ describe('CertificationCitation', () => {
     const icon = container.querySelector('img');
 
     expect(wrapper?.getAttribute('style')).toBeNull();
-    expect(citation.getAttribute('style')).toContain(
-      'color: rgb(115, 115, 115)',
-    );
-    expect(citation.getAttribute('style')).not.toContain('border-color');
+    expect(citation.getAttribute('style')).toBeNull();
     expect(icon?.getAttribute('src')).toContain('fill%3D%22%23326CE5%22');
   });
 
@@ -91,9 +88,7 @@ describe('CertificationCitation', () => {
     const icon = container.querySelector('img');
 
     expect(wrapper?.getAttribute('style')).toBeNull();
-    expect(citation.getAttribute('style')).toContain(
-      'color: rgb(115, 115, 115)',
-    );
+    expect(citation.getAttribute('style')).toBeNull();
     expect(icon?.getAttribute('src')).toContain('data:image/svg+xml;utf8,');
     expect(icon?.getAttribute('src')).toContain('fill%3D%22%23737373%22');
   });
@@ -117,10 +112,7 @@ describe('CertificationCitation', () => {
     expect(wrapper?.getAttribute('data-certification-primary-skill')).toBe(
       'AWS',
     );
-    expect(citation.getAttribute('style')).toContain(
-      'color: rgb(115, 115, 115)',
-    );
-    expect(citation.getAttribute('style')).not.toContain('border-color');
+    expect(citation.getAttribute('style')).toBeNull();
     expect(container.querySelector('img')).toBeNull();
   });
 
