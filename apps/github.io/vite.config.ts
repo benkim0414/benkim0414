@@ -1,6 +1,7 @@
 /// <reference types='vitest' />
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
+import stylex from '@stylexjs/unplugin';
 import { nxViteTsPaths } from '@nx/vite/plugins/nx-tsconfig-paths.plugin';
 
 export default defineConfig({
@@ -17,7 +18,18 @@ export default defineConfig({
     host: 'localhost',
   },
 
-  plugins: [react(), nxViteTsPaths()],
+  plugins: [
+    stylex.vite({
+      useCSSLayers: {
+        before: ['reset', 'theme', 'base', 'astryx-base', 'astryx-theme'],
+        after: ['utilities'],
+        prefix: 'stylex',
+      },
+      sxPropName: false,
+    }),
+    react(),
+    nxViteTsPaths(),
+  ],
 
   // Uncomment this if you are using workers.
   // worker: {
