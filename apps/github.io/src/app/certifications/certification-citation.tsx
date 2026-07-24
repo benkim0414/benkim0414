@@ -8,8 +8,6 @@ import { VisuallyHidden } from '@astryxdesign/core/VisuallyHidden';
 
 import { getSkillBrand } from '../skills/skill-brand';
 
-const ASTRYX_CITATION_LABEL_TEXT = '#737373';
-
 const styles = stylex.create({
   root: {
     display: 'inline-flex',
@@ -65,8 +63,6 @@ export function CertificationCitation({
   const status = isActive(expiresAt, currentDate) ? 'active' : 'expired';
   const iconPath = primary?.brand.iconPath;
   const hasSkillLogo = Boolean(iconPath);
-  const iconColor =
-    status === 'active' ? primary?.brand.color : ASTRYX_CITATION_LABEL_TEXT;
 
   return (
     <span
@@ -81,8 +77,8 @@ export function CertificationCitation({
           title,
           url,
           icon:
-            iconPath && iconColor
-              ? iconDataUrl(iconPath, iconColor)
+            iconPath && primary?.brand.color
+              ? iconDataUrl(iconPath, primary.brand.color)
               : undefined,
         }}
         variant="label"

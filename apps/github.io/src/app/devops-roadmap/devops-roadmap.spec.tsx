@@ -22,7 +22,11 @@ vi.mock('../certifications/certification-citation', () => ({
     title: string;
     number?: number;
   }) => (
-    <a data-certification-number={number} data-testid={`certification-citation-${title}`} href={`#${title}`}>
+    <a
+      data-certification-number={number}
+      data-testid={`certification-citation-${title}`}
+      href={`#${title}`}
+    >
       {title}
     </a>
   ),
@@ -30,8 +34,20 @@ vi.mock('../certifications/certification-citation', () => ({
 
 vi.mock('@xyflow/react', () => ({
   Background: () => <div data-testid="react-flow-background" />,
-  Handle: ({ id, position, type }: { id: string; position: string; type: string }) => (
-    <div data-handle-position={position} data-handle-type={type} data-testid={`handle-${id}`} />
+  Handle: ({
+    id,
+    position,
+    type,
+  }: {
+    id: string;
+    position: string;
+    type: string;
+  }) => (
+    <div
+      data-handle-position={position}
+      data-handle-type={type}
+      data-testid={`handle-${id}`}
+    />
   ),
   Position: {
     Bottom: 'bottom',
@@ -52,9 +68,25 @@ vi.mock('@xyflow/react', () => ({
     fitView,
     children,
   }: {
-    nodes: Array<{ id: string; data: { item: { title: string } }; position: { y: number } }>;
+    nodes: Array<{
+      id: string;
+      data: { item: { title: string } };
+      position: { y: number };
+    }>;
     edges: Array<{ id: string }>;
-    nodeTypes: Record<string, (props: { data: { item: { id: string; title: string; skills: readonly string[]; certifications?: readonly unknown[] } } }) => ReactNode>;
+    nodeTypes: Record<
+      string,
+      (props: {
+        data: {
+          item: {
+            id: string;
+            title: string;
+            skills: readonly string[];
+            certifications?: readonly unknown[];
+          };
+        };
+      }) => ReactNode
+    >;
     nodesDraggable: boolean;
     nodesConnectable: boolean;
     elementsSelectable: boolean;
@@ -72,7 +104,9 @@ vi.mock('@xyflow/react', () => ({
       data-elements-selectable={String(elementsSelectable)}
       data-fit-view={String(fitView)}
       data-node-count={nodes.length}
-      data-node-positions={nodes.map((node) => `${node.id}:${node.position.y}`).join('|')}
+      data-node-positions={nodes
+        .map((node) => `${node.id}:${node.position.y}`)
+        .join('|')}
       data-nodes-connectable={String(nodesConnectable)}
       data-nodes-draggable={String(nodesDraggable)}
       data-nodes-focusable={String(nodesFocusable)}
@@ -123,18 +157,24 @@ describe('devOpsRoadmapItems', () => {
       title: 'Learn a Programming Language',
       skills: ['Python', 'Go'],
     });
-    expect(devOpsRoadmapItems.find((item) => item.id === 'containers')).toMatchObject({
+    expect(
+      devOpsRoadmapItems.find((item) => item.id === 'containers'),
+    ).toMatchObject({
       title: 'Containers',
       skills: ['Docker'],
     });
-    expect(devOpsRoadmapItems.find((item) => item.id === 'application-monitoring')).toMatchObject({
+    expect(
+      devOpsRoadmapItems.find((item) => item.id === 'application-monitoring'),
+    ).toMatchObject({
       title: 'Application Monitoring',
       skills: [],
     });
   });
 
   it('stores Kubernetes certifications under Container Orchestration', () => {
-    expect(devOpsRoadmapItems.find((item) => item.id === 'container-orchestration')).toMatchObject({
+    expect(
+      devOpsRoadmapItems.find((item) => item.id === 'container-orchestration'),
+    ).toMatchObject({
       title: 'Container Orchestration',
       skills: ['Kubernetes'],
       certifications: [
@@ -170,7 +210,7 @@ describe('DevOpsRoadmapNode', () => {
           title: 'Containers',
           skills: ['Docker'],
         }}
-      />
+      />,
     );
 
     expect(getByRole('article', { name: 'Containers' })).toBeTruthy();
@@ -185,7 +225,7 @@ describe('DevOpsRoadmapNode', () => {
           title: 'Cloud Design Patterns',
           skills: [],
         }}
-      />
+      />,
     );
 
     expect(getByText('Cloud Design Patterns')).toBeTruthy();
@@ -214,7 +254,9 @@ describe('DevOpsRoadmapNode', () => {
     expect(getByTestId('skill-token-Kubernetes')).toBeTruthy();
     expect(getByTestId('certification-citation-CKA')).toBeTruthy();
     expect(
-      container.querySelector('[data-roadmap-node-skills] + [data-roadmap-node-certifications]')
+      container.querySelector(
+        '[data-roadmap-node-skills] + [data-roadmap-node-certifications]',
+      ),
     ).toBeTruthy();
   });
 
@@ -226,13 +268,21 @@ describe('DevOpsRoadmapNode', () => {
           title: 'Containers',
           skills: ['Docker'],
         }}
-      />
+      />,
     );
 
-    expect(getByTestId('handle-target').getAttribute('data-handle-type')).toBe('target');
-    expect(getByTestId('handle-target').getAttribute('data-handle-position')).toBe('top');
-    expect(getByTestId('handle-source').getAttribute('data-handle-type')).toBe('source');
-    expect(getByTestId('handle-source').getAttribute('data-handle-position')).toBe('bottom');
+    expect(getByTestId('handle-target').getAttribute('data-handle-type')).toBe(
+      'target',
+    );
+    expect(
+      getByTestId('handle-target').getAttribute('data-handle-position'),
+    ).toBe('top');
+    expect(getByTestId('handle-source').getAttribute('data-handle-type')).toBe(
+      'source',
+    );
+    expect(
+      getByTestId('handle-source').getAttribute('data-handle-position'),
+    ).toBe('bottom');
   });
 });
 
@@ -241,10 +291,14 @@ describe('DevOpsRoadmap', () => {
     const { container, getByRole, getByTestId, getByText } = render(
       <DevOpsRoadmap
         items={[
-          { id: 'language', title: 'Learn a Programming Language', skills: ['Python', 'Go'] },
+          {
+            id: 'language',
+            title: 'Learn a Programming Language',
+            skills: ['Python', 'Go'],
+          },
           { id: 'containers', title: 'Containers', skills: ['Docker'] },
         ]}
-      />
+      />,
     );
 
     expect(container.querySelector('.devops-roadmap__heading')).toBeNull();
@@ -257,29 +311,47 @@ describe('DevOpsRoadmap', () => {
     expect(getByText('Docker')).toBeTruthy();
     expect(getByTestId('react-flow').getAttribute('data-node-count')).toBe('2');
     expect(getByTestId('react-flow').getAttribute('data-edge-count')).toBe('1');
-    expect(getByTestId('react-flow').getAttribute('data-nodes-draggable')).toBe('false');
-    expect(getByTestId('react-flow').getAttribute('data-nodes-connectable')).toBe('false');
-    expect(getByTestId('react-flow').getAttribute('data-elements-selectable')).toBe('false');
-    expect(getByTestId('react-flow').getAttribute('data-nodes-focusable')).toBe('false');
-    expect(getByTestId('react-flow').getAttribute('data-disable-keyboard-a11y')).toBe('true');
+    expect(getByTestId('react-flow').getAttribute('data-nodes-draggable')).toBe(
+      'false',
+    );
+    expect(
+      getByTestId('react-flow').getAttribute('data-nodes-connectable'),
+    ).toBe('false');
+    expect(
+      getByTestId('react-flow').getAttribute('data-elements-selectable'),
+    ).toBe('false');
+    expect(getByTestId('react-flow').getAttribute('data-nodes-focusable')).toBe(
+      'false',
+    );
+    expect(
+      getByTestId('react-flow').getAttribute('data-disable-keyboard-a11y'),
+    ).toBe('true');
   });
 
   it('gives the React Flow wrapper a definite timeline height', () => {
     const { container } = render(
       <DevOpsRoadmap
         items={[
-          { id: 'language', title: 'Learn a Programming Language', skills: ['Python', 'Go'] },
+          {
+            id: 'language',
+            title: 'Learn a Programming Language',
+            skills: ['Python', 'Go'],
+          },
           { id: 'containers', title: 'Containers', skills: ['Docker'] },
         ]}
-      />
+      />,
     );
 
-    const flowWrapper = container.querySelector<HTMLElement>('.devops-roadmap__flow');
-
-    expect(flowWrapper?.style.height).toBe('344px');
-    expect(container.querySelector('[data-testid="react-flow"]')?.getAttribute('data-node-positions')).toBe(
-      'language:0|containers:196'
+    const flowWrapper = container.querySelector<HTMLElement>(
+      '.devops-roadmap__flow',
     );
+
+    expect(flowWrapper?.getAttribute('style')).toBe('--x-height: 344px;');
+    expect(
+      container
+        .querySelector('[data-testid="react-flow"]')
+        ?.getAttribute('data-node-positions'),
+    ).toBe('language:0|containers:196');
   });
 
   it('reserves stable timeline space for chip-heavy nodes', () => {
@@ -300,15 +372,19 @@ describe('DevOpsRoadmap', () => {
           },
           { id: 'containers', title: 'Containers', skills: ['Docker'] },
         ]}
-      />
+      />,
     );
 
-    const flowWrapper = container.querySelector<HTMLElement>('.devops-roadmap__flow');
-
-    expect(flowWrapper?.style.height).toBe('444px');
-    expect(container.querySelector('[data-testid="react-flow"]')?.getAttribute('data-node-positions')).toBe(
-      'terminal-knowledge:0|containers:296'
+    const flowWrapper = container.querySelector<HTMLElement>(
+      '.devops-roadmap__flow',
     );
+
+    expect(flowWrapper?.getAttribute('style')).toBe('--x-height: 444px;');
+    expect(
+      container
+        .querySelector('[data-testid="react-flow"]')
+        ?.getAttribute('data-node-positions'),
+    ).toBe('terminal-knowledge:0|containers:296');
   });
 
   it('reserves stable timeline space for certification rows', () => {
@@ -342,32 +418,40 @@ describe('DevOpsRoadmap', () => {
           },
           { id: 'gitops', title: 'GitOps', skills: ['ArgoCD'] },
         ]}
-      />
+      />,
     );
 
-    const flowWrapper = container.querySelector<HTMLElement>('.devops-roadmap__flow');
-
-    expect(flowWrapper?.style.height).toBe('394px');
-    expect(container.querySelector('[data-testid="react-flow"]')?.getAttribute('data-node-positions')).toBe(
-      'container-orchestration:0|gitops:246'
+    const flowWrapper = container.querySelector<HTMLElement>(
+      '.devops-roadmap__flow',
     );
+
+    expect(flowWrapper?.getAttribute('style')).toBe('--x-height: 394px;');
+    expect(
+      container
+        .querySelector('[data-testid="react-flow"]')
+        ?.getAttribute('data-node-positions'),
+    ).toBe('container-orchestration:0|gitops:246');
   });
 
   it('preserves the default roadmap data order in the rendered timeline', () => {
     const { getAllByRole } = render(<DevOpsRoadmap />);
 
-    expect(getAllByRole('heading', { level: 3 }).map((heading) => heading.textContent)).toEqual(
-      devOpsRoadmapItems.map((item) => item.title)
-    );
+    expect(
+      getAllByRole('heading', { level: 3 }).map(
+        (heading) => heading.textContent,
+      ),
+    ).toEqual(devOpsRoadmapItems.map((item) => item.title));
   });
 
   it('can render the roadmap in reverse order without mutating source data', () => {
     const originalOrder = devOpsRoadmapItems.map((item) => item.title);
     const { getAllByRole } = render(<DevOpsRoadmap isReversed />);
 
-    expect(getAllByRole('heading', { level: 3 }).map((heading) => heading.textContent)).toEqual(
-      originalOrder.toReversed()
-    );
+    expect(
+      getAllByRole('heading', { level: 3 }).map(
+        (heading) => heading.textContent,
+      ),
+    ).toEqual(originalOrder.toReversed());
     expect(devOpsRoadmapItems.map((item) => item.title)).toEqual(originalOrder);
   });
 });

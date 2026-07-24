@@ -26,16 +26,12 @@ a {
   text-decoration: none;
 }
 
-.devops-roadmap__flow .react-flow__node {
-  width: min(100%, 320px);
-}
-
 .devops-roadmap__flow .react-flow__handle {
   opacity: 0;
   pointer-events: none;
 }
 
 .devops-roadmap__flow .react-flow__edge-path {
-  stroke: var(--color-border-strong, var(--color-text-secondary));
-  stroke-width: 2;
+  stroke: var(--color-border-emphasized);
+  stroke-width: calc(var(--border-width) * 2);
 }

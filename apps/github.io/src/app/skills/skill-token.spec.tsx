@@ -14,7 +14,7 @@ describe('SkillToken', () => {
       '--skill-token-background: #2496ED',
     );
     expect(token?.getAttribute('style')).toContain(
-      '--skill-token-foreground: #111827',
+      '--skill-token-foreground: var(--color-on-light)',
     );
     expect(icon).toBeTruthy();
     expect(icon?.getAttribute('aria-hidden')).toBe('true');
@@ -25,7 +25,7 @@ describe('SkillToken', () => {
     const token = getByText('GitLab CI').closest('[data-testid="skill-token"]');
 
     expect(token?.getAttribute('style')).toContain(
-      '--skill-token-foreground: #111827',
+      '--skill-token-foreground: var(--color-on-light)',
     );
   });
 
@@ -34,7 +34,7 @@ describe('SkillToken', () => {
     const token = getByText('GitHub').closest('[data-testid="skill-token"]');
 
     expect(token?.getAttribute('style')).toContain(
-      '--skill-token-foreground: #ffffff',
+      '--skill-token-foreground: var(--color-on-dark)',
     );
   });
 
