@@ -59,8 +59,10 @@ const skillBrandColors: Readonly<Record<string, string>> = {
   AWS: '#FF9900',
 };
 
-const ASTRYX_NEUTRAL_FOREGROUND = '#111827';
-const ASTRYX_INVERSE_FOREGROUND = '#ffffff';
+const ASTRYX_NEUTRAL_FOREGROUND = 'var(--color-on-light)';
+const ASTRYX_INVERSE_FOREGROUND = 'var(--color-on-dark)';
+const NEUTRAL_FOREGROUND_HEX = '000000';
+const INVERSE_FOREGROUND_HEX = 'FFFFFF';
 
 function relativeLuminance(hex: string) {
   const channels = [0, 2, 4].map(
@@ -87,11 +89,11 @@ function contrastRatio(firstLuminance: number, secondLuminance: number) {
 function brandForeground(hex: string) {
   const backgroundLuminance = relativeLuminance(hex);
   const neutralContrast = contrastRatio(
-    relativeLuminance(ASTRYX_NEUTRAL_FOREGROUND.slice(1)),
+    relativeLuminance(NEUTRAL_FOREGROUND_HEX),
     backgroundLuminance,
   );
   const inverseContrast = contrastRatio(
-    relativeLuminance(ASTRYX_INVERSE_FOREGROUND.slice(1)),
+    relativeLuminance(INVERSE_FOREGROUND_HEX),
     backgroundLuminance,
   );
 

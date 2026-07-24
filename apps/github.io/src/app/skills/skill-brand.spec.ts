@@ -7,7 +7,7 @@ describe('getSkillBrand', () => {
     expect(brand).toMatchObject({
       name: 'Kubernetes',
       color: '#326CE5',
-      foreground: '#ffffff',
+      foreground: 'var(--color-on-dark)',
     });
     expect(brand?.iconPath).toBeTruthy();
     expect(brand?.iconDataUrl).toContain('data:image/svg+xml;utf8,');
@@ -20,7 +20,7 @@ describe('getSkillBrand', () => {
     expect(brand).toMatchObject({
       name: 'AWS',
       color: '#FF9900',
-      foreground: '#111827',
+      foreground: 'var(--color-on-light)',
     });
     expect(brand?.iconPath).toBeUndefined();
     expect(brand?.iconDataUrl).toBeUndefined();
@@ -31,10 +31,10 @@ describe('getSkillBrand', () => {
   });
 
   it('chooses neutral text for light brand colors', () => {
-    expect(getSkillBrand('Docker')?.foreground).toBe('#111827');
+    expect(getSkillBrand('Docker')?.foreground).toBe('var(--color-on-light)');
   });
 
   it('chooses inverse text for dark brand colors', () => {
-    expect(getSkillBrand('GitHub')?.foreground).toBe('#ffffff');
+    expect(getSkillBrand('GitHub')?.foreground).toBe('var(--color-on-dark)');
   });
 });

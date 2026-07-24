@@ -1,9 +1,13 @@
 import { useMemo } from 'react';
+import * as stylex from '@stylexjs/stylex';
 import { Background, ReactFlow, type Edge, type Node } from '@xyflow/react';
 
 import { devOpsRoadmapItems } from './devops-roadmap.data';
 import { DevOpsRoadmapNode } from './devops-roadmap-node';
-import type { DevOpsRoadmapItem, DevOpsRoadmapProps } from './devops-roadmap.types';
+import type {
+  DevOpsRoadmapItem,
+  DevOpsRoadmapProps,
+} from './devops-roadmap.types';
 
 const BASE_NODE_HEIGHT = 148;
 const NODE_GAP = 48;
@@ -17,12 +21,24 @@ const nodeTypes = {
   ),
 };
 
+const styles = stylex.create({
+  flow: (height: number) => ({
+    height,
+  }),
+});
+
 function getEstimatedNodeHeight(item: DevOpsRoadmapItem) {
   const skillRows = Math.ceil(item.skills.length / SKILLS_PER_ROW);
   const extraRows = Math.max(0, skillRows - 1);
-  const certificationSectionHeight = item.certifications?.length ? CERTIFICATION_SECTION_HEIGHT : 0;
+  const certificationSectionHeight = item.certifications?.length
+    ? CERTIFICATION_SECTION_HEIGHT
+    : 0;
 
-  return BASE_NODE_HEIGHT + extraRows * EXTRA_SKILL_ROW_HEIGHT + certificationSectionHeight;
+  return (
+    BASE_NODE_HEIGHT +
+    extraRows * EXTRA_SKILL_ROW_HEIGHT +
+    certificationSectionHeight
+  );
 }
 
 function buildTimelineElements(items: readonly DevOpsRoadmapItem[]) {
@@ -68,19 +84,20 @@ export function DevOpsRoadmap({
 }: DevOpsRoadmapProps) {
   const orderedItems = useMemo(
     () => (isReversed ? [...items].reverse() : [...items]),
-    [isReversed, items]
+    [isReversed, items],
   );
   const { nodes, edges, height } = useMemo(
     () => buildTimelineElements(orderedItems),
-    [orderedItems]
+    [orderedItems],
   );
+  const flowStylexProps = stylex.props(styles.flow(height));
 
   return (
     <div
+      {...flowStylexProps}
       aria-label={ariaLabel}
-      className="devops-roadmap__flow w-full min-w-0"
+      className={`${flowStylexProps.className ?? ''} devops-roadmap__flow w-full min-w-0`}
       role="group"
-      style={{ height }}
     >
       <ReactFlow
         colorMode="light"
