@@ -10,7 +10,7 @@ describe('SkillListItem', () => {
     expect(typeScript).toBeTruthy();
 
     const { container, getByText } = render(
-      <SkillListItem skill={typeScript!} />
+      <SkillListItem skill={typeScript!} />,
     );
 
     expect(container.querySelector('img')).toBeTruthy();

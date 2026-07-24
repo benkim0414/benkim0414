@@ -8,7 +8,8 @@ import '../src/styles.css';
 
 const preview: Preview = {
   decorators: [
-    (Story) => createElement(Theme, { theme: neutralTheme }, createElement(Story)),
+    (Story) =>
+      createElement(Theme, { theme: neutralTheme }, createElement(Story)),
   ],
   parameters: {
     controls: {

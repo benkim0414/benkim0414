@@ -4,7 +4,11 @@ import { DevOpsRoadmap } from './devops-roadmap';
 import type { DevOpsRoadmapItem } from './devops-roadmap.types';
 
 const compactItems: readonly DevOpsRoadmapItem[] = [
-  { id: 'language', title: 'Learn a Programming Language', skills: ['Python', 'Go'] },
+  {
+    id: 'language',
+    title: 'Learn a Programming Language',
+    skills: ['Python', 'Go'],
+  },
   { id: 'containers', title: 'Containers', skills: ['Docker'] },
   { id: 'provisioning', title: 'Provisioning', skills: ['Terraform'] },
 ];
