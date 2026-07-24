@@ -15,6 +15,8 @@ const styles = stylex.create({
   },
   source: {
     maxWidth: '100%',
+    borderWidth: 'var(--border-width, 1px)',
+    borderStyle: 'solid',
   },
 });
 
@@ -49,15 +51,12 @@ function iconDataUrl(iconPath: string, color: string) {
   return `data:image/svg+xml;utf8,${encodeURIComponent(svg)}`;
 }
 
-function citationSourceStyle(
-  brand: SkillBrand | undefined,
-  hasSkillLogo: boolean,
-): CSSProperties {
+function citationSourceStyle(brand: SkillBrand | undefined): CSSProperties {
   const style: CSSProperties = {
     color: ASTRYX_CITATION_LABEL_TEXT,
   };
 
-  if (brand && !hasSkillLogo) {
+  if (brand) {
     style.borderColor = brand.color;
   }
 
@@ -87,7 +86,6 @@ export function CertificationCitation({
       data-testid="certification-citation"
     >
       <Citation
-        className={stylex.props(styles.source).className}
         number={number}
         source={{
           title,
@@ -97,8 +95,9 @@ export function CertificationCitation({
               ? iconDataUrl(iconPath, iconColor)
               : undefined,
         }}
-        style={citationSourceStyle(primary?.brand, hasSkillLogo)}
+        style={citationSourceStyle(primary?.brand)}
         variant="label"
+        xstyle={styles.source}
       />
       <VisuallyHidden>
         {status === 'active' ? 'Active certification' : 'Expired certification'}
