@@ -14,8 +14,10 @@ export function SkillListItem({ skill }: SkillListItemProps) {
     <ListItem
       endContent={<SkillRating level={skill.level} />}
       label={
-        <div className="skill-list__item-copy">
-          <span className="skill-list__name">{skill.name}</span>
+        <div className="flex min-w-0 max-w-full flex-1 items-center gap-2 max-[640px]:flex-col max-[640px]:items-start">
+          <span className="block min-w-0 max-w-full flex-1 overflow-hidden text-ellipsis whitespace-nowrap font-bold max-[640px]:w-full">
+            {skill.name}
+          </span>
           <SkillCategory name={skill.category} />
         </div>
       }

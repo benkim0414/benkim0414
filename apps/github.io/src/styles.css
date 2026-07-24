@@ -1,12 +1,12 @@
 @layer reset, theme, base, astryx-base, astryx-theme, stylex.priority1, stylex.priority2, utilities;
 
-@import "tailwindcss/theme.css" layer(theme);
-@import "tailwindcss/preflight.css" layer(base);
-@import "@astryxdesign/core/reset.css";
-@import "@astryxdesign/core/astryx.css";
-@import "@astryxdesign/theme-neutral/theme.css";
-@import "@astryxdesign/core/tailwind-theme.css";
-@import "tailwindcss/utilities.css" layer(utilities);
+@import 'tailwindcss/theme.css' layer(theme);
+@import 'tailwindcss/preflight.css' layer(base);
+@import '@astryxdesign/core/reset.css';
+@import '@astryxdesign/core/astryx.css';
+@import '@astryxdesign/theme-neutral/theme.css';
+@import '@astryxdesign/core/tailwind-theme.css';
+@import 'tailwindcss/utilities.css' layer(utilities);
 
 html {
   min-height: 100%;
@@ -24,159 +24,6 @@ body {
 a {
   color: inherit;
   text-decoration: none;
-}
-
-.page {
-  width: min(100% - 32px, 960px);
-  margin: 0 auto;
-  padding: var(--spacing-10) 0 var(--spacing-8);
-}
-
-.page--skills {
-  padding-top: clamp(var(--spacing-5), 5vw, var(--spacing-10));
-}
-
-.skill-list {
-  display: grid;
-  gap: var(--spacing-4);
-}
-
-.skill-section {
-  display: grid;
-  gap: var(--spacing-4);
-}
-
-.skill-section__search {
-  width: 100%;
-}
-
-.skill-list__header {
-  display: grid;
-  gap: var(--spacing-3);
-}
-
-.skill-list__heading {
-  margin: 0;
-  font-size: var(--font-size-2xl);
-}
-
-.skill-list__items {
-  width: 100%;
-}
-
-.skill-list__item-copy {
-  display: flex;
-  flex: 1 1 auto;
-  align-items: center;
-  gap: var(--spacing-2);
-  min-width: 0;
-  max-width: 100%;
-}
-
-.skill-list__name {
-  display: block;
-  flex: 1 1 auto;
-  min-width: 0;
-  max-width: 100%;
-  overflow: hidden;
-  font-weight: 700;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
-.skill-list__item-copy > :not(.skill-list__name) {
-  flex: 0 0 auto;
-}
-
-.skill-token {
-  --skill-token-background: var(--color-purple-100, #eee7ff);
-  --skill-token-foreground: var(--color-purple-700, #5b2bd6);
-
-  display: inline-flex;
-  align-items: center;
-  max-width: 100%;
-  min-height: var(--spacing-5);
-  gap: var(--spacing-1);
-  padding-block: 0;
-  padding-inline: var(--spacing-2);
-  color: var(--skill-token-foreground);
-  background: var(--skill-token-background);
-  border-radius: var(--radius-full, 999px);
-  font-size: var(--text-supporting-size, 0.75rem);
-  font-weight: var(--font-weight-medium, 500);
-  line-height: var(--text-supporting-leading, 1rem);
-}
-
-.skill-token__icon {
-  flex: 0 0 auto;
-  width: 0.875rem;
-  height: 0.875rem;
-}
-
-.skill-token__label {
-  min-width: 0;
-  overflow-wrap: anywhere;
-}
-
-.certification-citation {
-  display: inline-flex;
-  align-items: center;
-  max-width: 100%;
-}
-
-.certification-citation__source {
-  max-width: 100%;
-}
-
-.skill-avatar {
-  flex: 0 0 auto;
-}
-
-.skill-rating {
-  display: inline-flex;
-  flex: 0 0 auto;
-  color: var(--color-text-primary);
-  letter-spacing: 0;
-  white-space: nowrap;
-}
-
-.skill-rating__stars,
-.skill-rating__compact {
-  display: inline-flex;
-  align-items: center;
-}
-
-.skill-rating__stars {
-  gap: 1px;
-}
-
-.skill-rating__compact {
-  display: none;
-  gap: var(--spacing-1);
-}
-
-.skill-list__empty {
-  margin: 0;
-  color: var(--color-text-secondary);
-}
-
-@media (max-width: 640px) {
-  .skill-list__item-copy {
-    align-items: flex-start;
-    flex-direction: column;
-  }
-
-  .skill-list__name {
-    width: 100%;
-  }
-
-  .skill-rating__stars {
-    display: none;
-  }
-
-  .skill-rating__compact {
-    display: inline-flex;
-  }
 }
 
 .devops-roadmap-node {

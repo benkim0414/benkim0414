@@ -14,12 +14,12 @@ export function SkillSection({
   const [filters, setFilters] = useState<ReadonlyArray<PowerSearchFilter>>([]);
   const filteredSkills = useMemo(
     () => skills.filter((skill) => skillMatchesFilters(skill, filters)),
-    [filters, skills]
+    [filters, skills],
   );
 
   return (
-    <div className="skill-section">
-      <div className="skill-section__search">
+    <div className="grid gap-4">
+      <div className="w-full">
         <SkillSearch
           filters={filters}
           onFiltersChange={setFilters}
