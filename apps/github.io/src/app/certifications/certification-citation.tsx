@@ -3,7 +3,7 @@ import { Citation } from '@astryxdesign/core/Citation';
 import { VisuallyHidden } from '@astryxdesign/core/VisuallyHidden';
 import type { CSSProperties } from 'react';
 
-import { getSkillBrand, type SkillBrand } from '../skills/skill-brand';
+import { getSkillBrand } from '../skills/skill-brand';
 
 const ASTRYX_CITATION_LABEL_TEXT = '#737373';
 
@@ -15,8 +15,6 @@ const styles = stylex.create({
   },
   source: {
     maxWidth: '100%',
-    borderWidth: 'var(--border-width, 1px)',
-    borderStyle: 'solid',
   },
 });
 
@@ -51,16 +49,10 @@ function iconDataUrl(iconPath: string, color: string) {
   return `data:image/svg+xml;utf8,${encodeURIComponent(svg)}`;
 }
 
-function citationSourceStyle(brand: SkillBrand | undefined): CSSProperties {
-  const style: CSSProperties = {
+function citationSourceStyle(): CSSProperties {
+  return {
     color: ASTRYX_CITATION_LABEL_TEXT,
   };
-
-  if (brand) {
-    style.borderColor = brand.color;
-  }
-
-  return style;
 }
 
 export function CertificationCitation({
@@ -95,7 +87,7 @@ export function CertificationCitation({
               ? iconDataUrl(iconPath, iconColor)
               : undefined,
         }}
-        style={citationSourceStyle(primary?.brand)}
+        style={citationSourceStyle()}
         variant="label"
         xstyle={styles.source}
       />
