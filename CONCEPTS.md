@@ -17,6 +17,16 @@ The shared UI baseline for the `github.io` App, covering Astryx reset styles, ne
 
 Astryx Foundation means new UI work should prefer Astryx components and tokens before introducing local visual primitives.
 
+### Certification Citation
+A reusable certification link presentation that uses Astryx Citation styling while deriving status and visual accents from the certification's linked skills.
+
+Certification Citation distinguishes brand color from skill logo availability: linked skills can provide a logo-backed icon, a color-only accent, or no brand metadata.
+
+### Skill Brand Metadata
+The shared visual metadata for a skill label, covering the skill's brand color and, when available, a logo asset.
+
+Skill Brand Metadata can be color-only. Consumers must decide whether color alone is meaningful for their UI instead of assuming every branded skill has a logo.
+
 ## Tooling Workflow
 
 ### pnpm Build Approval
