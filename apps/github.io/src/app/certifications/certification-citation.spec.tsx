@@ -85,6 +85,27 @@ describe('CertificationCitation', () => {
     expect(icon?.getAttribute('src')).toContain('fill%3D%22%23737373%22');
   });
 
+  it('uses brand color as a Citation border accent when no skill logo is available', () => {
+    const { container, getByRole } = render(
+      <CertificationCitation
+        currentDate={new Date('2026-07-23T00:00:00+10:00')}
+        expiresAt="2028-02-26T10:59:00+11:00"
+        skills={['AWS']}
+        title="AWS Cert"
+        url={certificateUrl}
+      />,
+    );
+
+    const wrapper = container.querySelector('.certification-citation');
+    const citation = getByRole('doc-noteref', { name: 'Citation 1: AWS Cert' });
+
+    expect(wrapper?.getAttribute('data-certification-primary-skill')).toBe('AWS');
+    expect(wrapper?.classList.contains('certification-citation--branded')).toBe(true);
+    expect(citation.getAttribute('style')).toContain('color: rgb(115, 115, 115)');
+    expect(citation.getAttribute('style')).toContain('border-color: #ff9900');
+    expect(container.querySelector('img')).toBeNull();
+  });
+
   it('marks future expiry dates as active', () => {
     const { container, getByText } = render(
       <CertificationCitation

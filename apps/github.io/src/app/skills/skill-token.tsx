@@ -8,7 +8,7 @@ export interface SkillTokenProps {
 }
 
 function tokenStyle(brand: SkillBrand | undefined): CSSProperties | undefined {
-  if (!brand) {
+  if (!brand?.iconPath) {
     return undefined;
   }
 
@@ -23,15 +23,16 @@ export function SkillToken({
   variant = 'purple',
 }: SkillTokenProps): JSX.Element {
   const brand = getSkillBrand(label);
+  const hasIcon = Boolean(brand?.iconPath);
 
   return (
     <span
       className={`skill-token skill-token--${variant}`}
-      data-has-icon={String(Boolean(brand))}
-      data-token-color={brand?.color}
+      data-has-icon={String(hasIcon)}
+      data-token-color={hasIcon ? brand?.color : undefined}
       style={tokenStyle(brand)}
     >
-      {brand ? (
+      {brand?.iconPath ? (
         <svg
           aria-hidden="true"
           className="skill-token__icon"

@@ -52,6 +52,17 @@ describe('SkillToken', () => {
     expect(token?.classList.contains('skill-token--purple')).toBe(true);
   });
 
+  it('keeps color-only brands text-only with the purple roadmap treatment', () => {
+    const { container, getByText } = render(<SkillToken label="AWS" />);
+    const token = getByText('AWS').closest('.skill-token');
+
+    expect(token).toBeTruthy();
+    expect(token?.getAttribute('data-has-icon')).toBe('false');
+    expect(token?.getAttribute('data-token-color')).toBeNull();
+    expect(container.querySelector('.skill-token__icon')).toBeNull();
+    expect(token?.classList.contains('skill-token--purple')).toBe(true);
+  });
+
   it('keeps the visible label as the accessible token text', () => {
     const { getByText } = render(<SkillToken label="GitHub Actions" />);
 

@@ -27,8 +27,8 @@ export interface SkillBrand {
   name: string;
   color: string;
   foreground: string;
-  iconPath: string;
-  iconDataUrl: string;
+  iconPath?: string;
+  iconDataUrl?: string;
 }
 
 const skillIcons: Readonly<Record<string, SimpleIcon>> = {
@@ -53,6 +53,10 @@ const skillIcons: Readonly<Record<string, SimpleIcon>> = {
   Python: siPython,
   Terraform: siTerraform,
   Vault: siVault,
+};
+
+const skillBrandColors: Readonly<Record<string, string>> = {
+  AWS: '#FF9900',
 };
 
 const ASTRYX_NEUTRAL_FOREGROUND = '#111827';
@@ -104,18 +108,23 @@ function toIconDataUrl(icon: SimpleIcon, color: string) {
 
 export function getSkillBrand(label: string): SkillBrand | undefined {
   const icon = skillIcons[label];
+  const color = icon ? `#${icon.hex}` : skillBrandColors[label];
 
-  if (!icon) {
+  if (!color) {
     return undefined;
   }
 
-  const color = `#${icon.hex}`;
+  const iconData = icon
+    ? {
+        iconPath: icon.path,
+        iconDataUrl: toIconDataUrl(icon, color),
+      }
+    : {};
 
   return {
     name: label,
     color,
-    foreground: brandForeground(icon.hex),
-    iconPath: icon.path,
-    iconDataUrl: toIconDataUrl(icon, color),
+    foreground: brandForeground(color.slice(1)),
+    ...iconData,
   };
 }
