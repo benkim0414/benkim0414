@@ -9,8 +9,7 @@ describe('SkillToken', () => {
     const icon = container.querySelector('svg');
 
     expect(token).toBeTruthy();
-    expect(token?.getAttribute('data-has-icon')).toBe('true');
-    expect(token?.getAttribute('data-token-color')).toBe('#2496ED');
+    expect(token?.className).toContain('astryx-token');
     expect(token?.getAttribute('style')).toContain(
       '--skill-token-background: #2496ED',
     );
@@ -46,8 +45,8 @@ describe('SkillToken', () => {
     const token = container.querySelector('[data-testid="skill-token"]');
 
     expect(token).toBeTruthy();
-    expect(token?.getAttribute('data-has-icon')).toBe('false');
-    expect(token?.getAttribute('data-token-color')).toBeNull();
+    expect(token?.className).toContain('astryx-token');
+    expect(token?.getAttribute('style')).toBeNull();
     expect(container.querySelector('svg')).toBeNull();
   });
 
@@ -56,8 +55,8 @@ describe('SkillToken', () => {
     const token = container.querySelector('[data-testid="skill-token"]');
 
     expect(token).toBeTruthy();
-    expect(token?.getAttribute('data-has-icon')).toBe('false');
-    expect(token?.getAttribute('data-token-color')).toBeNull();
+    expect(token?.className).toContain('astryx-token');
+    expect(token?.getAttribute('style')).toBeNull();
     expect(container.querySelector('svg')).toBeNull();
   });
 

@@ -1,4 +1,4 @@
-import { Token } from '@astryxdesign/core/Token';
+import { Badge } from '@astryxdesign/core/Badge';
 
 import type { SkillCategory as SkillCategoryName } from './skill-list.types';
 
@@ -7,5 +7,5 @@ interface SkillCategoryProps {
 }
 
 export function SkillCategory({ name }: SkillCategoryProps) {
-  return <Token label={name} size="sm" />;
+  return <Badge label={name} />;
 }
