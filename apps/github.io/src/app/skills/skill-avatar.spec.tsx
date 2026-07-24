@@ -16,7 +16,7 @@ describe('SkillAvatar', () => {
     expect(typeScript).toBeTruthy();
 
     const { container, getByRole, getByText } = render(
-      <SkillAvatar skill={typeScript!} />
+      <SkillAvatar skill={typeScript!} />,
     );
     const image = container.querySelector('img');
 
@@ -56,7 +56,7 @@ describe('SkillAvatar', () => {
   it('uses official Simple Icons art for Nx and GitHub Actions', () => {
     const nx = sampleSkills.find((skill) => skill.id === 'nx');
     const githubActions = sampleSkills.find(
-      (skill) => skill.id === 'github-actions'
+      (skill) => skill.id === 'github-actions',
     );
 
     expect(nx).toBeTruthy();
@@ -66,14 +66,12 @@ describe('SkillAvatar', () => {
     const githubActionsAvatar = render(<SkillAvatar skill={githubActions!} />);
 
     expect(
-      svgContent(nxAvatar.container.querySelector('img')?.getAttribute('src'))
+      svgContent(nxAvatar.container.querySelector('img')?.getAttribute('src')),
     ).toContain('<title>Nx</title>');
     expect(
       svgContent(
-        githubActionsAvatar.container
-          .querySelector('img')
-          ?.getAttribute('src')
-      )
+        githubActionsAvatar.container.querySelector('img')?.getAttribute('src'),
+      ),
     ).toContain('<title>GitHub Actions</title>');
   });
 
@@ -85,9 +83,9 @@ describe('SkillAvatar', () => {
     const nxAvatar = render(<SkillAvatar skill={nx!} />);
 
     expect(
-      (nxAvatar.container.firstElementChild as HTMLElement).style.getPropertyValue(
-        '--skill-avatar-padding'
-      )
+      (
+        nxAvatar.container.firstElementChild as HTMLElement
+      ).style.getPropertyValue('--skill-avatar-padding'),
     ).toBe('');
   });
 });

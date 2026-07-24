@@ -4,10 +4,7 @@ import type {
   PowerSearchFilter,
 } from '@astryxdesign/core/PowerSearch';
 
-import {
-  skillCategories,
-  type Skill,
-} from './skill-list.types';
+import { skillCategories, type Skill } from './skill-list.types';
 
 interface SkillSearchProps {
   filters: ReadonlyArray<PowerSearchFilter>;
@@ -60,23 +57,25 @@ export function skillMatchesQuery(skill: Skill, query: string) {
   }
 
   return [skill.name, skill.category, ...skill.keywords].some((value) =>
-    value.toLowerCase().includes(normalizedQuery)
+    value.toLowerCase().includes(normalizedQuery),
   );
 }
 
 export function skillMatchesFilters(
   skill: Skill,
-  filters: ReadonlyArray<PowerSearchFilter>
+  filters: ReadonlyArray<PowerSearchFilter>,
 ) {
   const queryFilters = filters.filter(
-    (filter) => filter.field === 'query' && filter.value.type === 'string'
+    (filter) => filter.field === 'query' && filter.value.type === 'string',
   );
   const categoryFilters = filters.filter(
-    (filter) => filter.field === 'category' && filter.value.type === 'enum'
+    (filter) => filter.field === 'category' && filter.value.type === 'enum',
   );
 
   return (
-    queryFilters.every((filter) => skillMatchesQuery(skill, filter.value.value)) &&
+    queryFilters.every((filter) =>
+      skillMatchesQuery(skill, filter.value.value),
+    ) &&
     (categoryFilters.length === 0 ||
       categoryFilters.some((filter) => skill.category === filter.value.value))
   );
@@ -102,8 +101,8 @@ export function SkillSearch({
           onFiltersChange(
             nextFilters.filter(
               (filter, index) =>
-                filter.field !== 'query' || index === changedIndex
-            )
+                filter.field !== 'query' || index === changedIndex,
+            ),
           );
           return;
         }

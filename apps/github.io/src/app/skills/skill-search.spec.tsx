@@ -31,7 +31,7 @@ describe('SkillSearch', () => {
         filters={[]}
         onFiltersChange={() => undefined}
         resultCount={sampleSkills.length}
-      />
+      />,
     );
 
     expect(getByRole('combobox', { name: 'Search skills' })).toBeTruthy();
@@ -39,7 +39,11 @@ describe('SkillSearch', () => {
 
   it('passes the result count to Astryx PowerSearch', () => {
     const { getByText } = render(
-      <SkillSearch filters={[]} onFiltersChange={() => undefined} resultCount={8} />
+      <SkillSearch
+        filters={[]}
+        onFiltersChange={() => undefined}
+        resultCount={8}
+      />,
     );
 
     expect(getByText('8 results')).toBeTruthy();
@@ -55,24 +59,24 @@ describe('SkillSearch', () => {
         filters={filters}
         onFiltersChange={onFiltersChange}
         resultCount={sampleSkills.length}
-      />
+      />,
     );
     const search = getByRole('combobox', { name: 'Search skills' });
 
     fireEvent.change(search, { target: { value: 'terraform' } });
     fireEvent.click(
-      await waitFor(() => getByRole('option', { name: '"terraform"' }))
+      await waitFor(() => getByRole('option', { name: '"terraform"' })),
     );
     rerender(
       <SkillSearch
         filters={filters}
         onFiltersChange={onFiltersChange}
         resultCount={1}
-      />
+      />,
     );
     fireEvent.change(search, { target: { value: 'react' } });
     fireEvent.click(
-      await waitFor(() => getByRole('option', { name: '"react"' }))
+      await waitFor(() => getByRole('option', { name: '"react"' })),
     );
 
     expect(filters).toEqual([
@@ -88,7 +92,7 @@ describe('SkillSearch', () => {
 describe('structured category filtering', () => {
   it('declares categories as an Astryx enum field', () => {
     const categoryField = skillSearchConfig.fields.find(
-      (field) => field.key === 'category'
+      (field) => field.key === 'category',
     );
 
     expect(categoryField?.operators[0].value).toEqual({
