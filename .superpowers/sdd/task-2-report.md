@@ -1,72 +1,43 @@
-# Task 2 Report: Searchable Astryx Skill List
+# Task 2 Report: Migrate Skills and Certification Styling
 
 ## Status
 
-DONE_WITH_CONCERNS
+DONE
 
 ## Implementation
 
-- Added `SkillLogo`, backed by Astryx `Avatar`, with the skill icon slug retained as a data attribute.
-- Added `SkillList` and `skillMatchesQuery`, filtering skill names, categories, and keywords case-insensitively.
-- Rendered Astryx `List`, `ListItem`, and `Badge` rows with existing `SkillRating` content.
-- Added responsive layout styles and an empty state.
+- Replaced the app-shell, skills wrapper, list, list item, and avatar component selectors with the Tailwind utilities specified in the task brief.
+- Added local StyleX styles for `SkillToken`, `SkillRating`, and `CertificationCitation`.
+- Retained dynamic skill brand custom properties in `tokenStyle(brand)` and used StyleX normal-property fallbacks for the token default colors.
+- Preserved citation brand color behavior through its existing inline `Citation` style.
+- Added explicit `data-testid` attributes to the token and citation wrappers; tests now assert exposed data and ARIA/text output instead of generated StyleX class names.
+- Rendered the five-star rating as one text node so the required accessible text assertion reflects the visible rating sequence without selecting a styling class.
+- Removed all page, skills, and certification component selectors from `apps/github.io/src/styles.css`; React Flow roadmap integration remains unchanged.
 
-## Astryx API Verification
+## Validation
 
-Verified the installed component exports and declarations before implementation:
+`pnpm` was unavailable. `corepack pnpm` was available, but Nx child processes invoke a bare `pnpm`, so a temporary Corepack-generated shim was placed at `/tmp/corepack-pnpm-bin` and prepended to `PATH` for validation. No repository files were added for this workaround.
 
-- `Avatar` is available from `@astryxdesign/core/Avatar` and accepts `name`, `className`, and data attributes.
-- `Badge` requires `label` rather than children.
-- `List` uses `hasDividers` rather than `dividers`.
-- `ListItem` requires `label` rather than children.
-- `PowerSearch` is a token-based structured-filter component. Its `onChange` only fires when filters are committed and it does not forward native input events, so it cannot implement the brief's synchronous `fireEvent.change` text-search contract. The list therefore uses installed Astryx `TextInput`, the controlled text-input primitive, with the same visible and accessible search interface.
+Commands passed:
 
-## TDD Evidence
+```bash
+PATH=/tmp/corepack-pnpm-bin:$PATH pnpm nx test github.io
+PATH=/tmp/corepack-pnpm-bin:$PATH pnpm nx build github.io
+PATH=/tmp/corepack-pnpm-bin:$PATH pnpm exec prettier --check <task files>
+git diff --check
+! rg -n '\\.(page|skill-|certification-)' apps/github.io/src/styles.css
+```
 
-1. RED: created `skill-list.spec.tsx`, then ran:
+The test target and production build passed. Nx emitted the pre-existing `nxViteTsPaths` deprecation warning; it did not affect either result.
 
-   ```sh
-   PATH=/tmp/corepack-shims:$PATH NX_DAEMON=false corepack pnpm nx test github.io --skip-nx-cache
-   ```
+## Self-Review
 
-   Result: failed before implementation because `./skill-list` did not exist.
-
-2. GREEN: implemented the list, logo adapter, styles, and Astryx API adjustments, then reran the same command.
-
-   Result: passed successfully.
-
-The test assertion for the rating uses `getAllByLabelText` because sample data contains both TypeScript and React at `5 out of 5`; the original singular query incorrectly treats valid duplicate ratings as an error.
-
-## Verification
-
-- PASS: `PATH=/tmp/corepack-shims:$PATH NX_DAEMON=false corepack pnpm nx test github.io --skip-nx-cache`
-- PASS: `git diff --check`
-- Self-review: no Task 2 correctness or scope issues found in the staged diff.
-- BLOCKED (pre-existing configuration): `PATH=/tmp/corepack-shims:$PATH NX_DAEMON=false corepack pnpm nx typecheck github.io --skip-nx-cache` fails because the current TypeScript module-resolution configuration cannot resolve existing `@astryxdesign/theme-neutral/built`, and also cannot resolve Astryx subpath declarations. Vite/Vitest resolves those imports and the required test suite passes.
+- Verified the focused diff contains only the twelve files named by Task 2.
+- Verified no roadmap files were modified.
+- Verified no application code still consumes the removed legacy page, skills, or certification classes.
+- Verified mapped-brand tokens retain inline brand custom properties and unmapped or color-only brands remain text-only.
+- Verified certification active, expired, branded fallback, and no-brand behavior remain covered by tests.
 
 ## Commit
 
-- `d891a94 feat(github.io): add searchable skill list`
-
-## Review Fix
-
-- Replaced the visible `TextInput` with Astryx `PowerSearch`, configured with
-  `contentSearchFieldKey` for free-text skill queries.
-- Derived the displayed query from the controlled PowerSearch filter state.
-- Replaced the fixed section heading ID with React `useId()`.
-- Added coverage for the labeled PowerSearch combobox, structured content-search
-  selection, and distinct heading IDs across multiple instances.
-
-### Files Changed
-
-- `apps/github.io/src/app/skills/skill-list.tsx`
-- `apps/github.io/src/app/skills/skill-list.spec.tsx`
-- `.superpowers/sdd/task-2-report.md`
-
-### Verification
-
-```sh
-PATH=/tmp/corepack-shims:$PATH NX_DAEMON=false corepack pnpm nx test github.io --skip-nx-cache
-```
-
-Result: PASS - Nx successfully ran the `github.io:test` target.
+`28d86ee refactor(github.io): migrate skills styling to stylex tailwind`
