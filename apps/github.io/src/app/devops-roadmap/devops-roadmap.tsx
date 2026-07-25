@@ -221,6 +221,7 @@ export function DevOpsRoadmap({
         edges={edges}
         elementsSelectable={false}
         fitView
+        fitViewOptions={{ padding: 0 }}
         nodes={nodes}
         nodesConnectable={false}
         nodesDraggable={false}
