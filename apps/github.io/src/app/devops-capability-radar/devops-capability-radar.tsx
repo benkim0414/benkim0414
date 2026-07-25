@@ -14,9 +14,27 @@ const CHART_HEIGHT = 360;
 const RADAR_COLOR = colorVars['--color-text-blue'];
 const radarTheme = createTheme({
   palette: {
+    background: {
+      paper: colorVars['--color-background-surface'],
+    },
+    divider: colorVars['--color-border-emphasized'],
     text: {
       primary: RADAR_COLOR,
-      secondary: colorVars['--color-text-secondary'],
+      secondary: colorVars['--color-text-primary'],
+    },
+  },
+  components: {
+    MuiChartsTooltip: {
+      styleOverrides: {
+        paper: {
+          backgroundColor: colorVars['--color-background-surface'],
+          borderColor: colorVars['--color-border-emphasized'],
+          color: colorVars['--color-text-primary'],
+        },
+        cell: {
+          color: colorVars['--color-text-primary'],
+        },
+      },
     },
   },
 });
