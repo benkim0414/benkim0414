@@ -65,6 +65,16 @@ describe('DevOpsCapabilityRadar', () => {
     }
   });
 
+  it('uses a readable contrast token for axis labels', () => {
+    render(<DevOpsCapabilityRadar />);
+
+    for (const metric of devOpsCapabilityRadarMetrics) {
+      expect(
+        screen.getByText(metric.name).closest('text')?.getAttribute('fill'),
+      ).toBe('var(--color-text-blue)');
+    }
+  });
+
   it('gives the standalone chart a stable visible viewport', () => {
     const { container } = render(<DevOpsCapabilityRadar />);
     const chart = container.querySelector('svg');
