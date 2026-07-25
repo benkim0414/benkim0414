@@ -7,12 +7,12 @@ export interface DevOpsCapabilityRadarMetric {
 }
 
 export const devOpsCapabilityRadarMetrics = [
-  { name: 'Automation', min: 1, max: 5 },
-  { name: 'Delivery', min: 1, max: 5 },
-  { name: 'Cloud', min: 1, max: 5 },
-  { name: 'Containers', min: 1, max: 5 },
-  { name: 'Reliability', min: 1, max: 5 },
-  { name: 'Security', min: 1, max: 5 },
+  { name: 'Automation', min: 0, max: 5 },
+  { name: 'Delivery', min: 0, max: 5 },
+  { name: 'Cloud', min: 0, max: 5 },
+  { name: 'Containers', min: 0, max: 5 },
+  { name: 'Reliability', min: 0, max: 5 },
+  { name: 'Security', min: 0, max: 5 },
 ] as const satisfies readonly DevOpsCapabilityRadarMetric[];
 
 export const devOpsCapabilityRadarScores = [4, 5, 4, 4, 4, 3] as const;

@@ -24,9 +24,9 @@ describe('devOpsCapabilityRadar data', () => {
     ]);
   });
 
-  it('uses a 1-5 scale and the approved scores', () => {
+  it('uses a five-division radial scale and the approved scores', () => {
     expect(devOpsCapabilityRadarMetrics.map((metric) => metric.min)).toEqual([
-      1, 1, 1, 1, 1, 1,
+      0, 0, 0, 0, 0, 0,
     ]);
     expect(devOpsCapabilityRadarMetrics.map((metric) => metric.max)).toEqual([
       5, 5, 5, 5, 5, 5,
@@ -71,6 +71,19 @@ describe('DevOpsCapabilityRadar', () => {
 
     expect(chart?.getAttribute('viewBox')).toBe('0 0 360 360');
     expect(chart?.getAttribute('aria-hidden')).toBe('true');
+  });
+
+  it('plots the Security mark at three fifths of the radial scale', () => {
+    const { container } = render(<DevOpsCapabilityRadar />);
+    const marks = container.querySelectorAll('.MuiRadarChart-seriesMark');
+    const securityMark = marks[5];
+
+    expect(Number(securityMark?.getAttribute('cx'))).toBeCloseTo(
+      115.56621995843782,
+    );
+    expect(Number(securityMark?.getAttribute('cy'))).toBeCloseTo(
+      142.79999999999995,
+    );
   });
 
   it('does not expose tabbable chart content from the hidden visual wrapper', () => {
