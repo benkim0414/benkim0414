@@ -31,7 +31,17 @@ a {
   pointer-events: none;
 }
 
+.devops-roadmap__flow .react-flow__node {
+  width: min(100%, 320px);
+}
+
 .devops-roadmap__flow .react-flow__edge-path {
   stroke: var(--color-border-emphasized);
   stroke-width: calc(var(--border-width) * 2);
+}
+
+@media (max-width: 640px) {
+  .devops-roadmap__flow .react-flow__node {
+    width: min(100%, 280px);
+  }
 }
