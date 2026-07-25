@@ -1,4 +1,4 @@
-import { render } from '@testing-library/react';
+import { render, waitFor } from '@testing-library/react';
 import { readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 import type { ReactNode } from 'react';
@@ -11,6 +11,7 @@ import {
   DevOpsRoadmapNode,
 } from './devops-roadmap-node';
 import { DevOpsRoadmap } from './devops-roadmap';
+import type { DevOpsRoadmapItem } from './devops-roadmap.types';
 
 vi.mock('../skills/skill-token', () => ({
   SkillToken: ({ label }: { label: string }) => (
@@ -89,6 +90,7 @@ vi.mock('@xyflow/react', () => ({
             title: string;
             skills: readonly string[];
             certifications?: readonly unknown[];
+            measuredHeight?: number;
           };
         };
       }) => ReactNode
@@ -123,7 +125,16 @@ vi.mock('@xyflow/react', () => ({
     >
       {nodes.map((node) => {
         const NodeComponent = nodeTypes.roadmapNode;
-        return <NodeComponent data={node.data} key={node.id} />;
+        return (
+          <div
+            className="react-flow__node"
+            data-id={node.id}
+            data-measured-height={node.data.item.measuredHeight}
+            key={node.id}
+          >
+            <NodeComponent data={node.data} />
+          </div>
+        );
       })}
       {children}
     </div>
@@ -459,6 +470,66 @@ describe('DevOpsRoadmap', () => {
         .querySelector('[data-testid="react-flow"]')
         ?.getAttribute('data-node-positions'),
     ).toBe('container-orchestration:0|gitops:246');
+  });
+
+  it('places each node after the previous actual height plus a fixed gap', async () => {
+    const rectSpy = vi
+      .spyOn(HTMLElement.prototype, 'getBoundingClientRect')
+      .mockImplementation(function getBoundingClientRect() {
+        const measuredHeight = Number(
+          this.getAttribute('data-measured-height') ?? 0,
+        );
+
+        return {
+          bottom: measuredHeight,
+          height: measuredHeight,
+          left: 0,
+          right: 320,
+          top: 0,
+          width: 320,
+          x: 0,
+          y: 0,
+          toJSON: () => ({}),
+        };
+      });
+
+    try {
+      const measuredItems = [
+        {
+          id: 'short',
+          title: 'Short',
+          skills: ['Docker'],
+          measuredHeight: 100,
+        },
+        {
+          id: 'tall',
+          title: 'Tall',
+          skills: ['Docker'],
+          measuredHeight: 260,
+        },
+        {
+          id: 'last',
+          title: 'Last',
+          skills: ['Docker'],
+          measuredHeight: 140,
+        },
+      ] satisfies readonly (DevOpsRoadmapItem & { measuredHeight: number })[];
+
+      const { getByTestId } = render(
+        <DevOpsRoadmap items={measuredItems} />,
+      );
+
+      await waitFor(() => {
+        expect(
+          getByTestId('react-flow').getAttribute('data-node-positions'),
+        ).toBe('short:0|tall:148|last:456');
+      });
+
+      const flowWrapper = getByTestId('react-flow').parentElement;
+      expect(flowWrapper?.getAttribute('style')).toBe('--x-height: 596px;');
+    } finally {
+      rectSpy.mockRestore();
+    }
   });
 
   it('preserves the default roadmap data order in the rendered timeline', () => {
