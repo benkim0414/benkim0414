@@ -2,6 +2,8 @@ import { VisuallyHidden } from '@astryxdesign/core/VisuallyHidden';
 import { RadarChart, radarClasses } from '@mui/x-charts/RadarChart';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { colorVars } from '@astryxdesign/core/theme/tokens.stylex';
+import type {} from '@mui/x-charts/themeAugmentation';
+import type { ReactElement } from 'react';
 
 import {
   devOpsCapabilityRadarMetrics,
@@ -40,7 +42,7 @@ const radarTheme = createTheme({
   },
 });
 
-export function DevOpsCapabilityRadar(): JSX.Element {
+export function DevOpsCapabilityRadar(): ReactElement {
   const summary = getDevOpsCapabilityRadarSummary();
 
   return (

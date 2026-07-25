@@ -88,12 +88,8 @@ describe('DevOpsCapabilityRadar', () => {
     const marks = container.querySelectorAll('.MuiRadarChart-seriesMark');
     const securityMark = marks[5];
 
-    expect(Number(securityMark?.getAttribute('cx'))).toBeCloseTo(
-      115.56621995843782,
-    );
-    expect(Number(securityMark?.getAttribute('cy'))).toBeCloseTo(
-      142.79999999999995,
-    );
+    expect(Number(securityMark?.getAttribute('cx'))).toBeCloseTo(115.56622);
+    expect(Number(securityMark?.getAttribute('cy'))).toBeCloseTo(142.8);
   });
 
   it('uses SkillToken purple tokens for the radar series', () => {

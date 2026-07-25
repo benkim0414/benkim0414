@@ -24,6 +24,7 @@ vi.mock('@astryxdesign/core/Citation', () => ({
   },
 }));
 
+// eslint-disable-next-line import/first -- keep the mocked Citation in place before loading the component.
 import { CertificationCitation } from './certification-citation';
 
 const certificateUrl = 'https://example.com/certificate.pdf';
