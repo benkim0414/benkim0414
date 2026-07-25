@@ -1,5 +1,4 @@
 export const DEVOPS_CAPABILITY_RADAR_LABEL = 'DevOps capability radar';
-export const DEVOPS_CAPABILITY_RADAR_SERIES_LABEL = 'DevOps capability';
 
 export interface DevOpsCapabilityRadarMetric {
   name: string;
