@@ -12,6 +12,12 @@ The static React application that will become the root GitHub Pages user site fo
 
 The generic first-screen layout scaffold for the `github.io` App: navigation, content regions, and footer without real portfolio content.
 
+### DevOps Roadmap
+
+The `github.io` App visualization that adapts roadmap.sh DevOps topics into a static, skill-filtered timeline for the portfolio.
+
+DevOps Roadmap items carry a topic title, the owner's matching skills, and optional certification evidence; it is a presentation of portfolio coverage, not a full roadmap.sh clone.
+
 ## Design System
 
 ### Astryx Foundation
