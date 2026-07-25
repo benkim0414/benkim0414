@@ -74,6 +74,7 @@ vi.mock('@xyflow/react', () => ({
     zoomOnDoubleClick,
     fitView,
     fitViewOptions,
+    defaultViewport,
     children,
   }: {
     nodes: Array<{
@@ -104,8 +105,9 @@ vi.mock('@xyflow/react', () => ({
     panOnDrag: boolean;
     zoomOnScroll: boolean;
     zoomOnDoubleClick: boolean;
-    fitView: boolean;
+    fitView?: boolean;
     fitViewOptions?: { padding?: number };
+    defaultViewport?: { x: number; y: number; zoom: number };
     children: ReactNode;
   }) => (
     <div
@@ -114,6 +116,7 @@ vi.mock('@xyflow/react', () => ({
       data-elements-selectable={String(elementsSelectable)}
       data-fit-view={String(fitView)}
       data-fit-view-padding={String(fitViewOptions?.padding)}
+      data-viewport={`${defaultViewport?.x}:${defaultViewport?.y}:${defaultViewport?.zoom}`}
       data-node-count={nodes.length}
       data-node-positions={nodes
         .map((node) => `${node.id}:${node.position.y}`)
@@ -370,15 +373,18 @@ describe('DevOpsRoadmap', () => {
     ).toBe('true');
   });
 
-  it('does not reserve React Flow fit padding after the final node', () => {
+  it('renders at native scale instead of auto-fitting the measured timeline', () => {
     const { getByTestId } = render(<DevOpsRoadmap />);
 
     expect(getByTestId('react-flow').getAttribute('data-fit-view')).toBe(
-      'true',
+      'undefined',
     );
     expect(
       getByTestId('react-flow').getAttribute('data-fit-view-padding'),
-    ).toBe('0');
+    ).toBe('undefined');
+    expect(getByTestId('react-flow').getAttribute('data-viewport')).toBe(
+      '0:0:1',
+    );
   });
 
   it('gives the React Flow wrapper a definite timeline height', () => {
