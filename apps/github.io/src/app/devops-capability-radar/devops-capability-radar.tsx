@@ -11,7 +11,8 @@ import {
 
 const CHART_WIDTH = 360;
 const CHART_HEIGHT = 360;
-const RADAR_COLOR = colorVars['--color-text-blue'];
+const RADAR_FOREGROUND = colorVars['--color-text-purple'];
+const RADAR_BACKGROUND = colorVars['--color-background-purple'];
 const radarTheme = createTheme({
   palette: {
     background: {
@@ -19,7 +20,7 @@ const radarTheme = createTheme({
     },
     divider: colorVars['--color-border-emphasized'],
     text: {
-      primary: RADAR_COLOR,
+      primary: colorVars['--color-text-primary'],
       secondary: colorVars['--color-text-primary'],
     },
   },
@@ -47,7 +48,7 @@ export function DevOpsCapabilityRadar(): JSX.Element {
       <VisuallyHidden>{summary}</VisuallyHidden>
       <RadarChart
         aria-hidden="true"
-        colors={[RADAR_COLOR]}
+        colors={[RADAR_BACKGROUND]}
         disableKeyboardNavigation
         divisions={5}
         height={CHART_HEIGHT}
@@ -68,6 +69,11 @@ export function DevOpsCapabilityRadar(): JSX.Element {
         shape="circular"
         skipAnimation
         slotProps={{ tooltip: { trigger: 'axis' } }}
+        stripeColor={(index) =>
+          index % 2 === 0
+            ? RADAR_BACKGROUND
+            : colorVars['--color-background-surface']
+        }
         sx={{
           color: colorVars['--color-text-primary'],
           [`& .${radarClasses.axisLabel}`]: {
@@ -85,18 +91,15 @@ export function DevOpsCapabilityRadar(): JSX.Element {
             stroke: colorVars['--color-border-emphasized'],
             strokeOpacity: 1,
           },
-          [`& .${radarClasses.gridStripe}`]: {
-            fill: 'transparent',
-          },
           [`& .${radarClasses.seriesArea}`]: {
-            fill: RADAR_COLOR,
-            fillOpacity: 0.24,
-            stroke: RADAR_COLOR,
+            fill: RADAR_BACKGROUND,
+            fillOpacity: 0.64,
+            stroke: RADAR_FOREGROUND,
             strokeWidth: 2,
           },
           [`& .${radarClasses.seriesMark}`]: {
-            fill: colorVars['--color-background-surface'],
-            stroke: RADAR_COLOR,
+            fill: RADAR_FOREGROUND,
+            stroke: RADAR_FOREGROUND,
             strokeWidth: 2,
           },
         }}

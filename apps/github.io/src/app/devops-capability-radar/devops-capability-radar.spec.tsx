@@ -65,13 +65,13 @@ describe('DevOpsCapabilityRadar', () => {
     }
   });
 
-  it('uses a readable contrast token for axis labels', () => {
+  it('uses the primary text token for axis labels', () => {
     render(<DevOpsCapabilityRadar />);
 
     for (const metric of devOpsCapabilityRadarMetrics) {
       expect(
         screen.getByText(metric.name).closest('text')?.getAttribute('fill'),
-      ).toBe('var(--color-text-blue)');
+      ).toBe('var(--color-text-primary)');
     }
   });
 
@@ -94,6 +94,36 @@ describe('DevOpsCapabilityRadar', () => {
     expect(Number(securityMark?.getAttribute('cy'))).toBeCloseTo(
       142.79999999999995,
     );
+  });
+
+  it('uses SkillToken purple tokens for the radar series', () => {
+    const { container } = render(<DevOpsCapabilityRadar />);
+    const area = container.querySelector('.MuiRadarChart-seriesArea');
+    const marks = container.querySelectorAll('.MuiRadarChart-seriesMark');
+    const styles = [...document.querySelectorAll('style')]
+      .map((style) => style.textContent ?? '')
+      .join('\n');
+
+    expect(area?.getAttribute('fill')).toBe('var(--color-background-purple)');
+    expect(styles).toContain('stroke:var(--color-text-purple)');
+
+    for (const mark of marks) {
+      expect(mark.getAttribute('fill')).toBe('var(--color-background-purple)');
+    }
+    expect(styles).toContain('fill:var(--color-text-purple)');
+  });
+
+  it('uses two Astryx tones for radar stripes', () => {
+    const { container } = render(<DevOpsCapabilityRadar />);
+    const stripes = [...container.querySelectorAll('.MuiRadarChart-gridStripe')];
+
+    expect(stripes.map((stripe) => stripe.getAttribute('fill'))).toEqual([
+      'var(--color-background-purple)',
+      'var(--color-background-surface)',
+      'var(--color-background-purple)',
+      'var(--color-background-surface)',
+      'var(--color-background-purple)',
+    ]);
   });
 
   it('does not expose tabbable chart content from the hidden visual wrapper', () => {
