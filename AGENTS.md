@@ -52,6 +52,8 @@ Do not auto-push, auto-merge, or auto-deploy. Stop in an awaiting-handoff state 
 
 - Hermes Kanban is the local agent task board for this workflow unless a task explicitly names GitHub Issues or another tracker.
 - Use `docs/agents/issue-tracker.md` for the tracker mapping expected by mattpocock/skills.
+- `docs/solutions/` contains documented solutions to past bugs, design patterns, workflow issues, and best practices, organized by category with YAML frontmatter such as `module`, `tags`, and `problem_type`.
+- `CONCEPTS.md` contains shared project vocabulary relevant when orienting to the codebase or discussing domain concepts.
 - Tickets should be vertical slices where possible.
 - Each implementation ticket should include acceptance criteria, blockers, target app/package, validation commands, and handoff criteria.
 
