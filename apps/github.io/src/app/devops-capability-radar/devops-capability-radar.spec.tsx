@@ -105,12 +105,18 @@ describe('DevOpsCapabilityRadar', () => {
       .join('\n');
 
     expect(area?.getAttribute('fill')).toBe('var(--color-background-purple)');
+    expect(styles).toContain(
+      '.MuiRadarChart-seriesArea{fill:var(--color-background-purple)',
+    );
     expect(styles).toContain('stroke:var(--color-text-purple)');
 
     for (const mark of marks) {
-      expect(mark.getAttribute('fill')).toBe('var(--color-background-purple)');
+      expect(getComputedStyle(mark).fill).toBe('var(--color-text-purple)');
+      expect(getComputedStyle(mark).stroke).toBe('var(--color-text-purple)');
     }
-    expect(styles).toContain('fill:var(--color-text-purple)');
+    expect(styles).toContain(
+      '.MuiRadarChart-seriesMark{fill:var(--color-text-purple)',
+    );
   });
 
   it('uses two Astryx tones for radar stripes', () => {
