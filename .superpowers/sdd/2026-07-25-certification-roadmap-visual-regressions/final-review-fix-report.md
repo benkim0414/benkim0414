@@ -47,7 +47,7 @@ Vitest emitted an existing post-run hanging-process warning after reporting the 
 
 ## Commit Created
 
-Pending at report creation time.
+`53df72f fix(github.io): narrow citation icon brand`
 
 ## Concerns
 
