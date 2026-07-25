@@ -5,6 +5,7 @@ import {
   spacingVars,
 } from '@astryxdesign/core/theme/tokens.stylex';
 import { VisuallyHidden } from '@astryxdesign/core/VisuallyHidden';
+import type { ReactElement } from 'react';
 
 import { getSkillBrand } from '../skills/skill-brand';
 
@@ -58,7 +59,7 @@ export function CertificationCitation({
   expiresAt,
   number = 1,
   currentDate = new Date(),
-}: CertificationCitationProps): JSX.Element {
+}: CertificationCitationProps): ReactElement {
   const primary = findPrimaryBrand(skills);
   const status = isActive(expiresAt, currentDate) ? 'active' : 'expired';
   const iconPath = primary?.brand.iconPath;

@@ -1,7 +1,7 @@
 import * as stylex from '@stylexjs/stylex';
 import { Token } from '@astryxdesign/core/Token';
 import { colorVars, spacingVars } from '@astryxdesign/core/theme/tokens.stylex';
-import type { CSSProperties } from 'react';
+import type { CSSProperties, ReactElement } from 'react';
 
 import { getSkillBrand, type SkillBrand } from './skill-brand';
 
@@ -33,7 +33,7 @@ function tokenStyle(brand: SkillBrand | undefined): CSSProperties | undefined {
   } as CSSProperties;
 }
 
-export function SkillToken({ label }: SkillTokenProps): JSX.Element {
+export function SkillToken({ label }: SkillTokenProps): ReactElement {
   const brand = getSkillBrand(label);
   const hasIcon = Boolean(brand?.iconPath);
 
