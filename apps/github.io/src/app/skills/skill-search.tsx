@@ -1,6 +1,9 @@
 import { PowerSearch } from '@astryxdesign/core/PowerSearch';
 import type {
+  FilterValueEnum,
+  FilterValueString,
   PowerSearchConfig,
+  PowerSearchChangeType,
   PowerSearchFilter,
 } from '@astryxdesign/core/PowerSearch';
 
@@ -11,6 +14,16 @@ interface SkillSearchProps {
   onFiltersChange: (filters: ReadonlyArray<PowerSearchFilter>) => void;
   resultCount: number;
 }
+
+type SkillSearchStringFilter = PowerSearchFilter & {
+  field: 'query';
+  value: FilterValueString;
+};
+
+type SkillSearchEnumFilter = PowerSearchFilter & {
+  field: 'category';
+  value: FilterValueEnum;
+};
 
 export const skillSearchConfig: PowerSearchConfig = {
   name: 'SkillSearch',
@@ -61,16 +74,22 @@ export function skillMatchesQuery(skill: Skill, query: string) {
   );
 }
 
+function isQueryFilter(filter: PowerSearchFilter): filter is SkillSearchStringFilter {
+  return filter.field === 'query' && filter.value.type === 'string';
+}
+
+function isCategoryFilter(
+  filter: PowerSearchFilter,
+): filter is SkillSearchEnumFilter {
+  return filter.field === 'category' && filter.value.type === 'enum';
+}
+
 export function skillMatchesFilters(
   skill: Skill,
   filters: ReadonlyArray<PowerSearchFilter>,
 ) {
-  const queryFilters = filters.filter(
-    (filter) => filter.field === 'query' && filter.value.type === 'string',
-  );
-  const categoryFilters = filters.filter(
-    (filter) => filter.field === 'category' && filter.value.type === 'enum',
-  );
+  const queryFilters = filters.filter(isQueryFilter);
+  const categoryFilters = filters.filter(isCategoryFilter);
 
   return (
     queryFilters.every((filter) =>
@@ -94,7 +113,11 @@ export function SkillSearch({
       label="Search skills"
       placeholder="Search skills"
       resultCount={resultCount}
-      onChange={(nextFilters, changeType, changedIndex) => {
+      onChange={(
+        nextFilters: ReadonlyArray<PowerSearchFilter>,
+        changeType: PowerSearchChangeType,
+        changedIndex: number,
+      ) => {
         const changedFilter = nextFilters[changedIndex];
 
         if (changeType === 'add' && changedFilter?.field === 'query') {

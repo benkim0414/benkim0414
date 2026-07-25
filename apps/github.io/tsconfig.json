@@ -4,8 +4,9 @@
     "allowJs": false,
     "esModuleInterop": false,
     "allowSyntheticDefaultImports": true,
+    "moduleResolution": "bundler",
     "strict": true,
-    "types": ["vite/client", "vitest"]
+    "types": ["vite/client", "vitest", "react"]
   },
   "files": [],
   "include": [],
