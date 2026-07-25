@@ -66,8 +66,14 @@ export function CertificationCitation({
   const status = isActive(expiresAt, currentDate) ? 'active' : 'expired';
   const iconPath = primary?.brand.iconPath;
   const hasSkillLogo = Boolean(iconPath);
-  const iconColor =
-    status === 'active' ? primary?.brand.color : ASTRYX_CITATION_LABEL_TEXT;
+  const icon = primary?.brand.iconPath
+    ? iconDataUrl(
+        primary.brand.iconPath,
+        status === 'active'
+          ? primary.brand.color
+          : ASTRYX_CITATION_LABEL_TEXT,
+      )
+    : undefined;
 
   return (
     <span
@@ -81,7 +87,7 @@ export function CertificationCitation({
         source={{
           title,
           url,
-          icon: iconPath ? iconDataUrl(iconPath, iconColor) : undefined,
+          icon,
         }}
         variant="label"
         xstyle={hasSkillLogo && styles.sourceWithIcon}
