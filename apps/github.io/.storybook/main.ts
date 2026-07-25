@@ -14,6 +14,13 @@ const config: StorybookConfig = {
       },
     },
   },
+  viteFinal: (config) => ({
+    ...config,
+    server: {
+      ...config.server,
+      allowedHosts: ['100.113.57.51', 'localhost'],
+    },
+  }),
 };
 
 function getAbsolutePath(value: string): string {
