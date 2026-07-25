@@ -1,3 +1,5 @@
+import { render, screen } from '@testing-library/react';
+
 import {
   DEVOPS_CAPABILITY_RADAR_LABEL,
   DEVOPS_CAPABILITY_RADAR_SERIES_LABEL,
@@ -5,6 +7,7 @@ import {
   devOpsCapabilityRadarScores,
   getDevOpsCapabilityRadarSummary,
 } from './devops-capability-radar.data';
+import { DevOpsCapabilityRadar } from './devops-capability-radar';
 
 describe('devOpsCapabilityRadar data', () => {
   it('uses the approved accessible label and series label', () => {
@@ -37,5 +40,28 @@ describe('devOpsCapabilityRadar data', () => {
     expect(getDevOpsCapabilityRadarSummary()).toBe(
       'Automation 4 of 5, Delivery 5 of 5, Cloud 4 of 5, Containers 4 of 5, Reliability 4 of 5, Security 3 of 5.',
     );
+  });
+});
+
+describe('DevOpsCapabilityRadar', () => {
+  it('renders a standalone labelled chart region', () => {
+    render(<DevOpsCapabilityRadar />);
+
+    expect(
+      screen.getByRole('figure', { name: 'DevOps capability radar' }),
+    ).toBeTruthy();
+    expect(
+      screen.getByText(
+        'Automation 4 of 5, Delivery 5 of 5, Cloud 4 of 5, Containers 4 of 5, Reliability 4 of 5, Security 3 of 5.',
+      ),
+    ).toBeTruthy();
+  });
+
+  it('renders all six capability axes', () => {
+    render(<DevOpsCapabilityRadar />);
+
+    for (const metric of devOpsCapabilityRadarMetrics) {
+      expect(screen.getByText(metric.name)).toBeTruthy();
+    }
   });
 });
