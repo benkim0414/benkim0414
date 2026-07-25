@@ -9,6 +9,8 @@ import type { ReactElement } from 'react';
 
 import { getSkillBrand } from '../skills/skill-brand';
 
+const ASTRYX_CITATION_LABEL_TEXT = '#737373';
+
 const styles = stylex.create({
   root: {
     display: 'inline-flex',
@@ -64,6 +66,8 @@ export function CertificationCitation({
   const status = isActive(expiresAt, currentDate) ? 'active' : 'expired';
   const iconPath = primary?.brand.iconPath;
   const hasSkillLogo = Boolean(iconPath);
+  const iconColor =
+    status === 'active' ? primary?.brand.color : ASTRYX_CITATION_LABEL_TEXT;
 
   return (
     <span
@@ -77,10 +81,7 @@ export function CertificationCitation({
         source={{
           title,
           url,
-          icon:
-            iconPath && primary?.brand.color
-              ? iconDataUrl(iconPath, primary.brand.color)
-              : undefined,
+          icon: iconPath ? iconDataUrl(iconPath, iconColor) : undefined,
         }}
         variant="label"
         xstyle={hasSkillLogo && styles.sourceWithIcon}
