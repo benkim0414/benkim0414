@@ -64,4 +64,16 @@ describe('DevOpsCapabilityRadar', () => {
       expect(screen.getByText(metric.name)).toBeTruthy();
     }
   });
+
+  it('does not expose tabbable chart content from the hidden visual wrapper', () => {
+    const { container } = render(<DevOpsCapabilityRadar />);
+    const chartWrapper = container.querySelector('[aria-hidden="true"]');
+
+    expect(chartWrapper).toBeTruthy();
+    expect(
+      chartWrapper?.querySelectorAll(
+        'a[href], button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])',
+      ),
+    ).toHaveLength(0);
+  });
 });
