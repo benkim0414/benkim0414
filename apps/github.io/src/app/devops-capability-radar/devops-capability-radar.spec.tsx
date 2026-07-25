@@ -65,6 +65,14 @@ describe('DevOpsCapabilityRadar', () => {
     }
   });
 
+  it('gives the standalone chart a stable visible viewport', () => {
+    const { container } = render(<DevOpsCapabilityRadar />);
+    const chart = container.querySelector('svg');
+
+    expect(chart?.getAttribute('viewBox')).toBe('0 0 360 360');
+    expect(chart?.getAttribute('aria-hidden')).toBe('true');
+  });
+
   it('does not expose tabbable chart content from the hidden visual wrapper', () => {
     const { container } = render(<DevOpsCapabilityRadar />);
     const chartWrapper = container.querySelector('[aria-hidden="true"]');
