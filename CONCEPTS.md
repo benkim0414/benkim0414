@@ -22,7 +22,7 @@ Astryx Foundation means new UI work should prefer Astryx components and tokens b
 
 ### Astryx Styling Boundary
 
-The styling rule for the `github.io` App: Astryx components define component anatomy, StyleX handles component-specific overrides with Astryx token aliases, Tailwind handles wrapper and utility layout, and scoped CSS handles third-party internals.
+The styling rule for the `github.io` App: Astryx components define component anatomy, StyleX and supported third-party theming surfaces handle component-specific overrides with Astryx token aliases, Tailwind handles wrapper and utility layout, and scoped CSS handles generated internals.
 
 Astryx Styling Boundary keeps local visual fixes from replacing Astryx component semantics or drifting from Astryx spacing, radius, and color guidance.
 
