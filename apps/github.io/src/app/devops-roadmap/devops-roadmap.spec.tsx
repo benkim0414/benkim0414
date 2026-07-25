@@ -73,6 +73,7 @@ vi.mock('@xyflow/react', () => ({
     zoomOnScroll,
     zoomOnDoubleClick,
     fitView,
+    fitViewOptions,
     children,
   }: {
     nodes: Array<{
@@ -104,6 +105,7 @@ vi.mock('@xyflow/react', () => ({
     zoomOnScroll: boolean;
     zoomOnDoubleClick: boolean;
     fitView: boolean;
+    fitViewOptions?: { padding?: number };
     children: ReactNode;
   }) => (
     <div
@@ -111,6 +113,7 @@ vi.mock('@xyflow/react', () => ({
       data-disable-keyboard-a11y={String(disableKeyboardA11y)}
       data-elements-selectable={String(elementsSelectable)}
       data-fit-view={String(fitView)}
+      data-fit-view-padding={String(fitViewOptions?.padding)}
       data-node-count={nodes.length}
       data-node-positions={nodes
         .map((node) => `${node.id}:${node.position.y}`)
@@ -365,6 +368,17 @@ describe('DevOpsRoadmap', () => {
     expect(
       getByTestId('react-flow').getAttribute('data-disable-keyboard-a11y'),
     ).toBe('true');
+  });
+
+  it('does not reserve React Flow fit padding after the final node', () => {
+    const { getByTestId } = render(<DevOpsRoadmap />);
+
+    expect(getByTestId('react-flow').getAttribute('data-fit-view')).toBe(
+      'true',
+    );
+    expect(
+      getByTestId('react-flow').getAttribute('data-fit-view-padding'),
+    ).toBe('0');
   });
 
   it('gives the React Flow wrapper a definite timeline height', () => {
