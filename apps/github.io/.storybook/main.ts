@@ -1,7 +1,11 @@
 import { fileURLToPath } from 'node:url';
-import { dirname } from 'node:path';
+import { dirname, resolve } from 'node:path';
 
 import type { StorybookConfig } from '@storybook/react-vite';
+
+const storybookDir = dirname(fileURLToPath(import.meta.url));
+const workspaceRoot = resolve(storybookDir, '../../..');
+const linkedWorktreeDependencyRoot = resolve(storybookDir, '../../../../..');
 
 const config: StorybookConfig = {
   stories: ['../src/**/*.@(mdx|stories.@(js|jsx|ts|tsx))'],
@@ -19,6 +23,14 @@ const config: StorybookConfig = {
     server: {
       ...config.server,
       allowedHosts: ['100.113.57.51', 'localhost'],
+      fs: {
+        ...config.server?.fs,
+        allow: [
+          ...(config.server?.fs?.allow ?? []),
+          workspaceRoot,
+          linkedWorktreeDependencyRoot,
+        ],
+      },
     },
   }),
 };
