@@ -1,5 +1,6 @@
 import { VisuallyHidden } from '@astryxdesign/core/VisuallyHidden';
 import { RadarChart, radarClasses } from '@mui/x-charts/RadarChart';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { colorVars } from '@astryxdesign/core/theme/tokens.stylex';
 
 import {
@@ -11,12 +12,20 @@ import {
 const CHART_WIDTH = 360;
 const CHART_HEIGHT = 360;
 const RADAR_COLOR = colorVars['--color-text-blue'];
+const radarTheme = createTheme({
+  palette: {
+    text: {
+      primary: RADAR_COLOR,
+      secondary: colorVars['--color-text-secondary'],
+    },
+  },
+});
 
 export function DevOpsCapabilityRadar(): JSX.Element {
   const summary = getDevOpsCapabilityRadarSummary();
 
   return (
-    <>
+    <ThemeProvider theme={radarTheme}>
       <VisuallyHidden>{summary}</VisuallyHidden>
       <RadarChart
         aria-hidden="true"
@@ -75,6 +84,6 @@ export function DevOpsCapabilityRadar(): JSX.Element {
         }}
         width={CHART_WIDTH}
       />
-    </>
+    </ThemeProvider>
   );
 }
