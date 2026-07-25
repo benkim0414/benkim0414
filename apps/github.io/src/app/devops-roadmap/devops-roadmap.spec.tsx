@@ -1,4 +1,6 @@
 import { render } from '@testing-library/react';
+import { readFileSync } from 'node:fs';
+import { resolve } from 'node:path';
 import type { ReactNode } from 'react';
 import { vi } from 'vitest';
 
@@ -209,6 +211,23 @@ describe('DevOpsRoadmapNode', () => {
   it('preserves the previous responsive node width contract', () => {
     expect(DEVOPS_ROADMAP_NODE_WIDTH).toBe('min(100%, 320px)');
     expect(DEVOPS_ROADMAP_NODE_MOBILE_WIDTH).toBe('min(100%, 280px)');
+  });
+
+  it('keeps the React Flow node wrapper aligned to the visible node width', () => {
+    const appRoot = process.cwd().endsWith('/apps/github.io')
+      ? process.cwd()
+      : resolve(process.cwd(), 'apps/github.io');
+    const styles = readFileSync(
+      resolve(appRoot, 'src/styles.css'),
+      'utf8',
+    );
+
+    expect(styles).toContain(
+      `.devops-roadmap__flow .react-flow__node {\n  width: ${DEVOPS_ROADMAP_NODE_WIDTH};\n}`,
+    );
+    expect(styles).toContain(
+      `@media (max-width: 640px) {\n  .devops-roadmap__flow .react-flow__node {\n    width: ${DEVOPS_ROADMAP_NODE_MOBILE_WIDTH};\n  }\n}`,
+    );
   });
 
   it('renders the core node title and purple-ticked skill tokens', () => {
