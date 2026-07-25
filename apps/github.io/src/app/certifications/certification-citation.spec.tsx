@@ -70,7 +70,7 @@ describe('CertificationCitation', () => {
     expect(icon?.getAttribute('src')).toContain('fill%3D%22%23326CE5%22');
   });
 
-  it('keeps the brand color logo for expired certifications', () => {
+  it('uses neutral citation text color for expired certification logos', () => {
     const { container, getByRole } = render(
       <CertificationCitation
         currentDate={new Date('2029-01-01T00:00:00+11:00')}
@@ -89,8 +89,11 @@ describe('CertificationCitation', () => {
 
     expect(wrapper?.getAttribute('style')).toBeNull();
     expect(citation.getAttribute('style')).toBeNull();
-    expect(icon?.getAttribute('src')).toContain('data:image/svg+xml;utf8,');
-    expect(icon?.getAttribute('src')).toContain('fill%3D%22%23326CE5%22');
+    const iconSrc = icon?.getAttribute('src') ?? '';
+
+    expect(iconSrc).toContain('data:image/svg+xml;utf8,');
+    expect(iconSrc).toContain('fill%3D%22%23737373%22');
+    expect(iconSrc).not.toContain('fill%3D%22%23326CE5%22');
   });
 
   it('keeps Citation border styling with Astryx instead of brand color', () => {
