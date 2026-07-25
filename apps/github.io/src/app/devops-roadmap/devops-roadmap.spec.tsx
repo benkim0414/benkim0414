@@ -3,7 +3,11 @@ import type { ReactNode } from 'react';
 import { vi } from 'vitest';
 
 import { devOpsRoadmapItems } from './devops-roadmap.data';
-import { DevOpsRoadmapNode } from './devops-roadmap-node';
+import {
+  DEVOPS_ROADMAP_NODE_MOBILE_WIDTH,
+  DEVOPS_ROADMAP_NODE_WIDTH,
+  DevOpsRoadmapNode,
+} from './devops-roadmap-node';
 import { DevOpsRoadmap } from './devops-roadmap';
 
 vi.mock('../skills/skill-token', () => ({
@@ -202,6 +206,11 @@ describe('devOpsRoadmapItems', () => {
 });
 
 describe('DevOpsRoadmapNode', () => {
+  it('preserves the previous responsive node width contract', () => {
+    expect(DEVOPS_ROADMAP_NODE_WIDTH).toBe('min(100%, 320px)');
+    expect(DEVOPS_ROADMAP_NODE_MOBILE_WIDTH).toBe('min(100%, 280px)');
+  });
+
   it('renders the core node title and purple-ticked skill tokens', () => {
     const { getByRole, getByTestId } = render(
       <DevOpsRoadmapNode
