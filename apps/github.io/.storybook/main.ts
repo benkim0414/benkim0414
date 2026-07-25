@@ -1,7 +1,11 @@
 import { fileURLToPath } from 'node:url';
-import { dirname } from 'node:path';
+import { dirname, resolve } from 'node:path';
 
 import type { StorybookConfig } from '@storybook/react-vite';
+
+const storybookDir = dirname(fileURLToPath(import.meta.url));
+const workspaceRoot = resolve(storybookDir, '../../..');
+const linkedWorktreeDependencyRoot = resolve(storybookDir, '../../../../..');
 
 const config: StorybookConfig = {
   stories: ['../src/**/*.@(mdx|stories.@(js|jsx|ts|tsx))'],
@@ -14,6 +18,20 @@ const config: StorybookConfig = {
       },
     },
   },
+  viteFinal: (config) => ({
+    ...config,
+    server: {
+      ...config.server,
+      fs: {
+        ...config.server?.fs,
+        allow: [
+          ...(config.server?.fs?.allow ?? []),
+          workspaceRoot,
+          linkedWorktreeDependencyRoot,
+        ],
+      },
+    },
+  }),
 };
 
 function getAbsolutePath(value: string): string {
