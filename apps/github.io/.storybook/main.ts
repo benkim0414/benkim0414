@@ -1,11 +1,12 @@
 import { fileURLToPath } from 'node:url';
-import { dirname, resolve } from 'node:path';
+import { dirname, sep, resolve } from 'node:path';
 
 import type { StorybookConfig } from '@storybook/react-vite';
 
 const storybookDir = dirname(fileURLToPath(import.meta.url));
 const workspaceRoot = resolve(storybookDir, '../../..');
-const linkedWorktreeDependencyRoot = resolve(storybookDir, '../../../../..');
+const linkedWorktreeDependencyRoot =
+  getLinkedWorktreeDependencyRoot(storybookDir);
 
 const config: StorybookConfig = {
   stories: ['../src/**/*.@(mdx|stories.@(js|jsx|ts|tsx))'],
@@ -24,11 +25,15 @@ const config: StorybookConfig = {
       ...config.server,
       fs: {
         ...config.server?.fs,
-        allow: [
-          ...(config.server?.fs?.allow ?? []),
-          workspaceRoot,
-          linkedWorktreeDependencyRoot,
-        ],
+        allow: Array.from(
+          new Set([
+            ...(config.server?.fs?.allow ?? []),
+            workspaceRoot,
+            ...(linkedWorktreeDependencyRoot
+              ? [linkedWorktreeDependencyRoot]
+              : []),
+          ]),
+        ),
       },
     },
   }),
@@ -36,6 +41,17 @@ const config: StorybookConfig = {
 
 function getAbsolutePath(value: string): string {
   return dirname(fileURLToPath(import.meta.resolve(`${value}/package.json`)));
+}
+
+function getLinkedWorktreeDependencyRoot(path: string): string | undefined {
+  const segments = path.split(sep);
+  const worktreesIndex = segments.lastIndexOf('.worktrees');
+
+  if (worktreesIndex === -1 || worktreesIndex + 1 >= segments.length) {
+    return undefined;
+  }
+
+  return segments.slice(0, worktreesIndex).join(sep) || sep;
 }
 
 export default config;
