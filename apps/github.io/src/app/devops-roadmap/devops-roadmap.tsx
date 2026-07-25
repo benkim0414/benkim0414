@@ -217,11 +217,10 @@ export function DevOpsRoadmap({
     >
       <ReactFlow
         colorMode="light"
+        defaultViewport={{ x: 0, y: 0, zoom: 1 }}
         disableKeyboardA11y
         edges={edges}
         elementsSelectable={false}
-        fitView
-        fitViewOptions={{ padding: 0 }}
         nodes={nodes}
         nodesConnectable={false}
         nodesDraggable={false}
