@@ -2,7 +2,6 @@ import { render, screen } from '@testing-library/react';
 
 import {
   DEVOPS_CAPABILITY_RADAR_LABEL,
-  DEVOPS_CAPABILITY_RADAR_SERIES_LABEL,
   devOpsCapabilityRadarMetrics,
   devOpsCapabilityRadarScores,
   getDevOpsCapabilityRadarSummary,
@@ -10,9 +9,8 @@ import {
 import { DevOpsCapabilityRadar } from './devops-capability-radar';
 
 describe('devOpsCapabilityRadar data', () => {
-  it('uses the approved accessible label and series label', () => {
+  it('uses the approved accessible label', () => {
     expect(DEVOPS_CAPABILITY_RADAR_LABEL).toBe('DevOps capability radar');
-    expect(DEVOPS_CAPABILITY_RADAR_SERIES_LABEL).toBe('DevOps capability');
   });
 
   it('uses the approved capability axes in order', () => {
@@ -44,12 +42,14 @@ describe('devOpsCapabilityRadar data', () => {
 });
 
 describe('DevOpsCapabilityRadar', () => {
-  it('renders a standalone labelled chart region', () => {
+  it('renders only the radar chart visually', () => {
     render(<DevOpsCapabilityRadar />);
 
+    expect(screen.queryByRole('figure')).toBeNull();
     expect(
-      screen.getByRole('figure', { name: 'DevOps capability radar' }),
-    ).toBeTruthy();
+      screen.queryByRole('heading', { name: 'DevOps capability radar' }),
+    ).toBeNull();
+    expect(screen.queryByText('DevOps capability')).toBeNull();
     expect(
       screen.getByText(
         'Automation 4 of 5, Delivery 5 of 5, Cloud 4 of 5, Containers 4 of 5, Reliability 4 of 5, Security 3 of 5.',
