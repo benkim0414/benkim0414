@@ -181,7 +181,7 @@ describe('devOpsCapabilityRadar data', () => {
 Run:
 
 ```bash
-pnpm nx test github.io -- --run apps/github.io/src/app/devops-capability-radar/devops-capability-radar.spec.tsx
+pnpm nx test github.io -- --run src/app/devops-capability-radar/devops-capability-radar.spec.tsx
 ```
 
 Expected: FAIL because `devops-capability-radar.data.ts` does not exist.
@@ -227,7 +227,7 @@ export function getDevOpsCapabilityRadarSummary(): string {
 Run:
 
 ```bash
-pnpm nx test github.io -- --run apps/github.io/src/app/devops-capability-radar/devops-capability-radar.spec.tsx
+pnpm nx test github.io -- --run src/app/devops-capability-radar/devops-capability-radar.spec.tsx
 ```
 
 Expected: PASS for the data tests.
@@ -338,7 +338,7 @@ describe('DevOpsCapabilityRadar', () => {
 Run:
 
 ```bash
-pnpm nx test github.io -- --run apps/github.io/src/app/devops-capability-radar/devops-capability-radar.spec.tsx
+pnpm nx test github.io -- --run src/app/devops-capability-radar/devops-capability-radar.spec.tsx
 ```
 
 Expected: FAIL because `devops-capability-radar.tsx` does not exist.
@@ -442,7 +442,7 @@ export function DevOpsCapabilityRadar(): JSX.Element {
 Run:
 
 ```bash
-pnpm nx test github.io -- --run apps/github.io/src/app/devops-capability-radar/devops-capability-radar.spec.tsx
+pnpm nx test github.io -- --run src/app/devops-capability-radar/devops-capability-radar.spec.tsx
 ```
 
 Expected: PASS. If `colorVars['--color-text-blue']` is not exported by the installed Astryx token file, inspect `apps/github.io/src/app/devops-roadmap/devops-roadmap-node.tsx` and `node_modules/@astryxdesign/core/theme/tokens.stylex.*`, then replace only the radar accent token with an exported non-purple accent color token.
@@ -507,7 +507,7 @@ export const Default: Story = {};
 Run:
 
 ```bash
-pnpm nx test github.io -- --run apps/github.io/src/app/devops-capability-radar/devops-capability-radar.spec.tsx
+pnpm nx test github.io -- --run src/app/devops-capability-radar/devops-capability-radar.spec.tsx
 ```
 
 Expected: PASS.

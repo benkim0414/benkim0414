@@ -60,6 +60,7 @@ export function DevOpsCapabilityRadar(): JSX.Element {
       <div {...stylex.props(styles.chartFrame)} aria-hidden="true">
         <RadarChart
           colors={[colorVars['--color-text-blue']]}
+          disableKeyboardNavigation
           divisions={5}
           height={CHART_HEIGHT}
           margin={{ top: 32, right: 56, bottom: 32, left: 56 }}
