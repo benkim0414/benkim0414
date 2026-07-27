@@ -16,7 +16,9 @@ import {
 
 describe('devOpsCapabilityEvidence data', () => {
   it('defines the first DORA capability dimensions in order', () => {
-    expect(doraCapabilityDefinitions.map((capability) => capability.key)).toEqual([
+    expect(
+      doraCapabilityDefinitions.map((capability) => capability.key),
+    ).toEqual([
       'continuous-delivery',
       'deployment-automation',
       'continuous-integration',
@@ -48,8 +50,25 @@ describe('devOpsCapabilityEvidence data', () => {
       expect(item.summary.length).toBeGreaterThan(24);
       expect(item.capabilityKeys.length).toBeGreaterThan(0);
       expect(['supporting', 'strong', 'primary']).toContain(item.strength);
-      expect(item.summary).not.toMatch(/incident-\d+|deploy-\d+|private repo|customer name/i);
+      expect(item.summary).not.toMatch(
+        /incident-\d+|deploy-\d+|private repo|customer name/i,
+      );
     }
+  });
+
+  it('keeps the CI/CD experience as a public-safe portfolio projection', () => {
+    const deliveryExperience = devOpsCapabilityEvidenceItems.find(
+      (item) => item.id === 'github-actions-delivery',
+    );
+
+    expect(deliveryExperience).toMatchObject({
+      isPublic: true,
+      type: 'experience',
+    });
+    expect(deliveryExperience?.isSensitive).toBeUndefined();
+    expect(deliveryExperience?.summary).not.toMatch(
+      /deployment count|incident record|pull request|private repository|customer/i,
+    );
   });
 });
 
@@ -110,7 +129,69 @@ describe('devOpsCapabilityEvidence scoring', () => {
     expect(evidence.map((item) => item.id)).not.toContain('unsupported-skill');
     expect(evidence.map((item) => item.id)).not.toContain('private-detail');
     expect(evidence.map((item) => item.id)).not.toContain('sensitive-detail');
-    expect(evidence.map((item) => item.id)).not.toContain('sensitive-only-skill');
+    expect(evidence.map((item) => item.id)).not.toContain(
+      'sensitive-only-skill',
+    );
+  });
+
+  it('requires a public non-skill support item with a shared capability for skills', () => {
+    const evidence = getPublicCapabilityEvidence([
+      {
+        id: 'delivery-summary',
+        title: 'Delivery workflow summary',
+        type: 'experience',
+        capabilityKeys: ['continuous-delivery'],
+        summary: 'Public-safe summary of delivery workflow ownership.',
+        isPublic: true,
+        strength: 'primary',
+      },
+      {
+        id: 'self-supported-skill',
+        title: 'Self-supported skill',
+        type: 'skill',
+        capabilityKeys: ['continuous-delivery'],
+        summary:
+          'A skill that incorrectly identifies itself as supporting evidence.',
+        isPublic: true,
+        strength: 'supporting',
+        supportingEvidenceIds: ['self-supported-skill'],
+      },
+      {
+        id: 'circular-skill-one',
+        title: 'Circular skill one',
+        type: 'skill',
+        capabilityKeys: ['continuous-delivery'],
+        summary:
+          'A skill that incorrectly relies on another skill for evidence.',
+        isPublic: true,
+        strength: 'supporting',
+        supportingEvidenceIds: ['circular-skill-two'],
+      },
+      {
+        id: 'circular-skill-two',
+        title: 'Circular skill two',
+        type: 'skill',
+        capabilityKeys: ['continuous-delivery'],
+        summary:
+          'A second skill that completes an invalid evidence-only cycle.',
+        isPublic: true,
+        strength: 'supporting',
+        supportingEvidenceIds: ['circular-skill-one'],
+      },
+      {
+        id: 'wrong-capability-skill',
+        title: 'Wrong capability skill',
+        type: 'skill',
+        capabilityKeys: ['test-automation'],
+        summary:
+          'A skill supported by public evidence for an unrelated capability.',
+        isPublic: true,
+        strength: 'supporting',
+        supportingEvidenceIds: ['delivery-summary'],
+      },
+    ]);
+
+    expect(evidence.map((item) => item.id)).toEqual(['delivery-summary']);
   });
 
   it('derives non-zero capability scores from evidence', () => {
@@ -119,7 +200,9 @@ describe('devOpsCapabilityEvidence scoring', () => {
       doraCapabilityDefinitions,
     );
 
-    expect(scores.find((score) => score.capabilityKey === 'continuous-delivery')).toMatchObject({
+    expect(
+      scores.find((score) => score.capabilityKey === 'continuous-delivery'),
+    ).toMatchObject({
       label: 'Continuous Delivery',
       score: 3,
       maxScore: 5,
@@ -134,10 +217,16 @@ describe('devOpsCapabilityEvidence scoring', () => {
     ] as const;
 
     expect(
-      getCapabilityEvidenceScores(devOpsCapabilityEvidenceItems, definitionsWithoutEvidence),
+      getCapabilityEvidenceScores(
+        devOpsCapabilityEvidenceItems,
+        definitionsWithoutEvidence,
+      ),
     ).toEqual([]);
     expect(
-      getCapabilityEvidenceMatrix(devOpsCapabilityEvidenceItems, definitionsWithoutEvidence),
+      getCapabilityEvidenceMatrix(
+        devOpsCapabilityEvidenceItems,
+        definitionsWithoutEvidence,
+      ),
     ).toEqual([]);
   });
 
@@ -167,8 +256,14 @@ describe('devOpsCapabilityEvidence scoring', () => {
       doraCapabilityDefinitions,
     );
 
-    expect(getCapabilityScoreSummary(scores)).toContain('Continuous Delivery 3 of 5');
-    expect(getEvidenceTypeSummary(getEvidenceTypeCounts(devOpsCapabilityEvidenceItems))).toBe(
+    expect(getCapabilityScoreSummary(scores)).toContain(
+      'Continuous Delivery 3 of 5',
+    );
+    expect(
+      getEvidenceTypeSummary(
+        getEvidenceTypeCounts(devOpsCapabilityEvidenceItems),
+      ),
+    ).toBe(
       'Evidence includes 1 skill, 1 learning item, 1 experience item, 1 certification, and 1 project.',
     );
   });

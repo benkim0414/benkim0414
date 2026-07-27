@@ -16,7 +16,9 @@ describe('DevOpsCertificationCapabilityMap', () => {
       />,
     );
 
-    expect(screen.getByLabelText('DevOps certification capability map')).toBeTruthy();
+    expect(
+      screen.getByLabelText('DevOps certification capability map'),
+    ).toBeTruthy();
     expect(screen.getByText('CNCF Kubernetes certification')).toBeTruthy();
     expect(screen.getByText('Flexible Infrastructure')).toBeTruthy();
     expect(screen.getByText('Monitoring and Observability')).toBeTruthy();
@@ -53,6 +55,6 @@ describe('DevOpsCertificationCapabilityMap', () => {
       />,
     );
 
-    expect(container).toBeEmptyDOMElement();
+    expect(container.childElementCount).toBe(0);
   });
 });

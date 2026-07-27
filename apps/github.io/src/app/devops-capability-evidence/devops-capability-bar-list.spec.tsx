@@ -27,6 +27,16 @@ describe('DevOpsCapabilityBarList', () => {
       isSensitive: true,
       strength: 'primary',
     },
+    {
+      id: 'infrastructure-evidence',
+      title: 'Infrastructure practice summary',
+      type: 'learning',
+      capabilityKeys: ['flexible-infrastructure'],
+      summary:
+        'Public infrastructure learning summary for a different capability.',
+      isPublic: true,
+      strength: 'strong',
+    },
   ] satisfies readonly CapabilityEvidenceItem[];
 
   const scores = [
@@ -58,9 +68,7 @@ describe('DevOpsCapabilityBarList', () => {
   ] satisfies readonly DoraCapabilityScore[];
 
   it('renders ranked capabilities and omits zero-score capabilities', () => {
-    render(
-      <DevOpsCapabilityBarList evidence={evidence} scores={scores} />,
-    );
+    render(<DevOpsCapabilityBarList evidence={evidence} scores={scores} />);
 
     const rows = screen.getByLabelText('DevOps capability score list').children;
 
@@ -70,17 +78,22 @@ describe('DevOpsCapabilityBarList', () => {
     expect(screen.getByText('Delivery workflow ownership')).toBeTruthy();
   });
 
-  it('ignores a private or mismatched strongest evidence item', () => {
+  it('ignores a public strongest evidence item from another capability', () => {
     const mismatchedScore: DoraCapabilityScore = {
-      ...scores[0],
-      evidenceIds: ['delivery-evidence'],
-      strongestEvidenceId: 'private-evidence',
+      ...scores[1],
+      evidenceIds: ['infrastructure-evidence'],
+      strongestEvidenceId: 'infrastructure-evidence',
     };
 
-    render(<DevOpsCapabilityBarList evidence={evidence} scores={[mismatchedScore]} />);
+    render(
+      <DevOpsCapabilityBarList
+        evidence={evidence}
+        scores={[mismatchedScore]}
+      />,
+    );
 
     expect(screen.getByText('Continuous Delivery')).toBeTruthy();
-    expect(screen.queryByText('Private company deployment details')).toBeNull();
+    expect(screen.queryByText('Infrastructure practice summary')).toBeNull();
   });
 
   it('renders nothing without scores', () => {
@@ -88,6 +101,6 @@ describe('DevOpsCapabilityBarList', () => {
       <DevOpsCapabilityBarList evidence={evidence} scores={[]} />,
     );
 
-    expect(container).toBeEmptyDOMElement();
+    expect(container.childElementCount).toBe(0);
   });
 });
