@@ -75,10 +75,21 @@ describe('devOpsCapabilityEvidence scoring', () => {
         isPublic: false,
         strength: 'primary',
       },
+      {
+        id: 'sensitive-detail',
+        title: 'Sensitive Public Deployment Record',
+        type: 'experience',
+        capabilityKeys: ['deployment-automation'],
+        summary: 'Publicly marked but sensitive operational detail.',
+        isPublic: true,
+        isSensitive: true,
+        strength: 'primary',
+      },
     ]);
 
     expect(evidence.map((item) => item.id)).not.toContain('unsupported-skill');
     expect(evidence.map((item) => item.id)).not.toContain('private-detail');
+    expect(evidence.map((item) => item.id)).not.toContain('sensitive-detail');
   });
 
   it('derives non-zero capability scores from evidence', () => {
@@ -94,6 +105,19 @@ describe('devOpsCapabilityEvidence scoring', () => {
       strongestEvidenceId: 'github-actions-delivery',
     });
     expect(scores.some((score) => score.score === 0)).toBe(false);
+  });
+
+  it('omits definitions without evidence from scores and the matrix', () => {
+    const definitionsWithoutEvidence = [
+      { key: 'test-automation', label: 'Test Automation', shortLabel: 'Tests' },
+    ] as const;
+
+    expect(
+      getCapabilityEvidenceScores(devOpsCapabilityEvidenceItems, definitionsWithoutEvidence),
+    ).toEqual([]);
+    expect(
+      getCapabilityEvidenceMatrix(devOpsCapabilityEvidenceItems, definitionsWithoutEvidence),
+    ).toEqual([]);
   });
 
   it('groups evidence counts by type and capability', () => {
