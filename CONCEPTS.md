@@ -18,6 +18,12 @@ The `github.io` App visualization that adapts roadmap.sh DevOps topics into a st
 
 DevOps Roadmap items carry a topic title, the owner's matching skills, and optional certification evidence; it is a presentation of portfolio coverage, not a full roadmap.sh clone.
 
+### DevOps Capability Evidence
+
+The public portfolio model that connects LinkedIn-style proof, such as skills, learning, experience, education, certifications, and projects, to DevOps capability dimensions.
+
+DevOps Capability Evidence is a public projection: it can summarize private work, but shipped entries must be safe to render on the public `github.io` App and skills should be backed by separate non-skill proof.
+
 ## Design System
 
 ### Astryx Foundation
