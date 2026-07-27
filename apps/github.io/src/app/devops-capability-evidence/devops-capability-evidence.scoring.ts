@@ -26,7 +26,7 @@ export function getPublicCapabilityEvidence(
   const itemIds = new Set(items.map((item) => item.id));
 
   return items.filter((item) => {
-    if (!item.isPublic) {
+    if (!item.isPublic || item.isSensitive) {
       return false;
     }
 
