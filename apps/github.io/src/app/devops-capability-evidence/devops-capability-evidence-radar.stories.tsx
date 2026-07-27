@@ -26,3 +26,8 @@ type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {};
 export const Empty: Story = { args: { scores: [] } };
+export const NarrowViewport: Story = {
+  parameters: {
+    viewport: { defaultViewport: 'mobile1' },
+  },
+};

@@ -1,4 +1,4 @@
-import { render, screen } from '@testing-library/react';
+import { render, screen, within } from '@testing-library/react';
 
 import {
   devOpsCapabilityEvidenceItems,
@@ -17,7 +17,9 @@ describe('DevOpsEvidenceTypeDonut', () => {
     );
 
     expect(screen.getByText(/Evidence includes/)).toBeTruthy();
-    expect(screen.getByText('Learning')).toBeTruthy();
-    expect(screen.getByText('Projects')).toBeTruthy();
+    const evidenceList = screen.getByRole('list');
+
+    expect(within(evidenceList).getByText('Learning')).toBeTruthy();
+    expect(within(evidenceList).getByText('Projects')).toBeTruthy();
   });
 });

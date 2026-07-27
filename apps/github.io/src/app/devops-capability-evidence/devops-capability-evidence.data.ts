@@ -5,16 +5,52 @@ import type {
 } from './devops-capability-evidence.types';
 
 export const doraCapabilityDefinitions = [
-  { key: 'continuous-delivery', label: 'Continuous Delivery', shortLabel: 'Delivery' },
-  { key: 'deployment-automation', label: 'Deployment Automation', shortLabel: 'Deploys' },
-  { key: 'continuous-integration', label: 'Continuous Integration', shortLabel: 'CI' },
+  {
+    key: 'continuous-delivery',
+    label: 'Continuous Delivery',
+    shortLabel: 'Delivery',
+  },
+  {
+    key: 'deployment-automation',
+    label: 'Deployment Automation',
+    shortLabel: 'Deploys',
+  },
+  {
+    key: 'continuous-integration',
+    label: 'Continuous Integration',
+    shortLabel: 'CI',
+  },
   { key: 'test-automation', label: 'Test Automation', shortLabel: 'Tests' },
-  { key: 'monitoring-observability', label: 'Monitoring and Observability', shortLabel: 'Observability' },
-  { key: 'flexible-infrastructure', label: 'Flexible Infrastructure', shortLabel: 'Infrastructure' },
-  { key: 'pervasive-security', label: 'Pervasive Security', shortLabel: 'Security' },
-  { key: 'trunk-based-development', label: 'Trunk-Based Development', shortLabel: 'Trunk' },
-  { key: 'documentation-quality', label: 'Documentation Quality', shortLabel: 'Docs' },
-  { key: 'version-control', label: 'Version Control', shortLabel: 'Versioning' },
+  {
+    key: 'monitoring-observability',
+    label: 'Monitoring and Observability',
+    shortLabel: 'Observability',
+  },
+  {
+    key: 'flexible-infrastructure',
+    label: 'Flexible Infrastructure',
+    shortLabel: 'Infrastructure',
+  },
+  {
+    key: 'pervasive-security',
+    label: 'Pervasive Security',
+    shortLabel: 'Security',
+  },
+  {
+    key: 'trunk-based-development',
+    label: 'Trunk-Based Development',
+    shortLabel: 'Trunk',
+  },
+  {
+    key: 'documentation-quality',
+    label: 'Documentation Quality',
+    shortLabel: 'Docs',
+  },
+  {
+    key: 'version-control',
+    label: 'Version Control',
+    shortLabel: 'Versioning',
+  },
 ] as const satisfies readonly DoraCapabilityDefinition[];
 
 export const evidenceTypeLabels = {
@@ -41,7 +77,6 @@ export const devOpsCapabilityEvidenceItems = [
       'Owned CI/CD workflow improvements for a four-developer product team using safe public summary only.',
     technologies: ['GitHub Actions', 'Docker'],
     isPublic: true,
-    isSensitive: true,
     strength: 'primary',
   },
   {
@@ -85,7 +120,8 @@ export const devOpsCapabilityEvidenceItems = [
     title: 'Kubernetes',
     type: 'skill',
     capabilityKeys: ['flexible-infrastructure', 'monitoring-observability'],
-    summary: 'Kubernetes skill shown because it is backed by learning and operations evidence.',
+    summary:
+      'Kubernetes skill shown because it is backed by learning and operations evidence.',
     technologies: ['Kubernetes'],
     isPublic: true,
     strength: 'supporting',

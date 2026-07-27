@@ -34,7 +34,8 @@ export function DevOpsCapabilityBarList({
     <div aria-label="DevOps capability score list">
       {rankedScores.map((score) => {
         const strongestEvidence =
-          score.strongestEvidenceId && score.evidenceIds.includes(score.strongestEvidenceId)
+          score.strongestEvidenceId &&
+          score.evidenceIds.includes(score.strongestEvidenceId)
             ? evidenceById.get(score.strongestEvidenceId)
             : undefined;
         const width = `${(score.score / score.maxScore) * 100}%`;
@@ -47,7 +48,10 @@ export function DevOpsCapabilityBarList({
                 {score.score} of {score.maxScore}
               </span>
             </div>
-            <div aria-hidden="true" style={{ background: 'var(--color-border)', height: 8 }}>
+            <div
+              aria-hidden="true"
+              style={{ background: 'var(--color-border)', height: 8 }}
+            >
               <div
                 style={{
                   background: 'var(--color-text-purple)',
@@ -56,7 +60,9 @@ export function DevOpsCapabilityBarList({
                 }}
               />
             </div>
-            {strongestEvidence ? <p>{strongestEvidence.title}</p> : null}
+            {strongestEvidence?.capabilityKeys.includes(score.capabilityKey) ? (
+              <p>{strongestEvidence.title}</p>
+            ) : null}
           </div>
         );
       })}
