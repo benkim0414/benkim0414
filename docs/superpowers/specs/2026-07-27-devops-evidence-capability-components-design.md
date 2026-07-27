@@ -1,20 +1,20 @@
-# DevOps DORA Capability Components Design
+# DevOps Evidence-Backed Capability Components Design
 
 ## Goal
 
-Define a set of reusable React components that represent personal DevOps capability using DORA software delivery metrics and supporting evidence.
+Define a set of reusable React components that represent personal DevOps capability using evidence that can be safely shown in a public portfolio: CNCF certifications, education, learning history, skills, public projects, and summarized work experience.
 
 This is not a dashboard implementation plan. The components should be designed so they can later appear inside panels, cards, timelines, profile sections, or a Grafana-style dashboard layout without each component owning the surrounding page chrome.
 
 ## Positioning
 
-The portfolio should present DORA metrics as delivery-system outcomes from a small team where the owner is the primary DevOps-focused engineer. The metrics should not be presented as a generic individual productivity score or as a comparison against other engineers.
+The portfolio should present capability as evidence-backed professional development, not as a public dump of private company delivery data. DORA metrics can still inform the language and optional private summaries, but the main public components should work without detailed deployment logs, incident records, PR timestamps, or other sensitive company information.
 
 The claim should be:
 
-> These delivery and reliability outcomes describe systems I built, operated, automated, or improved.
+> These DevOps capabilities are supported by verifiable certifications, education, learning, skills, projects, and safely summarized work experience.
 
-Every metric-driven component must link back to evidence showing the owner's contribution. If there is no real data source or no contribution evidence, the component should not render in the public portfolio.
+Every capability component must link back to evidence showing why that capability is represented. If there is no public or safely summarized evidence for a capability, the component should not render that capability in the public portfolio.
 
 ## Source Models
 
@@ -27,7 +27,7 @@ DORA defines software delivery performance through four core metrics:
 
 DORA's capability catalog also connects delivery outcomes to practices such as continuous delivery, test automation, trunk-based development, working in small batches, flexible infrastructure, monitoring and observability, documentation quality, and visual management.
 
-Google SRE guidance is useful for reliability-adjacent components: SLIs, SLOs, availability, latency, error rate, throughput, and error budgets provide objective service health context alongside DORA recovery and failure metrics.
+DORA and SRE guidance should be treated as context for capability categories and optional outcome summaries. They should not force the portfolio to expose raw company data. For the first implementation wave, prefer credentials, education, learning, skill metadata, public projects, and sanitized work summaries.
 
 References:
 
@@ -42,8 +42,8 @@ References:
 - Build reusable components, not dashboard panels. Names should describe the data visualization or evidence object, not its container.
 - Keep layout ownership outside each component. A component can define its own internal geometry, but panels, cards, grids, and pages decide placement.
 - Render only with evidence. A component that lacks required data should return `null` or expose a typed empty state for a parent to decide whether to show.
-- Prefer anonymized real values over fake precision. If company data is sensitive, use ranges, indexed values, normalized scores, or redacted service names.
-- Separate outcomes from attribution. DORA values show delivery-system performance; evidence items explain the owner's personal contribution.
+- Prefer public evidence and safe summaries over operational telemetry. If company data is sensitive, do not require it.
+- Separate capability evidence from private outcomes. DORA values can support an internal score or a sanitized claim, but the public component should stand on evidence the owner is comfortable showing.
 - Avoid vanity scoring. Scores must be derived from data and a visible rubric, not arbitrary confidence.
 
 ## Core Data Model
@@ -81,7 +81,11 @@ interface DevOpsEvidenceItem {
   metricLinks?: DoraMetricKind[];
   technologies?: string[];
   proofUrl?: string;
+  issuer?: string;
+  credentialId?: string;
+  sourceLabel?: string;
   isPublic: boolean;
+  isSensitive?: boolean;
   confidence: 'low' | 'medium' | 'high';
 }
 
@@ -92,15 +96,255 @@ type DoraMetricKind =
   | 'failed-deployment-recovery-time';
 ```
 
-The evidence item is the credibility anchor. DORA metric records can exist separately, but any public DORA component must link to at least one evidence item for the same system or period.
+The evidence item is the credibility anchor. A reusable capability component should consume this evidence model directly or consume derived summaries generated from it.
+
+Private work evidence can support a score, but the public UI must only show safe summaries. For example, "owned CI/CD improvements for a four-developer product team" is acceptable, while exact deployment counts, repository URLs, customer names, and incident IDs should stay private unless explicitly approved.
 
 ## Component Catalog
 
 Each catalog entry describes a standalone reusable React component. A future page, card, panel, or dashboard can wrap these components, but wrappers must not be required for the component to make sense in Storybook or tests.
 
+### `EvidenceBackedCapabilityRadar`
+
+Purpose: Evolve the existing `DevOpsCapabilityRadar` concept so each radar axis is backed by real evidence rather than static scores.
+
+Capabilities represented:
+
+- Automation
+- Delivery
+- Cloud
+- Containers
+- Reliability
+- Security
+
+Recommended visual forms:
+
+- Radar chart with one score per capability.
+- Hidden or omitted axes when no evidence exists.
+- Tooltip or adjacent summary linking each score to evidence counts and strongest evidence.
+
+Required data:
+
+- Capability keys.
+- Evidence items grouped by capability.
+- Score rubric.
+- Visibility rule for each axis.
+
+Optional data:
+
+- Featured evidence item per capability.
+- Evidence count by type.
+- Recency weighting.
+- DORA metric links for Delivery, Automation, or Reliability when safe.
+
+Example data:
+
+```ts
+const capabilitySummaries = [
+  {
+    capability: 'containers',
+    score: 4,
+    evidenceIds: ['cka-certification', 'kubernetes-learning-path'],
+    strongestEvidenceId: 'cka-certification',
+    evidenceTypes: ['certification', 'learning', 'skill'],
+  },
+  {
+    capability: 'delivery',
+    score: 4,
+    evidenceIds: ['github-actions-prod-pipeline', 'cicd-course'],
+    strongestEvidenceId: 'github-actions-prod-pipeline',
+    evidenceTypes: ['work-experience', 'education', 'skill'],
+  },
+];
+```
+
+Visibility rule: render an axis only when there is at least one safely displayable evidence item for that capability. A private-only work item can support the score only if a safe public summary is available.
+
+Useful claims:
+
+- "Capability scores are evidence-backed."
+- "Container capability is supported by CNCF certification and Kubernetes learning."
+- "Delivery capability is supported by safely summarized CI/CD ownership."
+
+### `CertificationCapabilityMap`
+
+Purpose: Show how certifications validate specific DevOps capabilities.
+
+Capabilities represented:
+
+- Cloud
+- Containers
+- Security
+- Reliability
+- Delivery when certifications cover CI/CD or platform engineering.
+
+Recommended visual forms:
+
+- Credential list.
+- Badge row grouped by capability.
+- Mini matrix mapping certification to capabilities.
+
+Required data:
+
+- Certification title.
+- Issuer.
+- Issue date.
+- Capability tags.
+- Credential URL or safe proof summary.
+
+Optional data:
+
+- Expiration date.
+- Credential ID.
+- Logo or issuer brand metadata.
+- Related skills.
+- Related learning path.
+
+Example data:
+
+```ts
+const certifications = [
+  {
+    id: 'cka-certification',
+    title: 'Certified Kubernetes Administrator',
+    issuer: 'Cloud Native Computing Foundation',
+    date: '2026-04-10',
+    capabilities: ['containers', 'reliability'],
+    technologies: ['Kubernetes'],
+    proofUrl: 'https://www.credly.com/example',
+    isPublic: true,
+    confidence: 'high',
+  },
+];
+```
+
+Visibility rule: render only certifications with public proof or a safe proof summary. Do not render expired credentials unless the UI clearly labels them as expired.
+
+Useful claims:
+
+- "Container capability has external validation."
+- "Cloud-native operations are supported by CNCF credentials."
+- "Certifications are mapped to capabilities instead of listed as isolated badges."
+
+### `EducationLearningTimeline`
+
+Purpose: Show structured learning, courses, books, labs, workshops, and study milestones over time.
+
+Capabilities represented:
+
+- Any capability with learning evidence.
+
+Recommended visual forms:
+
+- Timeline.
+- Grouped list by capability.
+- Learning-progress strip.
+
+Required data:
+
+- Learning title.
+- Provider or source.
+- Date or date range.
+- Capability tags.
+- Summary of what was learned.
+
+Optional data:
+
+- Completion proof URL.
+- Hours or modules completed.
+- Related certification.
+- Related project or work application.
+
+Example data:
+
+```ts
+const learningItems = [
+  {
+    id: 'kubernetes-learning-path',
+    title: 'Kubernetes operations study path',
+    type: 'learning',
+    date: '2026-03-01',
+    endDate: '2026-04-05',
+    sourceLabel: 'Self-directed labs and CNCF preparation',
+    summary: 'Practiced cluster operations, workloads, services, troubleshooting, and kubectl workflows.',
+    capabilities: ['containers', 'reliability'],
+    technologies: ['Kubernetes'],
+    isPublic: true,
+    confidence: 'medium',
+  },
+];
+```
+
+Visibility rule: render only learning items with enough summary text to explain what capability they support. Do not show generic "watched course" entries unless they connect to a capability.
+
+Useful claims:
+
+- "Learning is continuous and capability-directed."
+- "Education supports the same capability model as certifications and work."
+- "Learning evidence is visible without revealing company details."
+
+### `SkillCapabilityMatrix`
+
+Purpose: Map tools and skills to DevOps capabilities without implying unsupported mastery.
+
+Capabilities represented:
+
+- Automation
+- Delivery
+- Cloud
+- Containers
+- Reliability
+- Security
+
+Recommended visual forms:
+
+- Matrix.
+- Grouped skill chips.
+- Capability rows with skill counts.
+
+Required data:
+
+- Skill name.
+- Capability tags.
+- Evidence IDs that justify showing the skill.
+
+Optional data:
+
+- Brand metadata.
+- Skill category.
+- Years or recency, only if reliable.
+- Public proof link.
+
+Example data:
+
+```ts
+const skills = [
+  {
+    id: 'kubernetes',
+    name: 'Kubernetes',
+    capabilities: ['containers', 'reliability'],
+    evidenceIds: ['cka-certification', 'kubernetes-learning-path'],
+  },
+  {
+    id: 'github-actions',
+    name: 'GitHub Actions',
+    capabilities: ['automation', 'delivery'],
+    evidenceIds: ['github-actions-prod-pipeline'],
+  },
+];
+```
+
+Visibility rule: render a skill only when it has at least one evidence link. Skills without evidence should stay out of public capability components.
+
+Useful claims:
+
+- "Skills are evidence-linked, not keyword stuffing."
+- "Each shown tool contributes to a visible capability."
+- "Private work tools can be shown through safe summaries."
+
 ### `DeploymentFrequencyTrend`
 
-Purpose: Show how often production deployments happen over time.
+Purpose: Optionally show a sanitized deployment-frequency outcome when safe aggregate data exists.
 
 Capabilities represented:
 
@@ -116,12 +360,12 @@ Recommended visual forms:
 
 Required data:
 
-- Deployment ID.
-- Production deployment timestamp.
+- Aggregate production deployment count or safe deployment-frequency range.
+- Selected period.
 - Service or application name.
 - Environment, normally `production`.
-- Deployment result.
 - Deployment source, such as GitHub Actions, manual release, Argo CD, or another pipeline.
+- Evidence item showing the owner built, improved, or operated the deployment process.
 
 Optional data:
 
@@ -136,19 +380,17 @@ Example data:
 ```ts
 const deployments = [
   {
-    id: 'deploy-2026-07-18-001',
-    service: 'customer-api',
+    period: '2026-Q2',
+    service: 'product-api',
     environment: 'production',
-    deployedAt: '2026-07-18T09:42:00+10:00',
-    result: 'success',
+    deploymentFrequency: 'weekly',
     source: 'GitHub Actions',
-    releaseTag: '2026.07.18',
     evidenceIds: ['github-actions-prod-pipeline'],
   },
 ];
 ```
 
-Visibility rule: render only when there are at least two production deployments in the selected period and at least one evidence item showing the owner built, improved, or operated the deployment process.
+Visibility rule: render only when an aggregate value or range can be safely shown and at least one evidence item explains the owner's contribution. Do not require raw deployment timestamps for the public portfolio.
 
 Useful claims:
 
@@ -158,7 +400,7 @@ Useful claims:
 
 ### `ChangeLeadTimeDistribution`
 
-Purpose: Show how long code changes take to reach production.
+Purpose: Optionally show a sanitized change lead time outcome when safe aggregate data exists.
 
 Capabilities represented:
 
@@ -175,11 +417,10 @@ Recommended visual forms:
 
 Required data:
 
-- Change ID.
-- Commit timestamp or PR opened timestamp.
-- Merge timestamp if PR-based.
-- Production deployment timestamp.
+- Aggregate median, range, or qualitative bucket for lead time.
+- Selected period.
 - Service or application name.
+- Evidence item showing the owner improved CI/CD flow.
 
 Optional data:
 
@@ -194,18 +435,16 @@ Example data:
 ```ts
 const changes = [
   {
-    id: 'pr-428',
-    service: 'customer-api',
-    openedAt: '2026-07-15T14:10:00+10:00',
-    mergedAt: '2026-07-16T10:20:00+10:00',
-    deployedAt: '2026-07-16T11:05:00+10:00',
-    changeType: 'infrastructure',
+    period: '2026-Q2',
+    service: 'product-api',
+    leadTimeBucket: 'same-day-to-next-day',
+    measurementBasis: 'PR merge to production deployment',
     evidenceIds: ['ci-gate-standardization'],
   },
 ];
 ```
 
-Visibility rule: render only when at least five deployed changes can be measured for the selected period. If commit-to-production data is unavailable, the component can use PR-open-to-production as a clearly labelled proxy.
+Visibility rule: render only when the measurement basis can be described safely. Exact PR timestamps are not required for the public component.
 
 Useful claims:
 
@@ -215,7 +454,7 @@ Useful claims:
 
 ### `ChangeFailureRate`
 
-Purpose: Show the percentage of production deployments that caused user-impacting degradation, rollback, hotfix, or immediate remediation.
+Purpose: Optionally show a sanitized release-quality outcome when safe aggregate data exists.
 
 Capabilities represented:
 
@@ -232,10 +471,10 @@ Recommended visual forms:
 
 Required data:
 
-- Deployment records.
-- Failure classification for each deployment.
-- Failure timestamp or detection timestamp.
-- Linked incident, rollback, hotfix, or remediation record.
+- Aggregate change failure rate, range, or qualitative bucket.
+- Selected period.
+- Safe explanation of what counts as a failed change.
+- Evidence item for release safety, rollback, monitoring, or incident process work.
 
 Optional data:
 
@@ -250,22 +489,16 @@ Example data:
 ```ts
 const deploymentOutcomes = [
   {
-    deploymentId: 'deploy-2026-07-18-001',
-    service: 'customer-api',
-    failed: false,
-  },
-  {
-    deploymentId: 'deploy-2026-07-22-001',
-    service: 'customer-api',
-    failed: true,
-    remediationType: 'rollback',
-    incidentId: 'inc-2026-07-22',
+    period: '2026-Q2',
+    service: 'product-api',
+    failureRateBucket: 'low',
+    failureDefinition: 'production changes requiring rollback or hotfix',
     evidenceIds: ['rollback-runbook'],
   },
 ];
 ```
 
-Visibility rule: render only when deployment records and failure classification are available for the same period. If failures are manually classified, the public UI should say so.
+Visibility rule: render only when the failure definition and aggregate bucket can be shown without exposing private incidents.
 
 Useful claims:
 
@@ -275,7 +508,7 @@ Useful claims:
 
 ### `FailedDeploymentRecoveryTime`
 
-Purpose: Show how quickly the team recovers when a production deployment fails.
+Purpose: Optionally show a sanitized recovery outcome when safe aggregate data exists.
 
 Capabilities represented:
 
@@ -292,11 +525,10 @@ Recommended visual forms:
 
 Required data:
 
-- Failed deployment ID.
-- Failure start or detection timestamp.
-- Recovery timestamp.
+- Aggregate recovery time, range, or qualitative bucket.
+- Selected period.
 - Recovery action.
-- Linked incident or remediation record.
+- Evidence item for rollback automation, alerting, runbooks, or incident response.
 
 Optional data:
 
@@ -312,17 +544,16 @@ Example data:
 ```ts
 const recoveries = [
   {
-    deploymentId: 'deploy-2026-07-22-001',
-    detectedAt: '2026-07-22T15:04:00+10:00',
-    recoveredAt: '2026-07-22T15:31:00+10:00',
+    period: '2026-Q2',
+    service: 'product-api',
+    recoveryTimeBucket: 'under-one-hour',
     recoveryAction: 'rollback',
-    incidentId: 'inc-2026-07-22',
     evidenceIds: ['rollback-runbook', 'deployment-alerting'],
   },
 ];
 ```
 
-Visibility rule: render only when at least one failed deployment has both detection and recovery timestamps. If there are no failed deployments in the selected period, render a parent-controlled positive empty state only when deployment records prove the zero-failure period.
+Visibility rule: render only when a safe aggregate or bucket is available. Do not expose incident IDs, timestamps, or customer impact details.
 
 Useful claims:
 
@@ -625,50 +856,93 @@ Useful claims:
 ## Recommended Build Order
 
 1. `DevOpsEvidenceLog`
-2. `DeploymentFrequencyTrend`
-3. `ChangeLeadTimeDistribution`
-4. `ChangeFailureRate`
-5. `FailedDeploymentRecoveryTime`
-6. `DoraOutcomeSummary`
-7. `CapabilityEvidenceMatrix`
-8. `CapabilityScore`
-9. `ExperienceCapabilityTimeline`
+2. `EvidenceBackedCapabilityRadar`
+3. `CertificationCapabilityMap`
+4. `EducationLearningTimeline`
+5. `SkillCapabilityMatrix`
+6. `CapabilityEvidenceMatrix`
+7. `CapabilityScore`
+8. `ExperienceCapabilityTimeline`
+9. Optional DORA outcome components only if safe aggregate data is available:
+   `DeploymentFrequencyTrend`, `ChangeLeadTimeDistribution`, `ChangeFailureRate`,
+   `FailedDeploymentRecoveryTime`, and `DoraOutcomeSummary`.
 
-The evidence log should come first because it becomes the shared source for every later claim. Deployment frequency should come next because it usually requires the simplest production data: timestamps, service names, and outcomes. The DORA summary should wait until the four metric components have working data contracts, because otherwise it would become a hand-authored dashboard tile instead of a derived reusable component.
+The evidence log should come first because it becomes the shared source for every later claim. The radar should come second because it matches the existing `DevOpsCapabilityRadar` direction and can immediately become evidence-backed without needing private company telemetry. Certification, education, learning, and skill components should come before DORA outcome components because they rely on safer public or personally controlled data.
 
 ## Data Collection Checklist
 
-For deployment frequency:
+For certifications:
 
-- Production deployment timestamps.
+- Certification title.
+- Issuer, such as CNCF, AWS, Microsoft, HashiCorp, or Linux Foundation.
+- Issue date.
+- Expiration date if relevant.
+- Credential URL or safe proof summary.
+- Capability tags.
+- Related skills and technologies.
+
+For education:
+
+- Program, course, degree, workshop, or training title.
+- Institution or provider.
+- Date or date range.
+- Capability tags.
+- Short summary of what it proves.
+- Public proof URL if available.
+
+For learning:
+
+- Learning title.
+- Source, such as course, book, lab, documentation path, workshop, or self-directed study.
+- Date or date range.
+- Capability tags.
+- Technologies practiced.
+- Completion proof or safe summary.
+- Related certification, project, or work application if available.
+
+For skills:
+
+- Skill or technology name.
+- Capability tags.
+- Evidence IDs proving why the skill should be shown.
+- Brand metadata if already available in the app.
+- Public proof or safe summary where possible.
+
+For public or summarized work experience:
+
+- Role or responsibility.
+- Date range.
+- Capability tags.
+- Tools and systems used.
+- Safe summary of what the owner built, changed, automated, documented, operated, or led.
+- Evidence type, such as work experience, project, or operational outcome.
+- Confidentiality flag.
+
+For optional deployment frequency:
+
+- Aggregate production deployment frequency or safe range.
 - Service or app name.
-- Deployment result.
 - Deployment source or pipeline.
-- Release tag, commit SHA, or workflow run URL if safe.
+- Evidence showing contribution to the deployment process.
 
-For change lead time:
+For optional change lead time:
 
-- Commit timestamp or PR opened timestamp.
-- Merge timestamp.
-- Production deployment timestamp.
-- Change ID.
+- Aggregate lead time bucket, range, or median if safe.
+- Measurement basis, such as PR merge to production.
 - Service or app name.
+- Evidence showing contribution to CI/CD flow.
 
-For change failure rate:
+For optional change failure rate:
 
-- Deployment list for the period.
-- Failed deployment classification.
-- Rollback, hotfix, remediation, or incident link.
-- Failure cause category.
-- Severity or customer impact if safe.
+- Aggregate failure rate bucket, range, or percentage if safe.
+- Safe definition of failed change.
+- Evidence showing contribution to release safety.
 
-For failed deployment recovery time:
+For optional failed deployment recovery time:
 
-- Failed deployment ID.
-- Detection timestamp.
-- Recovery timestamp.
-- Recovery action.
-- Incident or rollback evidence.
+- Aggregate recovery bucket, range, or median if safe.
+- Safe recovery action category.
+- Evidence showing contribution to recovery, alerting, rollback, or runbooks.
 
 For personal attribution:
 
@@ -682,7 +956,7 @@ For personal attribution:
 ## Confidentiality Rules
 
 - Use anonymized service names when needed, such as `customer-api`, `internal-admin`, or `worker-service`.
-- Use rounded values or ranges when exact company metrics are sensitive.
+- Use rounded values, qualitative buckets, or ranges when exact company metrics are sensitive.
 - Do not expose customer names, revenue impact, internal incident IDs, private repository URLs, secrets, vendors under NDA, or screenshots containing confidential data.
 - When using private evidence, label it as private work evidence and summarize the contribution without exposing protected details.
 
@@ -692,6 +966,7 @@ For personal attribution:
 - Creating route-level integration.
 - Comparing the owner against teammates.
 - Publishing raw company logs.
+- Requiring private DORA source data before building useful portfolio components.
 - Claiming DORA metrics are individual productivity metrics.
 - Adding generic chart abstractions before a concrete component needs them.
 - Replacing the existing `DevOpsCapabilityRadar` unless a later implementation plan explicitly chooses to evolve it.
@@ -702,7 +977,8 @@ Each component should have focused tests for:
 
 - rendering only when required data exists;
 - hiding or returning an explicit empty state when evidence is missing;
-- correct DORA calculation logic;
+- correct capability derivation from evidence;
+- correct optional DORA calculation logic only for DORA-specific components;
 - accessible text summary for chart values;
 - links between metric records and evidence items;
 - redaction behavior for private evidence.
