@@ -85,11 +85,32 @@ describe('devOpsCapabilityEvidence scoring', () => {
         isSensitive: true,
         strength: 'primary',
       },
+      {
+        id: 'sensitive-skill-support',
+        title: 'Sensitive Skill Support',
+        type: 'experience',
+        capabilityKeys: ['test-automation'],
+        summary: 'Sensitive evidence that must not validate a public skill.',
+        isPublic: true,
+        isSensitive: true,
+        strength: 'primary',
+      },
+      {
+        id: 'sensitive-only-skill',
+        title: 'Sensitive-Only Tool Skill',
+        type: 'skill',
+        capabilityKeys: ['test-automation'],
+        summary: 'A public skill backed only by sensitive evidence.',
+        isPublic: true,
+        strength: 'supporting',
+        supportingEvidenceIds: ['sensitive-skill-support'],
+      },
     ]);
 
     expect(evidence.map((item) => item.id)).not.toContain('unsupported-skill');
     expect(evidence.map((item) => item.id)).not.toContain('private-detail');
     expect(evidence.map((item) => item.id)).not.toContain('sensitive-detail');
+    expect(evidence.map((item) => item.id)).not.toContain('sensitive-only-skill');
   });
 
   it('derives non-zero capability scores from evidence', () => {
