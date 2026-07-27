@@ -4,6 +4,7 @@ import type {
   CapabilityEvidenceItem,
   DoraCapabilityScore,
 } from './devops-capability-evidence.types';
+import { getPublicCapabilityEvidence } from './devops-capability-evidence.scoring';
 
 export interface DevOpsCapabilityBarListProps {
   scores: readonly DoraCapabilityScore[];
@@ -18,7 +19,9 @@ export function DevOpsCapabilityBarList({
     return null;
   }
 
-  const evidenceById = new Map(evidence.map((item) => [item.id, item]));
+  const evidenceById = new Map(
+    getPublicCapabilityEvidence(evidence).map((item) => [item.id, item]),
+  );
   const rankedScores = scores
     .filter((score) => score.score > 0)
     .sort((left, right) => right.score - left.score);
@@ -30,9 +33,10 @@ export function DevOpsCapabilityBarList({
   return (
     <div aria-label="DevOps capability score list">
       {rankedScores.map((score) => {
-        const strongestEvidence = score.strongestEvidenceId
-          ? evidenceById.get(score.strongestEvidenceId)
-          : undefined;
+        const strongestEvidence =
+          score.strongestEvidenceId && score.evidenceIds.includes(score.strongestEvidenceId)
+            ? evidenceById.get(score.strongestEvidenceId)
+            : undefined;
         const width = `${(score.score / score.maxScore) * 100}%`;
 
         return (
