@@ -23,7 +23,11 @@ const evidenceStrengthScore: Record<EvidenceStrength, number> = {
 export function getPublicCapabilityEvidence(
   items: readonly CapabilityEvidenceItem[],
 ): CapabilityEvidenceItem[] {
-  const itemIds = new Set(items.map((item) => item.id));
+  const publicItemIds = new Set(
+    items
+      .filter((item) => item.isPublic && !item.isSensitive)
+      .map((item) => item.id),
+  );
 
   return items.filter((item) => {
     if (!item.isPublic || item.isSensitive) {
@@ -34,7 +38,7 @@ export function getPublicCapabilityEvidence(
       return true;
     }
 
-    return (item.supportingEvidenceIds ?? []).some((id) => itemIds.has(id));
+    return (item.supportingEvidenceIds ?? []).some((id) => publicItemIds.has(id));
   });
 }
 
