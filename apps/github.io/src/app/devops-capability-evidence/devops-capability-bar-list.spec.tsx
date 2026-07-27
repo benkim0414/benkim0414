@@ -31,6 +31,14 @@ describe('DevOpsCapabilityBarList', () => {
 
   const scores = [
     {
+      capabilityKey: 'continuous-integration',
+      label: 'Continuous Integration',
+      score: 3,
+      maxScore: 5,
+      evidenceIds: [],
+      evidenceCounts: {},
+    },
+    {
       capabilityKey: 'continuous-delivery',
       label: 'Continuous Delivery',
       score: 5,
@@ -38,14 +46,6 @@ describe('DevOpsCapabilityBarList', () => {
       evidenceIds: ['delivery-evidence'],
       strongestEvidenceId: 'delivery-evidence',
       evidenceCounts: { experience: 1 },
-    },
-    {
-      capabilityKey: 'continuous-integration',
-      label: 'Continuous Integration',
-      score: 3,
-      maxScore: 5,
-      evidenceIds: [],
-      evidenceCounts: {},
     },
     {
       capabilityKey: 'pervasive-security',
