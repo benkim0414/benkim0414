@@ -23,29 +23,35 @@ const evidenceStrengthScore: Record<EvidenceStrength, number> = {
 export function getPublicCapabilityEvidence(
   items: readonly CapabilityEvidenceItem[],
 ): CapabilityEvidenceItem[] {
-  const publicItemIds = new Set(
-    items
-      .filter((item) => item.isPublic && !item.isSensitive)
-      .map((item) => item.id),
+  const publicItems = items.filter(
+    (item) => item.isPublic && !item.isSensitive,
   );
+  const publicItemsById = new Map(publicItems.map((item) => [item.id, item]));
 
-  return items.filter((item) => {
-    if (!item.isPublic || item.isSensitive) {
-      return false;
-    }
-
+  return publicItems.filter((item) => {
     if (item.type !== 'skill') {
       return true;
     }
 
-    return (item.supportingEvidenceIds ?? []).some((id) => publicItemIds.has(id));
+    return (item.supportingEvidenceIds ?? []).some((id) => {
+      const support = publicItemsById.get(id);
+
+      return Boolean(
+        support &&
+        support.id !== item.id &&
+        support.type !== 'skill' &&
+        support.capabilityKeys.some((key) => item.capabilityKeys.includes(key)),
+      );
+    });
   });
 }
 
 export function getEvidenceTypeCounts(
   items: readonly CapabilityEvidenceItem[],
 ): Partial<Record<EvidenceType, number>> {
-  return getPublicCapabilityEvidence(items).reduce<Partial<Record<EvidenceType, number>>>(
+  return getPublicCapabilityEvidence(items).reduce<
+    Partial<Record<EvidenceType, number>>
+  >(
     (counts, item) => ({
       ...counts,
       [item.type]: (counts[item.type] ?? 0) + 1,
@@ -69,7 +75,9 @@ export function getCapabilityEvidenceScores(
         (total, item) => total + evidenceStrengthScore[item.strength],
         0,
       );
-      const evidenceCounts = evidence.reduce<Partial<Record<EvidenceType, number>>>(
+      const evidenceCounts = evidence.reduce<
+        Partial<Record<EvidenceType, number>>
+      >(
         (counts, item) => ({
           ...counts,
           [item.type]: (counts[item.type] ?? 0) + 1,
@@ -78,7 +86,8 @@ export function getCapabilityEvidenceScores(
       );
       const strongestEvidence = [...evidence].sort(
         (left, right) =>
-          evidenceStrengthScore[right.strength] - evidenceStrengthScore[left.strength],
+          evidenceStrengthScore[right.strength] -
+          evidenceStrengthScore[left.strength],
       )[0];
 
       return {
