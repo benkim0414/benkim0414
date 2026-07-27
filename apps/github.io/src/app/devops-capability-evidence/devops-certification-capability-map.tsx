@@ -30,7 +30,7 @@ export function DevOpsCertificationCapabilityMap({
     <div aria-label="DevOps certification capability map">
       {certifications.map((certification) => (
         <section key={certification.id}>
-          <h3>{certification.title}</h3>
+          <strong>{certification.title}</strong>
           {certification.issuer ? <p>{certification.issuer}</p> : null}
           <ul>
             {certification.capabilityKeys.map((key) => {
