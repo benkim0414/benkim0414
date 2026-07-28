@@ -44,7 +44,9 @@ function EvidenceToken({ evidence }: EvidenceLeafProps): ReactElement {
       {token}
     </Link>
   ) : (
-    <span aria-label={ariaLabel}>{token}</span>
+    <span aria-label={ariaLabel} role="group">
+      {token}
+    </span>
   );
 }
 
