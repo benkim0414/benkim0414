@@ -33,6 +33,18 @@ describe('SkillCarousel', () => {
     expect(getByRole('heading', { name: sampleSkills[2].name })).toBeTruthy();
   });
 
+  it('renders carousel skill cards with a shared height', () => {
+    const { container } = render(<SkillCarousel skills={sampleSkills} />);
+    const cardHeights = Array.from(
+      container.querySelectorAll('.astryx-card'),
+      (card) => card.getAttribute('style') ?? '',
+    );
+
+    expect(cardHeights).toHaveLength(sampleSkills.length);
+    expect(new Set(cardHeights).size).toBe(1);
+    expect(cardHeights[0]).toContain('--x-height: 168px');
+  });
+
   it('renders an empty state when no skills are supplied', () => {
     const { getByRole, getByText, queryByTestId } = render(
       <SkillCarousel skills={[]} />,
