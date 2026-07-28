@@ -9,6 +9,7 @@ import { getCapabilityScoreSummary } from './devops-capability-evidence.summary'
 import type { DoraCapabilityScore } from './devops-capability-evidence.types';
 
 const CHART_MAX_WIDTH = 420;
+const CHART_MIN_WIDTH = 280;
 const CHART_HEIGHT = 420;
 const RADAR_FOREGROUND = colorVars['--color-text-purple'];
 const RADAR_BACKGROUND = colorVars['--color-background-purple'];
@@ -42,7 +43,13 @@ export function DevOpsCapabilityEvidenceRadar({
       <VisuallyHidden>
         {getCapabilityScoreSummary(visibleScores)}
       </VisuallyHidden>
-      <div style={{ maxWidth: CHART_MAX_WIDTH, width: '100%' }}>
+      <div
+        style={{
+          maxWidth: CHART_MAX_WIDTH,
+          minWidth: CHART_MIN_WIDTH,
+          width: '100%',
+        }}
+      >
         <RadarChart
           aria-hidden="true"
           colors={[RADAR_BACKGROUND]}
@@ -82,7 +89,6 @@ export function DevOpsCapabilityEvidenceRadar({
               stroke: RADAR_FOREGROUND,
             },
           }}
-          width={CHART_MAX_WIDTH}
         />
       </div>
     </ThemeProvider>
