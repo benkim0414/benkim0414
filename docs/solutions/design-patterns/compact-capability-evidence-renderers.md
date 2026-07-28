@@ -11,7 +11,7 @@ applies_when:
   - Choosing between token and citation affordances for portfolio evidence
   - Distinguishing evidence categories that can share the same technology label
 related_components:
-  - github.io DevOps capability evidence components
+  - github.io DevOpsCapabilityEvidenceRadar
   - Astryx components
   - Storybook
 tags: [github-io, react, evidence, astryx, icons, accessibility]
@@ -21,58 +21,31 @@ tags: [github-io, react, evidence, astryx, icons, accessibility]
 
 ## Context
 
-The `github.io` app needs compact evidence chips that explain why a DevOps capability is credible without turning every proof item into a full card. A single evidence model can represent skills, learning, work experience, education, certifications, and projects, but those categories are not interchangeable in compact UI: a skill token says "this is a capability", while learning, experience, and education say "this is supporting proof".
+This pattern has been superseded for current `github.io` work. The compact `CapabilityEvidence` renderer and its helper files were removed when the DevOps capability evidence surface was narrowed to the radar chart only.
 
-The durable pattern is to keep one public dispatcher at the evidence boundary and keep category-specific rendering in small leaves. `CapabilityEvidence` switches on `evidence.type` and routes skill, learning, experience, education, certification, and project items to their own compact renderers (`apps/github.io/src/app/devops-capability-evidence/capability-evidence.tsx:143` through `apps/github.io/src/app/devops-capability-evidence/capability-evidence.tsx:170`).
+Use `DevOpsCapabilityEvidenceRadar` for current DevOps capability evidence visualization work. It consumes derived `DoraCapabilityScore[]` from public-safe evidence and leaves evidence details in the shared data/scoring model rather than rendering per-evidence compact UI.
 
 ## Guidance
 
-Prefer established Astryx primitives before creating local compact UI. Skill evidence should reuse `SkillToken`; learning, experience, and education should render as Astryx `Token`; certification evidence should reuse `CertificationCitation`; project evidence should render as Astryx `Citation` because a project proof is usually a public source link (`apps/github.io/src/app/devops-capability-evidence/capability-evidence.tsx:42` through `apps/github.io/src/app/devops-capability-evidence/capability-evidence.tsx:140`).
-
-Keep compact labels short and separate from the full evidence title. The label helper chooses an explicit `label`, then a known technology, then a GitHub repository name for project evidence, and only then falls back to a truncated title (`apps/github.io/src/app/devops-capability-evidence/capability-evidence-label.ts:13` through `apps/github.io/src/app/devops-capability-evidence/capability-evidence-label.ts:29`). This lets a full evidence title remain descriptive in data while compact UI says `CKA`, `Kubernetes`, or `devops-roadmap`.
-
-Treat icon choice as part of evidence semantics, not decoration. The icon helper allows technology brands for skills, certifications, and projects, but it deliberately skips technology-brand lookup for learning, experience, and education (`apps/github.io/src/app/devops-capability-evidence/capability-evidence-icon.tsx:43` through `apps/github.io/src/app/devops-capability-evidence/capability-evidence-icon.tsx:52`). Those three evidence types always fall through to evidence-type icons: academic cap for education, briefcase for experience, and book for learning (`apps/github.io/src/app/devops-capability-evidence/capability-evidence-icon.tsx:66` through `apps/github.io/src/app/devops-capability-evidence/capability-evidence-icon.tsx:75`).
-
-Use source-brand icons only when they communicate the proof source. Project evidence with an HTTP(S) GitHub repository URL can use the GitHub brand when no technology brand takes precedence (`apps/github.io/src/app/devops-capability-evidence/capability-evidence-icon.tsx:58` through `apps/github.io/src/app/devops-capability-evidence/capability-evidence-icon.tsx:64`). Repository detection should exclude SSH URLs, profiles, pull requests, and reserved GitHub routes so a source icon does not imply a repository where there is none (`apps/github.io/src/app/devops-capability-evidence/capability-evidence-url.ts:34` through `apps/github.io/src/app/devops-capability-evidence/capability-evidence-url.ts:70`).
+Do not add new `CapabilityEvidence` Storybook stories or compact evidence renderer files unless a new approved spec reintroduces that UI surface. Keep the current DevOps capability evidence Storybook group focused on `GitHub.io/DevOps Capability Evidence/Radar`.
 
 ## Why This Matters
 
-Compact evidence UI is easy to make ambiguous. If a Kubernetes learning token and a Kubernetes skill token both use the Kubernetes logo and the same compact label, the user has to infer whether the item is a skill or supporting evidence from surrounding layout. Evidence-type icons keep the category legible even when labels overlap.
-
-Keeping the dispatcher thin also protects reuse. Callers can render one public-safe evidence item without knowing which Astryx primitive fits that evidence type, while leaf components still preserve the semantics of tokens, citations, links, and accessible names.
+Retiring this doc prevents future work from rebuilding removed Storybook entries by following stale guidance.
 
 ## When to Apply
 
-- A component renders exactly one capability evidence item from the shared evidence model.
-- Compact UI needs to show proof type quickly without a surrounding legend.
-- Certification or project proof benefits from citation semantics, while learning, experience, and education should behave like compact supporting tokens.
-- A technology label can appear in more than one evidence category, such as both a Kubernetes skill and Kubernetes learning evidence.
+- Reviewing historical work that created compact evidence renderers.
+- Explaining why the compact evidence renderer files are no longer present.
+- Avoiding stale Storybook entries under the DevOps capability evidence group.
 
 ## Examples
 
-Use the dispatcher at call sites:
+Current Storybook should expose the evidence radar story only:
 
-```tsx
-<CapabilityEvidence evidence={item} citationNumber={index + 1} />
+```text
+GitHub.io/DevOps Capability Evidence/Radar
 ```
-
-Let category renderers decide the primitive:
-
-```tsx
-case 'skill':
-  return <SkillEvidenceToken evidence={evidence} />;
-case 'learning':
-  return <LearningEvidenceToken evidence={evidence} />;
-case 'certification':
-  return (
-    <CertificationEvidenceCitation
-      citationNumber={citationNumber}
-      evidence={evidence}
-    />
-  );
-```
-
-The component tests cover skill-token reuse, compact token links, certification citations, project citations, GitHub source icons, fallback icons, and the renderer-only public-safety boundary (`apps/github.io/src/app/devops-capability-evidence/capability-evidence.spec.tsx:22` through `apps/github.io/src/app/devops-capability-evidence/capability-evidence.spec.tsx:193`). Helper tests cover short-label precedence, GitHub repository URL detection, and the rule that education, experience, and learning use evidence-type icons even when their technologies include Kubernetes (`apps/github.io/src/app/devops-capability-evidence/capability-evidence.helpers.spec.tsx:27` through `apps/github.io/src/app/devops-capability-evidence/capability-evidence.helpers.spec.tsx:101`).
 
 ## Related
 
