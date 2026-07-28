@@ -6,6 +6,7 @@ import {
   spacingVars,
   typeScaleVars,
 } from '@astryxdesign/core/theme/tokens.stylex';
+import type { SizeValue } from '@astryxdesign/core/utils/types';
 import { useId, type ReactElement } from 'react';
 
 import { CertificationCitation } from '../certifications/certification-citation';
@@ -13,6 +14,7 @@ import type { Skill } from './skill-list.types';
 
 export interface SkillCardProps {
   skill: Skill;
+  height?: SizeValue;
 }
 
 const styles = stylex.create({
@@ -49,12 +51,12 @@ const styles = stylex.create({
   },
 });
 
-export function SkillCard({ skill }: SkillCardProps): ReactElement {
+export function SkillCard({ height, skill }: SkillCardProps): ReactElement {
   const certifications = skill.certifications ?? [];
   const titleId = useId();
 
   return (
-    <Card padding={4} xstyle={styles.root}>
+    <Card height={height} padding={4} xstyle={styles.root}>
       <article
         aria-labelledby={titleId}
         data-testid="skill-card"
