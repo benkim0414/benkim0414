@@ -1,4 +1,6 @@
 import { render } from '@testing-library/react';
+import { readFileSync } from 'node:fs';
+import { join } from 'node:path';
 
 import { SkillCard } from './skill-card';
 import type { Skill } from './skill-list.types';
@@ -15,6 +17,16 @@ const baseSkill: Skill = {
 };
 
 describe('SkillCard', () => {
+  it('lets Astryx Card use its content-driven default height', () => {
+    const source = readFileSync(
+      join(process.cwd(), 'src/app/skills/skill-card.tsx'),
+      'utf8',
+    );
+
+    expect(source).not.toContain('minHeight');
+    expect(source).not.toContain('height=');
+  });
+
   it('renders the skill name as the title', () => {
     const { getByRole } = render(<SkillCard skill={baseSkill} />);
 
