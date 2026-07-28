@@ -46,3 +46,22 @@ DONE_WITH_CONCERNS
 ## Fix commit
 
 - `fix(github.io): stub resize observer in carousel spec`
+
+## Fix round 2 documentation
+
+- After the sandboxed pnpm/Nx validation failed with `[ERR_SQLITE_ERROR] unable to open database file`, the controller requested unsandboxed pnpm/Nx validation. The user explicitly approved the request with: `approve`.
+- The original mandated focused command was run unsandboxed, exactly as specified in the brief, both before and after the ResizeObserver fix:
+
+  ```bash
+  pnpm nx test github.io -- --run apps/github.io/src/app/skills/skill-card.spec.tsx apps/github.io/src/app/skills/skill-carousel.spec.tsx apps/github.io/src/app/skills/skill-list.spec.tsx apps/github.io/src/app/skills/skill-search.spec.tsx apps/github.io/src/app/skills/skill-section.spec.tsx
+  ```
+
+  Both runs failed with `No test files found` because Nx runs Vitest from `apps/github.io`, so repo-root file paths do not match Vitest's include pattern.
+- The equivalent app-relative focused command was then run unsandboxed:
+
+  ```bash
+  pnpm nx test github.io -- --run src/app/skills/skill-card.spec.tsx src/app/skills/skill-carousel.spec.tsx src/app/skills/skill-list.spec.tsx src/app/skills/skill-search.spec.tsx src/app/skills/skill-section.spec.tsx
+  ```
+
+  Before the fix it exposed ResizeObserver failures in `skill-carousel.spec.tsx`. The fix added a spec-local no-op `ResizeObserver` stub there; afterward, 5 files and 21 tests passed.
+- After the fix, `pnpm nx lint github.io` passed with 17 pre-existing warnings and 0 errors; `pnpm nx test github.io` passed with 23 files and 104 tests (including an existing Vitest close-timeout warning); and `pnpm nx build github.io` passed (with existing Lightning CSS warnings for `@theme` and `@tailwind` at-rules).
