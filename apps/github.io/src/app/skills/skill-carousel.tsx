@@ -5,8 +5,6 @@ import type { ReactElement } from 'react';
 import { SkillCard } from './skill-card';
 import type { Skill } from './skill-list.types';
 
-const SKILL_CAROUSEL_CARD_HEIGHT = 168;
-
 export interface SkillCarouselProps {
   skills: readonly Skill[];
   emptyMessage?: string;
@@ -21,13 +19,14 @@ export function SkillCarousel({
   }
 
   return (
-    <Carousel aria-label="Skills carousel" gap={3} hasSnap>
+    <Carousel
+      aria-label="Skills carousel"
+      className="skill-carousel"
+      gap={3}
+      hasSnap
+    >
       {skills.map((skill) => (
-        <SkillCard
-          height={SKILL_CAROUSEL_CARD_HEIGHT}
-          key={skill.id}
-          skill={skill}
-        />
+        <SkillCard key={skill.id} skill={skill} />
       ))}
     </Carousel>
   );
