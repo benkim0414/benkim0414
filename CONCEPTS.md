@@ -44,6 +44,14 @@ A reusable certification link presentation that uses Astryx Citation styling whi
 
 Certification Citation distinguishes brand color from skill logo availability: linked skills can provide a logo-backed icon, a color-only accent, or no brand metadata.
 
+### Skill Card
+
+A reusable card presentation for one skill, showing the skill name, supporting description, and optional certification evidence as one independently comparable item.
+
+### Skill Carousel
+
+A horizontal skills presentation where each Skill Card remains content-driven on its own, while carousel layout equalizes sibling card heights for visual comparison.
+
 ### Skill Brand Metadata
 
 The shared visual metadata for a skill label, covering the skill's brand color and, when available, a logo asset.
