@@ -80,6 +80,6 @@ Native viewport scale removes viewport padding from the content model. The wrapp
 ## Related Issues
 
 - [Astryx StyleX Tailwind Boundaries](../best-practices/astryx-stylex-tailwind-boundaries.md) covers the broader styling-boundary rule for `github.io`, StyleX, Tailwind, and scoped global CSS overrides.
-- [Standalone GitHub.io DevOps Capability Radar](../design-patterns/standalone-github-io-devops-capability-radar.md) documents a related DevOps visualization pattern with explicit geometry and Storybook review.
+- [Public Evidence Portfolio Visualizations](../design-patterns/public-evidence-portfolio-visualizations.md) documents the evidence-backed DevOps capability radar and its public portfolio evidence model.
 - [Scaffold Nx React Astryx With pnpm](../workflow-issues/scaffold-nx-react-astryx-with-pnpm.md) provides broader Nx, Astryx, and pnpm workflow context relevant to Storybook worktree dependency serving.
 - [Atomic Review Fixup Commits](../workflow-issues/atomic-review-fixup-commits.md) is relevant to keeping follow-up review fixes like Storybook allowlist hardening atomic.
