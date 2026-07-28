@@ -12,7 +12,7 @@ applies_when:
   - Rendering public portfolio components when the source experience may contain private company information
 related_components:
   - github.io DevOps capability evidence components
-  - github.io DevOpsCapabilityRadar
+  - github.io DevOpsCapabilityEvidenceRadar
   - Storybook
 tags: [github-io, react, devops, dora, portfolio, evidence, privacy]
 ---
@@ -90,5 +90,5 @@ The radar follows this boundary at `apps/github.io/src/app/devops-capability-evi
 ## Related
 
 - `CONCEPTS.md`
-- `docs/solutions/design-patterns/standalone-github-io-devops-capability-radar.md`
+- `apps/github.io/src/app/devops-capability-evidence/devops-capability-evidence-radar.tsx`
 - `docs/solutions/best-practices/astryx-stylex-tailwind-boundaries.md`
