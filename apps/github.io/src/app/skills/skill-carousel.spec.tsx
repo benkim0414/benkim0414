@@ -1,4 +1,5 @@
 import { render } from '@testing-library/react';
+import type { MockInstance } from 'vitest';
 import { vi } from 'vitest';
 
 import { SkillCarousel } from './skill-carousel';
@@ -22,6 +23,18 @@ vi.stubGlobal(
 );
 
 describe('SkillCarousel', () => {
+  let consoleErrorSpy: MockInstance<typeof console.error>;
+
+  beforeEach(() => {
+    consoleErrorSpy = vi.spyOn(console, 'error').mockImplementation(() => {
+      // React duplicate-key warnings are asserted by individual tests.
+    });
+  });
+
+  afterEach(() => {
+    consoleErrorSpy.mockRestore();
+  });
+
   it('renders one skill card for each supplied skill', () => {
     const { getAllByTestId, getByRole } = render(
       <SkillCarousel skills={sampleSkills.slice(0, 3)} />,
@@ -74,5 +87,25 @@ describe('SkillCarousel', () => {
 
     expect(getByLabelText('Skills carousel')).toBeTruthy();
     expect(queryByRole('heading', { name: 'Skills carousel' })).toBeNull();
+  });
+
+  it('supports a reusable non-visible accessibility label', () => {
+    const { getByLabelText, queryByRole } = render(
+      <SkillCarousel ariaLabel="Platform skills" skills={sampleSkills} />,
+    );
+
+    expect(getByLabelText('Platform skills')).toBeTruthy();
+    expect(queryByRole('heading', { name: 'Platform skills' })).toBeNull();
+  });
+
+  it('supports rendering duplicate skill entries without duplicate-key warnings', () => {
+    render(
+      <SkillCarousel skills={[sampleSkills[0], sampleSkills[0]]} />,
+    );
+
+    expect(consoleErrorSpy).not.toHaveBeenCalledWith(
+      expect.stringContaining('Encountered two children with the same key'),
+      expect.anything(),
+    );
   });
 });

@@ -40,6 +40,11 @@ a {
   stroke-width: calc(var(--border-width) * 2);
 }
 
+/*
+ * Astryx Carousel applies cross-axis centering on its internal scroller.
+ * Keep this selector scoped to SkillCarousel so cards can stretch to the
+ * tallest natural card height without adding a hardcoded Card height.
+ */
 .skill-carousel > div {
   align-items: stretch;
 }
