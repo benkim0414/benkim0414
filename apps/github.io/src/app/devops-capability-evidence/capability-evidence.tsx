@@ -1,5 +1,4 @@
 import { Citation } from '@astryxdesign/core/Citation';
-import { Link } from '@astryxdesign/core/Link';
 import { Token } from '@astryxdesign/core/Token';
 import * as stylex from '@stylexjs/stylex';
 import { spacingVars } from '@astryxdesign/core/theme/tokens.stylex';
@@ -55,7 +54,16 @@ export function SkillEvidenceToken({
 function EvidenceToken({ evidence }: EvidenceLeafProps): ReactElement {
   const label = getCapabilityEvidenceLabel(evidence);
   const ariaLabel = evidenceAriaLabel(evidence, label);
-  const token = (
+  const token = evidence.proofUrl ? (
+    <Token
+      color="gray"
+      description={ariaLabel}
+      href={evidence.proofUrl}
+      icon={getCapabilityEvidenceIcon(evidence)}
+      label={label}
+      size="sm"
+    />
+  ) : (
     <Token
       color="gray"
       icon={getCapabilityEvidenceIcon(evidence)}
@@ -65,9 +73,7 @@ function EvidenceToken({ evidence }: EvidenceLeafProps): ReactElement {
   );
 
   return evidence.proofUrl ? (
-    <Link color="inherit" href={evidence.proofUrl} label={ariaLabel}>
-      {token}
-    </Link>
+    token
   ) : (
     <span aria-label={ariaLabel} role="group">
       {token}
@@ -103,6 +109,7 @@ export function CertificationEvidenceCitation({
           ? renderCapabilityEvidenceIcon(iconData)
           : undefined
       }
+      expiresAt={evidence.endDate}
       number={citationNumber}
       skills={evidence.technologies}
       title={getCapabilityEvidenceLabel(evidence)}

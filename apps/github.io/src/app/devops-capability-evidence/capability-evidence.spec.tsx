@@ -71,10 +71,10 @@ describe('CapabilityEvidence', () => {
       />,
     );
 
-    expect(screen.getByLabelText(label)).toBeTruthy();
-    expect(screen.getByRole('link', { name: label }).getAttribute('href')).toBe(
-      'https://example.com/proof',
-    );
+    const link = screen.getByRole('link', { name: label.split(': ')[1] });
+
+    expect(link.getAttribute('href')).toBe('https://example.com/proof');
+    expect(link.className).toContain('astryx-token');
   });
 
   it('renders certification evidence through CertificationCitation', () => {
@@ -112,6 +112,21 @@ describe('CapabilityEvidence', () => {
     expect(
       screen.getByTestId('capability-evidence-fallback-icon'),
     ).toBeTruthy();
+  });
+
+  it('passes certification end dates through to CertificationCitation status', () => {
+    render(
+      <CapabilityEvidence
+        evidence={evidence({
+          endDate: '2099-01-01T00:00:00+00:00',
+          label: 'CKA',
+          technologies: ['Kubernetes'],
+          type: 'certification',
+        })}
+      />,
+    );
+
+    expect(screen.getByText('Active certification')).toBeTruthy();
   });
 
   it('renders project evidence as a named citation with a technology icon', () => {

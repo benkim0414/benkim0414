@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
+import { HStack } from '@astryxdesign/core/Layout';
 
 import { CapabilityEvidence } from './capability-evidence';
 import type { CapabilityEvidenceItem } from './devops-capability-evidence.types';
@@ -85,6 +86,36 @@ export const Certification: Story = {
   },
 };
 
+export const ActiveCertification: Story = {
+  args: {
+    citationNumber: 2,
+    evidence: item({
+      endDate: '2099-01-01T00:00:00+00:00',
+      id: 'active-certification',
+      label: 'CKA',
+      proofUrl: 'https://example.com/cka',
+      technologies: ['Kubernetes'],
+      title: 'Certified Kubernetes Administrator',
+      type: 'certification',
+    }),
+  },
+};
+
+export const ExpiredCertification: Story = {
+  args: {
+    citationNumber: 3,
+    evidence: item({
+      endDate: '2020-01-01T00:00:00+00:00',
+      id: 'expired-certification',
+      label: 'KCNA',
+      proofUrl: 'https://example.com/kcna',
+      technologies: ['Kubernetes'],
+      title: 'Kubernetes and Cloud Native Associate',
+      type: 'certification',
+    }),
+  },
+};
+
 export const Project: Story = {
   args: {
     citationNumber: 2,
@@ -114,11 +145,13 @@ export const MixedRow = {
       Experience.args.evidence,
       Education.args.evidence,
       Certification.args.evidence,
+      ActiveCertification.args.evidence,
+      ExpiredCertification.args.evidence,
       Project.args.evidence,
     ].filter(Boolean) as CapabilityEvidenceItem[];
 
     return (
-      <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
+      <HStack gap={2} wrap="wrap">
         {evidence.map((entry, index) => (
           <CapabilityEvidence
             key={entry.id}
@@ -126,7 +159,7 @@ export const MixedRow = {
             evidence={entry}
           />
         ))}
-      </div>
+      </HStack>
     );
   },
 } satisfies Story;
