@@ -82,6 +82,7 @@ export function DevOpsCapabilityEvidenceRadar({
               stroke: RADAR_FOREGROUND,
             },
           }}
+          width={CHART_MAX_WIDTH}
         />
       </div>
     </ThemeProvider>
