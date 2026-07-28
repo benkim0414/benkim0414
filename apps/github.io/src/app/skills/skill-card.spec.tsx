@@ -31,6 +31,28 @@ describe('SkillCard', () => {
     ).toBeTruthy();
   });
 
+  it('gives duplicate skill cards distinct accessible title targets', () => {
+    const { getAllByTestId } = render(
+      <>
+        <SkillCard skill={baseSkill} />
+        <SkillCard skill={baseSkill} />
+      </>,
+    );
+
+    const titleIds = getAllByTestId('skill-card').map((card) => {
+      const titleId = card.getAttribute('aria-labelledby');
+
+      expect(titleId).toBeTruthy();
+      expect(card.ownerDocument.getElementById(titleId ?? '')?.textContent).toBe(
+        'Kubernetes',
+      );
+
+      return titleId;
+    });
+
+    expect(new Set(titleIds).size).toBe(2);
+  });
+
   it('omits certification citations when the skill has no certifications', () => {
     const { container } = render(<SkillCard skill={baseSkill} />);
 
