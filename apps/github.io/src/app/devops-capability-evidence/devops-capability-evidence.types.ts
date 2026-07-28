@@ -29,6 +29,7 @@ export interface DoraCapabilityDefinition {
 export interface CapabilityEvidenceItem {
   id: string;
   title: string;
+  label?: string;
   type: EvidenceType;
   capabilityKeys: readonly DoraCapabilityKey[];
   date?: string;

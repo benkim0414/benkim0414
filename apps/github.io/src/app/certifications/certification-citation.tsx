@@ -25,9 +25,9 @@ const styles = stylex.create({
 
 export interface CertificationCitationProps {
   title: string;
-  url: string;
-  skills: readonly string[];
-  expiresAt: string;
+  url?: string;
+  skills?: readonly string[];
+  expiresAt?: string;
   number?: number;
   currentDate?: Date;
 }
@@ -57,21 +57,25 @@ function iconDataUrl(iconPath: string, color: string) {
 export function CertificationCitation({
   title,
   url,
-  skills,
+  skills = [],
   expiresAt,
   number = 1,
   currentDate = new Date(),
 }: CertificationCitationProps): ReactElement {
   const primary = findPrimaryBrand(skills);
-  const status = isActive(expiresAt, currentDate) ? 'active' : 'expired';
+  const status = expiresAt
+    ? isActive(expiresAt, currentDate)
+      ? 'active'
+      : 'expired'
+    : undefined;
   const iconPath = primary?.brand.iconPath;
   const hasSkillLogo = Boolean(iconPath);
   const icon = primary?.brand.iconPath
     ? iconDataUrl(
         primary.brand.iconPath,
-        status === 'active'
-          ? primary.brand.color
-          : ASTRYX_CITATION_LABEL_TEXT,
+        status === 'expired'
+          ? ASTRYX_CITATION_LABEL_TEXT
+          : primary.brand.color,
       )
     : undefined;
 
@@ -92,9 +96,11 @@ export function CertificationCitation({
         variant="label"
         xstyle={hasSkillLogo && styles.sourceWithIcon}
       />
-      <VisuallyHidden>
-        {status === 'active' ? 'Active certification' : 'Expired certification'}
-      </VisuallyHidden>
+      {status ? (
+        <VisuallyHidden>
+          {status === 'active' ? 'Active certification' : 'Expired certification'}
+        </VisuallyHidden>
+      ) : null}
     </span>
   );
 }
