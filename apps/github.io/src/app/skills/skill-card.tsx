@@ -22,7 +22,6 @@ const styles = stylex.create({
       default: `calc(${spacingVars['--spacing-12']} * 7)`,
       '@media (max-width: 640px)': `calc(${spacingVars['--spacing-12']} * 5)`,
     },
-    minHeight: `calc(${spacingVars['--spacing-12']} * 4)`,
   },
   title: {
     margin: 0,
