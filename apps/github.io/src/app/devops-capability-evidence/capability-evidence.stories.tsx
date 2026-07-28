@@ -4,7 +4,6 @@ import { CapabilityEvidence } from './capability-evidence';
 import type { CapabilityEvidenceItem } from './devops-capability-evidence.types';
 
 const baseEvidence = {
-  id: 'story-evidence',
   capabilityKeys: ['flexible-infrastructure'],
   summary: 'Public-safe evidence summary for compact display.',
   isPublic: true,
@@ -92,13 +91,22 @@ export const Project: Story = {
     evidence: item({
       id: 'project',
       proofUrl: 'https://github.com/benkim0414/benkim0414',
-      title: 'DevOps roadmap portfolio project with React, TypeScript, Nx, and GitHub Pages',
+      title:
+        'DevOps roadmap portfolio project with React, TypeScript, Nx, and GitHub Pages',
       type: 'project',
     }),
   },
 };
 
 export const MixedRow = {
+  args: {
+    evidence: item({
+      id: 'mixed-row',
+      label: 'Mixed evidence',
+      title: 'Mixed evidence row item',
+      type: 'learning',
+    }),
+  },
   render: () => {
     const evidence = [
       Skill.args.evidence,
