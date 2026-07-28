@@ -6,7 +6,7 @@ import {
   spacingVars,
   typeScaleVars,
 } from '@astryxdesign/core/theme/tokens.stylex';
-import type { ReactElement } from 'react';
+import { useId, type ReactElement } from 'react';
 
 import { CertificationCitation } from '../certifications/certification-citation';
 import type { Skill } from './skill-list.types';
@@ -52,16 +52,17 @@ const styles = stylex.create({
 
 export function SkillCard({ skill }: SkillCardProps): ReactElement {
   const certifications = skill.certifications ?? [];
+  const titleId = useId();
 
   return (
     <Card padding={4} xstyle={styles.root}>
       <article
-        aria-labelledby={`${skill.id}-skill-card-title`}
+        aria-labelledby={titleId}
         data-testid="skill-card"
       >
         <VStack gap={3}>
           <VStack gap={1}>
-            <h3 id={`${skill.id}-skill-card-title`} {...stylex.props(styles.title)}>
+            <h3 id={titleId} {...stylex.props(styles.title)}>
               {skill.name}
             </h3>
             <p {...stylex.props(styles.description)}>{skill.description}</p>
@@ -70,7 +71,10 @@ export function SkillCard({ skill }: SkillCardProps): ReactElement {
           {certifications.length > 0 ? (
             <ul {...stylex.props(styles.citationList)}>
               {certifications.map((certification, index) => (
-                <li {...stylex.props(styles.citationItem)} key={certification.title}>
+                <li
+                  {...stylex.props(styles.citationItem)}
+                  key={`${certification.title}-${certification.url}-${certification.expiresAt}`}
+                >
                   <CertificationCitation {...certification} number={index + 1} />
                 </li>
               ))}
