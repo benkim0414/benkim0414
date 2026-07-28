@@ -16,13 +16,22 @@ export const skillCategories = [
 
 export type SkillCategory = (typeof skillCategories)[number];
 
+export interface SkillCertification {
+  title: string;
+  url: string;
+  skills: readonly string[];
+  expiresAt: string;
+}
+
 export interface Skill {
   id: string;
   name: string;
+  description: string;
   category: SkillCategory;
   level: 1 | 2 | 3 | 4 | 5;
   iconSlug: string;
   keywords: readonly string[];
+  certifications?: readonly SkillCertification[];
 }
 
 export interface SkillListProps {
