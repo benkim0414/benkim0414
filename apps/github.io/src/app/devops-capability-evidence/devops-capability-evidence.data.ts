@@ -66,6 +66,7 @@ export const devOpsCapabilityEvidenceItems = [
   {
     id: 'github-actions-delivery',
     title: 'CI/CD workflow ownership',
+    label: 'CI/CD workflow',
     type: 'experience',
     organization: 'Current company',
     capabilityKeys: [
@@ -82,6 +83,7 @@ export const devOpsCapabilityEvidenceItems = [
   {
     id: 'kubernetes-learning',
     title: 'Kubernetes operations learning path',
+    label: 'Kubernetes',
     type: 'learning',
     date: '2026-03-01',
     endDate: '2026-04-05',
@@ -95,6 +97,7 @@ export const devOpsCapabilityEvidenceItems = [
   {
     id: 'cncf-kubernetes-certification',
     title: 'CNCF Kubernetes certification',
+    label: 'Kubernetes cert',
     type: 'certification',
     issuer: 'Cloud Native Computing Foundation',
     capabilityKeys: ['flexible-infrastructure', 'monitoring-observability'],
@@ -107,7 +110,9 @@ export const devOpsCapabilityEvidenceItems = [
   {
     id: 'devops-roadmap-project',
     title: 'DevOps roadmap portfolio project',
+    label: 'DevOps roadmap',
     type: 'project',
+    proofUrl: 'https://github.com/benkim0414/benkim0414',
     capabilityKeys: ['documentation-quality', 'version-control'],
     summary:
       'Built a portfolio visualization that maps DevOps topics, skills, and certifications.',
