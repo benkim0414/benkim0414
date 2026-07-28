@@ -7,6 +7,7 @@ import { getSkillBrand, type SkillBrand } from './skill-brand';
 
 export interface SkillTokenProps {
   label: string;
+  brandLabel?: string;
   variant?: 'purple';
 }
 
@@ -33,8 +34,11 @@ function tokenStyle(brand: SkillBrand | undefined): CSSProperties | undefined {
   } as CSSProperties;
 }
 
-export function SkillToken({ label }: SkillTokenProps): ReactElement {
-  const brand = getSkillBrand(label);
+export function SkillToken({
+  label,
+  brandLabel,
+}: SkillTokenProps): ReactElement {
+  const brand = getSkillBrand(brandLabel ?? label);
   const hasIcon = Boolean(brand?.iconPath);
 
   return (

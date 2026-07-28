@@ -1,4 +1,6 @@
+import * as stylex from '@stylexjs/stylex';
 import { Icon } from '@astryxdesign/core/Icon';
+import { spacingVars } from '@astryxdesign/core/theme/tokens.stylex';
 import {
   AcademicCapIcon,
   BookOpenIcon,
@@ -6,43 +8,53 @@ import {
   CheckBadgeIcon,
   CodeBracketIcon,
 } from '@heroicons/react/24/outline';
+import type { IconType } from '@astryxdesign/core/Icon';
 import type { ReactNode } from 'react';
 
-import { getSkillBrand } from '../skills/skill-brand';
+import { getSkillBrand, type SkillBrand } from '../skills/skill-brand';
 import type { CapabilityEvidenceItem } from './devops-capability-evidence.types';
 import { isGithubRepositoryUrl } from './capability-evidence-url';
 
-function firstKnownTechnologyIcon(
-  technologies: readonly string[] | undefined,
-): ReactNode | undefined {
-  const brand = technologies
-    ?.map((technology) => getSkillBrand(technology))
-    .find(Boolean);
+const styles = stylex.create({
+  brandIcon: {
+    flex: '0 0 auto',
+    width: spacingVars['--spacing-3'],
+    height: spacingVars['--spacing-3'],
+  },
+});
 
-  return brand?.iconPath ? (
-    <svg aria-hidden="true" focusable="false" viewBox="0 0 24 24">
-      <path d={brand.iconPath} fill="currentColor" />
-    </svg>
-  ) : undefined;
+export type CapabilityEvidenceIconData =
+  { kind: 'brand'; brand: SkillBrand } | { kind: 'fallback'; icon: IconType };
+
+function firstKnownTechnologyBrand(
+  technologies: readonly string[] | undefined,
+): SkillBrand | undefined {
+  for (const technology of technologies ?? []) {
+    const brand = getSkillBrand(technology);
+
+    if (brand?.iconPath) {
+      return brand;
+    }
+  }
+
+  return undefined;
 }
 
-export function getCapabilityEvidenceIcon(
+export function getCapabilityEvidenceIconData(
   evidence: CapabilityEvidenceItem,
-): ReactNode | undefined {
-  const technologyIcon = firstKnownTechnologyIcon(evidence.technologies);
+): CapabilityEvidenceIconData | undefined {
+  const technologyBrand = firstKnownTechnologyBrand(evidence.technologies);
 
-  if (technologyIcon) {
-    return technologyIcon;
+  if (technologyBrand) {
+    return { kind: 'brand', brand: technologyBrand };
   }
 
   if (evidence.type === 'project' && isGithubRepositoryUrl(evidence.proofUrl)) {
-    const githubIcon = getSkillBrand('GitHub');
+    const githubBrand = getSkillBrand('GitHub');
 
-    return githubIcon?.iconPath ? (
-      <svg aria-hidden="true" focusable="false" viewBox="0 0 24 24">
-        <path d={githubIcon.iconPath} fill="currentColor" />
-      </svg>
-    ) : undefined;
+    if (githubBrand?.iconPath) {
+      return { kind: 'brand', brand: githubBrand };
+    }
   }
 
   const fallbackIcon = {
@@ -54,7 +66,47 @@ export function getCapabilityEvidenceIcon(
     skill: undefined,
   }[evidence.type];
 
-  return fallbackIcon ? (
-    <Icon icon={fallbackIcon} size="sm" color="inherit" />
-  ) : undefined;
+  return fallbackIcon ? { kind: 'fallback', icon: fallbackIcon } : undefined;
+}
+
+export function renderCapabilityEvidenceIcon(
+  iconData: CapabilityEvidenceIconData | undefined,
+): ReactNode | undefined {
+  if (!iconData) {
+    return undefined;
+  }
+
+  if (iconData.kind === 'brand') {
+    return (
+      <svg
+        aria-hidden="true"
+        {...stylex.props(styles.brandIcon)}
+        focusable="false"
+        viewBox="0 0 24 24"
+      >
+        <path d={iconData.brand.iconPath} fill="currentColor" />
+      </svg>
+    );
+  }
+
+  return (
+    <Icon
+      color="inherit"
+      data-testid="capability-evidence-fallback-icon"
+      icon={iconData.icon}
+      size="sm"
+    />
+  );
+}
+
+export function getCapabilityEvidenceCitationIcon(
+  iconData: CapabilityEvidenceIconData | undefined,
+): string | undefined {
+  return iconData?.kind === 'brand' ? iconData.brand.iconDataUrl : undefined;
+}
+
+export function getCapabilityEvidenceIcon(
+  evidence: CapabilityEvidenceItem,
+): ReactNode | undefined {
+  return renderCapabilityEvidenceIcon(getCapabilityEvidenceIconData(evidence));
 }
