@@ -43,7 +43,13 @@ function firstKnownTechnologyBrand(
 export function getCapabilityEvidenceIconData(
   evidence: CapabilityEvidenceItem,
 ): CapabilityEvidenceIconData | undefined {
-  const technologyBrand = firstKnownTechnologyBrand(evidence.technologies);
+  const canUseTechnologyBrand =
+    evidence.type === 'skill' ||
+    evidence.type === 'certification' ||
+    evidence.type === 'project';
+  const technologyBrand = canUseTechnologyBrand
+    ? firstKnownTechnologyBrand(evidence.technologies)
+    : undefined;
 
   if (technologyBrand) {
     return { kind: 'brand', brand: technologyBrand };
