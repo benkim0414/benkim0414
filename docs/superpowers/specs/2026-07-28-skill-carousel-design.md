@@ -21,7 +21,7 @@ Out of scope:
 - Changing `SkillSection`, `SkillList`, or search/filter behavior.
 - Adding a new page section or page-level heading.
 - Adding carousel-specific data separate from the existing `Skill` model.
-- Adding custom labels to the certification footer.
+- Adding visible labels to the carousel or certification footer.
 - Rebuilding `CertificationCitation` visuals.
 
 ## Data Model
@@ -65,8 +65,8 @@ It renders:
   `skill.certifications?.length` is non-zero
 
 The certification footer should render the existing `CertificationCitation`
-component for each certification. It should not introduce an additional footer
-label.
+component for each certification. It should not introduce an additional visible
+footer label.
 
 ### SkillCarousel
 
@@ -101,7 +101,10 @@ consistent with existing skill components.
 
 ## Accessibility
 
-- Do not add visible headings or footer labels inside the reusable components.
+- Do not add visible headings, carousel labels, or footer labels inside the
+  reusable components.
+- Non-visible accessibility labels, such as `aria-label`, are acceptable when
+  needed by an Astryx component or to preserve screen reader clarity.
 - Preserve the accessible behavior provided by Astryx `Carousel`, `Card`, and
   `Citation`.
 - Use semantic structure inside `SkillCard` so the skill name and description
@@ -134,9 +137,9 @@ Add Storybook stories for:
 - Required descriptions will break existing sample fixtures until they are
   updated. Mitigate by updating all `Skill` fixtures in the same implementation
   change.
-- Astryx `Carousel` exposes an accessibility label prop, but this component
-  should not add a carousel label API. Mitigate by relying on the Astryx default
-  behavior.
+- Astryx `Carousel` exposes an accessibility label prop. Mitigate ambiguity by
+  allowing non-visible accessibility labels while avoiding any visible carousel
+  label in the UI.
 - Certification data can grow card height unevenly. Mitigate by using consistent
   card width and spacing, and by testing a multiple-certification skill.
 
