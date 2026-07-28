@@ -178,4 +178,50 @@ describe('CertificationCitation', () => {
     expect(wrapper?.getAttribute('style')).toBeNull();
     expect(container.querySelector('img')).toBeNull();
   });
+
+  it('renders an unlinked label citation when url is omitted', () => {
+    const { getByLabelText, queryByRole } = render(
+      <CertificationCitation
+        currentDate={new Date('2026-07-23T00:00:00+10:00')}
+        expiresAt="2027-04-20T10:00:00+10:00"
+        skills={['Kubernetes']}
+        title="CKA"
+      />,
+    );
+
+    expect(getByLabelText('Citation 1: CKA').tagName.toLowerCase()).toBe('span');
+    expect(queryByRole('doc-noteref')).toBeNull();
+  });
+
+  it('omits certification status when expiresAt is omitted', () => {
+    const { container, queryByText } = render(
+      <CertificationCitation
+        skills={['Kubernetes']}
+        title="CKA"
+        url={certificateUrl}
+      />,
+    );
+
+    expect(
+      container
+        .querySelector('[data-testid="certification-citation"]')
+        ?.getAttribute('data-certification-status'),
+    ).toBeNull();
+    expect(queryByText('Active certification')).toBeNull();
+    expect(queryByText('Expired certification')).toBeNull();
+  });
+
+  it('supports omitted skills without brand lookup', () => {
+    const { container, getByRole } = render(
+      <CertificationCitation title="Custom Cert" url={certificateUrl} />,
+    );
+
+    expect(getByRole('doc-noteref', { name: 'Citation 1: Custom Cert' })).toBeTruthy();
+    expect(
+      container
+        .querySelector('[data-testid="certification-citation"]')
+        ?.getAttribute('data-certification-primary-skill'),
+    ).toBeNull();
+    expect(container.querySelector('img')).toBeNull();
+  });
 });
