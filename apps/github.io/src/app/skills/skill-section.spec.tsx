@@ -9,7 +9,7 @@ describe('SkillSection', () => {
       <SkillSection heading="Skills" skills={sampleSkills} />,
     );
 
-    expect(getByText('8 results')).toBeTruthy();
+    expect(getByText(`${sampleSkills.length} results`)).toBeTruthy();
 
     fireEvent.change(getByRole('combobox', { name: 'Search skills' }), {
       target: { value: 'terraform' },

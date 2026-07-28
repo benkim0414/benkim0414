@@ -4,6 +4,7 @@ export const sampleSkills: readonly Skill[] = [
   {
     id: 'typescript',
     name: 'TypeScript',
+    description: 'Typed JavaScript for building reliable applications.',
     category: 'Language',
     level: 5,
     iconSlug: 'typescript',
@@ -12,6 +13,7 @@ export const sampleSkills: readonly Skill[] = [
   {
     id: 'react',
     name: 'React',
+    description: 'Component-based UI library for interactive web interfaces.',
     category: 'Framework',
     level: 5,
     iconSlug: 'react',
@@ -20,6 +22,7 @@ export const sampleSkills: readonly Skill[] = [
   {
     id: 'nx',
     name: 'Nx',
+    description: 'Extensible build system for monorepos and workspaces.',
     category: 'Build',
     level: 4,
     iconSlug: 'nx',
@@ -28,6 +31,7 @@ export const sampleSkills: readonly Skill[] = [
   {
     id: 'aws',
     name: 'AWS',
+    description: 'Cloud platform for scalable infrastructure and services.',
     category: 'Cloud',
     level: 4,
     iconSlug: 'amazonaws',
@@ -36,6 +40,7 @@ export const sampleSkills: readonly Skill[] = [
   {
     id: 'terraform',
     name: 'Terraform',
+    description: 'Infrastructure as code for provisioning cloud resources.',
     category: 'IaC',
     level: 4,
     iconSlug: 'terraform',
@@ -44,14 +49,46 @@ export const sampleSkills: readonly Skill[] = [
   {
     id: 'docker',
     name: 'Docker',
+    description: 'Container platform for packaging and running applications.',
     category: 'Container',
     level: 4,
     iconSlug: 'docker',
     keywords: ['container', 'image', 'runtime'],
   },
   {
+    id: 'kubernetes',
+    name: 'Kubernetes',
+    description:
+      'Container orchestration for deploying, scaling, and operating cloud-native workloads.',
+    category: 'Container',
+    level: 4,
+    iconSlug: 'kubernetes',
+    keywords: ['containers', 'orchestration', 'platform', 'cloud native'],
+    certifications: [
+      {
+        title: 'KCNA',
+        url: 'https://example.com/kcna',
+        skills: ['Kubernetes'],
+        expiresAt: '2028-02-26T10:59:00+11:00',
+      },
+      {
+        title: 'CKA',
+        url: 'https://example.com/cka',
+        skills: ['Kubernetes'],
+        expiresAt: '2028-02-26T10:59:00+11:00',
+      },
+      {
+        title: 'CKAD',
+        url: 'https://example.com/ckad',
+        skills: ['Kubernetes'],
+        expiresAt: '2028-02-26T10:59:00+11:00',
+      },
+    ],
+  },
+  {
     id: 'github-actions',
     name: 'GitHub Actions',
+    description: 'Automated workflows for building, testing, and deploying code.',
     category: 'CI/CD',
     level: 4,
     iconSlug: 'githubactions',
@@ -60,6 +97,7 @@ export const sampleSkills: readonly Skill[] = [
   {
     id: 'storybook',
     name: 'Storybook',
+    description: 'Development environment for building and testing UI components.',
     category: 'Design System',
     level: 4,
     iconSlug: 'storybook',
