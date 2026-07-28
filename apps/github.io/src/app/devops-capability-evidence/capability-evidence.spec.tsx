@@ -98,7 +98,9 @@ describe('CapabilityEvidence', () => {
     );
 
     expect(
-      screen.getByLabelText('Experience evidence: Renderer only'),
+      screen.getByRole('group', {
+        name: 'Experience evidence: Renderer only',
+      }),
     ).toBeTruthy();
   });
 });
