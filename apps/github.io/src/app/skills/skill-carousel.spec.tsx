@@ -1,7 +1,25 @@
 import { render } from '@testing-library/react';
+import { vi } from 'vitest';
 
 import { SkillCarousel } from './skill-carousel';
 import { sampleSkills } from './skill-list.data';
+
+vi.stubGlobal(
+  'ResizeObserver',
+  class ResizeObserverMock {
+    observe(): void {
+      // Astryx only needs the observer API to exist in jsdom.
+    }
+
+    unobserve(): void {
+      // Astryx only needs the observer API to exist in jsdom.
+    }
+
+    disconnect(): void {
+      // Astryx only needs the observer API to exist in jsdom.
+    }
+  },
+);
 
 describe('SkillCarousel', () => {
   it('renders one skill card for each supplied skill', () => {
