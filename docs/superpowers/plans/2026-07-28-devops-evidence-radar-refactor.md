@@ -2,9 +2,9 @@
 
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
-**Goal:** Make `DevOpsCapabilityEvidenceRadar` the only supported DevOps capability radar component in `github.io`.
+**Goal:** Make `DevOpsCapabilityEvidenceRadar` the only supported DevOps capability evidence visualization component in `github.io`.
 
-**Architecture:** Keep the radar visualization inside `apps/github.io/src/app/devops-capability-evidence/`, backed by `DoraCapabilityScore[]` from the existing evidence scoring utilities. Remove the older static `apps/github.io/src/app/devops-capability-radar/` feature folder and update active docs so future work points at the evidence-backed component.
+**Architecture:** Keep the radar visualization inside `apps/github.io/src/app/devops-capability-evidence/`, backed by `DoraCapabilityScore[]` from the existing evidence scoring utilities. Remove the older static `apps/github.io/src/app/devops-capability-radar/` feature folder and remove non-radar evidence visualization components/stories so Storybook exposes only the evidence radar for this feature area. Update active docs so future work points at the evidence-backed radar component.
 
 **Tech Stack:** Nx, pnpm, React 19, TypeScript, Vitest, Testing Library, Storybook, MUI X Charts, Astryx Design, StyleX.
 
@@ -12,7 +12,6 @@
 
 - Work from the linked worktree at `.worktrees/refactor-devops-evidence-radar`.
 - Do not change the evidence scoring rubric.
-- Do not remove non-radar DevOps capability evidence components.
 - Do not introduce a generic radar abstraction.
 - Do not wire the radar into app routes or page sections.
 - Do not change Astryx theme files or global chart styling.
@@ -36,12 +35,20 @@
 - `apps/github.io/src/app/devops-capability-radar/`
   - Obsolete standalone static radar folder.
   - Should be removed in this refactor.
+- non-radar files under `apps/github.io/src/app/devops-capability-evidence/`
+  - Obsolete evidence visualization and compact evidence Storybook surfaces.
+  - Remove donut, timeline, certification map, matrix, bar list, and compact `CapabilityEvidence` component/test/story/helper files.
+- shared evidence files under `apps/github.io/src/app/devops-capability-evidence/`
+  - Keep `devops-capability-evidence.types.ts`, `.data.ts`, `.scoring.ts`, `.summary.ts`, and `.spec.ts` because the radar and scoring tests still depend on the evidence data pipeline.
 - `docs/solutions/design-patterns/public-evidence-portfolio-visualizations.md`
   - Active solution guidance for evidence-backed portfolio visualizations.
-  - Should reference `DevOpsCapabilityEvidenceRadar`, not standalone `DevOpsCapabilityRadar`.
+  - Should reference `DevOpsCapabilityEvidenceRadar`, not standalone `DevOpsCapabilityRadar` or deleted non-radar evidence components.
 - `docs/solutions/design-patterns/standalone-github-io-devops-capability-radar.md`
   - Historical standalone pattern doc.
   - Should be retired or clearly marked superseded by the evidence radar.
+- `docs/solutions/design-patterns/compact-capability-evidence-renderers.md`
+  - Historical compact evidence component doc.
+  - Should be retired or clearly marked superseded by the radar-only evidence surface.
 
 ---
 
@@ -415,3 +422,72 @@ Source search: no app source references to DevOpsCapabilityRadar remain
 ```
 
 If a command fails because the local environment cannot run Nx or pnpm, include the exact command and failure reason instead of treating it as passing.
+
+---
+
+### Task 4: Remove Non-Radar Evidence Components From Storybook
+
+**Files:**
+- Delete: non-radar component, story, spec, and helper files under `apps/github.io/src/app/devops-capability-evidence/`
+- Modify: `docs/superpowers/specs/2026-07-28-devops-evidence-radar-refactor-design.md`
+- Modify: `docs/superpowers/plans/2026-07-28-devops-evidence-radar-refactor.md`
+- Modify: `docs/solutions/design-patterns/public-evidence-portfolio-visualizations.md`
+- Modify: `docs/solutions/design-patterns/compact-capability-evidence-renderers.md`
+
+**Interfaces:**
+- Consumes:
+  - Canonical component `DevOpsCapabilityEvidenceRadar`
+  - Shared evidence model/scoring files used by the radar
+- Produces:
+  - Only the radar story remains under the DevOps capability evidence Storybook group.
+  - Active docs no longer describe deleted non-radar evidence components as current guidance.
+
+- [ ] **Step 1: Remove non-radar app source and stories**
+
+Delete donut, timeline, certification map, matrix, bar list, and compact `CapabilityEvidence` files from `apps/github.io/src/app/devops-capability-evidence/`. Keep `devops-capability-evidence-radar.*`, `devops-capability-evidence.types.ts`, `devops-capability-evidence.data.ts`, `devops-capability-evidence.scoring.ts`, `devops-capability-evidence.summary.ts`, and `devops-capability-evidence.spec.ts`.
+
+- [ ] **Step 2: Retire stale active guidance**
+
+Update active solution docs so current guidance describes the radar-only evidence surface. Retire compact evidence renderer guidance because its source files are removed.
+
+- [ ] **Step 3: Validate Storybook inventory**
+
+Run:
+
+```bash
+rg "title:" apps/github.io/src/app/devops-capability-evidence -g '*.stories.tsx' -n
+```
+
+Expected: only `GitHub.io/DevOps Capability Evidence/Radar`.
+
+- [ ] **Step 4: Validate deleted component references**
+
+Run:
+
+```bash
+rg "DevOpsCapabilityEvidenceMatrix|DevOpsCapabilityBarList|DevOpsEvidenceTypeDonut|DevOpsEvidenceTimeline|DevOpsCertificationCapabilityMap|CapabilityEvidence|devops-capability-evidence-matrix|devops-capability-bar-list|devops-evidence-type-donut|devops-evidence-timeline|devops-certification-capability-map|capability-evidence" apps/github.io/src docs/solutions -n
+```
+
+Expected: no app source references to deleted components. Solution doc references are acceptable only when they clearly say the component has been retired or superseded.
+
+- [ ] **Step 5: Run focused tests and build**
+
+Run:
+
+```bash
+pnpm nx test github.io -- --run src/app/devops-capability-evidence/devops-capability-evidence-radar.spec.tsx
+pnpm nx test github.io -- --run src/app/devops-capability-evidence/devops-capability-evidence.spec.ts
+pnpm nx build github.io
+```
+
+Expected: PASS, or report the exact environment limitation if a command cannot run.
+
+- [ ] **Step 6: Commit**
+
+Run:
+
+```bash
+git add <explicit deleted and modified paths>
+git diff --cached
+git commit -m "refactor(github.io): keep evidence radar only"
+```
