@@ -13,7 +13,8 @@ function evidence(
 ): CapabilityEvidenceItem {
   return {
     id: 'evidence',
-    title: 'Very long capability evidence title that should not be compact text',
+    title:
+      'Very long capability evidence title that should not be compact text',
     type: 'learning',
     capabilityKeys: ['flexible-infrastructure'],
     summary: 'Public-safe evidence summary for helper tests.',
@@ -39,16 +40,31 @@ describe('capability evidence compact helpers', () => {
     ).toBe('Kubernetes');
   });
 
-  it('detects GitHub repository URLs but not profiles or pull requests', () => {
+  it('detects HTTPS GitHub repository URLs but not profiles or pull requests', () => {
     expect(
       isGithubRepositoryUrl('https://github.com/benkim0414/devops-roadmap'),
     ).toBe(true);
+    expect(
+      isGithubRepositoryUrl('http://www.github.com/benkim0414/devops-roadmap'),
+    ).toBe(true);
+    expect(
+      isGithubRepositoryUrl('git@github.com:benkim0414/devops-roadmap.git'),
+    ).toBe(false);
+    expect(
+      isGithubRepositoryUrl('ftp://github.com/benkim0414/devops-roadmap'),
+    ).toBe(false);
     expect(isGithubRepositoryUrl('https://github.com/benkim0414')).toBe(false);
     expect(
       isGithubRepositoryUrl(
         'https://github.com/benkim0414/devops-roadmap/pull/1',
       ),
     ).toBe(false);
+    expect(isGithubRepositoryUrl('https://github.com/orgs/example')).toBe(
+      false,
+    );
+    expect(isGithubRepositoryUrl('https://github.com/topics/react')).toBe(
+      false,
+    );
   });
 
   it('derives a repository label from a GitHub repository URL', () => {
@@ -68,7 +84,9 @@ describe('capability evidence compact helpers', () => {
   });
 
   it('uses a fallback icon when no technology brand exists', () => {
-    const icon = getCapabilityEvidenceIcon(evidence({ technologies: ['Unknown'] }));
+    const icon = getCapabilityEvidenceIcon(
+      evidence({ technologies: ['Unknown'] }),
+    );
     const { container } = render(<>{icon}</>);
 
     expect(container.querySelector('.astryx-icon, svg')).toBeTruthy();

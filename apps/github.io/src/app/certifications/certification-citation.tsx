@@ -5,7 +5,7 @@ import {
   spacingVars,
 } from '@astryxdesign/core/theme/tokens.stylex';
 import { VisuallyHidden } from '@astryxdesign/core/VisuallyHidden';
-import type { ReactElement } from 'react';
+import type { ReactElement, ReactNode } from 'react';
 
 import { getSkillBrand } from '../skills/skill-brand';
 
@@ -28,6 +28,8 @@ export interface CertificationCitationProps {
   url?: string;
   skills?: readonly string[];
   expiresAt?: string;
+  citationIcon?: string;
+  fallbackIcon?: ReactNode;
   number?: number;
   currentDate?: Date;
 }
@@ -59,6 +61,8 @@ export function CertificationCitation({
   url,
   skills = [],
   expiresAt,
+  citationIcon,
+  fallbackIcon,
   number = 1,
   currentDate = new Date(),
 }: CertificationCitationProps): ReactElement {
@@ -73,11 +77,9 @@ export function CertificationCitation({
   const icon = primary?.brand.iconPath
     ? iconDataUrl(
         primary.brand.iconPath,
-        status === 'expired'
-          ? ASTRYX_CITATION_LABEL_TEXT
-          : primary.brand.color,
+        status === 'expired' ? ASTRYX_CITATION_LABEL_TEXT : primary.brand.color,
       )
-    : undefined;
+    : citationIcon;
 
   return (
     <span
@@ -86,6 +88,7 @@ export function CertificationCitation({
       data-certification-status={status}
       data-testid="certification-citation"
     >
+      {fallbackIcon}
       <Citation
         number={number}
         source={{
@@ -98,7 +101,9 @@ export function CertificationCitation({
       />
       {status ? (
         <VisuallyHidden>
-          {status === 'active' ? 'Active certification' : 'Expired certification'}
+          {status === 'active'
+            ? 'Active certification'
+            : 'Expired certification'}
         </VisuallyHidden>
       ) : null}
     </span>
