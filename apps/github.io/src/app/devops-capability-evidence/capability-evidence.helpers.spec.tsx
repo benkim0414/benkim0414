@@ -73,15 +73,22 @@ describe('capability evidence compact helpers', () => {
     ).toBe('devops-roadmap');
   });
 
-  it('prefers known technology icons over type fallback icons', () => {
-    const icon = getCapabilityEvidenceIcon(
-      evidence({ technologies: ['Kubernetes'], type: 'learning' }),
-    );
-    const { container } = render(<>{icon}</>);
+  it.each(['education', 'experience', 'learning'] as const)(
+    'uses type fallback icons for %s evidence even with known technologies',
+    (type) => {
+      const icon = getCapabilityEvidenceIcon(
+        evidence({ technologies: ['Kubernetes'], type }),
+      );
+      const { container } = render(<>{icon}</>);
 
-    expect(container.querySelector('svg path')?.getAttribute('d')).toBeTruthy();
-    expect(container.textContent).toBe('');
-  });
+      expect(
+        container.querySelector(
+          '[data-testid="capability-evidence-fallback-icon"]',
+        ),
+      ).toBeTruthy();
+      expect(container.textContent).toBe('');
+    },
+  );
 
   it('uses a fallback icon when no technology brand exists', () => {
     const icon = getCapabilityEvidenceIcon(
