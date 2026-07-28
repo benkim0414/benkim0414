@@ -33,16 +33,28 @@ describe('SkillCarousel', () => {
     expect(getByRole('heading', { name: sampleSkills[2].name })).toBeTruthy();
   });
 
-  it('renders carousel skill cards with a shared height', () => {
+  it('lets carousel skill cards keep their content-driven Card height', () => {
     const { container } = render(<SkillCarousel skills={sampleSkills} />);
-    const cardHeights = Array.from(
+    const cardStyles = Array.from(
       container.querySelectorAll('.astryx-card'),
       (card) => card.getAttribute('style') ?? '',
     );
 
-    expect(cardHeights).toHaveLength(sampleSkills.length);
-    expect(new Set(cardHeights).size).toBe(1);
-    expect(cardHeights[0]).toContain('--x-height: 168px');
+    expect(cardStyles).toHaveLength(sampleSkills.length);
+    expect(cardStyles.every((style) => !style.includes('--x-height'))).toBe(
+      true,
+    );
+    expect(cardStyles.every((style) => !style.includes('--x-minHeight'))).toBe(
+      true,
+    );
+  });
+
+  it('opts into carousel-scoped equal-height card layout', () => {
+    const { getByLabelText } = render(<SkillCarousel skills={sampleSkills} />);
+
+    expect(getByLabelText('Skills carousel').className).toContain(
+      'skill-carousel',
+    );
   });
 
   it('renders an empty state when no skills are supplied', () => {
