@@ -55,7 +55,10 @@ export function SkillCard({ skill }: SkillCardProps): ReactElement {
 
   return (
     <Card padding={4} xstyle={styles.root}>
-      <article aria-labelledby={`${skill.id}-skill-card-title`}>
+      <article
+        aria-labelledby={`${skill.id}-skill-card-title`}
+        data-testid="skill-card"
+      >
         <VStack gap={3}>
           <VStack gap={1}>
             <h3 id={`${skill.id}-skill-card-title`} {...stylex.props(styles.title)}>
