@@ -46,7 +46,7 @@ describe('capability evidence compact helpers', () => {
     ).toBe(true);
     expect(
       isGithubRepositoryUrl('http://www.github.com/benkim0414/devops-roadmap'),
-    ).toBe(true);
+    ).toBe(false);
     expect(
       isGithubRepositoryUrl('git@github.com:benkim0414/devops-roadmap.git'),
     ).toBe(false);
