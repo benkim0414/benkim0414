@@ -42,12 +42,17 @@ export function SkillEvidenceToken({
   evidence,
 }: EvidenceLeafProps): ReactElement {
   const iconData = getCapabilityEvidenceIconData(evidence);
+  const label = getCapabilityEvidenceLabel(evidence);
 
   return (
-    <SkillToken
-      brandLabel={iconData?.kind === 'brand' ? iconData.brand.name : undefined}
-      label={getCapabilityEvidenceLabel(evidence)}
-    />
+    <span aria-label={evidenceAriaLabel(evidence, label)} role="group">
+      <SkillToken
+        brandLabel={
+          iconData?.kind === 'brand' ? iconData.brand.name : undefined
+        }
+        label={label}
+      />
+    </span>
   );
 }
 
@@ -100,21 +105,28 @@ export function CertificationEvidenceCitation({
   citationNumber = 1,
 }: EvidenceLeafProps): ReactElement {
   const iconData = getCapabilityEvidenceIconData(evidence);
+  const label = getCapabilityEvidenceLabel(evidence);
 
   return (
-    <CertificationCitation
-      citationIcon={getCapabilityEvidenceCitationIcon(iconData)}
-      fallbackIcon={
-        iconData?.kind === 'fallback'
-          ? renderCapabilityEvidenceIcon(iconData)
-          : undefined
-      }
-      expiresAt={evidence.endDate}
-      number={citationNumber}
-      skills={evidence.technologies}
-      title={getCapabilityEvidenceLabel(evidence)}
-      url={evidence.proofUrl}
-    />
+    <span
+      aria-label={evidenceAriaLabel(evidence, label)}
+      role="group"
+      {...stylex.props(styles.citationGroup)}
+    >
+      <CertificationCitation
+        citationIcon={getCapabilityEvidenceCitationIcon(iconData)}
+        fallbackIcon={
+          iconData?.kind === 'fallback'
+            ? renderCapabilityEvidenceIcon(iconData)
+            : undefined
+        }
+        expiresAt={evidence.endDate}
+        number={citationNumber}
+        skills={evidence.technologies}
+        title={label}
+        url={evidence.proofUrl}
+      />
+    </span>
   );
 }
 

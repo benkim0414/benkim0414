@@ -41,7 +41,7 @@ function githubRepositoryUrl(url: string | undefined): URL | undefined {
     const pathParts = parsed.pathname.split('/').filter(Boolean);
     const owner = pathParts[0]?.toLowerCase();
 
-    return parsed.protocol === 'http:' || parsed.protocol === 'https:'
+    return parsed.protocol === 'https:'
       ? GITHUB_HOSTS.has(parsed.hostname.toLowerCase()) &&
         pathParts.length === 2 &&
         owner != null &&
