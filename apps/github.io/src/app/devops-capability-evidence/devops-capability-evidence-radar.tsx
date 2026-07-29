@@ -9,12 +9,12 @@ import { useMemo, type ReactElement } from 'react';
 import { getCapabilityScoreSummary } from './devops-capability-evidence.summary';
 import type { DoraCapabilityScore } from './devops-capability-evidence.types';
 
-const CHART_MAX_WIDTH = 620;
-const CHART_HEIGHT = 520;
+const CHART_MAX_WIDTH = 560;
+const CHART_HEIGHT = 480;
 const RADAR_FOREGROUND = colorVars['--color-text-purple'];
 const RADAR_BACKGROUND = colorVars['--color-background-purple'];
 const RADAR_COLORS = [RADAR_BACKGROUND];
-const RADAR_MARGIN = { top: 48, right: 92, bottom: 48, left: 92 };
+const RADAR_MARGIN = { top: 44, right: 84, bottom: 44, left: 84 };
 const RADAR_SLOT_PROPS = { tooltip: { trigger: 'axis' as const } };
 
 const styles = stylex.create({
@@ -103,7 +103,7 @@ export function DevOpsCapabilityEvidenceRadar({
             [`& .${radarClasses.axisLabel}`]: {
               fill: colorVars['--color-text-primary'],
               fontFamily: 'inherit !important',
-              fontSize: '12px !important',
+              fontSize: '13px !important',
               fontWeight: 500,
               letterSpacing: '0 !important',
             },
