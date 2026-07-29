@@ -73,6 +73,16 @@ export const Experience: Story = {
   },
 };
 
+export const LongTitleFallback: Story = {
+  args: {
+    evidence: item({
+      id: 'long-title-fallback',
+      title: 'Operational ownership across distributed deployment environments',
+      type: 'experience',
+    }),
+  },
+};
+
 export const Education: Story = {
   args: {
     evidence: item({
