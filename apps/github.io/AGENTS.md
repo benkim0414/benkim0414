@@ -50,9 +50,9 @@ These instructions apply to files under `apps/github.io`. They supplement the re
 ## Third-Party Components
 
 - Use third-party UI or chart components only when Astryx does not cover the capability or when the app already uses the library for that domain.
-- Preserve the third-party component's default structure, behavior, spacing, and layout unless a documented product requirement or visual bug requires an override.
+- Preserve the third-party component's default structure, behavior, spacing, and layout. Apply only Astryx color and text styles unless a documented visual bug requires an exception.
 - Apply Astryx styling to third-party components by mapping Astryx color and text tokens into the third-party component's public styling API.
-- Do not restyle third-party internals through generated classes unless no public API exists and the selector is narrowly scoped.
+- Restyle third-party internals through generated or internal classes only for a documented visual bug when no public API exists, and keep the selector narrowly scoped.
 - For MUI X Charts, including `RadarChart`, follow official MUI X sizing guidance. Provide explicit chart dimensions or a parent with intrinsic dimensions.
 - For MUI X `RadarChart`, keep MUI X default radar spacing, margins, axes, and series behavior unless a visual bug requires a documented exception. Apply only Astryx color and text-size styling by default.
 
