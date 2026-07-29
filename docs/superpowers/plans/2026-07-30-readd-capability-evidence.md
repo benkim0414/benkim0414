@@ -366,7 +366,7 @@ pnpm nx build github.io
 
 Expected: PASS. If the environment blocks pnpm store access, dependency resolution, or registry access, record the exact command and error in the task handoff.
 
-- [ ] **Step 6: Inspect full diff for excluded files**
+- [ ] **Step 6: Inspect Storybook diff for excluded files**
 
 Run:
 
@@ -377,16 +377,11 @@ git diff --name-status
 Expected output contains only:
 
 ```text
-A	apps/github.io/src/app/devops-capability-evidence/capability-evidence-icon.tsx
-A	apps/github.io/src/app/devops-capability-evidence/capability-evidence-label.ts
-A	apps/github.io/src/app/devops-capability-evidence/capability-evidence-url.ts
-A	apps/github.io/src/app/devops-capability-evidence/capability-evidence.helpers.spec.tsx
-A	apps/github.io/src/app/devops-capability-evidence/capability-evidence.spec.tsx
 A	apps/github.io/src/app/devops-capability-evidence/capability-evidence.stories.tsx
-A	apps/github.io/src/app/devops-capability-evidence/capability-evidence.tsx
 ```
 
-If the plan document is still uncommitted in this worktree, it may also appear as an added `docs/superpowers/plans/2026-07-30-readd-capability-evidence.md` file.
+Tasks 1 and 2 should already be committed, so their files should not appear in
+the working-tree diff at this point.
 
 - [ ] **Step 7: Commit Storybook restoration**
 
@@ -421,7 +416,27 @@ git status --short --branch
 
 Expected: clean worktree on `feat/readd-capability-evidence`.
 
-- [ ] **Step 2: Confirm commit history**
+- [ ] **Step 2: Confirm app file diff from the feature branch base**
+
+Run:
+
+```bash
+git diff --name-status 54f5978...HEAD -- apps/github.io/src/app/devops-capability-evidence
+```
+
+Expected output contains only:
+
+```text
+A	apps/github.io/src/app/devops-capability-evidence/capability-evidence-icon.tsx
+A	apps/github.io/src/app/devops-capability-evidence/capability-evidence-label.ts
+A	apps/github.io/src/app/devops-capability-evidence/capability-evidence-url.ts
+A	apps/github.io/src/app/devops-capability-evidence/capability-evidence.helpers.spec.tsx
+A	apps/github.io/src/app/devops-capability-evidence/capability-evidence.spec.tsx
+A	apps/github.io/src/app/devops-capability-evidence/capability-evidence.stories.tsx
+A	apps/github.io/src/app/devops-capability-evidence/capability-evidence.tsx
+```
+
+- [ ] **Step 3: Confirm commit history**
 
 Run:
 
@@ -439,7 +454,7 @@ docs(github.io): plan capability evidence readd
 docs(github.io): design capability evidence readd
 ```
 
-- [ ] **Step 3: Summarize implementation readiness**
+- [ ] **Step 4: Summarize implementation readiness**
 
 Prepare this handoff summary:
 
