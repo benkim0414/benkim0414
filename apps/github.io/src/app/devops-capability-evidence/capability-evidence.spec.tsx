@@ -33,6 +33,9 @@ describe('CapabilityEvidence', () => {
 
     expect(screen.getByTestId('skill-token')).toBeTruthy();
     expect(screen.getByText('Kubernetes')).toBeTruthy();
+    expect(
+      screen.getByRole('group', { name: 'Skill evidence: Kubernetes' }),
+    ).toBeTruthy();
   });
 
   it('keeps technology branding when a skill uses an alias label', () => {
@@ -92,6 +95,9 @@ describe('CapabilityEvidence', () => {
 
     expect(
       screen.getByRole('doc-noteref', { name: 'Citation 3: CKA' }),
+    ).toBeTruthy();
+    expect(
+      screen.getByRole('group', { name: 'Certification evidence: CKA' }),
     ).toBeTruthy();
     expect(container.querySelector('img')?.getAttribute('src')).toContain(
       'fill%3D%22%23326CE5%22',
