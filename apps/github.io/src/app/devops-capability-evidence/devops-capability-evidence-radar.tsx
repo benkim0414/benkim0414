@@ -10,7 +10,7 @@ import { getCapabilityScoreSummary } from './devops-capability-evidence.summary'
 import type { DoraCapabilityScore } from './devops-capability-evidence.types';
 
 const CHART_MAX_WIDTH = 500;
-const CHART_HEIGHT = 420;
+const CHART_HEIGHT = 300;
 const RADAR_FOREGROUND = colorVars['--color-text-purple'];
 const RADAR_BACKGROUND = colorVars['--color-background-purple'];
 const RADAR_COLORS = [RADAR_BACKGROUND];
