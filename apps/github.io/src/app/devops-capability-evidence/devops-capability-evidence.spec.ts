@@ -1,4 +1,5 @@
 import {
+  curatedDevOpsCapabilityRadarScores,
   doraCapabilityDefinitions,
   evidenceTypeLabels,
   devOpsCapabilityEvidenceItems,
@@ -30,6 +31,85 @@ describe('devOpsCapabilityEvidence data', () => {
       'documentation-quality',
       'version-control',
     ]);
+  });
+
+  it('defines approved curated radar scores with shortened labels', () => {
+    expect(
+      curatedDevOpsCapabilityRadarScores.map((score) => ({
+        capabilityKey: score.capabilityKey,
+        label: score.label,
+        score: score.score,
+        maxScore: score.maxScore,
+      })),
+    ).toEqual([
+      {
+        capabilityKey: 'continuous-delivery',
+        label: 'Delivery',
+        score: 4,
+        maxScore: 5,
+      },
+      {
+        capabilityKey: 'deployment-automation',
+        label: 'Deploys',
+        score: 4,
+        maxScore: 5,
+      },
+      {
+        capabilityKey: 'continuous-integration',
+        label: 'CI',
+        score: 4,
+        maxScore: 5,
+      },
+      {
+        capabilityKey: 'test-automation',
+        label: 'Tests',
+        score: 3,
+        maxScore: 5,
+      },
+      {
+        capabilityKey: 'monitoring-observability',
+        label: 'Observability',
+        score: 3,
+        maxScore: 5,
+      },
+      {
+        capabilityKey: 'flexible-infrastructure',
+        label: 'Infrastructure',
+        score: 4,
+        maxScore: 5,
+      },
+      {
+        capabilityKey: 'pervasive-security',
+        label: 'Security',
+        score: 2,
+        maxScore: 5,
+      },
+      {
+        capabilityKey: 'trunk-based-development',
+        label: 'Trunk',
+        score: 4,
+        maxScore: 5,
+      },
+      {
+        capabilityKey: 'documentation-quality',
+        label: 'Docs',
+        score: 4,
+        maxScore: 5,
+      },
+      {
+        capabilityKey: 'version-control',
+        label: 'Versioning',
+        score: 4,
+        maxScore: 5,
+      },
+    ]);
+
+    expect(curatedDevOpsCapabilityRadarScores).toHaveLength(
+      doraCapabilityDefinitions.length,
+    );
+    expect(
+      curatedDevOpsCapabilityRadarScores.some((score) => score.score === 5),
+    ).toBe(false);
   });
 
   it('defines LinkedIn-style evidence type labels', () => {
