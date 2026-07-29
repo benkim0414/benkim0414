@@ -1,6 +1,7 @@
 import type {
   CapabilityEvidenceItem,
   DoraCapabilityDefinition,
+  DoraCapabilityScore,
   EvidenceType,
 } from './devops-capability-evidence.types';
 
@@ -52,6 +53,89 @@ export const doraCapabilityDefinitions = [
     shortLabel: 'Versioning',
   },
 ] as const satisfies readonly DoraCapabilityDefinition[];
+
+export const curatedDevOpsCapabilityRadarScores = [
+  {
+    capabilityKey: 'continuous-delivery',
+    label: 'Delivery',
+    score: 4,
+    maxScore: 5,
+    evidenceIds: [],
+    evidenceCounts: {},
+  },
+  {
+    capabilityKey: 'deployment-automation',
+    label: 'Deploys',
+    score: 4,
+    maxScore: 5,
+    evidenceIds: [],
+    evidenceCounts: {},
+  },
+  {
+    capabilityKey: 'continuous-integration',
+    label: 'CI',
+    score: 4,
+    maxScore: 5,
+    evidenceIds: [],
+    evidenceCounts: {},
+  },
+  {
+    capabilityKey: 'test-automation',
+    label: 'Tests',
+    score: 3,
+    maxScore: 5,
+    evidenceIds: [],
+    evidenceCounts: {},
+  },
+  {
+    capabilityKey: 'monitoring-observability',
+    label: 'Observability',
+    score: 3,
+    maxScore: 5,
+    evidenceIds: [],
+    evidenceCounts: {},
+  },
+  {
+    capabilityKey: 'flexible-infrastructure',
+    label: 'Infrastructure',
+    score: 4,
+    maxScore: 5,
+    evidenceIds: [],
+    evidenceCounts: {},
+  },
+  {
+    capabilityKey: 'pervasive-security',
+    label: 'Security',
+    score: 2,
+    maxScore: 5,
+    evidenceIds: [],
+    evidenceCounts: {},
+  },
+  {
+    capabilityKey: 'trunk-based-development',
+    label: 'Trunk',
+    score: 4,
+    maxScore: 5,
+    evidenceIds: [],
+    evidenceCounts: {},
+  },
+  {
+    capabilityKey: 'documentation-quality',
+    label: 'Docs',
+    score: 4,
+    maxScore: 5,
+    evidenceIds: [],
+    evidenceCounts: {},
+  },
+  {
+    capabilityKey: 'version-control',
+    label: 'Versioning',
+    score: 4,
+    maxScore: 5,
+    evidenceIds: [],
+    evidenceCounts: {},
+  },
+] as const satisfies readonly DoraCapabilityScore[];
 
 export const evidenceTypeLabels = {
   skill: 'Skills',
