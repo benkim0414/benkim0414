@@ -1,26 +1,50 @@
 import { VisuallyHidden } from '@astryxdesign/core/VisuallyHidden';
 import { colorVars } from '@astryxdesign/core/theme/tokens.stylex';
+import * as stylex from '@stylexjs/stylex';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { RadarChart, radarClasses } from '@mui/x-charts/RadarChart';
 import type {} from '@mui/x-charts/themeAugmentation';
-import type { ReactElement } from 'react';
+import { useMemo, type ReactElement } from 'react';
 
 import { getCapabilityScoreSummary } from './devops-capability-evidence.summary';
 import type { DoraCapabilityScore } from './devops-capability-evidence.types';
 
 const CHART_MAX_WIDTH = 620;
-const CHART_MIN_WIDTH = 320;
 const CHART_HEIGHT = 520;
 const RADAR_FOREGROUND = colorVars['--color-text-purple'];
 const RADAR_BACKGROUND = colorVars['--color-background-purple'];
+const RADAR_COLORS = [RADAR_BACKGROUND];
+const RADAR_MARGIN = { top: 48, right: 92, bottom: 48, left: 92 };
+const RADAR_SLOT_PROPS = { tooltip: { trigger: 'axis' as const } };
+
+const styles = stylex.create({
+  root: {
+    maxWidth: `${CHART_MAX_WIDTH}px`,
+    width: '100%',
+  },
+});
 
 const radarTheme = createTheme({
-  palette: {
-    background: { paper: colorVars['--color-background-surface'] },
-    divider: colorVars['--color-border-emphasized'],
-    text: {
-      primary: colorVars['--color-text-primary'],
-      secondary: colorVars['--color-text-primary'],
+  colorSchemes: {
+    light: {
+      palette: {
+        background: { paper: 'var(--color-background-surface)' },
+        divider: 'var(--color-border-emphasized)',
+        text: {
+          primary: 'var(--color-text-primary)',
+          secondary: 'var(--color-text-secondary)',
+        },
+      },
+    },
+    dark: {
+      palette: {
+        background: { paper: 'var(--color-background-surface)' },
+        divider: 'var(--color-border-emphasized)',
+        text: {
+          primary: 'var(--color-text-primary)',
+          secondary: 'var(--color-text-secondary)',
+        },
+      },
     },
   },
 });
@@ -32,7 +56,23 @@ export interface DevOpsCapabilityEvidenceRadarProps {
 export function DevOpsCapabilityEvidenceRadar({
   scores,
 }: DevOpsCapabilityEvidenceRadarProps): ReactElement | null {
-  const visibleScores = scores.filter((score) => score.score > 0);
+  const visibleScores = useMemo(
+    () => scores.filter((score) => score.score > 0),
+    [scores],
+  );
+  const radarMetrics = useMemo(
+    () =>
+      visibleScores.map((score) => ({
+        name: score.label,
+        min: 0,
+        max: score.maxScore,
+      })),
+    [visibleScores],
+  );
+  const series = useMemo(
+    () => [{ data: visibleScores.map((score) => score.score), fillArea: true }],
+    [visibleScores],
+  );
 
   if (visibleScores.length === 0) {
     return null;
@@ -43,33 +83,21 @@ export function DevOpsCapabilityEvidenceRadar({
       <VisuallyHidden>
         {getCapabilityScoreSummary(visibleScores)}
       </VisuallyHidden>
-      <div
-        style={{
-          maxWidth: CHART_MAX_WIDTH,
-          minWidth: CHART_MIN_WIDTH,
-          width: '100%',
-        }}
-      >
+      <div {...stylex.props(styles.root)}>
         <RadarChart
           aria-hidden="true"
-          colors={[RADAR_BACKGROUND]}
+          colors={RADAR_COLORS}
           disableKeyboardNavigation
           divisions={5}
           height={CHART_HEIGHT}
-          margin={{ top: 48, right: 92, bottom: 48, left: 92 }}
+          margin={RADAR_MARGIN}
           radar={{
-            metrics: visibleScores.map((score) => ({
-              name: score.label,
-              min: 0,
-              max: score.maxScore,
-            })),
+            metrics: radarMetrics,
           }}
-          series={[
-            { data: visibleScores.map((score) => score.score), fillArea: true },
-          ]}
+          series={series}
           shape="circular"
           skipAnimation
-          slotProps={{ tooltip: { trigger: 'axis' } }}
+          slotProps={RADAR_SLOT_PROPS}
           sx={{
             [`& .${radarClasses.axisLabel}`]: {
               fill: colorVars['--color-text-primary'],
