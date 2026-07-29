@@ -14,7 +14,6 @@ const CHART_HEIGHT = 420;
 const RADAR_FOREGROUND = colorVars['--color-text-purple'];
 const RADAR_BACKGROUND = colorVars['--color-background-purple'];
 const RADAR_COLORS = [RADAR_BACKGROUND];
-const RADAR_MARGIN = { top: 40, right: 76, bottom: 40, left: 76 };
 const RADAR_SLOT_PROPS = { tooltip: { trigger: 'axis' as const } };
 
 const styles = stylex.create({
@@ -90,7 +89,6 @@ export function DevOpsCapabilityEvidenceRadar({
           disableKeyboardNavigation
           divisions={5}
           height={CHART_HEIGHT}
-          margin={RADAR_MARGIN}
           radar={{
             metrics: radarMetrics,
           }}
