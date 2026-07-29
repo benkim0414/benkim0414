@@ -8,9 +8,9 @@ import type { ReactElement } from 'react';
 import { getCapabilityScoreSummary } from './devops-capability-evidence.summary';
 import type { DoraCapabilityScore } from './devops-capability-evidence.types';
 
-const CHART_MAX_WIDTH = 420;
-const CHART_MIN_WIDTH = 280;
-const CHART_HEIGHT = 420;
+const CHART_MAX_WIDTH = 620;
+const CHART_MIN_WIDTH = 320;
+const CHART_HEIGHT = 520;
 const RADAR_FOREGROUND = colorVars['--color-text-purple'];
 const RADAR_BACKGROUND = colorVars['--color-background-purple'];
 
@@ -56,7 +56,7 @@ export function DevOpsCapabilityEvidenceRadar({
           disableKeyboardNavigation
           divisions={5}
           height={CHART_HEIGHT}
-          margin={{ top: 36, right: 72, bottom: 36, left: 72 }}
+          margin={{ top: 48, right: 92, bottom: 48, left: 92 }}
           radar={{
             metrics: visibleScores.map((score) => ({
               name: score.label,
