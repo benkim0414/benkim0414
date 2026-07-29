@@ -1,20 +1,13 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 
-import {
-  devOpsCapabilityEvidenceItems,
-  doraCapabilityDefinitions,
-} from './devops-capability-evidence.data';
-import { getCapabilityEvidenceScores } from './devops-capability-evidence.scoring';
+import { curatedDevOpsCapabilityRadarScores } from './devops-capability-evidence.data';
 import { DevOpsCapabilityEvidenceRadar } from './devops-capability-evidence-radar';
 
 const meta = {
   title: 'GitHub.io/DevOps Capability Evidence/Radar',
   component: DevOpsCapabilityEvidenceRadar,
   args: {
-    scores: getCapabilityEvidenceScores(
-      devOpsCapabilityEvidenceItems,
-      doraCapabilityDefinitions,
-    ),
+    scores: curatedDevOpsCapabilityRadarScores,
   },
   parameters: {
     layout: 'centered',
