@@ -21,7 +21,7 @@ tags: [github-io, react, devops, dora, portfolio, evidence, privacy]
 
 ## Context
 
-The `github.io` DevOps capability evidence radar visualizes personal DevOps capability against DORA capability dimensions. Its input shape is intentionally portfolio-like: skills, learning, experience, education, certifications, and projects can all support one or more capabilities. The seed evidence keeps company details public-safe; for example, the CI/CD experience item is public, not sensitive, and uses a generalized summary rather than operational records (`apps/github.io/src/app/devops-capability-evidence/devops-capability-evidence.data.ts:65` through `apps/github.io/src/app/devops-capability-evidence/devops-capability-evidence.data.ts:81`).
+The `github.io` DevOps capability evidence radar visualizes personal DevOps capability against DORA capability dimensions. Its input shape is intentionally portfolio-like: skills, learning, experience, education, certifications, and projects can all support one or more capabilities. The seed evidence keeps company details public-safe; for example, the `devOpsCapabilityEvidenceItems` CI/CD experience item is public, not sensitive, and uses a generalized summary rather than operational records. The `keeps the CI/CD experience as a public-safe portfolio projection` test protects that contract.
 
 The important design constraint is that the radar is a reusable public portfolio component, not a trusted private dashboard. It may appear in cards, panels, Storybook stories, or page sections, and callers can pass score objects that were not produced by the default utility.
 
@@ -73,7 +73,7 @@ return Boolean(
 );
 ```
 
-The tests cover unsupported skills, private evidence, sensitive evidence, self-support, circular skill support, and wrong-capability support (`apps/github.io/src/app/devops-capability-evidence/devops-capability-evidence.spec.ts:75` through `apps/github.io/src/app/devops-capability-evidence/devops-capability-evidence.spec.ts:195`).
+The `filters private and unsupported skill evidence out of public scoring` and `requires a public non-skill support item with a shared capability for skills` tests cover unsupported skills, private evidence, sensitive evidence, self-support, circular skill support, and wrong-capability support.
 
 Let score-based components hide empty capabilities themselves:
 
@@ -85,7 +85,7 @@ if (visibleScores.length === 0) {
 }
 ```
 
-The radar follows this boundary at `apps/github.io/src/app/devops-capability-evidence/devops-capability-evidence-radar.tsx:31` through `apps/github.io/src/app/devops-capability-evidence/devops-capability-evidence-radar.tsx:38`, and scoring tests assert that definitions without evidence are omitted from scores (`apps/github.io/src/app/devops-capability-evidence/devops-capability-evidence.spec.ts:197` through `apps/github.io/src/app/devops-capability-evidence/devops-capability-evidence.spec.ts:230`).
+The exported `DevOpsCapabilityEvidenceRadar` component follows this boundary, and the `omits definitions without evidence from scores and the matrix` test asserts that definitions without evidence are omitted from scores.
 
 ## Related
 
