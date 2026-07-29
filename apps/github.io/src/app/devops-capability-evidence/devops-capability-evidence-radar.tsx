@@ -98,6 +98,7 @@ export function DevOpsCapabilityEvidenceRadar({
           shape="circular"
           skipAnimation
           slotProps={RADAR_SLOT_PROPS}
+          width={CHART_MAX_WIDTH}
           sx={{
             [`& .${radarClasses.axisLabel}`]: {
               fill: colorVars['--color-text-primary'],
