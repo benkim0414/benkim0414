@@ -1,32 +1,43 @@
 import { render, screen } from '@testing-library/react';
 
-import {
-  devOpsCapabilityEvidenceItems,
-  doraCapabilityDefinitions,
-} from './devops-capability-evidence.data';
-import { getCapabilityEvidenceScores } from './devops-capability-evidence.scoring';
+import { curatedDevOpsCapabilityRadarScores } from './devops-capability-evidence.data';
 import { DevOpsCapabilityEvidenceRadar } from './devops-capability-evidence-radar';
 import type { DoraCapabilityScore } from './devops-capability-evidence.types';
 
 describe('DevOpsCapabilityEvidenceRadar', () => {
-  it('renders evidence-backed DORA capability axes as a visual-only chart with an accessible summary', () => {
-    const scores = getCapabilityEvidenceScores(
-      devOpsCapabilityEvidenceItems,
-      doraCapabilityDefinitions,
-    );
-
+  it('renders curated DevOps capability axes as a visual-only chart with an accessible summary', () => {
     const { container } = render(
-      <DevOpsCapabilityEvidenceRadar scores={scores} />,
+      <DevOpsCapabilityEvidenceRadar
+        scores={curatedDevOpsCapabilityRadarScores}
+      />,
     );
 
-    expect(screen.getByText('Continuous Delivery')).toBeTruthy();
-    expect(screen.getByText('Flexible Infrastructure')).toBeTruthy();
+    for (const label of [
+      'Delivery',
+      'Deploys',
+      'CI',
+      'Tests',
+      'Observability',
+      'Infrastructure',
+      'Security',
+      'Trunk',
+      'Docs',
+      'Versioning',
+    ]) {
+      expect(screen.getByText(label)).toBeTruthy();
+    }
+
+    expect(screen.queryByText('Continuous Delivery')).toBeNull();
+    expect(screen.queryByText('Deployment Automation')).toBeNull();
     expect(screen.queryByText('Pervasive Security')).toBeNull();
     expect(
       screen.getByText(
-        /Continuous Delivery 3 of 5, Deployment Automation 3 of 5, Continuous Integration 3 of 5/,
+        /Delivery 4 of 5, Deploys 4 of 5, CI 4 of 5, Tests 3 of 5, Observability 3 of 5, Infrastructure 4 of 5, Security 2 of 5, Trunk 4 of 5, Docs 4 of 5, Versioning 4 of 5/,
       ),
     ).toBeTruthy();
+    expect(
+      curatedDevOpsCapabilityRadarScores.some((score) => score.score === 5),
+    ).toBe(false);
 
     const chart = container.querySelector('[aria-hidden="true"]');
 
@@ -44,7 +55,7 @@ describe('DevOpsCapabilityEvidenceRadar', () => {
     const zeroScores = [
       {
         capabilityKey: 'pervasive-security',
-        label: 'Pervasive Security',
+        label: 'Security',
         score: 0,
         maxScore: 5,
         evidenceIds: [],
@@ -63,7 +74,7 @@ describe('DevOpsCapabilityEvidenceRadar', () => {
     const scores = [
       {
         capabilityKey: 'continuous-delivery',
-        label: 'Continuous Delivery',
+        label: 'Delivery',
         score: 3,
         maxScore: 5,
         evidenceIds: ['delivery-summary'],
@@ -71,7 +82,7 @@ describe('DevOpsCapabilityEvidenceRadar', () => {
       },
       {
         capabilityKey: 'pervasive-security',
-        label: 'Pervasive Security',
+        label: 'Security',
         score: 0,
         maxScore: 5,
         evidenceIds: [],
@@ -81,8 +92,8 @@ describe('DevOpsCapabilityEvidenceRadar', () => {
 
     render(<DevOpsCapabilityEvidenceRadar scores={scores} />);
 
-    expect(screen.getByText('Continuous Delivery')).toBeTruthy();
-    expect(screen.queryByText('Pervasive Security')).toBeNull();
-    expect(screen.getByText(/Continuous Delivery 3 of 5/)).toBeTruthy();
+    expect(screen.getByText('Delivery')).toBeTruthy();
+    expect(screen.queryByText('Security')).toBeNull();
+    expect(screen.getByText(/Delivery 3 of 5/)).toBeTruthy();
   });
 });
