@@ -43,14 +43,14 @@ describe('devOpsCapabilityEvidence data', () => {
       })),
     ).toEqual([
       {
-        capabilityKey: 'continuous-delivery',
-        label: 'Delivery',
+        capabilityKey: 'version-control',
+        label: 'Versioning',
         score: 4,
         maxScore: 5,
       },
       {
-        capabilityKey: 'deployment-automation',
-        label: 'Deploys',
+        capabilityKey: 'trunk-based-development',
+        label: 'Trunk',
         score: 4,
         maxScore: 5,
       },
@@ -67,9 +67,21 @@ describe('devOpsCapabilityEvidence data', () => {
         maxScore: 5,
       },
       {
-        capabilityKey: 'monitoring-observability',
-        label: 'Observability',
-        score: 3,
+        capabilityKey: 'pervasive-security',
+        label: 'Security',
+        score: 2,
+        maxScore: 5,
+      },
+      {
+        capabilityKey: 'continuous-delivery',
+        label: 'Delivery',
+        score: 4,
+        maxScore: 5,
+      },
+      {
+        capabilityKey: 'deployment-automation',
+        label: 'Deploys',
+        score: 4,
         maxScore: 5,
       },
       {
@@ -79,26 +91,14 @@ describe('devOpsCapabilityEvidence data', () => {
         maxScore: 5,
       },
       {
-        capabilityKey: 'pervasive-security',
-        label: 'Security',
-        score: 2,
-        maxScore: 5,
-      },
-      {
-        capabilityKey: 'trunk-based-development',
-        label: 'Trunk',
-        score: 4,
+        capabilityKey: 'monitoring-observability',
+        label: 'Observability',
+        score: 3,
         maxScore: 5,
       },
       {
         capabilityKey: 'documentation-quality',
         label: 'Docs',
-        score: 4,
-        maxScore: 5,
-      },
-      {
-        capabilityKey: 'version-control',
-        label: 'Versioning',
         score: 4,
         maxScore: 5,
       },

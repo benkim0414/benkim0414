@@ -13,16 +13,16 @@ describe('DevOpsCapabilityEvidenceRadar', () => {
     );
 
     for (const label of [
-      'Delivery',
-      'Deploys',
+      'Versioning',
+      'Trunk',
       'CI',
       'Tests',
-      'Observability',
-      'Infrastructure',
       'Security',
-      'Trunk',
+      'Delivery',
+      'Deploys',
+      'Infrastructure',
+      'Observability',
       'Docs',
-      'Versioning',
     ]) {
       expect(screen.getByText(label)).toBeTruthy();
     }
@@ -32,7 +32,7 @@ describe('DevOpsCapabilityEvidenceRadar', () => {
     expect(screen.queryByText('Pervasive Security')).toBeNull();
     expect(
       screen.getByText(
-        /Delivery 4 of 5, Deploys 4 of 5, CI 4 of 5, Tests 3 of 5, Observability 3 of 5, Infrastructure 4 of 5, Security 2 of 5, Trunk 4 of 5, Docs 4 of 5, Versioning 4 of 5/,
+        /Versioning 4 of 5, Trunk 4 of 5, CI 4 of 5, Tests 3 of 5, Security 2 of 5, Delivery 4 of 5, Deploys 4 of 5, Infrastructure 4 of 5, Observability 3 of 5, Docs 4 of 5/,
       ),
     ).toBeTruthy();
     expect(
