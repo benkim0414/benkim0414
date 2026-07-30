@@ -153,6 +153,8 @@ describe('capability evidence compact helpers', () => {
     ['course', AcademicCapIcon],
     ['article', NewspaperIcon],
     ['book', BookOpenIcon],
+    ['docs', BookOpenIcon],
+    ['lab', BookOpenIcon],
   ] as const)(
     'uses %s learning kind fallback icons when no provider brand exists',
     (learningKind, icon) => {
