@@ -52,11 +52,11 @@ export const Learning: Story = {
   args: {
     evidence: item({
       id: 'learning',
-      label: 'Kubernetes',
+      label: 'CKA labs',
       learningKind: 'docs',
-      proofUrl: 'https://www.cncf.io/training/',
-      technologies: ['Kubernetes'],
-      title: 'Kubernetes operations learning path',
+      proofUrl:
+        'https://kodekloud.com/courses/cka-certification-course-certified-kubernetes-administrator',
+      title: 'Certified Kubernetes Administrator course by KodeKloud',
       type: 'learning',
     }),
   },
@@ -67,10 +67,11 @@ export const UdemyCourse: Story = {
     citationNumber: 4,
     evidence: item({
       id: 'udemy-course',
-      label: 'Deployment ownership',
+      label: 'CKAD prep',
       learningKind: 'course',
-      proofUrl: 'https://www.udemy.com/course/docker-kubernetes-guide/',
-      title: 'Docker and Kubernetes deployment ownership course',
+      proofUrl:
+        'https://www.udemy.com/course/certified-kubernetes-application-developer/',
+      title: 'Kubernetes Certified Application Developer with Tests',
       type: 'learning',
     }),
   },
@@ -81,10 +82,10 @@ export const OnlineCourse: Story = {
     citationNumber: 5,
     evidence: item({
       id: 'online-course',
-      label: 'Release operations',
+      label: 'CKA path',
       learningKind: 'course',
-      proofUrl: 'https://example.com/release-operations-course',
-      title: 'Release operations online course',
+      proofUrl: 'https://kodekloud.com/learning-path/cka',
+      title: 'CKA Certification Learning Path by KodeKloud',
       type: 'learning',
     }),
   },
@@ -95,10 +96,10 @@ export const WebArticle: Story = {
     citationNumber: 6,
     evidence: item({
       id: 'web-article',
-      label: 'Trunk-based delivery',
+      label: 'Agentic review',
       learningKind: 'article',
-      proofUrl: 'https://example.com/trunk-based-delivery',
-      title: 'Trunk-based delivery article',
+      proofUrl: 'https://addyosmani.com/blog/agentic-code-review/',
+      title: 'Agentic Code Review by Addy Osmani',
       type: 'learning',
     }),
   },
