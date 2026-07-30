@@ -1,6 +1,14 @@
 import { render } from '@testing-library/react';
+import {
+  AcademicCapIcon,
+  BookOpenIcon,
+  NewspaperIcon,
+} from '@heroicons/react/24/outline';
 
-import { getCapabilityEvidenceIcon } from './capability-evidence-icon';
+import {
+  getCapabilityEvidenceIcon,
+  getCapabilityEvidenceIconData,
+} from './capability-evidence-icon';
 import { getCapabilityEvidenceLabel } from './capability-evidence-label';
 import {
   getGithubRepositoryLabel,
@@ -121,4 +129,43 @@ describe('capability evidence compact helpers', () => {
 
     expect(container.querySelector('.astryx-icon, svg')).toBeTruthy();
   });
+
+  it('uses Udemy brand data for Udemy learning citations', () => {
+    const iconData = getCapabilityEvidenceIconData(
+      evidence({
+        learningKind: 'course',
+        proofUrl: 'https://www.udemy.com/course/docker-kubernetes-guide/',
+        title: 'Docker and Kubernetes course',
+        type: 'learning',
+      }),
+    );
+
+    expect(iconData).toMatchObject({
+      kind: 'brand',
+      brand: {
+        name: 'Udemy',
+        color: expect.stringMatching(/^#[0-9A-F]{6}$/),
+      },
+    });
+  });
+
+  it.each([
+    ['course', AcademicCapIcon],
+    ['article', NewspaperIcon],
+    ['book', BookOpenIcon],
+  ] as const)(
+    'uses %s learning kind fallback icons when no provider brand exists',
+    (learningKind, icon) => {
+      expect(
+        getCapabilityEvidenceIconData(
+          evidence({
+            learningKind,
+            proofUrl: 'https://example.com/evidence',
+            title: `${learningKind} learning`,
+            type: 'learning',
+          }),
+        ),
+      ).toEqual({ kind: 'fallback', icon });
+    },
+  );
 });
