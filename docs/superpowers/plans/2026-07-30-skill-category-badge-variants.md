@@ -95,7 +95,7 @@ describe('SkillCategory', () => {
 
 - [ ] **Step 2: Run the focused test to verify it fails**
 
-Run: `pnpm nx test github.io -- --run apps/github.io/src/app/skills/skill-category.spec.tsx`
+Run: `pnpm nx test github.io -- --run src/app/skills/skill-category.spec.tsx`
 
 Expected: FAIL because `getSkillCategoryVariant` and
 `skillCategoryBadgeVariants` are not exported from `skill-category.tsx`.
@@ -147,7 +147,7 @@ export function SkillCategory({ name }: SkillCategoryProps) {
 
 - [ ] **Step 4: Run the focused helper tests**
 
-Run: `pnpm nx test github.io -- --run apps/github.io/src/app/skills/skill-category.spec.tsx`
+Run: `pnpm nx test github.io -- --run src/app/skills/skill-category.spec.tsx`
 
 Expected: PASS.
 
@@ -195,7 +195,7 @@ block in `apps/github.io/src/app/skills/skill-category.spec.tsx`:
 
 - [ ] **Step 2: Run the focused test to verify it fails**
 
-Run: `pnpm nx test github.io -- --run apps/github.io/src/app/skills/skill-category.spec.tsx`
+Run: `pnpm nx test github.io -- --run src/app/skills/skill-category.spec.tsx`
 
 Expected: FAIL because `SkillCategory` still renders `<Badge label={name} />`
 without the generated `variant`.
@@ -213,7 +213,7 @@ export function SkillCategory({ name }: SkillCategoryProps) {
 
 - [ ] **Step 4: Run focused tests**
 
-Run: `pnpm nx test github.io -- --run apps/github.io/src/app/skills/skill-category.spec.tsx`
+Run: `pnpm nx test github.io -- --run src/app/skills/skill-category.spec.tsx`
 
 Expected: PASS.
 
