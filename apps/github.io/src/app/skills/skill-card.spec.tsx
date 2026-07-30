@@ -40,6 +40,17 @@ describe('SkillCard', () => {
     ).toBeTruthy();
   });
 
+  it('renders the skill category before the skill title', () => {
+    const { getByText, getByRole } = render(<SkillCard skill={baseSkill} />);
+
+    const category = getByText('Container');
+    const title = getByRole('heading', { name: 'Kubernetes' });
+
+    expect(category.compareDocumentPosition(title)).toBe(
+      Node.DOCUMENT_POSITION_FOLLOWING,
+    );
+  });
+
   it('gives duplicate skill cards distinct accessible title targets', () => {
     const { getAllByTestId } = render(
       <>

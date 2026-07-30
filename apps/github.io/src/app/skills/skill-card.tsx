@@ -9,6 +9,7 @@ import {
 import { useId, type ReactElement } from 'react';
 
 import { CertificationCitation } from '../certifications/certification-citation';
+import { SkillCategory } from './skill-category';
 import type { Skill } from './skill-list.types';
 
 export interface SkillCardProps {
@@ -61,6 +62,7 @@ export function SkillCard({ skill }: SkillCardProps): ReactElement {
       >
         <VStack gap={3}>
           <VStack gap={1}>
+            <SkillCategory name={skill.category} />
             <h3 id={titleId} {...stylex.props(styles.title)}>
               {skill.name}
             </h3>
