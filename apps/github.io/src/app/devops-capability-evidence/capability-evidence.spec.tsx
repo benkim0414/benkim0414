@@ -76,8 +76,27 @@ describe('CapabilityEvidence', () => {
 
     const link = screen.getByRole('link', { name: label.split(': ')[1] });
 
+    expect(screen.getByRole('group', { name: label })).toBeTruthy();
     expect(link.getAttribute('href')).toBe('https://example.com/proof');
     expect(link.className).toContain('astryx-token');
+  });
+
+  it('renders Udemy learning evidence with the provider brand color', () => {
+    const { container } = render(
+      <CapabilityEvidence
+        evidence={evidence({
+          label: 'CKAD prep',
+          learningKind: 'course',
+          proofUrl:
+            'https://www.udemy.com/course/certified-kubernetes-application-developer/',
+          type: 'learning',
+        })}
+      />,
+    );
+
+    expect(container.querySelector('svg path')?.getAttribute('fill')).toBe(
+      '#A435F0',
+    );
   });
 
   it('renders certification evidence through CertificationCitation', () => {
@@ -135,12 +154,12 @@ describe('CapabilityEvidence', () => {
     expect(screen.getByText('Active certification')).toBeTruthy();
   });
 
-  it('renders project evidence as a named citation with a technology icon', () => {
+  it('renders GitHub project evidence as a named citation with the GitHub icon', () => {
     const { container } = render(
       <CapabilityEvidence
         citationNumber={4}
         evidence={evidence({
-          label: 'DevOps roadmap',
+          label: undefined,
           proofUrl: 'https://github.com/benkim0414/devops-roadmap',
           title: 'Long public repository project evidence title',
           technologies: ['Kubernetes'],
@@ -150,15 +169,15 @@ describe('CapabilityEvidence', () => {
     );
 
     const project = screen.getByRole('group', {
-      name: 'Project evidence: DevOps roadmap',
+      name: 'Project evidence: devops-roadmap',
     });
 
     expect(project).toBeTruthy();
     expect(
-      screen.getByRole('doc-noteref', { name: 'Citation 4: DevOps roadmap' }),
+      screen.getByRole('doc-noteref', { name: 'Citation 4: devops-roadmap' }),
     ).toBeTruthy();
     expect(container.querySelector('img')?.getAttribute('src')).toContain(
-      'fill%3D%22%23326CE5%22',
+      'fill%3D%22%23181717%22',
     );
   });
 

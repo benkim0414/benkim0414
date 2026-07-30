@@ -77,9 +77,7 @@ function EvidenceToken({ evidence }: EvidenceLeafProps): ReactElement {
     />
   );
 
-  return evidence.proofUrl ? (
-    token
-  ) : (
+  return (
     <span aria-label={ariaLabel} role="group">
       {token}
     </span>
