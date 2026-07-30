@@ -32,5 +32,5 @@ export function getSkillCategoryVariant(name: string): BadgeVariant {
 }
 
 export function SkillCategory({ name }: SkillCategoryProps) {
-  return <Badge label={name} />;
+  return <Badge label={name} variant={getSkillCategoryVariant(name)} />;
 }
