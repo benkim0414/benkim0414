@@ -73,3 +73,9 @@ pnpm Build Approval should stay package-specific; it is not a global bypass for 
 ### Peer Check
 
 The dependency-health gate that verifies installed packages satisfy declared peer dependency ranges before branch completion.
+
+### Linked Worktree Verification
+
+The workflow for validating an isolated feature worktree while using a dependency installation that can execute the repo's local tooling.
+
+Linked Worktree Verification keeps feature changes out of the main checkout while ensuring tests, builds, and previews still execute the worktree's source files.
