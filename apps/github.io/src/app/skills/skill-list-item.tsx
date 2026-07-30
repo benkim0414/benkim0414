@@ -15,7 +15,9 @@ export function SkillListItem({ skill }: SkillListItemProps) {
     <ListItem
       endContent={
         <HStack gap={2} vAlign="center">
-          <SkillCategory name={skill.category} />
+          {skill.categories.map((category) => (
+            <SkillCategory key={category} name={category} />
+          ))}
           <SkillRating level={skill.level} />
         </HStack>
       }
