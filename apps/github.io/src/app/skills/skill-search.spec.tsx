@@ -11,13 +11,14 @@ import {
 } from './skill-search';
 
 describe('skillMatchesQuery', () => {
-  it('matches by name, category, and keyword', () => {
-    const react = sampleSkills.find((skill) => skill.id === 'react');
+  it('matches by name, any category, and keyword', () => {
+    const kubernetes = sampleSkills.find((skill) => skill.id === 'kubernetes');
     const terraform = sampleSkills.find((skill) => skill.id === 'terraform');
 
-    expect(react).toBeTruthy();
+    expect(kubernetes).toBeTruthy();
     expect(terraform).toBeTruthy();
-    expect(skillMatchesQuery(react!, 'react')).toBe(true);
+    expect(skillMatchesQuery(kubernetes!, 'kubernetes')).toBe(true);
+    expect(skillMatchesQuery(kubernetes!, 'Cloud')).toBe(true);
     expect(skillMatchesQuery(terraform!, 'IaC')).toBe(true);
     expect(skillMatchesQuery(terraform!, 'provisioning')).toBe(true);
     expect(skillMatchesQuery(terraform!, 'storybook')).toBe(false);
@@ -102,6 +103,20 @@ describe('structured category filtering', () => {
         value: category,
       })),
     });
+  });
+
+  it('matches a category filter against any skill category', () => {
+    const kubernetes = sampleSkills.find((skill) => skill.id === 'kubernetes');
+    const filters = [
+      {
+        field: 'category',
+        operator: 'is',
+        value: { type: 'enum' as const, value: 'Cloud' },
+      },
+    ];
+
+    expect(kubernetes).toBeTruthy();
+    expect(skillMatchesFilters(kubernetes!, filters)).toBe(true);
   });
 
   it('applies category filters together with text search', () => {
