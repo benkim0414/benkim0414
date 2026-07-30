@@ -7,7 +7,11 @@ import type {
   PowerSearchFilter,
 } from '@astryxdesign/core/PowerSearch';
 
-import { skillCategories, type Skill } from './skill-list.types';
+import {
+  skillCategories,
+  type Skill,
+  type SkillCategory,
+} from './skill-list.types';
 
 interface SkillSearchProps {
   filters: ReadonlyArray<PowerSearchFilter>;
@@ -69,7 +73,7 @@ export function skillMatchesQuery(skill: Skill, query: string) {
     return true;
   }
 
-  return [skill.name, skill.category, ...skill.keywords].some((value) =>
+  return [skill.name, ...skill.categories, ...skill.keywords].some((value) =>
     value.toLowerCase().includes(normalizedQuery),
   );
 }
@@ -96,7 +100,9 @@ export function skillMatchesFilters(
       skillMatchesQuery(skill, filter.value.value),
     ) &&
     (categoryFilters.length === 0 ||
-      categoryFilters.some((filter) => skill.category === filter.value.value))
+      categoryFilters.some((filter) =>
+        skill.categories.includes(filter.value.value as SkillCategory),
+      ))
   );
 }
 
