@@ -18,6 +18,13 @@ export type EvidenceType =
   | 'certification'
   | 'project';
 
+export type LearningEvidenceKind =
+  | 'course'
+  | 'article'
+  | 'book'
+  | 'docs'
+  | 'lab';
+
 export type EvidenceStrength = 'supporting' | 'strong' | 'primary';
 
 export interface DoraCapabilityDefinition {
@@ -38,6 +45,7 @@ export interface CapabilityEvidenceItem {
   organization?: string;
   summary: string;
   technologies?: readonly string[];
+  learningKind?: LearningEvidenceKind;
   proofUrl?: string;
   isPublic: boolean;
   isSensitive?: boolean;

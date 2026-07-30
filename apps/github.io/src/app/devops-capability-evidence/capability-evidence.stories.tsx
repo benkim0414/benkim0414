@@ -53,9 +53,66 @@ export const Learning: Story = {
     evidence: item({
       id: 'learning',
       label: 'Kubernetes',
+      learningKind: 'docs',
       proofUrl: 'https://www.cncf.io/training/',
       technologies: ['Kubernetes'],
       title: 'Kubernetes operations learning path',
+      type: 'learning',
+    }),
+  },
+};
+
+export const UdemyCourse: Story = {
+  args: {
+    citationNumber: 4,
+    evidence: item({
+      id: 'udemy-course',
+      label: 'Deployment ownership',
+      learningKind: 'course',
+      proofUrl: 'https://www.udemy.com/course/docker-kubernetes-guide/',
+      title: 'Docker and Kubernetes deployment ownership course',
+      type: 'learning',
+    }),
+  },
+};
+
+export const OnlineCourse: Story = {
+  args: {
+    citationNumber: 5,
+    evidence: item({
+      id: 'online-course',
+      label: 'Release operations',
+      learningKind: 'course',
+      proofUrl: 'https://example.com/release-operations-course',
+      title: 'Release operations online course',
+      type: 'learning',
+    }),
+  },
+};
+
+export const WebArticle: Story = {
+  args: {
+    citationNumber: 6,
+    evidence: item({
+      id: 'web-article',
+      label: 'Trunk-based delivery',
+      learningKind: 'article',
+      proofUrl: 'https://example.com/trunk-based-delivery',
+      title: 'Trunk-based delivery article',
+      type: 'learning',
+    }),
+  },
+};
+
+export const BookLearning: Story = {
+  args: {
+    citationNumber: 7,
+    evidence: item({
+      id: 'book-learning',
+      label: 'Accelerate',
+      learningKind: 'book',
+      proofUrl: 'https://example.com/accelerate',
+      title: 'Accelerate book notes',
       type: 'learning',
     }),
   },
@@ -164,6 +221,10 @@ export const MixedRow = {
     const evidence = [
       Skill.args.evidence,
       Learning.args.evidence,
+      UdemyCourse.args.evidence,
+      OnlineCourse.args.evidence,
+      WebArticle.args.evidence,
+      BookLearning.args.evidence,
       Experience.args.evidence,
       Education.args.evidence,
       Certification.args.evidence,
