@@ -34,7 +34,20 @@ describe('SkillCategory', () => {
   });
 
   it('maps every production category to an approved Astryx badge variant', () => {
-    const allowedVariants = new Set(skillCategoryBadgeVariants);
+    const approvedVariants = [
+      'blue',
+      'cyan',
+      'green',
+      'orange',
+      'pink',
+      'purple',
+      'teal',
+      'yellow',
+    ];
+
+    expect(skillCategoryBadgeVariants).toEqual(approvedVariants);
+
+    const allowedVariants = new Set(approvedVariants);
 
     for (const category of skillCategories) {
       expect(allowedVariants.has(getSkillCategoryVariant(category))).toBe(true);
