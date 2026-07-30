@@ -24,6 +24,10 @@ The public portfolio model that connects LinkedIn-style proof, such as skills, l
 
 DevOps Capability Evidence is a public projection: it can summarize private work, but shipped entries must be safe to render on the public `github.io` App and skills should be backed by separate non-skill proof.
 
+### Evidence Token
+
+A compact, public-safe proof item carved from a broader answer or evidence source so DORA capability scores can link to concrete support without storing raw interview prose.
+
 ## Design System
 
 ### Astryx Foundation
