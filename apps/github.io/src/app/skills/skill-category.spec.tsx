@@ -14,6 +14,13 @@ describe('SkillCategory', () => {
     expect(getByText('Cloud')).toBeTruthy();
   });
 
+  it('passes the generated variant to the Astryx badge', () => {
+    const { container } = render(<SkillCategory name="Cloud" />);
+    const badge = container.querySelector('.astryx-badge');
+
+    expect(badge?.className).toContain(getSkillCategoryVariant('Cloud'));
+  });
+
   it('maps the same category name to the same variant', () => {
     expect(getSkillCategoryVariant('Cloud')).toBe(
       getSkillCategoryVariant('Cloud'),
