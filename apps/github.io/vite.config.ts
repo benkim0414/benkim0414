@@ -4,7 +4,7 @@ import react from '@vitejs/plugin-react';
 import stylex from '@stylexjs/unplugin';
 import { nxViteTsPaths } from '@nx/vite/plugins/nx-tsconfig-paths.plugin';
 
-export default defineConfig({
+export default defineConfig(({ mode }) => ({
   root: __dirname,
   cacheDir: '../../node_modules/.vite/apps/github.io',
 
@@ -19,14 +19,18 @@ export default defineConfig({
   },
 
   plugins: [
-    stylex.vite({
-      useCSSLayers: {
-        before: ['reset', 'theme', 'base', 'astryx-base', 'astryx-theme'],
-        after: ['utilities'],
-        prefix: 'stylex',
-      },
-      sxPropName: false,
-    }),
+    ...(mode === 'test'
+      ? []
+      : [
+          stylex.vite({
+            useCSSLayers: {
+              before: ['reset', 'theme', 'base', 'astryx-base', 'astryx-theme'],
+              after: ['utilities'],
+              prefix: 'stylex',
+            },
+            sxPropName: false,
+          }),
+        ]),
     react(),
     nxViteTsPaths(),
   ],
@@ -57,4 +61,4 @@ export default defineConfig({
       provider: 'v8',
     },
   },
-});
+}));
