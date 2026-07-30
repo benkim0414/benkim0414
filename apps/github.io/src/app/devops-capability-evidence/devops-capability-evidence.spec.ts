@@ -148,7 +148,7 @@ describe('devOpsCapabilityEvidence data', () => {
       {
         capabilityKey: 'version-control',
         evidenceIds: [
-          'devops-roadmap-project',
+          'roadmap-repository',
           'short-lived-branch-flow',
           'protected-review-gates',
           'merge-commit-history',
@@ -170,13 +170,14 @@ describe('devOpsCapabilityEvidence data', () => {
       {
         capabilityKey: 'continuous-integration',
         evidenceIds: [
-          'github-actions-delivery',
+          'github-actions-ci',
+          'team-delivery-workflow',
           'protected-review-gates',
           'nx-affected-quality-gates',
           'regression-gates',
         ],
-        strongestEvidenceId: 'github-actions-delivery',
-        evidenceCounts: { experience: 4 },
+        strongestEvidenceId: 'github-actions-ci',
+        evidenceCounts: { experience: 5 },
       },
       {
         capabilityKey: 'test-automation',
@@ -200,20 +201,30 @@ describe('devOpsCapabilityEvidence data', () => {
       },
       {
         capabilityKey: 'continuous-delivery',
-        evidenceIds: ['github-actions-delivery'],
-        strongestEvidenceId: 'github-actions-delivery',
-        evidenceCounts: { experience: 1 },
+        evidenceIds: [
+          'github-actions-ci',
+          'docker-delivery',
+          'team-delivery-workflow',
+        ],
+        strongestEvidenceId: 'github-actions-ci',
+        evidenceCounts: { experience: 3 },
       },
       {
         capabilityKey: 'deployment-automation',
-        evidenceIds: ['github-actions-delivery', 'image-digest-deployments'],
-        strongestEvidenceId: 'github-actions-delivery',
-        evidenceCounts: { experience: 2 },
+        evidenceIds: [
+          'github-actions-ci',
+          'docker-delivery',
+          'image-digest-deployments',
+        ],
+        strongestEvidenceId: 'github-actions-ci',
+        evidenceCounts: { experience: 3 },
       },
       {
         capabilityKey: 'flexible-infrastructure',
         evidenceIds: [
-          'kubernetes-learning',
+          'kubernetes-workloads',
+          'kubectl-troubleshooting',
+          'cluster-operations',
           'cncf-kubernetes-certification',
           'kubernetes-skill',
           'irsa-service-accounts',
@@ -223,25 +234,26 @@ describe('devOpsCapabilityEvidence data', () => {
         evidenceCounts: {
           certification: 1,
           experience: 2,
-          learning: 1,
+          learning: 3,
           skill: 1,
         },
       },
       {
         capabilityKey: 'monitoring-observability',
         evidenceIds: [
-          'kubernetes-learning',
+          'kubectl-troubleshooting',
+          'cluster-operations',
           'cncf-kubernetes-certification',
           'kubernetes-skill',
         ],
         strongestEvidenceId: 'cncf-kubernetes-certification',
-        evidenceCounts: { certification: 1, learning: 1, skill: 1 },
+        evidenceCounts: { certification: 1, learning: 2, skill: 1 },
       },
       {
         capabilityKey: 'documentation-quality',
-        evidenceIds: ['devops-roadmap-project'],
-        strongestEvidenceId: 'devops-roadmap-project',
-        evidenceCounts: { project: 1 },
+        evidenceIds: ['portfolio-radar', 'roadmap-repository'],
+        strongestEvidenceId: 'portfolio-radar',
+        evidenceCounts: { project: 2 },
       },
     ]);
   });
@@ -324,6 +336,80 @@ describe('devOpsCapabilityEvidence data', () => {
     ]);
   });
 
+  it('tokenizes previously captured broad evidence into compact tokens', () => {
+    const tokenizedEvidenceIds = [
+      'github-actions-ci',
+      'docker-delivery',
+      'team-delivery-workflow',
+      'kubernetes-workloads',
+      'kubectl-troubleshooting',
+      'cluster-operations',
+      'portfolio-radar',
+      'roadmap-repository',
+    ];
+
+    expect(
+      devOpsCapabilityEvidenceItems
+        .filter((item) => tokenizedEvidenceIds.includes(item.id))
+        .map((item) => ({
+          id: item.id,
+          label: item.label,
+          capabilityKeys: item.capabilityKeys,
+        })),
+    ).toEqual([
+      {
+        id: 'github-actions-ci',
+        label: 'GitHub Actions',
+        capabilityKeys: [
+          'continuous-delivery',
+          'deployment-automation',
+          'continuous-integration',
+        ],
+      },
+      {
+        id: 'docker-delivery',
+        label: 'Docker',
+        capabilityKeys: ['continuous-delivery', 'deployment-automation'],
+      },
+      {
+        id: 'team-delivery-workflow',
+        label: 'Team delivery',
+        capabilityKeys: ['continuous-delivery', 'continuous-integration'],
+      },
+      {
+        id: 'kubernetes-workloads',
+        label: 'Workloads',
+        capabilityKeys: ['flexible-infrastructure'],
+      },
+      {
+        id: 'kubectl-troubleshooting',
+        label: 'kubectl',
+        capabilityKeys: [
+          'flexible-infrastructure',
+          'monitoring-observability',
+        ],
+      },
+      {
+        id: 'cluster-operations',
+        label: 'Cluster ops',
+        capabilityKeys: [
+          'flexible-infrastructure',
+          'monitoring-observability',
+        ],
+      },
+      {
+        id: 'portfolio-radar',
+        label: 'Portfolio radar',
+        capabilityKeys: ['documentation-quality'],
+      },
+      {
+        id: 'roadmap-repository',
+        label: 'Roadmap repo',
+        capabilityKeys: ['documentation-quality', 'version-control'],
+      },
+    ]);
+  });
+
   it('keeps curated capability score evidence linked to catalog items', () => {
     const evidenceById = new Map(
       devOpsCapabilityEvidenceItems.map((item) => [item.id, item]),
@@ -358,7 +444,7 @@ describe('devOpsCapabilityEvidence data', () => {
 
   it('keeps the CI/CD experience as a public-safe portfolio projection', () => {
     const deliveryExperience = devOpsCapabilityEvidenceItems.find(
-      (item) => item.id === 'github-actions-delivery',
+      (item) => item.id === 'github-actions-ci',
     );
 
     expect(deliveryExperience).toMatchObject({
@@ -504,9 +590,9 @@ describe('devOpsCapabilityEvidence scoring', () => {
       scores.find((score) => score.capabilityKey === 'continuous-delivery'),
     ).toMatchObject({
       label: 'Continuous Delivery',
-      score: 3,
+      score: 5,
       maxScore: 5,
-      strongestEvidenceId: 'github-actions-delivery',
+      strongestEvidenceId: 'github-actions-ci',
     });
     expect(scores.some((score) => score.score === 0)).toBe(false);
   });
@@ -535,10 +621,10 @@ describe('devOpsCapabilityEvidence scoring', () => {
 
   it('groups evidence counts by type and capability', () => {
     expect(getEvidenceTypeCounts(devOpsCapabilityEvidenceItems)).toMatchObject({
-      experience: 10,
-      learning: 1,
+      experience: 12,
+      learning: 3,
       certification: 1,
-      project: 1,
+      project: 2,
       skill: 1,
     });
 
@@ -549,7 +635,7 @@ describe('devOpsCapabilityEvidence scoring', () => {
       ).find((row) => row.capabilityKey === 'flexible-infrastructure'),
     ).toMatchObject({
       label: 'Flexible Infrastructure',
-      counts: { certification: 1, experience: 2, learning: 1, skill: 1 },
+      counts: { certification: 1, experience: 2, learning: 3, skill: 1 },
     });
   });
 
@@ -560,14 +646,14 @@ describe('devOpsCapabilityEvidence scoring', () => {
     );
 
     expect(getCapabilityScoreSummary(scores)).toContain(
-      'Continuous Delivery 3 of 5',
+      'Continuous Delivery 5 of 5',
     );
     expect(
       getEvidenceTypeSummary(
         getEvidenceTypeCounts(devOpsCapabilityEvidenceItems),
       ),
     ).toBe(
-      'Evidence includes 1 skill, 1 learning item, 10 experience items, 1 certification, and 1 project.',
+      'Evidence includes 1 skill, 3 learning items, 12 experience items, 1 certification, and 2 projects.',
     );
   });
 });
