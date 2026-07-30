@@ -314,7 +314,7 @@ export const devOpsCapabilityEvidenceItems = [
     organization: 'Current company',
     capabilityKeys: ['pervasive-security', 'flexible-infrastructure'],
     summary:
-      'Migrated microservice AWS access from IAM users to IRSA-backed Kubernetes service accounts for workload-scoped identity.',
+      'Implemented workload-scoped Kubernetes service accounts for cloud access with IRSA-backed identity.',
     technologies: ['AWS IAM', 'IRSA', 'Kubernetes'],
     isPublic: true,
     strength: 'strong',
@@ -370,7 +370,7 @@ export const devOpsCapabilityEvidenceItems = [
     organization: 'Current company',
     capabilityKeys: ['continuous-delivery', 'continuous-integration'],
     summary:
-      'Owned CI/CD workflow improvements for a four-developer product team using safe public summary only.',
+      'Owned CI/CD workflow improvements for a small product team using safe public summary only.',
     technologies: ['CI', 'GitHub Actions'],
     isPublic: true,
     strength: 'strong',

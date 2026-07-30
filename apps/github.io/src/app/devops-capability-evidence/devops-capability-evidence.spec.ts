@@ -131,7 +131,7 @@ describe('devOpsCapabilityEvidence data', () => {
       expect(item.capabilityKeys.length).toBeGreaterThan(0);
       expect(['supporting', 'strong', 'primary']).toContain(item.strength);
       expect(item.summary).not.toMatch(
-        /incident-\d+|deploy-\d+|private repo|customer name/i,
+        /incident-\d+|deploy-\d+|private repo|customer name|from IAM users|four-developer/i,
       );
     }
   });
