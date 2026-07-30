@@ -19,6 +19,7 @@ import {
   siPrometheus,
   siPython,
   siTerraform,
+  siUdemy,
   siVault,
   type SimpleIcon,
 } from 'simple-icons';
@@ -52,6 +53,7 @@ const skillIcons: Readonly<Record<string, SimpleIcon>> = {
   Prometheus: siPrometheus,
   Python: siPython,
   Terraform: siTerraform,
+  Udemy: siUdemy,
   Vault: siVault,
 };
 

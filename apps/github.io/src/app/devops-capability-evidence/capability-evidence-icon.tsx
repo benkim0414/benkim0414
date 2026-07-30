@@ -7,6 +7,7 @@ import {
   BriefcaseIcon,
   CheckBadgeIcon,
   CodeBracketIcon,
+  NewspaperIcon,
 } from '@heroicons/react/24/outline';
 import type { IconType } from '@astryxdesign/core/Icon';
 import type { ReactNode } from 'react';
@@ -40,9 +41,45 @@ function firstKnownTechnologyBrand(
   return undefined;
 }
 
+function getUrlHostname(url: string | undefined): string | undefined {
+  if (!url) {
+    return undefined;
+  }
+
+  try {
+    return new URL(url).hostname.toLowerCase();
+  } catch {
+    return undefined;
+  }
+}
+
+function isUdemyUrl(url: string | undefined): boolean {
+  const hostname = getUrlHostname(url);
+
+  return hostname === 'udemy.com' || hostname === 'www.udemy.com';
+}
+
+function getLearningProviderBrand(
+  evidence: CapabilityEvidenceItem,
+): SkillBrand | undefined {
+  if (evidence.type !== 'learning' || !isUdemyUrl(evidence.proofUrl)) {
+    return undefined;
+  }
+
+  const udemyBrand = getSkillBrand('Udemy');
+
+  return udemyBrand?.iconPath ? udemyBrand : undefined;
+}
+
 export function getCapabilityEvidenceIconData(
   evidence: CapabilityEvidenceItem,
 ): CapabilityEvidenceIconData | undefined {
+  const learningProviderBrand = getLearningProviderBrand(evidence);
+
+  if (learningProviderBrand) {
+    return { kind: 'brand', brand: learningProviderBrand };
+  }
+
   const canUseTechnologyBrand =
     evidence.type === 'skill' ||
     evidence.type === 'certification' ||
@@ -63,11 +100,19 @@ export function getCapabilityEvidenceIconData(
     }
   }
 
+  const learningFallbackIcon = {
+    article: NewspaperIcon,
+    book: BookOpenIcon,
+    course: AcademicCapIcon,
+    docs: BookOpenIcon,
+    lab: BookOpenIcon,
+  }[evidence.learningKind ?? 'book'];
+
   const fallbackIcon = {
     certification: CheckBadgeIcon,
     education: AcademicCapIcon,
     experience: BriefcaseIcon,
-    learning: BookOpenIcon,
+    learning: learningFallbackIcon,
     project: CodeBracketIcon,
     skill: undefined,
   }[evidence.type];
