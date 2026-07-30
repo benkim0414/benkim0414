@@ -110,10 +110,10 @@ export const BookLearning: Story = {
     citationNumber: 7,
     evidence: item({
       id: 'book-learning',
-      label: 'Accelerate',
+      label: 'Clean Code',
       learningKind: 'book',
-      proofUrl: 'https://example.com/accelerate',
-      title: 'Accelerate book notes',
+      proofUrl: 'https://www.oreilly.com/library/view/clean-code-a/9780136083238/',
+      title: 'Clean Code: A Handbook of Agile Software Craftsmanship',
       type: 'learning',
     }),
   },
