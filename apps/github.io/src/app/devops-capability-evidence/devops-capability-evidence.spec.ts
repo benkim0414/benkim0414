@@ -147,33 +147,56 @@ describe('devOpsCapabilityEvidence data', () => {
     ).toEqual([
       {
         capabilityKey: 'version-control',
-        evidenceIds: ['devops-roadmap-project'],
-        strongestEvidenceId: 'devops-roadmap-project',
-        evidenceCounts: { project: 1 },
+        evidenceIds: [
+          'devops-roadmap-project',
+          'short-lived-branch-flow',
+          'protected-review-gates',
+          'merge-commit-history',
+        ],
+        strongestEvidenceId: 'short-lived-branch-flow',
+        evidenceCounts: { experience: 3, project: 1 },
       },
       {
         capabilityKey: 'trunk-based-development',
-        evidenceIds: [],
-        strongestEvidenceId: undefined,
-        evidenceCounts: {},
+        evidenceIds: [
+          'short-lived-branch-flow',
+          'protected-review-gates',
+          'merge-commit-history',
+          'nx-affected-quality-gates',
+        ],
+        strongestEvidenceId: 'short-lived-branch-flow',
+        evidenceCounts: { experience: 4 },
       },
       {
         capabilityKey: 'continuous-integration',
-        evidenceIds: ['github-actions-delivery'],
+        evidenceIds: [
+          'github-actions-delivery',
+          'protected-review-gates',
+          'nx-affected-quality-gates',
+          'regression-gates',
+        ],
         strongestEvidenceId: 'github-actions-delivery',
-        evidenceCounts: { experience: 1 },
+        evidenceCounts: { experience: 4 },
       },
       {
         capabilityKey: 'test-automation',
-        evidenceIds: [],
-        strongestEvidenceId: undefined,
-        evidenceCounts: {},
+        evidenceIds: [
+          'nx-affected-quality-gates',
+          'jest-testcontainers-postgres',
+          'regression-gates',
+        ],
+        strongestEvidenceId: 'jest-testcontainers-postgres',
+        evidenceCounts: { experience: 3 },
       },
       {
         capabilityKey: 'pervasive-security',
-        evidenceIds: [],
-        strongestEvidenceId: undefined,
-        evidenceCounts: {},
+        evidenceIds: [
+          'image-digest-deployments',
+          'irsa-service-accounts',
+          'terraform-scoped-iam',
+        ],
+        strongestEvidenceId: 'irsa-service-accounts',
+        evidenceCounts: { experience: 3 },
       },
       {
         capabilityKey: 'continuous-delivery',
@@ -183,9 +206,9 @@ describe('devOpsCapabilityEvidence data', () => {
       },
       {
         capabilityKey: 'deployment-automation',
-        evidenceIds: ['github-actions-delivery'],
+        evidenceIds: ['github-actions-delivery', 'image-digest-deployments'],
         strongestEvidenceId: 'github-actions-delivery',
-        evidenceCounts: { experience: 1 },
+        evidenceCounts: { experience: 2 },
       },
       {
         capabilityKey: 'flexible-infrastructure',
@@ -193,9 +216,16 @@ describe('devOpsCapabilityEvidence data', () => {
           'kubernetes-learning',
           'cncf-kubernetes-certification',
           'kubernetes-skill',
+          'irsa-service-accounts',
+          'terraform-scoped-iam',
         ],
         strongestEvidenceId: 'cncf-kubernetes-certification',
-        evidenceCounts: { certification: 1, learning: 1, skill: 1 },
+        evidenceCounts: {
+          certification: 1,
+          experience: 2,
+          learning: 1,
+          skill: 1,
+        },
       },
       {
         capabilityKey: 'monitoring-observability',
@@ -212,6 +242,84 @@ describe('devOpsCapabilityEvidence data', () => {
         evidenceIds: ['devops-roadmap-project'],
         strongestEvidenceId: 'devops-roadmap-project',
         evidenceCounts: { project: 1 },
+      },
+    ]);
+  });
+
+  it('carves user-provided interview evidence into compact tokens', () => {
+    const carvedEvidenceIds = [
+      'short-lived-branch-flow',
+      'protected-review-gates',
+      'merge-commit-history',
+      'nx-affected-quality-gates',
+      'jest-testcontainers-postgres',
+      'regression-gates',
+      'image-digest-deployments',
+      'irsa-service-accounts',
+      'terraform-scoped-iam',
+    ];
+
+    expect(
+      devOpsCapabilityEvidenceItems
+        .filter((item) => carvedEvidenceIds.includes(item.id))
+        .map((item) => ({
+          id: item.id,
+          label: item.label,
+          capabilityKeys: item.capabilityKeys,
+        })),
+    ).toEqual([
+      {
+        id: 'short-lived-branch-flow',
+        label: 'Short-lived branches',
+        capabilityKeys: ['trunk-based-development', 'version-control'],
+      },
+      {
+        id: 'protected-review-gates',
+        label: 'Protected reviews',
+        capabilityKeys: [
+          'trunk-based-development',
+          'continuous-integration',
+          'version-control',
+        ],
+      },
+      {
+        id: 'merge-commit-history',
+        label: 'Merge commits',
+        capabilityKeys: ['trunk-based-development', 'version-control'],
+      },
+      {
+        id: 'nx-affected-quality-gates',
+        label: 'Nx affected',
+        capabilityKeys: [
+          'test-automation',
+          'continuous-integration',
+          'trunk-based-development',
+        ],
+      },
+      {
+        id: 'jest-testcontainers-postgres',
+        label: 'Postgres tests',
+        capabilityKeys: ['test-automation'],
+      },
+      {
+        id: 'regression-gates',
+        label: 'Regression gates',
+        capabilityKeys: ['test-automation', 'continuous-integration'],
+      },
+      {
+        id: 'image-digest-deployments',
+        label: 'Image digests',
+        capabilityKeys: ['pervasive-security', 'deployment-automation'],
+      },
+      {
+        id: 'irsa-service-accounts',
+        label: 'IRSA',
+        capabilityKeys: ['pervasive-security', 'flexible-infrastructure'],
+      },
+      {
+        id: 'terraform-scoped-iam',
+        label: 'Terraform IAM',
+        capabilityKeys: ['pervasive-security', 'flexible-infrastructure'],
       },
     ]);
   });
@@ -407,16 +515,19 @@ describe('devOpsCapabilityEvidence scoring', () => {
     const definitionsWithoutEvidence = [
       { key: 'test-automation', label: 'Test Automation', shortLabel: 'Tests' },
     ] as const;
+    const evidenceWithoutTestAutomation = devOpsCapabilityEvidenceItems.filter(
+      (item) => !item.capabilityKeys.includes('test-automation'),
+    );
 
     expect(
       getCapabilityEvidenceScores(
-        devOpsCapabilityEvidenceItems,
+        evidenceWithoutTestAutomation,
         definitionsWithoutEvidence,
       ),
     ).toEqual([]);
     expect(
       getCapabilityEvidenceMatrix(
-        devOpsCapabilityEvidenceItems,
+        evidenceWithoutTestAutomation,
         definitionsWithoutEvidence,
       ),
     ).toEqual([]);
@@ -424,7 +535,7 @@ describe('devOpsCapabilityEvidence scoring', () => {
 
   it('groups evidence counts by type and capability', () => {
     expect(getEvidenceTypeCounts(devOpsCapabilityEvidenceItems)).toMatchObject({
-      experience: 1,
+      experience: 10,
       learning: 1,
       certification: 1,
       project: 1,
@@ -438,7 +549,7 @@ describe('devOpsCapabilityEvidence scoring', () => {
       ).find((row) => row.capabilityKey === 'flexible-infrastructure'),
     ).toMatchObject({
       label: 'Flexible Infrastructure',
-      counts: { certification: 1, learning: 1, skill: 1 },
+      counts: { certification: 1, experience: 2, learning: 1, skill: 1 },
     });
   });
 
@@ -456,7 +567,7 @@ describe('devOpsCapabilityEvidence scoring', () => {
         getEvidenceTypeCounts(devOpsCapabilityEvidenceItems),
       ),
     ).toBe(
-      'Evidence includes 1 skill, 1 learning item, 1 experience item, 1 certification, and 1 project.',
+      'Evidence includes 1 skill, 1 learning item, 10 experience items, 1 certification, and 1 project.',
     );
   });
 });
