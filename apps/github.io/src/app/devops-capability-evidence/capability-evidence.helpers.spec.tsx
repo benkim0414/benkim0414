@@ -40,6 +40,29 @@ describe('capability evidence compact helpers', () => {
     ).toBe('Kubernetes');
   });
 
+  it('summarizes long fallback titles into compact evidence labels', () => {
+    expect(
+      getCapabilityEvidenceLabel(
+        evidence({
+          title:
+            'Operational ownership across distributed deployment environments',
+          type: 'experience',
+        }),
+      ),
+    ).toBe('Deployment ownership');
+  });
+
+  it('keeps short fallback titles unchanged', () => {
+    expect(
+      getCapabilityEvidenceLabel(
+        evidence({
+          title: 'CI/CD workflow',
+          type: 'experience',
+        }),
+      ),
+    ).toBe('CI/CD workflow');
+  });
+
   it('detects HTTPS GitHub repository URLs but not profiles or pull requests', () => {
     expect(
       isGithubRepositoryUrl('https://github.com/benkim0414/devops-roadmap'),
