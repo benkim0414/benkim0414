@@ -80,6 +80,14 @@ export function getCapabilityEvidenceIconData(
     return { kind: 'brand', brand: learningProviderBrand };
   }
 
+  if (evidence.type === 'project' && isGithubRepositoryUrl(evidence.proofUrl)) {
+    const githubBrand = getSkillBrand('GitHub');
+
+    if (githubBrand?.iconPath) {
+      return { kind: 'brand', brand: githubBrand };
+    }
+  }
+
   const canUseTechnologyBrand =
     evidence.type === 'skill' ||
     evidence.type === 'certification' ||
@@ -90,14 +98,6 @@ export function getCapabilityEvidenceIconData(
 
   if (technologyBrand) {
     return { kind: 'brand', brand: technologyBrand };
-  }
-
-  if (evidence.type === 'project' && isGithubRepositoryUrl(evidence.proofUrl)) {
-    const githubBrand = getSkillBrand('GitHub');
-
-    if (githubBrand?.iconPath) {
-      return { kind: 'brand', brand: githubBrand };
-    }
   }
 
   const learningFallbackIcon = {
@@ -135,7 +135,7 @@ export function renderCapabilityEvidenceIcon(
         focusable="false"
         viewBox="0 0 24 24"
       >
-        <path d={iconData.brand.iconPath} fill="currentColor" />
+        <path d={iconData.brand.iconPath} fill={iconData.brand.color} />
       </svg>
     );
   }
