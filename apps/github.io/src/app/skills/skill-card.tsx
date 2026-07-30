@@ -61,7 +61,7 @@ export function SkillCard({ skill }: SkillCardProps): ReactElement {
         data-testid="skill-card"
       >
         <VStack gap={3}>
-          <VStack gap={1}>
+          <VStack gap={1} hAlign="start">
             <SkillCategory name={skill.category} />
             <h3 id={titleId} {...stylex.props(styles.title)}>
               {skill.name}
