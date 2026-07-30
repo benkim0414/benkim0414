@@ -29,7 +29,9 @@ export const FocusedResults: Story = {
   args: {
     heading: 'Infrastructure Skills',
     skills: sampleSkills.filter((skill) =>
-      ['Cloud', 'Container', 'CI/CD', 'IaC'].includes(skill.category),
+      skill.categories.some((category) =>
+        ['Cloud', 'Container', 'CI/CD', 'IaC'].includes(category),
+      ),
     ),
   },
 };
