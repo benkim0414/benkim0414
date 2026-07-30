@@ -136,6 +136,118 @@ describe('devOpsCapabilityEvidence data', () => {
     }
   });
 
+  it('stores recovered carved evidence on the curated capability scores', () => {
+    expect(
+      curatedDevOpsCapabilityRadarScores.map((score) => ({
+        capabilityKey: score.capabilityKey,
+        evidenceIds: score.evidenceIds,
+        strongestEvidenceId: score.strongestEvidenceId,
+        evidenceCounts: score.evidenceCounts,
+      })),
+    ).toEqual([
+      {
+        capabilityKey: 'version-control',
+        evidenceIds: ['devops-roadmap-project'],
+        strongestEvidenceId: 'devops-roadmap-project',
+        evidenceCounts: { project: 1 },
+      },
+      {
+        capabilityKey: 'trunk-based-development',
+        evidenceIds: [],
+        strongestEvidenceId: undefined,
+        evidenceCounts: {},
+      },
+      {
+        capabilityKey: 'continuous-integration',
+        evidenceIds: ['github-actions-delivery'],
+        strongestEvidenceId: 'github-actions-delivery',
+        evidenceCounts: { experience: 1 },
+      },
+      {
+        capabilityKey: 'test-automation',
+        evidenceIds: [],
+        strongestEvidenceId: undefined,
+        evidenceCounts: {},
+      },
+      {
+        capabilityKey: 'pervasive-security',
+        evidenceIds: [],
+        strongestEvidenceId: undefined,
+        evidenceCounts: {},
+      },
+      {
+        capabilityKey: 'continuous-delivery',
+        evidenceIds: ['github-actions-delivery'],
+        strongestEvidenceId: 'github-actions-delivery',
+        evidenceCounts: { experience: 1 },
+      },
+      {
+        capabilityKey: 'deployment-automation',
+        evidenceIds: ['github-actions-delivery'],
+        strongestEvidenceId: 'github-actions-delivery',
+        evidenceCounts: { experience: 1 },
+      },
+      {
+        capabilityKey: 'flexible-infrastructure',
+        evidenceIds: [
+          'kubernetes-learning',
+          'cncf-kubernetes-certification',
+          'kubernetes-skill',
+        ],
+        strongestEvidenceId: 'cncf-kubernetes-certification',
+        evidenceCounts: { certification: 1, learning: 1, skill: 1 },
+      },
+      {
+        capabilityKey: 'monitoring-observability',
+        evidenceIds: [
+          'kubernetes-learning',
+          'cncf-kubernetes-certification',
+          'kubernetes-skill',
+        ],
+        strongestEvidenceId: 'cncf-kubernetes-certification',
+        evidenceCounts: { certification: 1, learning: 1, skill: 1 },
+      },
+      {
+        capabilityKey: 'documentation-quality',
+        evidenceIds: ['devops-roadmap-project'],
+        strongestEvidenceId: 'devops-roadmap-project',
+        evidenceCounts: { project: 1 },
+      },
+    ]);
+  });
+
+  it('keeps curated capability score evidence linked to catalog items', () => {
+    const evidenceById = new Map(
+      devOpsCapabilityEvidenceItems.map((item) => [item.id, item]),
+    );
+
+    for (const score of curatedDevOpsCapabilityRadarScores) {
+      const referencedItems = score.evidenceIds.map((id) => {
+        const item = evidenceById.get(id);
+        expect(item, `${score.capabilityKey} references ${id}`).toBeDefined();
+        return item;
+      });
+
+      if (score.strongestEvidenceId) {
+        expect(score.evidenceIds).toContain(score.strongestEvidenceId);
+      }
+
+      expect(
+        Object.fromEntries(
+          referencedItems.reduce((counts, item) => {
+            if (!item) {
+              return counts;
+            }
+
+            expect(item.capabilityKeys).toContain(score.capabilityKey);
+            counts.set(item.type, (counts.get(item.type) ?? 0) + 1);
+            return counts;
+          }, new Map<string, number>()),
+        ),
+      ).toEqual(score.evidenceCounts);
+    }
+  });
+
   it('keeps the CI/CD experience as a public-safe portfolio projection', () => {
     const deliveryExperience = devOpsCapabilityEvidenceItems.find(
       (item) => item.id === 'github-actions-delivery',
