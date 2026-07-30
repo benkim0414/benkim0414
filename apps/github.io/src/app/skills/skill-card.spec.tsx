@@ -8,7 +8,7 @@ const baseSkill: Skill = {
   name: 'Kubernetes',
   description:
     'Container orchestration for deploying, scaling, and operating cloud-native workloads.',
-  category: 'Container',
+  categories: ['Container', 'Cloud'],
   level: 4,
   iconSlug: 'kubernetes',
   keywords: ['containers', 'orchestration'],
@@ -40,15 +40,28 @@ describe('SkillCard', () => {
     ).toBeTruthy();
   });
 
-  it('renders the skill category before the skill title', () => {
+  it('renders every skill category before the skill title', () => {
     const { getByText, getByRole } = render(<SkillCard skill={baseSkill} />);
 
-    const category = getByText('Container');
+    const containerCategory = getByText('Container');
+    const cloudCategory = getByText('Cloud');
     const title = getByRole('heading', { name: 'Kubernetes' });
 
-    expect(category.compareDocumentPosition(title)).toBe(
+    expect(containerCategory.compareDocumentPosition(title)).toBe(
       Node.DOCUMENT_POSITION_FOLLOWING,
     );
+    expect(cloudCategory.compareDocumentPosition(title)).toBe(
+      Node.DOCUMENT_POSITION_FOLLOWING,
+    );
+  });
+
+  it('keeps the compact title as the accessible card label', () => {
+    const { getByRole, getByTestId } = render(<SkillCard skill={baseSkill} />);
+
+    const title = getByRole('heading', { name: 'Kubernetes', level: 3 });
+    const card = getByTestId('skill-card');
+
+    expect(card.getAttribute('aria-labelledby')).toBe(title.id);
   });
 
   it('gives duplicate skill cards distinct accessible title targets', () => {
