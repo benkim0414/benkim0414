@@ -105,8 +105,8 @@ export function getCapabilityEvidenceLabel(
 
   return (
     evidence.label ??
-    technology ??
     repositoryLabel ??
+    technology ??
     compactTitleLabel(evidence.title)
   );
 }
