@@ -1,11 +1,9 @@
 import * as stylex from '@stylexjs/stylex';
 import { Card } from '@astryxdesign/core/Card';
-import { VStack } from '@astryxdesign/core/Layout';
-import {
-  colorVars,
-  spacingVars,
-  typeScaleVars,
-} from '@astryxdesign/core/theme/tokens.stylex';
+import { Heading } from '@astryxdesign/core/Heading';
+import { HStack, VStack } from '@astryxdesign/core/Layout';
+import { Text } from '@astryxdesign/core/Text';
+import { spacingVars } from '@astryxdesign/core/theme/tokens.stylex';
 import { useId, type ReactElement } from 'react';
 
 import { CertificationCitation } from '../certifications/certification-citation';
@@ -23,18 +21,6 @@ const styles = stylex.create({
       default: `calc(${spacingVars['--spacing-12']} * 7)`,
       '@media (max-width: 640px)': `calc(${spacingVars['--spacing-12']} * 5)`,
     },
-  },
-  title: {
-    margin: 0,
-    color: colorVars['--color-text-primary'],
-    fontSize: typeScaleVars['--text-heading-3-size'],
-    lineHeight: typeScaleVars['--text-heading-3-leading'],
-  },
-  description: {
-    margin: 0,
-    color: colorVars['--color-text-secondary'],
-    fontSize: typeScaleVars['--text-body-size'],
-    lineHeight: typeScaleVars['--text-body-leading'],
   },
   citationList: {
     display: 'flex',
@@ -62,11 +48,17 @@ export function SkillCard({ skill }: SkillCardProps): ReactElement {
       >
         <VStack gap={3}>
           <VStack gap={1} hAlign="start">
-            <SkillCategory name={skill.category} />
-            <h3 id={titleId} {...stylex.props(styles.title)}>
+            <HStack gap={1} wrap="wrap">
+              {skill.categories.map((category) => (
+                <SkillCategory key={category} name={category} />
+              ))}
+            </HStack>
+            <Heading id={titleId} level={4} accessibilityLevel={3}>
               {skill.name}
-            </h3>
-            <p {...stylex.props(styles.description)}>{skill.description}</p>
+            </Heading>
+            <Text type="supporting" as="p">
+              {skill.description}
+            </Text>
           </VStack>
 
           {certifications.length > 0 ? (
