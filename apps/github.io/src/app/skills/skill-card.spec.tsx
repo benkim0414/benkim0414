@@ -55,6 +55,21 @@ describe('SkillCard', () => {
     );
   });
 
+  it('renders compact cards without category badges or description text', () => {
+    const { getByRole, queryByText } = render(
+      <SkillCard skill={baseSkill} variant="compact" />,
+    );
+
+    expect(getByRole('heading', { name: 'Kubernetes' })).toBeTruthy();
+    expect(queryByText('Container')).toBeNull();
+    expect(queryByText('Cloud')).toBeNull();
+    expect(
+      queryByText(
+        'Container orchestration for deploying, scaling, and operating cloud-native workloads.',
+      ),
+    ).toBeNull();
+  });
+
   it('keeps the compact title as the accessible card label', () => {
     const { getByRole, getByTestId } = render(<SkillCard skill={baseSkill} />);
 
