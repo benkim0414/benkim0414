@@ -1,12 +1,22 @@
 import { Avatar } from '@astryxdesign/core/Avatar';
 import {
+  siArgo,
+  siClaude,
   siDocker,
+  siExpo,
   siGithubactions,
+  siGo,
+  siGrafana,
+  siKubernetes,
+  siNeovim,
   siNx,
   siReact,
   siStorybook,
+  siSwift,
   siTerraform,
+  siTmux,
   siTypescript,
+  siZsh,
   type SimpleIcon,
 } from 'simple-icons';
 
@@ -32,8 +42,18 @@ const simpleIconSources: Readonly<Record<string, SimpleIcon>> = {
   nx: siNx,
   terraform: siTerraform,
   docker: siDocker,
+  kubernetes: siKubernetes,
   githubactions: siGithubactions,
   storybook: siStorybook,
+  claude: siClaude,
+  neovim: siNeovim,
+  zsh: siZsh,
+  tmux: siTmux,
+  grafana: siGrafana,
+  go: siGo,
+  argo: siArgo,
+  swift: siSwift,
+  expo: siExpo,
 };
 
 function skillAvatarPresentation(iconSlug: string) {

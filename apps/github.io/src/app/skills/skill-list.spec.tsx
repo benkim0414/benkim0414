@@ -12,8 +12,8 @@ describe('SkillList', () => {
     expect(getByRole('region', { name: 'Skills' })).toBeTruthy();
     expect(getByRole('list')).toBeTruthy();
     expect(getByText('TypeScript')).toBeTruthy();
-    expect(getByText('Language')).toBeTruthy();
-    expect(getAllByText('5 out of 5')).not.toHaveLength(0);
+    expect(getAllByText('Language')).not.toHaveLength(0);
+    expect(getAllByText('4 out of 5')).not.toHaveLength(0);
   });
 
   it('does not render search controls', () => {
