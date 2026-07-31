@@ -38,12 +38,20 @@ describe('MobileSkillsPage', () => {
       'TypeScript',
       'React',
       'Nx',
-      'AWS',
       'Terraform',
       'Docker',
       'Kubernetes',
       'GitHub Actions',
       'Storybook',
+      'Claude Code',
+      'Neovim',
+      'zsh',
+      'tmux',
+      'Grafana',
+      'Go',
+      'Argo',
+      'Swift',
+      'Expo',
     ].forEach((skillName) => {
       expect(within(list).getByText(skillName)).toBeTruthy();
     });

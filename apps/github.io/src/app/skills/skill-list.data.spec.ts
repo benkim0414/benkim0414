@@ -35,6 +35,56 @@ describe('skill-list data', () => {
     expect(new Set(highlightedSkillIds).size).toBe(highlightedSkillIds.length);
   });
 
+  it('stores the requested local skill catalog without AWS', () => {
+    expect(skills.map((skill) => skill.id)).toEqual([
+      'typescript',
+      'react',
+      'nx',
+      'terraform',
+      'docker',
+      'kubernetes',
+      'github-actions',
+      'storybook',
+      'claude-code',
+      'neovim',
+      'zsh',
+      'tmux',
+      'grafana',
+      'go',
+      'argo',
+      'swift',
+      'expo',
+    ]);
+  });
+
+  it('stores the requested skill scores as levels', () => {
+    expect(
+      Object.fromEntries(skills.map((skill) => [skill.id, skill.level])),
+    ).toMatchObject({
+      typescript: 4,
+      react: 3,
+      terraform: 3,
+      docker: 3,
+      'github-actions': 3,
+      storybook: 2,
+      'claude-code': 4,
+      neovim: 4,
+      zsh: 3,
+      tmux: 4,
+      grafana: 3,
+      go: 3,
+      argo: 3,
+      swift: 2,
+      expo: 2,
+    });
+  });
+
+  it('uses a Kubernetes logo slug for Kubernetes', () => {
+    expect(skills.find((skill) => skill.id === 'kubernetes')?.iconSlug).toBe(
+      'kubernetes',
+    );
+  });
+
   it('keeps highlighted descriptions public-safe and evidence-backed', () => {
     expect(
       highlightedSkills.find((skill) => skill.id === 'kubernetes')?.description,
