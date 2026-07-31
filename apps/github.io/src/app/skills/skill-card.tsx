@@ -47,7 +47,7 @@ export function SkillCard({ skill }: SkillCardProps): ReactElement {
         data-testid="skill-card"
       >
         <VStack gap={3}>
-          <VStack gap={3} hAlign="start">
+          <VStack gap={4} hAlign="start">
             <HStack gap={1} wrap="wrap">
               {skill.categories.map((category) => (
                 <SkillCategory key={category} name={category} />
