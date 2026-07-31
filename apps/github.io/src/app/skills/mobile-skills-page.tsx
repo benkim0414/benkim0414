@@ -31,6 +31,12 @@ export function MobileSkillsPage({
 
   return (
     <VStack gap={4}>
+      <SkillCarousel
+        ariaLabel="Highlighted skills"
+        emptyMessage="No highlighted skills have been supplied."
+        skills={highlightedSkills}
+      />
+
       <search aria-label="Skill search" role="search">
         <SkillSearch
           filters={filters}
@@ -38,12 +44,6 @@ export function MobileSkillsPage({
           resultCount={filteredSkills.length}
         />
       </search>
-
-      <SkillCarousel
-        ariaLabel="Highlighted skills"
-        emptyMessage="No highlighted skills have been supplied."
-        skills={highlightedSkills}
-      />
 
       <SkillList
         emptyMessage={listEmptyMessage}
