@@ -8,10 +8,11 @@ import { useId, type ReactElement } from 'react';
 
 import { CertificationCitation } from '../certifications/certification-citation';
 import { SkillCategory } from './skill-category';
-import type { Skill } from './skill-list.types';
+import type { Skill, SkillSurfaceVariant } from './skill-list.types';
 
 export interface SkillCardProps {
   skill: Skill;
+  variant?: SkillSurfaceVariant;
 }
 
 const styles = stylex.create({
@@ -36,8 +37,13 @@ const styles = stylex.create({
   },
 });
 
-export function SkillCard({ skill }: SkillCardProps): ReactElement {
+export function SkillCard({
+  skill,
+  variant = 'default',
+}: SkillCardProps): ReactElement {
   const certifications = skill.certifications ?? [];
+  const shouldShowCategories = variant === 'default';
+  const shouldShowDescription = variant === 'default';
   const titleId = useId();
 
   return (
@@ -48,18 +54,22 @@ export function SkillCard({ skill }: SkillCardProps): ReactElement {
       >
         <VStack gap={3}>
           <VStack gap={4} hAlign="start">
-            <HStack gap={1} wrap="wrap">
-              {skill.categories.map((category) => (
-                <SkillCategory key={category} name={category} />
-              ))}
-            </HStack>
+            {shouldShowCategories ? (
+              <HStack gap={1} wrap="wrap">
+                {skill.categories.map((category) => (
+                  <SkillCategory key={category} name={category} />
+                ))}
+              </HStack>
+            ) : null}
             <VStack gap={1} hAlign="start">
               <Heading id={titleId} level={4} accessibilityLevel={3}>
                 {skill.name}
               </Heading>
-              <Text type="supporting" as="p">
-                {skill.description}
-              </Text>
+              {shouldShowDescription ? (
+                <Text type="supporting" as="p">
+                  {skill.description}
+                </Text>
+              ) : null}
             </VStack>
           </VStack>
 
