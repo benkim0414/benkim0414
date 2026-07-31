@@ -59,6 +59,23 @@ describe('MobileSkillsPage', () => {
     });
   });
 
+  it('uses compact skill surfaces for mobile', () => {
+    const { getByLabelText, getByRole, queryByText } = render(
+      <MobileSkillsPage />,
+    );
+    const carousel = getByLabelText('Highlighted skills');
+    const list = getByRole('region', { name: 'Skills' });
+
+    expect(within(carousel).queryByText('Container')).toBeNull();
+    expect(
+      within(carousel).queryByText(
+        'Cloud-native workload operations, troubleshooting, and infrastructure practice backed by Kubernetes certification evidence.',
+      ),
+    ).toBeNull();
+    expect(within(list).queryByText('Language')).toBeNull();
+    expect(queryByText('TypeScript')).toBeTruthy();
+  });
+
   it('uses the full empty message only when no local skills are supplied', () => {
     const { getByText } = render(
       <MobileSkillsPage highlightedSkills={[]} skills={[]} />,

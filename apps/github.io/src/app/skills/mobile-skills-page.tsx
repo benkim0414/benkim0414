@@ -29,12 +29,14 @@ export function MobileSkillsPage({
         ariaLabel="Highlighted skills"
         emptyMessage="No highlighted skills have been supplied."
         skills={highlightedSkills}
+        variant="compact"
       />
 
       <SkillList
         emptyMessage={listEmptyMessage}
         heading="Skills"
         skills={skills}
+        variant="compact"
       />
     </VStack>
   );
