@@ -59,9 +59,9 @@ export function AppShell() {
 
   return (
     <Theme theme={neutralTheme}>
-      <div className="mx-auto min-h-screen w-full max-w-md">
+      <div className="mx-auto h-dvh min-h-screen w-full max-w-md overflow-y-auto">
         <TopNav
-          className="fixed inset-x-0 top-0 z-10 mx-auto max-w-md bg-[var(--color-background-surface)]"
+          className="sticky top-0 z-10 bg-[var(--color-background-surface)]"
           endContent={
             <IconButton
               icon={<Icon color="inherit" icon="search" size="sm" />}
@@ -93,7 +93,7 @@ export function AppShell() {
         />
         <main
           aria-labelledby="skills-page-title"
-          className="w-full px-4 pb-4 pt-16"
+          className="w-full px-4 py-4"
         >
           <VisuallyHidden as="h1" id="skills-page-title">
             Skills
