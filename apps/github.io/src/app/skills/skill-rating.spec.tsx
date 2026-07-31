@@ -1,6 +1,24 @@
 import { render, screen } from '@testing-library/react';
+import type { SVGProps } from 'react';
+import { vi } from 'vitest';
 
 import { SkillRating } from './skill-rating';
+
+function MockSolidStar(props: SVGProps<SVGSVGElement>) {
+  return <svg {...props} data-heroicon-variant="solid" />;
+}
+
+function MockOutlineStar(props: SVGProps<SVGSVGElement>) {
+  return <svg {...props} data-heroicon-variant="outline" />;
+}
+
+vi.mock('@heroicons/react/24/solid', () => ({
+  StarIcon: MockSolidStar,
+}));
+
+vi.mock('@heroicons/react/24/outline', () => ({
+  StarIcon: MockOutlineStar,
+}));
 
 describe('SkillRating', () => {
   it('renders equal-size Heroicons stars with supporting rating text', () => {
@@ -12,12 +30,9 @@ describe('SkillRating', () => {
     const stars = screen.getAllByTestId('skill-rating-star');
 
     expect(stars).toHaveLength(5);
-    expect(stars.filter((star) => star.dataset.filled === 'true')).toHaveLength(
-      4,
-    );
-    expect(stars.filter((star) => star.dataset.filled === 'false')).toHaveLength(
-      1,
-    );
+    expect(
+      stars.map((star) => star.getAttribute('data-heroicon-variant')),
+    ).toEqual(['solid', 'solid', 'solid', 'solid', 'outline']);
 
     const classNames = stars.map((star) => star.getAttribute('class'));
     expect(new Set(classNames)).toHaveLength(1);
