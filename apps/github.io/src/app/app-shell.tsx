@@ -6,8 +6,6 @@ import {
 } from '@astryxdesign/core/CommandPalette';
 import { Icon } from '@astryxdesign/core/Icon';
 import { IconButton } from '@astryxdesign/core/IconButton';
-import { VStack } from '@astryxdesign/core/Layout';
-import { Text } from '@astryxdesign/core/Text';
 import { TopNav } from '@astryxdesign/core/TopNav';
 import { createStaticSource } from '@astryxdesign/core/Typeahead';
 import { VisuallyHidden } from '@astryxdesign/core/VisuallyHidden';
@@ -17,10 +15,15 @@ import { MobileSkillsPage } from './skills/mobile-skills-page';
 import { skills } from './skills/skill-list.data';
 import type { Skill } from './skills/skill-list.types';
 
+interface SkillCommandAuxiliaryData {
+  skill: Skill;
+  group: 'Skills';
+}
+
 interface SkillCommandItem {
   id: string;
   label: string;
-  auxiliaryData: Skill;
+  auxiliaryData: SkillCommandAuxiliaryData;
 }
 
 export function AppShell() {
@@ -31,7 +34,10 @@ export function AppShell() {
       skills.map((skill) => ({
         id: skill.id,
         label: skill.name,
-        auxiliaryData: skill,
+        auxiliaryData: {
+          skill,
+          group: 'Skills',
+        },
       })),
     [],
   );
@@ -39,9 +45,9 @@ export function AppShell() {
     () =>
       createStaticSource(skillCommandItems, {
         keywords: (item) => [
-          item.auxiliaryData.description,
-          ...item.auxiliaryData.categories,
-          ...item.auxiliaryData.keywords,
+          item.auxiliaryData.skill.description,
+          ...item.auxiliaryData.skill.categories,
+          ...item.auxiliaryData.skill.keywords,
         ],
       }),
     [skillCommandItems],
@@ -82,12 +88,6 @@ export function AppShell() {
           width="calc(100vw - 32px)"
           emptyBootstrapText="No skills"
           emptySearchText="No skills"
-          renderItem={(item) => (
-            <VStack gap={0}>
-              <Text>{item.label}</Text>
-              <Text type="supporting">Skills</Text>
-            </VStack>
-          )}
           onOpenChange={setIsSearchOpen}
           onValueChange={setSelectedSkillId}
         />

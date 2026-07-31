@@ -80,6 +80,9 @@ describe('App', () => {
     fireEvent.click(getByRole('button', { name: 'Search skills' }));
     expect(getByRole('dialog', { name: 'Search skills' })).toBeTruthy();
     expect(
+      await waitFor(() => getByRole('group', { name: 'Skills' })),
+    ).toBeTruthy();
+    expect(
       await waitFor(() => getByRole('option', { name: /Terraform/ })),
     ).toBeTruthy();
     expect(getByRole('option', { name: /React/ })).toBeTruthy();
