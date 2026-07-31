@@ -1,10 +1,8 @@
 import { Card } from '@astryxdesign/core/Card';
+import { Heading } from '@astryxdesign/core/Heading';
 import { VStack } from '@astryxdesign/core/Layout';
-import {
-  colorVars,
-  spacingVars,
-  typeScaleVars,
-} from '@astryxdesign/core/theme/tokens.stylex';
+import { Text } from '@astryxdesign/core/Text';
+import { spacingVars } from '@astryxdesign/core/theme/tokens.stylex';
 import * as stylex from '@stylexjs/stylex';
 import { useId, type ReactElement } from 'react';
 
@@ -27,18 +25,6 @@ const styles = stylex.create({
     display: 'block',
     maxWidth: `calc(${spacingVars['--spacing-12']} * 9)`,
     width: '100%',
-  },
-  title: {
-    margin: 0,
-    color: colorVars['--color-text-primary'],
-    fontSize: typeScaleVars['--text-heading-3-size'],
-    lineHeight: typeScaleVars['--text-heading-3-leading'],
-  },
-  description: {
-    margin: 0,
-    color: colorVars['--color-text-secondary'],
-    fontSize: typeScaleVars['--text-body-size'],
-    lineHeight: typeScaleVars['--text-body-leading'],
   },
   evidenceRows: {
     display: 'flex',
@@ -108,10 +94,12 @@ export function DoraCapabilityCard({
       <article aria-labelledby={titleId} data-testid="dora-capability-card">
         <VStack gap={3}>
           <VStack gap={1}>
-            <h3 id={titleId} {...stylex.props(styles.title)}>
+            <Heading id={titleId} level={3}>
               {capability.label}
-            </h3>
-            <p {...stylex.props(styles.description)}>{description}</p>
+            </Heading>
+            <Text type="supporting" as="p">
+              {description}
+            </Text>
           </VStack>
 
           {rows.length > 0 ? (
