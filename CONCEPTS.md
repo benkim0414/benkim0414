@@ -42,6 +42,12 @@ The styling rule for the `github.io` App: Astryx components define component ana
 
 Astryx Styling Boundary keeps local visual fixes from replacing Astryx component semantics or drifting from Astryx spacing, radius, and color guidance.
 
+### Astryx Spacing Token
+
+A named spacing step from the Astryx design scale, used through Astryx component props or token aliases instead of arbitrary pixel values.
+
+Astryx Spacing Tokens let visual spacing feedback stay inside the design system: the numeric prop identifies a token step, while the token defines the rendered size.
+
 ### Certification Citation
 
 A reusable certification link presentation that uses Astryx Citation styling while deriving status and visual accents from the certification's linked skills.
