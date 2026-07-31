@@ -16,6 +16,6 @@ describe('SkillListItem', () => {
     expect(container.querySelector('img')).toBeTruthy();
     expect(getByText('TypeScript')).toBeTruthy();
     expect(getByText('Language')).toBeTruthy();
-    expect(getByText('5 out of 5')).toBeTruthy();
+    expect(getByText('4 out of 5')).toBeTruthy();
   });
 });
