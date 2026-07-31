@@ -21,20 +21,28 @@ vi.mock('@heroicons/react/24/outline', () => ({
 }));
 
 describe('SkillRating', () => {
-  it('renders equal-size Heroicons stars with supporting rating text', () => {
+  it('renders desktop stars and compact supporting rating text separately', () => {
     render(<SkillRating level={4} />);
 
     expect(screen.getByText('4 out of 5')).toBeTruthy();
-    expect(screen.getByText('4/5').closest('[aria-hidden="true"]')).toBeTruthy();
-
-    const stars = screen.getAllByTestId('skill-rating-star');
-
-    expect(stars).toHaveLength(5);
     expect(
-      stars.map((star) => star.getAttribute('data-heroicon-variant')),
-    ).toEqual(['solid', 'solid', 'solid', 'solid', 'outline']);
+      screen.getByText('4/5').closest('[data-testid="skill-rating-compact"]'),
+    ).toBeTruthy();
 
-    const classNames = stars.map((star) => star.getAttribute('class'));
-    expect(new Set(classNames)).toHaveLength(1);
+    const desktopStars = screen.getAllByTestId('skill-rating-star');
+    const compactStars = screen.getAllByTestId('skill-rating-compact-star');
+
+    expect(desktopStars).toHaveLength(5);
+    expect(compactStars).toHaveLength(1);
+    expect(
+      desktopStars.map((star) => star.getAttribute('data-heroicon-variant')),
+    ).toEqual(['solid', 'solid', 'solid', 'solid', 'outline']);
+    expect(compactStars[0].getAttribute('data-heroicon-variant')).toBe('solid');
+
+    const desktopClassNames = desktopStars.map((star) =>
+      star.getAttribute('class'),
+    );
+    expect(new Set(desktopClassNames)).toHaveLength(1);
+    expect(compactStars[0].getAttribute('class')).toBe(desktopClassNames[0]);
   });
 });

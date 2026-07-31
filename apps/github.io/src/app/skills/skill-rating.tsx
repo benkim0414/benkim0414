@@ -16,15 +16,24 @@ const styles = stylex.create({
     display: 'inline-flex',
     flex: '0 0 auto',
     alignItems: 'center',
-    gap: spacingVars['--spacing-1'],
-    color: colorVars['--color-icon-yellow'],
     letterSpacing: 0,
     whiteSpace: 'nowrap',
   },
   stars: {
-    display: 'inline-flex',
+    display: {
+      default: 'inline-flex',
+      '@media (max-width: 640px)': 'none',
+    },
     alignItems: 'center',
     gap: spacingVars['--spacing-0-5'],
+  },
+  compact: {
+    display: {
+      default: 'none',
+      '@media (max-width: 640px)': 'inline-flex',
+    },
+    alignItems: 'center',
+    gap: spacingVars['--spacing-1'],
   },
   star: {
     display: 'block',
@@ -55,9 +64,18 @@ export function SkillRating({ level }: SkillRatingProps) {
           );
         })}
       </span>
-      <Text type="supporting" aria-hidden="true">
-        {level}/5
-      </Text>
+      <span
+        {...stylex.props(styles.compact)}
+        aria-hidden="true"
+        data-testid="skill-rating-compact"
+      >
+        <StarSolidIcon
+          {...stylex.props(styles.star)}
+          aria-hidden="true"
+          data-testid="skill-rating-compact-star"
+        />
+        <Text type="supporting">{level}/5</Text>
+      </span>
     </span>
   );
 }
