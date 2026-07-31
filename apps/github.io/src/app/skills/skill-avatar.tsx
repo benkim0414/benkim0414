@@ -1,7 +1,7 @@
 import { Avatar } from '@astryxdesign/core/Avatar';
 import {
   siArgo,
-  siClaude,
+  siClaudecode,
   siDocker,
   siExpo,
   siGithubactions,
@@ -45,7 +45,7 @@ const simpleIconSources: Readonly<Record<string, SimpleIcon>> = {
   kubernetes: siKubernetes,
   githubactions: siGithubactions,
   storybook: siStorybook,
-  claude: siClaude,
+  claudecode: siClaudecode,
   neovim: siNeovim,
   zsh: siZsh,
   tmux: siTmux,
