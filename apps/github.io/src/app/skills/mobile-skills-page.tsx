@@ -1,4 +1,4 @@
-import { useMemo, useState, type ReactElement } from 'react';
+import { useState, type ReactElement } from 'react';
 import { VStack } from '@astryxdesign/core/Layout';
 import type { PowerSearchFilter } from '@astryxdesign/core/PowerSearch';
 
@@ -21,9 +21,8 @@ export function MobileSkillsPage({
   highlightedSkills = defaultHighlightedSkills,
 }: MobileSkillsPageProps): ReactElement {
   const [filters, setFilters] = useState<ReadonlyArray<PowerSearchFilter>>([]);
-  const filteredSkills = useMemo(
-    () => skills.filter((skill) => skillMatchesFilters(skill, filters)),
-    [filters, skills],
+  const filteredSkills = skills.filter((skill) =>
+    skillMatchesFilters(skill, filters),
   );
   const listEmptyMessage =
     skills.length === 0

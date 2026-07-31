@@ -94,26 +94,6 @@ export const skills: readonly Skill[] = [
       'cluster operations',
       'irsa',
     ],
-    certifications: [
-      {
-        title: 'KCNA',
-        url: 'https://example.com/kcna',
-        skills: ['Kubernetes'],
-        expiresAt: '2028-02-26T10:59:00+11:00',
-      },
-      {
-        title: 'CKA',
-        url: 'https://example.com/cka',
-        skills: ['Kubernetes'],
-        expiresAt: '2028-02-26T10:59:00+11:00',
-      },
-      {
-        title: 'CKAD',
-        url: 'https://example.com/ckad',
-        skills: ['Kubernetes'],
-        expiresAt: '2028-02-26T10:59:00+11:00',
-      },
-    ],
   },
   {
     id: 'github-actions',
@@ -128,7 +108,8 @@ export const skills: readonly Skill[] = [
   {
     id: 'storybook',
     name: 'Storybook',
-    description: 'Development environment for building and testing UI components.',
+    description:
+      'Development environment for building and testing UI components.',
     categories: ['Design System', 'Testing'],
     level: 4,
     iconSlug: 'storybook',
@@ -144,14 +125,16 @@ export const highlightedSkillIds = [
   'docker',
 ] as const;
 
-export const highlightedSkills = highlightedSkillIds.map((id) => {
-  const skill = skills.find((candidate) => candidate.id === id);
+export const highlightedSkills: readonly Skill[] = highlightedSkillIds.map(
+  (id) => {
+    const skill = skills.find((candidate) => candidate.id === id);
 
-  if (!skill) {
-    throw new Error(`Highlighted skill "${id}" is missing from skills.`);
-  }
+    if (!skill) {
+      throw new Error(`Highlighted skill "${id}" is missing from skills.`);
+    }
 
-  return skill;
-}) satisfies readonly Skill[];
+    return skill;
+  },
+);
 
 export const sampleSkills = skills;

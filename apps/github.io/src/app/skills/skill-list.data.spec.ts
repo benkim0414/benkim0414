@@ -53,8 +53,7 @@ describe('skill-list data', () => {
       'Monorepo quality gates for lint, build, test, and type-check workflows.',
     );
     expect(
-      highlightedSkills.find((skill) => skill.id === 'terraform')
-        ?.description,
+      highlightedSkills.find((skill) => skill.id === 'terraform')?.description,
     ).toBe(
       'Reproducible infrastructure and scoped IAM policy management with Terraform.',
     );
@@ -63,5 +62,11 @@ describe('skill-list data', () => {
     ).toBe(
       'Container packaging, delivery workflow support, and immutable image deployment practice.',
     );
+  });
+
+  it('does not publish placeholder certification links in the local catalog', () => {
+    expect(
+      skills.find((skill) => skill.id === 'kubernetes')?.certifications,
+    ).toBeUndefined();
   });
 });
