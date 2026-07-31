@@ -1,6 +1,6 @@
 import type { Skill } from './skill-list.types';
 
-export const sampleSkills: readonly Skill[] = [
+export const skills: readonly Skill[] = [
   {
     id: 'typescript',
     name: 'TypeScript',
@@ -22,11 +22,18 @@ export const sampleSkills: readonly Skill[] = [
   {
     id: 'nx',
     name: 'Nx',
-    description: 'Extensible build system for monorepos and workspaces.',
+    description:
+      'Monorepo quality gates for lint, build, test, and type-check workflows.',
     categories: ['Build', 'Tooling'],
     level: 4,
     iconSlug: 'nx',
-    keywords: ['monorepo', 'workspace', 'build system'],
+    keywords: [
+      'monorepo',
+      'workspace',
+      'build system',
+      'affected',
+      'quality gates',
+    ],
   },
   {
     id: 'aws',
@@ -35,35 +42,58 @@ export const sampleSkills: readonly Skill[] = [
     categories: ['Cloud'],
     level: 4,
     iconSlug: 'amazonaws',
-    keywords: ['cloud', 'infrastructure'],
+    keywords: ['cloud', 'infrastructure', 'iam', 'irsa'],
   },
   {
     id: 'terraform',
     name: 'Terraform',
-    description: 'Infrastructure as code for provisioning cloud resources.',
+    description:
+      'Reproducible infrastructure and scoped IAM policy management with Terraform.',
     categories: ['IaC', 'Cloud'],
     level: 4,
     iconSlug: 'terraform',
-    keywords: ['infrastructure as code', 'provisioning'],
+    keywords: [
+      'infrastructure as code',
+      'provisioning',
+      'iam',
+      'irsa',
+      'policy',
+    ],
   },
   {
     id: 'docker',
     name: 'Docker',
-    description: 'Container platform for packaging and running applications.',
+    description:
+      'Container packaging, delivery workflow support, and immutable image deployment practice.',
     categories: ['Container', 'Runtime'],
     level: 4,
     iconSlug: 'docker',
-    keywords: ['container', 'image', 'runtime'],
+    keywords: [
+      'container',
+      'image',
+      'runtime',
+      'delivery',
+      'digest',
+      'deployment',
+    ],
   },
   {
     id: 'kubernetes',
     name: 'Kubernetes',
     description:
-      'Container orchestration for deploying, scaling, and operating cloud-native workloads.',
+      'Cloud-native workload operations, troubleshooting, and infrastructure practice backed by Kubernetes certification evidence.',
     categories: ['Container', 'Cloud'],
     level: 4,
     iconSlug: 'kubernetes',
-    keywords: ['containers', 'orchestration', 'platform', 'cloud native'],
+    keywords: [
+      'containers',
+      'orchestration',
+      'platform',
+      'cloud native',
+      'kubectl',
+      'cluster operations',
+      'irsa',
+    ],
     certifications: [
       {
         title: 'KCNA',
@@ -88,11 +118,12 @@ export const sampleSkills: readonly Skill[] = [
   {
     id: 'github-actions',
     name: 'GitHub Actions',
-    description: 'Automated workflows for building, testing, and deploying code.',
+    description:
+      'CI/CD workflow ownership across integration, delivery, and deployment automation.',
     categories: ['CI/CD'],
     level: 4,
     iconSlug: 'githubactions',
-    keywords: ['ci', 'cd', 'automation', 'workflow'],
+    keywords: ['ci', 'cd', 'automation', 'workflow', 'delivery', 'deployment'],
   },
   {
     id: 'storybook',
@@ -104,3 +135,23 @@ export const sampleSkills: readonly Skill[] = [
     keywords: ['components', 'ui', 'visual testing'],
   },
 ];
+
+export const highlightedSkillIds = [
+  'kubernetes',
+  'github-actions',
+  'nx',
+  'terraform',
+  'docker',
+] as const;
+
+export const highlightedSkills = highlightedSkillIds.map((id) => {
+  const skill = skills.find((candidate) => candidate.id === id);
+
+  if (!skill) {
+    throw new Error(`Highlighted skill "${id}" is missing from skills.`);
+  }
+
+  return skill;
+}) satisfies readonly Skill[];
+
+export const sampleSkills = skills;
