@@ -55,8 +55,11 @@ describe('MobileSkillsPage', () => {
     expect(mobileShell?.className).toContain('max-w-md');
     expect(mobileShell?.className).toContain('h-dvh');
     expect(mobileShell?.className).toContain('overflow-y-auto');
-    expect(navigation.className).toContain('sticky');
+    expect(navigation.className).toContain('fixed');
+    expect(navigation.className).toContain('left-1/2');
     expect(navigation.className).toContain('top-0');
+    expect(navigation.className).toContain('z-50');
+    expect(main.className).toContain('pt-16');
     expect(getByRole('button', { name: 'Search skills' })).toBeTruthy();
     expect(queryByRole('combobox', { name: 'Search skills' })).toBeNull();
   });
