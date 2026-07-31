@@ -40,6 +40,23 @@ describe('SkillCard', () => {
     ).toBeTruthy();
   });
 
+  it('renders the skill rating after the title and before the description', () => {
+    const { getByRole, getByText } = render(<SkillCard skill={baseSkill} />);
+
+    const title = getByRole('heading', { name: 'Kubernetes' });
+    const rating = getByText('4 out of 5');
+    const description = getByText(
+      'Container orchestration for deploying, scaling, and operating cloud-native workloads.',
+    );
+
+    expect(title.compareDocumentPosition(rating)).toBe(
+      Node.DOCUMENT_POSITION_FOLLOWING,
+    );
+    expect(rating.compareDocumentPosition(description)).toBe(
+      Node.DOCUMENT_POSITION_FOLLOWING,
+    );
+  });
+
   it('renders every skill category before the skill title', () => {
     const { getByText, getByRole } = render(<SkillCard skill={baseSkill} />);
 
