@@ -32,7 +32,7 @@ export function MobileSkillsPage({
 
   return (
     <VStack gap={4}>
-      <search aria-label="Skill search">
+      <search aria-label="Skill search" role="search">
         <SkillSearch
           filters={filters}
           onFiltersChange={setFilters}
