@@ -1,6 +1,5 @@
-import { useState, type ReactElement } from 'react';
+import type { ReactElement } from 'react';
 import { VStack } from '@astryxdesign/core/Layout';
-import type { PowerSearchFilter } from '@astryxdesign/core/PowerSearch';
 
 import {
   highlightedSkills as defaultHighlightedSkills,
@@ -9,7 +8,6 @@ import {
 import { SkillCarousel } from './skill-carousel';
 import { SkillList } from './skill-list';
 import type { Skill } from './skill-list.types';
-import { SkillSearch, skillMatchesFilters } from './skill-search';
 
 export interface MobileSkillsPageProps {
   skills?: readonly Skill[];
@@ -20,10 +18,6 @@ export function MobileSkillsPage({
   skills = defaultSkills,
   highlightedSkills = defaultHighlightedSkills,
 }: MobileSkillsPageProps): ReactElement {
-  const [filters, setFilters] = useState<ReadonlyArray<PowerSearchFilter>>([]);
-  const filteredSkills = skills.filter((skill) =>
-    skillMatchesFilters(skill, filters),
-  );
   const listEmptyMessage =
     skills.length === 0
       ? 'No skills have been supplied.'
@@ -37,18 +31,10 @@ export function MobileSkillsPage({
         skills={highlightedSkills}
       />
 
-      <search aria-label="Skill search" role="search">
-        <SkillSearch
-          filters={filters}
-          onFiltersChange={setFilters}
-          resultCount={filteredSkills.length}
-        />
-      </search>
-
       <SkillList
         emptyMessage={listEmptyMessage}
         heading="Skills"
-        skills={filteredSkills}
+        skills={skills}
       />
     </VStack>
   );
