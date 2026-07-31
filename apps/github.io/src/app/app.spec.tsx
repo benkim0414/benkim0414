@@ -37,10 +37,14 @@ describe('App', () => {
       <App />,
     );
     const main = getByRole('main', { name: 'Skills' });
+    const navigation = getByRole('navigation', { name: 'Mobile navigation' });
+    const mobileShell = main.parentElement;
 
-    expect(main.className).toContain('max-w-md');
-    expect(getByRole('navigation', { name: 'Mobile navigation' }))
-      .toBeTruthy();
+    expect(mobileShell).toBe(navigation.parentElement);
+    expect(mobileShell?.className).toContain('max-w-md');
+    expect(mobileShell?.className).toContain('min-h-screen');
+    expect(main.className).not.toContain('min-h-screen');
+    expect(navigation).toBeTruthy();
     expect(getByText('Ben Kim')).toBeTruthy();
     expect(getByRole('heading', { level: 1, name: 'Skills' })).toBeTruthy();
     expect(getByRole('search', { name: 'Skill search' })).toBeTruthy();
