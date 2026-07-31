@@ -43,7 +43,7 @@ HTMLDialogElement.prototype.close = vi.fn(function close(
 });
 
 describe('App', () => {
-  it('renders the mobile-only skills page with a sticky search nav', () => {
+  it('renders the mobile-only skills page with a fixed search nav', () => {
     const {
       getAllByTestId,
       getByLabelText,
@@ -60,8 +60,10 @@ describe('App', () => {
     expect(mobileShell?.className).toContain('max-w-md');
     expect(mobileShell?.className).toContain('min-h-screen');
     expect(main.className).not.toContain('min-h-screen');
-    expect(navigation.className).toContain('sticky');
+    expect(navigation.className).toContain('fixed');
+    expect(navigation.className).toContain('max-w-md');
     expect(navigation.className).toContain('top-0');
+    expect(main.className).toContain('pt-16');
     expect(navigation).toBeTruthy();
     expect(queryByText('Ben Kim')).toBeNull();
     expect(queryByRole('search', { name: 'Skill search' })).toBeNull();
