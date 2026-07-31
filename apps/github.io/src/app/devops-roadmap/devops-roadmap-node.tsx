@@ -1,12 +1,12 @@
 import * as stylex from '@stylexjs/stylex';
 import { Handle, Position } from '@xyflow/react';
+import { Heading } from '@astryxdesign/core/Heading';
 import {
   borderVars,
   colorVars,
   radiusVars,
   shadowVars,
   spacingVars,
-  typeScaleVars,
 } from '@astryxdesign/core/theme/tokens.stylex';
 
 import { CertificationCitation } from '../certifications/certification-citation';
@@ -42,11 +42,6 @@ const styles = stylex.create({
     borderRadius: radiusVars['--radius-element'],
     boxShadow: shadowVars['--shadow-low'],
   },
-  title: {
-    margin: 0,
-    fontSize: typeScaleVars['--text-heading-3-size'],
-    lineHeight: typeScaleVars['--text-heading-3-leading'],
-  },
   list: {
     display: 'flex',
     flexWrap: 'wrap',
@@ -71,7 +66,7 @@ export function DevOpsRoadmapNode({ item }: DevOpsRoadmapNodeProps) {
         position={Position.Top}
         type="target"
       />
-      <h3 {...stylex.props(styles.title)}>{item.title}</h3>
+      <Heading level={3}>{item.title}</Heading>
       {item.skills.length > 0 ? (
         <ul
           {...stylex.props(styles.list)}
