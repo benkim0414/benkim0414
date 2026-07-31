@@ -147,7 +147,7 @@ export const skills: readonly Skill[] = [
   },
   {
     id: 'zsh',
-    name: 'zsh',
+    name: 'Zsh',
     description: 'Interactive shell for productive terminal workflows.',
     categories: ['Tooling'],
     level: 3,
@@ -156,7 +156,7 @@ export const skills: readonly Skill[] = [
   },
   {
     id: 'tmux',
-    name: 'tmux',
+    name: 'Tmux',
     description: 'Terminal multiplexer for persistent development sessions.',
     categories: ['Tooling'],
     level: 4,
