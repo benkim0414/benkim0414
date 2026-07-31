@@ -259,6 +259,7 @@ describe('DevOpsRoadmapNode', () => {
     );
 
     expect(getByRole('article', { name: 'Containers' })).toBeTruthy();
+    expect(getByRole('heading', { name: 'Containers' })).toBeTruthy();
     expect(getByTestId('skill-token-Docker')).toBeTruthy();
   });
 
