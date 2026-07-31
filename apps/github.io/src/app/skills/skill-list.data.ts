@@ -133,7 +133,7 @@ export const skills: readonly Skill[] = [
       'Agentic coding assistant for repository-aware development workflows.',
     categories: ['Tooling'],
     level: 4,
-    iconSlug: 'claude',
+    iconSlug: 'claudecode',
     keywords: ['ai', 'agentic coding', 'code assistant', 'development'],
   },
   {

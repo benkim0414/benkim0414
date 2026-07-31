@@ -95,7 +95,7 @@ describe('SkillAvatar', () => {
       svgContent(
         claudeCodeAvatar.container.querySelector('img')?.getAttribute('src'),
       ),
-    ).toContain('<title>Claude</title>');
+    ).toContain('<title>Claude Code</title>');
     expect(
       svgContent(
         neovimAvatar.container.querySelector('img')?.getAttribute('src'),
