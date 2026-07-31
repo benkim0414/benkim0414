@@ -2,10 +2,7 @@ import { fireEvent, render, waitFor, within } from '@testing-library/react';
 import { vi } from 'vitest';
 
 import { MobileSkillsPage } from './mobile-skills-page';
-import {
-  highlightedSkills,
-  skills,
-} from './skill-list.data';
+import { highlightedSkills, skills } from './skill-list.data';
 
 vi.stubGlobal(
   'ResizeObserver',
@@ -34,9 +31,22 @@ describe('MobileSkillsPage', () => {
     expect(getByRole('combobox', { name: 'Search skills' })).toBeTruthy();
     expect(getByLabelText('Highlighted skills')).toBeTruthy();
     expect(getAllByTestId('skill-card')).toHaveLength(5);
-    expect(getByRole('region', { name: 'Skills' })).toBeTruthy();
-    expect(getByText('TypeScript')).toBeTruthy();
-    expect(getByText('React')).toBeTruthy();
+    const list = getByRole('region', { name: 'Skills' });
+
+    expect(list).toBeTruthy();
+    [
+      'TypeScript',
+      'React',
+      'Nx',
+      'AWS',
+      'Terraform',
+      'Docker',
+      'Kubernetes',
+      'GitHub Actions',
+      'Storybook',
+    ].forEach((skillName) => {
+      expect(within(list).getByText(skillName)).toBeTruthy();
+    });
   });
 
   it('filters only the full skills list from the top search', async () => {
@@ -55,10 +65,12 @@ describe('MobileSkillsPage', () => {
     const list = getByRole('region', { name: 'Skills' });
 
     expect(getAllByTestId('skill-card')).toHaveLength(5);
-    expect(within(carousel).getByRole('heading', { name: 'Kubernetes' }))
-      .toBeTruthy();
-    expect(within(carousel).getByRole('heading', { name: 'GitHub Actions' }))
-      .toBeTruthy();
+    expect(
+      within(carousel).getByRole('heading', { name: 'Kubernetes' }),
+    ).toBeTruthy();
+    expect(
+      within(carousel).getByRole('heading', { name: 'GitHub Actions' }),
+    ).toBeTruthy();
     expect(within(list).getByText('Terraform')).toBeTruthy();
     expect(queryByText('React')).toBeNull();
   });
