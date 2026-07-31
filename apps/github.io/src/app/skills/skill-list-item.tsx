@@ -4,20 +4,28 @@ import { ListItem } from '@astryxdesign/core/List';
 import { SkillAvatar } from './skill-avatar';
 import { SkillCategory } from './skill-category';
 import { SkillRating } from './skill-rating';
-import type { Skill } from './skill-list.types';
+import type { Skill, SkillSurfaceVariant } from './skill-list.types';
 
 interface SkillListItemProps {
   skill: Skill;
+  variant?: SkillSurfaceVariant;
 }
 
-export function SkillListItem({ skill }: SkillListItemProps) {
+export function SkillListItem({
+  skill,
+  variant = 'default',
+}: SkillListItemProps) {
+  const shouldShowCategories = variant === 'default';
+
   return (
     <ListItem
       endContent={
         <HStack gap={2} vAlign="center">
-          {skill.categories.map((category) => (
-            <SkillCategory key={category} name={category} />
-          ))}
+          {shouldShowCategories
+            ? skill.categories.map((category) => (
+                <SkillCategory key={category} name={category} />
+              ))
+            : null}
           <SkillRating level={skill.level} />
         </HStack>
       }

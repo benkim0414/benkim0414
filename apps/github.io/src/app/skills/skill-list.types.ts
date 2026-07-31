@@ -34,9 +34,12 @@ export interface Skill {
   certifications?: readonly SkillCertification[];
 }
 
+export type SkillSurfaceVariant = 'default' | 'compact';
+
 export interface SkillListProps {
   skills: readonly Skill[];
   heading?: string;
   emptyMessage?: string;
   isHeadingHidden?: boolean;
+  variant?: SkillSurfaceVariant;
 }
