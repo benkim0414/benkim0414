@@ -71,6 +71,7 @@ export function SkillAvatar({ skill }: SkillAvatarProps) {
     <Avatar
       className="flex-none"
       name={skill.name}
+      size="xsmall"
       src={skillAvatarPresentation(skill.iconSlug)}
     />
   );

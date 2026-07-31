@@ -121,4 +121,18 @@ describe('SkillAvatar', () => {
       ).style.getPropertyValue('--skill-avatar-padding'),
     ).toBe('');
   });
+
+  it('uses the documented 24px Astryx avatar size', () => {
+    const typeScript = sampleSkills.find((skill) => skill.id === 'typescript');
+
+    expect(typeScript).toBeTruthy();
+
+    const { getByRole } = render(<SkillAvatar skill={typeScript!} />);
+    const avatar = getByRole('img', { name: 'TypeScript' });
+    const content = avatar.firstElementChild as HTMLElement;
+
+    expect(avatar.getAttribute('data-size')).toBe('xsmall');
+    expect(content.style.getPropertyValue('--x-width')).toBe('24px');
+    expect(content.style.getPropertyValue('--x-height')).toBe('24px');
+  });
 });
