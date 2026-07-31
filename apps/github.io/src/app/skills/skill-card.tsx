@@ -43,7 +43,6 @@ export function SkillCard({
 }: SkillCardProps): ReactElement {
   const certifications = skill.certifications ?? [];
   const shouldShowCategories = variant === 'default';
-  const shouldShowDescription = variant === 'default';
   const titleId = useId();
 
   return (
@@ -65,11 +64,9 @@ export function SkillCard({
               <Heading id={titleId} level={4} accessibilityLevel={3}>
                 {skill.name}
               </Heading>
-              {shouldShowDescription ? (
-                <Text type="supporting" as="p">
-                  {skill.description}
-                </Text>
-              ) : null}
+              <Text type="supporting" as="p">
+                {skill.description}
+              </Text>
             </VStack>
           </VStack>
 
