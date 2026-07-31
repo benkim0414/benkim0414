@@ -1,6 +1,24 @@
-import { fireEvent, render, within } from '@testing-library/react';
+import { fireEvent, render, waitFor, within } from '@testing-library/react';
+import { vi } from 'vitest';
 
 import App from './app';
+
+vi.stubGlobal(
+  'ResizeObserver',
+  class ResizeObserverMock {
+    observe(): void {
+      // Astryx only needs the observer API to exist in jsdom.
+    }
+
+    unobserve(): void {
+      // Astryx only needs the observer API to exist in jsdom.
+    }
+
+    disconnect(): void {
+      // Astryx only needs the observer API to exist in jsdom.
+    }
+  },
+);
 
 describe('App', () => {
   it('renders the mobile-only skills page successfully', () => {
@@ -19,12 +37,15 @@ describe('App', () => {
     expect(getByText('React')).toBeTruthy();
   });
 
-  it('filters only the full skills list from the top search', () => {
+  it('filters only the full skills list from the top search', async () => {
     const { getAllByTestId, getByLabelText, getByRole } = render(<App />);
 
     fireEvent.change(getByRole('combobox', { name: 'Search skills' }), {
       target: { value: 'terraform' },
     });
+    fireEvent.click(
+      await waitFor(() => getByRole('option', { name: '"terraform"' })),
+    );
 
     const carousel = getByLabelText('Highlighted skills');
     const list = getByRole('region', { name: 'Skills' });
