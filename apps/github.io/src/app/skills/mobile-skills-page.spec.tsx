@@ -22,16 +22,24 @@ vi.stubGlobal(
 );
 
 describe('MobileSkillsPage', () => {
-  it('renders top search, fixed highlighted carousel, and full skills list', () => {
+  it('renders fixed highlighted carousel above search and full skills list', () => {
     const { getAllByTestId, getByLabelText, getByRole, getByText } = render(
       <MobileSkillsPage />,
     );
-
-    expect(getByRole('search', { name: 'Skill search' })).toBeTruthy();
-    expect(getByRole('combobox', { name: 'Search skills' })).toBeTruthy();
-    expect(getByLabelText('Highlighted skills')).toBeTruthy();
-    expect(getAllByTestId('skill-card')).toHaveLength(5);
+    const carousel = getByLabelText('Highlighted skills');
+    const search = getByRole('search', { name: 'Skill search' });
     const list = getByRole('region', { name: 'Skills' });
+
+    expect(search.compareDocumentPosition(carousel)).toBe(
+      Node.DOCUMENT_POSITION_PRECEDING,
+    );
+    expect(list.compareDocumentPosition(search)).toBe(
+      Node.DOCUMENT_POSITION_PRECEDING,
+    );
+    expect(search).toBeTruthy();
+    expect(getByRole('combobox', { name: 'Search skills' })).toBeTruthy();
+    expect(carousel).toBeTruthy();
+    expect(getAllByTestId('skill-card')).toHaveLength(5);
 
     expect(list).toBeTruthy();
     [
