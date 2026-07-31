@@ -37,24 +37,32 @@ describe('skill-list data', () => {
 
   it('stores the requested local skill catalog without AWS', () => {
     expect(skills.map((skill) => skill.id)).toEqual([
-      'typescript',
-      'react',
-      'nx',
-      'terraform',
-      'docker',
-      'kubernetes',
-      'github-actions',
-      'storybook',
-      'claude-code',
-      'neovim',
-      'zsh',
-      'tmux',
-      'grafana',
-      'go',
       'argo',
-      'swift',
+      'claude-code',
+      'docker',
       'expo',
+      'github-actions',
+      'go',
+      'grafana',
+      'kubernetes',
+      'neovim',
+      'nx',
+      'react',
+      'storybook',
+      'swift',
+      'terraform',
+      'tmux',
+      'typescript',
+      'zsh',
     ]);
+  });
+
+  it('stores skills alphabetically by display name', () => {
+    expect(skills.map((skill) => skill.name)).toEqual(
+      [...skills].map((skill) => skill.name).sort((left, right) =>
+        left.localeCompare(right),
+      ),
+    );
   });
 
   it('stores the requested skill scores as levels', () => {
