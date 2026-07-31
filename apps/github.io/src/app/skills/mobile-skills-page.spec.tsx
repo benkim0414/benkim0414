@@ -1,0 +1,83 @@
+import { fireEvent, render, within } from '@testing-library/react';
+
+import { MobileSkillsPage } from './mobile-skills-page';
+import {
+  highlightedSkills,
+  skills,
+} from './skill-list.data';
+
+describe('MobileSkillsPage', () => {
+  it('renders top search, fixed highlighted carousel, and full skills list', () => {
+    const { getAllByTestId, getByLabelText, getByRole, getByText } = render(
+      <MobileSkillsPage />,
+    );
+
+    expect(getByRole('search', { name: 'Skill search' })).toBeTruthy();
+    expect(getByRole('combobox', { name: 'Search skills' })).toBeTruthy();
+    expect(getByLabelText('Highlighted skills')).toBeTruthy();
+    expect(getAllByTestId('skill-card')).toHaveLength(5);
+    expect(getByRole('region', { name: 'Skills' })).toBeTruthy();
+    expect(getByText('TypeScript')).toBeTruthy();
+    expect(getByText('React')).toBeTruthy();
+  });
+
+  it('filters only the full skills list from the top search', () => {
+    const { getAllByTestId, getByLabelText, getByRole, queryByText } = render(
+      <MobileSkillsPage />,
+    );
+
+    fireEvent.change(getByRole('combobox', { name: 'Search skills' }), {
+      target: { value: 'terraform' },
+    });
+
+    const carousel = getByLabelText('Highlighted skills');
+    const list = getByRole('region', { name: 'Skills' });
+
+    expect(getAllByTestId('skill-card')).toHaveLength(5);
+    expect(within(carousel).getByRole('heading', { name: 'Kubernetes' }))
+      .toBeTruthy();
+    expect(within(carousel).getByRole('heading', { name: 'GitHub Actions' }))
+      .toBeTruthy();
+    expect(within(list).getByText('Terraform')).toBeTruthy();
+    expect(queryByText('React')).toBeNull();
+  });
+
+  it('keeps the highlighted carousel fixed when the list has no search match', () => {
+    const { getAllByTestId, getByRole, getByText } = render(
+      <MobileSkillsPage />,
+    );
+
+    fireEvent.change(getByRole('combobox', { name: 'Search skills' }), {
+      target: { value: 'zzzz-no-match' },
+    });
+
+    expect(getAllByTestId('skill-card')).toHaveLength(5);
+    expect(getByText('No skills match your search.')).toBeTruthy();
+    expect(getByText('Kubernetes')).toBeTruthy();
+  });
+
+  it('uses the full empty message only when no local skills are supplied', () => {
+    const { getByText } = render(
+      <MobileSkillsPage highlightedSkills={[]} skills={[]} />,
+    );
+
+    expect(getByText('No skills have been supplied.')).toBeTruthy();
+    expect(getByText('No highlighted skills have been supplied.')).toBeTruthy();
+  });
+
+  it('accepts supplied skills while preserving supplied highlighted skills', () => {
+    const suppliedSkills = skills.filter((skill) => skill.id === 'react');
+
+    const { getAllByTestId, getByText, queryByText } = render(
+      <MobileSkillsPage
+        highlightedSkills={highlightedSkills}
+        skills={suppliedSkills}
+      />,
+    );
+
+    expect(getAllByTestId('skill-card')).toHaveLength(5);
+    expect(getByText('React')).toBeTruthy();
+    expect(getByText('Kubernetes')).toBeTruthy();
+    expect(queryByText('TypeScript')).toBeNull();
+  });
+});
