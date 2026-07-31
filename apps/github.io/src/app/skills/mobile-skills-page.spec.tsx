@@ -68,10 +68,10 @@ describe('MobileSkillsPage', () => {
 
     expect(within(carousel).queryByText('Container')).toBeNull();
     expect(
-      within(carousel).queryByText(
+      within(carousel).getByText(
         'Cloud-native workload operations, troubleshooting, and infrastructure practice backed by Kubernetes certification evidence.',
       ),
-    ).toBeNull();
+    ).toBeTruthy();
     expect(within(list).queryByText('Language')).toBeNull();
     expect(queryByText('TypeScript')).toBeTruthy();
   });
