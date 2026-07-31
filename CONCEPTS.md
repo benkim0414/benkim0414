@@ -48,6 +48,12 @@ A named spacing step from the Astryx design scale, used through Astryx component
 
 Astryx Spacing Tokens let visual spacing feedback stay inside the design system: the numeric prop identifies a token step, while the token defines the rendered size.
 
+### Astryx Component Contract
+
+The verified public API for an Astryx component, including its props, named sizes, slots, accessibility labels, and default ownership boundaries.
+
+Astryx Component Contracts are the source of truth for local wrappers: wrappers should express supported behavior through Astryx props before adding StyleX, Tailwind, or scoped CSS overrides.
+
 ### Certification Citation
 
 A reusable certification link presentation that uses Astryx Citation styling while deriving status and visual accents from the certification's linked skills.
