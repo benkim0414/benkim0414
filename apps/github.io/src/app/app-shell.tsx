@@ -1,17 +1,95 @@
+import { useMemo, useState } from 'react';
 import { Theme } from '@astryxdesign/core';
-import { TopNav, TopNavHeading } from '@astryxdesign/core/TopNav';
+import {
+  CommandPalette,
+  CommandPaletteInput,
+} from '@astryxdesign/core/CommandPalette';
+import { Icon } from '@astryxdesign/core/Icon';
+import { IconButton } from '@astryxdesign/core/IconButton';
+import { VStack } from '@astryxdesign/core/Layout';
+import { Text } from '@astryxdesign/core/Text';
+import { TopNav } from '@astryxdesign/core/TopNav';
+import { createStaticSource } from '@astryxdesign/core/Typeahead';
 import { VisuallyHidden } from '@astryxdesign/core/VisuallyHidden';
 import { neutralTheme } from '@astryxdesign/theme-neutral/built';
 
 import { MobileSkillsPage } from './skills/mobile-skills-page';
+import { skills } from './skills/skill-list.data';
+import type { Skill } from './skills/skill-list.types';
+
+interface SkillCommandItem {
+  id: string;
+  label: string;
+  auxiliaryData: Skill;
+}
 
 export function AppShell() {
+  const [isSearchOpen, setIsSearchOpen] = useState(false);
+  const [selectedSkillId, setSelectedSkillId] = useState('');
+  const skillCommandItems = useMemo<SkillCommandItem[]>(
+    () =>
+      skills.map((skill) => ({
+        id: skill.id,
+        label: skill.name,
+        auxiliaryData: skill,
+      })),
+    [],
+  );
+  const skillSearchSource = useMemo(
+    () =>
+      createStaticSource(skillCommandItems, {
+        keywords: (item) => [
+          item.auxiliaryData.description,
+          ...item.auxiliaryData.categories,
+          ...item.auxiliaryData.keywords,
+        ],
+      }),
+    [skillCommandItems],
+  );
+  const visibleSkills =
+    selectedSkillId.length === 0
+      ? skills
+      : skills.filter((skill) => skill.id === selectedSkillId);
+
   return (
     <Theme theme={neutralTheme}>
       <div className="mx-auto min-h-screen w-full max-w-md">
         <TopNav
+          className="sticky top-0 z-10 bg-[var(--color-background-surface)]"
+          endContent={
+            <IconButton
+              icon={<Icon color="inherit" icon="search" size="sm" />}
+              label="Search skills"
+              size="sm"
+              variant="ghost"
+              onClick={() => setIsSearchOpen(true)}
+            />
+          }
           label="Mobile navigation"
-          heading={<TopNavHeading heading="Ben Kim" subheading="Skills" />}
+        />
+        <CommandPalette
+          isOpen={isSearchOpen}
+          input={
+            <CommandPaletteInput
+              aria-label="Search skills"
+              placeholder="Search skills"
+            />
+          }
+          label="Search skills"
+          maxHeight="min(80vh, 480px)"
+          searchSource={skillSearchSource}
+          value={selectedSkillId}
+          width="calc(100vw - 32px)"
+          emptyBootstrapText="No skills"
+          emptySearchText="No skills"
+          renderItem={(item) => (
+            <VStack gap={0}>
+              <Text>{item.label}</Text>
+              <Text type="supporting">Skills</Text>
+            </VStack>
+          )}
+          onOpenChange={setIsSearchOpen}
+          onValueChange={setSelectedSkillId}
         />
         <main
           aria-labelledby="skills-page-title"
@@ -21,7 +99,7 @@ export function AppShell() {
             Skills
           </VisuallyHidden>
 
-          <MobileSkillsPage />
+          <MobileSkillsPage skills={visibleSkills} />
         </main>
       </div>
     </Theme>
