@@ -75,7 +75,7 @@ export function MobileSkillsPage({
   return (
     <div className="mx-auto h-dvh min-h-screen w-full max-w-md overflow-y-auto">
       <TopNav
-        className="sticky top-0 z-10 bg-[var(--color-background-surface)]"
+        className="fixed left-1/2 top-0 z-50 w-full max-w-md -translate-x-1/2 bg-[var(--color-background-surface)]"
         endContent={
           <IconButton
             icon={<Icon color="inherit" icon="search" size="sm" />}
@@ -107,7 +107,7 @@ export function MobileSkillsPage({
       />
       <main
         aria-labelledby="skills-page-title"
-        className="w-full px-4 py-4"
+        className="w-full px-4 pb-4 pt-16"
       >
         <VisuallyHidden as="h1" id="skills-page-title">
           Skills
