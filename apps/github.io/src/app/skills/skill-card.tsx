@@ -47,18 +47,20 @@ export function SkillCard({ skill }: SkillCardProps): ReactElement {
         data-testid="skill-card"
       >
         <VStack gap={3}>
-          <VStack gap={1} hAlign="start">
+          <VStack gap={2} hAlign="start">
             <HStack gap={1} wrap="wrap">
               {skill.categories.map((category) => (
                 <SkillCategory key={category} name={category} />
               ))}
             </HStack>
-            <Heading id={titleId} level={4} accessibilityLevel={3}>
-              {skill.name}
-            </Heading>
-            <Text type="supporting" as="p">
-              {skill.description}
-            </Text>
+            <VStack gap={1} hAlign="start">
+              <Heading id={titleId} level={4} accessibilityLevel={3}>
+                {skill.name}
+              </Heading>
+              <Text type="supporting" as="p">
+                {skill.description}
+              </Text>
+            </VStack>
           </VStack>
 
           {certifications.length > 0 ? (
