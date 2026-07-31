@@ -20,6 +20,17 @@ vi.stubGlobal(
   },
 );
 
+vi.stubGlobal('matchMedia', (query: string) => ({
+  addEventListener: vi.fn(),
+  addListener: vi.fn(),
+  dispatchEvent: vi.fn(),
+  matches: false,
+  media: query,
+  onchange: null,
+  removeEventListener: vi.fn(),
+  removeListener: vi.fn(),
+}));
+
 describe('App', () => {
   it('renders the mobile-only skills page successfully', () => {
     const { getAllByTestId, getByLabelText, getByRole, getByText } = render(
@@ -28,6 +39,9 @@ describe('App', () => {
     const main = getByRole('main', { name: 'Skills' });
 
     expect(main.className).toContain('max-w-md');
+    expect(getByRole('navigation', { name: 'Mobile navigation' }))
+      .toBeTruthy();
+    expect(getByText('Ben Kim')).toBeTruthy();
     expect(getByRole('heading', { level: 1, name: 'Skills' })).toBeTruthy();
     expect(getByRole('search', { name: 'Skill search' })).toBeTruthy();
     expect(getByRole('combobox', { name: 'Search skills' })).toBeTruthy();
