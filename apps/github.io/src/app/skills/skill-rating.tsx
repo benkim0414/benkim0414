@@ -37,8 +37,8 @@ const styles = stylex.create({
   },
   star: {
     display: 'block',
-    width: spacingVars['--spacing-2'],
-    height: spacingVars['--spacing-2'],
+    width: spacingVars['--spacing-3'],
+    height: spacingVars['--spacing-3'],
     flex: '0 0 auto',
     color: colorVars['--color-icon-yellow'],
   },

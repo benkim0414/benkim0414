@@ -22,14 +22,14 @@ vi.mock('@heroicons/react/24/outline', () => ({
 }));
 
 describe('SkillRating', () => {
-  it('uses half-size stars from the Astryx spacing scale', () => {
+  it('uses three-quarter-size stars from the Astryx spacing scale', () => {
     const sourcePath = existsSync('src/app/skills/skill-rating.tsx')
       ? 'src/app/skills/skill-rating.tsx'
       : 'apps/github.io/src/app/skills/skill-rating.tsx';
     const source = readFileSync(sourcePath, 'utf8');
 
-    expect(source).toContain("width: spacingVars['--spacing-2']");
-    expect(source).toContain("height: spacingVars['--spacing-2']");
+    expect(source).toContain("width: spacingVars['--spacing-3']");
+    expect(source).toContain("height: spacingVars['--spacing-3']");
   });
 
   it('renders desktop stars and compact supporting rating text separately', () => {
