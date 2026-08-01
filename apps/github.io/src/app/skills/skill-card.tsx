@@ -54,7 +54,7 @@ export function SkillCard({ skill }: SkillCardProps): ReactElement {
                 <SkillCategory key={category} name={category} />
               ))}
             </HStack>
-            <VStack gap={1} hAlign="start">
+            <VStack gap={2} hAlign="start">
               <VStack
                 gap={0.5}
                 hAlign="start"
@@ -72,22 +72,16 @@ export function SkillCard({ skill }: SkillCardProps): ReactElement {
           </VStack>
 
           {certifications.length > 0 ? (
-            <VStack gap={1} hAlign="start">
-              <Text type="supporting">Certifications</Text>
-              <ul {...stylex.props(styles.citationList)}>
-                {certifications.map((certification, index) => (
-                  <li
-                    {...stylex.props(styles.citationItem)}
-                    key={`${certification.title}-${certification.url}-${certification.expiresAt}`}
-                  >
-                    <CertificationCitation
-                      {...certification}
-                      number={index + 1}
-                    />
-                  </li>
-                ))}
-              </ul>
-            </VStack>
+            <ul {...stylex.props(styles.citationList)}>
+              {certifications.map((certification, index) => (
+                <li
+                  {...stylex.props(styles.citationItem)}
+                  key={`${certification.title}-${certification.url}-${certification.expiresAt}`}
+                >
+                  <CertificationCitation {...certification} number={index + 1} />
+                </li>
+              ))}
+            </ul>
           ) : null}
         </VStack>
       </article>
