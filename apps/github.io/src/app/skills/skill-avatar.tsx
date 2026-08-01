@@ -1,4 +1,6 @@
+import * as stylex from '@stylexjs/stylex';
 import { Avatar } from '@astryxdesign/core/Avatar';
+import { radiusVars } from '@astryxdesign/core/theme/tokens.stylex';
 import {
   siArgo,
   siClaudecode,
@@ -22,9 +24,19 @@ import {
 
 import type { Skill } from './skill-list.types';
 
+export type SkillAvatarVariant = 'list' | 'card';
+
 interface SkillAvatarProps {
   skill: Skill;
+  variant?: SkillAvatarVariant;
 }
+
+const styles = stylex.create({
+  cardTile: {
+    borderRadius: radiusVars['--radius-element'],
+    overflow: 'hidden',
+  },
+});
 
 function svgDataUrl(content: string) {
   return `data:image/svg+xml,${encodeURIComponent(content)}`;
@@ -66,13 +78,17 @@ function skillAvatarPresentation(iconSlug: string) {
   return undefined;
 }
 
-export function SkillAvatar({ skill }: SkillAvatarProps) {
+export function SkillAvatar({ skill, variant = 'list' }: SkillAvatarProps) {
+  const isCard = variant === 'card';
+
   return (
     <Avatar
-      className="flex-none"
+      className={isCard ? 'flex-none skill-card-logo-tile' : 'flex-none'}
+      data-skill-avatar-variant={variant}
       name={skill.name}
-      size="xsmall"
+      size={isCard ? 'small' : 'xsmall'}
       src={skillAvatarPresentation(skill.iconSlug)}
+      xstyle={isCard && styles.cardTile}
     />
   );
 }

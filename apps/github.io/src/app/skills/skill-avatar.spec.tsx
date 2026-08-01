@@ -135,4 +135,48 @@ describe('SkillAvatar', () => {
     expect(content.style.getPropertyValue('--x-width')).toBe('24px');
     expect(content.style.getPropertyValue('--x-height')).toBe('24px');
   });
+
+  it('renders the card variant as a 36px logo tile', () => {
+    const typeScript = sampleSkills.find((skill) => skill.id === 'typescript');
+
+    expect(typeScript).toBeTruthy();
+
+    const { getByRole } = render(
+      <SkillAvatar skill={typeScript!} variant="card" />,
+    );
+    const avatar = getByRole('img', { name: 'TypeScript' });
+    const content = avatar.firstElementChild as HTMLElement;
+
+    expect(avatar.getAttribute('data-skill-avatar-variant')).toBe('card');
+    expect(avatar.getAttribute('data-size')).toBe('small');
+    expect(content.style.getPropertyValue('--x-width')).toBe('36px');
+    expect(content.style.getPropertyValue('--x-height')).toBe('36px');
+  });
+
+  it('uses a rounded rectangle mask for the card variant', () => {
+    const typeScript = sampleSkills.find((skill) => skill.id === 'typescript');
+
+    expect(typeScript).toBeTruthy();
+
+    const { getByRole } = render(
+      <SkillAvatar skill={typeScript!} variant="card" />,
+    );
+    const avatar = getByRole('img', { name: 'TypeScript' });
+
+    expect(avatar.className).toContain('skill-card-logo-tile');
+  });
+
+  it('keeps card variant fallback initials when the logo source is unavailable', () => {
+    const skill = {
+      ...sampleSkills[0],
+      iconSlug: 'missing-logo',
+      name: 'Unknown Skill',
+    };
+    const { getByRole, getByText } = render(
+      <SkillAvatar skill={skill} variant="card" />,
+    );
+
+    expect(getByRole('img', { name: 'Unknown Skill' })).toBeTruthy();
+    expect(getByText('US')).toBeTruthy();
+  });
 });
