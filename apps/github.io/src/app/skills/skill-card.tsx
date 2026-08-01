@@ -8,6 +8,7 @@ import { useId, type ReactElement } from 'react';
 
 import { CertificationCitation } from '../certifications/certification-citation';
 import { SkillCategory } from './skill-category';
+import { SkillRating } from './skill-rating';
 import type { Skill, SkillSurfaceVariant } from './skill-list.types';
 
 export interface SkillCardProps {
@@ -72,6 +73,7 @@ export function SkillCard({
               <Heading id={titleId} level={4} accessibilityLevel={3}>
                 {skill.name}
               </Heading>
+              <SkillRating level={skill.level} />
               <Text type="supporting" as="p">
                 {skill.description}
               </Text>
