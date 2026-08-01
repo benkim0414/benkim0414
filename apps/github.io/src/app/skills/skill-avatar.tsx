@@ -1,4 +1,6 @@
 import { Avatar } from '@astryxdesign/core/Avatar';
+import { radiusVars } from '@astryxdesign/core/theme/tokens.stylex';
+import type { CSSProperties } from 'react';
 import {
   siArgo,
   siClaudecode,
@@ -21,6 +23,12 @@ import {
 } from 'simple-icons';
 
 import type { Skill } from './skill-list.types';
+
+export type SkillAvatarShape = 'circle' | 'rectangle';
+
+const rectangleMaskStyle = {
+  '--radius-full': radiusVars['--radius-element'],
+} as CSSProperties;
 
 function svgDataUrl(content: string) {
   return `data:image/svg+xml,${encodeURIComponent(content)}`;
@@ -62,13 +70,23 @@ function skillAvatarPresentation(iconSlug: string) {
   return undefined;
 }
 
-export function SkillAvatar({ skill }: { skill: Skill }) {
+export function SkillAvatar({
+  shape = 'circle',
+  skill,
+}: {
+  shape?: SkillAvatarShape;
+  skill: Skill;
+}) {
+  const isRectangle = shape === 'rectangle';
+
   return (
     <Avatar
-      className="flex-none"
+      className={isRectangle ? 'flex-none skill-avatar-rectangle' : 'flex-none'}
+      data-skill-avatar-shape={shape}
       name={skill.name}
       size="xsmall"
       src={skillAvatarPresentation(skill.iconSlug)}
+      style={isRectangle ? rectangleMaskStyle : undefined}
     />
   );
 }
