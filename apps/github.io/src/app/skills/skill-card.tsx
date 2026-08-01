@@ -60,28 +60,34 @@ export function SkillCard({ skill }: SkillCardProps): ReactElement {
                 hAlign="start"
                 data-testid="skill-card-title-rating"
               >
-                <Heading id={titleId} level={4} accessibilityLevel={3}>
+                <Heading id={titleId} level={3}>
                   {skill.name}
                 </Heading>
                 <SkillRating level={skill.level} />
               </VStack>
-              <Text type="supporting" as="p">
+              <Text type="body" color="secondary" as="p">
                 {skill.description}
               </Text>
             </VStack>
           </VStack>
 
           {certifications.length > 0 ? (
-            <ul {...stylex.props(styles.citationList)}>
-              {certifications.map((certification, index) => (
-                <li
-                  {...stylex.props(styles.citationItem)}
-                  key={`${certification.title}-${certification.url}-${certification.expiresAt}`}
-                >
-                  <CertificationCitation {...certification} number={index + 1} />
-                </li>
-              ))}
-            </ul>
+            <VStack gap={1} hAlign="start">
+              <Text type="supporting">Certifications</Text>
+              <ul {...stylex.props(styles.citationList)}>
+                {certifications.map((certification, index) => (
+                  <li
+                    {...stylex.props(styles.citationItem)}
+                    key={`${certification.title}-${certification.url}-${certification.expiresAt}`}
+                  >
+                    <CertificationCitation
+                      {...certification}
+                      number={index + 1}
+                    />
+                  </li>
+                ))}
+              </ul>
+            </VStack>
           ) : null}
         </VStack>
       </article>
