@@ -40,6 +40,12 @@ describe('SkillCard', () => {
     ).toBeTruthy();
   });
 
+  it('renders the skill rating as accessible star metadata', () => {
+    const { getByText } = render(<SkillCard skill={baseSkill} />);
+
+    expect(getByText('4 out of 5')).toBeTruthy();
+  });
+
   it('renders every skill category before the skill title', () => {
     const { getByText, getByRole } = render(<SkillCard skill={baseSkill} />);
 
