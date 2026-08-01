@@ -124,7 +124,7 @@ describe('SkillCard', () => {
   });
 
   it('renders multiple certification citations at the bottom of the card', () => {
-    const { getAllByTestId, getByRole, getByText } = render(
+    const { getAllByTestId, getByRole, queryByText } = render(
       <SkillCard
         skill={{
           ...baseSkill,
@@ -152,15 +152,7 @@ describe('SkillCard', () => {
       />,
     );
 
-    const certificationLabel = getByText('Certifications');
-
-    expect(certificationLabel).toBeTruthy();
-    expect(
-      certificationLabel.closest('.astryx-text')?.getAttribute('data-type'),
-    ).toBe('supporting');
-    expect(
-      certificationLabel.closest('.astryx-text')?.getAttribute('data-color'),
-    ).toBe('secondary');
+    expect(queryByText('Certifications')).toBeNull();
     expect(getAllByTestId('certification-citation')).toHaveLength(3);
     expect(getByRole('doc-noteref', { name: 'Citation 1: KCNA' })).toBeTruthy();
     expect(getByRole('doc-noteref', { name: 'Citation 2: CKA' })).toBeTruthy();
