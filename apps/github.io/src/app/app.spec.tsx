@@ -60,13 +60,12 @@ describe('App', () => {
     expect(mobileShell?.className).toContain('max-w-md');
     expect(mobileShell?.className).toContain('h-dvh');
     expect(mobileShell?.className).toContain('min-h-screen');
-    expect(mobileShell?.className).toContain('overflow-y-auto');
+    expect(mobileShell?.className).toContain('flex');
+    expect(mobileShell?.className).toContain('overflow-hidden');
     expect(main.className).not.toContain('min-h-screen');
-    expect(navigation.className).toContain('fixed');
-    expect(navigation.className).toContain('left-1/2');
-    expect(navigation.className).toContain('top-0');
-    expect(navigation.className).toContain('z-50');
-    expect(main.className).toContain('pt-16');
+    expect(navigation.className).toContain('shrink-0');
+    expect(main.className).toContain('flex-1');
+    expect(main.className).toContain('overflow-y-auto');
     expect(navigation).toBeTruthy();
     expect(queryByText('Ben Kim')).toBeNull();
     expect(queryByRole('search', { name: 'Skill search' })).toBeNull();

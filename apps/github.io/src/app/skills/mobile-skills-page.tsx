@@ -73,9 +73,9 @@ export function MobileSkillsPage({
       : 'No skills match your search.';
 
   return (
-    <div className="mx-auto h-dvh min-h-screen w-full max-w-md overflow-y-auto">
+    <div className="mx-auto flex h-dvh min-h-screen w-full max-w-md flex-col overflow-hidden">
       <TopNav
-        className="fixed left-1/2 top-0 z-50 w-full max-w-md -translate-x-1/2 bg-[var(--color-background-surface)]"
+        className="shrink-0 bg-[var(--color-background-surface)]"
         endContent={
           <IconButton
             icon={<Icon color="inherit" icon="search" size="sm" />}
@@ -99,28 +99,29 @@ export function MobileSkillsPage({
         maxHeight="min(80vh, 480px)"
         searchSource={skillSearchSource}
         value={selectedSkillId}
-        width="calc(100vw - 32px)"
+        width="min(calc(100vw - 32px), 448px)"
         emptyBootstrapText="No skills"
         emptySearchText="No skills"
         onOpenChange={setIsSearchOpen}
         onValueChange={setSelectedSkillId}
       />
+      <div className="shrink-0 bg-[var(--color-background-surface)] px-4 pb-4">
+        <SkillCarousel
+          ariaLabel="Highlighted skills"
+          emptyMessage="No highlighted skills have been supplied."
+          skills={highlightedSkills}
+          variant="compact"
+        />
+      </div>
       <main
         aria-labelledby="skills-page-title"
-        className="w-full px-4 pb-4 pt-16"
+        className="min-h-0 flex-1 overflow-y-auto px-4 pb-4"
       >
         <VisuallyHidden as="h1" id="skills-page-title">
           Skills
         </VisuallyHidden>
 
-        <VStack gap={4}>
-          <SkillCarousel
-            ariaLabel="Highlighted skills"
-            emptyMessage="No highlighted skills have been supplied."
-            skills={highlightedSkills}
-            variant="compact"
-          />
-
+        <VStack gap={3}>
           <SkillCardList
             emptyMessage={listEmptyMessage}
             heading="Skills"
