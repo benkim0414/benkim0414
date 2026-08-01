@@ -68,6 +68,12 @@ describe('SkillCard', () => {
     expect(titleRatingGroup.contains(description)).toBe(false);
   });
 
+  it('renders the skill rating as accessible star metadata', () => {
+    const { getByText } = render(<SkillCard skill={baseSkill} />);
+
+    expect(getByText('4 out of 5')).toBeTruthy();
+  });
+
   it('renders every skill category before the skill title', () => {
     const { getByText, getByRole } = render(<SkillCard skill={baseSkill} />);
 
@@ -81,6 +87,21 @@ describe('SkillCard', () => {
     expect(cloudCategory.compareDocumentPosition(title)).toBe(
       Node.DOCUMENT_POSITION_FOLLOWING,
     );
+  });
+
+  it('renders compact cards without category badges', () => {
+    const { getByRole, getByText, queryByText } = render(
+      <SkillCard skill={baseSkill} variant="compact" />,
+    );
+
+    expect(getByRole('heading', { name: 'Kubernetes' })).toBeTruthy();
+    expect(queryByText('Container')).toBeNull();
+    expect(queryByText('Cloud')).toBeNull();
+    expect(
+      getByText(
+        'Container orchestration for deploying, scaling, and operating cloud-native workloads.',
+      ),
+    ).toBeTruthy();
   });
 
   it('keeps the compact title as the accessible card label', () => {
