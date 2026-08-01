@@ -27,17 +27,22 @@ describe('SkillCard', () => {
   it('renders the skill name as the title', () => {
     const { getByRole } = render(<SkillCard skill={baseSkill} />);
 
-    expect(getByRole('heading', { name: 'Kubernetes' })).toBeTruthy();
+    expect(getByRole('heading', { name: 'Kubernetes', level: 3 })).toBeTruthy();
   });
 
-  it('renders the skill description as supporting text', () => {
+  it('renders the skill description as secondary body text', () => {
     const { getByText } = render(<SkillCard skill={baseSkill} />);
 
-    expect(
-      getByText(
-        'Container orchestration for deploying, scaling, and operating cloud-native workloads.',
-      ),
-    ).toBeTruthy();
+    const description = getByText(
+      'Container orchestration for deploying, scaling, and operating cloud-native workloads.',
+    );
+
+    expect(description.closest('.astryx-text')?.getAttribute('data-type')).toBe(
+      'body',
+    );
+    expect(description.closest('.astryx-text')?.getAttribute('data-color')).toBe(
+      'secondary',
+    );
   });
 
   it('renders the skill rating after the title and before the description', () => {
@@ -110,15 +115,16 @@ describe('SkillCard', () => {
   });
 
   it('omits certification citations when the skill has no certifications', () => {
-    const { container } = render(<SkillCard skill={baseSkill} />);
+    const { container, queryByText } = render(<SkillCard skill={baseSkill} />);
 
     expect(
       container.querySelector('[data-testid="certification-citation"]'),
     ).toBeNull();
+    expect(queryByText('Certifications')).toBeNull();
   });
 
   it('renders multiple certification citations at the bottom of the card', () => {
-    const { getByRole, getAllByTestId } = render(
+    const { getAllByTestId, getByRole, getByText } = render(
       <SkillCard
         skill={{
           ...baseSkill,
@@ -146,6 +152,15 @@ describe('SkillCard', () => {
       />,
     );
 
+    const certificationLabel = getByText('Certifications');
+
+    expect(certificationLabel).toBeTruthy();
+    expect(
+      certificationLabel.closest('.astryx-text')?.getAttribute('data-type'),
+    ).toBe('supporting');
+    expect(
+      certificationLabel.closest('.astryx-text')?.getAttribute('data-color'),
+    ).toBe('secondary');
     expect(getAllByTestId('certification-citation')).toHaveLength(3);
     expect(getByRole('doc-noteref', { name: 'Citation 1: KCNA' })).toBeTruthy();
     expect(getByRole('doc-noteref', { name: 'Citation 2: CKA' })).toBeTruthy();
