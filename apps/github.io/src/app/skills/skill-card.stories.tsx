@@ -27,3 +27,16 @@ export const WithMultipleCertifications: Story = {
     skill: kubernetes,
   },
 };
+
+export const CompactFullWidth: Story = {
+  args: {
+    isFullWidth: true,
+    skill: typeScript,
+    variant: 'compact',
+  },
+  parameters: {
+    viewport: {
+      defaultViewport: 'mobile1',
+    },
+  },
+};
