@@ -1,11 +1,63 @@
-import type { ComponentProps } from 'react';
-import { render, within } from '@testing-library/react';
+import type { ComponentProps, ReactNode } from 'react';
+import { fireEvent, render, waitFor, within } from '@testing-library/react';
 import { Theme } from '@astryxdesign/core';
 import { neutralTheme } from '@astryxdesign/theme-neutral/built';
 import { vi } from 'vitest';
 
 import { MobileSkillsPage } from './mobile-skills-page';
 import { highlightedSkills, skills } from './skill-list.data';
+
+vi.mock('@astryxdesign/core/CommandPalette', () => ({
+  CommandPalette: ({
+    isOpen,
+    input,
+    label,
+    renderItem,
+    searchSource,
+  }: {
+    isOpen: boolean;
+    input: ReactNode;
+    label: string;
+    renderItem: (item: {
+      id: string;
+      auxiliaryData: { group: string };
+    }) => ReactNode;
+    searchSource: {
+      bootstrap: () => Array<{
+        id: string;
+        auxiliaryData: { group: string };
+      }>;
+    };
+  }) => {
+    if (!isOpen) {
+      return null;
+    }
+
+    const items = searchSource.bootstrap();
+    const groups = [...new Set(items.map((item) => item.auxiliaryData.group))];
+
+    return (
+      <div aria-label={label} role="dialog">
+        {input}
+        <div role="listbox">
+          {groups.map((group) => (
+            <div key={group}>
+              <div>{group}</div>
+              {items
+                .filter((item) => item.auxiliaryData.group === group)
+                .map((item) => (
+                  <div key={item.id}>{renderItem(item)}</div>
+                ))}
+            </div>
+          ))}
+        </div>
+      </div>
+    );
+  },
+  CommandPaletteInput: (props: ComponentProps<'input'>) => (
+    <input aria-controls="command-results" aria-expanded role="combobox" {...props} />
+  ),
+}));
 
 vi.stubGlobal(
   'ResizeObserver',
@@ -117,6 +169,28 @@ describe('MobileSkillsPage', () => {
     ).toBeTruthy();
     expect(within(list).queryByText('Language')).toBeNull();
     expect(queryByText('TypeScript')).toBeTruthy();
+  });
+
+  it('renders a 24px avatar before each skill command result', async () => {
+    const { getByRole } = renderMobileSkillsPage();
+
+    fireEvent.click(getByRole('button', { name: 'Search skills' }));
+
+    const dialog = getByRole('dialog', { name: 'Search skills' });
+
+    await waitFor(() => {
+      expect(within(dialog).getByText('Skills')).toBeTruthy();
+      expect(
+        within(dialog).getByRole('img', { name: 'Kubernetes' }),
+      ).toBeTruthy();
+    });
+
+    const avatar = within(dialog).getByRole('img', { name: 'Kubernetes' });
+    const content = avatar.firstElementChild as HTMLElement;
+
+    expect(avatar.getAttribute('data-size')).toBe('xsmall');
+    expect(content.style.getPropertyValue('--x-width')).toBe('24px');
+    expect(content.style.getPropertyValue('--x-height')).toBe('24px');
   });
 
   it('uses the full empty message only when no local skills are supplied', () => {
