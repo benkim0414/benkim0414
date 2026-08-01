@@ -54,17 +54,16 @@ describe('MobileSkillsPage', () => {
     expect(mobileShell).toBe(navigation.parentElement);
     expect(mobileShell?.className).toContain('max-w-md');
     expect(mobileShell?.className).toContain('h-dvh');
-    expect(mobileShell?.className).toContain('overflow-y-auto');
-    expect(navigation.className).toContain('fixed');
-    expect(navigation.className).toContain('left-1/2');
-    expect(navigation.className).toContain('top-0');
-    expect(navigation.className).toContain('z-50');
-    expect(main.className).toContain('pt-16');
+    expect(mobileShell?.className).toContain('flex');
+    expect(mobileShell?.className).toContain('overflow-hidden');
+    expect(navigation.className).toContain('shrink-0');
+    expect(main.className).toContain('flex-1');
+    expect(main.className).toContain('overflow-y-auto');
     expect(getByRole('button', { name: 'Search skills' })).toBeTruthy();
     expect(queryByRole('combobox', { name: 'Search skills' })).toBeNull();
   });
 
-  it('renders fixed highlighted carousel above the full skills list', () => {
+  it('keeps highlighted carousel above the scrollable full skills list', () => {
     const { getAllByTestId, getByLabelText, getByRole, getByText } =
       renderMobileSkillsPage();
     const carousel = getByLabelText('Highlighted skills');
@@ -73,6 +72,7 @@ describe('MobileSkillsPage', () => {
     expect(list.compareDocumentPosition(carousel)).toBe(
       Node.DOCUMENT_POSITION_PRECEDING,
     );
+    expect(carousel.parentElement?.className).toContain('shrink-0');
     expect(carousel).toBeTruthy();
     expect(within(carousel).getAllByTestId('skill-card')).toHaveLength(5);
     expect(within(list).getAllByTestId('skill-card')).toHaveLength(
