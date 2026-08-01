@@ -1,6 +1,7 @@
 import * as stylex from '@stylexjs/stylex';
 import { Avatar } from '@astryxdesign/core/Avatar';
 import { radiusVars } from '@astryxdesign/core/theme/tokens.stylex';
+import { useState } from 'react';
 import {
   siArgo,
   siClaudecode,
@@ -33,8 +34,26 @@ interface SkillAvatarProps {
 
 const styles = stylex.create({
   cardTile: {
+    alignItems: 'center',
     borderRadius: radiusVars['--radius-element'],
+    display: 'flex',
+    flexShrink: 0,
+    height: '36px',
+    justifyContent: 'center',
     overflow: 'hidden',
+    width: '36px',
+  },
+  cardImage: {
+    height: '100%',
+    objectFit: 'cover',
+    width: '100%',
+  },
+  cardFallback: {
+    alignItems: 'center',
+    display: 'flex',
+    height: '100%',
+    justifyContent: 'center',
+    width: '100%',
   },
 });
 
@@ -78,17 +97,53 @@ function skillAvatarPresentation(iconSlug: string) {
   return undefined;
 }
 
+function skillInitials(name: string) {
+  const words = name.trim().split(/\s+/);
+
+  if (words.length === 1) {
+    return words[0].charAt(0).toUpperCase();
+  }
+
+  return (words[0].charAt(0) + words[words.length - 1].charAt(0)).toUpperCase();
+}
+
 export function SkillAvatar({ skill, variant = 'list' }: SkillAvatarProps) {
   const isCard = variant === 'card';
+  const source = skillAvatarPresentation(skill.iconSlug);
+  const [imageFailed, setImageFailed] = useState(false);
+
+  if (isCard) {
+    return (
+      <div
+        {...stylex.props(styles.cardTile)}
+        aria-label={skill.name}
+        className="flex-none skill-card-logo-tile"
+        data-skill-avatar-variant={variant}
+        role="img"
+      >
+        {source && !imageFailed ? (
+          <img
+            {...stylex.props(styles.cardImage)}
+            alt=""
+            onError={() => setImageFailed(true)}
+            src={source}
+          />
+        ) : (
+          <span {...stylex.props(styles.cardFallback)}>
+            {skillInitials(skill.name)}
+          </span>
+        )}
+      </div>
+    );
+  }
 
   return (
     <Avatar
-      className={isCard ? 'flex-none skill-card-logo-tile' : 'flex-none'}
+      className="flex-none"
       data-skill-avatar-variant={variant}
       name={skill.name}
-      size={isCard ? 'small' : 'xsmall'}
-      src={skillAvatarPresentation(skill.iconSlug)}
-      xstyle={isCard && styles.cardTile}
+      size="xsmall"
+      src={source}
     />
   );
 }
