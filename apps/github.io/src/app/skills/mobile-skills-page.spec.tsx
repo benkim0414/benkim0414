@@ -74,7 +74,10 @@ describe('MobileSkillsPage', () => {
       Node.DOCUMENT_POSITION_PRECEDING,
     );
     expect(carousel).toBeTruthy();
-    expect(getAllByTestId('skill-card')).toHaveLength(5);
+    expect(within(carousel).getAllByTestId('skill-card')).toHaveLength(5);
+    expect(within(list).getAllByTestId('skill-card')).toHaveLength(
+      skills.length,
+    );
 
     expect(list).toBeTruthy();
     [
@@ -135,7 +138,7 @@ describe('MobileSkillsPage', () => {
         skills: suppliedSkills,
       });
 
-    expect(getAllByTestId('skill-card')).toHaveLength(5);
+    expect(getAllByTestId('skill-card')).toHaveLength(6);
     expect(getByText('React')).toBeTruthy();
     expect(getByText('Kubernetes')).toBeTruthy();
     expect(queryByText('TypeScript')).toBeNull();

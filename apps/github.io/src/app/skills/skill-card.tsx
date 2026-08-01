@@ -11,6 +11,7 @@ import { SkillCategory } from './skill-category';
 import type { Skill, SkillSurfaceVariant } from './skill-list.types';
 
 export interface SkillCardProps {
+  isFullWidth?: boolean;
   skill: Skill;
   variant?: SkillSurfaceVariant;
 }
@@ -22,6 +23,9 @@ const styles = stylex.create({
       default: `calc(${spacingVars['--spacing-12']} * 7)`,
       '@media (max-width: 640px)': `calc(${spacingVars['--spacing-12']} * 5)`,
     },
+  },
+  fullWidth: {
+    width: '100%',
   },
   citationList: {
     display: 'flex',
@@ -38,6 +42,7 @@ const styles = stylex.create({
 });
 
 export function SkillCard({
+  isFullWidth = false,
   skill,
   variant = 'default',
 }: SkillCardProps): ReactElement {
@@ -46,7 +51,10 @@ export function SkillCard({
   const titleId = useId();
 
   return (
-    <Card padding={4} xstyle={styles.root}>
+    <Card
+      padding={4}
+      xstyle={[styles.root, isFullWidth && styles.fullWidth]}
+    >
       <article
         aria-labelledby={titleId}
         data-testid="skill-card"
