@@ -26,3 +26,21 @@ export const InitialsFallback: Story = {
     },
   },
 };
+
+export const CardLogoTile: Story = {
+  args: {
+    skill: sampleSkills[0],
+    variant: 'card',
+  },
+};
+
+export const CardInitialsFallback: Story = {
+  args: {
+    skill: {
+      ...sampleSkills[0],
+      iconSlug: 'missing-logo',
+      name: 'Unknown Skill',
+    },
+    variant: 'card',
+  },
+};
