@@ -139,31 +139,49 @@ describe('SkillAvatar', () => {
   it('renders the card variant as a 36px logo tile', () => {
     const typeScript = sampleSkills.find((skill) => skill.id === 'typescript');
 
-    expect(typeScript).toBeTruthy();
+    if (!typeScript) {
+      throw new Error('TypeScript sample skill is required for this test');
+    }
 
     const { getByRole } = render(
-      <SkillAvatar skill={typeScript!} variant="card" />,
+      <SkillAvatar skill={typeScript} variant="card" />,
     );
     const avatar = getByRole('img', { name: 'TypeScript' });
-    const content = avatar.firstElementChild as HTMLElement;
+    const image = avatar.firstElementChild;
 
     expect(avatar.getAttribute('data-skill-avatar-variant')).toBe('card');
-    expect(avatar.getAttribute('data-size')).toBe('small');
-    expect(content.style.getPropertyValue('--x-width')).toBe('36px');
-    expect(content.style.getPropertyValue('--x-height')).toBe('36px');
+    expect(avatar.className).toContain('skill-card-logo-tile');
+    expect(image?.tagName).toBe('IMG');
   });
 
   it('uses a rounded rectangle mask for the card variant', () => {
     const typeScript = sampleSkills.find((skill) => skill.id === 'typescript');
 
-    expect(typeScript).toBeTruthy();
+    if (!typeScript) {
+      throw new Error('TypeScript sample skill is required for this test');
+    }
 
     const { getByRole } = render(
-      <SkillAvatar skill={typeScript!} variant="card" />,
+      <SkillAvatar skill={typeScript} variant="card" />,
     );
     const avatar = getByRole('img', { name: 'TypeScript' });
 
     expect(avatar.className).toContain('skill-card-logo-tile');
+  });
+
+  it('renders the card image directly inside the tile instead of Astryx circular content', () => {
+    const typeScript = sampleSkills.find((skill) => skill.id === 'typescript');
+
+    if (!typeScript) {
+      throw new Error('TypeScript sample skill is required for this test');
+    }
+
+    const { getByRole } = render(
+      <SkillAvatar skill={typeScript} variant="card" />,
+    );
+    const avatar = getByRole('img', { name: 'TypeScript' });
+
+    expect(avatar.firstElementChild?.tagName).toBe('IMG');
   });
 
   it('keeps card variant fallback initials when the logo source is unavailable', () => {
