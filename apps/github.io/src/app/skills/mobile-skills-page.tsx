@@ -5,7 +5,8 @@ import {
 } from '@astryxdesign/core/CommandPalette';
 import { Icon } from '@astryxdesign/core/Icon';
 import { IconButton } from '@astryxdesign/core/IconButton';
-import { VStack } from '@astryxdesign/core/Layout';
+import { HStack, VStack } from '@astryxdesign/core/Layout';
+import { Text } from '@astryxdesign/core/Text';
 import { TopNav } from '@astryxdesign/core/TopNav';
 import { createStaticSource } from '@astryxdesign/core/Typeahead';
 import { VisuallyHidden } from '@astryxdesign/core/VisuallyHidden';
@@ -16,6 +17,7 @@ import {
 } from './skill-list.data';
 import { SkillCardList } from './skill-card-list';
 import { SkillCarousel } from './skill-carousel';
+import { SkillAvatar } from './skill-avatar';
 import type { Skill } from './skill-list.types';
 
 interface SkillCommandAuxiliaryData {
@@ -32,6 +34,15 @@ interface SkillCommandItem {
 export interface MobileSkillsPageProps {
   skills?: readonly Skill[];
   highlightedSkills?: readonly Skill[];
+}
+
+function SkillCommandResult({ skill }: { skill: Skill }): ReactElement {
+  return (
+    <HStack gap={2} vAlign="center">
+      <SkillAvatar skill={skill} />
+      <Text type="body">{skill.name}</Text>
+    </HStack>
+  );
 }
 
 export function MobileSkillsPage({
@@ -97,6 +108,9 @@ export function MobileSkillsPage({
         }
         label="Search skills"
         maxHeight="min(80vh, 480px)"
+        renderItem={(item) => (
+          <SkillCommandResult skill={item.auxiliaryData.skill} />
+        )}
         searchSource={skillSearchSource}
         value={selectedSkillId}
         width="min(calc(100vw - 32px), 448px)"

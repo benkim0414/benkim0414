@@ -30,28 +30,10 @@ describe('SkillCard', () => {
     expect(getByRole('heading', { name: 'Kubernetes', level: 3 })).toBeTruthy();
   });
 
-  it('renders the skill logo before the title in the card header', () => {
-    const { getByRole, getByTestId } = render(<SkillCard skill={baseSkill} />);
+  it('does not render a skill logo in the card', () => {
+    const { queryByRole } = render(<SkillCard skill={baseSkill} />);
 
-    const logo = getByRole('img', { name: 'Kubernetes' });
-    const title = getByRole('heading', { name: 'Kubernetes', level: 3 });
-    const header = getByTestId('skill-card-header');
-
-    expect(header.contains(logo)).toBe(true);
-    expect(header.contains(title)).toBe(true);
-    expect(logo.compareDocumentPosition(title)).toBe(
-      Node.DOCUMENT_POSITION_FOLLOWING,
-    );
-  });
-
-  it('uses the card avatar variant for the SkillCard logo', () => {
-    const { getByRole } = render(<SkillCard skill={baseSkill} />);
-
-    expect(
-      getByRole('img', { name: 'Kubernetes' }).getAttribute(
-        'data-skill-avatar-variant',
-      ),
-    ).toBe('card');
+    expect(queryByRole('img', { name: 'Kubernetes' })).toBeNull();
   });
 
   it('renders the skill description as secondary body text', () => {
@@ -69,8 +51,8 @@ describe('SkillCard', () => {
     );
   });
 
-  it('renders the skill rating after the title and before the description', () => {
-    const { getByRole, getByTestId, getByText } = render(
+  it('renders title, rating, and description in order without a card header', () => {
+    const { getByRole, getByTestId, getByText, queryByTestId } = render(
       <SkillCard skill={baseSkill} />,
     );
 
@@ -81,6 +63,7 @@ describe('SkillCard', () => {
     );
     const titleRatingGroup = getByTestId('skill-card-title-rating');
 
+    expect(queryByTestId('skill-card-header')).toBeNull();
     expect(title.compareDocumentPosition(rating)).toBe(
       Node.DOCUMENT_POSITION_FOLLOWING,
     );
