@@ -113,11 +113,13 @@ export function SkillAvatar({ skill, variant = 'list' }: SkillAvatarProps) {
   const [imageFailed, setImageFailed] = useState(false);
 
   if (isCard) {
+    const cardTileProps = stylex.props(styles.cardTile);
+
     return (
       <div
-        {...stylex.props(styles.cardTile)}
+        {...cardTileProps}
         aria-label={skill.name}
-        className="flex-none skill-card-logo-tile"
+        className={`${cardTileProps.className ?? ''} flex-none skill-card-logo-tile`}
         data-skill-avatar-variant={variant}
         role="img"
       >

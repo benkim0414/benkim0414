@@ -167,6 +167,7 @@ describe('SkillAvatar', () => {
     const avatar = getByRole('img', { name: 'TypeScript' });
 
     expect(avatar.className).toContain('skill-card-logo-tile');
+    expect(avatar.className).toMatch(/(?:^|\s)x[\w-]+/);
   });
 
   it('renders the card image directly inside the tile instead of Astryx circular content', () => {
