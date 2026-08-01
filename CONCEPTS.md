@@ -12,6 +12,12 @@ The static React application that will become the root GitHub Pages user site fo
 
 The generic first-screen layout scaffold for the `github.io` App: navigation, content regions, and footer without real portfolio content.
 
+### Mobile Page Shell
+
+The mobile-only route wrapper for a `github.io` page, including the constrained viewport, non-scrolling top rails such as navigation or highlighted content, and the scrollable content region below them.
+
+Mobile Page Shells should be rendered by page-level Storybook stories when the visual requirement involves navigation, search, fixed rails, or mobile scroll behavior.
+
 ### DevOps Roadmap
 
 The `github.io` App visualization that adapts roadmap.sh DevOps topics into a static, skill-filtered timeline for the portfolio.
@@ -47,6 +53,12 @@ Astryx Styling Boundary keeps local visual fixes from replacing Astryx component
 A named spacing step from the Astryx design scale, used through Astryx component props or token aliases instead of arbitrary pixel values.
 
 Astryx Spacing Tokens let visual spacing feedback stay inside the design system: the numeric prop identifies a token step, while the token defines the rendered size.
+
+### Astryx Component Contract
+
+The verified public API for an Astryx component, including its props, named sizes, slots, accessibility labels, and default ownership boundaries.
+
+Astryx Component Contracts are the source of truth for local wrappers: wrappers should express supported behavior through Astryx props before adding StyleX, Tailwind, or scoped CSS overrides.
 
 ### Certification Citation
 
