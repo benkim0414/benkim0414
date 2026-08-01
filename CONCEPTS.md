@@ -56,7 +56,7 @@ Certification Citation distinguishes brand color from skill logo availability: l
 
 ### Skill Card
 
-A reusable card presentation for one skill, showing the skill name, supporting description, and optional certification evidence as one independently comparable item.
+A reusable card presentation for one skill, showing the skill name, rating, supporting description, and optional certification evidence as one independently comparable item.
 
 ### Skill Carousel
 

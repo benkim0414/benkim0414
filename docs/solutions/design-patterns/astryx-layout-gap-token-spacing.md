@@ -1,6 +1,7 @@
 ---
 title: Treat Astryx Layout Gaps As Spacing Tokens
 date: 2026-07-31
+last_updated: 2026-08-01
 category: design-patterns
 module: github.io Astryx skill cards
 problem_type: design_pattern
@@ -10,6 +11,7 @@ applies_when:
   - Choosing gap values for Astryx Layout components
   - Translating visual spacing feedback into Astryx token steps
   - Comparing Astryx examples with local component spacing
+  - Grouping card titles with compact metadata such as ratings
 related_components:
   - github.io Astryx Foundation
   - github.io skill components
@@ -21,11 +23,13 @@ tags: [astryx, spacing, layout, design-system, github-io]
 
 ## Context
 
-`SkillCard` needed category badges above the title, matching the metadata-first
-structure of the Astryx Kanban card example. The first implementation followed
-the Kanban structure with badges in their own row and the title plus description
-in a nested text group, but the visual difference between adjacent gap steps was
-too subtle in Storybook.
+`SkillCard` needed category badges above the title and a `SkillRating` under the
+title, matching the metadata-first structure of Astryx card examples without
+turning metadata into body copy. The implementation uses badges in their own row,
+title and rating in a nested identity group, and description as secondary body
+text. Visual QA in Storybook showed that the exact gap step matters at card
+scale: adjacent token steps can look subtle, but they still encode different
+component relationships.
 
 The confusing part was the numeric `gap` prop. In Astryx `Layout`, a value such
 as `gap={4}` reads like it might mean `4px`, but it represents a spacing-token
@@ -39,31 +43,42 @@ When spacing Astryx component groups, choose the semantic relationship first and
 then express it with the nearest Astryx spacing token. Do not translate feedback
 into arbitrary pixel values.
 
-For compact metadata above a title, keep the internal title and description
-group tight, and use a larger parent gap to separate metadata from content:
+For compact metadata above and below a title, group by relationship rather than
+by visual order alone:
+
+- categories sit in their own wrapping row;
+- the skill name and rating sit in a tight nested identity group;
+- the description sits outside the identity group as secondary body text;
+- certification citations stay at the bottom without a redundant label.
 
 ```tsx
-<VStack gap={4} hAlign="start">
+<VStack gap={2} hAlign="start">
   <HStack gap={1} wrap="wrap">
     {skill.categories.map((category) => (
       <SkillCategory key={category} name={category} />
     ))}
   </HStack>
-  <VStack gap={1} hAlign="start">
-    <Heading id={titleId} level={4} accessibilityLevel={3}>
-      {skill.name}
-    </Heading>
-    <Text type="supporting" as="p">
+  <VStack gap={2} hAlign="start">
+    <VStack gap={0.5} hAlign="start">
+      <Heading id={titleId} level={3}>
+        {skill.name}
+      </Heading>
+      <SkillRating level={skill.level} />
+    </VStack>
+    <Text type="body" color="secondary" as="p">
       {skill.description}
     </Text>
   </VStack>
 </VStack>
 ```
 
-The current `SkillCard` uses that pattern: the outer badge-to-content group is
-`gap={4}`, while the nested title-to-description group stays at `gap={1}`
-(`apps/github.io/src/app/skills/skill-card.tsx:49`,
-`apps/github.io/src/app/skills/skill-card.tsx:56`).
+The current `SkillCard` uses that pattern: the outer category-to-content group
+is `gap={2}`, the title/description area is also `gap={2}`, and the title/rating
+identity group is `gap={0.5}` (`apps/github.io/src/app/skills/skill-card.tsx:50`,
+`apps/github.io/src/app/skills/skill-card.tsx:57`,
+`apps/github.io/src/app/skills/skill-card.tsx:58`). The certification list keeps
+its own StyleX flex gap based on `--spacing-2`, because it is a wrapping list
+rather than a vertical text stack (`apps/github.io/src/app/skills/skill-card.tsx:27`).
 
 ## Why This Matters
 
@@ -74,7 +89,7 @@ concrete without leaving Astryx component props.
 
 This keeps local visual polish inside the Astryx Styling Boundary. The component
 still uses Astryx `VStack` and `HStack` anatomy, and spacing remains tokenized
-even when the selected step differs from the tighter Kanban example.
+even when the selected step changes after Storybook review.
 
 ## When to Apply
 
@@ -84,6 +99,8 @@ even when the selected step differs from the tighter Kanban example.
   value.
 - Metadata, badges, or tags should read as related to a card without appearing
   attached to the title text.
+- Ratings or other compact metadata should belong to the card identity, not the
+  prose description.
 - Visual QA happens in Storybook and adjacent spacing-token steps are hard to
   distinguish at the component's actual size.
 
@@ -103,6 +120,18 @@ Prefer the Astryx layout prop that maps to the same tokenized size:
 <VStack gap={4} hAlign="start">
   <HStack gap={1} wrap="wrap">{categories}</HStack>
   <VStack gap={1} hAlign="start">{titleAndDescription}</VStack>
+</VStack>
+```
+
+For title metadata, prefer a separate nested stack instead of attaching rating
+markup to the heading or description:
+
+```tsx
+<VStack gap={0.5} hAlign="start">
+  <Heading id={titleId} level={3}>
+    {skill.name}
+  </Heading>
+  <SkillRating level={skill.level} />
 </VStack>
 ```
 
