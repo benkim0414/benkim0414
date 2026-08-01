@@ -41,13 +41,16 @@ describe('SkillCard', () => {
   });
 
   it('renders the skill rating after the title and before the description', () => {
-    const { getByRole, getByText } = render(<SkillCard skill={baseSkill} />);
+    const { getByRole, getByTestId, getByText } = render(
+      <SkillCard skill={baseSkill} />,
+    );
 
     const title = getByRole('heading', { name: 'Kubernetes' });
     const rating = getByText('4 out of 5');
     const description = getByText(
       'Container orchestration for deploying, scaling, and operating cloud-native workloads.',
     );
+    const titleRatingGroup = getByTestId('skill-card-title-rating');
 
     expect(title.compareDocumentPosition(rating)).toBe(
       Node.DOCUMENT_POSITION_FOLLOWING,
@@ -55,6 +58,9 @@ describe('SkillCard', () => {
     expect(rating.compareDocumentPosition(description)).toBe(
       Node.DOCUMENT_POSITION_FOLLOWING,
     );
+    expect(titleRatingGroup.contains(title)).toBe(true);
+    expect(titleRatingGroup.contains(rating)).toBe(true);
+    expect(titleRatingGroup.contains(description)).toBe(false);
   });
 
   it('renders every skill category before the skill title', () => {
