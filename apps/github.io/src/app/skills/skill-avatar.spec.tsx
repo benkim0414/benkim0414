@@ -42,15 +42,18 @@ describe('SkillAvatar', () => {
     expect(getByText('US')).toBeTruthy();
   });
 
-  it('uses initials for AWS because Simple Icons has no AWS logo', () => {
-    const aws = sampleSkills.find((skill) => skill.id === 'aws');
+  it('uses official Simple Icons art for Kubernetes', () => {
+    const kubernetes = sampleSkills.find((skill) => skill.id === 'kubernetes');
 
-    expect(aws).toBeTruthy();
+    expect(kubernetes).toBeTruthy();
 
-    const { container, getByText } = render(<SkillAvatar skill={aws!} />);
+    const kubernetesAvatar = render(<SkillAvatar skill={kubernetes!} />);
 
-    expect(container.querySelector('img')).toBeNull();
-    expect(getByText('A')).toBeTruthy();
+    expect(
+      svgContent(
+        kubernetesAvatar.container.querySelector('img')?.getAttribute('src'),
+      ),
+    ).toContain('<title>Kubernetes</title>');
   });
 
   it('uses official Simple Icons art for Nx and GitHub Actions', () => {
@@ -75,6 +78,36 @@ describe('SkillAvatar', () => {
     ).toContain('<title>GitHub Actions</title>');
   });
 
+  it('uses official Simple Icons art for new local tool skills', () => {
+    const claudeCode = sampleSkills.find((skill) => skill.id === 'claude-code');
+    const neovim = sampleSkills.find((skill) => skill.id === 'neovim');
+    const tmux = sampleSkills.find((skill) => skill.id === 'tmux');
+
+    expect(claudeCode).toBeTruthy();
+    expect(neovim).toBeTruthy();
+    expect(tmux).toBeTruthy();
+
+    const claudeCodeAvatar = render(<SkillAvatar skill={claudeCode!} />);
+    const neovimAvatar = render(<SkillAvatar skill={neovim!} />);
+    const tmuxAvatar = render(<SkillAvatar skill={tmux!} />);
+
+    expect(
+      svgContent(
+        claudeCodeAvatar.container.querySelector('img')?.getAttribute('src'),
+      ),
+    ).toContain('<title>Claude Code</title>');
+    expect(
+      svgContent(
+        neovimAvatar.container.querySelector('img')?.getAttribute('src'),
+      ),
+    ).toContain('<title>Neovim</title>');
+    expect(
+      svgContent(
+        tmuxAvatar.container.querySelector('img')?.getAttribute('src'),
+      ),
+    ).toContain('<title>tmux</title>');
+  });
+
   it('lets Astryx Avatar own image sizing inside the circular mask', () => {
     const nx = sampleSkills.find((skill) => skill.id === 'nx');
 
@@ -87,5 +120,19 @@ describe('SkillAvatar', () => {
         nxAvatar.container.firstElementChild as HTMLElement
       ).style.getPropertyValue('--skill-avatar-padding'),
     ).toBe('');
+  });
+
+  it('uses the documented 24px Astryx avatar size', () => {
+    const typeScript = sampleSkills.find((skill) => skill.id === 'typescript');
+
+    expect(typeScript).toBeTruthy();
+
+    const { getByRole } = render(<SkillAvatar skill={typeScript!} />);
+    const avatar = getByRole('img', { name: 'TypeScript' });
+    const content = avatar.firstElementChild as HTMLElement;
+
+    expect(avatar.getAttribute('data-size')).toBe('xsmall');
+    expect(content.style.getPropertyValue('--x-width')).toBe('24px');
+    expect(content.style.getPropertyValue('--x-height')).toBe('24px');
   });
 });

@@ -7,10 +7,18 @@ const meta: Meta<typeof AppShell> = {
   parameters: {
     layout: 'fullscreen',
   },
-  title: 'GitHub.io/App Shell/Skills Page',
+  title: 'GitHub.io/App Shell/Mobile Skills Page',
 };
 
 export default meta;
 type Story = StoryObj<typeof AppShell>;
 
 export const Default: Story = {};
+
+export const LargeViewport: Story = {
+  parameters: {
+    viewport: {
+      defaultViewport: 'responsive',
+    },
+  },
+};
