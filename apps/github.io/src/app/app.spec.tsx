@@ -74,7 +74,7 @@ describe('App', () => {
     expect(getByRole('button', { name: 'Search skills' })).toBeTruthy();
     expect(getByRole('heading', { level: 1, name: 'Skills' })).toBeTruthy();
     expect(getByLabelText('Highlighted skills')).toBeTruthy();
-    expect(getAllByTestId('skill-card')).toHaveLength(5);
+    expect(getAllByTestId('skill-card')).toHaveLength(22);
     expect(getByText('TypeScript')).toBeTruthy();
     expect(getByText('React')).toBeTruthy();
   });
@@ -102,7 +102,7 @@ describe('App', () => {
     const carousel = getByLabelText('Highlighted skills');
     const list = getByRole('region', { name: 'Skills' });
 
-    expect(getAllByTestId('skill-card')).toHaveLength(5);
+    expect(getAllByTestId('skill-card')).toHaveLength(6);
     expect(within(carousel).getByRole('heading', { name: 'Kubernetes' }))
       .toBeTruthy();
     expect(within(list).getByText('Terraform')).toBeTruthy();

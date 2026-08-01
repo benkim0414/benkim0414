@@ -14,8 +14,8 @@ import {
   highlightedSkills as defaultHighlightedSkills,
   skills as defaultSkills,
 } from './skill-list.data';
+import { SkillCardList } from './skill-card-list';
 import { SkillCarousel } from './skill-carousel';
-import { SkillList } from './skill-list';
 import type { Skill } from './skill-list.types';
 
 interface SkillCommandAuxiliaryData {
@@ -121,7 +121,7 @@ export function MobileSkillsPage({
             variant="compact"
           />
 
-          <SkillList
+          <SkillCardList
             emptyMessage={listEmptyMessage}
             heading="Skills"
             skills={visibleSkills}
