@@ -7,6 +7,7 @@ import { spacingVars } from '@astryxdesign/core/theme/tokens.stylex';
 import { useId, type ReactElement } from 'react';
 
 import { CertificationCitation } from '../certifications/certification-citation';
+import { SkillAvatar } from './skill-avatar';
 import { SkillCategory } from './skill-category';
 import { SkillRating } from './skill-rating';
 import type { Skill, SkillSurfaceVariant } from './skill-list.types';
@@ -70,16 +71,23 @@ export function SkillCard({
               </HStack>
             ) : null}
             <VStack gap={2} hAlign="start">
-              <VStack
-                gap={0.5}
-                hAlign="start"
-                data-testid="skill-card-title-rating"
+              <HStack
+                gap={2}
+                vAlign="start"
+                data-testid="skill-card-header"
               >
-                <Heading id={titleId} level={3}>
-                  {skill.name}
-                </Heading>
-                <SkillRating level={skill.level} />
-              </VStack>
+                <SkillAvatar skill={skill} variant="card" />
+                <VStack
+                  gap={0.5}
+                  hAlign="start"
+                  data-testid="skill-card-title-rating"
+                >
+                  <Heading id={titleId} level={3}>
+                    {skill.name}
+                  </Heading>
+                  <SkillRating level={skill.level} />
+                </VStack>
+              </HStack>
               <Text type="body" color="secondary" as="p">
                 {skill.description}
               </Text>
