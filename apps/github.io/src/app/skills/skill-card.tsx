@@ -9,10 +9,12 @@ import { useId, type ReactElement } from 'react';
 import { CertificationCitation } from '../certifications/certification-citation';
 import { SkillCategory } from './skill-category';
 import { SkillRating } from './skill-rating';
-import type { Skill } from './skill-list.types';
+import type { Skill, SkillSurfaceVariant } from './skill-list.types';
 
 export interface SkillCardProps {
+  isFullWidth?: boolean;
   skill: Skill;
+  variant?: SkillSurfaceVariant;
 }
 
 const styles = stylex.create({
@@ -22,6 +24,9 @@ const styles = stylex.create({
       default: `calc(${spacingVars['--spacing-12']} * 7)`,
       '@media (max-width: 640px)': `calc(${spacingVars['--spacing-12']} * 5)`,
     },
+  },
+  fullWidth: {
+    width: '100%',
   },
   citationList: {
     display: 'flex',
@@ -37,23 +42,33 @@ const styles = stylex.create({
   },
 });
 
-export function SkillCard({ skill }: SkillCardProps): ReactElement {
+export function SkillCard({
+  isFullWidth = false,
+  skill,
+  variant = 'default',
+}: SkillCardProps): ReactElement {
   const certifications = skill.certifications ?? [];
+  const shouldShowCategories = variant === 'default';
   const titleId = useId();
 
   return (
-    <Card padding={4} xstyle={styles.root}>
+    <Card
+      padding={4}
+      xstyle={[styles.root, isFullWidth && styles.fullWidth]}
+    >
       <article
         aria-labelledby={titleId}
         data-testid="skill-card"
       >
         <VStack gap={3}>
-          <VStack gap={2} hAlign="start">
-            <HStack gap={1} wrap="wrap">
-              {skill.categories.map((category) => (
-                <SkillCategory key={category} name={category} />
-              ))}
-            </HStack>
+          <VStack gap={4} hAlign="start">
+            {shouldShowCategories ? (
+              <HStack gap={1} wrap="wrap">
+                {skill.categories.map((category) => (
+                  <SkillCategory key={category} name={category} />
+                ))}
+              </HStack>
+            ) : null}
             <VStack gap={2} hAlign="start">
               <VStack
                 gap={0.5}
