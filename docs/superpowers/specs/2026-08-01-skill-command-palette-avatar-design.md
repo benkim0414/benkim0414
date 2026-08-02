@@ -10,7 +10,7 @@ Remove skill logos from `SkillCard` because the card became visually too heavy, 
 
 `SkillCard` should not render any avatar or logo. It should return to the compact card information hierarchy: category badges when enabled, skill name, star rating, description, and certifications.
 
-The command palette should render each skill result with a small leading skill logo followed by the skill name. Use the existing Astryx `Avatar size="xsmall"` scale so command results stay compact at 24px, but render those command-palette logos as rounded rectangles with `radiusVars['--radius-element']` instead of circles. The supporting group label remains `Skills`.
+The command palette should render each skill result with a small leading skill logo followed by the skill name. Use the existing `SkillAvatar` default/list behavior so command results match the existing `SkillListItem` pattern: Astryx `Avatar size="xsmall"`, 24px, circular. The supporting group label remains `Skills`.
 
 ## Boundaries
 
@@ -18,7 +18,7 @@ In scope:
 
 - Remove `SkillAvatar` usage from `SkillCard`.
 - Remove the card-specific rectangular avatar variant and tests/stories.
-- Add `SkillAvatar` to command-palette result rendering with a rectangular shape.
+- Add `SkillAvatar` to command-palette result rendering.
 - Preserve existing search behavior, selected-skill filtering, grouping, and mobile shell layout.
 
 Out of scope:
@@ -32,5 +32,5 @@ Out of scope:
 ## Validation
 
 - Focused tests should prove `SkillCard` no longer renders a logo.
-- Focused tests should prove command-palette skill results render the 24px rectangular avatar before skill text.
+- Focused tests should prove command-palette skill results render the 24px list avatar before skill text.
 - Run `pnpm nx test github.io --skip-nx-cache`, `pnpm nx lint github.io --skip-nx-cache`, `pnpm nx build github.io --skip-nx-cache`, and Storybook for iPad visual review.

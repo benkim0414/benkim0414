@@ -26,10 +26,3 @@ export const InitialsFallback: Story = {
     },
   },
 };
-
-export const RectangleLogo: Story = {
-  args: {
-    shape: 'rectangle',
-    skill: sampleSkills[0],
-  },
-};
