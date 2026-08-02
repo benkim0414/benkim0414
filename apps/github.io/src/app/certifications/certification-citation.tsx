@@ -74,12 +74,13 @@ export function CertificationCitation({
     : undefined;
   const iconPath = primary?.brand.iconPath;
   const hasSkillLogo = Boolean(iconPath);
-  const icon = primary?.brand.iconPath
+  const skillIcon = primary?.brand.iconPath
     ? iconDataUrl(
         primary.brand.iconPath,
         status === 'expired' ? ASTRYX_CITATION_LABEL_TEXT : primary.brand.color,
       )
-    : citationIcon;
+    : undefined;
+  const icon = citationIcon ?? skillIcon;
 
   return (
     <span

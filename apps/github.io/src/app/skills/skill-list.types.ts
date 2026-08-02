@@ -21,6 +21,7 @@ export interface SkillCertification {
   url: string;
   skills: readonly string[];
   expiresAt: string;
+  citationIcon?: string;
 }
 
 export interface Skill {
