@@ -112,7 +112,9 @@ export function CertificationEvidenceCitation({
       {...stylex.props(styles.citationGroup)}
     >
       <CertificationCitation
-        citationIcon={getCapabilityEvidenceCitationIcon(iconData)}
+        citationIcon={
+          evidence.citationIcon ?? getCapabilityEvidenceCitationIcon(iconData)
+        }
         fallbackIcon={
           iconData?.kind === 'fallback'
             ? renderCapabilityEvidenceIcon(iconData)
