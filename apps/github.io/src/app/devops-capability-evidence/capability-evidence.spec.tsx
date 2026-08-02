@@ -1,5 +1,6 @@
 import { render, screen } from '@testing-library/react';
 
+import { cncfCertificationBadges } from '../certifications/cncf-certification-badges';
 import { CapabilityEvidence } from './capability-evidence';
 import type { CapabilityEvidenceItem } from './devops-capability-evidence.types';
 
@@ -120,6 +121,28 @@ describe('CapabilityEvidence', () => {
     ).toBeTruthy();
     expect(container.querySelector('img')?.getAttribute('src')).toContain(
       'fill%3D%22%23326CE5%22',
+    );
+  });
+
+  it('passes certification badge images through to certification citations', () => {
+    const { container } = render(
+      <CapabilityEvidence
+        citationNumber={3}
+        evidence={evidence({
+          citationIcon: cncfCertificationBadges.CKA,
+          label: 'CKA',
+          proofUrl: 'https://example.com/cka',
+          technologies: ['Kubernetes'],
+          type: 'certification',
+        })}
+      />,
+    );
+
+    expect(
+      screen.getByRole('doc-noteref', { name: 'Citation 3: CKA' }),
+    ).toBeTruthy();
+    expect(container.querySelector('img')?.getAttribute('src')).toBe(
+      cncfCertificationBadges.CKA,
     );
   });
 

@@ -41,6 +41,7 @@ export interface CapabilityEvidenceItem {
   capabilityKeys: readonly DoraCapabilityKey[];
   date?: string;
   endDate?: string;
+  citationIcon?: string;
   issuer?: string;
   organization?: string;
   summary: string;
