@@ -1,4 +1,4 @@
-import { Avatar } from '@astryxdesign/core/Avatar';
+import { Avatar, type AvatarSize } from '@astryxdesign/core/Avatar';
 import {
   siArgo,
   siClaudecode,
@@ -62,12 +62,17 @@ function skillAvatarPresentation(iconSlug: string) {
   return undefined;
 }
 
-export function SkillAvatar({ skill }: { skill: Skill }) {
+export interface SkillAvatarProps {
+  skill: Skill;
+  size?: AvatarSize;
+}
+
+export function SkillAvatar({ skill, size = 'medium' }: SkillAvatarProps) {
   return (
     <Avatar
       className="flex-none"
       name={skill.name}
-      size="tiny"
+      size={size}
       src={skillAvatarPresentation(skill.iconSlug)}
     />
   );
