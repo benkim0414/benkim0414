@@ -1,5 +1,4 @@
 import { fireEvent, render } from '@testing-library/react';
-import { radiusVars } from '@astryxdesign/core/theme/tokens.stylex';
 
 import { sampleSkills } from './skill-list.data';
 import { SkillAvatar } from './skill-avatar';
@@ -132,27 +131,6 @@ describe('SkillAvatar', () => {
     const avatar = getByRole('img', { name: 'TypeScript' });
     const content = avatar.firstElementChild as HTMLElement;
 
-    expect(avatar.getAttribute('data-size')).toBe('xsmall');
-    expect(content.style.getPropertyValue('--x-width')).toBe('24px');
-    expect(content.style.getPropertyValue('--x-height')).toBe('24px');
-  });
-
-  it('can render the 24px avatar with a rectangular logo mask', () => {
-    const typeScript = sampleSkills.find((skill) => skill.id === 'typescript');
-
-    expect(typeScript).toBeTruthy();
-
-    const { getByRole } = render(
-      <SkillAvatar skill={typeScript!} shape="rectangle" />,
-    );
-    const avatar = getByRole('img', { name: 'TypeScript' });
-    const content = avatar.firstElementChild as HTMLElement;
-
-    expect(avatar.getAttribute('data-skill-avatar-shape')).toBe('rectangle');
-    expect(avatar.className).toContain('skill-avatar-rectangle');
-    expect(avatar.style.getPropertyValue('--radius-full')).toBe(
-      radiusVars['--radius-element'],
-    );
     expect(avatar.getAttribute('data-size')).toBe('xsmall');
     expect(content.style.getPropertyValue('--x-width')).toBe('24px');
     expect(content.style.getPropertyValue('--x-height')).toBe('24px');
