@@ -48,6 +48,25 @@ describe('CertificationCitation', () => {
     );
   });
 
+  it('prefers a certification-specific image over the linked skill logo', () => {
+    const badgeImage = '/assets/certifications/cncf/cka.png';
+    const { container } = render(
+      <CertificationCitation
+        citationIcon={badgeImage}
+        currentDate={new Date('2026-07-23T00:00:00+10:00')}
+        expiresAt="2027-04-20T10:00:00+10:00"
+        skills={['Kubernetes']}
+        title="CKA"
+        url={certificateUrl}
+      />,
+    );
+
+    const icon = container.querySelector('img');
+
+    expect(icon?.getAttribute('src')).toBe(badgeImage);
+    expect(icon?.getAttribute('src')).not.toContain('data:image/svg+xml');
+  });
+
   it('uses secondary text color and brand color logo for active certifications', () => {
     const { container, getByRole } = render(
       <CertificationCitation
