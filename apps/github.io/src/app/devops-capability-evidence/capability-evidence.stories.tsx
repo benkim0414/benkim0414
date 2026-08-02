@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { HStack } from '@astryxdesign/core/Layout';
 
+import { cncfCertificationBadges } from '../certifications/cncf-certification-badges';
 import { CapabilityEvidence } from './capability-evidence';
 import type { CapabilityEvidenceItem } from './devops-capability-evidence.types';
 
@@ -156,6 +157,7 @@ export const Certification: Story = {
   args: {
     citationNumber: 1,
     evidence: item({
+      citationIcon: cncfCertificationBadges.CKA,
       id: 'certification',
       label: 'CKA',
       proofUrl: 'https://example.com/cka',
@@ -170,6 +172,7 @@ export const ActiveCertification: Story = {
   args: {
     citationNumber: 2,
     evidence: item({
+      citationIcon: cncfCertificationBadges.CKA,
       endDate: '2099-01-01T00:00:00+00:00',
       id: 'active-certification',
       label: 'CKA',
@@ -185,6 +188,7 @@ export const ExpiredCertification: Story = {
   args: {
     citationNumber: 3,
     evidence: item({
+      citationIcon: cncfCertificationBadges.KCNA,
       endDate: '2020-01-01T00:00:00+00:00',
       id: 'expired-certification',
       label: 'KCNA',

@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 
+import { cncfCertificationBadges } from './cncf-certification-badges';
 import { CertificationCitation } from './certification-citation';
 
 const meta: Meta<typeof CertificationCitation> = {
@@ -12,6 +13,7 @@ type Story = StoryObj<typeof CertificationCitation>;
 
 export const Active: Story = {
   args: {
+    citationIcon: cncfCertificationBadges.CKA,
     currentDate: new Date('2026-07-23T00:00:00+10:00'),
     expiresAt: '2027-04-20T10:00:00+10:00',
     skills: ['Kubernetes'],
@@ -22,6 +24,7 @@ export const Active: Story = {
 
 export const Expired: Story = {
   args: {
+    citationIcon: cncfCertificationBadges.CKA,
     currentDate: new Date('2029-01-01T00:00:00+11:00'),
     expiresAt: '2027-04-20T10:00:00+10:00',
     skills: ['Kubernetes'],
@@ -32,6 +35,7 @@ export const Expired: Story = {
 
 export const MultipleSkills: Story = {
   args: {
+    citationIcon: cncfCertificationBadges.CKAD,
     currentDate: new Date('2026-07-23T00:00:00+10:00'),
     expiresAt: '2028-02-25T11:00:00+11:00',
     skills: ['Unknown Skill', 'Kubernetes'],
