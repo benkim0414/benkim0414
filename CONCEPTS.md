@@ -66,6 +66,12 @@ A reusable certification link presentation that uses Astryx Citation styling whi
 
 Certification Citation distinguishes brand color from skill logo availability: linked skills can provide a logo-backed icon, a color-only accent, or no brand metadata.
 
+### Certification Badge Fixture
+
+A Storybook certification example that represents a credential-specific visual state by supplying that credential's badge image explicitly, rather than relying on linked skill branding.
+
+Certification Badge Fixtures are distinct from fallback stories: badge fixtures validate the credential image path, while fallback stories validate how Certification Citation behaves when no credential image is supplied.
+
 ### Skill Card
 
 A reusable card presentation for one skill, showing the skill name, rating, supporting description, and optional certification evidence as one independently comparable item.
