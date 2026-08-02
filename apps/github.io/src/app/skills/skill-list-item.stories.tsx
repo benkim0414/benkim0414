@@ -6,6 +6,7 @@ import { sampleSkills } from './skill-list.data';
 import { SkillListItem } from './skill-list-item';
 
 const terraform = sampleSkills.find((skill) => skill.id === 'terraform');
+const typeScript = sampleSkills.find((skill) => skill.id === 'typescript');
 
 const meta: Meta<typeof SkillListItem> = {
   component: SkillListItem,
@@ -40,7 +41,7 @@ export const Infrastructure: Story = {
 export const LongName: Story = {
   args: {
     skill: {
-      ...sampleSkills[0],
+      ...(typeScript ?? sampleSkills[0]),
       id: 'long-name',
       name: 'TypeScript and React Component Architecture Governance',
     },

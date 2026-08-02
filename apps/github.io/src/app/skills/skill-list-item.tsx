@@ -30,7 +30,7 @@ export function SkillListItem({
         </HStack>
       }
       label={skill.name}
-      startContent={<SkillAvatar skill={skill} />}
+      startContent={<SkillAvatar skill={skill} size="small" />}
     />
   );
 }

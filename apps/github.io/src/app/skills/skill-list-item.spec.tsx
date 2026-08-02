@@ -9,11 +9,16 @@ describe('SkillListItem', () => {
 
     expect(typeScript).toBeTruthy();
 
-    const { container, getByText } = render(
+    const { container, getByRole, getByText } = render(
       <SkillListItem skill={typeScript!} />,
     );
+    const avatar = getByRole('img', { name: 'TypeScript' });
+    const content = avatar.firstElementChild as HTMLElement;
 
     expect(container.querySelector('img')).toBeTruthy();
+    expect(avatar.getAttribute('data-size')).toBe('small');
+    expect(content.style.getPropertyValue('--x-width')).toBe('36px');
+    expect(content.style.getPropertyValue('--x-height')).toBe('36px');
     expect(getByText('TypeScript')).toBeTruthy();
     expect(getByText('Language')).toBeTruthy();
     expect(getByText('4 out of 5')).toBeTruthy();
