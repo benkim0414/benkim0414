@@ -4,7 +4,7 @@
 
 **Goal:** Remove avatars from `SkillCard` and render small skill avatars in command-palette skill results.
 
-**Architecture:** Revert `SkillAvatar` to the existing list-only Astryx `Avatar size="xsmall"` component. Use `CommandPalette`'s `renderItem` hook in `MobileSkillsPage` to render a leading `SkillAvatar` beside each skill name.
+**Architecture:** Revert `SkillAvatar` to the existing list-only Astryx `Avatar size="tiny"` component. Use `CommandPalette`'s `renderItem` hook in `MobileSkillsPage` to render a leading `SkillAvatar` beside each skill name.
 
 **Tech Stack:** React, TypeScript, Astryx `Avatar`, Astryx `CommandPalette`, Astryx `Layout`, Vitest, Testing Library, Storybook.
 
@@ -14,7 +14,7 @@
 - Stage explicit paths only; do not use `git add .`, `git add -A`, or `git add -u`.
 - Use conventional commits.
 - `SkillCard` must not render `SkillAvatar`.
-- Command-palette skill results must render the existing 24px `SkillAvatar` before the skill label.
+- Command-palette skill results must render the existing 20px `SkillAvatar` before the skill label.
 - Preserve existing command-palette search, grouping under `Skills`, and selected-skill filtering.
 - Do not add new skill data, API work, light/dark mode, desktop-specific layouts, or custom avatar primitives.
 
@@ -35,7 +35,7 @@
 
 **Interfaces:**
 
-- Keep `SkillAvatar({ skill }: { skill: Skill })` as the shared 24px list avatar.
+- Keep `SkillAvatar({ skill }: { skill: Skill })` as the shared 20px list avatar.
 - Add command-palette `renderItem={(item) => <SkillCommandResult skill={item.auxiliaryData.skill} />}` inside `MobileSkillsPage`.
 
 - [ ] Remove the `variant` prop and card-specific rectangular styling from `SkillAvatar`.
@@ -43,7 +43,7 @@
 - [ ] Remove the `SkillAvatar` import/header rendering from `SkillCard`.
 - [ ] Update `SkillCard` tests so they assert title/rating/description ordering without a card header logo and assert no skill-logo image appears in the card.
 - [ ] Add a small command-result renderer in `mobile-skills-page.tsx` using `HStack gap={2} vAlign="center"`, `<SkillAvatar skill={skill} />`, and visible skill name text.
-- [ ] Update `mobile-skills-page.spec.tsx` to open the command palette, verify a skill result contains an avatar named after the skill, and verify the avatar uses `data-size="xsmall"` with 24px inner dimensions.
+- [ ] Update `mobile-skills-page.spec.tsx` to open the command palette, verify a skill result contains an avatar named after the skill, and verify the avatar uses `data-size="tiny"` with 20px inner dimensions.
 - [ ] Run `pnpm vitest run apps/github.io/src/app/skills/skill-avatar.spec.tsx apps/github.io/src/app/skills/skill-card.spec.tsx apps/github.io/src/app/skills/mobile-skills-page.spec.tsx`.
 - [ ] Run `pnpm nx test github.io --skip-nx-cache`, `pnpm nx lint github.io --skip-nx-cache`, `pnpm nx build github.io --skip-nx-cache`, and `git diff --check`.
-- [ ] Commit with `fix(github.io): move skill logos to command palette`.
+- [ ] Commit with `fix(github.io): use tiny skill avatars`.

@@ -122,7 +122,7 @@ describe('SkillAvatar', () => {
     ).toBe('');
   });
 
-  it('uses the documented 24px Astryx avatar size', () => {
+  it('uses the documented 20px Astryx avatar size', () => {
     const typeScript = sampleSkills.find((skill) => skill.id === 'typescript');
 
     expect(typeScript).toBeTruthy();
@@ -131,8 +131,8 @@ describe('SkillAvatar', () => {
     const avatar = getByRole('img', { name: 'TypeScript' });
     const content = avatar.firstElementChild as HTMLElement;
 
-    expect(avatar.getAttribute('data-size')).toBe('xsmall');
-    expect(content.style.getPropertyValue('--x-width')).toBe('24px');
-    expect(content.style.getPropertyValue('--x-height')).toBe('24px');
+    expect(avatar.getAttribute('data-size')).toBe('tiny');
+    expect(content.style.getPropertyValue('--x-width')).toBe('20px');
+    expect(content.style.getPropertyValue('--x-height')).toBe('20px');
   });
 });

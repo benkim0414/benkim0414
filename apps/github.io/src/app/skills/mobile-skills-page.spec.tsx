@@ -171,7 +171,7 @@ describe('MobileSkillsPage', () => {
     expect(queryByText('TypeScript')).toBeTruthy();
   });
 
-  it('renders a 24px avatar before each skill command result', async () => {
+  it('renders a 20px avatar before each skill command result', async () => {
     const { getByRole } = renderMobileSkillsPage();
 
     fireEvent.click(getByRole('button', { name: 'Search skills' }));
@@ -188,9 +188,9 @@ describe('MobileSkillsPage', () => {
     const avatar = within(dialog).getByRole('img', { name: 'Kubernetes' });
     const content = avatar.firstElementChild as HTMLElement;
 
-    expect(avatar.getAttribute('data-size')).toBe('xsmall');
-    expect(content.style.getPropertyValue('--x-width')).toBe('24px');
-    expect(content.style.getPropertyValue('--x-height')).toBe('24px');
+    expect(avatar.getAttribute('data-size')).toBe('tiny');
+    expect(content.style.getPropertyValue('--x-width')).toBe('20px');
+    expect(content.style.getPropertyValue('--x-height')).toBe('20px');
   });
 
   it('uses the full empty message only when no local skills are supplied', () => {
