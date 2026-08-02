@@ -39,7 +39,7 @@ export interface MobileSkillsPageProps {
 function SkillCommandResult({ skill }: { skill: Skill }): ReactElement {
   return (
     <HStack gap={2} vAlign="center">
-      <SkillAvatar skill={skill} />
+      <SkillAvatar skill={skill} size="tiny" />
       <Text type="body">{skill.name}</Text>
     </HStack>
   );
