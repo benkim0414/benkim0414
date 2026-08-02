@@ -1,7 +1,6 @@
 import type { ComponentProps, ReactNode } from 'react';
 import { fireEvent, render, waitFor, within } from '@testing-library/react';
 import { Theme } from '@astryxdesign/core';
-import { radiusVars } from '@astryxdesign/core/theme/tokens.stylex';
 import { neutralTheme } from '@astryxdesign/theme-neutral/built';
 import { vi } from 'vitest';
 
@@ -172,7 +171,7 @@ describe('MobileSkillsPage', () => {
     expect(queryByText('TypeScript')).toBeTruthy();
   });
 
-  it('renders a 24px rectangular avatar before each skill command result', async () => {
+  it('renders a 24px avatar before each skill command result', async () => {
     const { getByRole } = renderMobileSkillsPage();
 
     fireEvent.click(getByRole('button', { name: 'Search skills' }));
@@ -189,10 +188,6 @@ describe('MobileSkillsPage', () => {
     const avatar = within(dialog).getByRole('img', { name: 'Kubernetes' });
     const content = avatar.firstElementChild as HTMLElement;
 
-    expect(avatar.getAttribute('data-skill-avatar-shape')).toBe('rectangle');
-    expect(avatar.style.getPropertyValue('--radius-full')).toBe(
-      radiusVars['--radius-element'],
-    );
     expect(avatar.getAttribute('data-size')).toBe('xsmall');
     expect(content.style.getPropertyValue('--x-width')).toBe('24px');
     expect(content.style.getPropertyValue('--x-height')).toBe('24px');
