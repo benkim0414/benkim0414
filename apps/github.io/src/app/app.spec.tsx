@@ -90,6 +90,20 @@ describe('App', () => {
       await waitFor(() => getByRole('option', { name: /Terraform/ })),
     ).toBeTruthy();
     expect(getByRole('option', { name: /React/ })).toBeTruthy();
+    const terraformOption = getByRole('option', { name: /Terraform/ });
+    const terraformAvatar = within(terraformOption).getByRole('img', {
+      name: 'Terraform',
+    });
+    const terraformAvatarContent =
+      terraformAvatar.firstElementChild as HTMLElement;
+
+    expect(terraformAvatar.getAttribute('data-size')).toBe('tiny');
+    expect(terraformAvatarContent.style.getPropertyValue('--x-width')).toBe(
+      '20px',
+    );
+    expect(terraformAvatarContent.style.getPropertyValue('--x-height')).toBe(
+      '20px',
+    );
 
     fireEvent.change(getByRole('combobox', { name: 'Search skills' }), {
       target: { value: 'terraform' },
