@@ -80,6 +80,10 @@ The shared visual metadata for a skill label, covering the skill's brand color a
 
 Skill Brand Metadata can be color-only. Consumers must decide whether color alone is meaningful for their UI instead of assuming every branded skill has a logo.
 
+### Skill Avatar
+
+A compact skill logo or initials fallback that presents Skill Brand Metadata inside an Astryx Avatar while letting each surface choose its own design-system size.
+
 ### Skill Category Badge Variant
 
 A theme-safe visual category color for a skill category, derived from the category label by mapping it onto approved Astryx Badge variants rather than arbitrary raw colors.
