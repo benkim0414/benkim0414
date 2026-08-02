@@ -1,6 +1,7 @@
 ---
 title: Verify Astryx Component API Contracts Before Styling
 date: 2026-07-31
+last_updated: 2026-08-02
 category: best-practices
 module: github.io Astryx components
 problem_type: best_practice
@@ -21,7 +22,8 @@ The mobile skills page work exposed a subtle sizing mistake in `SkillAvatar`.
 The implementation used Astryx `Avatar` correctly, but it relied on the default
 avatar size and inferred the effective size from rendered output. The requested
 design was a 24px skill avatar, while the installed Astryx `Avatar` API maps
-the `xsmall` named size to 24px and `small` to 36px.
+the `tiny` named size to 20px, `xsmall` to 24px, `small` to 36px, and `medium`
+to 48px.
 
 The same branch also needed a real mobile top nav. The corrected shell uses
 Astryx `TopNav` and `TopNavHeading` directly in
@@ -42,28 +44,38 @@ contract before writing local styles or relying on defaults:
    supports it.
 4. Add a focused test for the public contract you care about.
 
-For the skill avatar, the local wrapper now keeps Astryx ownership intact:
+For the skill avatar, the local wrapper keeps Astryx ownership intact by
+typing its `size` prop from Astryx and passing that value through to
+`Avatar` (`apps/github.io/src/app/skills/skill-avatar.tsx:1`,
+`apps/github.io/src/app/skills/skill-avatar.tsx:65`):
 
 ```tsx
-<Avatar
-  className="flex-none"
-  name={skill.name}
-  size="xsmall"
-  src={skillAvatarPresentation(skill.iconSlug)}
-/>
+export interface SkillAvatarProps {
+  skill: Skill;
+  size?: AvatarSize;
+}
+
+export function SkillAvatar({ skill, size = 'medium' }: SkillAvatarProps) {
+  return <Avatar name={skill.name} size={size} />;
+}
 ```
 
-The important detail is not the literal DOM style; it is that the wrapper asks
-Astryx for the named size that the design system defines as the 24px avatar.
-The regression test can still assert the rendered CSS custom properties as a
-guard, but the production code should stay on the component API surface.
+The important detail is not the literal DOM style; it is that each surface asks
+Astryx for the named size that the design system defines. Command-palette
+results use `size="tiny"` for compact inline search results
+(`apps/github.io/src/app/skills/mobile-skills-page.tsx:42`), while
+`SkillListItem` uses `size="small"` for a stronger leading row visual
+(`apps/github.io/src/app/skills/skill-list-item.tsx:33`). Regression tests can
+still assert rendered CSS custom properties as a guard, but production code
+should stay on the component API surface.
 
 ## Why This Matters
 
-Inferring Astryx behavior from rendered DOM or memory creates design-system
+Inferring Astryx behavior from rendered DOM, shorthand names, or memory creates design-system
 drift. A component default may be valid for the design system while still being
-wrong for a specific UI requirement. In this case, default `small` was a valid
-Avatar default, but the skills row needed the documented 24px avatar size.
+wrong for a specific UI requirement. In this case, the valid Astryx size names
+were full words such as `tiny`, `small`, and `medium`; shorthand names such as
+`sm` and `md` were design feedback, not component API values.
 
 Using the verified component API keeps the UI inside the Astryx Styling
 Boundary: component anatomy and accessibility stay with Astryx, while local
@@ -92,16 +104,20 @@ Before, the wrapper relied on the Avatar default:
 />
 ```
 
-After, the wrapper states the design-system size explicitly:
+After, the wrapper exposes the design-system size and each consumer chooses the
+right named size for its surface:
 
 ```tsx
-<Avatar
-  className="flex-none"
-  name={skill.name}
-  size="xsmall"
-  src={skillAvatarPresentation(skill.iconSlug)}
-/>
+<SkillAvatar skill={skill} size="tiny" />
+<SkillAvatar skill={skill} size="small" />
 ```
+
+For Storybook fixtures that are meant to prove logo behavior, derive long-name
+or edge-case rows from the specific branded skill instead of relying on sample
+array order. The long-name list-item story explicitly starts from the TypeScript
+skill before replacing the display name
+(`apps/github.io/src/app/skills/skill-list-item.stories.tsx:8`,
+`apps/github.io/src/app/skills/skill-list-item.stories.tsx:44`).
 
 For shell navigation, prefer the Astryx shell/navigation component instead of
 hand-building a raw header:
