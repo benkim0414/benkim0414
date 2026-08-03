@@ -48,7 +48,7 @@ export function ProjectCard({
   const titleId = useId();
   const githubBrand = getSkillBrand('GitHub');
   const githubSource = {
-    title: 'GitHub repository',
+    title: 'GitHub',
     url: project.githubUrl,
     icon: githubBrand?.iconDataUrl,
   };
