@@ -14,6 +14,29 @@ describe('getSkillBrand', () => {
     expect(brand?.iconDataUrl).toContain('fill%3D%22%23326CE5%22');
   });
 
+  it('returns icons for frontend and dotfiles project skills', () => {
+    const iconBackedSkills = [
+      'React',
+      'TypeScript',
+      'Nx',
+      'GNU Stow',
+      'Homebrew',
+      'Zsh',
+      'GNU Bash',
+      'Neovim',
+      'Lua',
+      'tmux',
+      'Ghostty',
+      'bat',
+      'Starship',
+      'Claude Code',
+    ];
+
+    for (const skill of iconBackedSkills) {
+      expect(getSkillBrand(skill)?.iconPath).toBeTruthy();
+    }
+  });
+
   it('returns color-only brand metadata when no logo is available', () => {
     const brand = getSkillBrand('AWS');
 
@@ -24,6 +47,13 @@ describe('getSkillBrand', () => {
     });
     expect(brand?.iconPath).toBeUndefined();
     expect(brand?.iconDataUrl).toBeUndefined();
+  });
+
+  it('does not use unrelated icons for dotfiles skills without exact logos', () => {
+    for (const skill of ['delta', 'gh-dash']) {
+      expect(getSkillBrand(skill)?.iconPath).toBeUndefined();
+      expect(getSkillBrand(skill)?.iconDataUrl).toBeUndefined();
+    }
   });
 
   it('returns undefined for skills without Simple Icons metadata', () => {
