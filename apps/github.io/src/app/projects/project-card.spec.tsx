@@ -3,6 +3,7 @@ import { describe, expect, it } from 'vitest';
 
 import { sampleProjects } from './project-list.data';
 import { ProjectCard } from './project-card';
+import * as stories from './project-card.stories';
 
 describe('project data', () => {
   it('provides stable project data for ProjectCard surfaces', () => {
@@ -89,5 +90,16 @@ describe('ProjectCard', () => {
     expect(
       screen.getByRole('link', { name: /github repository/i }),
     ).toHaveAttribute('href', project.githubUrl);
+  });
+});
+
+describe('ProjectCard stories', () => {
+  it('exports the expected story fixtures', () => {
+    expect(stories.Default.args?.project?.id).toBe('github-io-portfolio');
+    expect(stories.ManySkills.args?.project?.skills.length).toBeGreaterThan(8);
+    expect(stories.LongCopy.args?.project?.title).toContain('observability');
+    expect(stories.FullWidth.parameters?.viewport?.defaultViewport).toBe(
+      'mobile1',
+    );
   });
 });
