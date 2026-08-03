@@ -10,13 +10,25 @@ describe('project data', () => {
     expect(sampleProjects).toEqual(
       expect.arrayContaining([
         expect.objectContaining({
-          id: 'github-io-portfolio',
-          title: 'GitHub.io portfolio',
-          githubUrl: 'https://github.com/benkim0414/benkim0414',
+          id: 'dotfiles',
+          title: 'benkim0414/dotfiles',
+          githubUrl: 'https://github.com/benkim0414/dotfiles',
           skills: expect.arrayContaining([
-            expect.objectContaining({ label: 'React' }),
-            expect.objectContaining({ label: 'TypeScript' }),
-            expect.objectContaining({ label: 'GitHub' }),
+            expect.objectContaining({ label: 'GNU Stow' }),
+            expect.objectContaining({ label: 'Homebrew' }),
+            expect.objectContaining({ label: 'Zsh' }),
+            expect.objectContaining({ label: 'Neovim' }),
+            expect.objectContaining({ label: 'Lua' }),
+            expect.objectContaining({ label: 'tmux' }),
+            expect.objectContaining({ label: 'ripgrep' }),
+            expect.objectContaining({ label: 'delta' }),
+            expect.objectContaining({
+              label: 'GitHub CLI',
+              brandLabel: 'GitHub',
+            }),
+            expect.objectContaining({ label: 'gh-dash' }),
+            expect.objectContaining({ label: 'Herdr' }),
+            expect.objectContaining({ label: 'Claude Code' }),
           ]),
         }),
       ]),
@@ -25,14 +37,14 @@ describe('project data', () => {
 
   it('keeps future evidence linkage as optional project metadata', () => {
     const project = sampleProjects.find(
-      (item) => item.id === 'github-io-portfolio',
+      (item) => item.id === 'dotfiles',
     );
 
     expect(project?.evidenceIds).toEqual(
-      expect.arrayContaining(['devops-roadmap-project']),
+      expect.arrayContaining(['dotfiles-project']),
     );
     expect(project?.capabilityKeys).toEqual(
-      expect.arrayContaining(['deployment-automation']),
+      expect.arrayContaining(['developer-experience']),
     );
   });
 });
@@ -50,14 +62,14 @@ describe('ProjectCard', () => {
     expect(screen.getByText(project.description)).toBeTruthy();
 
     const skills = screen.getByRole('list', { name: 'Skills used' });
-    expect(within(skills).getByText('React')).toBeTruthy();
-    expect(within(skills).getByText('TypeScript')).toBeTruthy();
-    expect(within(skills).getByText('GitHub')).toBeTruthy();
+    for (const skill of project.skills) {
+      expect(within(skills).getByText(skill.label)).toBeTruthy();
+    }
 
     const source = screen.getByRole('doc-noteref', {
-      name: 'Citation 1: GitHub repository',
+      name: 'Citation 1: GitHub',
     });
-    expect(source).toHaveAttribute('href', project.githubUrl);
+    expect(source.getAttribute('href')).toBe(project.githubUrl);
   });
 
   it('renders card section labels as supporting secondary text', () => {
@@ -89,17 +101,16 @@ describe('ProjectCard', () => {
     expect(
       screen.getByRole('heading', { name: project.title, level: 3 }),
     ).toBeTruthy();
-    expect(
-      screen.getByRole('doc-noteref', {
-        name: 'Citation 1: GitHub repository',
-      }),
-    ).toHaveAttribute('href', project.githubUrl);
+    const source = screen.getByRole('doc-noteref', {
+      name: 'Citation 1: GitHub',
+    });
+    expect(source.getAttribute('href')).toBe(project.githubUrl);
   });
 });
 
 describe('ProjectCard stories', () => {
   it('exports the expected story fixtures', () => {
-    expect(stories.Default.args?.project?.id).toBe('github-io-portfolio');
+    expect(stories.Default.args?.project?.id).toBe('dotfiles');
     expect(stories.ManySkills.args?.project?.skills.length).toBeGreaterThan(8);
     expect(stories.LongCopy.args?.project?.title).toContain('observability');
     expect(stories.FullWidth.parameters?.viewport?.defaultViewport).toBe(
