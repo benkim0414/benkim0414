@@ -54,8 +54,8 @@ describe('ProjectCard', () => {
     expect(within(skills).getByText('TypeScript')).toBeTruthy();
     expect(within(skills).getByText('GitHub')).toBeTruthy();
 
-    const source = screen.getByRole('link', {
-      name: /github repository/i,
+    const source = screen.getByRole('doc-noteref', {
+      name: 'Citation 1: GitHub repository',
     });
     expect(source).toHaveAttribute('href', project.githubUrl);
   });
@@ -70,6 +70,8 @@ describe('ProjectCard', () => {
     expect(labels).toHaveLength(2);
     for (const label of labels) {
       expect(label.className).toContain('astryx-text');
+      expect(label.getAttribute('data-type')).toBe('supporting');
+      expect(label.getAttribute('data-color')).toBe('secondary');
     }
   });
 
@@ -88,7 +90,9 @@ describe('ProjectCard', () => {
       screen.getByRole('heading', { name: project.title, level: 3 }),
     ).toBeTruthy();
     expect(
-      screen.getByRole('link', { name: /github repository/i }),
+      screen.getByRole('doc-noteref', {
+        name: 'Citation 1: GitHub repository',
+      }),
     ).toHaveAttribute('href', project.githubUrl);
   });
 });
