@@ -1,6 +1,7 @@
 ---
 title: Keep Certification HoverCards Supplemental to Direct Links
 date: 2026-08-04
+last_updated: 2026-08-04
 category: design-patterns
 module: github.io certifications
 problem_type: design_pattern
@@ -90,13 +91,14 @@ viewer's timezone (`apps/github.io/src/app/certifications/certification-citation
 Use the full certificate name as the title of one single-column `MetadataList`,
 with exactly three rows in this order: `ID`, `Status`, and `Completed`
 (`apps/github.io/src/app/certifications/certification-citation.tsx:181`). Render
-status as a small non-interactive Astryx `Token`: green for `Active`, gray for
-`Expired`. Green communicates a positive current state; gray communicates an
-inactive or lapsed state without treating expiration as an error. Keep the
-visible label so color is never the only status signal.
+status as a non-interactive Astryx `Badge`: use the green variant for `Active`
+and the neutral variant for `Expired`. Astryx does not expose a gray Badge
+variant; neutral is its supported gray treatment for an inactive or lapsed
+state without treating expiration as an error. Keep the visible label so color
+is never the only status signal.
 
 The component test verifies that the title is outside the definition list,
-checks the Token color, size, visible label, and lack of interactive children,
+checks the Badge variant, visible label, and lack of interactive children,
 checks `dt`/`dd` semantics, and confirms that `aria-describedby` connects the
 citation to the card content
 (`apps/github.io/src/app/certifications/certification-citation.spec.tsx:32`).
