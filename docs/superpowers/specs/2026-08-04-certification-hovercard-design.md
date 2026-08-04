@@ -29,9 +29,10 @@ key-value-list primitives:
 
 - `HoverCard` is intended for supplementary link previews opened by hover or
   focus. Its content must not contain required actions.
-- `Text type="label"` presents the full certificate name as the card label.
-- `MetadataList` and `MetadataListItem` provide semantic definition-list markup
-  for the remaining read-only label/value data.
+- `MetadataList.title` presents the full certificate name above the list, while
+  `MetadataListItem` provides semantic definition-list markup for the remaining
+  read-only label/value data.
+- `Token` presents the short status text with a supplemental semantic color.
 - Keep Astryx default placement, collision handling, spacing, surface styling,
   and open and close delays.
 - Do not add custom component-library dependencies or a second styling system.
@@ -103,18 +104,20 @@ paths:
    existing Astryx `Citation` as the `HoverCard` trigger.
 2. Otherwise, render the existing citation without a HoverCard.
 
-The HoverCard presents the full certificate name first with Astryx
-`<Text type="label">`, followed by one single-column `MetadataList` with three
-rows in this order:
+The HoverCard contains one single-column `MetadataList` whose `title` is the full
+certificate name and whose rows appear in this order:
 
 1. `ID`
 2. `Status`
 3. `Completed`
 
-Status is displayed as `Active` or `Expired`. Completion dates use a fixed
-English formatter with abbreviated month, numeric day, and four-digit year,
-for example `Apr 20, 2025`. Treat the ISO value as a calendar date and format
-it without allowing the browser timezone to shift the displayed day.
+Status is a non-interactive small Astryx `Token` with its visible text retained:
+`Active` uses green for a positive current state, while `Expired` uses gray for
+an inactive or lapsed state rather than presenting it as an error. Color is
+supplemental and never replaces the status label. Completion dates use a fixed
+English formatter with abbreviated month, numeric day, and four-digit year, for
+example `Apr 20, 2025`. Treat the ISO value as a calendar date and format it
+without allowing the browser timezone to shift the displayed day.
 
 The certificate URL is not repeated in the Metadata List. The citation itself
 remains the certificate link.
@@ -180,9 +183,10 @@ Out of scope:
 
 Add focused `CertificationCitation` tests that verify:
 
-- Complete metadata produces a HoverCard whose full certificate name is an
-  Astryx label outside the definition list, followed by semantic `ID`, `Status`,
-  and `Completed` rows in the required order.
+- Complete metadata produces a HoverCard whose `MetadataList` title is the full
+  certificate name, followed by semantic `ID`, `Status`, and `Completed` rows.
+- Active status renders as a small green non-interactive Token; expired status
+  renders as a small gray non-interactive Token, with visible status text.
 - The three representative credential values render exactly.
 - Future and past expiry dates display `Active` and `Expired` respectively.
 - ISO completion dates format as the requested English calendar dates without
