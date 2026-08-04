@@ -1,3 +1,5 @@
+import type { CertificationMetadata } from '../certifications/certification-citation';
+
 export const skillCategories = [
   'Language',
   'Runtime',
@@ -22,6 +24,7 @@ export interface SkillCertification {
   skills: readonly string[];
   expiresAt: string;
   citationIcon?: string;
+  metadata?: CertificationMetadata;
 }
 
 export interface Skill {
