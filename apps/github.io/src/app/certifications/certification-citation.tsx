@@ -1,16 +1,15 @@
 import * as stylex from '@stylexjs/stylex';
 import { Citation } from '@astryxdesign/core/Citation';
 import { HoverCard } from '@astryxdesign/core/HoverCard';
-import { VStack } from '@astryxdesign/core/Layout';
 import {
   MetadataList,
   MetadataListItem,
 } from '@astryxdesign/core/MetadataList';
-import { Text } from '@astryxdesign/core/Text';
 import {
   radiusVars,
   spacingVars,
 } from '@astryxdesign/core/theme/tokens.stylex';
+import { Token } from '@astryxdesign/core/Token';
 import { VisuallyHidden } from '@astryxdesign/core/VisuallyHidden';
 import type { ReactElement, ReactNode } from 'react';
 
@@ -182,18 +181,19 @@ export function CertificationCitation({
       {hasCompleteMetadata && metadata && completedAt ? (
         <HoverCard
           content={
-            <VStack gap={2}>
-              <Text type="label">{metadata.name}</Text>
-              <MetadataList columns="single">
-                <MetadataListItem label="ID">{metadata.id}</MetadataListItem>
-                <MetadataListItem label="Status">
-                  {statusLabel}
-                </MetadataListItem>
-                <MetadataListItem label="Completed">
-                  {completedAt}
-                </MetadataListItem>
-              </MetadataList>
-            </VStack>
+            <MetadataList columns="single" title={metadata.name}>
+              <MetadataListItem label="ID">{metadata.id}</MetadataListItem>
+              <MetadataListItem label="Status">
+                <Token
+                  color={status === 'active' ? 'green' : 'gray'}
+                  label={statusLabel}
+                  size="sm"
+                />
+              </MetadataListItem>
+              <MetadataListItem label="Completed">
+                {completedAt}
+              </MetadataListItem>
+            </MetadataList>
           }
           hasHoverIndication={false}
         >

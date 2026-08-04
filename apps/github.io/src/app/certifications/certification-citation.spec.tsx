@@ -48,14 +48,28 @@ describe('CertificationCitation', () => {
     expect(citation.getAttribute('aria-describedby')?.split(' ')).toContain(
       hoverCard.id,
     );
-    const certificationName = hoverCard.querySelector(
-      '.astryx-text[data-type="label"]',
+    const metadataList = hoverCard.querySelector('.astryx-metadata-list');
+    const certificationName = Array.from(
+      metadataList?.querySelectorAll('*') ?? [],
+    ).find(
+      (element) =>
+        element.textContent === 'Certified Kubernetes Administrator',
+    );
+    const statusToken = hoverCard.querySelector(
+      '.astryx-token[data-color="green"][data-size="sm"]',
     );
 
+    expect(metadataList).toBeTruthy();
     expect(certificationName?.textContent).toBe(
       'Certified Kubernetes Administrator',
     );
+    expect(certificationName?.closest('.astryx-metadata-list')).toBe(
+      metadataList,
+    );
     expect(certificationName?.closest('dl')).toBeNull();
+    expect(statusToken?.textContent).toBe('Active');
+    expect(statusToken?.closest('dd')).toBeTruthy();
+    expect(statusToken?.querySelector('a, button')).toBeNull();
     expect(
       Array.from(hoverCard.querySelectorAll('dt'), (item) => item.textContent),
     ).toEqual(['ID', 'Status', 'Completed']);
@@ -82,8 +96,14 @@ describe('CertificationCitation', () => {
 
     const citation = getByRole('doc-noteref', { name: 'Citation 1: CKA' });
     const hoverCard = getByRole('dialog', { hidden: true });
+    const statusToken = hoverCard.querySelector(
+      '.astryx-token[data-color="gray"][data-size="sm"]',
+    );
 
     expect(citation.getAttribute('href')).toBe(certificateUrl);
+    expect(statusToken?.textContent).toBe('Expired');
+    expect(statusToken?.closest('dd')).toBeTruthy();
+    expect(statusToken?.querySelector('a, button')).toBeNull();
     expect(
       Array.from(hoverCard.querySelectorAll('dd'), (item) => item.textContent),
     ).toContain('Expired');
