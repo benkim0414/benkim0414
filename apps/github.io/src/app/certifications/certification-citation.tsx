@@ -1,5 +1,10 @@
 import * as stylex from '@stylexjs/stylex';
 import { Citation } from '@astryxdesign/core/Citation';
+import { HoverCard } from '@astryxdesign/core/HoverCard';
+import {
+  MetadataList,
+  MetadataListItem,
+} from '@astryxdesign/core/MetadataList';
 import {
   radiusVars,
   spacingVars,
@@ -23,6 +28,12 @@ const styles = stylex.create({
   },
 });
 
+export interface CertificationMetadata {
+  id: string;
+  name: string;
+  completedAt: string;
+}
+
 export interface CertificationCitationProps {
   title: string;
   url?: string;
@@ -30,6 +41,7 @@ export interface CertificationCitationProps {
   expiresAt?: string;
   citationIcon?: string;
   fallbackIcon?: ReactNode;
+  metadata?: CertificationMetadata;
   number?: number;
   currentDate?: Date;
 }
@@ -46,8 +58,48 @@ function findPrimaryBrand(skills: readonly string[]) {
   return undefined;
 }
 
-function isActive(expiresAt: string, currentDate: Date) {
-  return new Date(expiresAt).getTime() > currentDate.getTime();
+type CertificationStatus = 'active' | 'expired';
+
+const completedDateFormatter = new Intl.DateTimeFormat('en-US', {
+  day: 'numeric',
+  month: 'short',
+  timeZone: 'UTC',
+  year: 'numeric',
+});
+
+function getCertificationStatus(
+  expiresAt: string | undefined,
+  currentDate: Date,
+): CertificationStatus | undefined {
+  if (!expiresAt) {
+    return undefined;
+  }
+
+  const expiresAtTime = new Date(expiresAt).getTime();
+  const currentTime = currentDate.getTime();
+
+  if (Number.isNaN(expiresAtTime) || Number.isNaN(currentTime)) {
+    return undefined;
+  }
+
+  return expiresAtTime > currentTime ? 'active' : 'expired';
+}
+
+function formatCompletedAt(completedAt: string): string | undefined {
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(completedAt)) {
+    return undefined;
+  }
+
+  const date = new Date(`${completedAt}T00:00:00.000Z`);
+
+  if (
+    Number.isNaN(date.getTime()) ||
+    date.toISOString().slice(0, 10) !== completedAt
+  ) {
+    return undefined;
+  }
+
+  return completedDateFormatter.format(date);
 }
 
 function iconDataUrl(iconPath: string, color: string) {
@@ -63,15 +115,23 @@ export function CertificationCitation({
   expiresAt,
   citationIcon,
   fallbackIcon,
+  metadata,
   number = 1,
   currentDate = new Date(),
 }: CertificationCitationProps): ReactElement {
   const primary = findPrimaryBrand(skills);
-  const status = expiresAt
-    ? isActive(expiresAt, currentDate)
-      ? 'active'
-      : 'expired'
+  const status = getCertificationStatus(expiresAt, currentDate);
+  const completedAt = metadata
+    ? formatCompletedAt(metadata.completedAt)
     : undefined;
+  const hasCompleteMetadata = Boolean(
+    url &&
+      status &&
+      completedAt &&
+      metadata?.id.trim() &&
+      metadata.name.trim(),
+  );
+  const statusLabel = status === 'active' ? 'Active' : 'Expired';
   const iconPath = primary?.brand.iconPath;
   const hasSkillLogo = Boolean(iconPath);
   const skillIcon = primary?.brand.iconPath
@@ -81,6 +141,18 @@ export function CertificationCitation({
       )
     : undefined;
   const icon = citationIcon ?? skillIcon;
+  const citation = (
+    <Citation
+      number={number}
+      source={{
+        title,
+        url,
+        icon,
+      }}
+      variant="label"
+      xstyle={hasSkillLogo && styles.sourceWithIcon}
+    />
+  );
 
   return (
     <span
@@ -90,16 +162,27 @@ export function CertificationCitation({
       data-testid="certification-citation"
     >
       {fallbackIcon}
-      <Citation
-        number={number}
-        source={{
-          title,
-          url,
-          icon,
-        }}
-        variant="label"
-        xstyle={hasSkillLogo && styles.sourceWithIcon}
-      />
+      {hasCompleteMetadata && metadata && completedAt ? (
+        <HoverCard
+          content={
+            <MetadataList columns="single">
+              <MetadataListItem label="ID">{metadata.id}</MetadataListItem>
+              <MetadataListItem label="Name">
+                {metadata.name}
+              </MetadataListItem>
+              <MetadataListItem label="Status">{statusLabel}</MetadataListItem>
+              <MetadataListItem label="Completed">
+                {completedAt}
+              </MetadataListItem>
+            </MetadataList>
+          }
+          hasHoverIndication={false}
+        >
+          {citation}
+        </HoverCard>
+      ) : (
+        citation
+      )}
       {status ? (
         <VisuallyHidden>
           {status === 'active'
