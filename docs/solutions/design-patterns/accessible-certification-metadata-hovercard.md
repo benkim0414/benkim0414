@@ -87,13 +87,18 @@ viewer's timezone (`apps/github.io/src/app/certifications/certification-citation
 
 ### Keep supplemental content semantic and read-only
 
-Present the full certificate name first with Astryx `<Text type="label">`, then
-use one single-column `MetadataList` with exactly three rows in this order:
-`ID`, `Status`, and `Completed`
-(`apps/github.io/src/app/certifications/certification-citation.tsx:182`). The
-component test verifies that the name is outside the definition list, checks its
-`dt`/`dd` semantics, and confirms that `aria-describedby` connects the citation
-to the card content
+Use the full certificate name as the title of one single-column `MetadataList`,
+with exactly three rows in this order: `ID`, `Status`, and `Completed`
+(`apps/github.io/src/app/certifications/certification-citation.tsx:181`). Render
+status as a small non-interactive Astryx `Token`: green for `Active`, gray for
+`Expired`. Green communicates a positive current state; gray communicates an
+inactive or lapsed state without treating expiration as an error. Keep the
+visible label so color is never the only status signal.
+
+The component test verifies that the title is outside the definition list,
+checks the Token color, size, visible label, and lack of interactive children,
+checks `dt`/`dd` semantics, and confirms that `aria-describedby` connects the
+citation to the card content
 (`apps/github.io/src/app/certifications/certification-citation.spec.tsx:32`).
 
 Require these behaviors from any overlay component used here: hover and keyboard
