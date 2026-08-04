@@ -67,11 +67,26 @@ const completedDateFormatter = new Intl.DateTimeFormat('en-US', {
   year: 'numeric',
 });
 
+function hasValidCalendarDate(dateTime: string): boolean {
+  const match = /^(\d{4}-\d{2}-\d{2})T/.exec(dateTime);
+
+  if (!match) {
+    return false;
+  }
+
+  const date = new Date(`${match[1]}T00:00:00.000Z`);
+
+  return (
+    !Number.isNaN(date.getTime()) &&
+    date.toISOString().slice(0, 10) === match[1]
+  );
+}
+
 function getCertificationStatus(
   expiresAt: string | undefined,
   currentDate: Date,
 ): CertificationStatus | undefined {
-  if (!expiresAt) {
+  if (!expiresAt || !hasValidCalendarDate(expiresAt)) {
     return undefined;
   }
 
