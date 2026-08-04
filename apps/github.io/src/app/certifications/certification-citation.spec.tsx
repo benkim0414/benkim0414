@@ -55,8 +55,8 @@ describe('CertificationCitation', () => {
       (element) =>
         element.textContent === 'Certified Kubernetes Administrator',
     );
-    const statusToken = hoverCard.querySelector(
-      '.astryx-token[data-color="green"][data-size="sm"]',
+    const statusBadge = hoverCard.querySelector(
+      '.astryx-badge[data-variant="green"]',
     );
 
     expect(metadataList).toBeTruthy();
@@ -67,9 +67,9 @@ describe('CertificationCitation', () => {
       metadataList,
     );
     expect(certificationName?.closest('dl')).toBeNull();
-    expect(statusToken?.textContent).toBe('Active');
-    expect(statusToken?.closest('dd')).toBeTruthy();
-    expect(statusToken?.querySelector('a, button')).toBeNull();
+    expect(statusBadge?.textContent).toBe('Active');
+    expect(statusBadge?.closest('dd')).toBeTruthy();
+    expect(statusBadge?.querySelector('a, button')).toBeNull();
     expect(
       Array.from(hoverCard.querySelectorAll('dt'), (item) => item.textContent),
     ).toEqual(['ID', 'Status', 'Completed']);
@@ -96,14 +96,14 @@ describe('CertificationCitation', () => {
 
     const citation = getByRole('doc-noteref', { name: 'Citation 1: CKA' });
     const hoverCard = getByRole('dialog', { hidden: true });
-    const statusToken = hoverCard.querySelector(
-      '.astryx-token[data-color="gray"][data-size="sm"]',
+    const statusBadge = hoverCard.querySelector(
+      '.astryx-badge[data-variant="neutral"]',
     );
 
     expect(citation.getAttribute('href')).toBe(certificateUrl);
-    expect(statusToken?.textContent).toBe('Expired');
-    expect(statusToken?.closest('dd')).toBeTruthy();
-    expect(statusToken?.querySelector('a, button')).toBeNull();
+    expect(statusBadge?.textContent).toBe('Expired');
+    expect(statusBadge?.closest('dd')).toBeTruthy();
+    expect(statusBadge?.querySelector('a, button')).toBeNull();
     expect(
       Array.from(hoverCard.querySelectorAll('dd'), (item) => item.textContent),
     ).toContain('Expired');
