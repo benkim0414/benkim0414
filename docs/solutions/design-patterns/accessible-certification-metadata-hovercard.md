@@ -87,11 +87,13 @@ viewer's timezone (`apps/github.io/src/app/certifications/certification-citation
 
 ### Keep supplemental content semantic and read-only
 
-Use one single-column Astryx `MetadataList` with exactly four rows in this
-order: `ID`, `Name`, `Status`, and `Completed`
-(`apps/github.io/src/app/certifications/certification-citation.tsx:180`). The
-component test verifies `dt`/`dd` semantics and that `aria-describedby` connects
-the citation to the card content
+Present the full certificate name first with Astryx `<Text type="label">`, then
+use one single-column `MetadataList` with exactly three rows in this order:
+`ID`, `Status`, and `Completed`
+(`apps/github.io/src/app/certifications/certification-citation.tsx:182`). The
+component test verifies that the name is outside the definition list, checks its
+`dt`/`dd` semantics, and confirms that `aria-describedby` connects the citation
+to the card content
 (`apps/github.io/src/app/certifications/certification-citation.spec.tsx:32`).
 
 Require these behaviors from any overlay component used here: hover and keyboard
