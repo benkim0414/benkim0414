@@ -303,6 +303,11 @@ describe('CertificationCitation', () => {
       '2027-04-20T10:00:00+10:00',
     ],
     ['an invalid expiry date', ckaMetadata, 'not-a-date'],
+    [
+      'an impossible expiry date',
+      ckaMetadata,
+      '2027-02-30T10:00:00+10:00',
+    ],
   ])('omits the hover card for %s', (_label, metadata, expiresAt) => {
     const { getByRole, queryByRole } = render(
       <CertificationCitation
