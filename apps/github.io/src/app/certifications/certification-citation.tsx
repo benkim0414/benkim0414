@@ -1,10 +1,12 @@
 import * as stylex from '@stylexjs/stylex';
 import { Citation } from '@astryxdesign/core/Citation';
 import { HoverCard } from '@astryxdesign/core/HoverCard';
+import { VStack } from '@astryxdesign/core/Layout';
 import {
   MetadataList,
   MetadataListItem,
 } from '@astryxdesign/core/MetadataList';
+import { Text } from '@astryxdesign/core/Text';
 import {
   radiusVars,
   spacingVars,
@@ -180,16 +182,18 @@ export function CertificationCitation({
       {hasCompleteMetadata && metadata && completedAt ? (
         <HoverCard
           content={
-            <MetadataList columns="single">
-              <MetadataListItem label="ID">{metadata.id}</MetadataListItem>
-              <MetadataListItem label="Name">
-                {metadata.name}
-              </MetadataListItem>
-              <MetadataListItem label="Status">{statusLabel}</MetadataListItem>
-              <MetadataListItem label="Completed">
-                {completedAt}
-              </MetadataListItem>
-            </MetadataList>
+            <VStack gap={2}>
+              <Text type="label">{metadata.name}</Text>
+              <MetadataList columns="single">
+                <MetadataListItem label="ID">{metadata.id}</MetadataListItem>
+                <MetadataListItem label="Status">
+                  {statusLabel}
+                </MetadataListItem>
+                <MetadataListItem label="Completed">
+                  {completedAt}
+                </MetadataListItem>
+              </MetadataList>
+            </VStack>
           }
           hasHoverIndication={false}
         >
