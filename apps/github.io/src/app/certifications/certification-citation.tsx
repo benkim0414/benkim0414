@@ -1,4 +1,5 @@
 import * as stylex from '@stylexjs/stylex';
+import { Badge } from '@astryxdesign/core/Badge';
 import { Citation } from '@astryxdesign/core/Citation';
 import { HoverCard } from '@astryxdesign/core/HoverCard';
 import {
@@ -9,7 +10,6 @@ import {
   radiusVars,
   spacingVars,
 } from '@astryxdesign/core/theme/tokens.stylex';
-import { Token } from '@astryxdesign/core/Token';
 import { VisuallyHidden } from '@astryxdesign/core/VisuallyHidden';
 import type { ReactElement, ReactNode } from 'react';
 
@@ -184,10 +184,9 @@ export function CertificationCitation({
             <MetadataList columns="single" title={metadata.name}>
               <MetadataListItem label="ID">{metadata.id}</MetadataListItem>
               <MetadataListItem label="Status">
-                <Token
-                  color={status === 'active' ? 'green' : 'gray'}
+                <Badge
                   label={statusLabel}
-                  size="sm"
+                  variant={status === 'active' ? 'green' : 'neutral'}
                 />
               </MetadataListItem>
               <MetadataListItem label="Completed">
