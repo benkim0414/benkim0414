@@ -4,9 +4,9 @@
 
 **Goal:** Show complete certification details in an accessible Astryx HoverCard while preserving `CertificationCitation` as a direct certificate link.
 
-**Architecture:** Extend `CertificationCitation` with one optional, complete `CertificationMetadata` value object and keep status derived from `expiresAt`. Render the existing Astryx `Citation` as the trigger for a read-only `MetadataList` whose title is the full name and whose status value is a non-interactive colored `Token`, only when the URL, expiry, and metadata are valid; otherwise preserve the current citation-only path. Add the three concrete CNCF credential records to the skill catalog and roadmap without teaching the reusable component about known certificate titles.
+**Architecture:** Extend `CertificationCitation` with one optional, complete `CertificationMetadata` value object and keep status derived from `expiresAt`. Render the existing Astryx `Citation` as the trigger for a read-only `MetadataList` whose title is the full name and whose status value is a non-interactive colored `Badge`, only when the URL, expiry, and metadata are valid; otherwise preserve the current citation-only path. Add the three concrete CNCF credential records to the skill catalog and roadmap without teaching the reusable component about known certificate titles.
 
-**Tech Stack:** React 19, TypeScript, Astryx `Citation`, `HoverCard`, `MetadataList`, `Token`, StyleX, Vitest, Testing Library, Storybook, Nx, pnpm.
+**Tech Stack:** React 19, TypeScript, Astryx `Badge`, `Citation`, `HoverCard`, `MetadataList`, StyleX, Vitest, Testing Library, Storybook, Nx, pnpm.
 
 ## Global Constraints
 
@@ -16,8 +16,9 @@
 - Keep the Citation as the direct certificate link for click, `Enter`, and mobile tap; do not add a mobile Popover or repeat the URL in metadata.
 - Use the full certificate name as `MetadataList.title`, followed by exactly
   three metadata rows in this order: `ID`, `Status`, `Completed`.
-- Render status with a small non-interactive Token: green `Active`, gray
-  `Expired`. Keep the visible label so meaning never depends on color alone.
+- Render status with a non-interactive Badge: green `Active`, neutral `Expired`.
+  Astryx has no gray Badge variant; neutral is its supported gray treatment.
+  Keep the visible label so meaning never depends on color alone.
 - Store completion dates as ISO `YYYY-MM-DD` calendar dates and display fixed English abbreviated-month dates without timezone drift.
 - Derive `Active` or `Expired` from `expiresAt` and `currentDate`; do not store status in `CertificationMetadata`.
 - Render no HoverCard for missing, empty, or invalid preview data. The underlying Citation must still render.
@@ -47,7 +48,7 @@
 - Test: `apps/github.io/src/app/certifications/certification-citation.spec.tsx`
 
 **Interfaces:**
-- Consumes: Astryx `HoverCard`, `MetadataList`, `MetadataListItem`, `Token`, the existing `Citation`, and current `expiresAt`/`currentDate` status inputs.
+- Consumes: Astryx `Badge`, `HoverCard`, `MetadataList`, `MetadataListItem`, the existing `Citation`, and current `expiresAt`/`currentDate` status inputs.
 - Produces: `export interface CertificationMetadata { id: string; name: string; completedAt: string }` and `CertificationCitationProps.metadata?: CertificationMetadata`.
 - Preserves: `CertificationCitation(props: CertificationCitationProps): ReactElement` and every existing prop and data attribute.
 
@@ -110,8 +111,8 @@ it('describes a concrete certification with semantic metadata', () => {
     (element) =>
       element.textContent === 'Certified Kubernetes Administrator',
   );
-  const statusToken = hoverCard.querySelector(
-    '.astryx-token[data-color="green"][data-size="sm"]',
+  const statusBadge = hoverCard.querySelector(
+    '.astryx-badge[data-variant="green"]',
   );
 
   expect(metadataList).toBeTruthy();
@@ -122,9 +123,9 @@ it('describes a concrete certification with semantic metadata', () => {
     metadataList,
   );
   expect(certificationName?.closest('dl')).toBeNull();
-  expect(statusToken?.textContent).toBe('Active');
-  expect(statusToken?.closest('dd')).toBeTruthy();
-  expect(statusToken?.querySelector('a, button')).toBeNull();
+  expect(statusBadge?.textContent).toBe('Active');
+  expect(statusBadge?.closest('dd')).toBeTruthy();
+  expect(statusBadge?.querySelector('a, button')).toBeNull();
   expect(
     Array.from(hoverCard.querySelectorAll('dt'), (item) => item.textContent),
   ).toEqual(['ID', 'Status', 'Completed']);
@@ -151,8 +152,14 @@ it('shows expired metadata without changing the citation link', () => {
 
   const citation = getByRole('doc-noteref', { name: 'Citation 1: CKA' });
   const hoverCard = getByRole('dialog', { hidden: true });
+  const statusBadge = hoverCard.querySelector(
+    '.astryx-badge[data-variant="neutral"]',
+  );
 
   expect(citation.getAttribute('href')).toBe(certificateUrl);
+  expect(statusBadge?.textContent).toBe('Expired');
+  expect(statusBadge?.closest('dd')).toBeTruthy();
+  expect(statusBadge?.querySelector('a, button')).toBeNull();
   expect(
     Array.from(hoverCard.querySelectorAll('dd'), (item) => item.textContent),
   ).toContain('Expired');
@@ -227,12 +234,12 @@ Expected: FAIL because `CertificationCitationProps` has no `metadata` prop and n
 In `certification-citation.tsx`, add the Astryx imports:
 
 ```ts
+import { Badge } from '@astryxdesign/core/Badge';
 import { HoverCard } from '@astryxdesign/core/HoverCard';
 import {
   MetadataList,
   MetadataListItem,
 } from '@astryxdesign/core/MetadataList';
-import { Token } from '@astryxdesign/core/Token';
 ```
 
 Add the public value object immediately before `CertificationCitationProps`, then add its optional prop:
@@ -350,10 +357,9 @@ In the return, keep `fallbackIcon` before the citation and replace the direct `C
       <MetadataList columns="single" title={metadata.name}>
         <MetadataListItem label="ID">{metadata.id}</MetadataListItem>
         <MetadataListItem label="Status">
-          <Token
-            color={status === 'active' ? 'green' : 'gray'}
+          <Badge
             label={statusLabel}
-            size="sm"
+            variant={status === 'active' ? 'green' : 'neutral'}
           />
         </MetadataListItem>
         <MetadataListItem label="Completed">
@@ -682,13 +688,13 @@ Open the Active story at desktop width and verify:
 4. Tabbing to CKA opens the same card and preserves a visible focus indicator.
 5. Pressing `Escape` closes the card and leaves focus on CKA.
 6. Pressing `Enter` follows the existing certificate link behavior.
-7. The Active story shows a green `Active` Token; the Expired story shows a gray
-   `Expired` Token, and both labels remain readable without color.
+7. The Active story shows a green `Active` Badge; the Expired story shows a
+   neutral gray `Expired` Badge, and both labels remain readable without color.
 8. The Unbranded story has no HoverCard.
 
 Use browser accessibility inspection to confirm that the Citation link's
 `aria-describedby` includes the HoverCard ID, the MetadataList title is outside
-the definition list, the status Token is non-interactive, and the content
+the definition list, the status Badge is non-interactive, and the content
 contains one semantic `dl` with three `dt`/`dd` pairs.
 
 - [ ] **Step 5: Verify mobile regression behavior**
