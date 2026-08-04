@@ -4,9 +4,9 @@
 
 **Goal:** Show complete certification details in an accessible Astryx HoverCard while preserving `CertificationCitation` as a direct certificate link.
 
-**Architecture:** Extend `CertificationCitation` with one optional, complete `CertificationMetadata` value object and keep status derived from `expiresAt`. Render the existing Astryx `Citation` as the trigger for a read-only Astryx `MetadataList` only when the URL, expiry, and metadata are valid; otherwise preserve the current citation-only path. Add the three concrete CNCF credential records to the skill catalog and roadmap without teaching the reusable component about known certificate titles.
+**Architecture:** Extend `CertificationCitation` with one optional, complete `CertificationMetadata` value object and keep status derived from `expiresAt`. Render the existing Astryx `Citation` as the trigger for a read-only HoverCard whose full name uses Astryx `Text` and whose remaining values use `MetadataList`, only when the URL, expiry, and metadata are valid; otherwise preserve the current citation-only path. Add the three concrete CNCF credential records to the skill catalog and roadmap without teaching the reusable component about known certificate titles.
 
-**Tech Stack:** React 19, TypeScript, Astryx `Citation`, `HoverCard`, `MetadataList`, StyleX, Vitest, Testing Library, Storybook, Nx, pnpm.
+**Tech Stack:** React 19, TypeScript, Astryx `Citation`, `HoverCard`, `Text`, `VStack`, `MetadataList`, StyleX, Vitest, Testing Library, Storybook, Nx, pnpm.
 
 ## Global Constraints
 
@@ -14,7 +14,8 @@
 - Use Astryx components and their default placement, collision handling, spacing, surface styling, and delays; do not add dependencies or a new styling system.
 - Keep the HoverCard supplementary and read-only. Do not put links, buttons, or other focusable controls in its Metadata List.
 - Keep the Citation as the direct certificate link for click, `Enter`, and mobile tap; do not add a mobile Popover or repeat the URL in metadata.
-- Show exactly four metadata rows in this order: `ID`, `Name`, `Status`, `Completed`.
+- Show the full certificate name with `<Text type="label">`, followed by exactly
+  three metadata rows in this order: `ID`, `Status`, `Completed`.
 - Store completion dates as ISO `YYYY-MM-DD` calendar dates and display fixed English abbreviated-month dates without timezone drift.
 - Derive `Active` or `Expired` from `expiresAt` and `currentDate`; do not store status in `CertificationMetadata`.
 - Render no HoverCard for missing, empty, or invalid preview data. The underlying Citation must still render.
@@ -44,7 +45,7 @@
 - Test: `apps/github.io/src/app/certifications/certification-citation.spec.tsx`
 
 **Interfaces:**
-- Consumes: Astryx `HoverCard`, `MetadataList`, `MetadataListItem`, the existing `Citation`, and current `expiresAt`/`currentDate` status inputs.
+- Consumes: Astryx `HoverCard`, `Text`, `VStack`, `MetadataList`, `MetadataListItem`, the existing `Citation`, and current `expiresAt`/`currentDate` status inputs.
 - Produces: `export interface CertificationMetadata { id: string; name: string; completedAt: string }` and `CertificationCitationProps.metadata?: CertificationMetadata`.
 - Preserves: `CertificationCitation(props: CertificationCitationProps): ReactElement` and every existing prop and data attribute.
 
@@ -100,14 +101,21 @@ it('describes a concrete certification with semantic metadata', () => {
   expect(citation.getAttribute('aria-describedby')?.split(' ')).toContain(
     hoverCard.id,
   );
+  const certificationName = hoverCard.querySelector(
+    '.astryx-text[data-type="label"]',
+  );
+
+  expect(certificationName?.textContent).toBe(
+    'Certified Kubernetes Administrator',
+  );
+  expect(certificationName?.closest('dl')).toBeNull();
   expect(
     Array.from(hoverCard.querySelectorAll('dt'), (item) => item.textContent),
-  ).toEqual(['ID', 'Name', 'Status', 'Completed']);
+  ).toEqual(['ID', 'Status', 'Completed']);
   expect(
     Array.from(hoverCard.querySelectorAll('dd'), (item) => item.textContent),
   ).toEqual([
     'LF-assbyzy17c',
-    'Certified Kubernetes Administrator',
     'Active',
     'Apr 20, 2025',
   ]);
@@ -204,10 +212,12 @@ In `certification-citation.tsx`, add the Astryx imports:
 
 ```ts
 import { HoverCard } from '@astryxdesign/core/HoverCard';
+import { VStack } from '@astryxdesign/core/Layout';
 import {
   MetadataList,
   MetadataListItem,
 } from '@astryxdesign/core/MetadataList';
+import { Text } from '@astryxdesign/core/Text';
 ```
 
 Add the public value object immediately before `CertificationCitationProps`, then add its optional prop:
@@ -322,14 +332,16 @@ In the return, keep `fallbackIcon` before the citation and replace the direct `C
 {hasCompleteMetadata && metadata && completedAt ? (
   <HoverCard
     content={
-      <MetadataList columns="single">
-        <MetadataListItem label="ID">{metadata.id}</MetadataListItem>
-        <MetadataListItem label="Name">{metadata.name}</MetadataListItem>
-        <MetadataListItem label="Status">{statusLabel}</MetadataListItem>
-        <MetadataListItem label="Completed">
-          {completedAt}
-        </MetadataListItem>
-      </MetadataList>
+      <VStack gap={2}>
+        <Text type="label">{metadata.name}</Text>
+        <MetadataList columns="single">
+          <MetadataListItem label="ID">{metadata.id}</MetadataListItem>
+          <MetadataListItem label="Status">{statusLabel}</MetadataListItem>
+          <MetadataListItem label="Completed">
+            {completedAt}
+          </MetadataListItem>
+        </MetadataList>
+      </VStack>
     }
     hasHoverIndication={false}
   >
@@ -645,7 +657,8 @@ Expected: Storybook serves the `GitHub.io/Certifications/Certification Citation`
 
 Open the Active story at desktop width and verify:
 
-1. Hovering CKA opens a card containing exactly ID, Name, Status, and Completed.
+1. Hovering CKA opens a card with the full name as its label and exactly ID,
+   Status, and Completed metadata rows.
 2. Moving the pointer from CKA into the card keeps it visible.
 3. The full certificate name wraps without clipping or overlapping another row.
 4. Tabbing to CKA opens the same card and preserves a visible focus indicator.
@@ -654,7 +667,10 @@ Open the Active story at desktop width and verify:
 7. The Expired story says `Expired`; the Active story says `Active`.
 8. The Unbranded story has no HoverCard.
 
-Use browser accessibility inspection to confirm that the Citation link's `aria-describedby` includes the HoverCard ID and the content contains one semantic `dl` with four `dt`/`dd` pairs.
+Use browser accessibility inspection to confirm that the Citation link's
+`aria-describedby` includes the HoverCard ID, the full name label is outside
+the definition list, and the content contains one semantic `dl` with three
+`dt`/`dd` pairs.
 
 - [ ] **Step 5: Verify mobile regression behavior**
 
