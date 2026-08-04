@@ -32,7 +32,7 @@ key-value-list primitives:
 - `MetadataList.title` presents the full certificate name above the list, while
   `MetadataListItem` provides semantic definition-list markup for the remaining
   read-only label/value data.
-- `Token` presents the short status text with a supplemental semantic color.
+- `Badge` presents the short status text with a supplemental status color.
 - Keep Astryx default placement, collision handling, spacing, surface styling,
   and open and close delays.
 - Do not add custom component-library dependencies or a second styling system.
@@ -111,13 +111,14 @@ certificate name and whose rows appear in this order:
 2. `Status`
 3. `Completed`
 
-Status is a non-interactive small Astryx `Token` with its visible text retained:
-`Active` uses green for a positive current state, while `Expired` uses gray for
-an inactive or lapsed state rather than presenting it as an error. Color is
-supplemental and never replaces the status label. Completion dates use a fixed
-English formatter with abbreviated month, numeric day, and four-digit year, for
-example `Apr 20, 2025`. Treat the ISO value as a calendar date and format it
-without allowing the browser timezone to shift the displayed day.
+Status is a non-interactive Astryx `Badge` with its visible text retained:
+`Active` uses the green variant for a positive current state, while `Expired`
+uses the neutral variant, Astryx's supported gray treatment, for an inactive or
+lapsed state rather than presenting it as an error. Color is supplemental and
+never replaces the status label. Completion dates use a fixed English formatter
+with abbreviated month, numeric day, and four-digit year, for example
+`Apr 20, 2025`. Treat the ISO value as a calendar date and format it without
+allowing the browser timezone to shift the displayed day.
 
 The certificate URL is not repeated in the Metadata List. The citation itself
 remains the certificate link.
@@ -185,8 +186,9 @@ Add focused `CertificationCitation` tests that verify:
 
 - Complete metadata produces a HoverCard whose `MetadataList` title is the full
   certificate name, followed by semantic `ID`, `Status`, and `Completed` rows.
-- Active status renders as a small green non-interactive Token; expired status
-  renders as a small gray non-interactive Token, with visible status text.
+- Active status renders as a green non-interactive Badge; expired status renders
+  as a neutral non-interactive Badge, the supported gray treatment, with visible
+  status text.
 - The three representative credential values render exactly.
 - Future and past expiry dates display `Active` and `Expired` respectively.
 - ISO completion dates format as the requested English calendar dates without
