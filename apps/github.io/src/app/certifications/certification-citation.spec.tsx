@@ -48,12 +48,13 @@ describe('CertificationCitation', () => {
     expect(citation.getAttribute('aria-describedby')?.split(' ')).toContain(
       hoverCard.id,
     );
-    const certificationName = Array.from(
-      hoverCard.querySelectorAll('*'),
-    ).find(
-      (item) => item.textContent === 'Certified Kubernetes Administrator',
+    const certificationName = hoverCard.querySelector(
+      '.astryx-text[data-type="label"]',
     );
 
+    expect(certificationName?.textContent).toBe(
+      'Certified Kubernetes Administrator',
+    );
     expect(certificationName?.closest('dl')).toBeNull();
     expect(
       Array.from(hoverCard.querySelectorAll('dt'), (item) => item.textContent),
