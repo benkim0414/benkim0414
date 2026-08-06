@@ -104,16 +104,30 @@ describe('MobileSkillsPage', () => {
     const navigation = getByRole('navigation', { name: 'Mobile navigation' });
     const mobileShell = main.parentElement;
     const { getByTestId } = render(
-      <VStack
-        as="main"
-        className="min-h-0 flex-1"
-        data-testid="non-scrollable-main"
-        gap={3}
-        paddingBlock={4}
-        paddingInline={4}
-      />,
+      <Theme theme={neutralTheme}>
+        <VStack
+          as="main"
+          className="min-h-0 flex-1"
+          data-testid="scrollable-main-control"
+          gap={3}
+          isScrollable
+          paddingBlock={4}
+          paddingInline={4}
+        />
+        <VStack
+          as="main"
+          className="min-h-0 flex-1"
+          data-testid="non-scrollable-main-control"
+          gap={3}
+          paddingBlock={4}
+          paddingInline={4}
+        />
+      </Theme>,
     );
-    const nonScrollableMain = getByTestId('non-scrollable-main');
+    const scrollableMainControl = getByTestId('scrollable-main-control');
+    const nonScrollableMainControl = getByTestId(
+      'non-scrollable-main-control',
+    );
 
     expect(mobileShell).toBe(navigation.parentElement);
     expect(mobileShell?.className).toContain('max-w-md');
@@ -123,7 +137,8 @@ describe('MobileSkillsPage', () => {
     expect(navigation.className).toContain('shrink-0');
     expect(main.className).toContain('flex-1');
     expect(main.className).toContain('astryx-stack');
-    expect(main.className).not.toBe(nonScrollableMain.className);
+    expect(main.className).toBe(scrollableMainControl.className);
+    expect(main.className).not.toBe(nonScrollableMainControl.className);
     expect(getByRole('button', { name: 'Search skills' })).toBeTruthy();
     expect(queryByRole('combobox', { name: 'Search skills' })).toBeNull();
   });
@@ -133,6 +148,7 @@ describe('MobileSkillsPage', () => {
       renderMobileSkillsPage();
     const carousel = getByLabelText('Highlighted skills');
     const carouselContainer = carousel.parentElement;
+    const main = getByRole('main', { name: 'Skills' });
     const listHeading = getByRole('heading', {
       level: 2,
       name: 'All skills',
@@ -151,7 +167,9 @@ describe('MobileSkillsPage', () => {
     expect(carouselContainer?.className).toContain('pt-4');
     expect(carouselContainer?.className).not.toContain('px-4');
     expect(carouselContainer?.className).not.toContain('pb-4');
-    const main = getByRole('main', { name: 'Skills' });
+    expect(carouselContainer?.parentElement).toBe(main.parentElement);
+    expect(carouselContainer?.nextElementSibling).toBe(main);
+    expect(main.contains(carousel)).toBe(false);
     expect(main.className).toContain('astryx-stack');
     expect(main.className).toContain('flex-1');
     expect(main.className).not.toContain('px-4');
