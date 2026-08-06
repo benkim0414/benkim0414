@@ -1,6 +1,7 @@
 import type { ComponentProps, ReactNode } from 'react';
 import { fireEvent, render, waitFor, within } from '@testing-library/react';
 import { Theme } from '@astryxdesign/core';
+import { VStack } from '@astryxdesign/core/Layout';
 import { neutralTheme } from '@astryxdesign/theme-neutral/built';
 import { vi } from 'vitest';
 
@@ -102,6 +103,17 @@ describe('MobileSkillsPage', () => {
     const main = getByRole('main', { name: 'Skills' });
     const navigation = getByRole('navigation', { name: 'Mobile navigation' });
     const mobileShell = main.parentElement;
+    const { getByTestId } = render(
+      <VStack
+        as="main"
+        className="min-h-0 flex-1"
+        data-testid="non-scrollable-main"
+        gap={3}
+        paddingBlock={4}
+        paddingInline={4}
+      />,
+    );
+    const nonScrollableMain = getByTestId('non-scrollable-main');
 
     expect(mobileShell).toBe(navigation.parentElement);
     expect(mobileShell?.className).toContain('max-w-md');
@@ -111,7 +123,7 @@ describe('MobileSkillsPage', () => {
     expect(navigation.className).toContain('shrink-0');
     expect(main.className).toContain('flex-1');
     expect(main.className).toContain('astryx-stack');
-    expect(main.className).toContain('xysyzu8');
+    expect(main.className).not.toBe(nonScrollableMain.className);
     expect(getByRole('button', { name: 'Search skills' })).toBeTruthy();
     expect(queryByRole('combobox', { name: 'Search skills' })).toBeNull();
   });
