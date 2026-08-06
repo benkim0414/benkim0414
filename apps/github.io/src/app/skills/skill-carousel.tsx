@@ -1,5 +1,9 @@
-import { Carousel } from '@astryxdesign/core/Carousel';
+import {
+  Carousel,
+  type CarouselProps,
+} from '@astryxdesign/core/Carousel';
 import { EmptyState } from '@astryxdesign/core/EmptyState';
+import { VStack } from '@astryxdesign/core/Layout';
 import type { ReactElement } from 'react';
 
 import { SkillCard } from './skill-card';
@@ -9,6 +13,7 @@ export interface SkillCarouselProps {
   skills: readonly Skill[];
   ariaLabel?: string;
   emptyMessage?: string;
+  padding?: CarouselProps['padding'];
   variant?: SkillSurfaceVariant;
 }
 
@@ -16,10 +21,19 @@ export function SkillCarousel({
   skills,
   ariaLabel = 'Skills carousel',
   emptyMessage = 'No skills have been supplied.',
+  padding,
   variant = 'default',
 }: SkillCarouselProps): ReactElement {
   if (skills.length === 0) {
-    return <EmptyState headingLevel={3} isCompact title={emptyMessage} />;
+    const emptyState = (
+      <EmptyState headingLevel={3} isCompact title={emptyMessage} />
+    );
+
+    return padding == null ? (
+      emptyState
+    ) : (
+      <VStack paddingInline={padding}>{emptyState}</VStack>
+    );
   }
 
   return (
@@ -28,6 +42,7 @@ export function SkillCarousel({
       className="skill-carousel"
       gap={3}
       hasSnap
+      padding={padding}
     >
       {skills.map((skill, index) => (
         <SkillCard
