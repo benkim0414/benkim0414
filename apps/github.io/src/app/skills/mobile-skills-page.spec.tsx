@@ -110,7 +110,7 @@ describe('MobileSkillsPage', () => {
     expect(mobileShell?.className).toContain('overflow-hidden');
     expect(navigation.className).toContain('shrink-0');
     expect(main.className).toContain('flex-1');
-    expect(main.className).toContain('overflow-y-auto');
+    expect(main.className).toContain('astryx-stack');
     expect(getByRole('button', { name: 'Search skills' })).toBeTruthy();
     expect(queryByRole('combobox', { name: 'Search skills' })).toBeNull();
   });
@@ -135,9 +135,13 @@ describe('MobileSkillsPage', () => {
     expect(listHeading.parentElement).toBe(list.parentElement);
     expect(listHeading.className).toContain('astryx-text');
     expect(carouselContainer?.className).toContain('shrink-0');
-    expect(carouselContainer?.className).toContain('px-4');
     expect(carouselContainer?.className).toContain('pt-4');
-    expect(carouselContainer?.className).toContain('pb-4');
+    expect(carouselContainer?.className).not.toContain('px-4');
+    expect(carouselContainer?.className).not.toContain('pb-4');
+    const main = getByRole('main', { name: 'Skills' });
+    expect(main.className).toContain('astryx-stack');
+    expect(main.className).toContain('flex-1');
+    expect(main.className).not.toContain('px-4');
     expect(carousel).toBeTruthy();
     expect(within(carousel).getAllByTestId('skill-card')).toHaveLength(5);
     expect(within(list).getAllByTestId('skill-card')).toHaveLength(
