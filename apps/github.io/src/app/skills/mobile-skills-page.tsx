@@ -119,7 +119,7 @@ export function MobileSkillsPage({
         onOpenChange={setIsSearchOpen}
         onValueChange={setSelectedSkillId}
       />
-      <div className="shrink-0 bg-[var(--color-background-surface)] px-4 pb-4">
+      <div className="shrink-0 bg-[var(--color-background-surface)] px-4 pb-4 pt-4">
         <SkillCarousel
           ariaLabel="Highlighted skills"
           emptyMessage="No highlighted skills have been supplied."
@@ -136,9 +136,12 @@ export function MobileSkillsPage({
         </VisuallyHidden>
 
         <VStack gap={3}>
+          <Text as="h2" type="body" weight="bold">
+            All skills
+          </Text>
           <SkillCardList
             emptyMessage={listEmptyMessage}
-            heading="Skills"
+            heading="All skills"
             skills={visibleSkills}
             variant="compact"
           />

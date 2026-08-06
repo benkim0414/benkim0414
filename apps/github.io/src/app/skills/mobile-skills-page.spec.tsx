@@ -119,12 +119,25 @@ describe('MobileSkillsPage', () => {
     const { getAllByTestId, getByLabelText, getByRole, getByText } =
       renderMobileSkillsPage();
     const carousel = getByLabelText('Highlighted skills');
-    const list = getByRole('region', { name: 'Skills' });
+    const carouselContainer = carousel.parentElement;
+    const listHeading = getByRole('heading', {
+      level: 2,
+      name: 'All skills',
+    });
+    const list = getByRole('region', { name: 'All skills' });
 
-    expect(list.compareDocumentPosition(carousel)).toBe(
+    expect(listHeading.compareDocumentPosition(carousel)).toBe(
       Node.DOCUMENT_POSITION_PRECEDING,
     );
-    expect(carousel.parentElement?.className).toContain('shrink-0');
+    expect(listHeading.compareDocumentPosition(list)).toBe(
+      Node.DOCUMENT_POSITION_FOLLOWING,
+    );
+    expect(listHeading.parentElement).toBe(list.parentElement);
+    expect(listHeading.className).toContain('astryx-text');
+    expect(carouselContainer?.className).toContain('shrink-0');
+    expect(carouselContainer?.className).toContain('px-4');
+    expect(carouselContainer?.className).toContain('pt-4');
+    expect(carouselContainer?.className).toContain('pb-4');
     expect(carousel).toBeTruthy();
     expect(within(carousel).getAllByTestId('skill-card')).toHaveLength(5);
     expect(within(list).getAllByTestId('skill-card')).toHaveLength(
@@ -159,7 +172,7 @@ describe('MobileSkillsPage', () => {
     const { getByLabelText, getByRole, queryByText } =
       renderMobileSkillsPage();
     const carousel = getByLabelText('Highlighted skills');
-    const list = getByRole('region', { name: 'Skills' });
+    const list = getByRole('region', { name: 'All skills' });
 
     expect(within(carousel).queryByText('Container')).toBeNull();
     expect(
