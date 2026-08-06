@@ -1,4 +1,6 @@
-import { render } from '@testing-library/react';
+import { render, within } from '@testing-library/react';
+import { Carousel } from '@astryxdesign/core/Carousel';
+import { VStack } from '@astryxdesign/core/Layout';
 import type { MockInstance } from 'vitest';
 import { vi } from 'vitest';
 
@@ -80,19 +82,70 @@ describe('SkillCarousel', () => {
     expect(queryByTestId('skill-card')).toBeNull();
   });
 
-  it('supports Astryx content padding for populated and empty states', () => {
-    const populated = render(
-      <SkillCarousel padding={4} skills={sampleSkills.slice(0, 2)} />,
+  it('forwards Astryx content padding to populated carousels without changing the default', () => {
+    const { getAllByTestId, getByLabelText } = render(
+      <>
+        <SkillCarousel
+          ariaLabel="Padded skills"
+          padding={4}
+          skills={sampleSkills.slice(0, 2)}
+        />
+        <SkillCarousel
+          ariaLabel="Default skills"
+          skills={sampleSkills.slice(0, 2)}
+        />
+        <Carousel
+          aria-label="Padded control"
+          gap={3}
+          hasSnap
+          padding={4}
+        >
+          <span>Padded control item</span>
+        </Carousel>
+        <Carousel aria-label="Default control" gap={3} hasSnap>
+          <span>Default control item</span>
+        </Carousel>
+      </>,
     );
+    const paddedScroller = getByLabelText('Padded skills').firstElementChild;
+    const defaultScroller = getByLabelText('Default skills').firstElementChild;
+    const paddedControlScroller =
+      getByLabelText('Padded control').firstElementChild;
+    const defaultControlScroller =
+      getByLabelText('Default control').firstElementChild;
 
-    expect(populated.getAllByTestId('skill-card')).toHaveLength(2);
+    expect(getAllByTestId('skill-card')).toHaveLength(4);
+    expect(paddedScroller?.className).toBe(paddedControlScroller?.className);
+    expect(defaultScroller?.className).toBe(defaultControlScroller?.className);
+    expect(paddedScroller?.className).not.toBe(defaultScroller?.className);
+  });
 
-    populated.unmount();
+  it('applies Astryx inline padding to empty states without changing the default', () => {
+    const { getByRole, getByTestId } = render(
+      <>
+        <SkillCarousel
+          emptyMessage="Padded empty skills"
+          padding={4}
+          skills={[]}
+        />
+        <VStack data-testid="padded-empty-control" paddingInline={4} />
+      </>,
+    );
+    const paddedStatus = getByRole('status');
+    const paddedWrapper = paddedStatus.parentElement;
+    const paddedControl = getByTestId('padded-empty-control');
 
-    const empty = render(<SkillCarousel padding={4} skills={[]} />);
-    const status = empty.getByRole('status');
+    expect(paddedWrapper?.className).toBe(paddedControl.className);
 
-    expect(status.parentElement?.className).toContain('astryx-stack');
+    const defaultEmpty = render(<SkillCarousel skills={[]} />);
+    const defaultStatus = within(defaultEmpty.container).getByRole('status');
+
+    expect(defaultStatus.parentElement?.className).not.toBe(
+      paddedWrapper?.className,
+    );
+    expect(defaultStatus.parentElement?.className).not.toContain(
+      'astryx-stack',
+    );
   });
 
   it('uses a non-visible carousel accessibility label without rendering a visible label', () => {
