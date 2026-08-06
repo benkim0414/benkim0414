@@ -65,7 +65,7 @@ describe('App', () => {
     expect(main.className).not.toContain('min-h-screen');
     expect(navigation.className).toContain('shrink-0');
     expect(main.className).toContain('flex-1');
-    expect(main.className).toContain('overflow-y-auto');
+    expect(main.className).toContain('astryx-stack');
     expect(navigation).toBeTruthy();
     expect(queryByText('Ben Kim')).toBeNull();
     expect(queryByRole('search', { name: 'Skill search' })).toBeNull();
