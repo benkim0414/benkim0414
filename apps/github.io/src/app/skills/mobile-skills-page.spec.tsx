@@ -111,6 +111,7 @@ describe('MobileSkillsPage', () => {
     expect(navigation.className).toContain('shrink-0');
     expect(main.className).toContain('flex-1');
     expect(main.className).toContain('astryx-stack');
+    expect(main.className).toContain('xysyzu8');
     expect(getByRole('button', { name: 'Search skills' })).toBeTruthy();
     expect(queryByRole('combobox', { name: 'Search skills' })).toBeNull();
   });
