@@ -113,7 +113,7 @@ describe('App', () => {
     );
 
     const carousel = getByLabelText('Highlighted skills');
-    const list = getByRole('region', { name: 'Skills' });
+    const list = getByRole('region', { name: 'All skills' });
 
     expect(getAllByTestId('skill-card')).toHaveLength(6);
     expect(within(carousel).getByRole('heading', { name: 'Kubernetes' }))
