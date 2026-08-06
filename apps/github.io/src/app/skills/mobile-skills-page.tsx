@@ -119,34 +119,37 @@ export function MobileSkillsPage({
         onOpenChange={setIsSearchOpen}
         onValueChange={setSelectedSkillId}
       />
-      <div className="shrink-0 bg-[var(--color-background-surface)] px-4 pb-4 pt-4">
+      <div className="shrink-0 bg-[var(--color-background-surface)] pt-4">
         <SkillCarousel
           ariaLabel="Highlighted skills"
           emptyMessage="No highlighted skills have been supplied."
+          padding={4}
           skills={highlightedSkills}
           variant="compact"
         />
       </div>
-      <main
+      <VStack
         aria-labelledby="skills-page-title"
-        className="min-h-0 flex-1 overflow-y-auto px-4 pb-4"
+        as="main"
+        className="min-h-0 flex-1"
+        gap={3}
+        isScrollable
+        paddingBlock={4}
+        paddingInline={4}
       >
         <VisuallyHidden as="h1" id="skills-page-title">
           Skills
         </VisuallyHidden>
-
-        <VStack gap={3}>
-          <Text as="h2" type="body" weight="bold">
-            All skills
-          </Text>
-          <SkillCardList
-            emptyMessage={listEmptyMessage}
-            heading="All skills"
-            skills={visibleSkills}
-            variant="compact"
-          />
-        </VStack>
-      </main>
+        <Text as="h2" type="body" weight="bold">
+          All skills
+        </Text>
+        <SkillCardList
+          emptyMessage={listEmptyMessage}
+          heading="All skills"
+          skills={visibleSkills}
+          variant="compact"
+        />
+      </VStack>
     </div>
   );
 }
