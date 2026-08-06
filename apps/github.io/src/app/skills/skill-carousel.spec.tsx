@@ -80,6 +80,21 @@ describe('SkillCarousel', () => {
     expect(queryByTestId('skill-card')).toBeNull();
   });
 
+  it('supports Astryx content padding for populated and empty states', () => {
+    const populated = render(
+      <SkillCarousel padding={4} skills={sampleSkills.slice(0, 2)} />,
+    );
+
+    expect(populated.getAllByTestId('skill-card')).toHaveLength(2);
+
+    populated.unmount();
+
+    const empty = render(<SkillCarousel padding={4} skills={[]} />);
+    const status = empty.getByRole('status');
+
+    expect(status.parentElement?.className).toContain('astryx-stack');
+  });
+
   it('uses a non-visible carousel accessibility label without rendering a visible label', () => {
     const { getByLabelText, queryByRole } = render(
       <SkillCarousel skills={sampleSkills.slice(0, 2)} />,
