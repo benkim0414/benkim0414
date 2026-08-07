@@ -52,11 +52,11 @@ describe('getDoraCapabilityCardEvidenceRows', () => {
 
     expect(rows.map((row) => row.group)).toEqual(['other']);
     expect(rows[0]?.evidence.map((item) => item.id)).toEqual([
-      'github-actions-ci',
-      'team-delivery-workflow',
-      'protected-review-gates',
+      'terraform-codepipeline-platform',
+      'codebuild-pr-gates',
       'nx-affected-quality-gates',
-      'regression-gates',
+      'github-actions-gitops-handoff',
+      'kustomize-tag-update-reliability',
     ]);
   });
 

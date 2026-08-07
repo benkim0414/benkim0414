@@ -1,3 +1,4 @@
+import { continuousIntegrationEvidenceItems } from './continuous-integration-evidence.data';
 import type {
   CapabilityEvidenceItem,
   DoraCapabilityDefinition,
@@ -89,13 +90,13 @@ export const curatedDevOpsCapabilityRadarScores = [
     score: 4,
     maxScore: 5,
     evidenceIds: [
-      'github-actions-ci',
-      'team-delivery-workflow',
-      'protected-review-gates',
+      'terraform-codepipeline-platform',
+      'codebuild-pr-gates',
       'nx-affected-quality-gates',
-      'regression-gates',
+      'github-actions-gitops-handoff',
+      'kustomize-tag-update-reliability',
     ],
-    strongestEvidenceId: 'github-actions-ci',
+    strongestEvidenceId: 'terraform-codepipeline-platform',
     evidenceCounts: { experience: 5 },
   },
   {
@@ -250,23 +251,7 @@ export const devOpsCapabilityEvidenceItems = [
     isPublic: true,
     strength: 'supporting',
   },
-  {
-    id: 'nx-affected-quality-gates',
-    title: 'Nx affected quality gates',
-    label: 'Nx affected',
-    type: 'experience',
-    organization: 'Current company',
-    capabilityKeys: [
-      'test-automation',
-      'continuous-integration',
-      'trunk-based-development',
-    ],
-    summary:
-      'Configured monorepo CI to run lint, build, test, and type-check gates for affected projects before changes are merged.',
-    technologies: ['Nx', 'CI', 'TypeScript'],
-    isPublic: true,
-    strength: 'primary',
-  },
+  ...continuousIntegrationEvidenceItems,
   {
     id: 'jest-testcontainers-postgres',
     title: 'Jest and Testcontainers PostgreSQL coverage',
@@ -338,11 +323,7 @@ export const devOpsCapabilityEvidenceItems = [
     label: 'GitHub Actions',
     type: 'experience',
     organization: 'Current company',
-    capabilityKeys: [
-      'continuous-delivery',
-      'deployment-automation',
-      'continuous-integration',
-    ],
+    capabilityKeys: ['continuous-delivery', 'deployment-automation'],
     summary:
       'Owned GitHub Actions workflow improvements that supported continuous integration, delivery, and deployment automation.',
     technologies: ['GitHub Actions'],
@@ -368,7 +349,7 @@ export const devOpsCapabilityEvidenceItems = [
     label: 'Team delivery',
     type: 'experience',
     organization: 'Current company',
-    capabilityKeys: ['continuous-delivery', 'continuous-integration'],
+    capabilityKeys: ['continuous-delivery'],
     summary:
       'Owned CI/CD workflow improvements for a small product team using safe public summary only.',
     technologies: ['CI', 'GitHub Actions'],
