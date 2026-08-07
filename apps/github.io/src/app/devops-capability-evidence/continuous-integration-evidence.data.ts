@@ -21,7 +21,7 @@ const awsInitiative =
 const githubInitiative =
   continuousIntegrationEvidenceInitiatives.githubActionsMonorepo;
 
-export const continuousIntegrationEvidenceItems = [
+const continuousIntegrationEvidenceItemCatalog = [
   {
     id: 'terraform-codepipeline-platform',
     label: 'Terraform pipelines',
@@ -541,3 +541,6 @@ export const continuousIntegrationEvidenceItems = [
     },
   },
 ] as const satisfies readonly CapabilityEvidenceItem[];
+
+export const continuousIntegrationEvidenceItems: readonly CapabilityEvidenceItem[] =
+  continuousIntegrationEvidenceItemCatalog;
