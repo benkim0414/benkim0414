@@ -207,7 +207,7 @@ export const evidenceTypeLabels = {
   project: 'Projects',
 } as const satisfies Record<EvidenceType, string>;
 
-export const devOpsCapabilityEvidenceItems = [
+const devOpsCapabilityEvidenceItemCatalog = [
   {
     id: 'short-lived-branch-flow',
     title: 'Short-lived feature and hotfix branch flow',
@@ -454,3 +454,6 @@ export const devOpsCapabilityEvidenceItems = [
     ],
   },
 ] as const satisfies readonly CapabilityEvidenceItem[];
+
+export const devOpsCapabilityEvidenceItems: readonly CapabilityEvidenceItem[] =
+  devOpsCapabilityEvidenceItemCatalog;
