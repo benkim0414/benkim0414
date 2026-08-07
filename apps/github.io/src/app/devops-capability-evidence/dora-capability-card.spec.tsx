@@ -122,11 +122,11 @@ describe('DoraCapabilityCard', () => {
         .getAllByRole('group')
         .map((group) => group.getAttribute('aria-label')),
     ).toEqual([
-      'Experience evidence: GitHub Actions',
-      'Experience evidence: Team delivery',
-      'Experience evidence: Protected reviews',
+      'Experience evidence: Terraform pipelines',
+      'Experience evidence: CodeBuild PR gates',
       'Experience evidence: Nx affected',
-      'Experience evidence: Regression gates',
+      'Experience evidence: GitOps handoff',
+      'Experience evidence: Tag reliability',
     ]);
   });
 
