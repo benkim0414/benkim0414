@@ -170,13 +170,13 @@ describe('devOpsCapabilityEvidence data', () => {
       {
         capabilityKey: 'continuous-integration',
         evidenceIds: [
-          'github-actions-ci',
-          'team-delivery-workflow',
-          'protected-review-gates',
+          'terraform-codepipeline-platform',
+          'codebuild-pr-gates',
           'nx-affected-quality-gates',
-          'regression-gates',
+          'github-actions-gitops-handoff',
+          'kustomize-tag-update-reliability',
         ],
-        strongestEvidenceId: 'github-actions-ci',
+        strongestEvidenceId: 'terraform-codepipeline-platform',
         evidenceCounts: { experience: 5 },
       },
       {
@@ -360,11 +360,7 @@ describe('devOpsCapabilityEvidence data', () => {
       {
         id: 'github-actions-ci',
         label: 'GitHub Actions',
-        capabilityKeys: [
-          'continuous-delivery',
-          'deployment-automation',
-          'continuous-integration',
-        ],
+        capabilityKeys: ['continuous-delivery', 'deployment-automation'],
       },
       {
         id: 'docker-delivery',
@@ -374,7 +370,7 @@ describe('devOpsCapabilityEvidence data', () => {
       {
         id: 'team-delivery-workflow',
         label: 'Team delivery',
-        capabilityKeys: ['continuous-delivery', 'continuous-integration'],
+        capabilityKeys: ['continuous-delivery'],
       },
       {
         id: 'kubernetes-workloads',
@@ -440,6 +436,28 @@ describe('devOpsCapabilityEvidence data', () => {
         ),
       ).toEqual(score.evidenceCounts);
     }
+  });
+
+  it('curates two AWS and three GitHub monorepo records for the CI card', () => {
+    const score = curatedDevOpsCapabilityRadarScores.find(
+      (entry) => entry.capabilityKey === 'continuous-integration',
+    );
+    const selected = (score?.evidenceIds ?? []).map((id) =>
+      devOpsCapabilityEvidenceItems.find((item) => item.id === id),
+    );
+
+    expect(score?.score).toBe(4);
+    expect(score?.strongestEvidenceId).toBe(score?.evidenceIds[0]);
+    expect(selected.every(Boolean)).toBe(true);
+    expect(
+      selected.map((item) => item?.details?.initiative.id),
+    ).toEqual([
+      'aws-codepipeline-platform',
+      'aws-codepipeline-platform',
+      'github-actions-monorepo',
+      'github-actions-monorepo',
+      'github-actions-monorepo',
+    ]);
   });
 
   it('keeps the CI/CD experience as a public-safe portfolio projection', () => {
@@ -621,7 +639,7 @@ describe('devOpsCapabilityEvidence scoring', () => {
 
   it('groups evidence counts by type and capability', () => {
     expect(getEvidenceTypeCounts(devOpsCapabilityEvidenceItems)).toMatchObject({
-      experience: 12,
+      experience: 26,
       learning: 3,
       certification: 1,
       project: 2,
@@ -653,7 +671,7 @@ describe('devOpsCapabilityEvidence scoring', () => {
         getEvidenceTypeCounts(devOpsCapabilityEvidenceItems),
       ),
     ).toBe(
-      'Evidence includes 1 skill, 3 learning items, 12 experience items, 1 certification, and 2 projects.',
+      'Evidence includes 1 skill, 3 learning items, 26 experience items, 1 certification, and 2 projects.',
     );
   });
 });
