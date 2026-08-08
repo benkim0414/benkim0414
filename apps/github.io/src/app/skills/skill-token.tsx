@@ -3,7 +3,11 @@ import { Token } from '@astryxdesign/core/Token';
 import { colorVars, spacingVars } from '@astryxdesign/core/theme/tokens.stylex';
 import type { CSSProperties, ReactElement } from 'react';
 
-import { getSkillBrand, type SkillBrand } from './skill-brand';
+import {
+  getSkillBrand,
+  hasSkillBrandIcon,
+  type SkillBrand,
+} from './skill-brand';
 
 export interface SkillTokenProps {
   label: string;
@@ -24,7 +28,7 @@ const styles = stylex.create({
 });
 
 function tokenStyle(brand: SkillBrand | undefined): CSSProperties | undefined {
-  if (!brand?.iconPath) {
+  if (!hasSkillBrandIcon(brand)) {
     return undefined;
   }
 
@@ -39,24 +43,30 @@ export function SkillToken({
   brandLabel,
 }: SkillTokenProps): ReactElement {
   const brand = getSkillBrand(brandLabel ?? label);
-  const hasIcon = Boolean(brand?.iconPath);
+  const hasIcon = hasSkillBrandIcon(brand);
+  const icon = brand?.iconPath ? (
+    <svg
+      aria-hidden="true"
+      {...stylex.props(styles.icon)}
+      focusable="false"
+      viewBox="0 0 24 24"
+    >
+      <path d={brand.iconPath} fill="currentColor" />
+    </svg>
+  ) : brand?.iconDataUrl ? (
+    <img
+      alt=""
+      aria-hidden="true"
+      {...stylex.props(styles.icon)}
+      src={brand.iconDataUrl}
+    />
+  ) : undefined;
 
   return (
     <Token
       color="purple"
       data-testid="skill-token"
-      icon={
-        brand?.iconPath ? (
-          <svg
-            aria-hidden="true"
-            {...stylex.props(styles.icon)}
-            focusable="false"
-            viewBox="0 0 24 24"
-          >
-            <path d={brand.iconPath} fill="currentColor" />
-          </svg>
-        ) : undefined
-      }
+      icon={icon}
       label={label}
       size="sm"
       style={tokenStyle(brand)}

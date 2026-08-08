@@ -39,6 +39,50 @@ describe('CapabilityEvidence', () => {
     ).toBeTruthy();
   });
 
+  it('renders AWS skill evidence with its decorative local asset', () => {
+    const { container } = render(
+      <CapabilityEvidence
+        evidence={evidence({
+          label: undefined,
+          title: 'AWS CodePipeline',
+          type: 'skill',
+        })}
+      />,
+    );
+
+    expect(screen.getByTestId('skill-token')).toBeTruthy();
+    expect(
+      container
+        .querySelector('[data-testid="skill-token"] img')
+        ?.getAttribute('aria-hidden'),
+    ).toBe('true');
+    expect(
+      container.querySelector('[data-testid="capability-evidence-fallback-icon"]'),
+    ).toBeNull();
+  });
+
+  it('renders Kustomize skill evidence with the Kubernetes inline icon', () => {
+    const { container } = render(
+      <CapabilityEvidence
+        evidence={evidence({
+          label: undefined,
+          title: 'Kustomize',
+          type: 'skill',
+        })}
+      />,
+    );
+
+    expect(screen.getByTestId('skill-token')).toBeTruthy();
+    expect(
+      container
+        .querySelector('[data-testid="skill-token"] svg')
+        ?.getAttribute('aria-hidden'),
+    ).toBe('true');
+    expect(
+      container.querySelector('[data-testid="capability-evidence-fallback-icon"]'),
+    ).toBeNull();
+  });
+
   it('keeps technology branding when a skill uses an alias label', () => {
     const { container } = render(
       <CapabilityEvidence
