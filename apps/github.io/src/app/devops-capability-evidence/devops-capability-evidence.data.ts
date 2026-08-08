@@ -1,4 +1,5 @@
 import { continuousIntegrationEvidenceItems } from './continuous-integration-evidence.data';
+import { continuousIntegrationSkillEvidenceItems } from './continuous-integration-skill-evidence.data';
 import type {
   CapabilityEvidenceItem,
   DoraCapabilityDefinition,
@@ -95,9 +96,22 @@ export const curatedDevOpsCapabilityRadarScores = [
       'nx-affected-quality-gates',
       'github-actions-gitops-handoff',
       'kustomize-tag-update-reliability',
+      'continuous-integration-skill-terraform',
+      'continuous-integration-skill-codepipeline',
+      'continuous-integration-skill-codebuild',
+      'continuous-integration-skill-ecr',
+      'continuous-integration-skill-github',
+      'continuous-integration-skill-parameter-store',
+      'continuous-integration-skill-docker',
+      'continuous-integration-skill-nx',
+      'continuous-integration-skill-github-actions',
+      'continuous-integration-skill-openid-connect',
+      'continuous-integration-skill-kustomize',
+      'continuous-integration-skill-helm',
+      'continuous-integration-skill-argo-cd',
     ],
     strongestEvidenceId: 'terraform-codepipeline-platform',
-    evidenceCounts: { experience: 5 },
+    evidenceCounts: { experience: 5, skill: 13 },
   },
   {
     capabilityKey: 'test-automation',
@@ -252,6 +266,7 @@ const devOpsCapabilityEvidenceItemCatalog = [
     strength: 'supporting',
   },
   ...continuousIntegrationEvidenceItems,
+  ...continuousIntegrationSkillEvidenceItems,
   {
     id: 'jest-testcontainers-postgres',
     title: 'Jest and Testcontainers PostgreSQL coverage',
