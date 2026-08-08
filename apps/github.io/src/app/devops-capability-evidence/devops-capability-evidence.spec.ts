@@ -136,6 +136,12 @@ describe('devOpsCapabilityEvidence data', () => {
     }
   });
 
+  it('assigns every catalog evidence item a globally unique ID', () => {
+    expect(new Set(devOpsCapabilityEvidenceItems.map((item) => item.id)).size).toBe(
+      devOpsCapabilityEvidenceItems.length,
+    );
+  });
+
   it('stores recovered carved evidence on the curated capability scores', () => {
     expect(
       curatedDevOpsCapabilityRadarScores.map((score) => ({
