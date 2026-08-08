@@ -51,6 +51,7 @@ export function SkillEvidenceToken({
           iconData?.kind === 'brand' ? iconData.brand.name : undefined
         }
         label={label}
+        variant="neutral"
       />
     </span>
   );

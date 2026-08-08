@@ -1,4 +1,5 @@
 import { render, screen } from '@testing-library/react';
+import { Token } from '@astryxdesign/core/Token';
 
 import { cncfCertificationBadges } from '../certifications/cncf-certification-badges';
 import { CapabilityEvidence } from './capability-evidence';
@@ -22,17 +23,35 @@ function evidence(
 
 describe('CapabilityEvidence', () => {
   it('renders skill evidence with the existing skill token', () => {
-    render(
-      <CapabilityEvidence
-        evidence={evidence({
-          label: undefined,
-          title: 'Kubernetes',
-          type: 'skill',
-        })}
-      />,
+    const { container } = render(
+      <>
+        <CapabilityEvidence
+          evidence={evidence({
+            label: undefined,
+            title: 'Kubernetes',
+            type: 'skill',
+          })}
+        />
+        <Token
+          color="gray"
+          data-testid="gray-reference"
+          label="Reference"
+          size="sm"
+        />
+      </>,
     );
 
-    expect(screen.getByTestId('skill-token')).toBeTruthy();
+    const skillToken = screen.getByTestId('skill-token');
+
+    expect(skillToken.className).toBe(
+      screen.getByTestId('gray-reference').className,
+    );
+    expect(skillToken.getAttribute('style')).toBeNull();
+    expect(
+      container
+        .querySelector('[data-testid="skill-token"] path')
+        ?.getAttribute('fill'),
+    ).toBe('#326CE5');
     expect(screen.getByText('Kubernetes')).toBeTruthy();
     expect(
       screen.getByRole('group', { name: 'Skill evidence: Kubernetes' }),
@@ -57,7 +76,9 @@ describe('CapabilityEvidence', () => {
         ?.getAttribute('aria-hidden'),
     ).toBe('true');
     expect(
-      container.querySelector('[data-testid="capability-evidence-fallback-icon"]'),
+      container.querySelector(
+        '[data-testid="capability-evidence-fallback-icon"]',
+      ),
     ).toBeNull();
   });
 
@@ -79,7 +100,9 @@ describe('CapabilityEvidence', () => {
         ?.getAttribute('aria-hidden'),
     ).toBe('true');
     expect(
-      container.querySelector('[data-testid="capability-evidence-fallback-icon"]'),
+      container.querySelector(
+        '[data-testid="capability-evidence-fallback-icon"]',
+      ),
     ).toBeNull();
   });
 
@@ -98,10 +121,12 @@ describe('CapabilityEvidence', () => {
       container
         .querySelector('[data-testid="skill-token"]')
         ?.getAttribute('style'),
-    ).toContain('--skill-token-background: #326CE5');
+    ).toBeNull();
     expect(
-      container.querySelector('[data-testid="skill-token"] svg'),
-    ).toBeTruthy();
+      container
+        .querySelector('[data-testid="skill-token"] path')
+        ?.getAttribute('fill'),
+    ).toBe('#326CE5');
   });
 
   it.each([

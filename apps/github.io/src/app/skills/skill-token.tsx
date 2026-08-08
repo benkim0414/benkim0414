@@ -9,10 +9,12 @@ import {
   type SkillBrand,
 } from './skill-brand';
 
+export type SkillTokenVariant = 'brand' | 'neutral';
+
 export interface SkillTokenProps {
   label: string;
   brandLabel?: string;
-  variant?: 'purple';
+  variant?: SkillTokenVariant;
 }
 
 const styles = stylex.create({
@@ -27,8 +29,11 @@ const styles = stylex.create({
   },
 });
 
-function tokenStyle(brand: SkillBrand | undefined): CSSProperties | undefined {
-  if (!hasSkillBrandIcon(brand)) {
+function tokenStyle(
+  brand: SkillBrand | undefined,
+  variant: SkillTokenVariant,
+): CSSProperties | undefined {
+  if (variant === 'neutral' || !hasSkillBrandIcon(brand)) {
     return undefined;
   }
 
@@ -41,9 +46,11 @@ function tokenStyle(brand: SkillBrand | undefined): CSSProperties | undefined {
 export function SkillToken({
   label,
   brandLabel,
+  variant = 'brand',
 }: SkillTokenProps): ReactElement {
   const brand = getSkillBrand(brandLabel ?? label);
   const hasIcon = hasSkillBrandIcon(brand);
+  const usesBrandSurface = variant === 'brand' && hasIcon;
   const icon = brand?.iconPath ? (
     <svg
       aria-hidden="true"
@@ -51,7 +58,10 @@ export function SkillToken({
       focusable="false"
       viewBox="0 0 24 24"
     >
-      <path d={brand.iconPath} fill="currentColor" />
+      <path
+        d={brand.iconPath}
+        fill={variant === 'neutral' ? brand.color : 'currentColor'}
+      />
     </svg>
   ) : brand?.iconDataUrl ? (
     <img
@@ -64,13 +74,13 @@ export function SkillToken({
 
   return (
     <Token
-      color="purple"
+      color={variant === 'neutral' ? 'gray' : 'purple'}
       data-testid="skill-token"
       icon={icon}
       label={label}
       size="sm"
-      style={tokenStyle(brand)}
-      xstyle={hasIcon ? styles.brandToken : undefined}
+      style={tokenStyle(brand, variant)}
+      xstyle={usesBrandSurface ? styles.brandToken : undefined}
     />
   );
 }
