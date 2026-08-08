@@ -19,6 +19,9 @@ const expectedIds = [
   'github-actions-failure-notifications',
   'tested-ci-automation',
   'commitlint-small-batches',
+  'reusable-helm-deployment-image',
+  'codebuild-status-visibility',
+  'codebuild-runtime-upgrades',
 ];
 
 const isoDate = /^\d{4}-\d{2}-\d{2}$/;
@@ -55,8 +58,74 @@ describe('continuousIntegrationEvidenceItems', () => {
     );
 
     expect(counts).toEqual({
-      'aws-codepipeline-platform': 6,
+      'aws-codepipeline-platform': 9,
       'github-actions-monorepo': 9,
+    });
+  });
+
+  it('stores the approved additional AWS CI platform records', () => {
+    const byId = new Map(
+      continuousIntegrationEvidenceItems.map((item) => [item.id, item]),
+    );
+
+    expect(byId.get('reusable-helm-deployment-image')).toMatchObject({
+      type: 'experience',
+      technologies: [
+        'AWS CodeBuild',
+        'Amazon ECR',
+        'Docker',
+        'Helm',
+        'Amazon EKS',
+      ],
+      details: {
+        initiative:
+          continuousIntegrationEvidenceInitiatives.awsCodePipelinePlatform,
+        metrics: [
+          {
+            label: 'Build projects using reusable image',
+            value: 44,
+            denominator: 105,
+            unit: 'count',
+            measuredAt: '2026-08-07',
+          },
+          {
+            label: 'Contributed image changes',
+            value: 24,
+            denominator: 51,
+            unit: 'count',
+            measuredAt: '2026-08-07',
+          },
+        ],
+      },
+    });
+
+    expect(byId.get('codebuild-status-visibility')?.details?.metrics).toEqual([
+      {
+        label: 'Projects with build badges',
+        value: 98,
+        denominator: 105,
+        unit: 'count',
+        measuredAt: '2026-08-07',
+      },
+      {
+        label: 'Projects reporting GitHub status',
+        value: 91,
+        denominator: 105,
+        unit: 'count',
+        measuredAt: '2026-08-07',
+      },
+    ]);
+
+    expect(byId.get('codebuild-runtime-upgrades')).toMatchObject({
+      technologies: ['AWS CodeBuild', 'Terraform'],
+      details: {
+        period: { startedAt: '2019-07-05', endedAt: '2025-03-18' },
+        metrics: [],
+        facts: [
+          'Upgraded the AWS CodeBuild standard image from generation 5 to 6 in March 2023.',
+          'Upgraded the AWS CodeBuild standard image from generation 6 to 7 in March 2025.',
+        ],
+      },
     });
   });
 
