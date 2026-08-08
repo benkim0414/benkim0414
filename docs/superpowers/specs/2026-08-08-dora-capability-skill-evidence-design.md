@@ -234,10 +234,12 @@ runtime. Record source URLs, upstream package/version or publication date when
 available, and retrieval date in an adjacent provenance document.
 
 Use the installed Simple Icons package for Terraform, GitHub, Docker, Nx, GitHub
-Actions, OpenID Connect, Helm, and Argo CD. Use the recognized Devicon Kustomize
-mark as a locally bundled asset because the upstream Kustomize project does not
-publish a dedicated official brand asset. Record its public source and license in
-the same provenance document.
+Actions, OpenID Connect, Helm, Argo CD, and Kubernetes. Use the official
+Kubernetes mark for Kustomize because Kustomize is Kubernetes SIG CLI tooling,
+targets Kubernetes resources, and is integrated into `kubectl`, while the upstream
+Kustomize project does not publish a dedicated official brand asset. Record this
+fallback decision in the icon provenance document rather than presenting the
+Kubernetes mark as a separate Kustomize brand.
 
 The icon is decorative inside each token. The visible skill name and existing
 group ARIA label provide the accessible text. Preserve stable token and icon
@@ -319,7 +321,8 @@ brand asset.
   name-only skill tokens second.
 - The card uses the global applied, certifications, skills, learning order.
 - Every selected skill has the approved icon, including official local AWS service
-  icons and the Systems Manager icon for Parameter Store.
+  icons, the Systems Manager icon for Parameter Store, and the Kubernetes mark for
+  Kustomize.
 - The three new experience records retain approved generalized measurements without
   exposing private identifiers.
 - The CI story uses shared production data and passes phone and iPad visual checks.
