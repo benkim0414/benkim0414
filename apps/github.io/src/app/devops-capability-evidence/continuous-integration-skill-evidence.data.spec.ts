@@ -2,21 +2,21 @@ import { continuousIntegrationEvidenceItems } from './continuous-integration-evi
 import { continuousIntegrationSkillEvidenceItems } from './continuous-integration-skill-evidence.data';
 
 const expectedSkills = [
-  ['continuous-integration-skill-terraform', 'Terraform'],
   ['continuous-integration-skill-codepipeline', 'AWS CodePipeline'],
-  ['continuous-integration-skill-codebuild', 'AWS CodeBuild'],
-  ['continuous-integration-skill-ecr', 'Amazon ECR'],
   ['continuous-integration-skill-github', 'GitHub'],
+  ['continuous-integration-skill-codebuild', 'AWS CodeBuild'],
   [
     'continuous-integration-skill-parameter-store',
     'AWS Systems Manager Parameter Store',
   ],
+  ['continuous-integration-skill-terraform', 'Terraform'],
   ['continuous-integration-skill-docker', 'Docker'],
+  ['continuous-integration-skill-ecr', 'Amazon ECR'],
+  ['continuous-integration-skill-helm', 'Helm'],
   ['continuous-integration-skill-nx', 'Nx'],
   ['continuous-integration-skill-github-actions', 'GitHub Actions'],
   ['continuous-integration-skill-openid-connect', 'OpenID Connect'],
   ['continuous-integration-skill-kustomize', 'Kustomize'],
-  ['continuous-integration-skill-helm', 'Helm'],
   ['continuous-integration-skill-argo-cd', 'Argo CD'],
 ] as const;
 
@@ -75,6 +75,40 @@ describe('continuousIntegrationSkillEvidenceItems', () => {
         title,
       ]),
     ).toEqual(expectedSkills);
+  });
+
+  it('orders skills by earliest supporting experience and delivery flow', () => {
+    const experienceById = new Map(
+      continuousIntegrationEvidenceItems.map((item) => [item.id, item]),
+    );
+
+    expect(
+      continuousIntegrationSkillEvidenceItems.map((skill) => {
+        const startedAt = (skill.supportingEvidenceIds ?? [])
+          .map(
+            (supportId) =>
+              experienceById.get(supportId)?.details?.period.startedAt,
+          )
+          .filter((date): date is string => Boolean(date))
+          .sort()[0];
+
+        return [skill.title, startedAt];
+      }),
+    ).toEqual([
+      ['AWS CodePipeline', '2019-01-24'],
+      ['GitHub', '2019-03-06'],
+      ['AWS CodeBuild', '2019-03-06'],
+      ['AWS Systems Manager Parameter Store', '2019-03-06'],
+      ['Terraform', '2019-07-05'],
+      ['Docker', '2019-07-05'],
+      ['Amazon ECR', '2019-07-05'],
+      ['Helm', '2019-07-05'],
+      ['Nx', '2024-02-28'],
+      ['GitHub Actions', '2024-02-28'],
+      ['OpenID Connect', '2024-05-10'],
+      ['Kustomize', '2024-05-10'],
+      ['Argo CD', '2024-05-10'],
+    ]);
   });
 
   it('stores focused links to real experience evidence', () => {

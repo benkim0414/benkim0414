@@ -2,16 +2,19 @@ import type { CapabilityEvidenceItem } from './devops-capability-evidence.types'
 
 const continuousIntegrationSkillDefinitions = [
   {
-    id: 'continuous-integration-skill-terraform',
-    name: 'Terraform',
-    supportingEvidenceIds: ['terraform-codepipeline-platform'],
-  },
-  {
     id: 'continuous-integration-skill-codepipeline',
     name: 'AWS CodePipeline',
     supportingEvidenceIds: [
       'terraform-codepipeline-platform',
       'codepipeline-webhook-trunk',
+    ],
+  },
+  {
+    id: 'continuous-integration-skill-github',
+    name: 'GitHub',
+    supportingEvidenceIds: [
+      'codebuild-pr-gates',
+      'nx-affected-quality-gates',
     ],
   },
   {
@@ -24,26 +27,14 @@ const continuousIntegrationSkillDefinitions = [
     ],
   },
   {
-    id: 'continuous-integration-skill-ecr',
-    name: 'Amazon ECR',
-    supportingEvidenceIds: [
-      'ecr-immutable-promotion',
-      'github-actions-oidc-ecr-publishing',
-      'reusable-helm-deployment-image',
-    ],
-  },
-  {
-    id: 'continuous-integration-skill-github',
-    name: 'GitHub',
-    supportingEvidenceIds: [
-      'codebuild-pr-gates',
-      'nx-affected-quality-gates',
-    ],
-  },
-  {
     id: 'continuous-integration-skill-parameter-store',
     name: 'AWS Systems Manager Parameter Store',
     supportingEvidenceIds: ['codebuild-postgresql-tests'],
+  },
+  {
+    id: 'continuous-integration-skill-terraform',
+    name: 'Terraform',
+    supportingEvidenceIds: ['terraform-codepipeline-platform'],
   },
   {
     id: 'continuous-integration-skill-docker',
@@ -54,6 +45,20 @@ const continuousIntegrationSkillDefinitions = [
       'github-actions-oidc-ecr-publishing',
       'reusable-helm-deployment-image',
     ],
+  },
+  {
+    id: 'continuous-integration-skill-ecr',
+    name: 'Amazon ECR',
+    supportingEvidenceIds: [
+      'ecr-immutable-promotion',
+      'github-actions-oidc-ecr-publishing',
+      'reusable-helm-deployment-image',
+    ],
+  },
+  {
+    id: 'continuous-integration-skill-helm',
+    name: 'Helm',
+    supportingEvidenceIds: ['reusable-helm-deployment-image'],
   },
   {
     id: 'continuous-integration-skill-nx',
@@ -84,11 +89,6 @@ const continuousIntegrationSkillDefinitions = [
       'github-actions-gitops-handoff',
       'kustomize-tag-update-reliability',
     ],
-  },
-  {
-    id: 'continuous-integration-skill-helm',
-    name: 'Helm',
-    supportingEvidenceIds: ['reusable-helm-deployment-image'],
   },
   {
     id: 'continuous-integration-skill-argo-cd',
