@@ -15,9 +15,10 @@ import type {
 } from './dora-capability-card.types';
 
 const evidenceGroupLabels = {
-  skills: 'skill evidence',
+  applied: 'applied evidence',
   certifications: 'certification evidence',
-  other: 'other evidence',
+  skills: 'skill evidence',
+  learning: 'learning evidence',
 } as const satisfies Record<DoraCapabilityCardEvidenceGroup, string>;
 
 const styles = stylex.create({

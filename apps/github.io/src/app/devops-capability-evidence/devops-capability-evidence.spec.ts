@@ -175,9 +175,22 @@ describe('devOpsCapabilityEvidence data', () => {
           'nx-affected-quality-gates',
           'github-actions-gitops-handoff',
           'kustomize-tag-update-reliability',
+          'continuous-integration-skill-terraform',
+          'continuous-integration-skill-codepipeline',
+          'continuous-integration-skill-codebuild',
+          'continuous-integration-skill-ecr',
+          'continuous-integration-skill-github',
+          'continuous-integration-skill-parameter-store',
+          'continuous-integration-skill-docker',
+          'continuous-integration-skill-nx',
+          'continuous-integration-skill-github-actions',
+          'continuous-integration-skill-openid-connect',
+          'continuous-integration-skill-kustomize',
+          'continuous-integration-skill-helm',
+          'continuous-integration-skill-argo-cd',
         ],
         strongestEvidenceId: 'terraform-codepipeline-platform',
-        evidenceCounts: { experience: 5 },
+        evidenceCounts: { experience: 5, skill: 13 },
       },
       {
         capabilityKey: 'test-automation',
@@ -447,10 +460,18 @@ describe('devOpsCapabilityEvidence data', () => {
     );
 
     expect(score?.score).toBe(4);
+    expect(score?.maxScore).toBe(5);
     expect(score?.strongestEvidenceId).toBe(score?.evidenceIds[0]);
+    expect(score?.evidenceIds.slice(0, 5)).toEqual([
+      'terraform-codepipeline-platform',
+      'codebuild-pr-gates',
+      'nx-affected-quality-gates',
+      'github-actions-gitops-handoff',
+      'kustomize-tag-update-reliability',
+    ]);
     expect(selected.every(Boolean)).toBe(true);
     expect(
-      selected.map((item) => item?.details?.initiative.id),
+      selected.slice(0, 5).map((item) => item?.details?.initiative.id),
     ).toEqual([
       'aws-codepipeline-platform',
       'aws-codepipeline-platform',
@@ -639,11 +660,11 @@ describe('devOpsCapabilityEvidence scoring', () => {
 
   it('groups evidence counts by type and capability', () => {
     expect(getEvidenceTypeCounts(devOpsCapabilityEvidenceItems)).toMatchObject({
-      experience: 26,
+      experience: 29,
       learning: 3,
       certification: 1,
       project: 2,
-      skill: 1,
+      skill: 14,
     });
 
     expect(
@@ -671,7 +692,7 @@ describe('devOpsCapabilityEvidence scoring', () => {
         getEvidenceTypeCounts(devOpsCapabilityEvidenceItems),
       ),
     ).toBe(
-      'Evidence includes 1 skill, 3 learning items, 26 experience items, 1 certification, and 2 projects.',
+      'Evidence includes 14 skills, 3 learning items, 29 experience items, 1 certification, and 2 projects.',
     );
   });
 });

@@ -50,7 +50,7 @@ describe('getDoraCapabilityCardEvidenceRows', () => {
       curatedDevOpsCapabilityRadarScores,
     );
 
-    expect(rows.map((row) => row.group)).toEqual(['other']);
+    expect(rows.map((row) => row.group)).toEqual(['applied', 'skills']);
     expect(rows[0]?.evidence.map((item) => item.id)).toEqual([
       'terraform-codepipeline-platform',
       'codebuild-pr-gates',
@@ -58,32 +58,30 @@ describe('getDoraCapabilityCardEvidenceRows', () => {
       'github-actions-gitops-handoff',
       'kustomize-tag-update-reliability',
     ]);
+    expect(rows[1]?.evidence).toHaveLength(13);
   });
 
-  it('groups selected evidence as skills, certifications, then other evidence', () => {
-    const rows = getDoraCapabilityCardEvidenceRows(
-      'flexible-infrastructure',
-      devOpsCapabilityEvidenceItems,
-      curatedDevOpsCapabilityRadarScores,
-    );
+  it('groups each evidence type under semantic evidence groups', () => {
+    const rows = getDoraCapabilityCardEvidenceRows('continuous-integration', [
+      evidence({ id: 'experience', type: 'experience' }),
+      evidence({ id: 'project', type: 'project' }),
+      evidence({ id: 'certification', type: 'certification' }),
+      evidence({ id: 'skill', type: 'skill' }),
+      evidence({ id: 'learning', type: 'learning' }),
+      evidence({ id: 'education', type: 'education' }),
+    ]);
 
     expect(rows.map((row) => row.group)).toEqual([
-      'skills',
+      'applied',
       'certifications',
-      'other',
+      'skills',
+      'learning',
     ]);
-    expect(rows[0]?.evidence.map((item) => item.id)).toEqual([
-      'kubernetes-skill',
-    ]);
-    expect(rows[1]?.evidence.map((item) => item.id)).toEqual([
-      'cncf-kubernetes-certification',
-    ]);
-    expect(rows[2]?.evidence.map((item) => item.id)).toEqual([
-      'kubernetes-workloads',
-      'kubectl-troubleshooting',
-      'cluster-operations',
-      'irsa-service-accounts',
-      'terraform-scoped-iam',
+    expect(rows.map((row) => row.evidence.map((item) => item.id))).toEqual([
+      ['experience', 'project'],
+      ['certification'],
+      ['skill'],
+      ['learning', 'education'],
     ]);
   });
 
@@ -109,12 +107,12 @@ describe('getDoraCapabilityCardEvidenceRows', () => {
     ]);
 
     expect(rows).toHaveLength(2);
-    expect(rows[0]?.group).toBe('skills');
-    expect(rows[0]?.evidence.map((item) => item.id)).toEqual(['test-skill']);
-    expect(rows[1]?.group).toBe('other');
-    expect(rows[1]?.evidence.map((item) => item.id)).toEqual([
+    expect(rows[0]?.group).toBe('applied');
+    expect(rows[0]?.evidence.map((item) => item.id)).toEqual([
       'test-experience',
     ]);
+    expect(rows[1]?.group).toBe('skills');
+    expect(rows[1]?.evidence.map((item) => item.id)).toEqual(['test-skill']);
   });
 
   it('omits curated score ids that are not present in the evidence catalog', () => {
