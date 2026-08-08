@@ -32,7 +32,23 @@ DevOps Capability Evidence is a public projection: it can summarize private work
 
 ### Evidence Token
 
-A compact, public-safe proof item carved from a broader answer or evidence source so DORA capability scores can link to concrete support without storing raw interview prose.
+A compact presentation of one public-safe capability evidence record, used to show concrete support without rendering raw interview prose or private source material.
+
+### Capability Evidence Catalog
+
+The canonical public-safe collection of atomic evidence records available for capability scoring, compact projections, and detailed evidence views.
+
+Catalog records own reusable facts and relationships; they do not decide which subset a compact surface displays.
+
+### Compact Capability Projection
+
+The explicit, score-owned subset and order of Capability Evidence Catalog records selected for a compact capability surface.
+
+A Compact Capability Projection remains stable when the full catalog grows unless its curated evidence references are deliberately changed.
+
+### Capability Skill Evidence
+
+A public skill record supported by at least one non-skill evidence record for the same capability, distinct from an accomplishment and not inferred merely from a technology name.
 
 ## Design System
 
