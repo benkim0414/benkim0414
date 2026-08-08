@@ -540,6 +540,103 @@ const continuousIntegrationEvidenceItemCatalog = [
       ],
     },
   },
+  {
+    id: 'reusable-helm-deployment-image',
+    label: 'Reusable Helm image',
+    title: 'Reusable Docker and Helm deployment image',
+    type: 'experience',
+    capabilityKeys: ['continuous-integration'],
+    isPublic: true,
+    strength: 'strong',
+    summary:
+      'Maintained a reusable Docker and Helm build image used by AWS CodeBuild projects to deploy applications to Amazon EKS.',
+    technologies: [
+      'AWS CodeBuild',
+      'Amazon ECR',
+      'Docker',
+      'Helm',
+      'Amazon EKS',
+    ],
+    details: {
+      initiative: awsInitiative,
+      period: { startedAt: '2019-07-05' },
+      metrics: [
+        {
+          label: 'Build projects using reusable image',
+          value: 44,
+          denominator: 105,
+          unit: 'count',
+          measuredAt: snapshotDate,
+        },
+        {
+          label: 'Contributed image changes',
+          value: 24,
+          denominator: 51,
+          unit: 'count',
+          measuredAt: snapshotDate,
+        },
+      ],
+      facts: [
+        'Maintained one reusable CI build image consumed by many build projects without implying public distribution.',
+      ],
+    },
+  },
+  {
+    id: 'codebuild-status-visibility',
+    label: 'Build status visibility',
+    title: 'CodeBuild status visibility',
+    type: 'experience',
+    capabilityKeys: ['continuous-integration'],
+    isPublic: true,
+    strength: 'strong',
+    summary:
+      'Made CI results visible through build badges and GitHub commit statuses configured by the reusable Terraform platform.',
+    technologies: ['Terraform', 'AWS CodeBuild', 'GitHub'],
+    details: {
+      initiative: awsInitiative,
+      period: { startedAt: '2019-07-05' },
+      metrics: [
+        {
+          label: 'Projects with build badges',
+          value: 98,
+          denominator: 105,
+          unit: 'count',
+          measuredAt: snapshotDate,
+        },
+        {
+          label: 'Projects reporting GitHub status',
+          value: 91,
+          denominator: 105,
+          unit: 'count',
+          measuredAt: snapshotDate,
+        },
+      ],
+      facts: [
+        'Made CI outcomes visible across the build fleet through badges and source-control status reporting.',
+      ],
+    },
+  },
+  {
+    id: 'codebuild-runtime-upgrades',
+    label: 'Runtime upgrades',
+    title: 'AWS CodeBuild runtime upgrades',
+    type: 'experience',
+    capabilityKeys: ['continuous-integration'],
+    isPublic: true,
+    strength: 'supporting',
+    summary:
+      'Maintained the CI platform through successive AWS CodeBuild standard-image generations and associated delivery-platform updates.',
+    technologies: ['AWS CodeBuild', 'Terraform'],
+    details: {
+      initiative: awsInitiative,
+      period: { startedAt: '2019-07-05', endedAt: '2025-03-18' },
+      metrics: [],
+      facts: [
+        'Upgraded the AWS CodeBuild standard image from generation 5 to 6 in March 2023.',
+        'Upgraded the AWS CodeBuild standard image from generation 6 to 7 in March 2025.',
+      ],
+    },
+  },
 ] as const satisfies readonly CapabilityEvidenceItem[];
 
 export const continuousIntegrationEvidenceItems: readonly CapabilityEvidenceItem[] =
