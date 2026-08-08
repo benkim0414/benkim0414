@@ -61,6 +61,9 @@ export interface SkillBrand {
   iconDataUrl?: string;
 }
 
+export type IconBackedSkillBrand = SkillBrand &
+  ({ iconPath: string } | { iconDataUrl: string });
+
 const skillIcons: Readonly<Record<string, SimpleIcon>> = {
   Ansible: siAnsible,
   'Argo CD': siArgo,
@@ -206,6 +209,6 @@ export function getSkillBrand(label: string): SkillBrand | undefined {
 
 export function hasSkillBrandIcon(
   brand: SkillBrand | undefined,
-): boolean {
+): brand is IconBackedSkillBrand {
   return Boolean(brand?.iconPath || brand?.iconDataUrl);
 }
