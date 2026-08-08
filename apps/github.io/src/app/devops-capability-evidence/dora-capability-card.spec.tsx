@@ -58,7 +58,7 @@ describe('DoraCapabilityCard', () => {
     expect(screen.getByTestId('dora-capability-card')).toBeTruthy();
   });
 
-  it('renders evidence rows in skill, certification, other order without visible row labels', () => {
+  it('renders evidence rows in applied, certification, skill, learning order without visible row labels', () => {
     render(
       <DoraCapabilityCard
         capability={flexibleInfrastructure}
@@ -70,15 +70,17 @@ describe('DoraCapabilityCard', () => {
 
     const rows = screen.getAllByTestId('dora-capability-evidence-row');
 
-    expect(rows).toHaveLength(3);
+    expect(rows).toHaveLength(4);
     expect(rows.map((row) => row.getAttribute('data-group'))).toEqual([
-      'skills',
+      'applied',
       'certifications',
-      'other',
+      'skills',
+      'learning',
     ]);
+    expect(screen.queryByText('Applied')).toBeNull();
     expect(screen.queryByText('Skills')).toBeNull();
     expect(screen.queryByText('Certifications')).toBeNull();
-    expect(screen.queryByText('Other')).toBeNull();
+    expect(screen.queryByText('Learning')).toBeNull();
   });
 
   it('delegates evidence rendering to CapabilityEvidence', () => {
@@ -115,10 +117,20 @@ describe('DoraCapabilityCard', () => {
       />,
     );
 
-    const row = screen.getByTestId('dora-capability-evidence-row');
+    const appliedRow = screen.getByRole('list', {
+      name: 'Continuous Integration applied evidence',
+    });
+    const skillRow = screen.getByRole('list', {
+      name: 'Continuous Integration skill evidence',
+    });
+
+    expect(within(appliedRow).getAllByRole('listitem')).toHaveLength(5);
+    expect(within(skillRow).getAllByRole('listitem')).toHaveLength(13);
+    expect(appliedRow.getAttribute('data-group')).toBe('applied');
+    expect(skillRow.getAttribute('data-group')).toBe('skills');
 
     expect(
-      within(row)
+      within(appliedRow)
         .getAllByRole('group')
         .map((group) => group.getAttribute('aria-label')),
     ).toEqual([
@@ -168,12 +180,14 @@ describe('DoraCapabilityCard', () => {
       />,
     );
 
-    const row = screen.getByTestId('dora-capability-evidence-row');
+    const row = screen.getByRole('list', {
+      name: 'Continuous Integration applied evidence',
+    });
 
     expect(row.getAttribute('data-wrap')).toBe('true');
     expect(
       screen.getByRole('list', {
-        name: 'Continuous Integration other evidence',
+        name: 'Continuous Integration applied evidence',
       }),
     ).toBe(row);
   });

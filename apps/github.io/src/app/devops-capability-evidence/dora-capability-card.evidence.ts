@@ -13,21 +13,23 @@ import type {
 export { doraCapabilityDescriptions };
 
 const evidenceGroupOrder = [
-  'skills',
+  'applied',
   'certifications',
-  'other',
+  'skills',
+  'learning',
 ] as const satisfies readonly DoraCapabilityCardEvidenceGroup[];
 
+const evidenceGroupByType = {
+  experience: 'applied',
+  project: 'applied',
+  certification: 'certifications',
+  skill: 'skills',
+  learning: 'learning',
+  education: 'learning',
+} as const satisfies Record<EvidenceType, DoraCapabilityCardEvidenceGroup>;
+
 function getEvidenceGroup(type: EvidenceType): DoraCapabilityCardEvidenceGroup {
-  if (type === 'skill') {
-    return 'skills';
-  }
-
-  if (type === 'certification') {
-    return 'certifications';
-  }
-
-  return 'other';
+  return evidenceGroupByType[type];
 }
 
 function getOrderedEvidence(
