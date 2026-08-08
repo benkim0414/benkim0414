@@ -1,6 +1,46 @@
-import { getSkillBrand } from './skill-brand';
+import { getSkillBrand, hasSkillBrandIcon } from './skill-brand';
+
+const ciSkillNames = [
+  'Terraform',
+  'AWS CodePipeline',
+  'AWS CodeBuild',
+  'Amazon ECR',
+  'GitHub',
+  'AWS Systems Manager Parameter Store',
+  'Docker',
+  'Nx',
+  'GitHub Actions',
+  'OpenID Connect',
+  'Kustomize',
+  'Helm',
+  'Argo CD',
+];
 
 describe('getSkillBrand', () => {
+  it('resolves an icon for every selected CI skill', () => {
+    for (const skill of ciSkillNames) {
+      expect(hasSkillBrandIcon(getSkillBrand(skill))).toBe(true);
+    }
+  });
+
+  it.each([
+    'AWS CodePipeline',
+    'AWS CodeBuild',
+    'Amazon ECR',
+    'AWS Systems Manager Parameter Store',
+  ])('uses a local full-color AWS asset for %s', (skill) => {
+    const brand = getSkillBrand(skill);
+
+    expect(brand?.iconPath).toBeUndefined();
+    expect(brand?.iconDataUrl).toMatch(/assets\/.*\.svg/);
+  });
+
+  it('uses the Kubernetes Simple Icon as the documented Kustomize fallback', () => {
+    expect(getSkillBrand('Kustomize')?.iconPath).toBe(
+      getSkillBrand('Kubernetes')?.iconPath,
+    );
+  });
+
   it('returns brand metadata for mapped skills', () => {
     const brand = getSkillBrand('Kubernetes');
 
