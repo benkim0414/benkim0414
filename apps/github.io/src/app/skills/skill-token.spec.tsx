@@ -20,6 +20,16 @@ describe('SkillToken', () => {
     expect(icon?.getAttribute('aria-hidden')).toBe('true');
   });
 
+  it('renders a local full-color skill asset as a decorative image', () => {
+    const { container } = render(<SkillToken label="AWS CodePipeline" />);
+
+    const image = container.querySelector('img');
+
+    expect(image?.getAttribute('aria-hidden')).toBe('true');
+    expect(image?.getAttribute('src')).toMatch(/assets\/.*\.svg/);
+    expect(image?.getAttribute('alt')).toBe('');
+  });
+
   it('chooses the neutral foreground for a light brand background', () => {
     const { getByText } = render(<SkillToken label="GitLab CI" />);
     const token = getByText('GitLab CI').closest('[data-testid="skill-token"]');
