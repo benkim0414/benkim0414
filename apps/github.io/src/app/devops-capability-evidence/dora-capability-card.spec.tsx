@@ -58,7 +58,7 @@ describe('DoraCapabilityCard', () => {
     expect(screen.getByTestId('dora-capability-card')).toBeTruthy();
   });
 
-  it('renders evidence rows in applied, certification, skill, learning order without visible row labels', () => {
+  it('labels experience and skill rows without changing group order', () => {
     render(
       <DoraCapabilityCard
         capability={flexibleInfrastructure}
@@ -77,10 +77,23 @@ describe('DoraCapabilityCard', () => {
       'skills',
       'learning',
     ]);
-    expect(screen.queryByText('Applied')).toBeNull();
-    expect(screen.queryByText('Skills')).toBeNull();
+    expect(screen.getByText('Experiences')).toBeTruthy();
+    expect(screen.getByText('Skills')).toBeTruthy();
     expect(screen.queryByText('Certifications')).toBeNull();
     expect(screen.queryByText('Learning')).toBeNull();
+
+    expect(screen.getByRole('list', { name: 'Experiences' })).toBe(rows[0]);
+    expect(
+      screen.getByRole('list', {
+        name: 'Flexible Infrastructure certification evidence',
+      }),
+    ).toBe(rows[1]);
+    expect(screen.getByRole('list', { name: 'Skills' })).toBe(rows[2]);
+    expect(
+      screen.getByRole('list', {
+        name: 'Flexible Infrastructure learning evidence',
+      }),
+    ).toBe(rows[3]);
   });
 
   it('delegates evidence rendering to CapabilityEvidence', () => {
@@ -117,12 +130,8 @@ describe('DoraCapabilityCard', () => {
       />,
     );
 
-    const appliedRow = screen.getByRole('list', {
-      name: 'Continuous Integration applied evidence',
-    });
-    const skillRow = screen.getByRole('list', {
-      name: 'Continuous Integration skill evidence',
-    });
+    const appliedRow = screen.getByRole('list', { name: 'Experiences' });
+    const skillRow = screen.getByRole('list', { name: 'Skills' });
 
     expect(within(appliedRow).getAllByRole('listitem')).toHaveLength(5);
     expect(within(skillRow).getAllByRole('listitem')).toHaveLength(13);
@@ -180,16 +189,10 @@ describe('DoraCapabilityCard', () => {
       />,
     );
 
-    const row = screen.getByRole('list', {
-      name: 'Continuous Integration applied evidence',
-    });
+    const row = screen.getByRole('list', { name: 'Experiences' });
 
     expect(row.getAttribute('data-wrap')).toBe('true');
-    expect(
-      screen.getByRole('list', {
-        name: 'Continuous Integration applied evidence',
-      }),
-    ).toBe(row);
+    expect(screen.getByRole('list', { name: 'Experiences' })).toBe(row);
   });
 
   it('omits evidence rows when no evidence matches', () => {
@@ -203,5 +206,7 @@ describe('DoraCapabilityCard', () => {
     );
 
     expect(screen.queryByTestId('dora-capability-evidence-row')).toBeNull();
+    expect(screen.queryByText('Experiences')).toBeNull();
+    expect(screen.queryByText('Skills')).toBeNull();
   });
 });
