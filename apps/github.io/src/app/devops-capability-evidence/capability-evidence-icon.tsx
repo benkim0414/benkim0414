@@ -12,7 +12,11 @@ import {
 import type { IconType } from '@astryxdesign/core/Icon';
 import type { ReactNode } from 'react';
 
-import { getSkillBrand, type SkillBrand } from '../skills/skill-brand';
+import {
+  getSkillBrand,
+  hasSkillBrandIcon,
+  type SkillBrand,
+} from '../skills/skill-brand';
 import type { CapabilityEvidenceItem } from './devops-capability-evidence.types';
 import { isGithubRepositoryUrl } from './capability-evidence-url';
 
@@ -33,7 +37,7 @@ function firstKnownTechnologyBrand(
   for (const technology of technologies ?? []) {
     const brand = getSkillBrand(technology);
 
-    if (brand?.iconPath) {
+    if (hasSkillBrandIcon(brand)) {
       return brand;
     }
   }
@@ -68,7 +72,7 @@ function getLearningProviderBrand(
 
   const udemyBrand = getSkillBrand('Udemy');
 
-  return udemyBrand?.iconPath ? udemyBrand : undefined;
+  return hasSkillBrandIcon(udemyBrand) ? udemyBrand : undefined;
 }
 
 export function getCapabilityEvidenceIconData(
@@ -83,7 +87,7 @@ export function getCapabilityEvidenceIconData(
   if (evidence.type === 'project' && isGithubRepositoryUrl(evidence.proofUrl)) {
     const githubBrand = getSkillBrand('GitHub');
 
-    if (githubBrand?.iconPath) {
+    if (hasSkillBrandIcon(githubBrand)) {
       return { kind: 'brand', brand: githubBrand };
     }
   }
@@ -128,16 +132,31 @@ export function renderCapabilityEvidenceIcon(
   }
 
   if (iconData.kind === 'brand') {
-    return (
-      <svg
-        aria-hidden="true"
-        {...stylex.props(styles.brandIcon)}
-        focusable="false"
-        viewBox="0 0 24 24"
-      >
-        <path d={iconData.brand.iconPath} fill={iconData.brand.color} />
-      </svg>
-    );
+    if (iconData.brand.iconPath) {
+      return (
+        <svg
+          aria-hidden="true"
+          {...stylex.props(styles.brandIcon)}
+          focusable="false"
+          viewBox="0 0 24 24"
+        >
+          <path d={iconData.brand.iconPath} fill={iconData.brand.color} />
+        </svg>
+      );
+    }
+
+    if (iconData.brand.iconDataUrl) {
+      return (
+        <img
+          alt=""
+          aria-hidden="true"
+          {...stylex.props(styles.brandIcon)}
+          src={iconData.brand.iconDataUrl}
+        />
+      );
+    }
+
+    return undefined;
   }
 
   return (

@@ -18,6 +18,7 @@ import {
   siGrafana,
   siGnubash,
   siGhostty,
+  siHelm,
   siHomebrew,
   siIstio,
   siJson,
@@ -28,6 +29,7 @@ import {
   siNodedotjs,
   siNx,
   siNginx,
+  siOpenid,
   siPnpm,
   siPrometheus,
   siPython,
@@ -46,6 +48,11 @@ import {
   type SimpleIcon,
 } from 'simple-icons';
 
+import codeBuildIconUrl from '../../assets/skills/aws/aws-codebuild.svg?no-inline';
+import codePipelineIconUrl from '../../assets/skills/aws/aws-codepipeline.svg?no-inline';
+import ecrIconUrl from '../../assets/skills/aws/amazon-ecr.svg?no-inline';
+import systemsManagerIconUrl from '../../assets/skills/aws/aws-systems-manager.svg?no-inline';
+
 export interface SkillBrand {
   name: string;
   color: string;
@@ -56,6 +63,7 @@ export interface SkillBrand {
 
 const skillIcons: Readonly<Record<string, SimpleIcon>> = {
   Ansible: siAnsible,
+  'Argo CD': siArgo,
   ArgoCD: siArgo,
   bat: siBat,
   Claude: siClaude,
@@ -74,16 +82,19 @@ const skillIcons: Readonly<Record<string, SimpleIcon>> = {
   Grafana: siGrafana,
   'GNU Bash': siGnubash,
   Ghostty: siGhostty,
+  Helm: siHelm,
   Homebrew: siHomebrew,
   Istio: siIstio,
   Artifactory: siJfrog,
   JSON: siJson,
   Kubernetes: siKubernetes,
+  Kustomize: siKubernetes,
   Lua: siLua,
   Neovim: siNeovim,
   Nginx: siNginx,
   'Node.js': siNodedotjs,
   Nx: siNx,
+  'OpenID Connect': siOpenid,
   pnpm: siPnpm,
   Prometheus: siPrometheus,
   Python: siPython,
@@ -101,8 +112,19 @@ const skillIcons: Readonly<Record<string, SimpleIcon>> = {
   Zsh: siZsh,
 };
 
+const skillIconAssets: Readonly<Record<string, string>> = {
+  'AWS CodePipeline': codePipelineIconUrl,
+  'AWS CodeBuild': codeBuildIconUrl,
+  'Amazon ECR': ecrIconUrl,
+  'AWS Systems Manager Parameter Store': systemsManagerIconUrl,
+};
+
 const skillBrandColors: Readonly<Record<string, string>> = {
   AWS: '#FF9900',
+  'AWS CodePipeline': '#FFFFFF',
+  'AWS CodeBuild': '#FFFFFF',
+  'Amazon ECR': '#FFFFFF',
+  'AWS Systems Manager Parameter Store': '#FFFFFF',
 };
 
 const ASTRYX_NEUTRAL_FOREGROUND = 'var(--color-on-light)';
@@ -156,23 +178,34 @@ function toIconDataUrl(icon: SimpleIcon, color: string) {
 
 export function getSkillBrand(label: string): SkillBrand | undefined {
   const icon = skillIcons[label];
+  const iconAssetUrl = skillIconAssets[label];
   const color = icon ? `#${icon.hex}` : skillBrandColors[label];
 
-  if (!color) {
+  if (!icon && !iconAssetUrl && !color) {
     return undefined;
   }
+
+  const brandColor = color ?? '#FFFFFF';
 
   const iconData = icon
     ? {
         iconPath: icon.path,
-        iconDataUrl: toIconDataUrl(icon, color),
+        iconDataUrl: toIconDataUrl(icon, brandColor),
       }
-    : {};
+    : iconAssetUrl
+      ? { iconDataUrl: iconAssetUrl }
+      : {};
 
   return {
     name: label,
-    color,
-    foreground: brandForeground(color.slice(1)),
+    color: brandColor,
+    foreground: brandForeground(brandColor.slice(1)),
     ...iconData,
   };
+}
+
+export function hasSkillBrandIcon(
+  brand: SkillBrand | undefined,
+): boolean {
+  return Boolean(brand?.iconPath || brand?.iconDataUrl);
 }
