@@ -21,6 +21,13 @@ const evidenceGroupLabels = {
   learning: 'learning evidence',
 } as const satisfies Record<DoraCapabilityCardEvidenceGroup, string>;
 
+const visibleEvidenceGroupLabels: Partial<
+  Record<DoraCapabilityCardEvidenceGroup, string>
+> = {
+  applied: 'Experiences',
+  skills: 'Skills',
+};
+
 const styles = stylex.create({
   root: {
     display: 'block',
@@ -60,20 +67,33 @@ function DoraCapabilityEvidenceRow({
   capabilityLabel: string;
   row: DoraCapabilityCardEvidenceRow;
 }): ReactElement {
+  const labelId = useId();
+  const visibleLabel = visibleEvidenceGroupLabels[row.group];
+
   return (
-    <ul
-      {...stylex.props(styles.evidenceRow)}
-      aria-label={rowLabel(capabilityLabel, row.group)}
-      data-group={row.group}
-      data-testid="dora-capability-evidence-row"
-      data-wrap="true"
-    >
-      {row.evidence.map((item, index) => (
-        <li {...stylex.props(styles.evidenceItem)} key={item.id}>
-          <CapabilityEvidence evidence={item} citationNumber={index + 1} />
-        </li>
-      ))}
-    </ul>
+    <VStack gap={1}>
+      {visibleLabel ? (
+        <Text id={labelId} type="supporting" color="secondary">
+          {visibleLabel}
+        </Text>
+      ) : null}
+      <ul
+        {...stylex.props(styles.evidenceRow)}
+        aria-label={
+          visibleLabel ? undefined : rowLabel(capabilityLabel, row.group)
+        }
+        aria-labelledby={visibleLabel ? labelId : undefined}
+        data-group={row.group}
+        data-testid="dora-capability-evidence-row"
+        data-wrap="true"
+      >
+        {row.evidence.map((item, index) => (
+          <li {...stylex.props(styles.evidenceItem)} key={item.id}>
+            <CapabilityEvidence evidence={item} citationNumber={index + 1} />
+          </li>
+        ))}
+      </ul>
+    </VStack>
   );
 }
 
