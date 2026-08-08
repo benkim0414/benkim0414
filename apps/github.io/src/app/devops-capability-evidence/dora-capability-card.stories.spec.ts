@@ -28,18 +28,18 @@ describe('DoraCapabilityCard stories', () => {
       'Tag reliability',
     ]);
     expect(selected?.slice(5).map((item) => item?.title)).toEqual([
-      'Terraform',
       'AWS CodePipeline',
-      'AWS CodeBuild',
-      'Amazon ECR',
       'GitHub',
+      'AWS CodeBuild',
       'AWS Systems Manager Parameter Store',
+      'Terraform',
       'Docker',
+      'Amazon ECR',
+      'Helm',
       'Nx',
       'GitHub Actions',
       'OpenID Connect',
       'Kustomize',
-      'Helm',
       'Argo CD',
     ]);
   });

@@ -4,6 +4,7 @@ import {
   evidenceTypeLabels,
   devOpsCapabilityEvidenceItems,
 } from './devops-capability-evidence.data';
+import { continuousIntegrationSkillEvidenceItems } from './continuous-integration-skill-evidence.data';
 import {
   getCapabilityEvidenceMatrix,
   getCapabilityEvidenceScores,
@@ -181,19 +182,7 @@ describe('devOpsCapabilityEvidence data', () => {
           'nx-affected-quality-gates',
           'github-actions-gitops-handoff',
           'kustomize-tag-update-reliability',
-          'continuous-integration-skill-terraform',
-          'continuous-integration-skill-codepipeline',
-          'continuous-integration-skill-codebuild',
-          'continuous-integration-skill-ecr',
-          'continuous-integration-skill-github',
-          'continuous-integration-skill-parameter-store',
-          'continuous-integration-skill-docker',
-          'continuous-integration-skill-nx',
-          'continuous-integration-skill-github-actions',
-          'continuous-integration-skill-openid-connect',
-          'continuous-integration-skill-kustomize',
-          'continuous-integration-skill-helm',
-          'continuous-integration-skill-argo-cd',
+          ...continuousIntegrationSkillEvidenceItems.map((item) => item.id),
         ],
         strongestEvidenceId: 'terraform-codepipeline-platform',
         evidenceCounts: { experience: 5, skill: 13 },
@@ -475,6 +464,9 @@ describe('devOpsCapabilityEvidence data', () => {
       'github-actions-gitops-handoff',
       'kustomize-tag-update-reliability',
     ]);
+    expect(score?.evidenceIds.slice(5)).toEqual(
+      continuousIntegrationSkillEvidenceItems.map((item) => item.id),
+    );
     expect(selected.every(Boolean)).toBe(true);
     expect(
       selected.slice(0, 5).map((item) => item?.details?.initiative.id),
