@@ -1,6 +1,7 @@
 ---
 title: Build Portfolio Capability Radar From Public Evidence
 date: 2026-07-27
+last_updated: 2026-08-09
 category: design-patterns
 module: github.io DevOps capability evidence
 problem_type: design_pattern
@@ -21,7 +22,7 @@ tags: [github-io, react, devops, dora, portfolio, evidence, privacy]
 
 ## Context
 
-The `github.io` DevOps capability evidence radar visualizes personal DevOps capability against DORA capability dimensions. Its input shape is intentionally portfolio-like: skills, learning, experience, education, certifications, and projects can all support one or more capabilities. The seed evidence keeps company details public-safe; for example, the `devOpsCapabilityEvidenceItems` CI/CD experience item is public, not sensitive, and uses a generalized summary rather than operational records. The `keeps the CI/CD experience as a public-safe portfolio projection` test protects that contract.
+The `github.io` DevOps capability evidence radar visualizes personal DevOps capability against DORA capability dimensions. Its input shape is intentionally portfolio-like: skills, learning, experience, education, certifications, and projects can all support one or more capabilities. The bundled evidence catalogs keep company details public-safe, while scoring tests reject private, sensitive, and unsupported evidence (`apps/github.io/src/app/devops-capability-evidence/devops-capability-evidence.spec.ts:542-662`).
 
 The important design constraint is that the radar is a reusable public portfolio component, not a trusted private dashboard. It may appear in cards, panels, Storybook stories, or page sections, and callers can pass score objects that were not produced by the default utility.
 
@@ -47,7 +48,7 @@ Reusable React components also need their own guardrails. If the radar silently 
 
 - A personal portfolio needs capability charts backed by real experience without exposing private company information.
 - A DORA capability visualization maps profile evidence to capability dimensions instead of reporting company-level DORA delivery metrics.
-- The supported DevOps capability evidence surface should stay focused on the radar chart.
+- The same public evidence model supports radar and compact capability-card surfaces with surface-specific renderers.
 - Storybook stories or tests need to prove that empty, private, sensitive, unsupported, or malformed evidence does not leak into visible output.
 
 ## Examples
@@ -91,4 +92,6 @@ The exported `DevOpsCapabilityEvidenceRadar` component follows this boundary, an
 
 - `CONCEPTS.md`
 - `apps/github.io/src/app/devops-capability-evidence/devops-capability-evidence-radar.tsx`
+- `docs/solutions/conventions/tokenize-dora-capability-evidence.md`
+- `docs/solutions/design-patterns/compact-capability-evidence-renderers.md`
 - `docs/solutions/best-practices/astryx-stylex-tailwind-boundaries.md`
