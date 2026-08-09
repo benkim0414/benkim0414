@@ -91,4 +91,5 @@ export interface DoraCapabilityScore {
   evidenceIds: readonly string[];
   strongestEvidenceId?: string;
   evidenceCounts: Partial<Record<EvidenceType, number>>;
+  evidenceSummary?: string;
 }
