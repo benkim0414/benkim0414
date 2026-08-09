@@ -1,6 +1,6 @@
 import { existsSync, readFileSync } from 'node:fs';
 
-import { getStorybookAllowedHosts } from './main';
+import config, { getStorybookAllowedHosts } from './main';
 
 describe('getStorybookAllowedHosts', () => {
   it.each([
@@ -10,6 +10,10 @@ describe('getStorybookAllowedHosts', () => {
     ['localhost', ['localhost']],
   ])('returns safe Storybook hosts for %s', (host, expected) => {
     expect(getStorybookAllowedHosts(host)).toEqual(expected);
+  });
+
+  it('defines localhost as the default Storybook core allowed host', () => {
+    expect(config.core?.allowedHosts).toEqual(['localhost']);
   });
 
   it('does not persist a private network address in Storybook configuration', () => {
