@@ -29,6 +29,8 @@ const continuousIntegration = capability('continuous-integration');
 const continuousDelivery = capability('continuous-delivery');
 const monitoringObservability = capability('monitoring-observability');
 const documentationQuality = capability('documentation-quality');
+const versionControl = capability('version-control');
+const trunkBasedDevelopment = capability('trunk-based-development');
 
 const meta = {
   component: DoraCapabilityCard,
@@ -75,6 +77,20 @@ export const DocumentationQuality: Story = {
   args: {
     capability: documentationQuality,
     description: doraCapabilityDescriptions['documentation-quality'],
+  },
+};
+
+export const VersionControl: Story = {
+  args: {
+    capability: versionControl,
+    description: doraCapabilityDescriptions['version-control'],
+  },
+};
+
+export const TrunkBasedDevelopment: Story = {
+  args: {
+    capability: trunkBasedDevelopment,
+    description: doraCapabilityDescriptions['trunk-based-development'],
   },
 };
 

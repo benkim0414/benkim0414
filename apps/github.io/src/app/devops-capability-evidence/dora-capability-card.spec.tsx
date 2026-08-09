@@ -18,8 +18,20 @@ const continuousIntegration = doraCapabilityDefinitions.find(
 const continuousDelivery = doraCapabilityDefinitions.find(
   (capability) => capability.key === 'continuous-delivery',
 );
+const versionControl = doraCapabilityDefinitions.find(
+  (capability) => capability.key === 'version-control',
+);
+const trunkBasedDevelopment = doraCapabilityDefinitions.find(
+  (capability) => capability.key === 'trunk-based-development',
+);
 
-if (!flexibleInfrastructure || !continuousIntegration || !continuousDelivery) {
+if (
+  !flexibleInfrastructure ||
+  !continuousIntegration ||
+  !continuousDelivery ||
+  !versionControl ||
+  !trunkBasedDevelopment
+) {
   throw new Error('Missing DORA capability fixture');
 }
 
@@ -114,6 +126,123 @@ describe('DoraCapabilityCard', () => {
       'Experience evidence: Same package across environments',
       'Experience evidence: Automated database migrations',
     ]);
+  });
+
+  it.each([
+    [
+      versionControl,
+      doraCapabilityDescriptions['version-control'],
+      'Built and maintained version-controlled delivery platforms spanning reusable Terraform pipelines and GitOps-managed Kubernetes environments, with traceable infrastructure, configuration, automation, and database changes.',
+      [
+        'Reusable Terraform CI pipelines',
+        'Automated deployment process',
+        'Version-controlled environment state',
+        'Automated database migrations',
+        'Merge-preserved history',
+      ],
+      13,
+    ],
+    [
+      trunkBasedDevelopment,
+      doraCapabilityDescriptions['trunk-based-development'],
+      'Created and maintained single-trunk delivery repositories, integrating short-lived branches and small change batches with merge-preserved history and affected quality gates.',
+      [
+        'Single trunk repositories',
+        'Short-lived branch flow',
+        'Small change landings',
+        'Affected-change quality gates',
+        'Merge-preserved history',
+      ],
+      6,
+    ],
+  ] as const)(
+    'renders %s with its curated summary before technical skills',
+    (capability, description, summary, experienceLabels, skillCount) => {
+      const { container } = render(
+        <DoraCapabilityCard
+          capability={capability}
+          description={description}
+          evidence={devOpsCapabilityEvidenceItems}
+          scores={curatedDevOpsCapabilityRadarScores}
+        />,
+      );
+
+      const experienceRow = screen.getByRole('list', {
+        name: 'Relevant experience',
+      });
+      const skillRow = screen.getByRole('list', { name: 'Technical skills' });
+
+      expect(screen.getByText(summary)).toBeTruthy();
+      expect(experienceRow).toBeTruthy();
+      expect(skillRow).toBeTruthy();
+      expect(within(experienceRow).getAllByRole('listitem')).toHaveLength(5);
+      expect(within(skillRow).getAllByRole('listitem')).toHaveLength(
+        skillCount,
+      );
+      expect(
+        within(experienceRow)
+          .getAllByRole('group')
+          .map((group) => group.getAttribute('aria-label')),
+      ).toEqual(
+        experienceLabels.map((label) => `Experience evidence: ${label}`),
+      );
+      expect(
+        experienceRow.compareDocumentPosition(skillRow) &
+          Node.DOCUMENT_POSITION_FOLLOWING,
+      ).toBeTruthy();
+      expect(container.textContent).not.toContain('2024-02-28');
+      expect(container.textContent).not.toContain('2026-08-09');
+    },
+  );
+
+  it('renders Version Control skills neutrally with known logos and text fallback', () => {
+    render(
+      <DoraCapabilityCard
+        capability={versionControl}
+        description={doraCapabilityDescriptions['version-control']}
+        evidence={devOpsCapabilityEvidenceItems}
+        scores={curatedDevOpsCapabilityRadarScores}
+      />,
+    );
+
+    const skillRow = screen.getByRole('list', { name: 'Technical skills' });
+    const skillTokens = within(skillRow).getAllByTestId('skill-token');
+    expect(skillTokens).toHaveLength(13);
+    expect(
+      screen.getByRole('group', { name: 'Skill evidence: GitHub' }),
+    ).toBeTruthy();
+    expect(
+      screen.getByRole('group', { name: 'Skill evidence: AWS CodePipeline' }),
+    ).toBeTruthy();
+    expect(
+      screen
+        .getByText('GitHub')
+        .closest('[data-testid="skill-token"]')
+        ?.querySelector('path')
+        ?.getAttribute('fill'),
+    ).toBe('#181717');
+    expect(
+      screen
+        .getByText('AWS CodePipeline')
+        .closest('[data-testid="skill-token"]')
+        ?.querySelector('img')
+        ?.getAttribute('src'),
+    ).toMatch(/assets\/.*\.svg/);
+    expect(
+      screen
+        .getByText('Conventional Commits')
+        .closest('[data-testid="skill-token"]')
+        ?.getAttribute('style'),
+    ).toBeNull();
+    expect(
+      screen
+        .getByText('Conventional Commits')
+        .closest('[data-testid="skill-token"]')
+        ?.querySelector('svg, img'),
+    ).toBeNull();
+    expect(
+      skillTokens.every((token) => token.getAttribute('style') === null),
+    ).toBe(true);
   });
 
   it('does not render a summary for capabilities without one', () => {
