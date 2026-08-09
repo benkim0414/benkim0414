@@ -5,6 +5,7 @@ import {
 } from './devops-capability-evidence.data';
 import {
   doraCapabilityDescriptions,
+  getDoraCapabilityCardEvidenceSummary,
   getDoraCapabilityCardEvidenceRows,
 } from './dora-capability-card.evidence';
 import type {
@@ -39,6 +40,29 @@ describe('doraCapabilityDescriptions', () => {
         48,
       );
     }
+  });
+});
+
+describe('getDoraCapabilityCardEvidenceSummary', () => {
+  it('returns the score-owned Continuous Delivery evidence summary', () => {
+    expect(
+      getDoraCapabilityCardEvidenceSummary(
+        'continuous-delivery',
+        curatedDevOpsCapabilityRadarScores,
+      ),
+    ).toBe('7+ years across two delivery platforms');
+  });
+
+  it('returns undefined when the capability has no evidence summary', () => {
+    expect(
+      getDoraCapabilityCardEvidenceSummary(
+        'continuous-integration',
+        curatedDevOpsCapabilityRadarScores,
+      ),
+    ).toBeUndefined();
+    expect(
+      getDoraCapabilityCardEvidenceSummary('continuous-delivery', undefined),
+    ).toBeUndefined();
   });
 });
 

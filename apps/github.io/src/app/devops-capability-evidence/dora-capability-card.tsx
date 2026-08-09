@@ -7,7 +7,10 @@ import * as stylex from '@stylexjs/stylex';
 import { useId, type ReactElement } from 'react';
 
 import { CapabilityEvidence } from './capability-evidence';
-import { getDoraCapabilityCardEvidenceRows } from './dora-capability-card.evidence';
+import {
+  getDoraCapabilityCardEvidenceRows,
+  getDoraCapabilityCardEvidenceSummary,
+} from './dora-capability-card.evidence';
 import type {
   DoraCapabilityCardEvidenceGroup,
   DoraCapabilityCardEvidenceRow,
@@ -109,6 +112,10 @@ export function DoraCapabilityCard({
     evidence,
     scores,
   );
+  const evidenceSummary = getDoraCapabilityCardEvidenceSummary(
+    capability.key,
+    scores,
+  );
 
   return (
     <Card padding={4} xstyle={styles.root}>
@@ -121,6 +128,11 @@ export function DoraCapabilityCard({
             <Text type="supporting" as="p">
               {description}
             </Text>
+            {evidenceSummary ? (
+              <Text type="supporting" color="secondary">
+                {evidenceSummary}
+              </Text>
+            ) : null}
           </VStack>
 
           {rows.length > 0 ? (
