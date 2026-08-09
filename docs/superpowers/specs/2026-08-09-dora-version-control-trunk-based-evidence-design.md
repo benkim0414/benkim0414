@@ -322,6 +322,11 @@ Add production-backed Storybook stories for Version Control and Trunk-Based
 Development. Stories select shared production evidence and scores instead of
 duplicating fixtures.
 
+For remote visual review, replace the current hard-coded non-local Storybook
+allowed host with an environment-provided host. Keep `localhost` available by
+default, but do not commit a Tailscale IP address, MagicDNS name, tailnet name,
+or other private network identifier.
+
 ## Existing Generic Records
 
 - Upgrade `short-lived-branch-flow` and `merge-commit-history` in place with
@@ -415,6 +420,19 @@ Inspect summary hierarchy, row labels, token order, brand marks, wrapping, card
 width, clipping, overlap, and horizontal overflow. Stop for user visual approval
 before running final code review and compounding the solution.
 
+For the user iPad gate:
+
+1. Resolve the workstation's current Tailscale IPv4 address at runtime.
+2. Pass that address to Storybook through the environment-provided allowed-host
+   setting.
+3. Start the `github.io` Storybook target on `0.0.0.0:6006`.
+4. Share the resulting Tailscale-only URL in the live session, never in a
+   repository file or commit.
+5. Keep the server running while the user reviews both new stories from an iPad
+   connected to the same tailnet.
+6. Record approval or requested visual changes, then stop the server when the
+   review is complete.
+
 ## Error Handling
 
 All evidence is local static TypeScript. This feature introduces no loading,
@@ -430,6 +448,7 @@ being silently filtered or partially rendered.
 - New card layouts, dimensions, responsive rules, or evidence groups.
 - Displaying evidence dates.
 - Publishing negative evidence or private source material.
+- Publishing a Tailscale address, MagicDNS name, or tailnet identifier.
 - Refactoring unrelated DORA capabilities.
 - Pushing, merging, deploying, or opening a pull request.
 
@@ -448,7 +467,7 @@ being silently filtered or partially rendered.
   visual hierarchy remain unchanged.
 - Focused tests, complete `github.io` tests, lint, app build, Storybook build,
   and phone/iPad Storybook QA pass.
-- The user approves the visual result before final code review and durable
-  solution documentation.
+- The user approves the visual result from an iPad over the Tailscale VPN before
+  final code review and durable solution documentation.
 - No push, merge, deployment, or handoff occurs without a separate explicit
   request.
