@@ -14,7 +14,7 @@ const githubInitiative =
 const continuousIntegrationEvidenceItemCatalog = [
   {
     id: 'terraform-codepipeline-platform',
-    label: 'Terraform pipelines',
+    label: 'Reusable Terraform CI pipelines',
     title: 'Reusable Terraform delivery platform',
     type: 'experience',
     capabilityKeys: ['continuous-integration', 'continuous-delivery'],
@@ -64,7 +64,7 @@ const continuousIntegrationEvidenceItemCatalog = [
   },
   {
     id: 'codebuild-pr-gates',
-    label: 'CodeBuild PR gates',
+    label: 'Automated pull-request test gates',
     title: 'Pull-request test gates with AWS CodeBuild',
     type: 'experience',
     capabilityKeys: ['continuous-integration'],
@@ -273,7 +273,7 @@ const continuousIntegrationEvidenceItemCatalog = [
   },
   {
     id: 'nx-affected-quality-gates',
-    label: 'Nx affected',
+    label: 'Affected-change quality gates',
     title: 'Nx affected quality gates',
     type: 'experience',
     capabilityKeys: [
@@ -450,7 +450,7 @@ const continuousIntegrationEvidenceItemCatalog = [
   },
   {
     id: 'kustomize-tag-update-reliability',
-    label: 'Tag reliability',
+    label: 'Reliable Kustomize tag updates',
     title: 'Reliable Kustomize batch tag updates',
     type: 'experience',
     capabilityKeys: ['continuous-integration', 'continuous-delivery'],

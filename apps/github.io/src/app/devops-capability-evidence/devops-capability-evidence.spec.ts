@@ -310,7 +310,7 @@ describe('devOpsCapabilityEvidence data', () => {
       },
       {
         id: 'nx-affected-quality-gates',
-        label: 'Nx affected',
+        label: 'Affected-change quality gates',
         capabilityKeys: [
           'test-automation',
           'continuous-integration',
@@ -437,8 +437,14 @@ describe('devOpsCapabilityEvidence data', () => {
       devOpsCapabilityEvidenceItems.find((item) => item.id === id),
     );
 
-    expect(score?.score).toBe(4);
-    expect(score?.maxScore).toBe(5);
+    expect(score).toMatchObject({
+      score: 4,
+      maxScore: 5,
+      strongestEvidenceId: 'terraform-codepipeline-platform',
+      evidenceCounts: { experience: 5, skill: 13 },
+      evidenceSummary:
+        'Built and evolved CI from reusable AWS CodePipeline and CodeBuild pipelines to monorepo GitHub Actions, with affected quality gates and immutable artifacts.',
+    });
     expect(score?.strongestEvidenceId).toBe(score?.evidenceIds[0]);
     expect(score?.evidenceIds.slice(0, 5)).toEqual([
       'terraform-codepipeline-platform',
@@ -503,7 +509,8 @@ describe('devOpsCapabilityEvidence data', () => {
       maxScore: 5,
       strongestEvidenceId: 'codepipeline-approval-gated-deployment',
       evidenceCounts: { experience: 5, skill: 14 },
-      evidenceSummary: '7+ years across two delivery platforms',
+      evidenceSummary:
+        'Built approval-gated and GitOps delivery across AWS CodePipeline and GitHub Actions, with immutable artifacts, automated migrations, and reliable Kubernetes reconciliation.',
     });
     expect(score?.evidenceIds.slice(0, 5)).toEqual([
       'codepipeline-approval-gated-deployment',

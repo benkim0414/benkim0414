@@ -196,6 +196,47 @@ describe('continuousIntegrationEvidenceItems', () => {
     ]);
   });
 
+  it('stores the approved compact-card labels without changing record titles', () => {
+    expect(
+      [
+        'terraform-codepipeline-platform',
+        'codebuild-pr-gates',
+        'nx-affected-quality-gates',
+        'github-actions-gitops-handoff',
+        'kustomize-tag-update-reliability',
+      ].map((id) => {
+        const item = byId.get(id);
+        return [item?.id, item?.label, item?.title];
+      }),
+    ).toEqual([
+      [
+        'terraform-codepipeline-platform',
+        'Reusable Terraform CI pipelines',
+        'Reusable Terraform delivery platform',
+      ],
+      [
+        'codebuild-pr-gates',
+        'Automated pull-request test gates',
+        'Pull-request test gates with AWS CodeBuild',
+      ],
+      [
+        'nx-affected-quality-gates',
+        'Affected-change quality gates',
+        'Nx affected quality gates',
+      ],
+      [
+        'github-actions-gitops-handoff',
+        'Automated deployment process',
+        'Automated deployment process',
+      ],
+      [
+        'kustomize-tag-update-reliability',
+        'Reliable Kustomize tag updates',
+        'Reliable Kustomize batch tag updates',
+      ],
+    ]);
+  });
+
   it('uses DORA deployment terminology for the shared GitOps record', () => {
     expect(byId.get('github-actions-gitops-handoff')).toMatchObject({
       label: 'Automated deployment process',
