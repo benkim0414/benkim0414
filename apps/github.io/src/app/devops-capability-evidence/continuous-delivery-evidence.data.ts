@@ -57,7 +57,7 @@ const additionalMetrics = {
 const continuousDeliveryEvidenceItemCatalog = [
   {
     id: 'codepipeline-approval-gated-deployment',
-    label: 'Approval-gated automation',
+    label: 'Approval-gated deployment automation',
     title: 'Approval-gated deployment automation',
     type: 'experience',
     capabilityKeys: ['continuous-delivery'],
@@ -111,7 +111,7 @@ const continuousDeliveryEvidenceItemCatalog = [
   },
   {
     id: 'argocd-environment-state-from-version-control',
-    label: 'Environment state',
+    label: 'Version-controlled environment state',
     title: 'Environment state from version control',
     type: 'experience',
     capabilityKeys: ['continuous-delivery'],
@@ -153,7 +153,7 @@ const continuousDeliveryEvidenceItemCatalog = [
   },
   {
     id: 'gitops-same-package-environments',
-    label: 'Same package',
+    label: 'Same package across environments',
     title: 'Same package for every environment',
     type: 'experience',
     capabilityKeys: ['continuous-delivery'],
@@ -173,7 +173,7 @@ const continuousDeliveryEvidenceItemCatalog = [
   },
   {
     id: 'argocd-automated-database-migrations',
-    label: 'Database migrations',
+    label: 'Automated database migrations',
     title: 'Automated database migrations',
     type: 'experience',
     capabilityKeys: ['continuous-delivery'],

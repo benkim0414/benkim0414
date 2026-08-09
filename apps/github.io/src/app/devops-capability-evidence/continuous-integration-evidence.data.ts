@@ -364,7 +364,7 @@ const continuousIntegrationEvidenceItemCatalog = [
   },
   {
     id: 'github-actions-gitops-handoff',
-    label: 'Deployment automation',
+    label: 'Automated deployment process',
     title: 'Automated deployment process',
     type: 'experience',
     capabilityKeys: ['continuous-integration', 'continuous-delivery'],
