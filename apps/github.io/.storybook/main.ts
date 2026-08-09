@@ -8,6 +8,16 @@ const workspaceRoot = resolve(storybookDir, '../../..');
 const linkedWorktreeDependencyRoot =
   getLinkedWorktreeDependencyRoot(storybookDir);
 
+export function getStorybookAllowedHosts(
+  host = process.env.STORYBOOK_ALLOWED_HOST,
+): string[] {
+  const requestedHost = host?.trim();
+
+  return Array.from(
+    new Set(['localhost', ...(requestedHost ? [requestedHost] : [])]),
+  );
+}
+
 const config: StorybookConfig = {
   stories: ['../src/**/*.@(mdx|stories.@(js|jsx|ts|tsx))'],
   addons: [],
@@ -23,6 +33,7 @@ const config: StorybookConfig = {
     ...config,
     server: {
       ...config.server,
+      allowedHosts: getStorybookAllowedHosts(),
       fs: {
         ...config.server?.fs,
         allow: Array.from(
