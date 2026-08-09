@@ -102,6 +102,8 @@ export const curatedDevOpsCapabilityRadarScores = [
     ],
     strongestEvidenceId: 'terraform-codepipeline-platform',
     evidenceCounts: { experience: 5, skill: 13 },
+    evidenceSummary:
+      'Built and evolved CI from reusable AWS CodePipeline and CodeBuild pipelines to monorepo GitHub Actions, with affected quality gates and immutable artifacts.',
   },
   {
     capabilityKey: 'test-automation',
@@ -144,7 +146,8 @@ export const curatedDevOpsCapabilityRadarScores = [
     ],
     strongestEvidenceId: 'codepipeline-approval-gated-deployment',
     evidenceCounts: { experience: 5, skill: 14 },
-    evidenceSummary: '7+ years across two delivery platforms',
+    evidenceSummary:
+      'Built approval-gated and GitOps delivery across AWS CodePipeline and GitHub Actions, with immutable artifacts, automated migrations, and reliable Kubernetes reconciliation.',
   },
   {
     capabilityKey: 'deployment-automation',
