@@ -287,22 +287,22 @@ version-control platform in this compact skill selection.
 
 Each skill has focused `supportingEvidenceIds`:
 
-| Skill            | Supporting experiences                                                                                               |
-| ---------------- | -------------------------------------------------------------------------------------------------------------------- |
-| AWS CodePipeline | `codepipeline-approval-gated-deployment`, `terraform-codepipeline-platform`                                          |
-| GitHub           | `codepipeline-approval-gated-deployment`, `github-actions-gitops-handoff`                                            |
-| Docker           | `gitops-same-package-environments`, `reusable-helm-deployment-image`                                                 |
-| Amazon ECR       | `ecr-immutable-promotion`, `gitops-same-package-environments`                                                        |
-| Helm             | `codepipeline-approval-gated-deployment`, `reusable-helm-deployment-image`                                           |
-| Amazon EKS       | `codepipeline-approval-gated-deployment`                                                                             |
-| Terraform        | `terraform-codepipeline-platform`, `production-artifacts-version-control`                                            |
-| Kubernetes       | `argocd-environment-state-from-version-control`, `argocd-automated-database-migrations`, `deployment-health-checks`  |
-| GitHub Actions   | `github-actions-gitops-handoff`, `serialized-deployment-process`, `deployment-failure-notification`                  |
-| OpenID Connect   | `github-actions-gitops-handoff`                                                                                      |
-| Nx               | `github-actions-gitops-handoff`                                                                                      |
-| Kustomize        | `github-actions-gitops-handoff`, `argocd-environment-state-from-version-control`, `gitops-same-package-environments` |
-| Argo CD          | `argocd-environment-state-from-version-control`, `argocd-automated-database-migrations`                              |
-| Sealed Secrets   | `sealed-secrets-version-control`                                                                                     |
+| Skill            | Supporting experiences                                                                                                                                        |
+| ---------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| AWS CodePipeline | `codepipeline-approval-gated-deployment`, `terraform-codepipeline-platform`                                                                                   |
+| GitHub           | `codepipeline-approval-gated-deployment`, `github-actions-gitops-handoff`                                                                                     |
+| Docker           | `gitops-same-package-environments`, `reusable-helm-deployment-image`                                                                                          |
+| Amazon ECR       | `ecr-immutable-promotion`, `gitops-same-package-environments`                                                                                                 |
+| Helm             | `codepipeline-approval-gated-deployment`, `reusable-helm-deployment-image`                                                                                    |
+| Amazon EKS       | `codepipeline-approval-gated-deployment`                                                                                                                      |
+| Terraform        | `terraform-codepipeline-platform`, `production-artifacts-version-control`                                                                                     |
+| Kubernetes       | `codepipeline-approval-gated-deployment`, `argocd-environment-state-from-version-control`, `argocd-automated-database-migrations`, `deployment-health-checks` |
+| GitHub Actions   | `github-actions-gitops-handoff`, `serialized-deployment-process`, `deployment-failure-notification`                                                           |
+| OpenID Connect   | `github-actions-gitops-handoff`                                                                                                                               |
+| Nx               | `github-actions-gitops-handoff`                                                                                                                               |
+| Kustomize        | `github-actions-gitops-handoff`, `argocd-environment-state-from-version-control`, `gitops-same-package-environments`                                          |
+| Argo CD          | `argocd-environment-state-from-version-control`, `argocd-automated-database-migrations`                                                                       |
+| Sealed Secrets   | `sealed-secrets-version-control`                                                                                                                              |
 
 Every support ID must resolve to a public non-skill experience that also
 supports Continuous Delivery. Technology-name presence alone is insufficient.
