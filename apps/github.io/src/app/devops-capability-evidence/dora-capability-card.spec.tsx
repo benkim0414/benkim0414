@@ -59,21 +59,32 @@ describe('DoraCapabilityCard', () => {
     expect(screen.getByTestId('dora-capability-card')).toBeTruthy();
   });
 
-  it('renders the Continuous Delivery experience summary as supporting context', () => {
-    render(
-      <DoraCapabilityCard
-        capability={continuousDelivery}
-        description={doraCapabilityDescriptions['continuous-delivery']}
-        evidence={devOpsCapabilityEvidenceItems}
-        scores={curatedDevOpsCapabilityRadarScores}
-      />,
-    );
+  it.each([
+    [
+      continuousIntegration,
+      doraCapabilityDescriptions['continuous-integration'],
+      'Built and evolved CI from reusable AWS CodePipeline and CodeBuild pipelines to monorepo GitHub Actions, with affected quality gates and immutable artifacts.',
+    ],
+    [
+      continuousDelivery,
+      doraCapabilityDescriptions['continuous-delivery'],
+      'Built approval-gated and GitOps delivery across AWS CodePipeline and GitHub Actions, with immutable artifacts, automated migrations, and reliable Kubernetes reconciliation.',
+    ],
+  ] as const)(
+    'renders the %s experience summary as supporting context',
+    (capability, description, text) => {
+      render(
+        <DoraCapabilityCard
+          capability={capability}
+          description={description}
+          evidence={devOpsCapabilityEvidenceItems}
+          scores={curatedDevOpsCapabilityRadarScores}
+        />,
+      );
 
-    const summary = screen.getByText('7+ years across two delivery platforms');
-
-    expect(summary.tagName).toBe('SPAN');
-    expect(summary).toBeTruthy();
-  });
+      expect(screen.getByText(text).tagName).toBe('SPAN');
+    },
+  );
 
   it('renders the approved Continuous Delivery experience and skill rows', () => {
     render(
@@ -108,15 +119,22 @@ describe('DoraCapabilityCard', () => {
   it('does not render a summary for capabilities without one', () => {
     render(
       <DoraCapabilityCard
-        capability={continuousIntegration}
-        description={doraCapabilityDescriptions['continuous-integration']}
+        capability={flexibleInfrastructure}
+        description={doraCapabilityDescriptions['flexible-infrastructure']}
         evidence={devOpsCapabilityEvidenceItems}
         scores={curatedDevOpsCapabilityRadarScores}
       />,
     );
 
     expect(
-      screen.queryByText('7+ years across two delivery platforms'),
+      screen.queryByText(
+        'Built and evolved CI from reusable AWS CodePipeline and CodeBuild pipelines to monorepo GitHub Actions, with affected quality gates and immutable artifacts.',
+      ),
+    ).toBeNull();
+    expect(
+      screen.queryByText(
+        'Built approval-gated and GitOps delivery across AWS CodePipeline and GitHub Actions, with immutable artifacts, automated migrations, and reliable Kubernetes reconciliation.',
+      ),
     ).toBeNull();
   });
 
@@ -211,11 +229,11 @@ describe('DoraCapabilityCard', () => {
         .getAllByRole('group')
         .map((group) => group.getAttribute('aria-label')),
     ).toEqual([
-      'Experience evidence: Terraform pipelines',
-      'Experience evidence: CodeBuild PR gates',
-      'Experience evidence: Nx affected',
+      'Experience evidence: Reusable Terraform CI pipelines',
+      'Experience evidence: Automated pull-request test gates',
+      'Experience evidence: Affected-change quality gates',
       'Experience evidence: Automated deployment process',
-      'Experience evidence: Tag reliability',
+      'Experience evidence: Reliable Kustomize tag updates',
     ]);
   });
 
