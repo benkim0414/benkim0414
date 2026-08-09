@@ -78,9 +78,9 @@ Astryx Component Contracts are the source of truth for local wrappers: wrappers 
 
 ### Certification Citation
 
-A reusable presentation for one certification proof link, with derived status, visual identity, and optional validated credential details.
+A reusable certification citation that can link to certification proof, with derived status, visual identity, and optional validated credential details.
 
-The proof link remains the primary action: supplemental details appear only for a concrete, complete credential, while generic or invalid data preserves the plain citation. Certification Citation renders a logo-backed icon when available; color-only skill metadata and missing brand metadata receive no visible brand treatment.
+The proof link remains the primary action: supplemental details appear only for a concrete, complete credential, while generic or invalid data preserves the plain citation. Certification Citation renders a supplied credential image ahead of a generated skill-brand icon; each image source uses its own expired-state treatment, while color-only skill metadata and missing brand metadata receive no visible brand treatment.
 
 ### Certification Badge Fixture
 
