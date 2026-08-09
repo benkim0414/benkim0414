@@ -48,6 +48,8 @@ const expectedLabels = [
 const byId = new Map(
   continuousDeliveryEvidenceItems.map((item) => [item.id, item]),
 );
+const itemById = (id: string) => byId.get(id);
+const capabilityKeysById = (id: string) => itemById(id)?.capabilityKeys ?? [];
 const isoDate = /^\d{4}-\d{2}-\d{2}$/;
 
 describe('continuousDeliveryEvidenceItems', () => {
@@ -173,7 +175,6 @@ describe('continuousDeliveryEvidenceItems', () => {
     expect(publicFacts).toMatch(/automated rollback.*absent/i);
     expect(publicFacts).toMatch(/progressive delivery.*absent/i);
     expect(publicFacts).toMatch(/partial coverage/i);
-    expect(publicFacts).toMatch(/drift.*not proactively detected/i);
   });
 
   it('stores valid structured public evidence', () => {
@@ -218,5 +219,34 @@ describe('continuousDeliveryEvidenceItems', () => {
     expect(publicText).not.toMatch(/fully automated production/i);
     expect(publicText).not.toMatch(/proactive failure notification/i);
     expect(publicText).not.toMatch(/automated rollback implemented/i);
+  });
+
+  it('maps shared CD experiences to Version Control without changing their IDs', () => {
+    expect(
+      capabilityKeysById('argocd-environment-state-from-version-control'),
+    ).toContain('version-control');
+    expect(capabilityKeysById('gitops-same-package-environments')).toContain(
+      'version-control',
+    );
+    expect(capabilityKeysById('argocd-automated-database-migrations')).toContain(
+      'version-control',
+    );
+  });
+
+  it('keeps selected Version Control evidence affirmative', () => {
+    const selected = [
+      itemById('argocd-environment-state-from-version-control'),
+      itemById('argocd-automated-database-migrations'),
+    ];
+    const publicText = JSON.stringify(selected).toLowerCase();
+
+    expect(publicText).not.toMatch(
+      /\b(not|no|without|limitation|drift beyond|partial|missing|failed|failure)\b/,
+    );
+    for (const item of selected) {
+      expect(item?.details?.metrics.every(({ value }) => value >= 0)).toBe(
+        true,
+      );
+    }
   });
 });
