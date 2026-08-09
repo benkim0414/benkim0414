@@ -24,7 +24,7 @@ describe('DoraCapabilityCard stories', () => {
       'Terraform pipelines',
       'CodeBuild PR gates',
       'Nx affected',
-      'GitOps handoff',
+      'Deployment automation',
       'Tag reliability',
     ]);
     expect(selected?.slice(5).map((item) => item?.title)).toEqual([

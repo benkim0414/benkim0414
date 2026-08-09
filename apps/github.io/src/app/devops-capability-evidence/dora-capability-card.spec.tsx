@@ -146,7 +146,7 @@ describe('DoraCapabilityCard', () => {
       'Experience evidence: Terraform pipelines',
       'Experience evidence: CodeBuild PR gates',
       'Experience evidence: Nx affected',
-      'Experience evidence: GitOps handoff',
+      'Experience evidence: Deployment automation',
       'Experience evidence: Tag reliability',
     ]);
   });
