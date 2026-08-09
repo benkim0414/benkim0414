@@ -198,7 +198,7 @@ describe('continuousIntegrationEvidenceItems', () => {
 
   it('uses DORA deployment terminology for the shared GitOps record', () => {
     expect(byId.get('github-actions-gitops-handoff')).toMatchObject({
-      label: 'Deployment automation',
+      label: 'Automated deployment process',
       title: 'Automated deployment process',
       capabilityKeys: ['continuous-integration', 'continuous-delivery'],
     });
