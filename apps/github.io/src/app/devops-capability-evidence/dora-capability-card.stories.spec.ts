@@ -1,4 +1,7 @@
-import meta, { ContinuousIntegration } from './dora-capability-card.stories';
+import meta, {
+  ContinuousDelivery,
+  ContinuousIntegration,
+} from './dora-capability-card.stories';
 import {
   curatedDevOpsCapabilityRadarScores,
   devOpsCapabilityEvidenceItems,
@@ -41,6 +44,46 @@ describe('DoraCapabilityCard stories', () => {
       'OpenID Connect',
       'Kustomize',
       'Argo CD',
+    ]);
+  });
+
+  it('uses shared production data for Continuous Delivery', () => {
+    expect(meta.args?.evidence).toBe(devOpsCapabilityEvidenceItems);
+    expect(meta.args?.scores).toBe(curatedDevOpsCapabilityRadarScores);
+    expect(ContinuousDelivery.args?.evidence).toBeUndefined();
+    expect(ContinuousDelivery.args?.scores).toBeUndefined();
+  });
+
+  it('resolves the approved Continuous Delivery evidence and skills', () => {
+    const score = curatedDevOpsCapabilityRadarScores.find(
+      (entry) => entry.capabilityKey === 'continuous-delivery',
+    );
+    const selected = score?.evidenceIds.map((id) =>
+      devOpsCapabilityEvidenceItems.find((item) => item.id === id),
+    );
+
+    expect(selected?.slice(0, 5).map((item) => item?.label)).toEqual([
+      'Approval-gated automation',
+      'Deployment automation',
+      'Environment state',
+      'Same package',
+      'Database migrations',
+    ]);
+    expect(selected?.slice(5).map((item) => item?.title)).toEqual([
+      'AWS CodePipeline',
+      'GitHub',
+      'Docker',
+      'Amazon ECR',
+      'Helm',
+      'Amazon EKS',
+      'Terraform',
+      'Kubernetes',
+      'GitHub Actions',
+      'OpenID Connect',
+      'Nx',
+      'Kustomize',
+      'Argo CD',
+      'Sealed Secrets',
     ]);
   });
 });
