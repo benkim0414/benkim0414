@@ -16,6 +16,23 @@ const ciSkillNames = [
   'Argo CD',
 ];
 
+const cdSkillNames = [
+  'AWS CodePipeline',
+  'GitHub',
+  'Docker',
+  'Amazon ECR',
+  'Helm',
+  'Amazon EKS',
+  'Terraform',
+  'Kubernetes',
+  'GitHub Actions',
+  'OpenID Connect',
+  'Nx',
+  'Kustomize',
+  'Argo CD',
+  'Sealed Secrets',
+] as const;
+
 describe('getSkillBrand', () => {
   it('resolves an icon for every selected CI skill', () => {
     for (const skill of ciSkillNames) {
@@ -30,6 +47,26 @@ describe('getSkillBrand', () => {
     'AWS Systems Manager Parameter Store',
   ])('uses a local full-color AWS asset for %s', (skill) => {
     const brand = getSkillBrand(skill);
+
+    expect(brand?.iconPath).toBeUndefined();
+    expect(brand?.iconDataUrl).toMatch(/assets\/.*\.svg/);
+  });
+
+  it('uses truthful brand treatment for every selected CD skill', () => {
+    for (const skill of cdSkillNames) {
+      const brand = getSkillBrand(skill);
+
+      if (skill === 'Sealed Secrets') {
+        expect(hasSkillBrandIcon(brand)).toBe(false);
+        continue;
+      }
+
+      expect(hasSkillBrandIcon(brand), skill).toBe(true);
+    }
+  });
+
+  it('uses an official local full-color AWS asset for Amazon EKS', () => {
+    const brand = getSkillBrand('Amazon EKS');
 
     expect(brand?.iconPath).toBeUndefined();
     expect(brand?.iconDataUrl).toMatch(/assets\/.*\.svg/);
