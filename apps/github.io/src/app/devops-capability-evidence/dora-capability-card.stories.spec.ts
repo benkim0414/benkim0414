@@ -1,6 +1,8 @@
 import meta, {
   ContinuousDelivery,
   ContinuousIntegration,
+  TrunkBasedDevelopment,
+  VersionControl,
 } from './dora-capability-card.stories';
 import {
   curatedDevOpsCapabilityRadarScores,
@@ -86,4 +88,81 @@ describe('DoraCapabilityCard stories', () => {
       'Sealed Secrets',
     ]);
   });
+
+  it('inherits shared production data for Version Control', () => {
+    expect(meta.args?.evidence).toBe(devOpsCapabilityEvidenceItems);
+    expect(meta.args?.scores).toBe(curatedDevOpsCapabilityRadarScores);
+    expect(VersionControl.args?.evidence).toBeUndefined();
+    expect(VersionControl.args?.scores).toBeUndefined();
+  });
+
+  it('inherits shared production data for Trunk-Based Development', () => {
+    expect(meta.args?.evidence).toBe(devOpsCapabilityEvidenceItems);
+    expect(meta.args?.scores).toBe(curatedDevOpsCapabilityRadarScores);
+    expect(TrunkBasedDevelopment.args?.evidence).toBeUndefined();
+    expect(TrunkBasedDevelopment.args?.scores).toBeUndefined();
+  });
+
+  it.each([
+    [
+      'version-control',
+      [
+        'Reusable Terraform CI pipelines',
+        'Automated deployment process',
+        'Version-controlled environment state',
+        'Automated database migrations',
+        'Merge-preserved history',
+      ],
+      [
+        'Git',
+        'GitHub',
+        'AWS CodePipeline',
+        'Terraform',
+        'Docker',
+        'Helm',
+        'Conventional Commits',
+        'Husky',
+        'Nx',
+        'GitHub Actions',
+        'Kustomize',
+        'Argo CD',
+        'Kubernetes',
+      ],
+    ],
+    [
+      'trunk-based-development',
+      [
+        'Single trunk repositories',
+        'Short-lived branch flow',
+        'Small change landings',
+        'Affected-change quality gates',
+        'Merge-preserved history',
+      ],
+      [
+        'Git',
+        'GitHub',
+        'Nx',
+        'GitHub Actions',
+        'Conventional Commits',
+        'Husky',
+      ],
+    ],
+  ] as const)(
+    'resolves the approved %s evidence and skills',
+    (capabilityKey, experienceLabels, skillTitles) => {
+      const score = curatedDevOpsCapabilityRadarScores.find(
+        (entry) => entry.capabilityKey === capabilityKey,
+      );
+      const selected = score?.evidenceIds.map((id) =>
+        devOpsCapabilityEvidenceItems.find((item) => item.id === id),
+      );
+
+      expect(selected?.slice(0, 5).map((item) => item?.label)).toEqual(
+        experienceLabels,
+      );
+      expect(selected?.slice(5).map((item) => item?.title)).toEqual(
+        skillTitles,
+      );
+    },
+  );
 });
