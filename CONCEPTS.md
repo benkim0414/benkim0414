@@ -42,9 +42,9 @@ Catalog records own reusable facts and relationships; they do not decide which s
 
 ### Compact Capability Projection
 
-The explicit, score-owned subset and order of Capability Evidence Catalog records selected for a compact capability surface.
+The explicit, score-owned subset, order, and optional capability-level supplemental summary selected for a compact capability surface.
 
-A Compact Capability Projection remains stable when the full catalog grows unless its curated evidence references are deliberately changed.
+A Compact Capability Projection remains stable when the full catalog grows unless its curated evidence references or supplemental summary are deliberately changed.
 
 ### Capability Skill Evidence
 

@@ -1,7 +1,7 @@
 ---
 title: Tokenize DORA Capability Evidence
 date: 2026-07-30
-last_updated: 2026-08-08
+last_updated: 2026-08-09
 category: conventions
 module: github.io DevOps capability evidence
 problem_type: convention
@@ -9,14 +9,24 @@ component: documentation
 severity: medium
 applies_when:
   - Publishing DORA capability evidence derived from private source material
-  - Maintaining a full evidence history beside a compact card projection
+  - Maintaining a full evidence history beside compact card copy and projection
   - Separating demonstrated experience from evidence-backed skills
   - Preserving deterministic evidence selection and chronology
   - Rendering dense skill evidence with readable neutral tokens
 related_components:
   - github.io DevOps capability evidence radar
   - CapabilityEvidence renderer
-tags: [github-io, dora, continuous-integration, evidence-model, privacy, curated-projection, chronology, skill-tokens]
+tags:
+  [
+    github-io,
+    dora,
+    continuous-integration,
+    evidence-model,
+    privacy,
+    curated-projection,
+    chronology,
+    skill-tokens,
+  ]
 ---
 
 # Tokenize DORA Capability Evidence
@@ -25,12 +35,12 @@ tags: [github-io, dora, continuous-integration, evidence-model, privacy, curated
 
 The DevOps capability evidence model publishes portfolio proof, not raw interview answers or private workplace material. A broad story often contains several independently useful accomplishments, but a compact capability card can show only a curated subset. Treat these as two separate ownership concerns:
 
-- Full catalogs own reusable, atomic evidence records.
-- Capability scores own the smaller public projection used by compact cards.
+- Full catalogs own reusable, atomic evidence records and their compact labels.
+- Capability scores own the smaller public projection and capability-level supplemental summary used by compact cards.
 
 The Continuous Integration example makes that boundary concrete. Its experience catalog has 18 stable IDs, with an explicit expected-ID and uniqueness contract in `apps/github.io/src/app/devops-capability-evidence/continuous-integration-evidence.data.spec.ts:6-35`. A separate skill catalog has 13 stable IDs and links every skill to one or more supporting experience records in `apps/github.io/src/app/devops-capability-evidence/continuous-integration-skill-evidence.data.spec.ts:4-21` and `apps/github.io/src/app/devops-capability-evidence/continuous-integration-skill-evidence.data.spec.ts:114-149`.
 
-The shared evidence catalog composes both datasets in `apps/github.io/src/app/devops-capability-evidence/devops-capability-evidence.data.ts:256-257`. The CI score then selects exactly five experience IDs before appending the canonical skill IDs, with matching counts, in `apps/github.io/src/app/devops-capability-evidence/devops-capability-evidence.data.ts:89-103`.
+The shared evidence catalog composes both datasets in `apps/github.io/src/app/devops-capability-evidence/devops-capability-evidence.data.ts:256-257`. The CI score then selects exactly five experience IDs before appending the canonical skill IDs, with matching counts and a capability-level `evidenceSummary`, in `apps/github.io/src/app/devops-capability-evidence/devops-capability-evidence.data.ts:91-106`.
 
 ## Guidance
 
@@ -54,6 +64,38 @@ Do not derive the compact card with `slice(0, 5)`, runtime ranking, or incidenta
 
 The card resolver follows score order and skips unresolved IDs; it does not truncate or re-rank the full catalog (`apps/github.io/src/app/devops-capability-evidence/dora-capability-card.evidence.ts:35-52`). Adding a sixth experience to the catalog does not change the current compact summary unless the score references change.
 
+### Keep compact labels and capability summaries with their owners
+
+Use an atomic record's `label` for short text that should follow that evidence
+wherever it is selected. A label-only change must preserve the record's stable
+ID, descriptive title, detailed summary, facts, technologies, metrics, dates,
+initiative, and capability mappings. The CI contract locks the five curated
+labels beside their unchanged record titles in
+`apps/github.io/src/app/devops-capability-evidence/continuous-integration-evidence.data.spec.ts:199-238`.
+
+Use a score's optional `evidenceSummary` for one public-safe sentence that
+describes what the selected evidence demonstrates for that capability as a
+whole. Do not derive this prose from labels or concatenate catalog summaries at
+runtime. The score owns the copy and the existing resolver returns it for the
+matching capability
+(`apps/github.io/src/app/devops-capability-evidence/dora-capability-card.evidence.ts:15-21`).
+The card keeps the generic DORA definition separate, then renders the
+supplemental summary before the evidence rows
+(`apps/github.io/src/app/devops-capability-evidence/dora-capability-card.tsx:120-148`).
+
+Both copy layers follow the same privacy boundary as detailed evidence. Public
+technology names may remain specific, but private repository, project, service,
+workflow, organization, account, path, URL, customer, and architecture names do
+not belong in either field. Existing catalog privacy regexes do not scan
+score-owned summaries, so keep exact score-summary assertions and review new
+summary text explicitly rather than assuming catalog checks cover it.
+
+Storybook must consume the same production evidence and score arrays. Its
+contract verifies inherited production data and the exact curated labels in
+`apps/github.io/src/app/devops-capability-evidence/dora-capability-card.stories.spec.ts:10-47`.
+This prevents a polished Storybook-only fixture from masking stale production
+copy.
+
 ### Separate chronology from grouping
 
 Chronology belongs to canonical data order. For CI skills, tests derive each skill's earliest supporting experience date and lock delivery-flow order for equal dates (`apps/github.io/src/app/devops-capability-evidence/continuous-integration-skill-evidence.data.spec.ts:80-111`). The score reuses that order by mapping over the canonical skill catalog (`apps/github.io/src/app/devops-capability-evidence/devops-capability-evidence.data.ts:93-100`).
@@ -64,15 +106,20 @@ Presentation grouping is a separate operation. The card maps evidence types into
 
 Capability skill rows use neutral token chrome so thirteen brands do not compete for attention. `SkillEvidenceToken` opts into the shared `SkillToken` with `variant="neutral"` at `apps/github.io/src/app/devops-capability-evidence/capability-evidence.tsx:41-55`. The neutral variant uses the gray Astryx token surface and applies brand color only to a real inline logo; locally bundled full-color assets remain unchanged, and missing logos remain text-only (`apps/github.io/src/app/skills/skill-token.tsx:32-84`).
 
-The compact card labels these rows `Experience` and `Skills` with supporting, secondary text and uses the visible labels as the lists' accessible names (`apps/github.io/src/app/devops-capability-evidence/dora-capability-card.tsx:24-29` and `apps/github.io/src/app/devops-capability-evidence/dora-capability-card.tsx:70-85`).
+The compact card labels these rows `Relevant experience` and `Technical skills`
+with supporting, secondary text and uses the visible labels as the lists'
+accessible names
+(`apps/github.io/src/app/devops-capability-evidence/dora-capability-card.tsx:27-32`
+and `apps/github.io/src/app/devops-capability-evidence/dora-capability-card.tsx:66-99`).
 
 ## Why This Matters
 
 Separating catalog ownership from projection ownership keeps the evidence reusable. A dedicated capability page can consume the full history while the compact card remains a deliberate five-experience summary plus supported skills. Stable IDs make every score auditable, structured details preserve evidence strength, and focused support links explain why each skill belongs.
 
-The boundaries also prevent three common failures:
+The boundaries also prevent four common failures:
 
 - Catalog growth accidentally changes a compact card.
+- Capability summaries drift from the score-owned projection they describe.
 - Technology strings overstate skills that lack concrete support.
 - Public presentation leaks private context copied from source material.
 
@@ -84,6 +131,7 @@ Neutral skill surfaces and visible row labels solve the related presentation pro
 - Splitting one broad answer into accomplishments that should be independently reusable or scored.
 - Adding a skill that must be backed by concrete experience.
 - Growing a full catalog without changing a compact card's curated selection.
+- Clarifying a reusable evidence token or adding capability-level supporting copy.
 - Preserving chronological meaning independently of UI grouping.
 - Showing many branded skills in a dense evidence row.
 
@@ -113,6 +161,10 @@ evidenceIds: [
   'kustomize-tag-update-reliability',
   ...continuousIntegrationSkillEvidenceItems.map((item) => item.id),
 ]
+
+// Capability-level copy: one score-owned sentence, not item-level prose.
+evidenceSummary:
+  'Built and evolved CI from reusable delivery pipelines to monorepo automation, with affected quality gates and immutable artifacts.',
 ```
 
 Back a skill with focused evidence instead of inferring it from a technology list:
@@ -136,10 +188,24 @@ Render the same evidence with restrained visual hierarchy:
 <SkillToken label={label} brandLabel={brandName} variant="neutral" />
 ```
 
+For copy-only changes, assert the owning data and every projection boundary:
+
+- exact catalog labels beside unchanged IDs and titles;
+- exact score summaries, scores, counts, strongest evidence, and selected IDs;
+- resolver output and summary omission for capabilities without one;
+- rendered supporting text and accessible evidence-token names;
+- Storybook's use of shared production arrays;
+- phone and tablet wrapping, overflow, row hierarchy, and logo stability.
+
+Automated tests establish data and semantic behavior, but they do not prove that
+longer labels and summaries fit at responsive widths. Serve Storybook from the
+linked worktree and complete visual QA before treating the copy change as ready.
+
 ## Related
 
 - `docs/solutions/design-patterns/compact-capability-evidence-renderers.md`
 - `docs/solutions/design-patterns/public-evidence-portfolio-visualizations.md`
+- `docs/solutions/workflow-issues/verify-storybook-from-linked-worktree.md`
 - `docs/solutions/design-patterns/project-skill-icon-mapping.md`
 - `docs/solutions/logic-errors/color-only-certification-brand-fallback.md`
 - `docs/solutions/best-practices/astryx-stylex-tailwind-boundaries.md`
