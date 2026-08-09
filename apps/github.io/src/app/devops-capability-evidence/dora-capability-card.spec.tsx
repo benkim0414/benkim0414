@@ -97,11 +97,11 @@ describe('DoraCapabilityCard', () => {
         .getAllByRole('group')
         .map((group) => group.getAttribute('aria-label')),
     ).toEqual([
-      'Experience evidence: Approval-gated automation',
-      'Experience evidence: Deployment automation',
-      'Experience evidence: Environment state',
-      'Experience evidence: Same package',
-      'Experience evidence: Database migrations',
+      'Experience evidence: Approval-gated deployment automation',
+      'Experience evidence: Automated deployment process',
+      'Experience evidence: Version-controlled environment state',
+      'Experience evidence: Same package across environments',
+      'Experience evidence: Automated database migrations',
     ]);
   });
 
@@ -208,7 +208,7 @@ describe('DoraCapabilityCard', () => {
       'Experience evidence: Terraform pipelines',
       'Experience evidence: CodeBuild PR gates',
       'Experience evidence: Nx affected',
-      'Experience evidence: Deployment automation',
+      'Experience evidence: Automated deployment process',
       'Experience evidence: Tag reliability',
     ]);
   });

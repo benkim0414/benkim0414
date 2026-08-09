@@ -30,6 +30,21 @@ const expectedTitles = [
   'Deployment failure notification',
 ] as const;
 
+const expectedLabels = [
+  'Approval-gated deployment automation',
+  'Version-controlled environment state',
+  'Same package across environments',
+  'Automated database migrations',
+  'Reliable migrations',
+  'Production artifacts',
+  'Encrypted configuration',
+  'Reliable deployment',
+  'Independent deployment',
+  'Small batches',
+  'Deployment health',
+  'Failure notification',
+] as const;
+
 const byId = new Map(
   continuousDeliveryEvidenceItems.map((item) => [item.id, item]),
 );
@@ -42,6 +57,9 @@ describe('continuousDeliveryEvidenceItems', () => {
     );
     expect(continuousDeliveryEvidenceItems.map((item) => item.title)).toEqual(
       expectedTitles,
+    );
+    expect(continuousDeliveryEvidenceItems.map((item) => item.label)).toEqual(
+      expectedLabels,
     );
   });
 
