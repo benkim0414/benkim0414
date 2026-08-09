@@ -1,3 +1,4 @@
+import { existsSync, readFileSync } from 'node:fs';
 import {
   curatedDevOpsCapabilityRadarScores,
   doraCapabilityDefinitions,
@@ -7,6 +8,10 @@ import {
 import { continuousDeliveryEvidenceItems } from './continuous-delivery-evidence.data';
 import { continuousDeliverySkillEvidenceItems } from './continuous-delivery-skill-evidence.data';
 import { continuousIntegrationSkillEvidenceItems } from './continuous-integration-skill-evidence.data';
+import { trunkBasedDevelopmentEvidenceItems } from './trunk-based-development-evidence.data';
+import { trunkBasedDevelopmentSkillEvidenceItems } from './trunk-based-development-skill-evidence.data';
+import { versionControlEvidenceItems } from './version-control-evidence.data';
+import { versionControlSkillEvidenceItems } from './version-control-skill-evidence.data';
 import {
   getCapabilityEvidenceMatrix,
   getCapabilityEvidenceScores,
@@ -157,24 +162,28 @@ describe('devOpsCapabilityEvidence data', () => {
       {
         capabilityKey: 'version-control',
         evidenceIds: [
-          'roadmap-repository',
-          'short-lived-branch-flow',
-          'protected-review-gates',
+          'terraform-codepipeline-platform',
+          'github-actions-gitops-handoff',
+          'argocd-environment-state-from-version-control',
+          'argocd-automated-database-migrations',
           'merge-commit-history',
+          ...versionControlSkillEvidenceItems.map((item) => item.id),
         ],
-        strongestEvidenceId: 'short-lived-branch-flow',
-        evidenceCounts: { experience: 3, project: 1 },
+        strongestEvidenceId: 'terraform-codepipeline-platform',
+        evidenceCounts: { experience: 5, skill: 13 },
       },
       {
         capabilityKey: 'trunk-based-development',
         evidenceIds: [
+          'single-trunk-repository-flow',
           'short-lived-branch-flow',
-          'protected-review-gates',
-          'merge-commit-history',
+          'small-change-landings',
           'nx-affected-quality-gates',
+          'merge-commit-history',
+          ...trunkBasedDevelopmentSkillEvidenceItems.map((item) => item.id),
         ],
-        strongestEvidenceId: 'short-lived-branch-flow',
-        evidenceCounts: { experience: 4 },
+        strongestEvidenceId: 'single-trunk-repository-flow',
+        evidenceCounts: { experience: 5, skill: 6 },
       },
       {
         capabilityKey: 'continuous-integration',
@@ -269,9 +278,6 @@ describe('devOpsCapabilityEvidence data', () => {
 
   it('carves user-provided interview evidence into compact tokens', () => {
     const carvedEvidenceIds = [
-      'short-lived-branch-flow',
-      'protected-review-gates',
-      'merge-commit-history',
       'nx-affected-quality-gates',
       'jest-testcontainers-postgres',
       'regression-gates',
@@ -289,25 +295,6 @@ describe('devOpsCapabilityEvidence data', () => {
           capabilityKeys: item.capabilityKeys,
         })),
     ).toEqual([
-      {
-        id: 'short-lived-branch-flow',
-        label: 'Short-lived branches',
-        capabilityKeys: ['trunk-based-development', 'version-control'],
-      },
-      {
-        id: 'protected-review-gates',
-        label: 'Protected reviews',
-        capabilityKeys: [
-          'trunk-based-development',
-          'continuous-integration',
-          'version-control',
-        ],
-      },
-      {
-        id: 'merge-commit-history',
-        label: 'Merge commits',
-        capabilityKeys: ['trunk-based-development', 'version-control'],
-      },
       {
         id: 'nx-affected-quality-gates',
         label: 'Affected-change quality gates',
@@ -426,6 +413,167 @@ describe('devOpsCapabilityEvidence data', () => {
           }, new Map<string, number>()),
         ),
       ).toEqual(score.evidenceCounts);
+    }
+  });
+
+  it('keeps Version Control and Trunk-Based Development cards explicitly curated', () => {
+    const versionControlScore = curatedDevOpsCapabilityRadarScores.find(
+      (score) => score.capabilityKey === 'version-control',
+    );
+    const trunkBasedScore = curatedDevOpsCapabilityRadarScores.find(
+      (score) => score.capabilityKey === 'trunk-based-development',
+    );
+
+    expect(versionControlScore).toMatchObject({
+      score: 4,
+      maxScore: 5,
+      strongestEvidenceId: 'terraform-codepipeline-platform',
+      evidenceCounts: { experience: 5, skill: 13 },
+      evidenceSummary:
+        'Built and maintained version-controlled delivery platforms spanning reusable Terraform pipelines and GitOps-managed Kubernetes environments, with traceable infrastructure, configuration, automation, and database changes.',
+    });
+    expect(versionControlScore?.evidenceIds).toEqual([
+      'terraform-codepipeline-platform',
+      'github-actions-gitops-handoff',
+      'argocd-environment-state-from-version-control',
+      'argocd-automated-database-migrations',
+      'merge-commit-history',
+      ...versionControlSkillEvidenceItems.map(({ id }) => id),
+    ]);
+
+    expect(trunkBasedScore).toMatchObject({
+      score: 4,
+      maxScore: 5,
+      strongestEvidenceId: 'single-trunk-repository-flow',
+      evidenceCounts: { experience: 5, skill: 6 },
+      evidenceSummary:
+        'Created and maintained single-trunk delivery repositories, integrating short-lived branches and small change batches with merge-preserved history and affected quality gates.',
+    });
+    expect(trunkBasedScore?.evidenceIds).toEqual([
+      'single-trunk-repository-flow',
+      'short-lived-branch-flow',
+      'small-change-landings',
+      'nx-affected-quality-gates',
+      'merge-commit-history',
+      ...trunkBasedDevelopmentSkillEvidenceItems.map(({ id }) => id),
+    ]);
+
+    const evidenceById = new Map(
+      devOpsCapabilityEvidenceItems.map((item) => [item.id, item]),
+    );
+
+    for (const score of [versionControlScore, trunkBasedScore]) {
+      expect(score).toBeDefined();
+      expect(score?.strongestEvidenceId).toBe(score?.evidenceIds[0]);
+
+      const selectedItems = score?.evidenceIds.map((id) => evidenceById.get(id));
+      expect(selectedItems?.every(Boolean)).toBe(true);
+      expect(
+        selectedItems?.every((item) =>
+          item?.capabilityKeys.includes(score?.capabilityKey ?? ''),
+        ),
+      ).toBe(true);
+      expect(
+        Object.fromEntries(
+          (selectedItems ?? []).reduce((counts, item) => {
+            if (item) {
+              counts.set(item.type, (counts.get(item.type) ?? 0) + 1);
+            }
+            return counts;
+          }, new Map<string, number>()),
+        ),
+      ).toEqual(score?.evidenceCounts);
+
+      const supportItems = (selectedItems ?? []).flatMap((item) =>
+        (item?.supportingEvidenceIds ?? []).map((id) => evidenceById.get(id)),
+      );
+      expect(supportItems.every(Boolean)).toBe(true);
+      expect(
+        supportItems.every((item) =>
+          item?.capabilityKeys.includes(score?.capabilityKey ?? ''),
+        ),
+      ).toBe(true);
+    }
+
+    expect(devOpsCapabilityEvidenceItems.map(({ id }) => id)).not.toContain(
+      'protected-review-gates',
+    );
+    expect(
+      devOpsCapabilityEvidenceItems.filter(
+        ({ id }) => id === 'short-lived-branch-flow' || id === 'merge-commit-history',
+      ),
+    ).toHaveLength(2);
+    expect(versionControlEvidenceItems).toContain(
+      evidenceById.get('merge-commit-history'),
+    );
+    expect(trunkBasedDevelopmentEvidenceItems).toContain(
+      evidenceById.get('short-lived-branch-flow'),
+    );
+  });
+
+  it('does not change explicit compact cards when an unselected record exists', () => {
+    const syntheticUnselectedCatalog = [
+      ...devOpsCapabilityEvidenceItems,
+      {
+        id: 'synthetic-unselected-versioning-record',
+        title: 'Synthetic unselected record',
+        type: 'experience' as const,
+        capabilityKeys: ['version-control', 'trunk-based-development'] as const,
+        summary: 'Synthetic public evidence that must not alter curated cards.',
+        isPublic: true,
+        strength: 'primary' as const,
+      },
+    ];
+
+    expect(syntheticUnselectedCatalog).toHaveLength(
+      devOpsCapabilityEvidenceItems.length + 1,
+    );
+    expect(
+      curatedDevOpsCapabilityRadarScores.find(
+        (score) => score.capabilityKey === 'version-control',
+      )?.evidenceIds,
+    ).toEqual([
+      'terraform-codepipeline-platform',
+      'github-actions-gitops-handoff',
+      'argocd-environment-state-from-version-control',
+      'argocd-automated-database-migrations',
+      'merge-commit-history',
+      ...versionControlSkillEvidenceItems.map(({ id }) => id),
+    ]);
+    expect(
+      curatedDevOpsCapabilityRadarScores.find(
+        (score) => score.capabilityKey === 'trunk-based-development',
+      )?.evidenceIds,
+    ).toEqual([
+      'single-trunk-repository-flow',
+      'short-lived-branch-flow',
+      'small-change-landings',
+      'nx-affected-quality-gates',
+      'merge-commit-history',
+      ...trunkBasedDevelopmentSkillEvidenceItems.map(({ id }) => id),
+    ]);
+  });
+
+  it('uses literal score projections instead of catalog ranking or slicing', () => {
+    const dataFile = existsSync(
+      'apps/github.io/src/app/devops-capability-evidence/devops-capability-evidence.data.ts',
+    )
+      ? 'apps/github.io/src/app/devops-capability-evidence/devops-capability-evidence.data.ts'
+      : 'src/app/devops-capability-evidence/devops-capability-evidence.data.ts';
+    const source = readFileSync(dataFile, 'utf8');
+    const projections = [...source.matchAll(
+      /capabilityKey: '(?:version-control|trunk-based-development)',[\s\S]*?evidenceSummary:/g,
+    )];
+
+    expect(projections).toHaveLength(2);
+
+    for (const projection of projections) {
+      expect(projection[0]).not.toContain('.slice(');
+      expect(projection[0]).not.toContain('.sort(');
+      expect(projection[0]).not.toMatch(/strength|rank/i);
+      expect(projection[0]).not.toMatch(
+        /\.\.\.(?:versionControlEvidenceItems|trunkBasedDevelopmentEvidenceItems)/,
+      );
     }
   });
 
@@ -702,11 +850,11 @@ describe('devOpsCapabilityEvidence scoring', () => {
 
   it('groups evidence counts by type and capability', () => {
     expect(getEvidenceTypeCounts(devOpsCapabilityEvidenceItems)).toMatchObject({
-      experience: 38,
+      experience: 40,
       learning: 3,
       certification: 1,
       project: 2,
-      skill: 28,
+      skill: 47,
     });
 
     expect(
@@ -734,7 +882,7 @@ describe('devOpsCapabilityEvidence scoring', () => {
         getEvidenceTypeCounts(devOpsCapabilityEvidenceItems),
       ),
     ).toBe(
-      'Evidence includes 28 skills, 3 learning items, 38 experience items, 1 certification, and 2 projects.',
+      'Evidence includes 47 skills, 3 learning items, 40 experience items, 1 certification, and 2 projects.',
     );
   });
 });

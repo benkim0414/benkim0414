@@ -2,6 +2,10 @@ import { continuousDeliveryEvidenceItems } from './continuous-delivery-evidence.
 import { continuousDeliverySkillEvidenceItems } from './continuous-delivery-skill-evidence.data';
 import { continuousIntegrationEvidenceItems } from './continuous-integration-evidence.data';
 import { continuousIntegrationSkillEvidenceItems } from './continuous-integration-skill-evidence.data';
+import { trunkBasedDevelopmentEvidenceItems } from './trunk-based-development-evidence.data';
+import { trunkBasedDevelopmentSkillEvidenceItems } from './trunk-based-development-skill-evidence.data';
+import { versionControlEvidenceItems } from './version-control-evidence.data';
+import { versionControlSkillEvidenceItems } from './version-control-skill-evidence.data';
 import type {
   CapabilityEvidenceItem,
   DoraCapabilityDefinition,
@@ -65,13 +69,17 @@ export const curatedDevOpsCapabilityRadarScores = [
     score: 4,
     maxScore: 5,
     evidenceIds: [
-      'roadmap-repository',
-      'short-lived-branch-flow',
-      'protected-review-gates',
+      'terraform-codepipeline-platform',
+      'github-actions-gitops-handoff',
+      'argocd-environment-state-from-version-control',
+      'argocd-automated-database-migrations',
       'merge-commit-history',
+      ...versionControlSkillEvidenceItems.map((item) => item.id),
     ],
-    strongestEvidenceId: 'short-lived-branch-flow',
-    evidenceCounts: { experience: 3, project: 1 },
+    strongestEvidenceId: 'terraform-codepipeline-platform',
+    evidenceCounts: { experience: 5, skill: 13 },
+    evidenceSummary:
+      'Built and maintained version-controlled delivery platforms spanning reusable Terraform pipelines and GitOps-managed Kubernetes environments, with traceable infrastructure, configuration, automation, and database changes.',
   },
   {
     capabilityKey: 'trunk-based-development',
@@ -79,13 +87,17 @@ export const curatedDevOpsCapabilityRadarScores = [
     score: 4,
     maxScore: 5,
     evidenceIds: [
+      'single-trunk-repository-flow',
       'short-lived-branch-flow',
-      'protected-review-gates',
-      'merge-commit-history',
+      'small-change-landings',
       'nx-affected-quality-gates',
+      'merge-commit-history',
+      ...trunkBasedDevelopmentSkillEvidenceItems.map((item) => item.id),
     ],
-    strongestEvidenceId: 'short-lived-branch-flow',
-    evidenceCounts: { experience: 4 },
+    strongestEvidenceId: 'single-trunk-repository-flow',
+    evidenceCounts: { experience: 5, skill: 6 },
+    evidenceSummary:
+      'Created and maintained single-trunk delivery repositories, integrating short-lived branches and small change batches with merge-preserved history and affected quality gates.',
   },
   {
     capabilityKey: 'continuous-integration',
@@ -215,53 +227,14 @@ export const evidenceTypeLabels = {
 } as const satisfies Record<EvidenceType, string>;
 
 const devOpsCapabilityEvidenceItemCatalog = [
-  {
-    id: 'short-lived-branch-flow',
-    title: 'Short-lived feature and hotfix branch flow',
-    label: 'Short-lived branches',
-    type: 'experience',
-    organization: 'Current company',
-    capabilityKeys: ['trunk-based-development', 'version-control'],
-    summary:
-      'Practiced short-lived feature and hotfix branches with frequent merges to keep changes small and mainline integration regular.',
-    technologies: ['GitHub', 'Git'],
-    isPublic: true,
-    strength: 'primary',
-  },
-  {
-    id: 'protected-review-gates',
-    title: 'Protected review and status-check gates',
-    label: 'Protected reviews',
-    type: 'experience',
-    organization: 'Current company',
-    capabilityKeys: [
-      'trunk-based-development',
-      'continuous-integration',
-      'version-control',
-    ],
-    summary:
-      'Used protected branch rules that require passing checks and at least one human review before merging change branches.',
-    technologies: ['GitHub', 'CI'],
-    isPublic: true,
-    strength: 'strong',
-  },
-  {
-    id: 'merge-commit-history',
-    title: 'Merge commit history preservation',
-    label: 'Merge commits',
-    type: 'experience',
-    organization: 'Current company',
-    capabilityKeys: ['trunk-based-development', 'version-control'],
-    summary:
-      'Used merge commits to preserve review and integration history while still keeping branches short-lived and frequently merged.',
-    technologies: ['GitHub', 'Git'],
-    isPublic: true,
-    strength: 'supporting',
-  },
   ...continuousIntegrationEvidenceItems,
   ...continuousIntegrationSkillEvidenceItems,
   ...continuousDeliveryEvidenceItems,
   ...continuousDeliverySkillEvidenceItems,
+  ...versionControlEvidenceItems,
+  ...versionControlSkillEvidenceItems,
+  ...trunkBasedDevelopmentEvidenceItems,
+  ...trunkBasedDevelopmentSkillEvidenceItems,
   {
     id: 'jest-testcontainers-postgres',
     title: 'Jest and Testcontainers PostgreSQL coverage',
@@ -427,4 +400,7 @@ const devOpsCapabilityEvidenceItemCatalog = [
 ] as const satisfies readonly CapabilityEvidenceItem[];
 
 export const devOpsCapabilityEvidenceItems: readonly CapabilityEvidenceItem[] =
-  devOpsCapabilityEvidenceItemCatalog;
+  devOpsCapabilityEvidenceItemCatalog.filter(
+    (item, index, catalog) =>
+      catalog.findIndex(({ id }) => id === item.id) === index,
+  );
