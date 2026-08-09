@@ -248,5 +248,15 @@ describe('continuousDeliveryEvidenceItems', () => {
         true,
       );
     }
+
+    const migrationMetrics =
+      itemById('argocd-automated-database-migrations')?.details?.metrics ?? [];
+    expect(migrationMetrics.some(({ value }) => value > 0)).toBe(true);
+    expect(migrationMetrics).toContainEqual({
+      label: 'Services with automated database migrations',
+      value: 2,
+      unit: 'count',
+      measuredAt: '2026-08-09',
+    });
   });
 });
