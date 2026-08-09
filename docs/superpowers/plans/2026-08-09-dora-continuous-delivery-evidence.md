@@ -66,8 +66,8 @@
 - Create: `apps/github.io/src/app/devops-capability-evidence/continuous-delivery-evidence.data.spec.ts`
 - Modify: `apps/github.io/src/app/devops-capability-evidence/continuous-integration-evidence.data.ts`
 - Modify: `apps/github.io/src/app/devops-capability-evidence/continuous-integration-evidence.data.spec.ts`
-- Modify: `apps/github.io/src/app/dora-capability-card/dora-capability-card.spec.tsx`
-- Modify: `apps/github.io/src/app/dora-capability-card/dora-capability-card.stories.spec.ts`
+- Modify: `apps/github.io/src/app/devops-capability-evidence/dora-capability-card.spec.tsx`
+- Modify: `apps/github.io/src/app/devops-capability-evidence/dora-capability-card.stories.spec.ts`
 
 **Interfaces:**
 
@@ -524,8 +524,8 @@ Run:
 NX_DAEMON=false pnpm exec vitest run \
   apps/github.io/src/app/devops-capability-evidence/continuous-delivery-evidence.data.spec.ts \
   apps/github.io/src/app/devops-capability-evidence/continuous-integration-evidence.data.spec.ts \
-  apps/github.io/src/app/dora-capability-card/dora-capability-card.spec.tsx \
-  apps/github.io/src/app/dora-capability-card/dora-capability-card.stories.spec.ts
+  apps/github.io/src/app/devops-capability-evidence/dora-capability-card.spec.tsx \
+  apps/github.io/src/app/devops-capability-evidence/dora-capability-card.stories.spec.ts
 ```
 
 Expected: PASS.
@@ -540,16 +540,16 @@ git diff -- \
   apps/github.io/src/app/devops-capability-evidence/continuous-delivery-evidence.data.spec.ts \
   apps/github.io/src/app/devops-capability-evidence/continuous-integration-evidence.data.ts \
   apps/github.io/src/app/devops-capability-evidence/continuous-integration-evidence.data.spec.ts \
-  apps/github.io/src/app/dora-capability-card/dora-capability-card.spec.tsx \
-  apps/github.io/src/app/dora-capability-card/dora-capability-card.stories.spec.ts
+  apps/github.io/src/app/devops-capability-evidence/dora-capability-card.spec.tsx \
+  apps/github.io/src/app/devops-capability-evidence/dora-capability-card.stories.spec.ts
 git add \
   apps/github.io/src/app/devops-capability-evidence/capability-evidence-initiatives.ts \
   apps/github.io/src/app/devops-capability-evidence/continuous-delivery-evidence.data.ts \
   apps/github.io/src/app/devops-capability-evidence/continuous-delivery-evidence.data.spec.ts \
   apps/github.io/src/app/devops-capability-evidence/continuous-integration-evidence.data.ts \
   apps/github.io/src/app/devops-capability-evidence/continuous-integration-evidence.data.spec.ts \
-  apps/github.io/src/app/dora-capability-card/dora-capability-card.spec.tsx \
-  apps/github.io/src/app/dora-capability-card/dora-capability-card.stories.spec.ts
+  apps/github.io/src/app/devops-capability-evidence/dora-capability-card.spec.tsx \
+  apps/github.io/src/app/devops-capability-evidence/dora-capability-card.stories.spec.ts
 git diff --cached
 git diff --cached --check
 git commit -m "feat(github.io): add continuous delivery evidence"
