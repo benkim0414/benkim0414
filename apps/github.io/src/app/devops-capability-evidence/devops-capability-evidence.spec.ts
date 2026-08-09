@@ -4,6 +4,8 @@ import {
   evidenceTypeLabels,
   devOpsCapabilityEvidenceItems,
 } from './devops-capability-evidence.data';
+import { continuousDeliveryEvidenceItems } from './continuous-delivery-evidence.data';
+import { continuousDeliverySkillEvidenceItems } from './continuous-delivery-skill-evidence.data';
 import { continuousIntegrationSkillEvidenceItems } from './continuous-integration-skill-evidence.data';
 import {
   getCapabilityEvidenceMatrix,
@@ -210,22 +212,21 @@ describe('devOpsCapabilityEvidence data', () => {
       {
         capabilityKey: 'continuous-delivery',
         evidenceIds: [
-          'github-actions-ci',
-          'docker-delivery',
-          'team-delivery-workflow',
+          'codepipeline-approval-gated-deployment',
+          'github-actions-gitops-handoff',
+          'argocd-environment-state-from-version-control',
+          'gitops-same-package-environments',
+          'argocd-automated-database-migrations',
+          ...continuousDeliverySkillEvidenceItems.map((item) => item.id),
         ],
-        strongestEvidenceId: 'github-actions-ci',
-        evidenceCounts: { experience: 3 },
+        strongestEvidenceId: 'codepipeline-approval-gated-deployment',
+        evidenceCounts: { experience: 5, skill: 14 },
       },
       {
         capabilityKey: 'deployment-automation',
-        evidenceIds: [
-          'github-actions-ci',
-          'docker-delivery',
-          'image-digest-deployments',
-        ],
-        strongestEvidenceId: 'github-actions-ci',
-        evidenceCounts: { experience: 3 },
+        evidenceIds: ['image-digest-deployments'],
+        strongestEvidenceId: 'image-digest-deployments',
+        evidenceCounts: { experience: 1 },
       },
       {
         capabilityKey: 'flexible-infrastructure',
@@ -346,9 +347,6 @@ describe('devOpsCapabilityEvidence data', () => {
 
   it('tokenizes previously captured broad evidence into compact tokens', () => {
     const tokenizedEvidenceIds = [
-      'github-actions-ci',
-      'docker-delivery',
-      'team-delivery-workflow',
       'kubernetes-workloads',
       'kubectl-troubleshooting',
       'cluster-operations',
@@ -365,21 +363,6 @@ describe('devOpsCapabilityEvidence data', () => {
           capabilityKeys: item.capabilityKeys,
         })),
     ).toEqual([
-      {
-        id: 'github-actions-ci',
-        label: 'GitHub Actions',
-        capabilityKeys: ['continuous-delivery', 'deployment-automation'],
-      },
-      {
-        id: 'docker-delivery',
-        label: 'Docker',
-        capabilityKeys: ['continuous-delivery', 'deployment-automation'],
-      },
-      {
-        id: 'team-delivery-workflow',
-        label: 'Team delivery',
-        capabilityKeys: ['continuous-delivery'],
-      },
       {
         id: 'kubernetes-workloads',
         label: 'Workloads',
@@ -479,19 +462,73 @@ describe('devOpsCapabilityEvidence data', () => {
     ]);
   });
 
-  it('keeps the CI/CD experience as a public-safe portfolio projection', () => {
-    const deliveryExperience = devOpsCapabilityEvidenceItems.find(
-      (item) => item.id === 'github-actions-ci',
+  it('composes exactly seventeen Continuous Delivery experiences', () => {
+    const deliveryExperiences = devOpsCapabilityEvidenceItems.filter(
+      (item) =>
+        item.type === 'experience' &&
+        item.capabilityKeys.includes('continuous-delivery'),
     );
 
-    expect(deliveryExperience).toMatchObject({
-      isPublic: true,
-      type: 'experience',
-    });
-    expect(deliveryExperience?.isSensitive).toBeUndefined();
-    expect(deliveryExperience?.summary).not.toMatch(
-      /deployment count|incident record|pull request|private repository|customer/i,
+    expect(deliveryExperiences).toHaveLength(17);
+    expect(new Set(deliveryExperiences.map((item) => item.id)).size).toBe(17);
+    expect(deliveryExperiences.map((item) => item.id)).toEqual(
+      expect.arrayContaining([
+        ...continuousDeliveryEvidenceItems.map((item) => item.id),
+        'terraform-codepipeline-platform',
+        'ecr-immutable-promotion',
+        'github-actions-gitops-handoff',
+        'kustomize-tag-update-reliability',
+        'reusable-helm-deployment-image',
+      ]),
     );
+  });
+
+  it('removes the superseded generic Continuous Delivery placeholders', () => {
+    expect(devOpsCapabilityEvidenceItems.map((item) => item.id)).not.toEqual(
+      expect.arrayContaining([
+        'github-actions-ci',
+        'docker-delivery',
+        'team-delivery-workflow',
+      ]),
+    );
+  });
+
+  it('curates the approved Continuous Delivery experiences and skills', () => {
+    const score = curatedDevOpsCapabilityRadarScores.find(
+      (entry) => entry.capabilityKey === 'continuous-delivery',
+    );
+
+    expect(score).toMatchObject({
+      score: 4,
+      maxScore: 5,
+      strongestEvidenceId: 'codepipeline-approval-gated-deployment',
+      evidenceCounts: { experience: 5, skill: 14 },
+      evidenceSummary: '7+ years across two delivery platforms',
+    });
+    expect(score?.evidenceIds.slice(0, 5)).toEqual([
+      'codepipeline-approval-gated-deployment',
+      'github-actions-gitops-handoff',
+      'argocd-environment-state-from-version-control',
+      'gitops-same-package-environments',
+      'argocd-automated-database-migrations',
+    ]);
+    expect(score?.evidenceIds.slice(5)).toEqual(
+      continuousDeliverySkillEvidenceItems.map((item) => item.id),
+    );
+  });
+
+  it('preserves the deployment automation score with valid evidence', () => {
+    const score = curatedDevOpsCapabilityRadarScores.find(
+      (entry) => entry.capabilityKey === 'deployment-automation',
+    );
+
+    expect(score).toMatchObject({
+      score: 4,
+      maxScore: 5,
+      evidenceIds: ['image-digest-deployments'],
+      strongestEvidenceId: 'image-digest-deployments',
+      evidenceCounts: { experience: 1 },
+    });
   });
 });
 
@@ -629,7 +666,7 @@ describe('devOpsCapabilityEvidence scoring', () => {
       label: 'Continuous Delivery',
       score: 5,
       maxScore: 5,
-      strongestEvidenceId: 'github-actions-ci',
+      strongestEvidenceId: 'terraform-codepipeline-platform',
     });
     expect(scores.some((score) => score.score === 0)).toBe(false);
   });
@@ -658,11 +695,11 @@ describe('devOpsCapabilityEvidence scoring', () => {
 
   it('groups evidence counts by type and capability', () => {
     expect(getEvidenceTypeCounts(devOpsCapabilityEvidenceItems)).toMatchObject({
-      experience: 29,
+      experience: 38,
       learning: 3,
       certification: 1,
       project: 2,
-      skill: 14,
+      skill: 28,
     });
 
     expect(
@@ -690,7 +727,7 @@ describe('devOpsCapabilityEvidence scoring', () => {
         getEvidenceTypeCounts(devOpsCapabilityEvidenceItems),
       ),
     ).toBe(
-      'Evidence includes 14 skills, 3 learning items, 29 experience items, 1 certification, and 2 projects.',
+      'Evidence includes 28 skills, 3 learning items, 38 experience items, 1 certification, and 2 projects.',
     );
   });
 });

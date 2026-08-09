@@ -1,3 +1,5 @@
+import { continuousDeliveryEvidenceItems } from './continuous-delivery-evidence.data';
+import { continuousDeliverySkillEvidenceItems } from './continuous-delivery-skill-evidence.data';
 import { continuousIntegrationEvidenceItems } from './continuous-integration-evidence.data';
 import { continuousIntegrationSkillEvidenceItems } from './continuous-integration-skill-evidence.data';
 import type {
@@ -133,25 +135,25 @@ export const curatedDevOpsCapabilityRadarScores = [
     score: 4,
     maxScore: 5,
     evidenceIds: [
-      'github-actions-ci',
-      'docker-delivery',
-      'team-delivery-workflow',
+      'codepipeline-approval-gated-deployment',
+      'github-actions-gitops-handoff',
+      'argocd-environment-state-from-version-control',
+      'gitops-same-package-environments',
+      'argocd-automated-database-migrations',
+      ...continuousDeliverySkillEvidenceItems.map((item) => item.id),
     ],
-    strongestEvidenceId: 'github-actions-ci',
-    evidenceCounts: { experience: 3 },
+    strongestEvidenceId: 'codepipeline-approval-gated-deployment',
+    evidenceCounts: { experience: 5, skill: 14 },
+    evidenceSummary: '7+ years across two delivery platforms',
   },
   {
     capabilityKey: 'deployment-automation',
     label: 'Deploys',
     score: 4,
     maxScore: 5,
-    evidenceIds: [
-      'github-actions-ci',
-      'docker-delivery',
-      'image-digest-deployments',
-    ],
-    strongestEvidenceId: 'github-actions-ci',
-    evidenceCounts: { experience: 3 },
+    evidenceIds: ['image-digest-deployments'],
+    strongestEvidenceId: 'image-digest-deployments',
+    evidenceCounts: { experience: 1 },
   },
   {
     capabilityKey: 'flexible-infrastructure',
@@ -255,6 +257,8 @@ const devOpsCapabilityEvidenceItemCatalog = [
   },
   ...continuousIntegrationEvidenceItems,
   ...continuousIntegrationSkillEvidenceItems,
+  ...continuousDeliveryEvidenceItems,
+  ...continuousDeliverySkillEvidenceItems,
   {
     id: 'jest-testcontainers-postgres',
     title: 'Jest and Testcontainers PostgreSQL coverage',
@@ -317,45 +321,6 @@ const devOpsCapabilityEvidenceItemCatalog = [
     summary:
       'Managed IRSA service accounts and scoped IAM policies with Terraform to make microservice permissions explicit and reproducible.',
     technologies: ['Terraform', 'AWS IAM', 'Kubernetes'],
-    isPublic: true,
-    strength: 'strong',
-  },
-  {
-    id: 'github-actions-ci',
-    title: 'GitHub Actions CI workflow ownership',
-    label: 'GitHub Actions',
-    type: 'experience',
-    organization: 'Current company',
-    capabilityKeys: ['continuous-delivery', 'deployment-automation'],
-    summary:
-      'Owned GitHub Actions workflow improvements that supported continuous integration, delivery, and deployment automation.',
-    technologies: ['GitHub Actions'],
-    isPublic: true,
-    strength: 'primary',
-  },
-  {
-    id: 'docker-delivery',
-    title: 'Docker delivery workflow support',
-    label: 'Docker',
-    type: 'experience',
-    organization: 'Current company',
-    capabilityKeys: ['continuous-delivery', 'deployment-automation'],
-    summary:
-      'Used Docker as part of delivery workflow evidence for packaging and deployment-oriented automation.',
-    technologies: ['Docker'],
-    isPublic: true,
-    strength: 'strong',
-  },
-  {
-    id: 'team-delivery-workflow',
-    title: 'Small-team delivery workflow ownership',
-    label: 'Team delivery',
-    type: 'experience',
-    organization: 'Current company',
-    capabilityKeys: ['continuous-delivery'],
-    summary:
-      'Owned CI/CD workflow improvements for a small product team using safe public summary only.',
-    technologies: ['CI', 'GitHub Actions'],
     isPublic: true,
     strength: 'strong',
   },
