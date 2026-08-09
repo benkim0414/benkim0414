@@ -24,11 +24,11 @@ describe('DoraCapabilityCard stories', () => {
     );
 
     expect(selected?.slice(0, 5).map((item) => item?.label)).toEqual([
-      'Terraform pipelines',
-      'CodeBuild PR gates',
-      'Nx affected',
+      'Reusable Terraform CI pipelines',
+      'Automated pull-request test gates',
+      'Affected-change quality gates',
       'Automated deployment process',
-      'Tag reliability',
+      'Reliable Kustomize tag updates',
     ]);
     expect(selected?.slice(5).map((item) => item?.title)).toEqual([
       'AWS CodePipeline',

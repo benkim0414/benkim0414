@@ -44,19 +44,28 @@ describe('doraCapabilityDescriptions', () => {
 });
 
 describe('getDoraCapabilityCardEvidenceSummary', () => {
-  it('returns the score-owned Continuous Delivery evidence summary', () => {
+  it.each([
+    [
+      'continuous-integration',
+      'Built and evolved CI from reusable AWS CodePipeline and CodeBuild pipelines to monorepo GitHub Actions, with affected quality gates and immutable artifacts.',
+    ],
+    [
+      'continuous-delivery',
+      'Built approval-gated and GitOps delivery across AWS CodePipeline and GitHub Actions, with immutable artifacts, automated migrations, and reliable Kubernetes reconciliation.',
+    ],
+  ] as const)('returns the score-owned %s evidence summary', (key, summary) => {
     expect(
       getDoraCapabilityCardEvidenceSummary(
-        'continuous-delivery',
+        key,
         curatedDevOpsCapabilityRadarScores,
       ),
-    ).toBe('7+ years across two delivery platforms');
+    ).toBe(summary);
   });
 
-  it('returns undefined when the capability has no evidence summary', () => {
+  it('returns undefined when the capability or score collection has no summary', () => {
     expect(
       getDoraCapabilityCardEvidenceSummary(
-        'continuous-integration',
+        'flexible-infrastructure',
         curatedDevOpsCapabilityRadarScores,
       ),
     ).toBeUndefined();
