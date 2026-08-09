@@ -9,9 +9,7 @@ import { continuousDeliveryEvidenceItems } from './continuous-delivery-evidence.
 import { continuousDeliverySkillEvidenceItems } from './continuous-delivery-skill-evidence.data';
 import { continuousIntegrationSkillEvidenceItems } from './continuous-integration-skill-evidence.data';
 import { trunkBasedDevelopmentEvidenceItems } from './trunk-based-development-evidence.data';
-import { trunkBasedDevelopmentSkillEvidenceItems } from './trunk-based-development-skill-evidence.data';
 import { versionControlEvidenceItems } from './version-control-evidence.data';
-import { versionControlSkillEvidenceItems } from './version-control-skill-evidence.data';
 import {
   getCapabilityEvidenceMatrix,
   getCapabilityEvidenceScores,
@@ -167,7 +165,19 @@ describe('devOpsCapabilityEvidence data', () => {
           'argocd-environment-state-from-version-control',
           'argocd-automated-database-migrations',
           'merge-commit-history',
-          ...versionControlSkillEvidenceItems.map((item) => item.id),
+          'version-control-skill-git',
+          'version-control-skill-github',
+          'version-control-skill-codepipeline',
+          'version-control-skill-terraform',
+          'version-control-skill-docker',
+          'version-control-skill-helm',
+          'version-control-skill-conventional-commits',
+          'version-control-skill-husky',
+          'version-control-skill-nx',
+          'version-control-skill-github-actions',
+          'version-control-skill-kustomize',
+          'version-control-skill-argo-cd',
+          'version-control-skill-kubernetes',
         ],
         strongestEvidenceId: 'terraform-codepipeline-platform',
         evidenceCounts: { experience: 5, skill: 13 },
@@ -180,7 +190,12 @@ describe('devOpsCapabilityEvidence data', () => {
           'small-change-landings',
           'nx-affected-quality-gates',
           'merge-commit-history',
-          ...trunkBasedDevelopmentSkillEvidenceItems.map((item) => item.id),
+          'trunk-based-development-skill-git',
+          'trunk-based-development-skill-github',
+          'trunk-based-development-skill-nx',
+          'trunk-based-development-skill-github-actions',
+          'trunk-based-development-skill-conventional-commits',
+          'trunk-based-development-skill-husky',
         ],
         strongestEvidenceId: 'single-trunk-repository-flow',
         evidenceCounts: { experience: 5, skill: 6 },
@@ -438,7 +453,19 @@ describe('devOpsCapabilityEvidence data', () => {
       'argocd-environment-state-from-version-control',
       'argocd-automated-database-migrations',
       'merge-commit-history',
-      ...versionControlSkillEvidenceItems.map(({ id }) => id),
+      'version-control-skill-git',
+      'version-control-skill-github',
+      'version-control-skill-codepipeline',
+      'version-control-skill-terraform',
+      'version-control-skill-docker',
+      'version-control-skill-helm',
+      'version-control-skill-conventional-commits',
+      'version-control-skill-husky',
+      'version-control-skill-nx',
+      'version-control-skill-github-actions',
+      'version-control-skill-kustomize',
+      'version-control-skill-argo-cd',
+      'version-control-skill-kubernetes',
     ]);
 
     expect(trunkBasedScore).toMatchObject({
@@ -455,7 +482,12 @@ describe('devOpsCapabilityEvidence data', () => {
       'small-change-landings',
       'nx-affected-quality-gates',
       'merge-commit-history',
-      ...trunkBasedDevelopmentSkillEvidenceItems.map(({ id }) => id),
+      'trunk-based-development-skill-git',
+      'trunk-based-development-skill-github',
+      'trunk-based-development-skill-nx',
+      'trunk-based-development-skill-github-actions',
+      'trunk-based-development-skill-conventional-commits',
+      'trunk-based-development-skill-husky',
     ]);
 
     const evidenceById = new Map(
@@ -538,7 +570,19 @@ describe('devOpsCapabilityEvidence data', () => {
       'argocd-environment-state-from-version-control',
       'argocd-automated-database-migrations',
       'merge-commit-history',
-      ...versionControlSkillEvidenceItems.map(({ id }) => id),
+      'version-control-skill-git',
+      'version-control-skill-github',
+      'version-control-skill-codepipeline',
+      'version-control-skill-terraform',
+      'version-control-skill-docker',
+      'version-control-skill-helm',
+      'version-control-skill-conventional-commits',
+      'version-control-skill-husky',
+      'version-control-skill-nx',
+      'version-control-skill-github-actions',
+      'version-control-skill-kustomize',
+      'version-control-skill-argo-cd',
+      'version-control-skill-kubernetes',
     ]);
     expect(
       curatedDevOpsCapabilityRadarScores.find(
@@ -550,7 +594,12 @@ describe('devOpsCapabilityEvidence data', () => {
       'small-change-landings',
       'nx-affected-quality-gates',
       'merge-commit-history',
-      ...trunkBasedDevelopmentSkillEvidenceItems.map(({ id }) => id),
+      'trunk-based-development-skill-git',
+      'trunk-based-development-skill-github',
+      'trunk-based-development-skill-nx',
+      'trunk-based-development-skill-github-actions',
+      'trunk-based-development-skill-conventional-commits',
+      'trunk-based-development-skill-husky',
     ]);
   });
 
@@ -570,6 +619,7 @@ describe('devOpsCapabilityEvidence data', () => {
     for (const projection of projections) {
       expect(projection[0]).not.toContain('.slice(');
       expect(projection[0]).not.toContain('.sort(');
+      expect(projection[0]).not.toContain('.map(');
       expect(projection[0]).not.toMatch(/strength|rank/i);
       expect(projection[0]).not.toMatch(
         /\.\.\.(?:versionControlEvidenceItems|trunkBasedDevelopmentEvidenceItems)/,
