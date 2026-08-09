@@ -27,7 +27,7 @@ describe('DoraCapabilityCard stories', () => {
       'Terraform pipelines',
       'CodeBuild PR gates',
       'Nx affected',
-      'Deployment automation',
+      'Automated deployment process',
       'Tag reliability',
     ]);
     expect(selected?.slice(5).map((item) => item?.title)).toEqual([
@@ -63,11 +63,11 @@ describe('DoraCapabilityCard stories', () => {
     );
 
     expect(selected?.slice(0, 5).map((item) => item?.label)).toEqual([
-      'Approval-gated automation',
-      'Deployment automation',
-      'Environment state',
-      'Same package',
-      'Database migrations',
+      'Approval-gated deployment automation',
+      'Automated deployment process',
+      'Version-controlled environment state',
+      'Same package across environments',
+      'Automated database migrations',
     ]);
     expect(selected?.slice(5).map((item) => item?.title)).toEqual([
       'AWS CodePipeline',
