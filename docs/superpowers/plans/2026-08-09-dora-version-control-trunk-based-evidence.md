@@ -140,8 +140,8 @@ Assert this exact order and support map:
 ```ts
 expect(versionControlSkillEvidenceItems.map(({ title }) => title)).toEqual([
   'Git', 'GitHub', 'AWS CodePipeline', 'Terraform', 'Docker', 'Helm',
-  'Kubernetes', 'Nx', 'GitHub Actions', 'Conventional Commits', 'Husky',
-  'Kustomize', 'Argo CD',
+  'Conventional Commits', 'Husky', 'Nx', 'GitHub Actions', 'Kustomize',
+  'Argo CD', 'Kubernetes',
 ]);
 
 expect(Object.fromEntries(versionControlSkillEvidenceItems.map(
@@ -153,13 +153,13 @@ expect(Object.fromEntries(versionControlSkillEvidenceItems.map(
   Terraform: ['terraform-codepipeline-platform'],
   Docker: ['reusable-helm-deployment-image', 'gitops-same-package-environments'],
   Helm: ['reusable-helm-deployment-image'],
-  Kubernetes: ['argocd-environment-state-from-version-control', 'argocd-automated-database-migrations'],
-  Nx: ['github-actions-gitops-handoff'],
-  'GitHub Actions': ['github-actions-gitops-handoff'],
   'Conventional Commits': ['conventional-commit-governance'],
   Husky: ['conventional-commit-governance'],
+  Nx: ['github-actions-gitops-handoff'],
+  'GitHub Actions': ['github-actions-gitops-handoff'],
   Kustomize: ['github-actions-gitops-handoff', 'argocd-environment-state-from-version-control', 'gitops-same-package-environments'],
   'Argo CD': ['github-actions-gitops-handoff', 'argocd-environment-state-from-version-control', 'argocd-automated-database-migrations'],
+  Kubernetes: ['argocd-environment-state-from-version-control', 'argocd-automated-database-migrations'],
 });
 ```
 
@@ -229,7 +229,7 @@ Build `versionControlEvidenceItems` by resolving the exact first seven IDs from 
 
 - [ ] **Step 5: Add the ordered Version Control skill catalog**
 
-Define thirteen literal skill definitions using the IDs `version-control-skill-git`, `version-control-skill-github`, `version-control-skill-codepipeline`, `version-control-skill-terraform`, `version-control-skill-docker`, `version-control-skill-helm`, `version-control-skill-kubernetes`, `version-control-skill-nx`, `version-control-skill-github-actions`, `version-control-skill-conventional-commits`, `version-control-skill-husky`, `version-control-skill-kustomize`, and `version-control-skill-argo-cd`. Map each definition to a public `type: 'skill'` item with `capabilityKeys: ['version-control']`, `technologies: [name]`, `strength: 'strong'`, and the exact support relationships from Step 2.
+Define thirteen literal skill definitions using the IDs `version-control-skill-git`, `version-control-skill-github`, `version-control-skill-codepipeline`, `version-control-skill-terraform`, `version-control-skill-docker`, `version-control-skill-helm`, `version-control-skill-conventional-commits`, `version-control-skill-husky`, `version-control-skill-nx`, `version-control-skill-github-actions`, `version-control-skill-kustomize`, `version-control-skill-argo-cd`, and `version-control-skill-kubernetes`. Map each definition to a public `type: 'skill'` item with `capabilityKeys: ['version-control']`, `technologies: [name]`, `strength: 'strong'`, and the exact support relationships from Step 2.
 
 - [ ] **Step 6: Run focused tests and verify they pass**
 
