@@ -51,6 +51,7 @@ import {
 import codeBuildIconUrl from '../../assets/skills/aws/aws-codebuild.svg?no-inline';
 import codePipelineIconUrl from '../../assets/skills/aws/aws-codepipeline.svg?no-inline';
 import ecrIconUrl from '../../assets/skills/aws/amazon-ecr.svg?no-inline';
+import eksIconUrl from '../../assets/skills/aws/amazon-eks.svg?no-inline';
 import systemsManagerIconUrl from '../../assets/skills/aws/aws-systems-manager.svg?no-inline';
 
 export interface SkillBrand {
@@ -119,6 +120,7 @@ const skillIconAssets: Readonly<Record<string, string>> = {
   'AWS CodePipeline': codePipelineIconUrl,
   'AWS CodeBuild': codeBuildIconUrl,
   'Amazon ECR': ecrIconUrl,
+  'Amazon EKS': eksIconUrl,
   'AWS Systems Manager Parameter Store': systemsManagerIconUrl,
 };
 
@@ -127,6 +129,7 @@ const skillBrandColors: Readonly<Record<string, string>> = {
   'AWS CodePipeline': '#FFFFFF',
   'AWS CodeBuild': '#FFFFFF',
   'Amazon ECR': '#FFFFFF',
+  'Amazon EKS': '#FFFFFF',
   'AWS Systems Manager Parameter Store': '#FFFFFF',
 };
 

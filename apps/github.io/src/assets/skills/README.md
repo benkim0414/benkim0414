@@ -15,6 +15,7 @@ The following unmodified 64px SVG assets were extracted from the archive:
 | `Arch_AWS-CodePipeline_64.svg` | `aws/aws-codepipeline.svg` |
 | `Arch_AWS-CodeBuild_64.svg` | `aws/aws-codebuild.svg` |
 | `Arch_Amazon-Elastic-Container-Registry_64.svg` | `aws/amazon-ecr.svg` |
+| `Arch_Amazon-Elastic-Kubernetes-Service_64.svg` | `aws/amazon-eks.svg` |
 | `Arch_AWS-Systems-Manager_64.svg` | `aws/aws-systems-manager.svg` |
 
 ## Kustomize fallback
