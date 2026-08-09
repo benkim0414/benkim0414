@@ -15,8 +15,11 @@ const flexibleInfrastructure = doraCapabilityDefinitions.find(
 const continuousIntegration = doraCapabilityDefinitions.find(
   (capability) => capability.key === 'continuous-integration',
 );
+const continuousDelivery = doraCapabilityDefinitions.find(
+  (capability) => capability.key === 'continuous-delivery',
+);
 
-if (!flexibleInfrastructure || !continuousIntegration) {
+if (!flexibleInfrastructure || !continuousIntegration || !continuousDelivery) {
   throw new Error('Missing DORA capability fixture');
 }
 
@@ -56,6 +59,65 @@ describe('DoraCapabilityCard', () => {
       ),
     ).toBeTruthy();
     expect(screen.getByTestId('dora-capability-card')).toBeTruthy();
+  });
+
+  it('renders the Continuous Delivery experience summary as supporting context', () => {
+    render(
+      <DoraCapabilityCard
+        capability={continuousDelivery}
+        description={doraCapabilityDescriptions['continuous-delivery']}
+        evidence={devOpsCapabilityEvidenceItems}
+        scores={curatedDevOpsCapabilityRadarScores}
+      />,
+    );
+
+    const summary = screen.getByText('7+ years across two delivery platforms');
+
+    expect(summary.tagName).toBe('SPAN');
+    expect(summary).toBeTruthy();
+  });
+
+  it('renders the approved Continuous Delivery experience and skill rows', () => {
+    render(
+      <DoraCapabilityCard
+        capability={continuousDelivery}
+        description={doraCapabilityDescriptions['continuous-delivery']}
+        evidence={devOpsCapabilityEvidenceItems}
+        scores={curatedDevOpsCapabilityRadarScores}
+      />,
+    );
+
+    const experienceRow = screen.getByRole('list', { name: 'Experience' });
+    const skillRow = screen.getByRole('list', { name: 'Skills' });
+
+    expect(within(experienceRow).getAllByRole('listitem')).toHaveLength(5);
+    expect(within(skillRow).getAllByRole('listitem')).toHaveLength(14);
+    expect(
+      within(experienceRow)
+        .getAllByRole('group')
+        .map((group) => group.getAttribute('aria-label')),
+    ).toEqual([
+      'Experience evidence: Approval-gated automation',
+      'Experience evidence: Deployment automation',
+      'Experience evidence: Environment state',
+      'Experience evidence: Same package',
+      'Experience evidence: Database migrations',
+    ]);
+  });
+
+  it('does not render a summary for capabilities without one', () => {
+    render(
+      <DoraCapabilityCard
+        capability={continuousIntegration}
+        description={doraCapabilityDescriptions['continuous-integration']}
+        evidence={devOpsCapabilityEvidenceItems}
+        scores={curatedDevOpsCapabilityRadarScores}
+      />,
+    );
+
+    expect(
+      screen.queryByText('7+ years across two delivery platforms'),
+    ).toBeNull();
   });
 
   it('labels experience and skill rows without changing group order', () => {

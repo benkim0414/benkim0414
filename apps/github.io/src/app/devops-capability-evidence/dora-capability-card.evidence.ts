@@ -12,6 +12,14 @@ import type {
 
 export { doraCapabilityDescriptions };
 
+export function getDoraCapabilityCardEvidenceSummary(
+  capabilityKey: DoraCapabilityKey,
+  scores: readonly DoraCapabilityScore[] | undefined,
+): string | undefined {
+  return scores?.find((entry) => entry.capabilityKey === capabilityKey)
+    ?.evidenceSummary;
+}
+
 const evidenceGroupOrder = [
   'applied',
   'certifications',

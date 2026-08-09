@@ -26,6 +26,7 @@ function capability(key: DoraCapabilityKey): DoraCapabilityDefinition {
 
 const flexibleInfrastructure = capability('flexible-infrastructure');
 const continuousIntegration = capability('continuous-integration');
+const continuousDelivery = capability('continuous-delivery');
 const monitoringObservability = capability('monitoring-observability');
 const documentationQuality = capability('documentation-quality');
 
@@ -53,6 +54,13 @@ export const ContinuousIntegration: Story = {
   args: {
     capability: continuousIntegration,
     description: doraCapabilityDescriptions['continuous-integration'],
+  },
+};
+
+export const ContinuousDelivery: Story = {
+  args: {
+    capability: continuousDelivery,
+    description: doraCapabilityDescriptions['continuous-delivery'],
   },
 };
 
