@@ -3,8 +3,11 @@ import type { CapabilityEvidenceItem } from './devops-capability-evidence.types'
 
 const snapshotDate = '2026-08-07';
 
-export const continuousIntegrationEvidenceInitiatives =
-  capabilityEvidenceInitiatives;
+export const continuousIntegrationEvidenceInitiatives = {
+  awsCodePipelinePlatform:
+    capabilityEvidenceInitiatives.awsCodePipelinePlatform,
+  githubActionsMonorepo: capabilityEvidenceInitiatives.githubActionsMonorepo,
+} as const;
 
 const awsInitiative =
   continuousIntegrationEvidenceInitiatives.awsCodePipelinePlatform;
