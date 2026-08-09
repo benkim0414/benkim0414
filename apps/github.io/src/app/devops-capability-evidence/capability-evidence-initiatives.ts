@@ -9,4 +9,8 @@ export const capabilityEvidenceInitiatives = {
     id: 'github-actions-monorepo',
     label: 'GitHub Actions monorepo migration',
   },
+  deliveryRepositoryPractices: {
+    id: 'delivery-repository-practices',
+    label: 'Delivery repository practices',
+  },
 } as const satisfies Record<string, CapabilityEvidenceInitiative>;

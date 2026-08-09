@@ -28,7 +28,9 @@ export type LearningEvidenceKind =
 export type EvidenceStrength = 'supporting' | 'strong' | 'primary';
 
 export type CapabilityEvidenceInitiativeId =
-  'aws-codepipeline-platform' | 'github-actions-monorepo';
+  | 'aws-codepipeline-platform'
+  | 'github-actions-monorepo'
+  | 'delivery-repository-practices';
 
 export interface CapabilityEvidenceInitiative {
   readonly id: CapabilityEvidenceInitiativeId;
