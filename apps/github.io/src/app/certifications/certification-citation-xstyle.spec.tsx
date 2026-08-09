@@ -73,6 +73,20 @@ describe('CertificationCitation xstyle overrides', () => {
     expect(citationMock.calls[0]?.xstyle).toBeTruthy();
   });
 
+  it('passes a grayscale xstyle override at the supplied image expiry instant', () => {
+    render(
+      <CertificationCitation
+        citationIcon="/assets/certifications/cncf/cka.png"
+        currentDate={new Date('2027-04-20T10:00:00+10:00')}
+        expiresAt="2027-04-20T10:00:00+10:00"
+        title="CKA"
+        url={certificateUrl}
+      />,
+    );
+
+    expect(citationMock.calls[0]?.xstyle).toBeTruthy();
+  });
+
   it.each([
     ['active', '2027-04-20T10:00:00+10:00'],
     ['missing expiry', undefined],
