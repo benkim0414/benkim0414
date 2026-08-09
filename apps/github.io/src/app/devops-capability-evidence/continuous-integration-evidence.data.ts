@@ -1,20 +1,10 @@
-import type {
-  CapabilityEvidenceInitiative,
-  CapabilityEvidenceItem,
-} from './devops-capability-evidence.types';
+import { capabilityEvidenceInitiatives } from './capability-evidence-initiatives';
+import type { CapabilityEvidenceItem } from './devops-capability-evidence.types';
 
 const snapshotDate = '2026-08-07';
 
-export const continuousIntegrationEvidenceInitiatives = {
-  awsCodePipelinePlatform: {
-    id: 'aws-codepipeline-platform',
-    label: 'AWS CodePipeline platform',
-  },
-  githubActionsMonorepo: {
-    id: 'github-actions-monorepo',
-    label: 'GitHub Actions monorepo migration',
-  },
-} as const satisfies Record<string, CapabilityEvidenceInitiative>;
+export const continuousIntegrationEvidenceInitiatives =
+  capabilityEvidenceInitiatives;
 
 const awsInitiative =
   continuousIntegrationEvidenceInitiatives.awsCodePipelinePlatform;
@@ -27,7 +17,7 @@ const continuousIntegrationEvidenceItemCatalog = [
     label: 'Terraform pipelines',
     title: 'Reusable Terraform delivery platform',
     type: 'experience',
-    capabilityKeys: ['continuous-integration'],
+    capabilityKeys: ['continuous-integration', 'continuous-delivery'],
     isPublic: true,
     strength: 'primary',
     summary:
@@ -194,7 +184,7 @@ const continuousIntegrationEvidenceItemCatalog = [
     label: 'ECR promotion',
     title: 'Build-once Amazon ECR promotion',
     type: 'experience',
-    capabilityKeys: ['continuous-integration'],
+    capabilityKeys: ['continuous-integration', 'continuous-delivery'],
     isPublic: true,
     strength: 'primary',
     summary:
@@ -374,15 +364,23 @@ const continuousIntegrationEvidenceItemCatalog = [
   },
   {
     id: 'github-actions-gitops-handoff',
-    label: 'GitOps handoff',
-    title: 'Cross-repository GitOps deployment handoff',
+    label: 'Deployment automation',
+    title: 'Automated deployment process',
     type: 'experience',
-    capabilityKeys: ['continuous-integration'],
+    capabilityKeys: ['continuous-integration', 'continuous-delivery'],
     isPublic: true,
     strength: 'primary',
     summary:
-      'Dispatched affected deployments to an operations monorepo, updated Kustomize image references, and let Argo CD reconcile the desired state.',
-    technologies: ['GitHub Actions', 'Kustomize', 'Argo CD', 'Amazon ECR'],
+      'Automated the affected-service deployment process through GitHub Actions, Nx, version-controlled Kustomize configuration, and Argo CD reconciliation.',
+    technologies: [
+      'GitHub',
+      'GitHub Actions',
+      'OpenID Connect',
+      'Nx',
+      'Amazon ECR',
+      'Kustomize',
+      'Argo CD',
+    ],
     details: {
       initiative: githubInitiative,
       period: { startedAt: '2024-05-10' },
@@ -417,9 +415,36 @@ const continuousIntegrationEvidenceItemCatalog = [
           unit: 'seconds',
           measuredAt: snapshotDate,
         },
+        {
+          label: 'Environment tag-update events created by automation',
+          value: 448,
+          denominator: 513,
+          unit: 'count',
+          measuredAt: '2026-08-09',
+        },
+        {
+          label: 'Automated demo deployments',
+          value: 259,
+          unit: 'count',
+          measuredAt: '2026-08-09',
+        },
+        {
+          label: 'Median merge-to-demo lead time',
+          value: 317,
+          unit: 'seconds',
+          measuredAt: '2026-08-09',
+        },
+        {
+          label: 'P90 merge-to-demo lead time',
+          value: 1689,
+          unit: 'seconds',
+          measuredAt: '2026-08-09',
+        },
       ],
       facts: [
         'Dispatched affected deployments to an operations monorepo, updated Kustomize image references, and let Argo CD reconcile the desired state.',
+        'Deployment automation does not verify successful build completion before dispatch.',
+        'Production synchronization remains manual.',
       ],
     },
   },
@@ -428,7 +453,7 @@ const continuousIntegrationEvidenceItemCatalog = [
     label: 'Tag reliability',
     title: 'Reliable Kustomize batch tag updates',
     type: 'experience',
-    capabilityKeys: ['continuous-integration'],
+    capabilityKeys: ['continuous-integration', 'continuous-delivery'],
     isPublic: true,
     strength: 'primary',
     summary:
@@ -545,7 +570,7 @@ const continuousIntegrationEvidenceItemCatalog = [
     label: 'Reusable Helm image',
     title: 'Reusable Docker and Helm deployment image',
     type: 'experience',
-    capabilityKeys: ['continuous-integration'],
+    capabilityKeys: ['continuous-integration', 'continuous-delivery'],
     isPublic: true,
     strength: 'strong',
     summary:

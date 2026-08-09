@@ -25,6 +25,9 @@ const expectedIds = [
 ];
 
 const isoDate = /^\d{4}-\d{2}-\d{2}$/;
+const byId = new Map(
+  continuousIntegrationEvidenceItems.map((item) => [item.id, item]),
+);
 
 describe('continuousIntegrationEvidenceItems', () => {
   it('stores every approved contribution as one atomic record', () => {
@@ -177,5 +180,27 @@ describe('continuousIntegrationEvidenceItems', () => {
     expect(publicText).not.toMatch(/\b\d{12}\b/);
     expect(publicText).not.toMatch(/parameter[- ]?path/i);
     expect(publicText).not.toMatch(/employer|customer|client/i);
+  });
+
+  it('maps only the approved shared CI experiences to Continuous Delivery', () => {
+    expect(
+      continuousIntegrationEvidenceItems
+        .filter((item) => item.capabilityKeys.includes('continuous-delivery'))
+        .map((item) => item.id),
+    ).toEqual([
+      'terraform-codepipeline-platform',
+      'ecr-immutable-promotion',
+      'github-actions-gitops-handoff',
+      'kustomize-tag-update-reliability',
+      'reusable-helm-deployment-image',
+    ]);
+  });
+
+  it('uses DORA deployment terminology for the shared GitOps record', () => {
+    expect(byId.get('github-actions-gitops-handoff')).toMatchObject({
+      label: 'Deployment automation',
+      title: 'Automated deployment process',
+      capabilityKeys: ['continuous-integration', 'continuous-delivery'],
+    });
   });
 });
