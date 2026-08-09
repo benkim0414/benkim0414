@@ -17,7 +17,11 @@ const continuousIntegrationEvidenceItemCatalog = [
     label: 'Reusable Terraform CI pipelines',
     title: 'Reusable Terraform delivery platform',
     type: 'experience',
-    capabilityKeys: ['continuous-integration', 'continuous-delivery'],
+    capabilityKeys: [
+      'continuous-integration',
+      'continuous-delivery',
+      'version-control',
+    ],
     isPublic: true,
     strength: 'primary',
     summary:
@@ -211,7 +215,7 @@ const continuousIntegrationEvidenceItemCatalog = [
     label: 'Webhook delivery',
     title: 'Webhook-driven trunk delivery',
     type: 'experience',
-    capabilityKeys: ['continuous-integration'],
+    capabilityKeys: ['continuous-integration', 'version-control'],
     isPublic: true,
     strength: 'strong',
     summary:
@@ -367,7 +371,11 @@ const continuousIntegrationEvidenceItemCatalog = [
     label: 'Automated deployment process',
     title: 'Automated deployment process',
     type: 'experience',
-    capabilityKeys: ['continuous-integration', 'continuous-delivery'],
+    capabilityKeys: [
+      'continuous-integration',
+      'continuous-delivery',
+      'version-control',
+    ],
     isPublic: true,
     strength: 'primary',
     summary:
@@ -570,7 +578,11 @@ const continuousIntegrationEvidenceItemCatalog = [
     label: 'Reusable Helm image',
     title: 'Reusable Docker and Helm deployment image',
     type: 'experience',
-    capabilityKeys: ['continuous-integration', 'continuous-delivery'],
+    capabilityKeys: [
+      'continuous-integration',
+      'continuous-delivery',
+      'version-control',
+    ],
     isPublic: true,
     strength: 'strong',
     summary:
