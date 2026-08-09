@@ -28,6 +28,7 @@ const isoDate = /^\d{4}-\d{2}-\d{2}$/;
 const byId = new Map(
   continuousIntegrationEvidenceItems.map((item) => [item.id, item]),
 );
+const capabilityKeysById = (id: string) => byId.get(id)?.capabilityKeys ?? [];
 
 describe('continuousIntegrationEvidenceItems', () => {
   it('stores every approved contribution as one atomic record', () => {
@@ -241,7 +242,26 @@ describe('continuousIntegrationEvidenceItems', () => {
     expect(byId.get('github-actions-gitops-handoff')).toMatchObject({
       label: 'Automated deployment process',
       title: 'Automated deployment process',
-      capabilityKeys: ['continuous-integration', 'continuous-delivery'],
+      capabilityKeys: [
+        'continuous-integration',
+        'continuous-delivery',
+        'version-control',
+      ],
     });
+  });
+
+  it('maps shared CI experiences to Version Control without changing their IDs', () => {
+    expect(capabilityKeysById('codepipeline-webhook-trunk')).toContain(
+      'version-control',
+    );
+    expect(capabilityKeysById('terraform-codepipeline-platform')).toContain(
+      'version-control',
+    );
+    expect(capabilityKeysById('reusable-helm-deployment-image')).toContain(
+      'version-control',
+    );
+    expect(capabilityKeysById('github-actions-gitops-handoff')).toContain(
+      'version-control',
+    );
   });
 });
