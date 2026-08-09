@@ -162,18 +162,18 @@ chronological order:
 4. Terraform
 5. Docker
 6. Helm
-7. Kubernetes
-8. Nx
-9. GitHub Actions
-10. Conventional Commits
-11. Husky
-12. Kustomize
-13. Argo CD
+7. Conventional Commits
+8. Husky
+9. Nx
+10. GitHub Actions
+11. Kustomize
+12. Argo CD
+13. Kubernetes
 
 Git, GitHub, and AWS CodePipeline share the earliest supporting experience and
 follow source-control workflow order within that cohort. Remaining date ties
-follow infrastructure, packaging, orchestration, automation, governance, and
-reconciliation workflow order.
+follow infrastructure and packaging order, then governance order, then
+automation, configuration, reconciliation, and orchestration order.
 
 The focused Version Control skill relationships are:
 
