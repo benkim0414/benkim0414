@@ -85,8 +85,10 @@ describe('DoraCapabilityCard', () => {
       />,
     );
 
-    const experienceRow = screen.getByRole('list', { name: 'Experience' });
-    const skillRow = screen.getByRole('list', { name: 'Skills' });
+    const experienceRow = screen.getByRole('list', {
+      name: 'Relevant experience',
+    });
+    const skillRow = screen.getByRole('list', { name: 'Technical skills' });
 
     expect(within(experienceRow).getAllByRole('listitem')).toHaveLength(5);
     expect(within(skillRow).getAllByRole('listitem')).toHaveLength(14);
@@ -137,18 +139,22 @@ describe('DoraCapabilityCard', () => {
       'skills',
       'learning',
     ]);
-    expect(screen.getByText('Experience')).toBeTruthy();
-    expect(screen.getByText('Skills')).toBeTruthy();
+    expect(screen.getByText('Relevant experience')).toBeTruthy();
+    expect(screen.getByText('Technical skills')).toBeTruthy();
     expect(screen.queryByText('Certifications')).toBeNull();
     expect(screen.queryByText('Learning')).toBeNull();
 
-    expect(screen.getByRole('list', { name: 'Experience' })).toBe(rows[0]);
+    expect(screen.getByRole('list', { name: 'Relevant experience' })).toBe(
+      rows[0],
+    );
     expect(
       screen.getByRole('list', {
         name: 'Flexible Infrastructure certification evidence',
       }),
     ).toBe(rows[1]);
-    expect(screen.getByRole('list', { name: 'Skills' })).toBe(rows[2]);
+    expect(screen.getByRole('list', { name: 'Technical skills' })).toBe(
+      rows[2],
+    );
     expect(
       screen.getByRole('list', {
         name: 'Flexible Infrastructure learning evidence',
@@ -190,8 +196,10 @@ describe('DoraCapabilityCard', () => {
       />,
     );
 
-    const appliedRow = screen.getByRole('list', { name: 'Experience' });
-    const skillRow = screen.getByRole('list', { name: 'Skills' });
+    const appliedRow = screen.getByRole('list', {
+      name: 'Relevant experience',
+    });
+    const skillRow = screen.getByRole('list', { name: 'Technical skills' });
 
     expect(within(appliedRow).getAllByRole('listitem')).toHaveLength(5);
     expect(within(skillRow).getAllByRole('listitem')).toHaveLength(13);
@@ -249,10 +257,10 @@ describe('DoraCapabilityCard', () => {
       />,
     );
 
-    const row = screen.getByRole('list', { name: 'Experience' });
+    const row = screen.getByRole('list', { name: 'Relevant experience' });
 
     expect(row.getAttribute('data-wrap')).toBe('true');
-    expect(screen.getByRole('list', { name: 'Experience' })).toBe(row);
+    expect(screen.getByRole('list', { name: 'Relevant experience' })).toBe(row);
   });
 
   it('omits evidence rows when no evidence matches', () => {
@@ -266,7 +274,7 @@ describe('DoraCapabilityCard', () => {
     );
 
     expect(screen.queryByTestId('dora-capability-evidence-row')).toBeNull();
-    expect(screen.queryByText('Experience')).toBeNull();
-    expect(screen.queryByText('Skills')).toBeNull();
+    expect(screen.queryByText('Relevant experience')).toBeNull();
+    expect(screen.queryByText('Technical skills')).toBeNull();
   });
 });

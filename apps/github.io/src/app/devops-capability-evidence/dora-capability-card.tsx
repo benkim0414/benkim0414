@@ -27,8 +27,8 @@ const evidenceGroupLabels = {
 const visibleEvidenceGroupLabels: Partial<
   Record<DoraCapabilityCardEvidenceGroup, string>
 > = {
-  applied: 'Experience',
-  skills: 'Skills',
+  applied: 'Relevant experience',
+  skills: 'Technical skills',
 };
 
 const styles = stylex.create({
