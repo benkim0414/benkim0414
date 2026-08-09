@@ -54,9 +54,7 @@ describe('DoraCapabilityCard', () => {
       screen.getByRole('heading', { name: 'Continuous Integration' }),
     ).toBeTruthy();
     expect(
-      screen.getByText(
-        doraCapabilityDescriptions['continuous-integration'],
-      ),
+      screen.getByText(doraCapabilityDescriptions['continuous-integration']),
     ).toBeTruthy();
     expect(screen.getByTestId('dora-capability-card')).toBeTruthy();
   });
