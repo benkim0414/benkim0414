@@ -239,11 +239,16 @@ describe('DoraCapabilityCard', () => {
       />,
     );
 
+    const row = screen.getByRole('list', { name: 'Relevant experience' });
+
+    expect(row.getAttribute('data-group')).toBe('applied');
     expect(
-      screen.getByRole('group', { name: 'Experience evidence: CI' }),
+      within(row).getByRole('group', { name: 'Experience evidence: CI' }),
     ).toBeTruthy();
     expect(
-      screen.queryByRole('group', { name: 'Experience evidence: Versioning' }),
+      within(row).queryByRole('group', {
+        name: 'Experience evidence: Versioning',
+      }),
     ).toBeNull();
   });
 
