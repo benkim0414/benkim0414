@@ -12,20 +12,6 @@ const additionalMetrics = {
     unit: 'percent',
     measuredAt: snapshotDate,
   },
-  productionAutomation: {
-    label: 'Automated production applications',
-    value: 0,
-    denominator: 16,
-    unit: 'count',
-    measuredAt: snapshotDate,
-  },
-  databaseMigrationCoverage: {
-    label: 'Services with automated database migrations',
-    value: 2,
-    denominator: 20,
-    unit: 'count',
-    measuredAt: snapshotDate,
-  },
   migrationTimeout: {
     label: 'Database migration timeout',
     value: 600,
@@ -114,7 +100,7 @@ const continuousDeliveryEvidenceItemCatalog = [
     label: 'Version-controlled environment state',
     title: 'Environment state from version control',
     type: 'experience',
-    capabilityKeys: ['continuous-delivery'],
+    capabilityKeys: ['continuous-delivery', 'version-control'],
     isPublic: true,
     strength: 'primary',
     summary:
@@ -143,11 +129,9 @@ const continuousDeliveryEvidenceItemCatalog = [
           unit: 'count',
           measuredAt: snapshotDate,
         },
-        additionalMetrics.productionAutomation,
       ],
       facts: [
         'Environment configuration is reconciled from version control for repeatable deployment state.',
-        'Configuration drift beyond reconciliation is not proactively detected.',
       ],
     },
   },
@@ -156,7 +140,7 @@ const continuousDeliveryEvidenceItemCatalog = [
     label: 'Same package across environments',
     title: 'Same package for every environment',
     type: 'experience',
-    capabilityKeys: ['continuous-delivery'],
+    capabilityKeys: ['continuous-delivery', 'version-control'],
     isPublic: true,
     strength: 'primary',
     summary:
@@ -176,7 +160,7 @@ const continuousDeliveryEvidenceItemCatalog = [
     label: 'Automated database migrations',
     title: 'Automated database migrations',
     type: 'experience',
-    capabilityKeys: ['continuous-delivery'],
+    capabilityKeys: ['continuous-delivery', 'version-control'],
     isPublic: true,
     strength: 'primary',
     summary:
@@ -185,9 +169,16 @@ const continuousDeliveryEvidenceItemCatalog = [
     details: {
       initiative: githubInitiative,
       period: { startedAt: '2024-06-03' },
-      metrics: [additionalMetrics.databaseMigrationCoverage],
+      metrics: [
+        {
+          label: 'Services with automated database migrations',
+          value: 2,
+          unit: 'count',
+          measuredAt: snapshotDate,
+        },
+      ],
       facts: [
-        'Automated database migrations have partial coverage across services.',
+        'Automated database migrations run as part of Argo CD-managed Kubernetes deployments.',
       ],
     },
   },
