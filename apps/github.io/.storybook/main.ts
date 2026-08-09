@@ -21,6 +21,9 @@ export function getStorybookAllowedHosts(
 const config: StorybookConfig = {
   stories: ['../src/**/*.@(mdx|stories.@(js|jsx|ts|tsx))'],
   addons: [],
+  core: {
+    allowedHosts: getStorybookAllowedHosts(),
+  },
   framework: {
     name: getAbsolutePath('@storybook/react-vite'),
     options: {
