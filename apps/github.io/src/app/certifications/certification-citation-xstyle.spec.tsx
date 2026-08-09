@@ -58,4 +58,50 @@ describe('CertificationCitation xstyle overrides', () => {
     expect(citationMock.calls[0]?.xstyle).toBeTruthy();
     expect(citationMock.calls[1]?.xstyle).toBe(false);
   });
+
+  it('passes a grayscale xstyle override for an expired supplied image', () => {
+    render(
+      <CertificationCitation
+        citationIcon="/assets/certifications/cncf/cka.png"
+        currentDate={new Date('2029-01-01T00:00:00+11:00')}
+        expiresAt="2027-04-20T10:00:00+10:00"
+        title="CKA"
+        url={certificateUrl}
+      />,
+    );
+
+    expect(citationMock.calls[0]?.xstyle).toBeTruthy();
+  });
+
+  it('passes a grayscale xstyle override at the supplied image expiry instant', () => {
+    render(
+      <CertificationCitation
+        citationIcon="/assets/certifications/cncf/cka.png"
+        currentDate={new Date('2027-04-20T10:00:00+10:00')}
+        expiresAt="2027-04-20T10:00:00+10:00"
+        title="CKA"
+        url={certificateUrl}
+      />,
+    );
+
+    expect(citationMock.calls[0]?.xstyle).toBeTruthy();
+  });
+
+  it.each([
+    ['active', '2027-04-20T10:00:00+10:00'],
+    ['missing expiry', undefined],
+    ['invalid expiry', '2027-02-30T10:00:00+11:00'],
+  ] as const)('does not grayscale a supplied image with %s', (_label, expiresAt) => {
+    render(
+      <CertificationCitation
+        citationIcon="/assets/certifications/cncf/cka.png"
+        currentDate={new Date('2026-07-23T00:00:00+10:00')}
+        expiresAt={expiresAt}
+        title="CKA"
+        url={certificateUrl}
+      />,
+    );
+
+    expect(citationMock.calls[0]?.xstyle).toBe(false);
+  });
 });

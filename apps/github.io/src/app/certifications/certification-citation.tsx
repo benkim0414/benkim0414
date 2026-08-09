@@ -27,6 +27,9 @@ const styles = stylex.create({
     borderRadius: radiusVars['--radius-element'],
     paddingInlineStart: spacingVars['--spacing-0-5'],
   },
+  expiredCitationIcon: {
+    filter: 'grayscale(1)',
+  },
 });
 
 export interface CertificationMetadata {
@@ -157,6 +160,15 @@ export function CertificationCitation({
       )
     : undefined;
   const icon = citationIcon ?? skillIcon;
+  const hasExpiredCitationIcon = Boolean(
+    citationIcon && status === 'expired',
+  );
+  const citationXstyle = hasSkillLogo
+    ? [
+        styles.sourceWithIcon,
+        hasExpiredCitationIcon && styles.expiredCitationIcon,
+      ]
+    : hasExpiredCitationIcon && styles.expiredCitationIcon;
   const citation = (
     <Citation
       number={number}
@@ -166,7 +178,7 @@ export function CertificationCitation({
         icon,
       }}
       variant="label"
-      xstyle={hasSkillLogo && styles.sourceWithIcon}
+      xstyle={citationXstyle}
     />
   );
 
