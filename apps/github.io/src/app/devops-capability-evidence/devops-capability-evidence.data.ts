@@ -2,6 +2,10 @@ import { continuousDeliveryEvidenceItems } from './continuous-delivery-evidence.
 import { continuousDeliverySkillEvidenceItems } from './continuous-delivery-skill-evidence.data';
 import { continuousIntegrationEvidenceItems } from './continuous-integration-evidence.data';
 import { continuousIntegrationSkillEvidenceItems } from './continuous-integration-skill-evidence.data';
+import { deploymentAutomationEvidenceItems } from './deployment-automation-evidence.data';
+import { deploymentAutomationSkillEvidenceItems } from './deployment-automation-skill-evidence.data';
+import { flexibleInfrastructureEvidenceItems } from './flexible-infrastructure-evidence.data';
+import { flexibleInfrastructureSkillEvidenceItems } from './flexible-infrastructure-skill-evidence.data';
 import { trunkBasedDevelopmentEvidenceItems } from './trunk-based-development-evidence.data';
 import { trunkBasedDevelopmentSkillEvidenceItems } from './trunk-based-development-skill-evidence.data';
 import { versionControlEvidenceItems } from './version-control-evidence.data';
@@ -183,9 +187,30 @@ export const curatedDevOpsCapabilityRadarScores = [
     label: 'Deploys',
     score: 4,
     maxScore: 5,
-    evidenceIds: ['image-digest-deployments'],
-    strongestEvidenceId: 'image-digest-deployments',
-    evidenceCounts: { experience: 1 },
+    evidenceIds: [
+      'merge-triggered-deployment-path',
+      'environment-neutral-deployment-mechanism',
+      'generator-based-service-onboarding',
+      'automated-sealed-secret-delivery',
+      'deterministic-kubernetes-overlays',
+      'deployment-automation-skill-aws-codepipeline',
+      'deployment-automation-skill-terraform',
+      'deployment-automation-skill-github-actions',
+      'deployment-automation-skill-argo-cd',
+      'deployment-automation-skill-gitops',
+      'deployment-automation-skill-docker',
+      'deployment-automation-skill-amazon-ecr',
+      'deployment-automation-skill-kubernetes',
+      'deployment-automation-skill-openid-connect',
+      'deployment-automation-skill-nx',
+      'deployment-automation-skill-github-api',
+      'deployment-automation-skill-kustomize',
+      'deployment-automation-skill-sealed-secrets',
+    ],
+    strongestEvidenceId: 'merge-triggered-deployment-path',
+    evidenceCounts: { experience: 5, skill: 13 },
+    evidenceSummary:
+      'Built merge-triggered deployment automation across environments, with generator-based onboarding, automated secret delivery, and deterministic Kubernetes rendering.',
   },
   {
     capabilityKey: 'flexible-infrastructure',
@@ -193,21 +218,28 @@ export const curatedDevOpsCapabilityRadarScores = [
     score: 4,
     maxScore: 5,
     evidenceIds: [
-      'kubernetes-workloads',
-      'kubectl-troubleshooting',
-      'cluster-operations',
-      'cncf-kubernetes-certification',
-      'kubernetes-skill',
+      'terraform-managed-cloud-foundations',
       'irsa-service-accounts',
       'terraform-scoped-iam',
+      'terraform-codepipeline-platform',
+      'argocd-environment-state-from-version-control',
+      'flexible-infrastructure-skill-terraform',
+      'flexible-infrastructure-skill-aws',
+      'flexible-infrastructure-skill-kubernetes',
+      'flexible-infrastructure-skill-kubectl',
+      'flexible-infrastructure-skill-helm',
+      'flexible-infrastructure-skill-docker',
+      'flexible-infrastructure-skill-amazon-ecr',
+      'flexible-infrastructure-skill-aws-iam',
+      'flexible-infrastructure-skill-irsa',
+      'flexible-infrastructure-skill-kustomize',
+      'flexible-infrastructure-skill-argo-cd',
+      'flexible-infrastructure-skill-gitops',
     ],
-    strongestEvidenceId: 'cncf-kubernetes-certification',
-    evidenceCounts: {
-      certification: 1,
-      experience: 2,
-      learning: 3,
-      skill: 1,
-    },
+    strongestEvidenceId: 'terraform-managed-cloud-foundations',
+    evidenceCounts: { experience: 5, skill: 12 },
+    evidenceSummary:
+      'Built reusable Terraform and Kubernetes foundations with workload identity, scoped IAM, delivery-platform provisioning, and GitOps-managed environments.',
   },
   {
     capabilityKey: 'monitoring-observability',
@@ -278,45 +310,10 @@ const devOpsCapabilityEvidenceItemCatalog = [
     isPublic: true,
     strength: 'primary',
   },
-  {
-    id: 'image-digest-deployments',
-    title: 'Immutable image digest deployments',
-    label: 'Image digests',
-    type: 'experience',
-    organization: 'Current company',
-    capabilityKeys: ['pervasive-security', 'deployment-automation'],
-    summary:
-      'Improved deployment supply-chain safety by moving container image references from commit-hash tags to immutable image digests.',
-    technologies: ['Docker', 'Kubernetes'],
-    isPublic: true,
-    strength: 'strong',
-  },
-  {
-    id: 'irsa-service-accounts',
-    title: 'IRSA service account migration',
-    label: 'IRSA',
-    type: 'experience',
-    organization: 'Current company',
-    capabilityKeys: ['pervasive-security', 'flexible-infrastructure'],
-    summary:
-      'Implemented workload-scoped Kubernetes service accounts for cloud access with IRSA-backed identity.',
-    technologies: ['AWS IAM', 'IRSA', 'Kubernetes'],
-    isPublic: true,
-    strength: 'strong',
-  },
-  {
-    id: 'terraform-scoped-iam',
-    title: 'Terraform-managed scoped IAM policies',
-    label: 'Terraform IAM',
-    type: 'experience',
-    organization: 'Current company',
-    capabilityKeys: ['pervasive-security', 'flexible-infrastructure'],
-    summary:
-      'Managed IRSA service accounts and scoped IAM policies with Terraform to make microservice permissions explicit and reproducible.',
-    technologies: ['Terraform', 'AWS IAM', 'Kubernetes'],
-    isPublic: true,
-    strength: 'strong',
-  },
+  ...deploymentAutomationEvidenceItems,
+  ...deploymentAutomationSkillEvidenceItems,
+  ...flexibleInfrastructureEvidenceItems,
+  ...flexibleInfrastructureSkillEvidenceItems,
   {
     id: 'kubernetes-workloads',
     title: 'Kubernetes workload practice',

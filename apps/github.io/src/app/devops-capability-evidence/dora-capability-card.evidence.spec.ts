@@ -65,7 +65,7 @@ describe('getDoraCapabilityCardEvidenceSummary', () => {
   it('returns undefined when the capability or score collection has no summary', () => {
     expect(
       getDoraCapabilityCardEvidenceSummary(
-        'flexible-infrastructure',
+        'test-automation',
         curatedDevOpsCapabilityRadarScores,
       ),
     ).toBeUndefined();
