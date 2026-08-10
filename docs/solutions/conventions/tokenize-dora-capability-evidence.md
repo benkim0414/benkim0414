@@ -11,7 +11,7 @@ applies_when:
   - Publishing DORA capability evidence derived from private source material
   - Maintaining a full evidence history beside compact card copy and projection
   - Separating demonstrated experience from evidence-backed skills
-  - Preserving deterministic evidence selection and chronology
+  - Preserving canonical shared identity, deterministic selection, and chronology
   - Rendering dense skill evidence with readable neutral tokens
 related_components:
   - github.io DevOps capability evidence radar
@@ -20,8 +20,6 @@ tags:
   [
     github-io,
     dora,
-    continuous-integration,
-    version-control,
     trunk-based-development,
     evidence-model,
     privacy,
@@ -44,7 +42,7 @@ The Continuous Integration example makes that boundary concrete. Its experience 
 
 Version Control and Trunk-Based Development apply the same model independently. Their complete public catalogs contain nine and six experience records, while their separate catalogs contain thirteen and six strongly supported skills. Exact ID, public-data, ordering, and support-link contracts live in `apps/github.io/src/app/devops-capability-evidence/version-control-evidence.data.spec.ts:3-53`, `apps/github.io/src/app/devops-capability-evidence/trunk-based-development-evidence.data.spec.ts:3-49`, `apps/github.io/src/app/devops-capability-evidence/version-control-skill-evidence.data.spec.ts:6-122`, and `apps/github.io/src/app/devops-capability-evidence/trunk-based-development-skill-evidence.data.spec.ts:4-88`.
 
-The shared evidence catalog composes the capability datasets in `apps/github.io/src/app/devops-capability-evidence/devops-capability-evidence.data.ts:246-254`. The CI score then selects exactly five experience IDs before appending the canonical skill IDs, with matching counts and a capability-level `evidenceSummary`, in `apps/github.io/src/app/devops-capability-evidence/devops-capability-evidence.data.ts:120-135`.
+The shared evidence catalog composes the complete capability datasets through an identity-aware boundary in `apps/github.io/src/app/devops-capability-evidence/devops-capability-evidence.data.ts:278-342`. Deployment Automation and Flexible Infrastructure intentionally reuse canonical records from other capability catalogs, so a repeated ID can mean either a valid second reference to the same object or a conflicting second definition. Compact scores remain a separate concern: they select ordered evidence IDs with matching counts and capability-level summaries; some scores append canonical skill IDs from their skill catalogs.
 
 ## Guidance
 
@@ -58,6 +56,16 @@ Privacy is a data contract, not a final copy-editing pass. Every CI experience m
 
 For a public portfolio, retain only affirmative evidence for the capability. Do not publish missing safeguards, caveats about distribution, or absent automation as evidence merely because the wording is technically accurate. State the demonstrated outcome directly and test known negative patterns narrowly enough that positive phrases such as “without manual intervention” remain valid. The Version Control contract demonstrates both the affirmative fact assertion and this focused negative-language guard in `apps/github.io/src/app/devops-capability-evidence/version-control-evidence.data.spec.ts:101-120`; the Trunk-Based Development catalog applies the positive-only boundary to every record in `apps/github.io/src/app/devops-capability-evidence/trunk-based-development-evidence.data.spec.ts:24-49`.
 
+### Compose shared catalogs by canonical identity
+
+Complete capability catalogs can overlap legitimately. Within the aggregate construction boundary, use one canonical object per stable ID; consuming catalogs should reuse that object rather than reconstructing an equivalent-looking record. Deployment Automation resolves its shared records from the Continuous Integration and Continuous Delivery catalogs (`apps/github.io/src/app/devops-capability-evidence/deployment-automation-evidence.data.ts:8-21`); Flexible Infrastructure resolves shared records across those catalogs and Deployment Automation (`apps/github.io/src/app/devops-capability-evidence/flexible-infrastructure-evidence.data.ts:10-25`).
+
+At the aggregate boundary, treat the evidence ID as the logical uniqueness key and reference identity as proof that overlap is intentional. `composeCanonicalCapabilityEvidenceItems` emits the first object for an ID, skips only later references where `existing === item`, and throws when a distinct object reuses that ID (`apps/github.io/src/app/devops-capability-evidence/devops-capability-evidence.data.ts:278-301`). Do not replace this with an ID-only `Set` or `filter`: that silently keeps whichever definition appears first and hides conflicting summaries, mappings, metrics, or provenance.
+
+Lock both sides of the contract in tests. Known shared records must remain the exact canonical objects, repeated references to one object must compose once, and a cloned same-ID object must throw (`apps/github.io/src/app/devops-capability-evidence/devops-capability-evidence.spec.ts:239-280`). The aggregate test also requires every Deployment Automation and Flexible Infrastructure record (`apps/github.io/src/app/devops-capability-evidence/devops-capability-evidence.spec.ts:215-237`), while the aggregate implementation composes all currently imported capability catalogs (`apps/github.io/src/app/devops-capability-evidence/devops-capability-evidence.data.ts:303-342`).
+
+As general guidance outside this in-memory construction boundary, do not rely on reference identity. Use an explicit immutable payload identity or version contract when records cross serialization, API, or persistence boundaries.
+
 ### Keep skills separate and evidence-backed
 
 A skill is a competency supported by accomplishments, not another accomplishment and not every string found in an experience's `technologies` array. Store it as `type: 'skill'` with an official public name and focused `supportingEvidenceIds`. The shared type makes that relationship explicit at `apps/github.io/src/app/devops-capability-evidence/devops-capability-evidence.types.ts:64-84`.
@@ -66,7 +74,7 @@ Each support ID must resolve to a real experience record. The CI skill tests loc
 
 ### Make the compact projection explicit
 
-Do not derive the compact card with `slice(0, 5)`, runtime ranking, or incidental catalog order. Keep its selected experience IDs literally in the capability score, append the canonical skill IDs, and update `evidenceCounts` in the same change. Integrity tests verify that every referenced ID exists, supports the capability, and matches the declared type counts (`apps/github.io/src/app/devops-capability-evidence/devops-capability-evidence.spec.ts:417-446`). A separate CI assertion locks the exact five experiences and the complete ordered skill suffix (`apps/github.io/src/app/devops-capability-evidence/devops-capability-evidence.spec.ts:449-469`).
+Do not derive the compact card with `slice(0, 5)`, runtime ranking, or incidental catalog order. Keep its selected experience IDs literally in the capability score, append the canonical skill IDs, and update `evidenceCounts` in the same change. Integrity tests verify that every referenced ID exists, supports the capability, and matches the declared type counts (`apps/github.io/src/app/devops-capability-evidence/devops-capability-evidence.spec.ts:514-543`). A separate CI assertion locks the exact five experiences and the complete ordered skill suffix (`apps/github.io/src/app/devops-capability-evidence/devops-capability-evidence.spec.ts:776-788`).
 
 When the projection itself must be reviewable as a fixed editorial decision, list both the five experience IDs and the complete skill suffix literally. The Version Control and Trunk-Based Development score records do this, with matching counts and score-owned summaries, in `apps/github.io/src/app/devops-capability-evidence/devops-capability-evidence.data.ts:65-118`. This stricter form makes additions, removals, and reordering visible in the score diff instead of inheriting a runtime map or catalog change.
 
@@ -126,9 +134,10 @@ and `apps/github.io/src/app/devops-capability-evidence/dora-capability-card.tsx:
 
 Separating catalog ownership from projection ownership keeps the evidence reusable. A dedicated capability page can consume the full history while the compact card remains a deliberate five-experience summary plus supported skills. Stable IDs make every score auditable, structured details preserve evidence strength, and focused support links explain why each skill belongs.
 
-The boundaries also prevent four common failures:
+The boundaries also prevent five common failures:
 
 - Catalog growth accidentally changes a compact card.
+- ID-only deduplication silently masks conflicting definitions of shared evidence.
 - Capability summaries drift from the score-owned projection they describe.
 - Technology strings overstate skills that lack concrete support.
 - Public presentation leaks private context copied from source material.
@@ -176,6 +185,33 @@ evidenceIds: [
 // Capability-level copy: one score-owned sentence, not item-level prose.
 evidenceSummary:
   'Built and evolved CI from reusable delivery pipelines to monorepo automation, with affected quality gates and immutable artifacts.',
+```
+
+Compose overlapping catalogs without hiding conflicts:
+
+```ts
+function composeCanonical(items: readonly CapabilityEvidenceItem[]) {
+  const byId = new Map<string, CapabilityEvidenceItem>();
+  const catalog: CapabilityEvidenceItem[] = [];
+
+  for (const item of items) {
+    const existing = byId.get(item.id);
+
+    if (!existing) {
+      byId.set(item.id, item);
+      catalog.push(item);
+    } else if (existing !== item) {
+      throw new Error(
+        `Conflicting duplicate capability evidence ID: ${item.id}`,
+      );
+    }
+  }
+
+  return catalog;
+}
+
+composeCanonical([canonical, canonical]); // one canonical entry
+composeCanonical([canonical, { ...canonical }]); // throws
 ```
 
 Back a skill with focused evidence instead of inferring it from a technology list:

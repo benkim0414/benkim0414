@@ -40,6 +40,12 @@ The canonical public-safe collection of atomic evidence records available for ca
 
 Catalog records own reusable facts and relationships; they do not decide which subset a compact surface displays.
 
+### Canonical Evidence Record
+
+Within aggregate catalog composition, the retained Capability Evidence item for one stable evidence ID when the same proof belongs to multiple capability catalogs.
+
+Where capability catalogs share an item, they reuse the same Canonical Evidence Record; a distinct record with the same ID is a conflict rather than another valid copy.
+
 ### Compact Capability Projection
 
 The explicit, score-owned subset, order, and optional capability-level supplemental summary selected for a compact capability surface.
