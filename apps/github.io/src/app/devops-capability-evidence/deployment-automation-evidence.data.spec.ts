@@ -139,6 +139,12 @@ describe('deploymentAutomationEvidenceItems', () => {
     }
   });
 
+  it('maps automated secret delivery to Pervasive Security', () => {
+    expect(
+      byId.get('automated-sealed-secret-delivery')?.capabilityKeys,
+    ).toContain('pervasive-security');
+  });
+
   it('keeps the approved measurements attached to their experiences', () => {
     expect(
       byId.get('merge-triggered-deployment-path')?.details?.metrics,
