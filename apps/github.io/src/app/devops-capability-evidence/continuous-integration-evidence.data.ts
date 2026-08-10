@@ -617,7 +617,7 @@ const continuousIntegrationEvidenceItemCatalog = [
         },
       ],
       facts: [
-        'Maintained one reusable CI build image consumed by many build projects without implying public distribution.',
+        'Maintained one reusable CI build image consumed by many build projects.',
       ],
     },
   },
