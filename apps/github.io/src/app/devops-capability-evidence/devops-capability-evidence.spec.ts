@@ -36,6 +36,7 @@ import {
   getCapabilityScoreSummary,
   getEvidenceTypeSummary,
 } from './devops-capability-evidence.summary';
+import { getDoraCapabilityCardEvidenceRows } from './dora-capability-card.evidence';
 
 const deploymentAutomationExperienceIds = [
   'merge-triggered-deployment-path',
@@ -299,19 +300,46 @@ const getLiteralScoreEvidenceIds = <CapabilityKey extends string>(
     }
 
     const capabilityKey = capabilityInitializer.text as CapabilityKey;
-    const evidenceIdsProperty = scoreElement.properties.find(
-      (property): property is ts.PropertyAssignment =>
-        ts.isPropertyAssignment(property) &&
+    const hasObjectSpread = scoreElement.properties.some((property) =>
+      ts.isSpreadAssignment(property),
+    );
+    const hasComputedProperty = scoreElement.properties.some(
+      (property) =>
+        !ts.isSpreadAssignment(property) &&
+        ts.isComputedPropertyName(property.name),
+    );
+
+    if (hasObjectSpread || hasComputedProperty) {
+      throw new Error(
+        `${capabilityKey} score object must not contain spreads or computed properties`,
+      );
+    }
+
+    const evidenceIdsProperties = scoreElement.properties.filter(
+      (property) =>
+        !ts.isSpreadAssignment(property) &&
         getPropertyName(property.name) === 'evidenceIds',
     );
-    const evidenceIdsInitializer = evidenceIdsProperty
-      ? unwrapExpression(evidenceIdsProperty.initializer)
-      : undefined;
 
-    if (
-      !evidenceIdsInitializer ||
-      !ts.isArrayLiteralExpression(evidenceIdsInitializer)
-    ) {
+    if (evidenceIdsProperties.length !== 1) {
+      throw new Error(
+        `${capabilityKey} evidenceIds must be declared exactly once`,
+      );
+    }
+
+    const evidenceIdsProperty = evidenceIdsProperties[0];
+
+    if (!evidenceIdsProperty || !ts.isPropertyAssignment(evidenceIdsProperty)) {
+      throw new Error(
+        `${capabilityKey} evidenceIds must be an array literal of string literals`,
+      );
+    }
+
+    const evidenceIdsInitializer = unwrapExpression(
+      evidenceIdsProperty.initializer,
+    );
+
+    if (!ts.isArrayLiteralExpression(evidenceIdsInitializer)) {
       throw new Error(
         `${capabilityKey} evidenceIds must be an array literal of string literals`,
       );
@@ -1000,21 +1028,36 @@ describe('devOpsCapabilityEvidence data', () => {
       remainingCapabilityKeys,
     );
 
-    expect(augmentedCatalog).toHaveLength(
-      devOpsCapabilityEvidenceItems.length + 1,
-    );
-
     for (const [capabilityKey, expected] of Object.entries(
       remainingCapabilityScoreContracts,
     )) {
-      expect(
-        literalEvidenceIds[capabilityKey as RemainingCapabilityKey],
-      ).toEqual(expected.evidenceIds);
-      expect(
-        curatedDevOpsCapabilityRadarScores.find(
-          (score) => score.capabilityKey === capabilityKey,
-        )?.evidenceIds,
-      ).toEqual(literalEvidenceIds[capabilityKey as RemainingCapabilityKey]);
+      const key = capabilityKey as RemainingCapabilityKey;
+      const originalExperienceCount = devOpsCapabilityEvidenceItems.filter(
+        (item) =>
+          item.type === 'experience' && item.capabilityKeys.includes(key),
+      ).length;
+      const augmentedExperienceCount = augmentedCatalog.filter(
+        (item) =>
+          item.type === 'experience' && item.capabilityKeys.includes(key),
+      ).length;
+      const originalProjectionIds = getDoraCapabilityCardEvidenceRows(
+        key,
+        devOpsCapabilityEvidenceItems,
+        curatedDevOpsCapabilityRadarScores,
+      ).flatMap((row) => row.evidence.map((item) => item.id));
+      const augmentedProjectionIds = getDoraCapabilityCardEvidenceRows(
+        key,
+        augmentedCatalog,
+        curatedDevOpsCapabilityRadarScores,
+      ).flatMap((row) => row.evidence.map((item) => item.id));
+
+      expect(augmentedExperienceCount).toBe(originalExperienceCount + 1);
+      expect(literalEvidenceIds[key]).toEqual(expected.evidenceIds);
+      expect(originalProjectionIds).toEqual(expected.evidenceIds);
+      expect(augmentedProjectionIds).toEqual(originalProjectionIds);
+      expect(augmentedProjectionIds).not.toContain(
+        'synthetic-unselected-capability-record',
+      );
     }
 
     expect(
@@ -1043,6 +1086,22 @@ describe('devOpsCapabilityEvidence data', () => {
       'skillIds.reduce((ids, id) => [...ids, id], [])',
       'skillIds.toSorted()',
     ];
+    const testScoreFixture =
+      "{ evidenceIds: ['test-id'], capabilityKey: 'test-automation' }";
+    const prohibitedObjectFixtures = [
+      literalFixture.replace(
+        testScoreFixture,
+        "{ evidenceIds: ['test-id'], capabilityKey: 'test-automation', ...overrides }",
+      ),
+      literalFixture.replace(
+        testScoreFixture,
+        "{ evidenceIds: ['test-id'], capabilityKey: 'test-automation', evidenceIds: derivedIds }",
+      ),
+      literalFixture.replace(
+        testScoreFixture,
+        "{ evidenceIds: ['test-id'], capabilityKey: 'test-automation', ['evidenceIds']: derivedIds }",
+      ),
+    ];
 
     expect(
       getLiteralScoreEvidenceIds(literalFixture, remainingCapabilityKeys),
@@ -1060,6 +1119,15 @@ describe('devOpsCapabilityEvidence data', () => {
           remainingCapabilityKeys,
         ),
       ).toThrow(/evidenceIds must/);
+    }
+
+    for (const prohibitedObjectFixture of prohibitedObjectFixtures) {
+      expect(() =>
+        getLiteralScoreEvidenceIds(
+          prohibitedObjectFixture,
+          remainingCapabilityKeys,
+        ),
+      ).toThrow(/evidenceIds must|score object/);
     }
   });
 
