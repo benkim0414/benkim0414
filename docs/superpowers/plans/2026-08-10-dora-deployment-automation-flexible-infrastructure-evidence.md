@@ -405,23 +405,9 @@ Lock these exact titles and support links:
 const expectedSupport = {
   'AWS CodePipeline': ['codepipeline-approval-gated-deployment'],
   Terraform: ['codepipeline-approval-gated-deployment'],
-  Docker: ['deployment-traceability-chain', 'image-digest-deployments'],
-  'Amazon ECR': ['deployment-traceability-chain', 'image-digest-deployments'],
-  Kubernetes: [
-    'environment-neutral-deployment-mechanism',
-    'automated-sealed-secret-delivery',
-    'deterministic-kubernetes-overlays',
-  ],
   'GitHub Actions': [
     'merge-triggered-deployment-path',
     'github-actions-gitops-handoff',
-  ],
-  'OpenID Connect': ['merge-triggered-deployment-path'],
-  Nx: ['generator-based-service-onboarding', 'merge-triggered-deployment-path'],
-  'GitHub API': ['merge-triggered-deployment-path'],
-  Kustomize: [
-    'environment-neutral-deployment-mechanism',
-    'deterministic-kubernetes-overlays',
   ],
   'Argo CD': [
     'github-actions-gitops-handoff',
@@ -430,6 +416,20 @@ const expectedSupport = {
   GitOps: [
     'github-actions-gitops-handoff',
     'environment-neutral-deployment-mechanism',
+  ],
+  Docker: ['deployment-traceability-chain', 'image-digest-deployments'],
+  'Amazon ECR': ['deployment-traceability-chain', 'image-digest-deployments'],
+  Kubernetes: [
+    'environment-neutral-deployment-mechanism',
+    'automated-sealed-secret-delivery',
+    'deterministic-kubernetes-overlays',
+  ],
+  'OpenID Connect': ['merge-triggered-deployment-path'],
+  Nx: ['generator-based-service-onboarding', 'merge-triggered-deployment-path'],
+  'GitHub API': ['merge-triggered-deployment-path'],
+  Kustomize: [
+    'environment-neutral-deployment-mechanism',
+    'deterministic-kubernetes-overlays',
   ],
   'Sealed Secrets': ['automated-sealed-secret-delivery'],
 } as const;
@@ -453,16 +453,16 @@ Create `deploymentAutomationSkillDefinitions` with IDs derived from the approved
 const deploymentAutomationSkillDefinitions = [
   ['deployment-automation-skill-aws-codepipeline', 'AWS CodePipeline'],
   ['deployment-automation-skill-terraform', 'Terraform'],
+  ['deployment-automation-skill-github-actions', 'GitHub Actions'],
+  ['deployment-automation-skill-argo-cd', 'Argo CD'],
+  ['deployment-automation-skill-gitops', 'GitOps'],
   ['deployment-automation-skill-docker', 'Docker'],
   ['deployment-automation-skill-amazon-ecr', 'Amazon ECR'],
   ['deployment-automation-skill-kubernetes', 'Kubernetes'],
-  ['deployment-automation-skill-github-actions', 'GitHub Actions'],
   ['deployment-automation-skill-openid-connect', 'OpenID Connect'],
   ['deployment-automation-skill-nx', 'Nx'],
   ['deployment-automation-skill-github-api', 'GitHub API'],
   ['deployment-automation-skill-kustomize', 'Kustomize'],
-  ['deployment-automation-skill-argo-cd', 'Argo CD'],
-  ['deployment-automation-skill-gitops', 'GitOps'],
   ['deployment-automation-skill-sealed-secrets', 'Sealed Secrets'],
 ] as const;
 ```
@@ -816,7 +816,7 @@ Import `DeploymentAutomation` and `FlexibleInfrastructure` into the story spec. 
 [
   'deployment-automation',
   ['Merge-triggered deployments', 'Environment-neutral deploys', 'Generator-based onboarding', 'Automated secret delivery', 'Deterministic overlays'],
-  ['AWS CodePipeline', 'Terraform', 'Docker', 'Amazon ECR', 'Kubernetes', 'GitHub Actions', 'OpenID Connect', 'Nx', 'GitHub API', 'Kustomize', 'Argo CD', 'GitOps', 'Sealed Secrets'],
+  ['AWS CodePipeline', 'Terraform', 'GitHub Actions', 'Argo CD', 'GitOps', 'Docker', 'Amazon ECR', 'Kubernetes', 'OpenID Connect', 'Nx', 'GitHub API', 'Kustomize', 'Sealed Secrets'],
 ],
 [
   'flexible-infrastructure',
@@ -918,7 +918,7 @@ git diff main...HEAD --stat
 git log --format='%h %s' main..HEAD
 ```
 
-Expected: clean worktree; one design commit, one plan commit, and the seven implementation commits from Tasks 1-7; no unrelated files.
+Expected: clean worktree with logical, self-contained commit boundaries and no unrelated files. Reviewed fix commits are permitted when they preserve those boundaries.
 
 - [ ] **Step 3: Run phone browser QA**
 

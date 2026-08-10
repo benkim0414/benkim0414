@@ -164,16 +164,16 @@ The complete ordered skill catalog contains thirteen skills:
 | ---------------------------------------------- | ---------------- | ------------------------------------------------------------------------------------------------------------------- |
 | `deployment-automation-skill-aws-codepipeline` | AWS CodePipeline | `codepipeline-approval-gated-deployment`                                                                            |
 | `deployment-automation-skill-terraform`        | Terraform        | `codepipeline-approval-gated-deployment`                                                                            |
+| `deployment-automation-skill-github-actions`   | GitHub Actions   | `merge-triggered-deployment-path`, `github-actions-gitops-handoff`                                                  |
+| `deployment-automation-skill-argo-cd`          | Argo CD          | `github-actions-gitops-handoff`, `automated-sealed-secret-delivery`                                                 |
+| `deployment-automation-skill-gitops`           | GitOps           | `github-actions-gitops-handoff`, `environment-neutral-deployment-mechanism`                                         |
 | `deployment-automation-skill-docker`           | Docker           | `deployment-traceability-chain`, `image-digest-deployments`                                                         |
 | `deployment-automation-skill-amazon-ecr`       | Amazon ECR       | `deployment-traceability-chain`, `image-digest-deployments`                                                         |
 | `deployment-automation-skill-kubernetes`       | Kubernetes       | `environment-neutral-deployment-mechanism`, `automated-sealed-secret-delivery`, `deterministic-kubernetes-overlays` |
-| `deployment-automation-skill-github-actions`   | GitHub Actions   | `merge-triggered-deployment-path`, `github-actions-gitops-handoff`                                                  |
 | `deployment-automation-skill-openid-connect`   | OpenID Connect   | `merge-triggered-deployment-path`                                                                                   |
 | `deployment-automation-skill-nx`               | Nx               | `generator-based-service-onboarding`, `merge-triggered-deployment-path`                                             |
 | `deployment-automation-skill-github-api`       | GitHub API       | `merge-triggered-deployment-path`                                                                                   |
 | `deployment-automation-skill-kustomize`        | Kustomize        | `environment-neutral-deployment-mechanism`, `deterministic-kubernetes-overlays`                                     |
-| `deployment-automation-skill-argo-cd`          | Argo CD          | `github-actions-gitops-handoff`, `automated-sealed-secret-delivery`                                                 |
-| `deployment-automation-skill-gitops`           | GitOps           | `github-actions-gitops-handoff`, `environment-neutral-deployment-mechanism`                                         |
 | `deployment-automation-skill-sealed-secrets`   | Sealed Secrets   | `automated-sealed-secret-delivery`                                                                                  |
 
 The implementation derives each skill's earliest date from these exact support
