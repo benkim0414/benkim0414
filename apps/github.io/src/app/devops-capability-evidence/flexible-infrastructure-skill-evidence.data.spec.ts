@@ -1,19 +1,19 @@
 import { flexibleInfrastructureEvidenceItems } from './flexible-infrastructure-evidence.data';
 import { flexibleInfrastructureSkillEvidenceItems } from './flexible-infrastructure-skill-evidence.data';
 
-const expectedTitles = [
-  'Terraform',
-  'AWS',
-  'Kubernetes',
-  'kubectl',
-  'Helm',
-  'Docker',
-  'Amazon ECR',
-  'AWS IAM',
-  'IRSA',
-  'Kustomize',
-  'Argo CD',
-  'GitOps',
+const expectedSkills = [
+  ['flexible-infrastructure-skill-terraform', 'Terraform'],
+  ['flexible-infrastructure-skill-aws', 'AWS'],
+  ['flexible-infrastructure-skill-kubernetes', 'Kubernetes'],
+  ['flexible-infrastructure-skill-kubectl', 'kubectl'],
+  ['flexible-infrastructure-skill-helm', 'Helm'],
+  ['flexible-infrastructure-skill-docker', 'Docker'],
+  ['flexible-infrastructure-skill-amazon-ecr', 'Amazon ECR'],
+  ['flexible-infrastructure-skill-aws-iam', 'AWS IAM'],
+  ['flexible-infrastructure-skill-irsa', 'IRSA'],
+  ['flexible-infrastructure-skill-kustomize', 'Kustomize'],
+  ['flexible-infrastructure-skill-argo-cd', 'Argo CD'],
+  ['flexible-infrastructure-skill-gitops', 'GitOps'],
 ] as const;
 
 const expectedSupport = {
@@ -57,10 +57,13 @@ const expectedSupport = {
 } as const;
 
 describe('flexibleInfrastructureSkillEvidenceItems', () => {
-  it('stores the approved skills in display order', () => {
+  it('stores the approved skill IDs and titles in display order', () => {
     expect(
-      flexibleInfrastructureSkillEvidenceItems.map(({ title }) => title),
-    ).toEqual(expectedTitles);
+      flexibleInfrastructureSkillEvidenceItems.map(({ id, title }) => [
+        id,
+        title,
+      ]),
+    ).toEqual(expectedSkills);
   });
 
   it('links every skill to its approved flexible infrastructure experience', () => {
@@ -93,6 +96,15 @@ describe('flexibleInfrastructureSkillEvidenceItems', () => {
       expect(skill.technologies).toEqual([skill.title]);
       expect(skill.isPublic).toBe(true);
       expect(skill.strength).toBe('supporting');
+      expect(skill.date).toBeUndefined();
+      expect(skill.endDate).toBeUndefined();
+      expect(skill.details).toBeUndefined();
+      expect(skill.citationIcon).toBeUndefined();
+      expect(skill.issuer).toBeUndefined();
+      expect(skill.organization).toBeUndefined();
+      expect(skill.learningKind).toBeUndefined();
+      expect(skill.proofUrl).toBeUndefined();
+      expect(skill.isSensitive).toBeUndefined();
     }
   });
 
