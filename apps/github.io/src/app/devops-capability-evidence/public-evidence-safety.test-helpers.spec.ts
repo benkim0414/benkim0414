@@ -42,6 +42,11 @@ describe('public evidence safety test helper', () => {
     ['parameter path', 'Parameter path: /platform/production/token'],
     ['unlabelled parameter path', '/platform/production/token'],
     ['unlabelled filesystem path', '/opt/company/deploy'],
+    ['drive-letter Windows path', 'C:\\company\\deploy'],
+    ['UNC path', '\\\\server\\share\\deploy'],
+    ['single-component POSIX path', '/secret'],
+    ['parenthesized POSIX path', 'See (/opt/company/deploy)'],
+    ['equals-delimited POSIX path', 'path=/opt/company/deploy'],
     ['employer language', 'Employer deployment platform'],
     ['customer language', 'Customer delivery workflow'],
     ['client language', 'Client infrastructure'],
@@ -80,5 +85,14 @@ describe('public evidence safety test helper', () => {
       'Automated deployments completed without manual intervention.',
       'All inspected overlays rendered with zero build failures.',
     ]);
+  });
+
+  it('rejects stale reviewed text that is absent from the publication', () => {
+    expect(() =>
+      expectPublicSafeText(
+        ['Approved public catalog text.'],
+        ['Approved public catalog text.', 'Stale approved catalog text.'],
+      ),
+    ).toThrow();
   });
 });

@@ -7,10 +7,16 @@ const prohibitedPublicEvidencePatterns = [
     'private source or repository name',
     /private[- ]?(?:source|repository)|(?:source|repository) name/i,
   ],
+  ['filesystem or parameter path label', /filesystem path|parameter[- ]?path/i],
   [
-    'filesystem or parameter path',
-    /filesystem path|parameter[- ]?path|(?:^|[\s"'])\/(?:[a-z0-9._~-]+\/)+[a-z0-9._~-]+|(?:^|[\s"'])[a-z]:\\(?:[^\\\s"']+\\)+[^\\\s"']+/i,
+    'absolute POSIX path',
+    /(?:^|[^a-z0-9])\/(?!\/)[a-z0-9._~-]+(?:\/[a-z0-9._~-]+)*/i,
   ],
+  [
+    'drive-letter Windows path',
+    /(?:^|[^a-z0-9])[a-z]:\\[^\\\s"']+(?:\\[^\\\s"']+)*/i,
+  ],
+  ['UNC path', /(?:^|[^a-z0-9])\\\\[^\\\s"']+\\[^\\\s"']+/i],
   [
     'employer, customer, client, organization, or business-domain language',
     /employer|customer|client|organization|business[- ]domain/i,
@@ -33,17 +39,22 @@ export const expectPublicSafeText = (
   text: readonly string[],
   approvedText?: readonly string[],
 ): void => {
-  const publicText = JSON.stringify(text);
-
-  for (const [category, pattern] of prohibitedPublicEvidencePatterns) {
-    expect(publicText, category).not.toMatch(pattern);
+  for (const value of text) {
+    for (const [category, pattern] of prohibitedPublicEvidencePatterns) {
+      expect(value, `${category}: ${value}`).not.toMatch(pattern);
+    }
   }
 
   if (approvedText) {
+    const actual = new Set(text);
     const approved = new Set(approvedText);
-    const unreviewed = text.filter((value) => !approved.has(value));
+    const unreviewed = [...actual].filter((value) => !approved.has(value));
+    const stale = [...approved].filter((value) => !actual.has(value));
 
-    expect(unreviewed, 'unreviewed public catalog text').toEqual([]);
+    expect(
+      { unreviewed, stale },
+      'reviewed public catalog text must exactly match publication text',
+    ).toEqual({ unreviewed: [], stale: [] });
   }
 };
 
