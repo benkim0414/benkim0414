@@ -94,6 +94,44 @@ const deploymentAutomationById = new Map(
   deploymentAutomationEvidenceItems.map((item) => [item.id, item]),
 );
 
+const expectPublicStructuredPervasiveSecurityEvidence = (
+  items: typeof pervasiveSecurityEvidenceItems,
+): void => {
+  for (const item of items) {
+    expect(item.type).toBe('experience');
+    expect(item.capabilityKeys).toContain('pervasive-security');
+    expect(item.isPublic).toBe(true);
+    expect(item.isSensitive).not.toBe(true);
+    expect(item.organization).toBeUndefined();
+    expect(item.proofUrl).toBeUndefined();
+    expect(item.details).toBeDefined();
+    expect(item.details?.period.startedAt).toSatisfy(isIsoCalendarDate);
+    if (item.details?.period.endedAt !== undefined) {
+      expect(item.details.period.endedAt).toSatisfy(isIsoCalendarDate);
+    }
+    expect(item.details?.facts.length).toBeGreaterThan(0);
+    expect(item.technologies?.length).toBeGreaterThan(0);
+    expect(item.details?.metrics).toBeDefined();
+
+    for (const metric of item.details?.metrics ?? []) {
+      expect(metric.label.trim().length).toBeGreaterThan(0);
+      expect(Number.isFinite(metric.value)).toBe(true);
+      expect(metric.value).toBeGreaterThanOrEqual(0);
+      expect(metric.measuredAt).toSatisfy(isIsoCalendarDate);
+
+      if (metric.unit === 'percent') {
+        expect(metric.value).toBeLessThanOrEqual(100);
+      }
+
+      if (metric.denominator !== undefined) {
+        expect(Number.isFinite(metric.denominator)).toBe(true);
+        expect(metric.denominator).toBeGreaterThan(0);
+        expect(metric.value).toBeLessThanOrEqual(metric.denominator);
+      }
+    }
+  }
+};
+
 describe('pervasiveSecurityEvidenceItems', () => {
   it('rejects impossible calendar dates in the catalog contract', () => {
     expect(isIsoCalendarDate('2024-02-29')).toBe(true);
@@ -123,39 +161,28 @@ describe('pervasiveSecurityEvidenceItems', () => {
   });
 
   it('keeps every record public, structured, and compatible with Pervasive Security', () => {
-    for (const item of pervasiveSecurityEvidenceItems) {
-      expect(item.type).toBe('experience');
-      expect(item.capabilityKeys).toContain('pervasive-security');
-      expect(item.isPublic).toBe(true);
-      expect(item.isSensitive).not.toBe(true);
-      expect(item.organization).toBeUndefined();
-      expect(item.proofUrl).toBeUndefined();
-      expect(item.details).toBeDefined();
-      expect(item.details?.period.startedAt).toSatisfy(isIsoCalendarDate);
-      if (item.details?.period.endedAt !== undefined) {
-        expect(item.details.period.endedAt).toSatisfy(isIsoCalendarDate);
-      }
-      expect(item.details?.facts.length).toBeGreaterThan(0);
-      expect(item.technologies?.length).toBeGreaterThan(0);
-      expect(item.details?.metrics).toBeDefined();
+    expectPublicStructuredPervasiveSecurityEvidence(
+      pervasiveSecurityEvidenceItems,
+    );
+  });
 
-      for (const metric of item.details?.metrics ?? []) {
-        expect(metric.label.trim().length).toBeGreaterThan(0);
-        expect(Number.isFinite(metric.value)).toBe(true);
-        expect(metric.value).toBeGreaterThanOrEqual(0);
-        expect(metric.measuredAt).toSatisfy(isIsoCalendarDate);
-
-        if (metric.unit === 'percent') {
-          expect(metric.value).toBeLessThanOrEqual(100);
-        }
-
-        if (metric.denominator !== undefined) {
-          expect(Number.isFinite(metric.denominator)).toBe(true);
-          expect(metric.denominator).toBeGreaterThan(0);
-          expect(metric.value).toBeLessThanOrEqual(metric.denominator);
-        }
-      }
+  it('rejects an empty endedAt value in a synthetic catalog record', () => {
+    const source = byId.get('iam-mfa-coverage');
+    if (!source?.details) {
+      throw new Error('Expected MFA coverage evidence details');
     }
+
+    const emptyEndedAtRecord = {
+      ...source,
+      details: {
+        ...source.details,
+        period: { ...source.details.period, endedAt: '' },
+      },
+    };
+
+    expect(() =>
+      expectPublicStructuredPervasiveSecurityEvidence([emptyEndedAtRecord]),
+    ).toThrow();
   });
 
   it('keeps the three owned experiences at their reviewed public values', () => {
