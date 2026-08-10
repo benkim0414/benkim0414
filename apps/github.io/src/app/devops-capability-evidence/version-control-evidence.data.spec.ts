@@ -13,6 +13,8 @@ const expectedIds = [
 ] as const;
 
 const isoDate = /^\d{4}-\d{2}-\d{2}$/;
+const prohibitedPublicText =
+  /without implying public distribution|fully automated production|rollback.*absent/i;
 const byId = new Map(
   versionControlEvidenceItems.map((item) => [item.id, item]),
 );
@@ -96,6 +98,14 @@ describe('versionControlEvidenceItems', () => {
     ]);
   });
 
+  it('keeps the reusable build image evidence affirmatively stated', () => {
+    expect(
+      byId.get('reusable-helm-deployment-image')?.details?.facts,
+    ).toEqual([
+      'Maintained one reusable CI build image consumed by many build projects.',
+    ]);
+  });
+
   it('keeps public evidence free of private identifiers and negative claims', () => {
     const publicText = JSON.stringify(versionControlEvidenceItems);
 
@@ -103,8 +113,9 @@ describe('versionControlEvidenceItems', () => {
     expect(publicText).not.toMatch(/\b\d{12}\b/);
     expect(publicText).not.toMatch(/employer|customer|client|organization/i);
     expect(publicText).not.toMatch(/private source|private repository/i);
-    expect(publicText).not.toMatch(
-      /fully automated production|rollback.*absent/i,
+    expect(publicText).not.toMatch(prohibitedPublicText);
+    expect('Automated deployments completed without manual intervention.').not.toMatch(
+      prohibitedPublicText,
     );
   });
 });
