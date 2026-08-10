@@ -18,7 +18,7 @@
 - Reuse the exact canonical object for shared evidence; a distinct object with the same ID remains an error.
 - Every skill resolves to at least one public non-skill record carrying the same capability.
 - Do not use `slice()`, runtime ranking, strength sorting, date sorting, or incidental catalog order for compact projections.
-- Do not change the generic card layout, radar layout, AWS logo, or AWS IAM logo unless a focused regression proves a generic defect.
+- Do not change the generic card or radar layouts. Limit skill-brand updates to the approved truthful mappings and cover them with focused regression tests.
 - Do not add the private source's Platform Engineering package or a new public capability key.
 - Stage explicit paths only and create one conventional commit per task.
 
@@ -303,6 +303,8 @@ const expectedSkillSet = [
 Assert set equality against `expectedSkillSet`. Separately resolve the earliest
 support date for every skill and assert nondecreasing order; records sharing an
 earliest date follow the workflow order represented in `expectedSkillSet`.
+The derived date is test-only ordering metadata and is not serialized as a
+`date` field on the compact skill records.
 Assert focused support IDs, public skill shape, same-capability support, and
 `expectPublicSafeEvidence` set equality. The production array's resulting order
 becomes the literal order copied into the score in Task 10.
@@ -456,8 +458,9 @@ Create:
 | `kubernetes-rbac-governance` | Declarative Kubernetes RBAC governance       | Kubernetes RBAC     | Kubernetes, Kubernetes RBAC          | Version-controlled role and binding definitions govern verified cluster access paths. |
 
 Give `iam-security-alerting` both `pervasive-security` and
-`monitoring-observability` capability keys. Use only aggregate MFA metrics; do
-not publish identity names, destinations, regions, resource names, or exposure
+`monitoring-observability` capability keys. Publish MFA coverage as `100`
+percent with the verified console-capable population denominator `30`; do not
+publish identity names, destinations, regions, resource names, or exposure
 findings.
 
 - [ ] **Step 4: Run the focused test to verify GREEN**
@@ -594,15 +597,15 @@ Expected: FAIL because the module does not exist.
 
 Use these public concepts:
 
-| ID                                             | Title                                                   | Label                     | Technologies                                                    | Positive proof                                                                                      |
-| ---------------------------------------------- | ------------------------------------------------------- | ------------------------- | --------------------------------------------------------------- | --------------------------------------------------------------------------------------------------- |
-| `version-controlled-observability-stack`       | Version-controlled cloud native observability stack     | Observability stack       | Prometheus, Alertmanager, Loki, Grafana, Grafana Alloy, Argo CD | Monitoring components are delivered declaratively from version control.                             |
-| `observability-dashboards-and-scrape-coverage` | Maintained dashboards and scrape coverage               | Dashboards and targets    | Grafana, Prometheus                                             | Public-safe aggregate dashboard and active-target measurements show maintained collection coverage. |
-| `prometheus-alert-and-recording-rules`         | Version-controlled Prometheus alert and recording rules | Alert and recording rules | Prometheus                                                      | Alert and recording rules are managed declaratively.                                                |
-| `alertmanager-notification-routing`            | Managed Alertmanager notification routing               | Notification routing      | Alertmanager                                                    | Alert routing is configured and delivered as part of the monitoring stack.                          |
-| `alert-suppression-controls`                   | Tested alert suppression controls                       | Alert suppression         | Alertmanager, promtool                                          | Route and inhibition behavior is tested before delivery.                                            |
-| `encrypted-alert-destinations`                 | Encrypted alert destination delivery                    | Encrypted destinations    | Sealed Secrets, Argo CD, Kubernetes                             | Alert destination material is delivered as encrypted declarative configuration.                     |
-| `tested-kubernetes-workload-alerts`            | Tested Kubernetes workload failure alerts               | Workload alerts           | Prometheus, promtool, Kubernetes                                | Workload failure alerts include declarative test cases and documented operating limits.             |
+| ID                                             | Title                                                   | Label                     | Technologies                                            | Positive proof                                                                                      |
+| ---------------------------------------------- | ------------------------------------------------------- | ------------------------- | ------------------------------------------------------- | --------------------------------------------------------------------------------------------------- |
+| `version-controlled-observability-stack`       | Version-controlled cloud native observability stack     | Observability stack       | Prometheus, Alertmanager, Loki, Grafana, Alloy, Argo CD | Monitoring components are delivered declaratively from version control.                             |
+| `observability-dashboards-and-scrape-coverage` | Maintained dashboards and scrape coverage               | Dashboards and targets    | Grafana, Prometheus                                     | Public-safe aggregate dashboard and active-target measurements show maintained collection coverage. |
+| `prometheus-alert-and-recording-rules`         | Version-controlled Prometheus alert and recording rules | Alert and recording rules | Prometheus                                              | Alert and recording rules are managed declaratively.                                                |
+| `alertmanager-notification-routing`            | Managed Alertmanager notification routing               | Notification routing      | Alertmanager                                            | Alert routing is configured and delivered as part of the monitoring stack.                          |
+| `alert-suppression-controls`                   | Tested alert suppression controls                       | Alert suppression         | Alertmanager, promtool                                  | Route and inhibition behavior is tested before delivery.                                            |
+| `encrypted-alert-destinations`                 | Encrypted alert destination delivery                    | Encrypted destinations    | Sealed Secrets, Argo CD, Kubernetes                     | Alert destination material is delivered as encrypted declarative configuration.                     |
+| `tested-kubernetes-workload-alerts`            | Tested Kubernetes workload failure alerts               | Workload alerts           | Prometheus, promtool, Kubernetes                        | Workload failure alerts include declarative test cases and documented operating limits.             |
 
 Use public-safe aggregate metrics only. Do not publish receiver names,
 destinations, cluster labels, resource names, blind-spot details, or durations
@@ -637,7 +640,7 @@ git commit -m "feat(github.io): add observability evidence"
 
 - [ ] **Step 1: Write the failing skill and support contract**
 
-Lock IDs for Prometheus, promtool, Alertmanager, Loki, Grafana, Grafana Alloy,
+Lock IDs for Prometheus, promtool, Alertmanager, Loki, Grafana, Alloy,
 Kubernetes, Helm, Argo CD, Kustomize, Sealed Secrets, AWS EventBridge, and AWS
 Lambda as a set. Assert chronological display order, deterministic ties in that
 listed workflow order, support resolution, public shape, and exact text. Freeze
@@ -717,14 +720,14 @@ Expected: FAIL because the module does not exist.
 
 Use these public concepts:
 
-| ID                                    | Title                                             | Label                  | Technologies   | Positive proof                                                                                                 |
-| ------------------------------------- | ------------------------------------------------- | ---------------------- | -------------- | -------------------------------------------------------------------------------------------------------------- |
-| `structured-documentation-corpus`     | Structured engineering documentation corpus       | Documentation corpus   | Markdown       | A substantial maintained body of engineering and operational prose is managed with the system.                 |
-| `indexed-solution-documentation`      | Indexed solution documentation                    | Indexed solutions      | Markdown       | Every verified solution document is reachable from a maintained index.                                         |
-| `documentation-frontmatter-contracts` | Structured documentation metadata                 | Documentation metadata | Markdown, YAML | Verified solution documents carry consistent retrieval metadata.                                               |
-| `current-documentation-maintenance`   | Actively maintained documentation                 | Documentation currency | Markdown, Git  | A high proportion of the verified corpus was updated within the measured window.                               |
-| `documentation-change-integration`    | Documentation integrated with engineering changes | Docs with changes      | Markdown, Git  | Documentation accompanies a meaningful share of engineering changes and is also committed as first-class work. |
-| `cross-verified-documentation-claims` | Cross-verified operational documentation          | Verified claims        | Markdown       | Operational claims were independently checked by the related capability evidence work.                         |
+| ID                                    | Title                                             | Label                  | Technologies   | Positive proof                                                                                                  |
+| ------------------------------------- | ------------------------------------------------- | ---------------------- | -------------- | --------------------------------------------------------------------------------------------------------------- |
+| `structured-documentation-corpus`     | Structured engineering documentation corpus       | Documentation corpus   | Markdown       | A substantial maintained body of engineering and operational prose is managed with the system.                  |
+| `indexed-solution-documentation`      | Indexed solution documentation                    | Indexed solutions      | Markdown       | Every verified solution document is reachable from a maintained index; publish 100 percent with denominator 49. |
+| `documentation-frontmatter-contracts` | Structured documentation metadata                 | Documentation metadata | Markdown, YAML | Verified solution documents carry consistent retrieval metadata; publish 100 percent with denominator 49.       |
+| `current-documentation-maintenance`   | Actively maintained documentation                 | Documentation currency | Markdown, Git  | A high proportion of the verified corpus was updated within the measured window.                                |
+| `documentation-change-integration`    | Documentation integrated with engineering changes | Docs with changes      | Markdown, Git  | Documentation accompanies a meaningful share of engineering changes and is also committed as first-class work.  |
+| `cross-verified-documentation-claims` | Cross-verified operational documentation          | Verified claims        | Markdown       | Operational claims were independently checked by the related capability evidence work.                          |
 
 Use only affirmative aggregate metrics. Do not claim automated documentation
 validation, link checking, required documentation review, or a perception-survey
@@ -976,13 +979,15 @@ export const PervasiveSecurity: Story = {
 
 Keep Monitoring and Documentation using the same production-data meta defaults.
 
-- [ ] **Step 4: Add only truthful existing brand mappings**
+- [ ] **Step 4: Add only truthful brand mappings**
 
-Reuse available Simple Icons for Git, GitHub Actions, Docker, Grafana,
-Prometheus, PostgreSQL, TypeScript, and YAML when already exported by the pinned
-`simple-icons` package. Use color-only fallback for names without a truthful
-icon. Leave AWS and AWS IAM unchanged; do not fabricate IRSA, promtool,
-Kubernetes RBAC, Alertmanager, Loki, Alloy, or Sealed Secrets icons.
+Reuse available Simple Icons for exact product brands, including Markdown,
+Jest, Loki, Alloy, Git, GitHub Actions, Docker, Grafana, Prometheus, PostgreSQL,
+TypeScript, and YAML. Reuse the Prometheus mark for Alertmanager and `promtool`,
+and the Kubernetes mark for Kubernetes RBAC. Use pinned official project assets
+for Testcontainers, AWS, AWS IAM, AWS Lambda, and AWS EventBridge. Keep IRSA and
+other names without a truthful distinct mark on the color-only text fallback;
+do not fabricate icons.
 
 - [ ] **Step 5: Run focused presentation tests to verify GREEN**
 

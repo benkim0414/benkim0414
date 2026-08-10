@@ -90,7 +90,17 @@ cards:
 - The private source's Platform Engineering package or any new public DORA
   capability key.
 - Refactoring unrelated capability catalogs.
-- Changing existing AWS or AWS IAM logo behavior.
+- Fabricating a logo without a truthful official or project-owned source.
+
+### Branding Contract
+
+Use available Simple Icons for exact product brands, including Markdown, Jest,
+Loki, Alloy, Git, GitHub Actions, Docker, Grafana, Prometheus, PostgreSQL,
+TypeScript, and YAML. Reuse the Prometheus mark for Alertmanager and `promtool`,
+and the Kubernetes mark for Kubernetes RBAC. Use pinned official project assets
+for Testcontainers, AWS, AWS IAM, AWS Lambda, and AWS EventBridge. IRSA and any
+other name without a truthful distinct mark remain on the color-only text
+fallback.
 
 ## Architecture
 
@@ -139,8 +149,9 @@ The labels describe the practice, not the private repository or organization.
 
 Dates represent the earliest verified supporting change or the beginning of a
 verified period. Snapshot metrics use their collection date as `measuredAt`.
-Skill dates derive from the earliest record in `supportingEvidenceIds`; they are
-not manually invented.
+Skill chronology derives from the earliest record in `supportingEvidenceIds`.
+That derived date determines ordering only; compact skill records do not publish
+a `date` field, and records sharing a date retain the approved workflow order.
 
 ## Canonical Reuse Contract
 
@@ -229,7 +240,7 @@ capability-specific stable ID and focused support IDs.
 The complete Monitoring and Observability experience catalog covers:
 
 1. `version-controlled-observability-stack` — declarative Prometheus,
-   Alertmanager, Loki, Grafana Alloy, and dashboard delivery.
+   Alertmanager, Loki, Alloy, and dashboard delivery.
 2. `observability-dashboards-and-scrape-coverage` — public-safe evidence of
    actively maintained dashboards and scrape coverage.
 3. `prometheus-alert-and-recording-rules` — version-controlled alerting and
@@ -280,7 +291,7 @@ The approved skill domains are:
 3. Alertmanager
 4. Loki
 5. Grafana
-6. Grafana Alloy
+6. Alloy
 7. Kubernetes
 8. Helm
 9. Argo CD
@@ -350,9 +361,9 @@ The approved skill domains are:
 11. Docker
 12. Amazon ECR
 
-Skills must link to the smallest meaningful supporting set. Existing AWS and AWS
-IAM brand treatment remains unchanged. Do not fabricate icons for IRSA,
-Kubernetes RBAC, or security practices.
+Skills must link to the smallest meaningful supporting set. AWS and AWS IAM use
+their pinned official assets, while IRSA remains text-only. Reuse the Kubernetes
+logo for Kubernetes RBAC instead of fabricating a distinct mark.
 
 ## Documentation Quality Catalog
 
@@ -512,8 +523,9 @@ For each skill module, assert:
 - public, non-sensitive skill type;
 - non-empty, unique support IDs;
 - every support resolves to a non-skill record for the same capability;
-- date equals the earliest support date;
-- nondecreasing chronological order with deterministic ties; and
+- no published `date` field;
+- an earliest support date derived in the test solely to assert nondecreasing
+  chronological order with deterministic ties; and
 - no unsupported skill inferred from a technology mention.
 
 ### Aggregate And Score Tests
