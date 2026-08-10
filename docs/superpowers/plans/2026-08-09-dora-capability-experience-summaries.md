@@ -427,8 +427,8 @@ pnpm nx storybook github.io -- --host 0.0.0.0 --port 6009 --no-open
 Verify both story endpoints return HTTP 200:
 
 ```text
-http://100.113.57.51:6009/iframe.html?id=github-io-devops-capability-evidence-dora-capability-card--continuous-integration&viewMode=story
-http://100.113.57.51:6009/iframe.html?id=github-io-devops-capability-evidence-dora-capability-card--continuous-delivery&viewMode=story
+http://TAILSCALE_IP:6009/iframe.html?id=github-io-devops-capability-evidence-dora-capability-card--continuous-integration&viewMode=story
+http://TAILSCALE_IP:6009/iframe.html?id=github-io-devops-capability-evidence-dora-capability-card--continuous-delivery&viewMode=story
 ```
 
 - [ ] **Step 5: Perform phone and iPad visual QA**
