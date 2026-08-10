@@ -8,6 +8,10 @@ import {
 import { continuousDeliveryEvidenceItems } from './continuous-delivery-evidence.data';
 import { continuousDeliverySkillEvidenceItems } from './continuous-delivery-skill-evidence.data';
 import { continuousIntegrationSkillEvidenceItems } from './continuous-integration-skill-evidence.data';
+import { deploymentAutomationEvidenceItems } from './deployment-automation-evidence.data';
+import { deploymentAutomationSkillEvidenceItems } from './deployment-automation-skill-evidence.data';
+import { flexibleInfrastructureEvidenceItems } from './flexible-infrastructure-evidence.data';
+import { flexibleInfrastructureSkillEvidenceItems } from './flexible-infrastructure-skill-evidence.data';
 import { trunkBasedDevelopmentEvidenceItems } from './trunk-based-development-evidence.data';
 import { versionControlEvidenceItems } from './version-control-evidence.data';
 import {
@@ -20,6 +24,63 @@ import {
   getCapabilityScoreSummary,
   getEvidenceTypeSummary,
 } from './devops-capability-evidence.summary';
+
+const deploymentAutomationExperienceIds = [
+  'merge-triggered-deployment-path',
+  'environment-neutral-deployment-mechanism',
+  'generator-based-service-onboarding',
+  'automated-sealed-secret-delivery',
+  'deterministic-kubernetes-overlays',
+] as const;
+
+const deploymentAutomationScoreEvidenceIds = [
+  'merge-triggered-deployment-path',
+  'environment-neutral-deployment-mechanism',
+  'generator-based-service-onboarding',
+  'automated-sealed-secret-delivery',
+  'deterministic-kubernetes-overlays',
+  'deployment-automation-skill-aws-codepipeline',
+  'deployment-automation-skill-terraform',
+  'deployment-automation-skill-github-actions',
+  'deployment-automation-skill-argo-cd',
+  'deployment-automation-skill-gitops',
+  'deployment-automation-skill-docker',
+  'deployment-automation-skill-amazon-ecr',
+  'deployment-automation-skill-kubernetes',
+  'deployment-automation-skill-openid-connect',
+  'deployment-automation-skill-nx',
+  'deployment-automation-skill-github-api',
+  'deployment-automation-skill-kustomize',
+  'deployment-automation-skill-sealed-secrets',
+] as const;
+
+const flexibleInfrastructureExperienceIds = [
+  'terraform-managed-cloud-foundations',
+  'irsa-service-accounts',
+  'terraform-scoped-iam',
+  'terraform-codepipeline-platform',
+  'argocd-environment-state-from-version-control',
+] as const;
+
+const flexibleInfrastructureScoreEvidenceIds = [
+  'terraform-managed-cloud-foundations',
+  'irsa-service-accounts',
+  'terraform-scoped-iam',
+  'terraform-codepipeline-platform',
+  'argocd-environment-state-from-version-control',
+  'flexible-infrastructure-skill-terraform',
+  'flexible-infrastructure-skill-aws',
+  'flexible-infrastructure-skill-kubernetes',
+  'flexible-infrastructure-skill-kubectl',
+  'flexible-infrastructure-skill-helm',
+  'flexible-infrastructure-skill-docker',
+  'flexible-infrastructure-skill-amazon-ecr',
+  'flexible-infrastructure-skill-aws-iam',
+  'flexible-infrastructure-skill-irsa',
+  'flexible-infrastructure-skill-kustomize',
+  'flexible-infrastructure-skill-argo-cd',
+  'flexible-infrastructure-skill-gitops',
+] as const;
 
 describe('devOpsCapabilityEvidence data', () => {
   it('defines the first DORA capability dimensions in order', () => {
@@ -148,6 +209,28 @@ describe('devOpsCapabilityEvidence data', () => {
     );
   });
 
+  it('composes all capability-owned deployment and infrastructure catalogs', () => {
+    const globalEvidenceIds = devOpsCapabilityEvidenceItems.map((item) => item.id);
+
+    expect(
+      deploymentAutomationEvidenceItems.slice(0, 5).map((item) => item.id),
+    ).toEqual(deploymentAutomationExperienceIds);
+    expect(
+      flexibleInfrastructureEvidenceItems.slice(0, 5).map((item) => item.id),
+    ).toEqual(flexibleInfrastructureExperienceIds);
+
+    for (const capabilityCatalog of [
+      deploymentAutomationEvidenceItems,
+      deploymentAutomationSkillEvidenceItems,
+      flexibleInfrastructureEvidenceItems,
+      flexibleInfrastructureSkillEvidenceItems,
+    ]) {
+      expect(globalEvidenceIds).toEqual(
+        expect.arrayContaining(capabilityCatalog.map((item) => item.id)),
+      );
+    }
+  });
+
   it('stores recovered carved evidence on the curated capability scores', () => {
     expect(
       curatedDevOpsCapabilityRadarScores.map((score) => ({
@@ -248,28 +331,15 @@ describe('devOpsCapabilityEvidence data', () => {
       },
       {
         capabilityKey: 'deployment-automation',
-        evidenceIds: ['image-digest-deployments'],
-        strongestEvidenceId: 'image-digest-deployments',
-        evidenceCounts: { experience: 1 },
+        evidenceIds: deploymentAutomationScoreEvidenceIds,
+        strongestEvidenceId: 'merge-triggered-deployment-path',
+        evidenceCounts: { experience: 5, skill: 13 },
       },
       {
         capabilityKey: 'flexible-infrastructure',
-        evidenceIds: [
-          'kubernetes-workloads',
-          'kubectl-troubleshooting',
-          'cluster-operations',
-          'cncf-kubernetes-certification',
-          'kubernetes-skill',
-          'irsa-service-accounts',
-          'terraform-scoped-iam',
-        ],
-        strongestEvidenceId: 'cncf-kubernetes-certification',
-        evidenceCounts: {
-          certification: 1,
-          experience: 2,
-          learning: 3,
-          skill: 1,
-        },
+        evidenceIds: flexibleInfrastructureScoreEvidenceIds,
+        strongestEvidenceId: 'terraform-managed-cloud-foundations',
+        evidenceCounts: { experience: 5, skill: 12 },
       },
       {
         capabilityKey: 'monitoring-observability',
@@ -336,13 +406,13 @@ describe('devOpsCapabilityEvidence data', () => {
       },
       {
         id: 'irsa-service-accounts',
-        label: 'IRSA',
-        capabilityKeys: ['pervasive-security', 'flexible-infrastructure'],
+        label: 'Shared IRSA modules',
+        capabilityKeys: ['flexible-infrastructure', 'pervasive-security'],
       },
       {
         id: 'terraform-scoped-iam',
-        label: 'Terraform IAM',
-        capabilityKeys: ['pervasive-security', 'flexible-infrastructure'],
+        label: 'Terraform scoped IAM',
+        capabilityKeys: ['flexible-infrastructure', 'pervasive-security'],
       },
     ]);
   });
@@ -550,7 +620,12 @@ describe('devOpsCapabilityEvidence data', () => {
         id: 'synthetic-unselected-versioning-record',
         title: 'Synthetic unselected record',
         type: 'experience' as const,
-        capabilityKeys: ['version-control', 'trunk-based-development'] as const,
+        capabilityKeys: [
+          'version-control',
+          'trunk-based-development',
+          'deployment-automation',
+          'flexible-infrastructure',
+        ] as const,
         summary: 'Synthetic public evidence that must not alter curated cards.',
         isPublic: true,
         strength: 'primary' as const,
@@ -601,6 +676,16 @@ describe('devOpsCapabilityEvidence data', () => {
       'trunk-based-development-skill-conventional-commits',
       'trunk-based-development-skill-husky',
     ]);
+    expect(
+      curatedDevOpsCapabilityRadarScores.find(
+        (score) => score.capabilityKey === 'deployment-automation',
+      )?.evidenceIds,
+    ).toEqual(deploymentAutomationScoreEvidenceIds);
+    expect(
+      curatedDevOpsCapabilityRadarScores.find(
+        (score) => score.capabilityKey === 'flexible-infrastructure',
+      )?.evidenceIds,
+    ).toEqual(flexibleInfrastructureScoreEvidenceIds);
   });
 
   it('uses literal score projections instead of catalog ranking or slicing', () => {
@@ -611,18 +696,18 @@ describe('devOpsCapabilityEvidence data', () => {
       : 'src/app/devops-capability-evidence/devops-capability-evidence.data.ts';
     const source = readFileSync(dataFile, 'utf8');
     const projections = [...source.matchAll(
-      /capabilityKey: '(?:version-control|trunk-based-development)',[\s\S]*?evidenceSummary:/g,
+      /capabilityKey: '(?:version-control|trunk-based-development|deployment-automation|flexible-infrastructure)',[\s\S]*?evidenceSummary:/g,
     )];
 
-    expect(projections).toHaveLength(2);
+    expect(projections).toHaveLength(4);
 
     for (const projection of projections) {
-      expect(projection[0]).not.toContain('.slice(');
+      expect(projection[0]).not.toContain('slice(');
       expect(projection[0]).not.toContain('.sort(');
       expect(projection[0]).not.toContain('.map(');
       expect(projection[0]).not.toMatch(/strength|rank/i);
       expect(projection[0]).not.toMatch(
-        /\.\.\.(?:versionControlEvidenceItems|trunkBasedDevelopmentEvidenceItems)/,
+        /\.\.\.(?:versionControlEvidenceItems|trunkBasedDevelopmentEvidenceItems|deploymentAutomationSkillEvidenceItems|flexibleInfrastructureSkillEvidenceItems)/,
       );
     }
   });
@@ -722,18 +807,44 @@ describe('devOpsCapabilityEvidence data', () => {
     );
   });
 
-  it('preserves the deployment automation score with valid evidence', () => {
-    const score = curatedDevOpsCapabilityRadarScores.find(
+  it('curates the Deployment Automation score with exact selected evidence', () => {
+    const deploymentAutomationScore = curatedDevOpsCapabilityRadarScores.find(
       (entry) => entry.capabilityKey === 'deployment-automation',
     );
 
-    expect(score).toMatchObject({
+    expect(deploymentAutomationScore).toMatchObject({
       score: 4,
       maxScore: 5,
-      evidenceIds: ['image-digest-deployments'],
-      strongestEvidenceId: 'image-digest-deployments',
-      evidenceCounts: { experience: 1 },
+      strongestEvidenceId: 'merge-triggered-deployment-path',
+      evidenceCounts: { experience: 5, skill: 13 },
+      evidenceSummary:
+        'Built merge-triggered deployment automation across environments, with generator-based onboarding, automated secret delivery, and deterministic Kubernetes rendering.',
     });
+    expect(deploymentAutomationScore?.evidenceIds).toEqual(
+      deploymentAutomationScoreEvidenceIds,
+    );
+    expect(deploymentAutomationScore?.strongestEvidenceId).toBe(
+      deploymentAutomationScore?.evidenceIds[0],
+    );
+
+    const flexibleInfrastructureScore = curatedDevOpsCapabilityRadarScores.find(
+      (entry) => entry.capabilityKey === 'flexible-infrastructure',
+    );
+
+    expect(flexibleInfrastructureScore).toMatchObject({
+      score: 4,
+      maxScore: 5,
+      strongestEvidenceId: 'terraform-managed-cloud-foundations',
+      evidenceCounts: { experience: 5, skill: 12 },
+      evidenceSummary:
+        'Built reusable Terraform and Kubernetes foundations with workload identity, scoped IAM, delivery-platform provisioning, and GitOps-managed environments.',
+    });
+    expect(flexibleInfrastructureScore?.evidenceIds).toEqual(
+      flexibleInfrastructureScoreEvidenceIds,
+    );
+    expect(flexibleInfrastructureScore?.strongestEvidenceId).toBe(
+      flexibleInfrastructureScore?.evidenceIds[0],
+    );
   });
 });
 
@@ -900,11 +1011,11 @@ describe('devOpsCapabilityEvidence scoring', () => {
 
   it('groups evidence counts by type and capability', () => {
     expect(getEvidenceTypeCounts(devOpsCapabilityEvidenceItems)).toMatchObject({
-      experience: 40,
+      experience: 48,
       learning: 3,
       certification: 1,
       project: 2,
-      skill: 47,
+      skill: 72,
     });
 
     expect(
@@ -914,7 +1025,7 @@ describe('devOpsCapabilityEvidence scoring', () => {
       ).find((row) => row.capabilityKey === 'flexible-infrastructure'),
     ).toMatchObject({
       label: 'Flexible Infrastructure',
-      counts: { certification: 1, experience: 2, learning: 3, skill: 1 },
+      counts: { certification: 1, experience: 7, learning: 3, skill: 13 },
     });
   });
 
@@ -932,7 +1043,7 @@ describe('devOpsCapabilityEvidence scoring', () => {
         getEvidenceTypeCounts(devOpsCapabilityEvidenceItems),
       ),
     ).toBe(
-      'Evidence includes 47 skills, 3 learning items, 40 experience items, 1 certification, and 2 projects.',
+      'Evidence includes 72 skills, 3 learning items, 48 experience items, 1 certification, and 2 projects.',
     );
   });
 });
