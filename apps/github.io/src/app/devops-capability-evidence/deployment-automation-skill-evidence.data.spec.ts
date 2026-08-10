@@ -78,13 +78,13 @@ describe('deploymentAutomationSkillEvidenceItems', () => {
     expect(earliestDates).toEqual([...earliestDates].sort());
   });
 
-  it('exposes public strong deployment automation skill records', () => {
+  it('exposes public supporting deployment automation skill records', () => {
     for (const skill of deploymentAutomationSkillEvidenceItems) {
       expect(skill.type).toBe('skill');
       expect(skill.capabilityKeys).toEqual(['deployment-automation']);
       expect(skill.technologies).toEqual([skill.title]);
       expect(skill.isPublic).toBe(true);
-      expect(skill.strength).toBe('strong');
+      expect(skill.strength).toBe('supporting');
     }
   });
 

@@ -467,7 +467,7 @@ const deploymentAutomationSkillDefinitions = [
 ] as const;
 ```
 
-Attach the exact `expectedSupport` lists and map definitions to public `skill` records with `capabilityKeys: ['deployment-automation']`, `technologies: [name]`, and `strength: 'strong'`.
+Attach the exact `expectedSupport` lists and map definitions to public `skill` records with `capabilityKeys: ['deployment-automation']`, `technologies: [name]`, and `strength: 'supporting'`.
 
 - [ ] **Step 4: Run the focused skill spec and verify green**
 
