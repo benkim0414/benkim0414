@@ -93,4 +93,13 @@ describe('flexibleInfrastructureEvidenceItems', () => {
     expect(byId.get('irsa-service-accounts')?.organization).toBeUndefined();
     expect(byId.get('terraform-scoped-iam')?.organization).toBeUndefined();
   });
+
+  it('keeps migrated summaries grounded in approved facts', () => {
+    expect(byId.get('irsa-service-accounts')?.summary).toBe(
+      'Nine per-service IRSA modules use the shared Terraform module.',
+    );
+    expect(byId.get('terraform-scoped-iam')?.summary).toBe(
+      'Terraform manages IRSA service accounts and scoped IAM policies.',
+    );
+  });
 });
