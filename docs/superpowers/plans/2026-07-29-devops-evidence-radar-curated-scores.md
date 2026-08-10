@@ -536,7 +536,7 @@ If Nx prompts for analytics, answer `n`. If Nx writes `"analytics": false` into 
 Expected direct story URL when using the existing Tailscale setup:
 
 ```text
-http://100.113.57.51:6007/?path=/story/github-io-devops-capability-evidence-radar--default
+http://TAILSCALE_IP:6007/?path=/story/github-io-devops-capability-evidence-radar--default
 ```
 
 - [ ] **Step 4: Search for accidental scope drift**

@@ -412,15 +412,15 @@ tailscale ip -4
 Run Storybook bound to that IP:
 
 ```bash
-pnpm nx storybook github.io -- --host 100.113.57.51 --port 6006
+pnpm nx storybook github.io -- --host TAILSCALE_IP --port 6006
 ```
 
-Replace `100.113.57.51` with the current `tailscale ip -4` output if it has changed.
+Replace `TAILSCALE_IP` with the current `tailscale ip -4` output if it has changed.
 
 Expected: Storybook reports a network URL. Use that URL from iPad, for example:
 
 ```text
-http://100.113.57.51:6006/
+http://TAILSCALE_IP:6006/
 ```
 
 Inspect:
