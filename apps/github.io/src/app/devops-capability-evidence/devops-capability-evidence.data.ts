@@ -275,146 +275,166 @@ export const evidenceTypeLabels = {
   project: 'Projects',
 } as const satisfies Record<EvidenceType, string>;
 
-const devOpsCapabilityEvidenceItemCatalog = [
-  ...continuousIntegrationEvidenceItems,
-  ...continuousIntegrationSkillEvidenceItems,
-  ...continuousDeliveryEvidenceItems,
-  ...continuousDeliverySkillEvidenceItems,
-  ...versionControlEvidenceItems,
-  ...versionControlSkillEvidenceItems,
-  ...trunkBasedDevelopmentEvidenceItems,
-  ...trunkBasedDevelopmentSkillEvidenceItems,
-  {
-    id: 'jest-testcontainers-postgres',
-    title: 'Jest and Testcontainers PostgreSQL coverage',
-    label: 'Postgres tests',
-    type: 'experience',
-    organization: 'Current company',
-    capabilityKeys: ['test-automation'],
-    summary:
-      'Ran microservice unit and integration tests with Jest and Testcontainers-provisioned PostgreSQL for database-backed regression coverage.',
-    technologies: ['Jest', 'Testcontainers', 'PostgreSQL'],
-    isPublic: true,
-    strength: 'primary',
-  },
-  {
-    id: 'regression-gates',
-    title: 'Automated regression gates before merge',
-    label: 'Regression gates',
-    type: 'experience',
-    organization: 'Current company',
-    capabilityKeys: ['test-automation', 'continuous-integration'],
-    summary:
-      'Kept merge decisions gated on automated regression checks so changes that fail required tests are not merged.',
-    technologies: ['CI', 'Jest'],
-    isPublic: true,
-    strength: 'primary',
-  },
-  ...deploymentAutomationEvidenceItems,
-  ...deploymentAutomationSkillEvidenceItems,
-  ...flexibleInfrastructureEvidenceItems,
-  ...flexibleInfrastructureSkillEvidenceItems,
-  {
-    id: 'kubernetes-workloads',
-    title: 'Kubernetes workload practice',
-    label: 'Workloads',
-    type: 'learning',
-    date: '2026-03-01',
-    endDate: '2026-04-05',
-    capabilityKeys: ['flexible-infrastructure'],
-    summary:
-      'Practiced Kubernetes workloads and services as part of an operations-focused learning path.',
-    technologies: ['Kubernetes'],
-    isPublic: true,
-    strength: 'strong',
-  },
-  {
-    id: 'kubectl-troubleshooting',
-    title: 'kubectl troubleshooting practice',
-    label: 'kubectl',
-    type: 'learning',
-    date: '2026-03-01',
-    endDate: '2026-04-05',
-    capabilityKeys: ['flexible-infrastructure', 'monitoring-observability'],
-    summary:
-      'Practiced kubectl workflows and troubleshooting patterns for Kubernetes operational diagnosis.',
-    technologies: ['Kubernetes', 'kubectl'],
-    isPublic: true,
-    strength: 'strong',
-  },
-  {
-    id: 'cluster-operations',
-    title: 'Kubernetes cluster operations practice',
-    label: 'Cluster ops',
-    type: 'learning',
-    date: '2026-03-01',
-    endDate: '2026-04-05',
-    capabilityKeys: ['flexible-infrastructure', 'monitoring-observability'],
-    summary:
-      'Practiced Kubernetes cluster operations that connect infrastructure management with observability-oriented workflows.',
-    technologies: ['Kubernetes'],
-    isPublic: true,
-    strength: 'strong',
-  },
-  {
-    id: 'cncf-kubernetes-certification',
-    title: 'CNCF Kubernetes certification',
-    label: 'Kubernetes cert',
-    type: 'certification',
-    issuer: 'Cloud Native Computing Foundation',
-    capabilityKeys: ['flexible-infrastructure', 'monitoring-observability'],
-    summary:
-      'Cloud native certification evidence mapped to Kubernetes operations and infrastructure capability.',
-    technologies: ['Kubernetes'],
-    isPublic: true,
-    strength: 'primary',
-  },
-  {
-    id: 'portfolio-radar',
-    title: 'DevOps capability portfolio radar',
-    label: 'Portfolio radar',
-    type: 'project',
-    proofUrl: 'https://github.com/benkim0414/benkim0414',
-    capabilityKeys: ['documentation-quality'],
-    summary:
-      'Built a portfolio visualization that maps DevOps topics, skills, certifications, and capability evidence.',
-    technologies: ['React', 'TypeScript', 'Nx'],
-    isPublic: true,
-    strength: 'strong',
-  },
-  {
-    id: 'roadmap-repository',
-    title: 'DevOps roadmap repository',
-    label: 'Roadmap repo',
-    type: 'project',
-    proofUrl: 'https://github.com/benkim0414/benkim0414',
-    capabilityKeys: ['documentation-quality', 'version-control'],
-    summary:
-      'Maintained the portfolio roadmap source in version control with structured documentation-oriented project data.',
-    technologies: ['GitHub', 'TypeScript', 'Nx'],
-    isPublic: true,
-    strength: 'strong',
-  },
-  {
-    id: 'kubernetes-skill',
-    title: 'Kubernetes',
-    type: 'skill',
-    capabilityKeys: ['flexible-infrastructure', 'monitoring-observability'],
-    summary:
-      'Kubernetes skill shown because it is backed by learning and operations evidence.',
-    technologies: ['Kubernetes'],
-    isPublic: true,
-    strength: 'supporting',
-    supportingEvidenceIds: [
-      'kubernetes-workloads',
-      'kubectl-troubleshooting',
-      'cluster-operations',
-    ],
-  },
-] as const satisfies readonly CapabilityEvidenceItem[];
+export function composeCanonicalCapabilityEvidenceItems(
+  items: readonly CapabilityEvidenceItem[],
+): readonly CapabilityEvidenceItem[] {
+  const canonicalItemsById = new Map<string, CapabilityEvidenceItem>();
+  const catalog: CapabilityEvidenceItem[] = [];
+
+  for (const item of items) {
+    const existing = canonicalItemsById.get(item.id);
+
+    if (!existing) {
+      canonicalItemsById.set(item.id, item);
+      catalog.push(item);
+      continue;
+    }
+
+    if (existing !== item) {
+      throw new Error(
+        `Conflicting duplicate capability evidence ID: ${item.id}`,
+      );
+    }
+  }
+
+  return catalog;
+}
 
 export const devOpsCapabilityEvidenceItems: readonly CapabilityEvidenceItem[] =
-  devOpsCapabilityEvidenceItemCatalog.filter(
-    (item, index, catalog) =>
-      catalog.findIndex(({ id }) => id === item.id) === index,
-  );
+  composeCanonicalCapabilityEvidenceItems([
+    ...continuousIntegrationEvidenceItems,
+    ...continuousIntegrationSkillEvidenceItems,
+    ...continuousDeliveryEvidenceItems,
+    ...continuousDeliverySkillEvidenceItems,
+    ...versionControlEvidenceItems,
+    ...versionControlSkillEvidenceItems,
+    ...trunkBasedDevelopmentEvidenceItems,
+    ...trunkBasedDevelopmentSkillEvidenceItems,
+    {
+      id: 'jest-testcontainers-postgres',
+      title: 'Jest and Testcontainers PostgreSQL coverage',
+      label: 'Postgres tests',
+      type: 'experience',
+      organization: 'Current company',
+      capabilityKeys: ['test-automation'],
+      summary:
+        'Ran microservice unit and integration tests with Jest and Testcontainers-provisioned PostgreSQL for database-backed regression coverage.',
+      technologies: ['Jest', 'Testcontainers', 'PostgreSQL'],
+      isPublic: true,
+      strength: 'primary',
+    },
+    {
+      id: 'regression-gates',
+      title: 'Automated regression gates before merge',
+      label: 'Regression gates',
+      type: 'experience',
+      organization: 'Current company',
+      capabilityKeys: ['test-automation', 'continuous-integration'],
+      summary:
+        'Kept merge decisions gated on automated regression checks so changes that fail required tests are not merged.',
+      technologies: ['CI', 'Jest'],
+      isPublic: true,
+      strength: 'primary',
+    },
+    ...deploymentAutomationEvidenceItems,
+    ...deploymentAutomationSkillEvidenceItems,
+    ...flexibleInfrastructureEvidenceItems,
+    ...flexibleInfrastructureSkillEvidenceItems,
+    {
+      id: 'kubernetes-workloads',
+      title: 'Kubernetes workload practice',
+      label: 'Workloads',
+      type: 'learning',
+      date: '2026-03-01',
+      endDate: '2026-04-05',
+      capabilityKeys: ['flexible-infrastructure'],
+      summary:
+        'Practiced Kubernetes workloads and services as part of an operations-focused learning path.',
+      technologies: ['Kubernetes'],
+      isPublic: true,
+      strength: 'strong',
+    },
+    {
+      id: 'kubectl-troubleshooting',
+      title: 'kubectl troubleshooting practice',
+      label: 'kubectl',
+      type: 'learning',
+      date: '2026-03-01',
+      endDate: '2026-04-05',
+      capabilityKeys: ['flexible-infrastructure', 'monitoring-observability'],
+      summary:
+        'Practiced kubectl workflows and troubleshooting patterns for Kubernetes operational diagnosis.',
+      technologies: ['Kubernetes', 'kubectl'],
+      isPublic: true,
+      strength: 'strong',
+    },
+    {
+      id: 'cluster-operations',
+      title: 'Kubernetes cluster operations practice',
+      label: 'Cluster ops',
+      type: 'learning',
+      date: '2026-03-01',
+      endDate: '2026-04-05',
+      capabilityKeys: ['flexible-infrastructure', 'monitoring-observability'],
+      summary:
+        'Practiced Kubernetes cluster operations that connect infrastructure management with observability-oriented workflows.',
+      technologies: ['Kubernetes'],
+      isPublic: true,
+      strength: 'strong',
+    },
+    {
+      id: 'cncf-kubernetes-certification',
+      title: 'CNCF Kubernetes certification',
+      label: 'Kubernetes cert',
+      type: 'certification',
+      issuer: 'Cloud Native Computing Foundation',
+      capabilityKeys: ['flexible-infrastructure', 'monitoring-observability'],
+      summary:
+        'Cloud native certification evidence mapped to Kubernetes operations and infrastructure capability.',
+      technologies: ['Kubernetes'],
+      isPublic: true,
+      strength: 'primary',
+    },
+    {
+      id: 'portfolio-radar',
+      title: 'DevOps capability portfolio radar',
+      label: 'Portfolio radar',
+      type: 'project',
+      proofUrl: 'https://github.com/benkim0414/benkim0414',
+      capabilityKeys: ['documentation-quality'],
+      summary:
+        'Built a portfolio visualization that maps DevOps topics, skills, certifications, and capability evidence.',
+      technologies: ['React', 'TypeScript', 'Nx'],
+      isPublic: true,
+      strength: 'strong',
+    },
+    {
+      id: 'roadmap-repository',
+      title: 'DevOps roadmap repository',
+      label: 'Roadmap repo',
+      type: 'project',
+      proofUrl: 'https://github.com/benkim0414/benkim0414',
+      capabilityKeys: ['documentation-quality', 'version-control'],
+      summary:
+        'Maintained the portfolio roadmap source in version control with structured documentation-oriented project data.',
+      technologies: ['GitHub', 'TypeScript', 'Nx'],
+      isPublic: true,
+      strength: 'strong',
+    },
+    {
+      id: 'kubernetes-skill',
+      title: 'Kubernetes',
+      type: 'skill',
+      capabilityKeys: ['flexible-infrastructure', 'monitoring-observability'],
+      summary:
+        'Kubernetes skill shown because it is backed by learning and operations evidence.',
+      technologies: ['Kubernetes'],
+      isPublic: true,
+      strength: 'supporting',
+      supportingEvidenceIds: [
+        'kubernetes-workloads',
+        'kubectl-troubleshooting',
+        'cluster-operations',
+      ],
+    },
+  ] as const satisfies readonly CapabilityEvidenceItem[]);
