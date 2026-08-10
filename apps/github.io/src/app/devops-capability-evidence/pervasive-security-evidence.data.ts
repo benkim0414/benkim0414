@@ -42,6 +42,7 @@ const iamMfaCoverage: CapabilityEvidenceItem = {
         label: 'Verified console-capable identity MFA coverage',
         value: 100,
         unit: 'percent',
+        denominator: 30,
         measuredAt: snapshotDate,
       },
     ],
