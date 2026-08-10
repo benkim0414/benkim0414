@@ -12,10 +12,7 @@ const continuousIntegrationSkillDefinitions = [
   {
     id: 'continuous-integration-skill-github',
     name: 'GitHub',
-    supportingEvidenceIds: [
-      'codebuild-pr-gates',
-      'nx-affected-quality-gates',
-    ],
+    supportingEvidenceIds: ['codebuild-pr-gates', 'nx-affected-quality-gates'],
   },
   {
     id: 'continuous-integration-skill-codebuild',

@@ -48,7 +48,9 @@ function getOrderedEvidence(
   const score = scores?.find((entry) => entry.capabilityKey === capabilityKey);
 
   if (!score) {
-    return evidence.filter((item) => item.capabilityKeys.includes(capabilityKey));
+    return evidence.filter((item) =>
+      item.capabilityKeys.includes(capabilityKey),
+    );
   }
 
   const evidenceById = new Map(evidence.map((item) => [item.id, item]));

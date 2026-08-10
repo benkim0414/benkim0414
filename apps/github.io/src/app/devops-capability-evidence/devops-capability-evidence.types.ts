@@ -19,11 +19,7 @@ export type EvidenceType =
   | 'project';
 
 export type LearningEvidenceKind =
-  | 'course'
-  | 'article'
-  | 'book'
-  | 'docs'
-  | 'lab';
+  'course' | 'article' | 'book' | 'docs' | 'lab';
 
 export type EvidenceStrength = 'supporting' | 'strong' | 'primary';
 

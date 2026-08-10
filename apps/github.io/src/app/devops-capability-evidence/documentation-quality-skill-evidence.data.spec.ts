@@ -36,7 +36,10 @@ const approvedPublicSkillText = [
 describe('documentationQualitySkillEvidenceItems', () => {
   it('stores exactly the approved skill IDs and titles in workflow order', () => {
     expect(
-      documentationQualitySkillEvidenceItems.map(({ id, title }) => [id, title]),
+      documentationQualitySkillEvidenceItems.map(({ id, title }) => [
+        id,
+        title,
+      ]),
     ).toEqual(expectedSkills);
   });
 

@@ -40,7 +40,9 @@ const expectedSupport = {
     'codebuild-pr-gates',
     'nx-affected-quality-gates',
   ],
-  'continuous-integration-skill-parameter-store': ['codebuild-postgresql-tests'],
+  'continuous-integration-skill-parameter-store': [
+    'codebuild-postgresql-tests',
+  ],
   'continuous-integration-skill-docker': [
     'ecr-immutable-promotion',
     'github-actions-container-verification',

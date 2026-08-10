@@ -6,9 +6,10 @@ import type { CapabilityEvidenceItem } from './devops-capability-evidence.types'
 const snapshotDate = '2026-08-09';
 const githubInitiative = capabilityEvidenceInitiatives.githubActionsMonorepo;
 const sharedById = new Map(
-  [...continuousDeliveryEvidenceItems, ...continuousIntegrationEvidenceItems].map(
-    (item) => [item.id, item],
-  ),
+  [
+    ...continuousDeliveryEvidenceItems,
+    ...continuousIntegrationEvidenceItems,
+  ].map((item) => [item.id, item]),
 );
 
 const requiredSharedExperience = (id: string): CapabilityEvidenceItem => {
@@ -238,9 +239,10 @@ const imageDigestDeployments: CapabilityEvidenceItem = {
   strength: 'strong',
 };
 
-export const deploymentAutomationEvidenceItems: readonly CapabilityEvidenceItem[] = [
-  ...deploymentAutomationAdditionalExperienceItems,
-  requiredSharedExperience('codepipeline-approval-gated-deployment'),
-  requiredSharedExperience('github-actions-gitops-handoff'),
-  imageDigestDeployments,
-];
+export const deploymentAutomationEvidenceItems: readonly CapabilityEvidenceItem[] =
+  [
+    ...deploymentAutomationAdditionalExperienceItems,
+    requiredSharedExperience('codepipeline-approval-gated-deployment'),
+    requiredSharedExperience('github-actions-gitops-handoff'),
+    imageDigestDeployments,
+  ];

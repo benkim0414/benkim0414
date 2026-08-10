@@ -118,18 +118,21 @@ describe('monitoringObservabilitySkillEvidenceItems', () => {
     const experienceById = new Map(
       monitoringObservabilityEvidenceItems.map((item) => [item.id, item]),
     );
-    const chronology = monitoringObservabilitySkillEvidenceItems.map((skill) => {
-      const supportDates = (skill.supportingEvidenceIds ?? []).map(
-        (supportId) => experienceById.get(supportId)?.details?.period.startedAt,
-      );
-      const earliestSupportDate = supportDates.reduce<string | undefined>(
-        (earliest, date) =>
-          date && (!earliest || date < earliest) ? date : earliest,
-        undefined,
-      );
+    const chronology = monitoringObservabilitySkillEvidenceItems.map(
+      (skill) => {
+        const supportDates = (skill.supportingEvidenceIds ?? []).map(
+          (supportId) =>
+            experienceById.get(supportId)?.details?.period.startedAt,
+        );
+        const earliestSupportDate = supportDates.reduce<string | undefined>(
+          (earliest, date) =>
+            date && (!earliest || date < earliest) ? date : earliest,
+          undefined,
+        );
 
-      return [skill.title, earliestSupportDate];
-    });
+        return [skill.title, earliestSupportDate];
+      },
+    );
 
     expect(chronology).toEqual(expectedChronology);
   });

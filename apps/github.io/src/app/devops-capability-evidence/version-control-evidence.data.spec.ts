@@ -99,9 +99,7 @@ describe('versionControlEvidenceItems', () => {
   });
 
   it('keeps the reusable build image evidence affirmatively stated', () => {
-    expect(
-      byId.get('reusable-helm-deployment-image')?.details?.facts,
-    ).toEqual([
+    expect(byId.get('reusable-helm-deployment-image')?.details?.facts).toEqual([
       'Maintained one reusable CI build image consumed by many build projects.',
     ]);
   });
@@ -114,8 +112,8 @@ describe('versionControlEvidenceItems', () => {
     expect(publicText).not.toMatch(/employer|customer|client|organization/i);
     expect(publicText).not.toMatch(/private source|private repository/i);
     expect(publicText).not.toMatch(prohibitedPublicText);
-    expect('Automated deployments completed without manual intervention.').not.toMatch(
-      prohibitedPublicText,
-    );
+    expect(
+      'Automated deployments completed without manual intervention.',
+    ).not.toMatch(prohibitedPublicText);
   });
 });
