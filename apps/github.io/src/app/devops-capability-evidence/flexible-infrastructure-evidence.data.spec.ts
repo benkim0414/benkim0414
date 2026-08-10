@@ -2,6 +2,7 @@ import { continuousDeliveryEvidenceItems } from './continuous-delivery-evidence.
 import { continuousIntegrationEvidenceItems } from './continuous-integration-evidence.data';
 import { deploymentAutomationEvidenceItems } from './deployment-automation-evidence.data';
 import { flexibleInfrastructureEvidenceItems } from './flexible-infrastructure-evidence.data';
+import { expectPublicSafeEvidence } from './public-evidence-safety.test-helpers';
 
 const expectedIds = [
   'terraform-managed-cloud-foundations',
@@ -101,5 +102,9 @@ describe('flexibleInfrastructureEvidenceItems', () => {
     expect(byId.get('terraform-scoped-iam')?.summary).toBe(
       'Terraform manages IRSA service accounts and scoped IAM policies.',
     );
+  });
+
+  it('keeps the complete catalog public-safe and affirmative', () => {
+    expectPublicSafeEvidence(flexibleInfrastructureEvidenceItems);
   });
 });
