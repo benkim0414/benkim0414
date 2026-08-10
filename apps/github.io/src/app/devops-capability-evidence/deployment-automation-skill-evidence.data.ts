@@ -58,6 +58,6 @@ export const deploymentAutomationSkillEvidenceItems: readonly CapabilityEvidence
     summary: `Evidence-backed Deployment Automation capability with ${name}.`,
     technologies: [name],
     isPublic: true,
-    strength: 'strong',
+    strength: 'supporting',
     supportingEvidenceIds: expectedSupport[name],
   }));
