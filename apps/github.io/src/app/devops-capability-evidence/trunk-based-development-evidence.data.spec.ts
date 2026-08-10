@@ -139,6 +139,8 @@ describe('trunkBasedDevelopmentEvidenceItems', () => {
     expect(publicText).not.toMatch(/\b\d{12}\b/);
     expect(publicText).not.toMatch(/employer|customer|client|organization/i);
     expect(publicText).not.toMatch(/private source|private repository/i);
-    expect(publicText).not.toMatch(/fully automated production|rollback.*absent/i);
+    expect(publicText).not.toMatch(
+      /fully automated production|rollback.*absent/i,
+    );
   });
 });

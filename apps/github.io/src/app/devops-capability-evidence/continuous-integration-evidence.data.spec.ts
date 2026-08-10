@@ -286,21 +286,23 @@ describe('continuousIntegrationEvidenceItems', () => {
     expect(capabilityKeysById('terraform-codepipeline-platform')).toContain(
       'version-control',
     );
-    expect(byId.get('terraform-codepipeline-platform')?.capabilityKeys).toEqual([
-      'continuous-integration',
-      'continuous-delivery',
-      'version-control',
-      'flexible-infrastructure',
-    ]);
+    expect(byId.get('terraform-codepipeline-platform')?.capabilityKeys).toEqual(
+      [
+        'continuous-integration',
+        'continuous-delivery',
+        'version-control',
+        'flexible-infrastructure',
+      ],
+    );
     expect(capabilityKeysById('reusable-helm-deployment-image')).toContain(
       'version-control',
     );
     expect(capabilityKeysById('github-actions-gitops-handoff')).toContain(
       'version-control',
     );
-    expect(
-      byId.get('github-actions-gitops-handoff')?.capabilityKeys,
-    ).toContain('deployment-automation');
+    expect(byId.get('github-actions-gitops-handoff')?.capabilityKeys).toContain(
+      'deployment-automation',
+    );
   });
 
   it('maps reusable CI evidence to Test Automation', () => {

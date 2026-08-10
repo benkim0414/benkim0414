@@ -2,7 +2,8 @@ import { capabilityEvidenceInitiatives } from './capability-evidence-initiatives
 import type { CapabilityEvidenceItem } from './devops-capability-evidence.types';
 import { pervasiveSecurityEvidenceItems } from './pervasive-security-evidence.data';
 
-const observabilityPlatform = capabilityEvidenceInitiatives.observabilityPlatform;
+const observabilityPlatform =
+  capabilityEvidenceInitiatives.observabilityPlatform;
 const snapshotDate = '2026-08-09';
 const sharedById = new Map(
   pervasiveSecurityEvidenceItems.map((item) => [item.id, item]),
