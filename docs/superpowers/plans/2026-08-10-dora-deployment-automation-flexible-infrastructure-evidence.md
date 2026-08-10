@@ -701,7 +701,7 @@ const flexibleInfrastructureSkillDefinitions = [
 ] as const;
 ```
 
-Attach the exact support lists and map to public `skill` records with `capabilityKeys: ['flexible-infrastructure']`, `technologies: [name]`, and `strength: 'strong'`.
+Attach the exact support lists and map to public `skill` records with `capabilityKeys: ['flexible-infrastructure']`, `technologies: [name]`, and `strength: 'supporting'`.
 
 - [ ] **Step 4: Run the focused skill spec and verify green**
 
