@@ -98,9 +98,9 @@ const expectPublicStructuredDocumentationQualityEvidence = (
 
       if (metric.unit === 'percent') {
         expect(metric.value).toBeLessThanOrEqual(100);
-      }
-
-      if (metric.denominator !== undefined) {
+        expect(Number.isFinite(metric.denominator)).toBe(true);
+        expect(metric.denominator).toBeGreaterThan(0);
+      } else if (metric.denominator !== undefined) {
         expect(Number.isFinite(metric.denominator)).toBe(true);
         expect(metric.denominator).toBeGreaterThan(0);
         expect(metric.value).toBeLessThanOrEqual(metric.denominator);
@@ -197,6 +197,7 @@ describe('documentationQualityEvidenceItems', () => {
             label: 'Verified solution index coverage',
             value: 100,
             unit: 'percent',
+            denominator: 49,
             measuredAt: '2026-08-09',
           },
         ],
@@ -219,6 +220,7 @@ describe('documentationQualityEvidenceItems', () => {
             label: 'Verified solution metadata coverage',
             value: 100,
             unit: 'percent',
+            denominator: 49,
             measuredAt: '2026-08-09',
           },
         ],

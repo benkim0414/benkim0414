@@ -121,9 +121,9 @@ const expectPublicStructuredPervasiveSecurityEvidence = (
 
       if (metric.unit === 'percent') {
         expect(metric.value).toBeLessThanOrEqual(100);
-      }
-
-      if (metric.denominator !== undefined) {
+        expect(Number.isFinite(metric.denominator)).toBe(true);
+        expect(metric.denominator).toBeGreaterThan(0);
+      } else if (metric.denominator !== undefined) {
         expect(Number.isFinite(metric.denominator)).toBe(true);
         expect(metric.denominator).toBeGreaterThan(0);
         expect(metric.value).toBeLessThanOrEqual(metric.denominator);
@@ -222,6 +222,7 @@ describe('pervasiveSecurityEvidenceItems', () => {
             label: 'Verified console-capable identity MFA coverage',
             value: 100,
             unit: 'percent',
+            denominator: 30,
             measuredAt: '2026-08-09',
           },
         ],
