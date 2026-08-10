@@ -193,7 +193,10 @@ export function CertificationCitation({
       {hasCompleteMetadata && metadata && completedAt ? (
         <HoverCard
           content={
-            <MetadataList columns="single" title={metadata.name}>
+            <MetadataList columns="single" title="Certification">
+              <MetadataListItem label="Name">
+                {metadata.name}
+              </MetadataListItem>
               <MetadataListItem label="ID">{metadata.id}</MetadataListItem>
               <MetadataListItem label="Status">
                 <Badge
