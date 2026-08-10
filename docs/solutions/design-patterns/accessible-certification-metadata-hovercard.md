@@ -1,7 +1,7 @@
 ---
 title: Keep Certification HoverCards Supplemental to Direct Links
 date: 2026-08-04
-last_updated: 2026-08-04
+last_updated: 2026-08-10
 category: design-patterns
 module: github.io certifications
 problem_type: design_pattern
@@ -88,19 +88,20 @@ viewer's timezone (`apps/github.io/src/app/certifications/certification-citation
 
 ### Keep supplemental content semantic and read-only
 
-Use the full certificate name as the title of one single-column `MetadataList`,
-with exactly three rows in this order: `ID`, `Status`, and `Completed`
-(`apps/github.io/src/app/certifications/certification-citation.tsx:181`). Render
+Use `Certification` as the fixed title of one single-column `MetadataList`,
+with exactly four rows in this order: `Name`, `ID`, `Status`, and `Completed`.
+The category title stays stable while the first row identifies the concrete
+credential with its full certificate name
+(`apps/github.io/src/app/certifications/certification-citation.tsx:193`). Render
 status as a non-interactive Astryx `Badge`: use the green variant for `Active`
 and the neutral variant for `Expired`. Astryx does not expose a gray Badge
 variant; neutral is its supported gray treatment for an inactive or lapsed
 state without treating expiration as an error. Keep the visible label so color
 is never the only status signal.
 
-The component test verifies that the title is outside the definition list,
-checks the Badge variant, visible label, and lack of interactive children,
-checks `dt`/`dd` semantics, and confirms that `aria-describedby` connects the
-citation to the card content
+The component test verifies the fixed category title outside the definition
+list, the name as the first definition-list value, the Badge contract,
+`dt`/`dd` semantics, and `aria-describedby` linkage
 (`apps/github.io/src/app/certifications/certification-citation.spec.tsx:32`).
 
 Require these behaviors from any overlay component used here: hover and keyboard
@@ -160,9 +161,9 @@ identity:
 />
 ```
 
-This renders metadata values `LF-assbyzy17c`, `Certified Kubernetes
-Administrator`, derived status `Active`, and `Apr 20, 2025`; the semantic test
-asserts those values and their row order
+This renders the fixed title `Certification` followed by metadata values
+`Certified Kubernetes Administrator`, `LF-assbyzy17c`, derived status `Active`,
+and `Apr 20, 2025`; the semantic test asserts those values and their row order
 (`apps/github.io/src/app/certifications/certification-citation.spec.tsx:32`).
 
 For generic evidence, omit `metadata` and leave the proof URL on the citation:
