@@ -65,8 +65,7 @@ const flexibleInfrastructureOwnedExperienceItems = [
     title: 'Shared Terraform IRSA modules',
     type: 'experience',
     capabilityKeys: ['flexible-infrastructure', 'pervasive-security'],
-    summary:
-      'Created shared Terraform IRSA modules for workload-scoped cloud access.',
+    summary: 'Nine per-service IRSA modules use the shared Terraform module.',
     technologies: ['Terraform', 'AWS IAM', 'IRSA', 'Kubernetes'],
     details: {
       initiative: githubInitiative,
@@ -91,8 +90,7 @@ const flexibleInfrastructureOwnedExperienceItems = [
     title: 'Terraform-managed scoped IAM policies',
     type: 'experience',
     capabilityKeys: ['flexible-infrastructure', 'pervasive-security'],
-    summary:
-      'Managed scoped IAM policies through Terraform for explicit and reproducible permissions.',
+    summary: 'Terraform manages IRSA service accounts and scoped IAM policies.',
     technologies: ['Terraform', 'AWS IAM', 'IRSA'],
     details: {
       initiative: githubInitiative,
