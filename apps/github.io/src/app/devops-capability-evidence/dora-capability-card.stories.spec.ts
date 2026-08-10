@@ -1,6 +1,8 @@
 import meta, {
   ContinuousDelivery,
   ContinuousIntegration,
+  DeploymentAutomation,
+  FlexibleInfrastructure,
   TrunkBasedDevelopment,
   VersionControl,
 } from './dora-capability-card.stories';
@@ -8,6 +10,7 @@ import {
   curatedDevOpsCapabilityRadarScores,
   devOpsCapabilityEvidenceItems,
 } from './devops-capability-evidence.data';
+import { doraCapabilityDescriptions } from './dora-capability-card.evidence';
 
 describe('DoraCapabilityCard stories', () => {
   it('uses shared production data for Continuous Integration', () => {
@@ -104,6 +107,73 @@ describe('DoraCapabilityCard stories', () => {
   });
 
   it.each([
+    ['Deployment Automation', DeploymentAutomation, 'deployment-automation'],
+    [
+      'Flexible Infrastructure',
+      FlexibleInfrastructure,
+      'flexible-infrastructure',
+    ],
+  ] as const)('inherits shared production data for %s', (_name, story, key) => {
+    const args = { ...meta.args, ...story.args };
+
+    expect(meta.args?.evidence).toBe(devOpsCapabilityEvidenceItems);
+    expect(meta.args?.scores).toBe(curatedDevOpsCapabilityRadarScores);
+    expect(story.args?.evidence).toBeUndefined();
+    expect(story.args?.scores).toBeUndefined();
+    expect(args.capability?.key).toBe(key);
+    expect(args.description).toBe(doraCapabilityDescriptions[key]);
+  });
+
+  it.each([
+    [
+      'deployment-automation',
+      [
+        'Merge-triggered deployments',
+        'Environment-neutral deploys',
+        'Generator-based onboarding',
+        'Automated secret delivery',
+        'Deterministic overlays',
+      ],
+      [
+        'AWS CodePipeline',
+        'Terraform',
+        'GitHub Actions',
+        'Argo CD',
+        'GitOps',
+        'Docker',
+        'Amazon ECR',
+        'Kubernetes',
+        'OpenID Connect',
+        'Nx',
+        'GitHub API',
+        'Kustomize',
+        'Sealed Secrets',
+      ],
+    ],
+    [
+      'flexible-infrastructure',
+      [
+        'Terraform cloud foundations',
+        'Shared IRSA modules',
+        'Terraform scoped IAM',
+        'Reusable Terraform CI pipelines',
+        'Version-controlled environment state',
+      ],
+      [
+        'Terraform',
+        'AWS',
+        'Kubernetes',
+        'kubectl',
+        'Helm',
+        'Docker',
+        'Amazon ECR',
+        'AWS IAM',
+        'IRSA',
+        'Kustomize',
+        'Argo CD',
+        'GitOps',
+      ],
+    ],
     [
       'version-control',
       [

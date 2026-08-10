@@ -18,6 +18,9 @@ const continuousIntegration = doraCapabilityDefinitions.find(
 const continuousDelivery = doraCapabilityDefinitions.find(
   (capability) => capability.key === 'continuous-delivery',
 );
+const deploymentAutomation = doraCapabilityDefinitions.find(
+  (capability) => capability.key === 'deployment-automation',
+);
 const versionControl = doraCapabilityDefinitions.find(
   (capability) => capability.key === 'version-control',
 );
@@ -29,6 +32,7 @@ if (
   !flexibleInfrastructure ||
   !continuousIntegration ||
   !continuousDelivery ||
+  !deploymentAutomation ||
   !versionControl ||
   !trunkBasedDevelopment
 ) {
@@ -127,6 +131,110 @@ describe('DoraCapabilityCard', () => {
       'Experience evidence: Automated database migrations',
     ]);
   });
+
+  it.each([
+    [
+      deploymentAutomation,
+      doraCapabilityDescriptions['deployment-automation'],
+      'Built merge-triggered deployment automation across environments, with generator-based onboarding, automated secret delivery, and deterministic Kubernetes rendering.',
+      [
+        'Merge-triggered deployments',
+        'Environment-neutral deploys',
+        'Generator-based onboarding',
+        'Automated secret delivery',
+        'Deterministic overlays',
+      ],
+      [
+        'AWS CodePipeline',
+        'Terraform',
+        'GitHub Actions',
+        'Argo CD',
+        'GitOps',
+        'Docker',
+        'Amazon ECR',
+        'Kubernetes',
+        'OpenID Connect',
+        'Nx',
+        'GitHub API',
+        'Kustomize',
+        'Sealed Secrets',
+      ],
+      ['applied', 'skills'],
+    ],
+    [
+      flexibleInfrastructure,
+      doraCapabilityDescriptions['flexible-infrastructure'],
+      'Built reusable Terraform and Kubernetes foundations with workload identity, scoped IAM, delivery-platform provisioning, and GitOps-managed environments.',
+      [
+        'Terraform cloud foundations',
+        'Shared IRSA modules',
+        'Terraform scoped IAM',
+        'Reusable Terraform CI pipelines',
+        'Version-controlled environment state',
+      ],
+      [
+        'Terraform',
+        'AWS',
+        'Kubernetes',
+        'kubectl',
+        'Helm',
+        'Docker',
+        'Amazon ECR',
+        'AWS IAM',
+        'IRSA',
+        'Kustomize',
+        'Argo CD',
+        'GitOps',
+      ],
+      ['applied', 'skills'],
+    ],
+  ] as const)(
+    'renders the exact production %s evidence rows',
+    (
+      capability,
+      description,
+      summary,
+      experienceLabels,
+      skillTitles,
+      expectedGroups,
+    ) => {
+      render(
+        <DoraCapabilityCard
+          capability={capability}
+          description={description}
+          evidence={devOpsCapabilityEvidenceItems}
+          scores={curatedDevOpsCapabilityRadarScores}
+        />,
+      );
+
+      const experienceRow = screen.getByRole('list', {
+        name: 'Relevant experience',
+      });
+      const skillRow = screen.getByRole('list', { name: 'Technical skills' });
+      const rows = screen.getAllByTestId('dora-capability-evidence-row');
+
+      expect(screen.getByText(summary)).toBeTruthy();
+      expect(rows.map((row) => row.getAttribute('data-group'))).toEqual(
+        expectedGroups,
+      );
+      expect(within(experienceRow).getAllByRole('listitem')).toHaveLength(5);
+      expect(within(skillRow).getAllByRole('listitem')).toHaveLength(
+        skillTitles.length,
+      );
+      expect(
+        within(experienceRow)
+          .getAllByRole('group')
+          .map((group) => group.getAttribute('aria-label')),
+      ).toEqual(
+        experienceLabels.map((label) => `Experience evidence: ${label}`),
+      );
+      expect(
+        within(skillRow)
+          .getAllByRole('group')
+          .map((group) => group.getAttribute('aria-label')),
+      ).toEqual(skillTitles.map((title) => `Skill evidence: ${title}`));
+    },
+  );
 
   it.each([
     [
@@ -280,12 +388,10 @@ describe('DoraCapabilityCard', () => {
 
     const rows = screen.getAllByTestId('dora-capability-evidence-row');
 
-    expect(rows).toHaveLength(4);
+    expect(rows).toHaveLength(2);
     expect(rows.map((row) => row.getAttribute('data-group'))).toEqual([
       'applied',
-      'certifications',
       'skills',
-      'learning',
     ]);
     expect(screen.getByText('Relevant experience')).toBeTruthy();
     expect(screen.getByText('Technical skills')).toBeTruthy();
@@ -295,19 +401,9 @@ describe('DoraCapabilityCard', () => {
     expect(screen.getByRole('list', { name: 'Relevant experience' })).toBe(
       rows[0],
     );
-    expect(
-      screen.getByRole('list', {
-        name: 'Flexible Infrastructure certification evidence',
-      }),
-    ).toBe(rows[1]);
     expect(screen.getByRole('list', { name: 'Technical skills' })).toBe(
-      rows[2],
+      rows[1],
     );
-    expect(
-      screen.getByRole('list', {
-        name: 'Flexible Infrastructure learning evidence',
-      }),
-    ).toBe(rows[3]);
   });
 
   it('delegates evidence rendering to CapabilityEvidence', () => {
@@ -320,18 +416,18 @@ describe('DoraCapabilityCard', () => {
       />,
     );
 
-    expect(screen.getByTestId('skill-token')).toBeTruthy();
+    expect(screen.getAllByTestId('skill-token')).toHaveLength(12);
     expect(
       screen.getByRole('group', { name: 'Skill evidence: Kubernetes' }),
     ).toBeTruthy();
     expect(
-      screen.getByRole('group', {
+      screen.queryByRole('group', {
         name: 'Certification evidence: Kubernetes cert',
       }),
-    ).toBeTruthy();
+    ).toBeNull();
     expect(
-      screen.getByRole('group', { name: 'Learning evidence: Workloads' }),
-    ).toBeTruthy();
+      screen.queryByRole('group', { name: 'Learning evidence: Workloads' }),
+    ).toBeNull();
   });
 
   it('uses curated score order within each evidence group', () => {
