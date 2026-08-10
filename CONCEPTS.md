@@ -106,7 +106,11 @@ A horizontal skills presentation where each Skill Card remains content-driven on
 
 The shared visual metadata for a skill label, covering the skill's brand color and, when available, a logo asset.
 
-Skill Brand Metadata can be color-only. Consumers must decide whether color alone is meaningful for their UI instead of assuming every branded skill has a logo.
+Skill Brand Metadata can be color-only. A logo represents either the exact
+brand or an intentionally documented project-family relationship; locally held
+artwork should retain verifiable upstream provenance. Consumers must decide whether
+color alone is meaningful for their UI instead of assuming every branded skill
+has a logo.
 
 ### Skill Avatar
 
