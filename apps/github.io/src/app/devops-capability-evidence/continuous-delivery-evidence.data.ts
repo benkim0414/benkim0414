@@ -46,7 +46,7 @@ const continuousDeliveryEvidenceItemCatalog = [
     label: 'Approval-gated deployment automation',
     title: 'Approval-gated deployment automation',
     type: 'experience',
-    capabilityKeys: ['continuous-delivery'],
+    capabilityKeys: ['continuous-delivery', 'deployment-automation'],
     isPublic: true,
     strength: 'primary',
     summary:
@@ -100,7 +100,11 @@ const continuousDeliveryEvidenceItemCatalog = [
     label: 'Version-controlled environment state',
     title: 'Environment state from version control',
     type: 'experience',
-    capabilityKeys: ['continuous-delivery', 'version-control'],
+    capabilityKeys: [
+      'continuous-delivery',
+      'version-control',
+      'flexible-infrastructure',
+    ],
     isPublic: true,
     strength: 'primary',
     summary:

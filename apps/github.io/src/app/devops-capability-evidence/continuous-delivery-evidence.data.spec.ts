@@ -67,6 +67,9 @@ describe('continuousDeliveryEvidenceItems', () => {
 
   it('keeps approval automation metrics precise', () => {
     expect(
+      byId.get('codepipeline-approval-gated-deployment')?.capabilityKeys,
+    ).toContain('deployment-automation');
+    expect(
       byId.get('codepipeline-approval-gated-deployment')?.details?.metrics,
     ).toEqual(
       expect.arrayContaining([
@@ -222,6 +225,9 @@ describe('continuousDeliveryEvidenceItems', () => {
   });
 
   it('maps shared CD experiences to Version Control without changing their IDs', () => {
+    expect(
+      byId.get('argocd-environment-state-from-version-control')?.capabilityKeys,
+    ).toContain('flexible-infrastructure');
     expect(
       capabilityKeysById('argocd-environment-state-from-version-control'),
     ).toContain('version-control');
