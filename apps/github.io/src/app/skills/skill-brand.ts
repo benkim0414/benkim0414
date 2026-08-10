@@ -22,6 +22,7 @@ import {
   siHelm,
   siHomebrew,
   siIstio,
+  siJest,
   siJson,
   siJfrog,
   siKubernetes,
@@ -58,6 +59,8 @@ import eventBridgeIconUrl from '../../assets/skills/aws/amazon-eventbridge.svg?n
 import eksIconUrl from '../../assets/skills/aws/amazon-eks.svg?no-inline';
 import systemsManagerIconUrl from '../../assets/skills/aws/aws-systems-manager.svg?no-inline';
 import lambdaIconUrl from '../../assets/skills/aws/aws-lambda.svg?no-inline';
+import alloyIconUrl from '../../assets/skills/grafana/alloy-icon-orange.svg?no-inline';
+import lokiIconUrl from '../../assets/skills/grafana/loki-icon.svg?no-inline';
 
 export interface SkillBrand {
   name: string;
@@ -97,8 +100,10 @@ const skillIcons: Readonly<Record<string, SimpleIcon>> = {
   Homebrew: siHomebrew,
   Istio: siIstio,
   Artifactory: siJfrog,
+  Jest: siJest,
   JSON: siJson,
   Kubernetes: siKubernetes,
+  'Kubernetes RBAC': siKubernetes,
   Kustomize: siKubernetes,
   kubectl: siKubernetes,
   Lua: siLua,
@@ -110,6 +115,7 @@ const skillIcons: Readonly<Record<string, SimpleIcon>> = {
   'OpenID Connect': siOpenid,
   pnpm: siPnpm,
   Prometheus: siPrometheus,
+  Alertmanager: siPrometheus,
   PostgreSQL: siPostgresql,
   Python: siPython,
   React: siReact,
@@ -134,6 +140,8 @@ const skillIconAssets: Readonly<Record<string, string>> = {
   'AWS EventBridge': eventBridgeIconUrl,
   'AWS Lambda': lambdaIconUrl,
   'AWS Systems Manager Parameter Store': systemsManagerIconUrl,
+  Alloy: alloyIconUrl,
+  Loki: lokiIconUrl,
 };
 
 const skillBrandColors: Readonly<Record<string, string>> = {
@@ -147,6 +155,8 @@ const skillBrandColors: Readonly<Record<string, string>> = {
   'AWS EventBridge': '#FFFFFF',
   'AWS Lambda': '#FFFFFF',
   'AWS Systems Manager Parameter Store': '#FFFFFF',
+  Alloy: '#FFFFFF',
+  Loki: '#FFFFFF',
 };
 
 const ASTRYX_NEUTRAL_FOREGROUND = 'var(--color-on-light)';

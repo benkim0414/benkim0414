@@ -113,7 +113,7 @@ describe('DoraCapabilityCard', () => {
         'Alertmanager',
         'Loki',
         'Grafana',
-        'Grafana Alloy',
+        'Alloy',
         'Kubernetes',
         'Helm',
         'Argo CD',

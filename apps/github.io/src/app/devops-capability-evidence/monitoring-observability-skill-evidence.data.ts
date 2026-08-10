@@ -35,7 +35,7 @@ const monitoringObservabilitySkillDefinitions = [
   },
   {
     id: 'monitoring-observability-skill-grafana-alloy',
-    name: 'Grafana Alloy',
+    name: 'Alloy',
     supports: ['version-controlled-observability-stack'],
   },
   {
