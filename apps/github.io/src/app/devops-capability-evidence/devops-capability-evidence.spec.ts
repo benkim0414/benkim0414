@@ -12,9 +12,17 @@ import { continuousIntegrationSkillEvidenceItems } from './continuous-integratio
 import { continuousIntegrationEvidenceItems } from './continuous-integration-evidence.data';
 import { deploymentAutomationEvidenceItems } from './deployment-automation-evidence.data';
 import { deploymentAutomationSkillEvidenceItems } from './deployment-automation-skill-evidence.data';
+import { documentationQualityEvidenceItems } from './documentation-quality-evidence.data';
+import { documentationQualitySkillEvidenceItems } from './documentation-quality-skill-evidence.data';
 import { flexibleInfrastructureEvidenceItems } from './flexible-infrastructure-evidence.data';
 import { flexibleInfrastructureSkillEvidenceItems } from './flexible-infrastructure-skill-evidence.data';
+import { monitoringObservabilityEvidenceItems } from './monitoring-observability-evidence.data';
+import { monitoringObservabilitySkillEvidenceItems } from './monitoring-observability-skill-evidence.data';
+import { pervasiveSecurityEvidenceItems } from './pervasive-security-evidence.data';
+import { pervasiveSecuritySkillEvidenceItems } from './pervasive-security-skill-evidence.data';
 import { expectPublicSafeText } from './public-evidence-safety.test-helpers';
+import { testAutomationEvidenceItems } from './test-automation-evidence.data';
+import { testAutomationSkillEvidenceItems } from './test-automation-skill-evidence.data';
 import { trunkBasedDevelopmentEvidenceItems } from './trunk-based-development-evidence.data';
 import { versionControlEvidenceItems } from './version-control-evidence.data';
 import {
@@ -83,6 +91,115 @@ const flexibleInfrastructureScoreEvidenceIds = [
   'flexible-infrastructure-skill-kustomize',
   'flexible-infrastructure-skill-argo-cd',
   'flexible-infrastructure-skill-gitops',
+] as const;
+
+const remainingCapabilityScoreContracts = {
+  'test-automation': {
+    score: 3,
+    maxScore: 5,
+    evidenceIds: [
+      'jest-testcontainers-postgres',
+      'prometheus-alert-rule-tests',
+      'container-health-smoke-tests',
+      'service-generator-unit-tests',
+      'nx-affected-quality-gates',
+      'test-automation-skill-aws-codebuild',
+      'test-automation-skill-postgresql',
+      'test-automation-skill-parameter-store',
+      'test-automation-skill-jest',
+      'test-automation-skill-testcontainers',
+      'test-automation-skill-nx',
+      'test-automation-skill-github-actions',
+      'test-automation-skill-docker',
+      'test-automation-skill-typescript',
+      'test-automation-skill-prometheus',
+      'test-automation-skill-promtool',
+    ],
+    strongestEvidenceId: 'jest-testcontainers-postgres',
+    evidenceCounts: { experience: 5, skill: 11 },
+    evidenceSummary:
+      'Built automated test coverage across database-backed services, affected quality gates, service generators, Prometheus rules, and container health checks.',
+  },
+  'monitoring-observability': {
+    score: 3,
+    maxScore: 5,
+    evidenceIds: [
+      'version-controlled-observability-stack',
+      'tested-kubernetes-workload-alerts',
+      'alertmanager-notification-routing',
+      'alert-suppression-controls',
+      'encrypted-alert-destinations',
+      'monitoring-observability-skill-prometheus',
+      'monitoring-observability-skill-promtool',
+      'monitoring-observability-skill-alertmanager',
+      'monitoring-observability-skill-loki',
+      'monitoring-observability-skill-grafana',
+      'monitoring-observability-skill-grafana-alloy',
+      'monitoring-observability-skill-kubernetes',
+      'monitoring-observability-skill-helm',
+      'monitoring-observability-skill-argo-cd',
+      'monitoring-observability-skill-kustomize',
+      'monitoring-observability-skill-sealed-secrets',
+      'monitoring-observability-skill-aws-eventbridge',
+      'monitoring-observability-skill-aws-lambda',
+    ],
+    strongestEvidenceId: 'version-controlled-observability-stack',
+    evidenceCounts: { experience: 5, skill: 13 },
+    evidenceSummary:
+      'Built a version-controlled cloud native observability platform with tested workload alerts, routed notifications, suppression controls, and encrypted alert destinations.',
+  },
+  'pervasive-security': {
+    score: 2,
+    maxScore: 5,
+    evidenceIds: [
+      'terraform-scoped-iam',
+      'iam-mfa-coverage',
+      'iam-security-alerting',
+      'irsa-service-accounts',
+      'automated-sealed-secret-delivery',
+      'pervasive-security-skill-terraform',
+      'pervasive-security-skill-aws-iam',
+      'pervasive-security-skill-irsa',
+      'pervasive-security-skill-openid-connect',
+      'pervasive-security-skill-kubernetes',
+      'pervasive-security-skill-kubernetes-rbac',
+      'pervasive-security-skill-sealed-secrets',
+      'pervasive-security-skill-argo-cd',
+      'pervasive-security-skill-aws-eventbridge',
+      'pervasive-security-skill-aws-lambda',
+      'pervasive-security-skill-docker',
+      'pervasive-security-skill-amazon-ecr',
+    ],
+    strongestEvidenceId: 'terraform-scoped-iam',
+    evidenceCounts: { experience: 5, skill: 12 },
+    evidenceSummary:
+      'Implemented Terraform-managed least-privilege access, complete MFA coverage, identity security alerting, IRSA workload identity, and encrypted secret delivery.',
+  },
+  'documentation-quality': {
+    score: 4,
+    maxScore: 5,
+    evidenceIds: [
+      'structured-documentation-corpus',
+      'indexed-solution-documentation',
+      'current-documentation-maintenance',
+      'documentation-change-integration',
+      'cross-verified-documentation-claims',
+      'documentation-quality-skill-markdown',
+      'documentation-quality-skill-yaml',
+      'documentation-quality-skill-git',
+    ],
+    strongestEvidenceId: 'structured-documentation-corpus',
+    evidenceCounts: { experience: 5, skill: 3 },
+    evidenceSummary:
+      'Maintained a structured, indexed, and current documentation system, integrating documentation with engineering changes and cross-verifying operational claims.',
+  },
+} as const;
+
+const reviewedRemainingCapabilityScoreSummaries = [
+  'Built automated test coverage across database-backed services, affected quality gates, service generators, Prometheus rules, and container health checks.',
+  'Built a version-controlled cloud native observability platform with tested workload alerts, routed notifications, suppression controls, and encrypted alert destinations.',
+  'Implemented Terraform-managed least-privilege access, complete MFA coverage, identity security alerting, IRSA workload identity, and encrypted secret delivery.',
+  'Maintained a structured, indexed, and current documentation system, integrating documentation with engineering changes and cross-verifying operational claims.',
 ] as const;
 
 describe('devOpsCapabilityEvidence data', () => {
@@ -212,7 +329,7 @@ describe('devOpsCapabilityEvidence data', () => {
     expect(catalogIds.length).toBe(new Set(catalogIds).size);
   });
 
-  it('composes all capability-owned deployment and infrastructure catalogs', () => {
+  it('composes every capability-owned catalog into one canonical aggregate', () => {
     const globalEvidenceIds = devOpsCapabilityEvidenceItems.map(
       (item) => item.id,
     );
@@ -229,10 +346,27 @@ describe('devOpsCapabilityEvidence data', () => {
       deploymentAutomationSkillEvidenceItems,
       flexibleInfrastructureEvidenceItems,
       flexibleInfrastructureSkillEvidenceItems,
+      testAutomationEvidenceItems,
+      testAutomationSkillEvidenceItems,
+      monitoringObservabilityEvidenceItems,
+      monitoringObservabilitySkillEvidenceItems,
+      pervasiveSecurityEvidenceItems,
+      pervasiveSecuritySkillEvidenceItems,
+      documentationQualityEvidenceItems,
+      documentationQualitySkillEvidenceItems,
     ]) {
       expect(globalEvidenceIds).toEqual(
         expect.arrayContaining(capabilityCatalog.map((item) => item.id)),
       );
+
+      for (const item of capabilityCatalog) {
+        expect(
+          devOpsCapabilityEvidenceItems.filter(({ id }) => id === item.id),
+        ).toEqual([item]);
+        expect(
+          devOpsCapabilityEvidenceItems.find(({ id }) => id === item.id),
+        ).toBe(item);
+      }
     }
   });
 
@@ -249,6 +383,15 @@ describe('devOpsCapabilityEvidence data', () => {
     const deploymentAutomationById = new Map(
       deploymentAutomationEvidenceItems.map((item) => [item.id, item]),
     );
+    const testAutomationById = new Map(
+      testAutomationEvidenceItems.map((item) => [item.id, item]),
+    );
+    const monitoringObservabilityById = new Map(
+      monitoringObservabilityEvidenceItems.map((item) => [item.id, item]),
+    );
+    const pervasiveSecurityById = new Map(
+      pervasiveSecurityEvidenceItems.map((item) => [item.id, item]),
+    );
 
     expect(catalogById.get('terraform-codepipeline-platform')).toBe(
       continuousIntegrationById.get('terraform-codepipeline-platform'),
@@ -262,6 +405,37 @@ describe('devOpsCapabilityEvidence data', () => {
     );
     expect(catalogById.get('deterministic-kubernetes-overlays')).toBe(
       deploymentAutomationById.get('deterministic-kubernetes-overlays'),
+    );
+    expect(catalogById.get('nx-affected-quality-gates')).toBe(
+      testAutomationById.get('nx-affected-quality-gates'),
+    );
+    expect(catalogById.get('iam-security-alerting')).toBe(
+      monitoringObservabilityById.get('iam-security-alerting'),
+    );
+    expect(catalogById.get('iam-security-alerting')).toBe(
+      pervasiveSecurityById.get('iam-security-alerting'),
+    );
+  });
+
+  it('curates the four remaining capability cards with exact literal projections', () => {
+    for (const [capabilityKey, expected] of Object.entries(
+      remainingCapabilityScoreContracts,
+    )) {
+      const score = curatedDevOpsCapabilityRadarScores.find(
+        (item) => item.capabilityKey === capabilityKey,
+      );
+
+      expect(score).toEqual(expect.objectContaining(expected));
+      expect(score?.strongestEvidenceId).toBe(expected.evidenceIds[0]);
+    }
+
+    expectPublicSafeText(
+      curatedDevOpsCapabilityRadarScores
+        .filter(({ capabilityKey }) =>
+          Object.hasOwn(remainingCapabilityScoreContracts, capabilityKey),
+        )
+        .map(({ evidenceSummary }) => evidenceSummary ?? ''),
+      reviewedRemainingCapabilityScoreSummaries,
     );
   });
 
@@ -346,23 +520,17 @@ describe('devOpsCapabilityEvidence data', () => {
       },
       {
         capabilityKey: 'test-automation',
-        evidenceIds: [
-          'nx-affected-quality-gates',
-          'jest-testcontainers-postgres',
-          'regression-gates',
-        ],
+        evidenceIds:
+          remainingCapabilityScoreContracts['test-automation'].evidenceIds,
         strongestEvidenceId: 'jest-testcontainers-postgres',
-        evidenceCounts: { experience: 3 },
+        evidenceCounts: { experience: 5, skill: 11 },
       },
       {
         capabilityKey: 'pervasive-security',
-        evidenceIds: [
-          'image-digest-deployments',
-          'irsa-service-accounts',
-          'terraform-scoped-iam',
-        ],
-        strongestEvidenceId: 'irsa-service-accounts',
-        evidenceCounts: { experience: 3 },
+        evidenceIds:
+          remainingCapabilityScoreContracts['pervasive-security'].evidenceIds,
+        strongestEvidenceId: 'terraform-scoped-iam',
+        evidenceCounts: { experience: 5, skill: 12 },
       },
       {
         capabilityKey: 'continuous-delivery',
@@ -391,20 +559,19 @@ describe('devOpsCapabilityEvidence data', () => {
       },
       {
         capabilityKey: 'monitoring-observability',
-        evidenceIds: [
-          'kubectl-troubleshooting',
-          'cluster-operations',
-          'cncf-kubernetes-certification',
-          'kubernetes-skill',
-        ],
-        strongestEvidenceId: 'cncf-kubernetes-certification',
-        evidenceCounts: { certification: 1, learning: 2, skill: 1 },
+        evidenceIds:
+          remainingCapabilityScoreContracts['monitoring-observability']
+            .evidenceIds,
+        strongestEvidenceId: 'version-controlled-observability-stack',
+        evidenceCounts: { experience: 5, skill: 13 },
       },
       {
         capabilityKey: 'documentation-quality',
-        evidenceIds: ['portfolio-radar', 'roadmap-repository'],
-        strongestEvidenceId: 'portfolio-radar',
-        evidenceCounts: { project: 2 },
+        evidenceIds:
+          remainingCapabilityScoreContracts['documentation-quality']
+            .evidenceIds,
+        strongestEvidenceId: 'structured-documentation-corpus',
+        evidenceCounts: { experience: 5, skill: 3 },
       },
     ]);
   });
@@ -438,16 +605,6 @@ describe('devOpsCapabilityEvidence data', () => {
         ],
       },
       {
-        id: 'jest-testcontainers-postgres',
-        label: 'Postgres tests',
-        capabilityKeys: ['test-automation'],
-      },
-      {
-        id: 'regression-gates',
-        label: 'Regression gates',
-        capabilityKeys: ['test-automation', 'continuous-integration'],
-      },
-      {
         id: 'image-digest-deployments',
         label: 'Image digests',
         capabilityKeys: ['pervasive-security', 'deployment-automation'],
@@ -461,6 +618,16 @@ describe('devOpsCapabilityEvidence data', () => {
         id: 'terraform-scoped-iam',
         label: 'Terraform scoped IAM',
         capabilityKeys: ['flexible-infrastructure', 'pervasive-security'],
+      },
+      {
+        id: 'jest-testcontainers-postgres',
+        label: 'PostgreSQL test environments',
+        capabilityKeys: ['test-automation'],
+      },
+      {
+        id: 'regression-gates',
+        label: 'Regression gates',
+        capabilityKeys: ['test-automation'],
       },
     ]);
   });
@@ -662,7 +829,7 @@ describe('devOpsCapabilityEvidence data', () => {
     const syntheticUnselectedCatalog = [
       ...devOpsCapabilityEvidenceItems,
       {
-        id: 'synthetic-unselected-versioning-record',
+        id: 'synthetic-unselected-capability-record',
         title: 'Synthetic unselected record',
         type: 'experience' as const,
         capabilityKeys: [
@@ -670,6 +837,10 @@ describe('devOpsCapabilityEvidence data', () => {
           'trunk-based-development',
           'deployment-automation',
           'flexible-infrastructure',
+          'test-automation',
+          'monitoring-observability',
+          'pervasive-security',
+          'documentation-quality',
         ] as const,
         summary: 'Synthetic public evidence that must not alter curated cards.',
         isPublic: true,
@@ -731,6 +902,16 @@ describe('devOpsCapabilityEvidence data', () => {
         (score) => score.capabilityKey === 'flexible-infrastructure',
       )?.evidenceIds,
     ).toEqual(flexibleInfrastructureScoreEvidenceIds);
+
+    for (const [capabilityKey, expected] of Object.entries(
+      remainingCapabilityScoreContracts,
+    )) {
+      expect(
+        curatedDevOpsCapabilityRadarScores.find(
+          (score) => score.capabilityKey === capabilityKey,
+        )?.evidenceIds,
+      ).toEqual(expected.evidenceIds);
+    }
   });
 
   it('uses literal score projections instead of catalog ranking or slicing', () => {
@@ -740,21 +921,36 @@ describe('devOpsCapabilityEvidence data', () => {
       ? 'apps/github.io/src/app/devops-capability-evidence/devops-capability-evidence.data.ts'
       : 'src/app/devops-capability-evidence/devops-capability-evidence.data.ts';
     const source = readFileSync(dataFile, 'utf8');
-    const projections = [
+    const existingProjections = [
       ...source.matchAll(
         /capabilityKey: '(?:version-control|trunk-based-development|deployment-automation|flexible-infrastructure)',[\s\S]*?evidenceSummary:/g,
       ),
     ];
+    const remainingProjections = [
+      ...source.matchAll(
+        /capabilityKey: '(?:test-automation|monitoring-observability|pervasive-security|documentation-quality)',[\s\S]*?evidenceSummary:/g,
+      ),
+    ];
 
-    expect(projections).toHaveLength(4);
+    expect(existingProjections).toHaveLength(4);
+    expect(remainingProjections).toHaveLength(4);
 
-    for (const projection of projections) {
+    for (const projection of [
+      ...existingProjections,
+      ...remainingProjections,
+    ]) {
       expect(projection[0]).not.toContain('slice(');
       expect(projection[0]).not.toContain('.sort(');
       expect(projection[0]).not.toContain('.map(');
       expect(projection[0]).not.toMatch(/strength|rank/i);
       expect(projection[0]).not.toMatch(
         /\.\.\.(?:versionControlEvidenceItems|trunkBasedDevelopmentEvidenceItems|deploymentAutomationSkillEvidenceItems|flexibleInfrastructureSkillEvidenceItems)/,
+      );
+    }
+
+    for (const projection of remainingProjections) {
+      expect(projection[0]).not.toMatch(
+        /\.\.\.(?:testAutomationSkillEvidenceItems|monitoringObservabilitySkillEvidenceItems|pervasiveSecuritySkillEvidenceItems|documentationQualitySkillEvidenceItems)/,
       );
     }
   });
@@ -1069,11 +1265,11 @@ describe('devOpsCapabilityEvidence scoring', () => {
 
   it('groups evidence counts by type and capability', () => {
     expect(getEvidenceTypeCounts(devOpsCapabilityEvidenceItems)).toMatchObject({
-      experience: 48,
+      experience: 67,
       learning: 3,
       certification: 1,
       project: 2,
-      skill: 72,
+      skill: 111,
     });
 
     expect(
@@ -1101,7 +1297,7 @@ describe('devOpsCapabilityEvidence scoring', () => {
         getEvidenceTypeCounts(devOpsCapabilityEvidenceItems),
       ),
     ).toBe(
-      'Evidence includes 72 skills, 3 learning items, 48 experience items, 1 certification, and 2 projects.',
+      'Evidence includes 111 skills, 3 learning items, 67 experience items, 1 certification, and 2 projects.',
     );
   });
 });
