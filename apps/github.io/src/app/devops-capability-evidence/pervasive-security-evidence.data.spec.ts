@@ -132,7 +132,7 @@ describe('pervasiveSecurityEvidenceItems', () => {
       expect(item.proofUrl).toBeUndefined();
       expect(item.details).toBeDefined();
       expect(item.details?.period.startedAt).toSatisfy(isIsoCalendarDate);
-      if (item.details?.period.endedAt) {
+      if (item.details?.period.endedAt !== undefined) {
         expect(item.details.period.endedAt).toSatisfy(isIsoCalendarDate);
       }
       expect(item.details?.facts.length).toBeGreaterThan(0);
