@@ -78,6 +78,27 @@ describe('getSkillBrand', () => {
     );
   });
 
+  it('uses documented family icon fallbacks for deployment infrastructure skills', () => {
+    expect(getSkillBrand('GitHub API')?.iconPath).toBe(
+      getSkillBrand('GitHub')?.iconPath,
+    );
+    expect(getSkillBrand('kubectl')?.iconPath).toBe(
+      getSkillBrand('Kubernetes')?.iconPath,
+    );
+  });
+
+  it('uses AWS color metadata for deployment infrastructure concepts', () => {
+    for (const skill of ['AWS', 'AWS IAM', 'IRSA']) {
+      expect(getSkillBrand(skill)).toMatchObject({ color: '#FF9900' });
+    }
+  });
+
+  it('does not invent icons for unbranded deployment infrastructure concepts', () => {
+    for (const skill of ['GitOps', 'Sealed Secrets']) {
+      expect(hasSkillBrandIcon(getSkillBrand(skill))).toBe(false);
+    }
+  });
+
   it('returns brand metadata for mapped skills', () => {
     const brand = getSkillBrand('Kubernetes');
 

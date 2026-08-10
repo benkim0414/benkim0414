@@ -25,6 +25,7 @@ function capability(key: DoraCapabilityKey): DoraCapabilityDefinition {
 }
 
 const flexibleInfrastructure = capability('flexible-infrastructure');
+const deploymentAutomation = capability('deployment-automation');
 const continuousIntegration = capability('continuous-integration');
 const continuousDelivery = capability('continuous-delivery');
 const monitoringObservability = capability('monitoring-observability');
@@ -51,6 +52,13 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const FlexibleInfrastructure: Story = {};
+
+export const DeploymentAutomation: Story = {
+  args: {
+    capability: deploymentAutomation,
+    description: doraCapabilityDescriptions['deployment-automation'],
+  },
+};
 
 export const ContinuousIntegration: Story = {
   args: {

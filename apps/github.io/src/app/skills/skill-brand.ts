@@ -81,6 +81,7 @@ const skillIcons: Readonly<Record<string, SimpleIcon>> = {
   Docker: siDocker,
   Git: siGit,
   GitHub: siGithub,
+  'GitHub API': siGithub,
   'GitHub Actions': siGithubactions,
   'GitLab CI': siGitlab,
   'GNU Stow': siGnu,
@@ -95,6 +96,7 @@ const skillIcons: Readonly<Record<string, SimpleIcon>> = {
   JSON: siJson,
   Kubernetes: siKubernetes,
   Kustomize: siKubernetes,
+  kubectl: siKubernetes,
   Lua: siLua,
   Neovim: siNeovim,
   Nginx: siNginx,
@@ -128,6 +130,8 @@ const skillIconAssets: Readonly<Record<string, string>> = {
 
 const skillBrandColors: Readonly<Record<string, string>> = {
   AWS: '#FF9900',
+  'AWS IAM': '#FF9900',
+  IRSA: '#FF9900',
   'AWS CodePipeline': '#FFFFFF',
   'AWS CodeBuild': '#FFFFFF',
   'Amazon ECR': '#FFFFFF',
