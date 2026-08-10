@@ -37,7 +37,7 @@ const monitoringObservabilityOwnedExperienceItems = [
       'Alertmanager',
       'Loki',
       'Grafana',
-      'Grafana Alloy',
+      'Alloy',
       'Argo CD',
     ],
     details: {

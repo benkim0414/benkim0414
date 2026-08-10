@@ -39,6 +39,7 @@ describe('getSkillBrand', () => {
     'GitHub Actions',
     'Docker',
     'Grafana',
+    'Jest',
     'Markdown',
     'Prometheus',
     'PostgreSQL',
@@ -48,17 +49,12 @@ describe('getSkillBrand', () => {
     expect(hasSkillBrandIcon(getSkillBrand(skill))).toBe(true);
   });
 
-  it.each([
-    'IRSA',
-    'promtool',
-    'Kubernetes RBAC',
-    'Alertmanager',
-    'Loki',
-    'Grafana Alloy',
-    'Sealed Secrets',
-  ])('keeps %s text-only instead of fabricating an icon', (skill) => {
-    expect(hasSkillBrandIcon(getSkillBrand(skill))).toBe(false);
-  });
+  it.each(['IRSA', 'promtool', 'Sealed Secrets'])(
+    'keeps %s text-only instead of fabricating an icon',
+    (skill) => {
+      expect(hasSkillBrandIcon(getSkillBrand(skill))).toBe(false);
+    },
+  );
 
   it.each(['AWS', 'AWS IAM'])(
     'keeps the existing color-only treatment for %s',
@@ -125,6 +121,31 @@ describe('getSkillBrand', () => {
       getSkillBrand('Kubernetes')?.iconPath,
     );
   });
+
+  it('uses the Prometheus icon for Alertmanager', () => {
+    expect(getSkillBrand('Alertmanager')?.iconPath).toBe(
+      getSkillBrand('Prometheus')?.iconPath,
+    );
+  });
+
+  it('uses the Kubernetes icon for Kubernetes RBAC', () => {
+    expect(getSkillBrand('Kubernetes RBAC')?.iconPath).toBe(
+      getSkillBrand('Kubernetes')?.iconPath,
+    );
+  });
+
+  it.each([
+    ['Loki', /loki.*\.svg/],
+    ['Alloy', /alloy.*\.svg/],
+  ] as const)(
+    'uses the official local project asset for %s',
+    (skill, asset) => {
+      const brand = getSkillBrand(skill);
+
+      expect(brand?.iconPath).toBeUndefined();
+      expect(brand?.iconDataUrl).toMatch(asset);
+    },
+  );
 
   it('uses AWS color metadata for deployment infrastructure concepts', () => {
     for (const skill of ['AWS', 'AWS IAM', 'IRSA']) {
