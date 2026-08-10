@@ -39,6 +39,7 @@ describe('getSkillBrand', () => {
     'GitHub Actions',
     'Docker',
     'Grafana',
+    'Markdown',
     'Prometheus',
     'PostgreSQL',
     'TypeScript',
@@ -79,6 +80,8 @@ describe('getSkillBrand', () => {
   it.each([
     'AWS CodePipeline',
     'AWS CodeBuild',
+    'AWS EventBridge',
+    'AWS Lambda',
     'Amazon ECR',
     'AWS Systems Manager Parameter Store',
   ])('uses a local full-color AWS asset for %s', (skill) => {

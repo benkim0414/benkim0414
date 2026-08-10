@@ -26,6 +26,7 @@ import {
   siJfrog,
   siKubernetes,
   siLua,
+  siMarkdown,
   siNeovim,
   siNodedotjs,
   siNx,
@@ -53,8 +54,10 @@ import {
 import codeBuildIconUrl from '../../assets/skills/aws/aws-codebuild.svg?no-inline';
 import codePipelineIconUrl from '../../assets/skills/aws/aws-codepipeline.svg?no-inline';
 import ecrIconUrl from '../../assets/skills/aws/amazon-ecr.svg?no-inline';
+import eventBridgeIconUrl from '../../assets/skills/aws/amazon-eventbridge.svg?no-inline';
 import eksIconUrl from '../../assets/skills/aws/amazon-eks.svg?no-inline';
 import systemsManagerIconUrl from '../../assets/skills/aws/aws-systems-manager.svg?no-inline';
+import lambdaIconUrl from '../../assets/skills/aws/aws-lambda.svg?no-inline';
 
 export interface SkillBrand {
   name: string;
@@ -99,6 +102,7 @@ const skillIcons: Readonly<Record<string, SimpleIcon>> = {
   Kustomize: siKubernetes,
   kubectl: siKubernetes,
   Lua: siLua,
+  Markdown: siMarkdown,
   Neovim: siNeovim,
   Nginx: siNginx,
   'Node.js': siNodedotjs,
@@ -127,6 +131,8 @@ const skillIconAssets: Readonly<Record<string, string>> = {
   'AWS CodeBuild': codeBuildIconUrl,
   'Amazon ECR': ecrIconUrl,
   'Amazon EKS': eksIconUrl,
+  'AWS EventBridge': eventBridgeIconUrl,
+  'AWS Lambda': lambdaIconUrl,
   'AWS Systems Manager Parameter Store': systemsManagerIconUrl,
 };
 
@@ -138,6 +144,8 @@ const skillBrandColors: Readonly<Record<string, string>> = {
   'AWS CodeBuild': '#FFFFFF',
   'Amazon ECR': '#FFFFFF',
   'Amazon EKS': '#FFFFFF',
+  'AWS EventBridge': '#FFFFFF',
+  'AWS Lambda': '#FFFFFF',
   'AWS Systems Manager Parameter Store': '#FFFFFF',
 };
 
