@@ -1,6 +1,10 @@
 import { continuousDeliveryEvidenceItems } from './continuous-delivery-evidence.data';
 import { continuousIntegrationEvidenceItems } from './continuous-integration-evidence.data';
 import { deploymentAutomationEvidenceItems } from './deployment-automation-evidence.data';
+import {
+  expectPublicSafeEvidence,
+  expectPublicSafeText,
+} from './public-evidence-safety.test-helpers';
 
 const expectedIds = [
   'merge-triggered-deployment-path',
@@ -55,7 +59,9 @@ describe('deploymentAutomationEvidenceItems', () => {
   });
 
   it('keeps the approved measurements attached to their experiences', () => {
-    expect(byId.get('merge-triggered-deployment-path')?.details?.metrics).toEqual([
+    expect(
+      byId.get('merge-triggered-deployment-path')?.details?.metrics,
+    ).toEqual([
       {
         label: 'API-triggered deployment runs',
         value: 252,
@@ -187,28 +193,13 @@ describe('deploymentAutomationEvidenceItems', () => {
   });
 
   it('keeps public evidence free of private and negative-source language', () => {
-    const publicText = JSON.stringify(deploymentAutomationEvidenceItems);
-
-    expect(publicText).not.toMatch(/https?:\/\//);
-    expect(publicText).not.toMatch(/\b\d{12}\b/);
-    expect(publicText).not.toMatch(/employer|customer|client|organization/i);
-    expect(publicText).not.toMatch(
-      /repository name|service name|workflow name|private[- ]source/i,
-    );
-    expect(publicText).not.toMatch(
-      /manual (deployment|step|process|residue)|authorization (gap|missing)|failing suite/i,
-    );
-    expect(publicText).not.toMatch(
-      /requires one manual intervention|remains manual|does not verify successful build completion|not fully measurable/i,
-    );
+    expectPublicSafeEvidence(deploymentAutomationEvidenceItems);
   });
 
   it('allows the affirmative deployment-completion guard', () => {
     const affirmativeGuard =
       'Automated deployments completed without manual intervention.';
 
-    expect(affirmativeGuard).not.toMatch(
-      /manual (deployment|step|process|residue)|authorization (gap|missing)|failing suite/i,
-    );
+    expectPublicSafeText([affirmativeGuard, 'Zero build failures.']);
   });
 });

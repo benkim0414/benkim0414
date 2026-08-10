@@ -14,6 +14,7 @@ import { deploymentAutomationEvidenceItems } from './deployment-automation-evide
 import { deploymentAutomationSkillEvidenceItems } from './deployment-automation-skill-evidence.data';
 import { flexibleInfrastructureEvidenceItems } from './flexible-infrastructure-evidence.data';
 import { flexibleInfrastructureSkillEvidenceItems } from './flexible-infrastructure-skill-evidence.data';
+import { expectPublicSafeText } from './public-evidence-safety.test-helpers';
 import { trunkBasedDevelopmentEvidenceItems } from './trunk-based-development-evidence.data';
 import { versionControlEvidenceItems } from './version-control-evidence.data';
 import {
@@ -891,6 +892,11 @@ describe('devOpsCapabilityEvidence data', () => {
     expect(flexibleInfrastructureScore?.strongestEvidenceId).toBe(
       flexibleInfrastructureScore?.evidenceIds[0],
     );
+
+    expectPublicSafeText([
+      deploymentAutomationScore?.evidenceSummary ?? '',
+      flexibleInfrastructureScore?.evidenceSummary ?? '',
+    ]);
   });
 });
 
