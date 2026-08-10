@@ -21,31 +21,6 @@ const requiredSharedExperience = (id: string): CapabilityEvidenceItem => {
   return item;
 };
 
-const publicSharedFacts: Readonly<Record<string, readonly string[]>> = {
-  'codepipeline-approval-gated-deployment': [
-    'Automated deployment progresses through a reusable production approval gate.',
-  ],
-  'github-actions-gitops-handoff': [
-    'GitHub Actions dispatches affected deployments through version-controlled Kustomize configuration for Argo CD reconciliation.',
-  ],
-};
-
-const publicSharedExperience = (id: string): CapabilityEvidenceItem => {
-  const item = requiredSharedExperience(id);
-  const facts = publicSharedFacts[id];
-
-  if (!item.details || !facts) {
-    throw new Error(
-      `Deployment Automation evidence requires public shared facts: ${id}`,
-    );
-  }
-
-  return {
-    ...item,
-    details: { ...item.details, facts },
-  };
-};
-
 const deploymentAutomationAdditionalExperienceItems = [
   {
     id: 'merge-triggered-deployment-path',
@@ -265,7 +240,7 @@ const imageDigestDeployments: CapabilityEvidenceItem = {
 
 export const deploymentAutomationEvidenceItems: readonly CapabilityEvidenceItem[] = [
   ...deploymentAutomationAdditionalExperienceItems,
-  publicSharedExperience('codepipeline-approval-gated-deployment'),
-  publicSharedExperience('github-actions-gitops-handoff'),
+  requiredSharedExperience('codepipeline-approval-gated-deployment'),
+  requiredSharedExperience('github-actions-gitops-handoff'),
   imageDigestDeployments,
 ];
