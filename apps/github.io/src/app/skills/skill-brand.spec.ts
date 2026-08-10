@@ -34,6 +34,42 @@ const cdSkillNames = [
 ] as const;
 
 describe('getSkillBrand', () => {
+  it.each([
+    'Git',
+    'GitHub Actions',
+    'Docker',
+    'Grafana',
+    'Prometheus',
+    'PostgreSQL',
+    'TypeScript',
+    'YAML',
+  ])('uses the existing truthful Simple Icon for %s', (skill) => {
+    expect(hasSkillBrandIcon(getSkillBrand(skill))).toBe(true);
+  });
+
+  it.each([
+    'IRSA',
+    'promtool',
+    'Kubernetes RBAC',
+    'Alertmanager',
+    'Loki',
+    'Grafana Alloy',
+    'Sealed Secrets',
+  ])('keeps %s text-only instead of fabricating an icon', (skill) => {
+    expect(hasSkillBrandIcon(getSkillBrand(skill))).toBe(false);
+  });
+
+  it.each(['AWS', 'AWS IAM'])(
+    'keeps the existing color-only treatment for %s',
+    (skill) => {
+      expect(getSkillBrand(skill)).toEqual({
+        name: skill,
+        color: '#FF9900',
+        foreground: 'var(--color-on-light)',
+      });
+    },
+  );
+
   it('resolves an icon for every selected CI skill', () => {
     for (const skill of ciSkillNames) {
       expect(hasSkillBrandIcon(getSkillBrand(skill))).toBe(true);
