@@ -138,7 +138,7 @@ const deploymentAutomationAdditionalExperienceItems = [
     label: 'Automated secret delivery',
     title: 'Automated encrypted secret delivery',
     type: 'experience',
-    capabilityKeys: ['deployment-automation'],
+    capabilityKeys: ['deployment-automation', 'pervasive-security'],
     summary:
       'Delivered encrypted declarative secrets through automated Kubernetes reconciliation.',
     technologies: ['Sealed Secrets', 'Argo CD', 'Kubernetes'],

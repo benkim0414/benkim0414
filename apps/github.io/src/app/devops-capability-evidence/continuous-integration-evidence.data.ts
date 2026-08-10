@@ -129,7 +129,7 @@ const continuousIntegrationEvidenceItemCatalog = [
     label: 'PostgreSQL gates',
     title: 'Database-backed CodeBuild test gates',
     type: 'experience',
-    capabilityKeys: ['continuous-integration'],
+    capabilityKeys: ['continuous-integration', 'test-automation'],
     isPublic: true,
     strength: 'strong',
     summary:
@@ -541,7 +541,7 @@ const continuousIntegrationEvidenceItemCatalog = [
     label: 'Tested CI code',
     title: 'Tests for CI support code and reconciled configuration',
     type: 'experience',
-    capabilityKeys: ['continuous-integration'],
+    capabilityKeys: ['continuous-integration', 'test-automation'],
     isPublic: true,
     strength: 'strong',
     summary:

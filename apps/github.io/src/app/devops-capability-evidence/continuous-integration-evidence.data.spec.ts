@@ -2,6 +2,7 @@ import {
   continuousIntegrationEvidenceInitiatives,
   continuousIntegrationEvidenceItems,
 } from './continuous-integration-evidence.data';
+import { capabilityEvidenceInitiatives } from './capability-evidence-initiatives';
 
 const expectedIds = [
   'terraform-codepipeline-platform',
@@ -31,6 +32,27 @@ const byId = new Map(
 const capabilityKeysById = (id: string) => byId.get(id)?.capabilityKeys ?? [];
 
 describe('continuousIntegrationEvidenceItems', () => {
+  it('exposes neutral public initiatives for the remaining DORA capabilities', () => {
+    expect(capabilityEvidenceInitiatives).toMatchObject({
+      automatedTestingPractices: {
+        id: 'automated-testing-practices',
+        label: 'Automated testing practices',
+      },
+      observabilityPlatform: {
+        id: 'observability-platform',
+        label: 'Observability platform',
+      },
+      securityGovernance: {
+        id: 'security-governance',
+        label: 'Security governance',
+      },
+      documentationSystem: {
+        id: 'documentation-system',
+        label: 'Documentation system',
+      },
+    });
+  });
+
   it('stores every approved contribution as one atomic record', () => {
     expect(continuousIntegrationEvidenceItems.map((item) => item.id)).toEqual(
       expectedIds,
@@ -279,5 +301,14 @@ describe('continuousIntegrationEvidenceItems', () => {
     expect(
       byId.get('github-actions-gitops-handoff')?.capabilityKeys,
     ).toContain('deployment-automation');
+  });
+
+  it('maps reusable CI evidence to Test Automation', () => {
+    expect(byId.get('codebuild-postgresql-tests')?.capabilityKeys).toContain(
+      'test-automation',
+    );
+    expect(byId.get('tested-ci-automation')?.capabilityKeys).toContain(
+      'test-automation',
+    );
   });
 });
