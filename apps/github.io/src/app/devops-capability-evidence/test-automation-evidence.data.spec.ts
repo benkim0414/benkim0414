@@ -60,6 +60,34 @@ const approvedPublicCatalogText = [
 ] as const;
 
 const isoDate = /^\d{4}-\d{2}-\d{2}$/;
+const isIsoCalendarDate = (value: string): boolean => {
+  if (!isoDate.test(value)) {
+    return false;
+  }
+
+  const [year, month, day] = value.split('-').map(Number);
+  const daysInMonth = [
+    31,
+    year % 4 === 0 && (year % 100 !== 0 || year % 400 === 0) ? 29 : 28,
+    31,
+    30,
+    31,
+    30,
+    31,
+    31,
+    30,
+    31,
+    30,
+    31,
+  ];
+
+  return (
+    month >= 1 &&
+    month <= 12 &&
+    day >= 1 &&
+    day <= (daysInMonth[month - 1] ?? 0)
+  );
+};
 const byId = new Map(
   testAutomationEvidenceItems.map((item) => [item.id, item]),
 );
@@ -68,6 +96,11 @@ const continuousIntegrationById = new Map(
 );
 
 describe('testAutomationEvidenceItems', () => {
+  it('fails if the catalog contract accepts an impossible calendar date', () => {
+    expect(isIsoCalendarDate('2024-02-29')).toBe(true);
+    expect(isIsoCalendarDate('2024-02-30')).toBe(false);
+  });
+
   it('fails if the approved catalog order, completeness, or canonical shared identities change', () => {
     expect(testAutomationEvidenceItems.map((item) => item.id)).toEqual(
       expectedIds,
@@ -95,7 +128,10 @@ describe('testAutomationEvidenceItems', () => {
       expect(item.isSensitive).not.toBe(true);
       expect(item.organization).toBeUndefined();
       expect(item.proofUrl).toBeUndefined();
-      expect(item.details?.period.startedAt).toMatch(isoDate);
+      expect(item.details?.period.startedAt).toSatisfy(isIsoCalendarDate);
+      if (item.details?.period.endedAt) {
+        expect(item.details.period.endedAt).toSatisfy(isIsoCalendarDate);
+      }
       expect(item.details?.facts.length).toBeGreaterThan(0);
 
       for (const metric of item.details?.metrics ?? []) {
@@ -108,6 +144,7 @@ describe('testAutomationEvidenceItems', () => {
         }
 
         if (metric.denominator !== undefined) {
+          expect(Number.isFinite(metric.denominator)).toBe(true);
           expect(metric.denominator).toBeGreaterThan(0);
           expect(metric.value).toBeLessThanOrEqual(metric.denominator);
         }
