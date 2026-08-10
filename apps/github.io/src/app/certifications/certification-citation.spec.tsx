@@ -49,33 +49,27 @@ describe('CertificationCitation', () => {
       hoverCard.id,
     );
     const metadataList = hoverCard.querySelector('.astryx-metadata-list');
-    const certificationName = Array.from(
+    const metadataTitle = Array.from(
       metadataList?.querySelectorAll('*') ?? [],
-    ).find(
-      (element) =>
-        element.textContent === 'Certified Kubernetes Administrator',
-    );
+    ).find((element) => element.textContent === 'Certification');
     const statusBadge = hoverCard.querySelector(
       '.astryx-badge[data-variant="green"]',
     );
 
     expect(metadataList).toBeTruthy();
-    expect(certificationName?.textContent).toBe(
-      'Certified Kubernetes Administrator',
-    );
-    expect(certificationName?.closest('.astryx-metadata-list')).toBe(
-      metadataList,
-    );
-    expect(certificationName?.closest('dl')).toBeNull();
+    expect(metadataTitle?.textContent).toBe('Certification');
+    expect(metadataTitle?.closest('.astryx-metadata-list')).toBe(metadataList);
+    expect(metadataTitle?.closest('dl')).toBeNull();
     expect(statusBadge?.textContent).toBe('Active');
     expect(statusBadge?.closest('dd')).toBeTruthy();
     expect(statusBadge?.querySelector('a, button')).toBeNull();
     expect(
       Array.from(hoverCard.querySelectorAll('dt'), (item) => item.textContent),
-    ).toEqual(['ID', 'Status', 'Completed']);
+    ).toEqual(['Name', 'ID', 'Status', 'Completed']);
     expect(
       Array.from(hoverCard.querySelectorAll('dd'), (item) => item.textContent),
     ).toEqual([
+      'Certified Kubernetes Administrator',
       'LF-assbyzy17c',
       'Active',
       'Apr 20, 2025',
