@@ -1,7 +1,7 @@
 ---
 title: Tokenize DORA Capability Evidence
 date: 2026-07-30
-last_updated: 2026-08-09
+last_updated: 2026-08-10
 category: conventions
 module: github.io DevOps capability evidence
 problem_type: convention
@@ -21,6 +21,8 @@ tags:
     github-io,
     dora,
     continuous-integration,
+    version-control,
+    trunk-based-development,
     evidence-model,
     privacy,
     curated-projection,
@@ -40,7 +42,9 @@ The DevOps capability evidence model publishes portfolio proof, not raw intervie
 
 The Continuous Integration example makes that boundary concrete. Its experience catalog has 18 stable IDs, with an explicit expected-ID and uniqueness contract in `apps/github.io/src/app/devops-capability-evidence/continuous-integration-evidence.data.spec.ts:6-35`. A separate skill catalog has 13 stable IDs and links every skill to one or more supporting experience records in `apps/github.io/src/app/devops-capability-evidence/continuous-integration-skill-evidence.data.spec.ts:4-21` and `apps/github.io/src/app/devops-capability-evidence/continuous-integration-skill-evidence.data.spec.ts:114-149`.
 
-The shared evidence catalog composes both datasets in `apps/github.io/src/app/devops-capability-evidence/devops-capability-evidence.data.ts:256-257`. The CI score then selects exactly five experience IDs before appending the canonical skill IDs, with matching counts and a capability-level `evidenceSummary`, in `apps/github.io/src/app/devops-capability-evidence/devops-capability-evidence.data.ts:91-106`.
+Version Control and Trunk-Based Development apply the same model independently. Their complete public catalogs contain nine and six experience records, while their separate catalogs contain thirteen and six strongly supported skills. Exact ID, public-data, ordering, and support-link contracts live in `apps/github.io/src/app/devops-capability-evidence/version-control-evidence.data.spec.ts:3-53`, `apps/github.io/src/app/devops-capability-evidence/trunk-based-development-evidence.data.spec.ts:3-49`, `apps/github.io/src/app/devops-capability-evidence/version-control-skill-evidence.data.spec.ts:6-122`, and `apps/github.io/src/app/devops-capability-evidence/trunk-based-development-skill-evidence.data.spec.ts:4-88`.
+
+The shared evidence catalog composes the capability datasets in `apps/github.io/src/app/devops-capability-evidence/devops-capability-evidence.data.ts:246-254`. The CI score then selects exactly five experience IDs before appending the canonical skill IDs, with matching counts and a capability-level `evidenceSummary`, in `apps/github.io/src/app/devops-capability-evidence/devops-capability-evidence.data.ts:120-135`.
 
 ## Guidance
 
@@ -52,6 +56,8 @@ Atomic means that one record should express one contribution that can be selecte
 
 Privacy is a data contract, not a final copy-editing pass. Every CI experience must be public, non-sensitive, organization-free, proof-URL-free, dated, and backed by at least one fact (`apps/github.io/src/app/devops-capability-evidence/continuous-integration-evidence.data.spec.ts:132-170`). A regression test also rejects URLs, 12-digit account-like values, parameter paths, and employer, customer, or client wording (`apps/github.io/src/app/devops-capability-evidence/continuous-integration-evidence.data.spec.ts:173-180`). Apply the same boundary to the skill catalog (`apps/github.io/src/app/devops-capability-evidence/continuous-integration-skill-evidence.data.spec.ts:140-149`).
 
+For a public portfolio, retain only affirmative evidence for the capability. Do not publish missing safeguards, caveats about distribution, or absent automation as evidence merely because the wording is technically accurate. State the demonstrated outcome directly and test known negative patterns narrowly enough that positive phrases such as “without manual intervention” remain valid. The Version Control contract demonstrates both the affirmative fact assertion and this focused negative-language guard in `apps/github.io/src/app/devops-capability-evidence/version-control-evidence.data.spec.ts:101-120`; the Trunk-Based Development catalog applies the positive-only boundary to every record in `apps/github.io/src/app/devops-capability-evidence/trunk-based-development-evidence.data.spec.ts:24-49`.
+
 ### Keep skills separate and evidence-backed
 
 A skill is a competency supported by accomplishments, not another accomplishment and not every string found in an experience's `technologies` array. Store it as `type: 'skill'` with an official public name and focused `supportingEvidenceIds`. The shared type makes that relationship explicit at `apps/github.io/src/app/devops-capability-evidence/devops-capability-evidence.types.ts:64-84`.
@@ -61,6 +67,8 @@ Each support ID must resolve to a real experience record. The CI skill tests loc
 ### Make the compact projection explicit
 
 Do not derive the compact card with `slice(0, 5)`, runtime ranking, or incidental catalog order. Keep its selected experience IDs literally in the capability score, append the canonical skill IDs, and update `evidenceCounts` in the same change. Integrity tests verify that every referenced ID exists, supports the capability, and matches the declared type counts (`apps/github.io/src/app/devops-capability-evidence/devops-capability-evidence.spec.ts:417-446`). A separate CI assertion locks the exact five experiences and the complete ordered skill suffix (`apps/github.io/src/app/devops-capability-evidence/devops-capability-evidence.spec.ts:449-469`).
+
+When the projection itself must be reviewable as a fixed editorial decision, list both the five experience IDs and the complete skill suffix literally. The Version Control and Trunk-Based Development score records do this, with matching counts and score-owned summaries, in `apps/github.io/src/app/devops-capability-evidence/devops-capability-evidence.data.ts:65-118`. This stricter form makes additions, removals, and reordering visible in the score diff instead of inheriting a runtime map or catalog change.
 
 The card resolver follows score order and skips unresolved IDs; it does not truncate or re-rank the full catalog (`apps/github.io/src/app/devops-capability-evidence/dora-capability-card.evidence.ts:35-52`). Adding a sixth experience to the catalog does not change the current compact summary unless the score references change.
 
@@ -92,13 +100,15 @@ summary text explicitly rather than assuming catalog checks cover it.
 
 Storybook must consume the same production evidence and score arrays. Its
 contract verifies inherited production data and the exact curated labels in
-`apps/github.io/src/app/devops-capability-evidence/dora-capability-card.stories.spec.ts:10-47`.
+`apps/github.io/src/app/devops-capability-evidence/dora-capability-card.stories.spec.ts:92-167`.
 This prevents a polished Storybook-only fixture from masking stale production
 copy.
 
 ### Separate chronology from grouping
 
-Chronology belongs to canonical data order. For CI skills, tests derive each skill's earliest supporting experience date and lock delivery-flow order for equal dates (`apps/github.io/src/app/devops-capability-evidence/continuous-integration-skill-evidence.data.spec.ts:80-111`). The score reuses that order by mapping over the canonical skill catalog (`apps/github.io/src/app/devops-capability-evidence/devops-capability-evidence.data.ts:93-100`).
+Chronology belongs to canonical data order. For CI skills, tests derive each skill's earliest supporting experience date and lock delivery-flow order for equal dates (`apps/github.io/src/app/devops-capability-evidence/continuous-integration-skill-evidence.data.spec.ts:80-111`). The score reuses that order by mapping over the canonical skill catalog (`apps/github.io/src/app/devops-capability-evidence/devops-capability-evidence.data.ts:125-132`).
+
+Version Control and Trunk-Based Development also derive each skill's earliest date from its focused support IDs and assert nondecreasing display order. Their tests additionally lock the complete ordered titles and exact support mapping, including Conventional Commits as the public skill rather than an implementation-specific commit-message tool (`apps/github.io/src/app/devops-capability-evidence/version-control-skill-evidence.data.spec.ts:6-128` and `apps/github.io/src/app/devops-capability-evidence/trunk-based-development-skill-evidence.data.spec.ts:4-94`).
 
 Presentation grouping is a separate operation. The card maps evidence types into `applied`, `certifications`, `skills`, and `learning`, emits groups in that fixed order, and preserves score order inside each group (`apps/github.io/src/app/devops-capability-evidence/dora-capability-card.evidence.ts:15-29` and `apps/github.io/src/app/devops-capability-evidence/dora-capability-card.evidence.ts:54-77`). Do not use UI grouping as the chronology algorithm.
 
@@ -155,11 +165,12 @@ Keep the reusable record and compact projection separate:
 // Compact projection: explicit selection, not catalog.slice(0, 5).
 evidenceIds: [
   'terraform-codepipeline-platform',
-  'codebuild-pr-gates',
-  'nx-affected-quality-gates',
   'github-actions-gitops-handoff',
-  'kustomize-tag-update-reliability',
-  ...continuousIntegrationSkillEvidenceItems.map((item) => item.id),
+  'argocd-environment-state-from-version-control',
+  'argocd-automated-database-migrations',
+  'merge-commit-history',
+  'version-control-skill-git',
+  // ...the remaining literal, ordered skill IDs
 ]
 
 // Capability-level copy: one score-owned sentence, not item-level prose.
@@ -206,6 +217,7 @@ linked worktree and complete visual QA before treating the copy change as ready.
 - `docs/solutions/design-patterns/compact-capability-evidence-renderers.md`
 - `docs/solutions/design-patterns/public-evidence-portfolio-visualizations.md`
 - `docs/solutions/workflow-issues/verify-storybook-from-linked-worktree.md`
+- `docs/solutions/ui-bugs/storybook-certification-badge-fixtures.md`
 - `docs/solutions/design-patterns/project-skill-icon-mapping.md`
 - `docs/solutions/logic-errors/color-only-certification-brand-fallback.md`
 - `docs/solutions/best-practices/astryx-stylex-tailwind-boundaries.md`
