@@ -893,10 +893,16 @@ describe('devOpsCapabilityEvidence data', () => {
       flexibleInfrastructureScore?.evidenceIds[0],
     );
 
-    expectPublicSafeText([
-      deploymentAutomationScore?.evidenceSummary ?? '',
-      flexibleInfrastructureScore?.evidenceSummary ?? '',
-    ]);
+    expectPublicSafeText(
+      [
+        deploymentAutomationScore?.evidenceSummary ?? '',
+        flexibleInfrastructureScore?.evidenceSummary ?? '',
+      ],
+      [
+        'Built merge-triggered deployment automation across environments, with generator-based onboarding, automated secret delivery, and deterministic Kubernetes rendering.',
+        'Built reusable Terraform and Kubernetes foundations with workload identity, scoped IAM, delivery-platform provisioning, and GitOps-managed environments.',
+      ],
+    );
   });
 });
 

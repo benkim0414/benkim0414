@@ -14,6 +14,61 @@ const expectedIds = [
   'reusable-kubernetes-deployment-foundations',
 ] as const;
 
+const approvedPublicCatalogText = [
+  'Terraform-managed cloud foundations',
+  'Terraform cloud foundations',
+  'Managed reusable cloud foundations and container repositories with Terraform.',
+  'Terraform',
+  'AWS',
+  'Amazon ECR',
+  'GitHub Actions monorepo migration',
+  'Terraform roots',
+  'Terraform-managed container repositories',
+  'Terraform manages thirteen roots and three container repositories.',
+  'Shared Terraform IRSA modules',
+  'Shared IRSA modules',
+  'Nine per-service IRSA modules use the shared Terraform module.',
+  'AWS IAM',
+  'IRSA',
+  'Kubernetes',
+  'Per-service IRSA modules using the shared module',
+  'Terraform-managed scoped IAM policies',
+  'Terraform scoped IAM',
+  'Terraform manages IRSA service accounts and scoped IAM policies.',
+  'Reusable Terraform delivery platform',
+  'Reusable Terraform CI pipelines',
+  'Designed and built reusable Terraform modules that provisioned consistent delivery pipelines, build projects, container repositories, and scoped IAM roles.',
+  'AWS CodePipeline',
+  'AWS CodeBuild',
+  'AWS CodePipeline platform',
+  'Delivery pipelines',
+  'Build projects',
+  'Services',
+  'Lifetime builds',
+  'Environment state from version control',
+  'Version-controlled environment state',
+  'Managed Kubernetes environment state in version control and reconciled it through Argo CD.',
+  'Argo CD',
+  'Kustomize',
+  'Live Argo CD applications',
+  'Automated demo applications',
+  'Environment configuration is reconciled from version control for repeatable deployment state.',
+  'Deterministic Kubernetes overlay rendering',
+  'Deterministic overlays',
+  'Rendered Kubernetes base-and-overlay configuration deterministically for repeatable deployment state.',
+  'GitOps',
+  'Deterministic overlay renders',
+  'Overlay build failures',
+  'All 39 inspected overlays produced deterministic second renders, with zero overlay build failures.',
+  'Reusable Kubernetes deployment foundations',
+  'Reusable K8s foundations',
+  'Maintained reusable Kubernetes deployment foundations with kubectl, Helm, and Docker.',
+  'kubectl',
+  'Helm',
+  'Docker',
+  'Reusable Docker and Helm deployment tooling supports Kubernetes deployments.',
+] as const;
+
 const byId = new Map(
   flexibleInfrastructureEvidenceItems.map((item) => [item.id, item]),
 );
@@ -105,6 +160,9 @@ describe('flexibleInfrastructureEvidenceItems', () => {
   });
 
   it('keeps the complete catalog public-safe and affirmative', () => {
-    expectPublicSafeEvidence(flexibleInfrastructureEvidenceItems);
+    expectPublicSafeEvidence(
+      flexibleInfrastructureEvidenceItems,
+      approvedPublicCatalogText,
+    );
   });
 });

@@ -9,7 +9,7 @@ const prohibitedPublicEvidencePatterns = [
   ],
   [
     'filesystem or parameter path',
-    /filesystem path|parameter[- ]?path|[a-z]:\\|\/(?:home|Users|workspace|repos?|apps|src|infra|terraform|modules?|services?|workflows?|images?|parameters?)(?:\/|\\)/i,
+    /filesystem path|parameter[- ]?path|(?:^|[\s"'])\/(?:[a-z0-9._~-]+\/)+[a-z0-9._~-]+|(?:^|[\s"'])[a-z]:\\(?:[^\\\s"']+\\)+[^\\\s"']+/i,
   ],
   [
     'employer, customer, client, organization, or business-domain language',
@@ -29,16 +29,27 @@ const prohibitedPublicEvidencePatterns = [
   ],
 ] as const;
 
-export const expectPublicSafeText = (text: readonly string[]): void => {
+export const expectPublicSafeText = (
+  text: readonly string[],
+  approvedText?: readonly string[],
+): void => {
   const publicText = JSON.stringify(text);
 
   for (const [category, pattern] of prohibitedPublicEvidencePatterns) {
     expect(publicText, category).not.toMatch(pattern);
   }
+
+  if (approvedText) {
+    const approved = new Set(approvedText);
+    const unreviewed = text.filter((value) => !approved.has(value));
+
+    expect(unreviewed, 'unreviewed public catalog text').toEqual([]);
+  }
 };
 
 export const expectPublicSafeEvidence = (
   items: readonly CapabilityEvidenceItem[],
+  approvedText: readonly string[],
 ): void => {
   for (const item of items) {
     expect(item.isPublic, `${item.id} must be public`).toBe(true);
@@ -47,5 +58,19 @@ export const expectPublicSafeEvidence = (
     expect(item.proofUrl, `${item.id} proof URL`).toBeUndefined();
   }
 
-  expectPublicSafeText(items.map((item) => JSON.stringify(item)));
+  const publicationText = items.flatMap((item) => [
+    item.title,
+    ...(item.label ? [item.label] : []),
+    item.summary,
+    ...(item.technologies ?? []),
+    ...(item.details
+      ? [
+          item.details.initiative.label,
+          ...item.details.metrics.map(({ label }) => label),
+          ...item.details.facts,
+        ]
+      : []),
+  ]);
+
+  expectPublicSafeText(publicationText, approvedText);
 };

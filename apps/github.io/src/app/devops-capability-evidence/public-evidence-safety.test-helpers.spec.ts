@@ -21,10 +21,18 @@ const unsafeEvidenceCases = [
   ['proof URL', { proofUrl: 'https://example.test/private-proof' }],
 ] satisfies readonly [string, Partial<CapabilityEvidenceItem>][];
 
+const approvedFixtureText = [
+  publicEvidenceFixture.title,
+  publicEvidenceFixture.summary,
+];
+
 describe('public evidence safety test helper', () => {
   it.each(unsafeEvidenceCases)('rejects %s', (_category, unsafeFields) => {
     expect(() =>
-      expectPublicSafeEvidence([{ ...publicEvidenceFixture, ...unsafeFields }]),
+      expectPublicSafeEvidence(
+        [{ ...publicEvidenceFixture, ...unsafeFields }],
+        approvedFixtureText,
+      ),
     ).toThrow();
   });
 
@@ -32,6 +40,8 @@ describe('public evidence safety test helper', () => {
     ['private repository name', 'Private repository name: platform-delivery'],
     ['filesystem path', 'Filesystem path: /workspace/platform/deploy'],
     ['parameter path', 'Parameter path: /platform/production/token'],
+    ['unlabelled parameter path', '/platform/production/token'],
+    ['unlabelled filesystem path', '/opt/company/deploy'],
     ['employer language', 'Employer deployment platform'],
     ['customer language', 'Customer delivery workflow'],
     ['client language', 'Client infrastructure'],
@@ -52,6 +62,18 @@ describe('public evidence safety test helper', () => {
   ])('rejects %s', (_category, unsafeText) => {
     expect(() => expectPublicSafeText([unsafeText])).toThrow();
   });
+
+  it.each([
+    ['unlabelled internal service identifier', 'orders-api'],
+    ['unlabelled personal identity', 'Example Person'],
+  ])(
+    'rejects %s when it is not reviewed public text',
+    (_category, unsafeText) => {
+      expect(() =>
+        expectPublicSafeText([unsafeText], ['Approved public catalog text.']),
+      ).toThrow();
+    },
+  );
 
   it('permits approved affirmative phrases', () => {
     expectPublicSafeText([
