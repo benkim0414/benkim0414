@@ -195,7 +195,7 @@ describe('DoraCapabilityCard', () => {
     },
   );
 
-  it('renders Version Control skills neutrally with known logos and text fallback', () => {
+  it('renders Version Control skills neutrally with known logos and fallback coverage', () => {
     render(
       <DoraCapabilityCard
         capability={versionControl}
@@ -238,8 +238,9 @@ describe('DoraCapabilityCard', () => {
       screen
         .getByText('Conventional Commits')
         .closest('[data-testid="skill-token"]')
-        ?.querySelector('svg, img'),
-    ).toBeNull();
+        ?.querySelector('path')
+        ?.getAttribute('fill'),
+    ).toBe('#FE5196');
     expect(
       skillTokens.every((token) => token.getAttribute('style') === null),
     ).toBe(true);
