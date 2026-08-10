@@ -43,6 +43,12 @@ Treat the metadata card as progressive enhancement: the citation must remain
 complete and usable by itself, and the card appears only when its data is
 concrete and valid.
 
+Within a complete card, separate the stable content category from the identity
+of the concrete record. `Certification` describes what kind of metadata the
+card contains; the full certificate name identifies which credential it
+describes. Keeping those roles distinct avoids turning a record value into the
+card's structural heading.
+
 ## Guidance
 
 ### Preserve the native link as the trigger
@@ -50,12 +56,16 @@ concrete and valid.
 Create the Astryx `Citation` once, including its URL and accessible link
 semantics, then pass that same element to `HoverCard`. The enhanced and fallback
 branches render the identical citation; neither branch adds a click handler or
-a second link (`apps/github.io/src/app/certifications/certification-citation.tsx:159`).
+a second link
+(`apps/github.io/src/app/certifications/certification-citation.tsx:172-182`
+and `apps/github.io/src/app/certifications/certification-citation.tsx:193-217`).
 
-This keeps the primary interaction native for click, keyboard `Enter`, and
-mobile tap. The URL is already represented by the citation action, so do not
-duplicate it as a metadata row. Supplemental content should not create a second
-tab stop or require users to enter the card to complete navigation.
+This keeps the trigger's native link markup intact. Treat equivalent click,
+keyboard `Enter`, and mobile-tap behavior as an overlay contract to verify with
+browser and device testing. The URL is already represented by the citation
+action, so do not duplicate it as a metadata row. Supplemental content should
+not create a second tab stop or require users to enter the card to complete
+navigation.
 
 ### Gate the enhancement as one complete value
 
@@ -63,13 +73,14 @@ Do not render independent optional rows. Require all inputs needed for a
 trustworthy card: a URL, a valid expiry from which status can be derived, a
 valid completion date, and nonblank credential ID and name. The implementation
 collects those requirements in `hasCompleteMetadata`; failure keeps the plain
-citation (`apps/github.io/src/app/certifications/certification-citation.tsx:138`).
+citation
+(`apps/github.io/src/app/certifications/certification-citation.tsx:146-152`).
 
 Validate calendar dates explicitly. JavaScript can normalize impossible dates
 such as February 30 into March. Both expiry and completion validation round-trip
 the `YYYY-MM-DD` portion through UTC before accepting it
-(`apps/github.io/src/app/certifications/certification-citation.tsx:70` and
-`apps/github.io/src/app/certifications/certification-citation.tsx:103`). Tests
+(`apps/github.io/src/app/certifications/certification-citation.tsx:74-86` and
+`apps/github.io/src/app/certifications/certification-citation.tsx:107-121`). Tests
 cover blank fields, malformed dates, and impossible calendar dates while
 asserting that the citation still renders
 (`apps/github.io/src/app/certifications/certification-citation.spec.tsx:289`).
@@ -77,14 +88,16 @@ asserting that the citation still renders
 ### Keep derived values derived
 
 Store only `id`, `name`, and `completedAt` as credential metadata
-(`apps/github.io/src/app/certifications/certification-citation.tsx:31`). Derive
+(`apps/github.io/src/app/certifications/certification-citation.tsx:35-39`). Derive
 `Active` or `Expired` from the validated `expiresAt` timestamp and the current
 date instead of persisting another source of truth
-(`apps/github.io/src/app/certifications/certification-citation.tsx:85`).
+(`apps/github.io/src/app/certifications/certification-citation.tsx:89-105`).
 
 Treat completion as a calendar date. Parse midnight UTC and format with a fixed
 English locale and UTC timezone so the displayed day does not shift with the
-viewer's timezone (`apps/github.io/src/app/certifications/certification-citation.tsx:63`).
+viewer's timezone
+(`apps/github.io/src/app/certifications/certification-citation.tsx:67-72` and
+`apps/github.io/src/app/certifications/certification-citation.tsx:107-121`).
 
 ### Keep supplemental content semantic and read-only
 
@@ -92,17 +105,16 @@ Use `Certification` as the fixed title of one single-column `MetadataList`,
 with exactly four rows in this order: `Name`, `ID`, `Status`, and `Completed`.
 The category title stays stable while the first row identifies the concrete
 credential with its full certificate name
-(`apps/github.io/src/app/certifications/certification-citation.tsx:193`). Render
+(`apps/github.io/src/app/certifications/certification-citation.tsx:194-210`). Render
 status as a non-interactive Astryx `Badge`: use the green variant for `Active`
-and the neutral variant for `Expired`. Astryx does not expose a gray Badge
-variant; neutral is its supported gray treatment for an inactive or lapsed
-state without treating expiration as an error. Keep the visible label so color
-is never the only status signal.
+and the neutral variant for `Expired`, representing a lapsed state without
+treating expiration as an error. Keep the visible label so color is never the
+only status signal.
 
 The component test verifies the fixed category title outside the definition
 list, the name as the first definition-list value, the Badge contract,
 `dt`/`dd` semantics, and `aria-describedby` linkage
-(`apps/github.io/src/app/certifications/certification-citation.spec.tsx:32`).
+(`apps/github.io/src/app/certifications/certification-citation.spec.tsx:44-76`).
 
 Require these behaviors from any overlay component used here: hover and keyboard
 focus access, pointer transfer into the content, enough persistence to read it,
@@ -126,6 +138,12 @@ original citation remains available.
 Derived status and timezone-stable date formatting also keep every consumer
 consistent. Semantic label/value markup associates details with the link
 without changing its concise accessible name.
+
+A stable `Certification` heading makes repeated cards easier to scan, while a
+Name-first row order presents the most recognizable credential value before its
+issuer-specific ID. The name remains inside the same semantic label/value
+structure as status and completion date instead of receiving special markup
+that consumers must interpret differently.
 
 ## When to Apply
 
@@ -164,7 +182,36 @@ identity:
 This renders the fixed title `Certification` followed by metadata values
 `Certified Kubernetes Administrator`, `LF-assbyzy17c`, derived status `Active`,
 and `Apr 20, 2025`; the semantic test asserts those values and their row order
-(`apps/github.io/src/app/certifications/certification-citation.spec.tsx:32`).
+(`apps/github.io/src/app/certifications/certification-citation.spec.tsx:44-76`).
+
+The structural change is intentionally small. Replace the record-specific
+heading and ID-first rows:
+
+```tsx
+<MetadataList columns="single" title={metadata.name}>
+  <MetadataListItem label="ID">{metadata.id}</MetadataListItem>
+  <MetadataListItem label="Status">...</MetadataListItem>
+  <MetadataListItem label="Completed">{completedAt}</MetadataListItem>
+</MetadataList>
+```
+
+with a stable heading and Name-first semantic rows:
+
+```tsx
+<MetadataList columns="single" title="Certification">
+  <MetadataListItem label="Name">{metadata.name}</MetadataListItem>
+  <MetadataListItem label="ID">{metadata.id}</MetadataListItem>
+  <MetadataListItem label="Status">...</MetadataListItem>
+  <MetadataListItem label="Completed">{completedAt}</MetadataListItem>
+</MetadataList>
+```
+
+Lock the hierarchy with one complete-metadata test that asserts the heading,
+ordered `dt` labels, and ordered `dd` values. Keep the incomplete and invalid
+metadata cases in the same suite so presentation changes cannot accidentally
+weaken the plain-citation fallback
+(`apps/github.io/src/app/certifications/certification-citation.spec.tsx:44-76`
+and `apps/github.io/src/app/certifications/certification-citation.spec.tsx:280-345`).
 
 For generic evidence, omit `metadata` and leave the proof URL on the citation:
 
