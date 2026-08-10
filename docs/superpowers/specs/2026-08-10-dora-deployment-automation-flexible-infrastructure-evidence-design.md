@@ -163,9 +163,9 @@ The complete ordered skill catalog contains thirteen skills:
 | Skill ID                                       | Title            | Focused support                                                                                                     |
 | ---------------------------------------------- | ---------------- | ------------------------------------------------------------------------------------------------------------------- |
 | `deployment-automation-skill-aws-codepipeline` | AWS CodePipeline | `codepipeline-approval-gated-deployment`                                                                            |
+| `deployment-automation-skill-terraform`        | Terraform        | `codepipeline-approval-gated-deployment`                                                                            |
 | `deployment-automation-skill-docker`           | Docker           | `deployment-traceability-chain`, `image-digest-deployments`                                                         |
 | `deployment-automation-skill-amazon-ecr`       | Amazon ECR       | `deployment-traceability-chain`, `image-digest-deployments`                                                         |
-| `deployment-automation-skill-terraform`        | Terraform        | `codepipeline-approval-gated-deployment`                                                                            |
 | `deployment-automation-skill-kubernetes`       | Kubernetes       | `environment-neutral-deployment-mechanism`, `automated-sealed-secret-delivery`, `deterministic-kubernetes-overlays` |
 | `deployment-automation-skill-github-actions`   | GitHub Actions   | `merge-triggered-deployment-path`, `github-actions-gitops-handoff`                                                  |
 | `deployment-automation-skill-openid-connect`   | OpenID Connect   | `merge-triggered-deployment-path`                                                                                   |
@@ -239,16 +239,16 @@ The complete ordered skill catalog contains twelve skills:
 | ------------------------------------------ | ---------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `flexible-infrastructure-skill-terraform`  | Terraform  | `terraform-managed-cloud-foundations`, `irsa-service-accounts`, `terraform-scoped-iam`, `terraform-codepipeline-platform`                                   |
 | `flexible-infrastructure-skill-aws`        | AWS        | `terraform-managed-cloud-foundations`, `terraform-codepipeline-platform`                                                                                    |
-| `flexible-infrastructure-skill-aws-iam`    | AWS IAM    | `irsa-service-accounts`, `terraform-scoped-iam`                                                                                                             |
-| `flexible-infrastructure-skill-irsa`       | IRSA       | `irsa-service-accounts`, `terraform-scoped-iam`                                                                                                             |
 | `flexible-infrastructure-skill-kubernetes` | Kubernetes | `irsa-service-accounts`, `argocd-environment-state-from-version-control`, `deterministic-kubernetes-overlays`, `reusable-kubernetes-deployment-foundations` |
 | `flexible-infrastructure-skill-kubectl`    | kubectl    | `reusable-kubernetes-deployment-foundations`                                                                                                                |
-| `flexible-infrastructure-skill-kustomize`  | Kustomize  | `argocd-environment-state-from-version-control`, `deterministic-kubernetes-overlays`                                                                        |
 | `flexible-infrastructure-skill-helm`       | Helm       | `reusable-kubernetes-deployment-foundations`                                                                                                                |
-| `flexible-infrastructure-skill-argo-cd`    | Argo CD    | `argocd-environment-state-from-version-control`                                                                                                             |
-| `flexible-infrastructure-skill-gitops`     | GitOps     | `argocd-environment-state-from-version-control`, `deterministic-kubernetes-overlays`                                                                        |
 | `flexible-infrastructure-skill-docker`     | Docker     | `terraform-codepipeline-platform`, `reusable-kubernetes-deployment-foundations`                                                                             |
 | `flexible-infrastructure-skill-amazon-ecr` | Amazon ECR | `terraform-managed-cloud-foundations`, `terraform-codepipeline-platform`                                                                                    |
+| `flexible-infrastructure-skill-aws-iam`    | AWS IAM    | `irsa-service-accounts`, `terraform-scoped-iam`                                                                                                             |
+| `flexible-infrastructure-skill-irsa`       | IRSA       | `irsa-service-accounts`, `terraform-scoped-iam`                                                                                                             |
+| `flexible-infrastructure-skill-kustomize`  | Kustomize  | `argocd-environment-state-from-version-control`, `deterministic-kubernetes-overlays`                                                                        |
+| `flexible-infrastructure-skill-argo-cd`    | Argo CD    | `argocd-environment-state-from-version-control`                                                                                                             |
+| `flexible-infrastructure-skill-gitops`     | GitOps     | `argocd-environment-state-from-version-control`, `deterministic-kubernetes-overlays`                                                                        |
 
 The implementation derives each skill's earliest date from these exact support
 IDs and verifies that the display order is nondecreasing by that chronology.
