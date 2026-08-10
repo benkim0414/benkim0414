@@ -19,7 +19,7 @@
 - Keep Version Control and Trunk-Based Development scores at `4/5`; score rendering and recalibration are out of scope.
 - Each score must literally enumerate five curated experience IDs followed by the complete ordered skill catalog; do not use `slice()`, ranking, runtime date sorting, or catalog order to select compact experiences.
 - Keep row labels exactly `Relevant experience` and `Technical skills`, and preserve current card dimensions, grouping, responsive behavior, accessibility semantics, and visual hierarchy.
-- Render skills with the neutral `SkillToken` variant; recognized technologies retain truthful brand-colored logos, while Conventional Commits uses the truthful text fallback.
+- Render skills with the neutral `SkillToken` variant; recognized technologies retain truthful brand-colored logos, including the official Conventional Commits Simple Icons brand mark (`#FE5196`).
 - Do not commit a Tailscale IP address, MagicDNS name, tailnet name, or any other private network identifier.
 - Stage explicit paths only and use Conventional Commit subjects for every self-contained commit.
 - Do not push, merge, deploy, or open a pull request.
@@ -509,7 +509,7 @@ expect(screen.getByRole('list', { name: 'Relevant experience' })).toBeVisible();
 expect(screen.getByRole('list', { name: 'Technical skills' })).toBeVisible();
 ```
 
-Assert evidence date strings such as `2024-02-28` and `2026-08-09` are absent. Assert skill tokens use the neutral surface, known brands retain their accurate icon treatment, and the `Conventional Commits` token renders text without an invented logo.
+Assert evidence date strings such as `2024-02-28` and `2026-08-09` are absent. Assert skill tokens use the neutral surface, known brands retain their accurate icon treatment, and the `Conventional Commits` token renders its official Simple Icons brand mark (`#FE5196`).
 
 - [ ] **Step 2: Write failing Storybook host-config tests**
 
@@ -654,6 +654,6 @@ Expected: Storybook remains available on port `6006` at the IPv4 address returne
 
 - [ ] **Step 6: Perform responsive Storybook QA and wait for user approval**
 
-Inspect the production-backed Version Control and Trunk-Based Development stories at `390x844` and `768x1024`. Verify exact summary hierarchy, `Relevant experience` and `Technical skills` labels, token order, truthful brand marks, text fallback for Conventional Commits, wrapping, card width, clipping, overlap, and absence of horizontal overflow. Keep Storybook running while the user checks the iPad view over Tailscale. Stop here for explicit visual approval; do not invoke final code review or compounding before approval.
+Inspect the production-backed Version Control and Trunk-Based Development stories at `390x844` and `768x1024`. Verify exact summary hierarchy, `Relevant experience` and `Technical skills` labels, token order, truthful brand marks including the official Conventional Commits Simple Icons mark (`#FE5196`), wrapping, card width, clipping, overlap, and absence of horizontal overflow. Keep Storybook running while the user checks the iPad view over Tailscale. Stop here for explicit visual approval; do not invoke final code review or compounding before approval.
 
 After approval, stop Storybook. Then invoke `superpowers:requesting-code-review` and `compound-engineering:ce-compound` as separate workflow steps, commit any approved durable solution document, rerun affected validation, and return an awaiting-handoff summary without pushing, merging, or deploying.

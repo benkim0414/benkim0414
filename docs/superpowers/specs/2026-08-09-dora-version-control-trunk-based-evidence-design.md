@@ -311,8 +311,9 @@ For both cards:
 - skills use the neutral `SkillToken` variant.
 
 Recognized technologies retain truthful brand-colored logos. Conventional
-Commits and any unsupported brand use the current truthful text-only fallback.
-Do not add an invented logo or misleading brand color.
+Commits uses its official Simple Icons brand mark (`#FE5196`), while unsupported
+brands use the current truthful text-only fallback. Do not add an invented logo
+or misleading brand color.
 
 Preserve the existing grouping, dimensions, responsive behavior, wrapping,
 visual hierarchy, and accessibility semantics. The lists retain the accessible
@@ -399,7 +400,7 @@ Component and Storybook tests assert:
 - the row lists have accessible names `Relevant experience` and
   `Technical skills`;
 - neutral skill surfaces preserve accurate brand-colored logos;
-- Conventional Commits uses a truthful text fallback; and
+- Conventional Commits uses its official Simple Icons brand mark (`#FE5196`); and
 - capabilities without supplemental evidence remain unchanged.
 
 Run:
