@@ -1,4 +1,5 @@
 import { existsSync, readFileSync } from 'node:fs';
+import * as ts from 'typescript';
 import {
   composeCanonicalCapabilityEvidenceItems,
   curatedDevOpsCapabilityRadarScores,
@@ -201,6 +202,151 @@ const reviewedRemainingCapabilityScoreSummaries = [
   'Implemented Terraform-managed least-privilege access, complete MFA coverage, identity security alerting, IRSA workload identity, and encrypted secret delivery.',
   'Maintained a structured, indexed, and current documentation system, integrating documentation with engineering changes and cross-verifying operational claims.',
 ] as const;
+
+type RemainingCapabilityKey = keyof typeof remainingCapabilityScoreContracts;
+
+const remainingCapabilityKeys = Object.keys(
+  remainingCapabilityScoreContracts,
+) as RemainingCapabilityKey[];
+
+const existingLiteralProjectionCapabilityKeys = [
+  'version-control',
+  'trunk-based-development',
+  'deployment-automation',
+  'flexible-infrastructure',
+] as const;
+
+const unwrapExpression = (expression: ts.Expression): ts.Expression => {
+  let current = expression;
+
+  while (
+    ts.isAsExpression(current) ||
+    ts.isSatisfiesExpression(current) ||
+    ts.isParenthesizedExpression(current)
+  ) {
+    current = current.expression;
+  }
+
+  return current;
+};
+
+const getPropertyName = (name: ts.PropertyName): string | undefined =>
+  ts.isIdentifier(name) || ts.isStringLiteral(name) ? name.text : undefined;
+
+const getLiteralScoreEvidenceIds = <CapabilityKey extends string>(
+  source: string,
+  capabilityKeys: readonly CapabilityKey[],
+): Record<CapabilityKey, readonly string[]> => {
+  const sourceFile = ts.createSourceFile(
+    'devops-capability-evidence.data.ts',
+    source,
+    ts.ScriptTarget.Latest,
+    true,
+    ts.ScriptKind.TS,
+  );
+  let scoreArray: ts.ArrayLiteralExpression | undefined;
+
+  const visit = (node: ts.Node): void => {
+    if (
+      ts.isVariableDeclaration(node) &&
+      ts.isIdentifier(node.name) &&
+      node.name.text === 'curatedDevOpsCapabilityRadarScores' &&
+      node.initializer
+    ) {
+      const initializer = unwrapExpression(node.initializer);
+
+      if (!ts.isArrayLiteralExpression(initializer)) {
+        throw new Error(
+          'curatedDevOpsCapabilityRadarScores must be an array literal',
+        );
+      }
+
+      scoreArray = initializer;
+      return;
+    }
+
+    ts.forEachChild(node, visit);
+  };
+
+  visit(sourceFile);
+
+  if (!scoreArray) {
+    throw new Error('curatedDevOpsCapabilityRadarScores was not found');
+  }
+
+  const literalEvidenceIds = new Map<CapabilityKey, readonly string[]>();
+
+  for (const scoreElement of scoreArray.elements) {
+    if (!ts.isObjectLiteralExpression(scoreElement)) {
+      continue;
+    }
+
+    const capabilityProperty = scoreElement.properties.find(
+      (property): property is ts.PropertyAssignment =>
+        ts.isPropertyAssignment(property) &&
+        getPropertyName(property.name) === 'capabilityKey',
+    );
+    const capabilityInitializer = capabilityProperty
+      ? unwrapExpression(capabilityProperty.initializer)
+      : undefined;
+
+    if (
+      !capabilityInitializer ||
+      !ts.isStringLiteral(capabilityInitializer) ||
+      !capabilityKeys.includes(capabilityInitializer.text as CapabilityKey)
+    ) {
+      continue;
+    }
+
+    const capabilityKey = capabilityInitializer.text as CapabilityKey;
+    const evidenceIdsProperty = scoreElement.properties.find(
+      (property): property is ts.PropertyAssignment =>
+        ts.isPropertyAssignment(property) &&
+        getPropertyName(property.name) === 'evidenceIds',
+    );
+    const evidenceIdsInitializer = evidenceIdsProperty
+      ? unwrapExpression(evidenceIdsProperty.initializer)
+      : undefined;
+
+    if (
+      !evidenceIdsInitializer ||
+      !ts.isArrayLiteralExpression(evidenceIdsInitializer)
+    ) {
+      throw new Error(
+        `${capabilityKey} evidenceIds must be an array literal of string literals`,
+      );
+    }
+
+    const evidenceIds: string[] = [];
+
+    for (const element of evidenceIdsInitializer.elements) {
+      if (!ts.isStringLiteral(element)) {
+        throw new Error(
+          `${capabilityKey} evidenceIds must contain only string literals`,
+        );
+      }
+
+      evidenceIds.push(element.text);
+    }
+
+    if (literalEvidenceIds.has(capabilityKey)) {
+      throw new Error(`Duplicate ${capabilityKey} score block`);
+    }
+
+    literalEvidenceIds.set(capabilityKey, evidenceIds);
+  }
+
+  for (const capabilityKey of capabilityKeys) {
+    if (!literalEvidenceIds.has(capabilityKey)) {
+      throw new Error(`Missing ${capabilityKey} score block`);
+    }
+  }
+
+  return Object.fromEntries(literalEvidenceIds) as Record<
+    CapabilityKey,
+    readonly string[]
+  >;
+};
 
 describe('devOpsCapabilityEvidence data', () => {
   it('defines the first DORA capability dimensions in order', () => {
@@ -825,18 +971,14 @@ describe('devOpsCapabilityEvidence data', () => {
     );
   });
 
-  it('does not change explicit compact cards when an unselected record exists', () => {
-    const syntheticUnselectedCatalog = [
+  it('keeps remaining compact projections independent of a sixth catalog experience', () => {
+    const augmentedCatalog = composeCanonicalCapabilityEvidenceItems([
       ...devOpsCapabilityEvidenceItems,
       {
         id: 'synthetic-unselected-capability-record',
         title: 'Synthetic unselected record',
         type: 'experience' as const,
         capabilityKeys: [
-          'version-control',
-          'trunk-based-development',
-          'deployment-automation',
-          'flexible-infrastructure',
           'test-automation',
           'monitoring-observability',
           'pervasive-security',
@@ -846,112 +988,78 @@ describe('devOpsCapabilityEvidence data', () => {
         isPublic: true,
         strength: 'primary' as const,
       },
-    ];
-
-    expect(syntheticUnselectedCatalog).toHaveLength(
-      devOpsCapabilityEvidenceItems.length + 1,
-    );
-    expect(
-      curatedDevOpsCapabilityRadarScores.find(
-        (score) => score.capabilityKey === 'version-control',
-      )?.evidenceIds,
-    ).toEqual([
-      'terraform-codepipeline-platform',
-      'github-actions-gitops-handoff',
-      'argocd-environment-state-from-version-control',
-      'argocd-automated-database-migrations',
-      'merge-commit-history',
-      'version-control-skill-git',
-      'version-control-skill-github',
-      'version-control-skill-codepipeline',
-      'version-control-skill-terraform',
-      'version-control-skill-docker',
-      'version-control-skill-helm',
-      'version-control-skill-conventional-commits',
-      'version-control-skill-husky',
-      'version-control-skill-nx',
-      'version-control-skill-github-actions',
-      'version-control-skill-kustomize',
-      'version-control-skill-argo-cd',
-      'version-control-skill-kubernetes',
     ]);
-    expect(
-      curatedDevOpsCapabilityRadarScores.find(
-        (score) => score.capabilityKey === 'trunk-based-development',
-      )?.evidenceIds,
-    ).toEqual([
-      'single-trunk-repository-flow',
-      'short-lived-branch-flow',
-      'small-change-landings',
-      'nx-affected-quality-gates',
-      'merge-commit-history',
-      'trunk-based-development-skill-git',
-      'trunk-based-development-skill-github',
-      'trunk-based-development-skill-nx',
-      'trunk-based-development-skill-github-actions',
-      'trunk-based-development-skill-conventional-commits',
-      'trunk-based-development-skill-husky',
-    ]);
-    expect(
-      curatedDevOpsCapabilityRadarScores.find(
-        (score) => score.capabilityKey === 'deployment-automation',
-      )?.evidenceIds,
-    ).toEqual(deploymentAutomationScoreEvidenceIds);
-    expect(
-      curatedDevOpsCapabilityRadarScores.find(
-        (score) => score.capabilityKey === 'flexible-infrastructure',
-      )?.evidenceIds,
-    ).toEqual(flexibleInfrastructureScoreEvidenceIds);
-
-    for (const [capabilityKey, expected] of Object.entries(
-      remainingCapabilityScoreContracts,
-    )) {
-      expect(
-        curatedDevOpsCapabilityRadarScores.find(
-          (score) => score.capabilityKey === capabilityKey,
-        )?.evidenceIds,
-      ).toEqual(expected.evidenceIds);
-    }
-  });
-
-  it('uses literal score projections instead of catalog ranking or slicing', () => {
     const dataFile = existsSync(
       'apps/github.io/src/app/devops-capability-evidence/devops-capability-evidence.data.ts',
     )
       ? 'apps/github.io/src/app/devops-capability-evidence/devops-capability-evidence.data.ts'
       : 'src/app/devops-capability-evidence/devops-capability-evidence.data.ts';
     const source = readFileSync(dataFile, 'utf8');
-    const existingProjections = [
-      ...source.matchAll(
-        /capabilityKey: '(?:version-control|trunk-based-development|deployment-automation|flexible-infrastructure)',[\s\S]*?evidenceSummary:/g,
-      ),
-    ];
-    const remainingProjections = [
-      ...source.matchAll(
-        /capabilityKey: '(?:test-automation|monitoring-observability|pervasive-security|documentation-quality)',[\s\S]*?evidenceSummary:/g,
-      ),
-    ];
+    const literalEvidenceIds = getLiteralScoreEvidenceIds(
+      source,
+      remainingCapabilityKeys,
+    );
 
-    expect(existingProjections).toHaveLength(4);
-    expect(remainingProjections).toHaveLength(4);
+    expect(augmentedCatalog).toHaveLength(
+      devOpsCapabilityEvidenceItems.length + 1,
+    );
 
-    for (const projection of [
-      ...existingProjections,
-      ...remainingProjections,
-    ]) {
-      expect(projection[0]).not.toContain('slice(');
-      expect(projection[0]).not.toContain('.sort(');
-      expect(projection[0]).not.toContain('.map(');
-      expect(projection[0]).not.toMatch(/strength|rank/i);
-      expect(projection[0]).not.toMatch(
-        /\.\.\.(?:versionControlEvidenceItems|trunkBasedDevelopmentEvidenceItems|deploymentAutomationSkillEvidenceItems|flexibleInfrastructureSkillEvidenceItems)/,
-      );
+    for (const [capabilityKey, expected] of Object.entries(
+      remainingCapabilityScoreContracts,
+    )) {
+      expect(
+        literalEvidenceIds[capabilityKey as RemainingCapabilityKey],
+      ).toEqual(expected.evidenceIds);
+      expect(
+        curatedDevOpsCapabilityRadarScores.find(
+          (score) => score.capabilityKey === capabilityKey,
+        )?.evidenceIds,
+      ).toEqual(literalEvidenceIds[capabilityKey as RemainingCapabilityKey]);
     }
 
-    for (const projection of remainingProjections) {
-      expect(projection[0]).not.toMatch(
-        /\.\.\.(?:testAutomationSkillEvidenceItems|monitoringObservabilitySkillEvidenceItems|pervasiveSecuritySkillEvidenceItems|documentationQualitySkillEvidenceItems)/,
-      );
+    expect(
+      Object.keys(
+        getLiteralScoreEvidenceIds(
+          source,
+          existingLiteralProjectionCapabilityKeys,
+        ),
+      ),
+    ).toEqual(existingLiteralProjectionCapabilityKeys);
+  });
+
+  it('rejects non-literal remaining compact projection syntax', () => {
+    const literalFixture = `
+      const curatedDevOpsCapabilityRadarScores = [
+        { evidenceIds: ['test-id'], capabilityKey: 'test-automation' },
+        { capabilityKey: 'monitoring-observability', evidenceIds: ['monitoring-id'] },
+        { capabilityKey: 'pervasive-security', evidenceIds: ['security-id'] },
+        { capabilityKey: 'documentation-quality', evidenceIds: ['documentation-id'] },
+      ] as const;
+    `;
+    const prohibitedInitializers = [
+      '[...skillIds]',
+      '[skillIds[0]]',
+      "skillIds.filter((id) => id !== 'unused')",
+      'skillIds.reduce((ids, id) => [...ids, id], [])',
+      'skillIds.toSorted()',
+    ];
+
+    expect(
+      getLiteralScoreEvidenceIds(literalFixture, remainingCapabilityKeys),
+    ).toEqual({
+      'test-automation': ['test-id'],
+      'monitoring-observability': ['monitoring-id'],
+      'pervasive-security': ['security-id'],
+      'documentation-quality': ['documentation-id'],
+    });
+
+    for (const prohibitedInitializer of prohibitedInitializers) {
+      expect(() =>
+        getLiteralScoreEvidenceIds(
+          literalFixture.replace("['test-id']", prohibitedInitializer),
+          remainingCapabilityKeys,
+        ),
+      ).toThrow(/evidenceIds must/);
     }
   });
 
