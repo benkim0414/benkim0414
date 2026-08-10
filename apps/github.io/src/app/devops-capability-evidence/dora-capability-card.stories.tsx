@@ -28,7 +28,9 @@ const flexibleInfrastructure = capability('flexible-infrastructure');
 const deploymentAutomation = capability('deployment-automation');
 const continuousIntegration = capability('continuous-integration');
 const continuousDelivery = capability('continuous-delivery');
+const testAutomation = capability('test-automation');
 const monitoringObservability = capability('monitoring-observability');
+const pervasiveSecurity = capability('pervasive-security');
 const documentationQuality = capability('documentation-quality');
 const versionControl = capability('version-control');
 const trunkBasedDevelopment = capability('trunk-based-development');
@@ -74,10 +76,24 @@ export const ContinuousDelivery: Story = {
   },
 };
 
+export const TestAutomation: Story = {
+  args: {
+    capability: testAutomation,
+    description: doraCapabilityDescriptions['test-automation'],
+  },
+};
+
 export const MonitoringAndObservability: Story = {
   args: {
     capability: monitoringObservability,
     description: doraCapabilityDescriptions['monitoring-observability'],
+  },
+};
+
+export const PervasiveSecurity: Story = {
+  args: {
+    capability: pervasiveSecurity,
+    description: doraCapabilityDescriptions['pervasive-security'],
   },
 };
 
