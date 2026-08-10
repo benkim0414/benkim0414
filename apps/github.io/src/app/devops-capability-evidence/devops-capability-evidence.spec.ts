@@ -1,5 +1,6 @@
 import { existsSync, readFileSync } from 'node:fs';
 import {
+  composeCanonicalCapabilityEvidenceItems,
   curatedDevOpsCapabilityRadarScores,
   doraCapabilityDefinitions,
   evidenceTypeLabels,
@@ -8,6 +9,7 @@ import {
 import { continuousDeliveryEvidenceItems } from './continuous-delivery-evidence.data';
 import { continuousDeliverySkillEvidenceItems } from './continuous-delivery-skill-evidence.data';
 import { continuousIntegrationSkillEvidenceItems } from './continuous-integration-skill-evidence.data';
+import { continuousIntegrationEvidenceItems } from './continuous-integration-evidence.data';
 import { deploymentAutomationEvidenceItems } from './deployment-automation-evidence.data';
 import { deploymentAutomationSkillEvidenceItems } from './deployment-automation-skill-evidence.data';
 import { flexibleInfrastructureEvidenceItems } from './flexible-infrastructure-evidence.data';
@@ -203,14 +205,16 @@ describe('devOpsCapabilityEvidence data', () => {
     }
   });
 
-  it('assigns every catalog evidence item a globally unique ID', () => {
-    expect(new Set(devOpsCapabilityEvidenceItems.map((item) => item.id)).size).toBe(
-      devOpsCapabilityEvidenceItems.length,
-    );
+  it('keeps the composed catalog globally unique', () => {
+    const catalogIds = devOpsCapabilityEvidenceItems.map((item) => item.id);
+
+    expect(catalogIds.length).toBe(new Set(catalogIds).size);
   });
 
   it('composes all capability-owned deployment and infrastructure catalogs', () => {
-    const globalEvidenceIds = devOpsCapabilityEvidenceItems.map((item) => item.id);
+    const globalEvidenceIds = devOpsCapabilityEvidenceItems.map(
+      (item) => item.id,
+    );
 
     expect(
       deploymentAutomationEvidenceItems.slice(0, 5).map((item) => item.id),
@@ -229,6 +233,49 @@ describe('devOpsCapabilityEvidence data', () => {
         expect.arrayContaining(capabilityCatalog.map((item) => item.id)),
       );
     }
+  });
+
+  it('preserves known shared evidence by canonical object identity', () => {
+    const catalogById = new Map(
+      devOpsCapabilityEvidenceItems.map((item) => [item.id, item]),
+    );
+    const continuousIntegrationById = new Map(
+      continuousIntegrationEvidenceItems.map((item) => [item.id, item]),
+    );
+    const continuousDeliveryById = new Map(
+      continuousDeliveryEvidenceItems.map((item) => [item.id, item]),
+    );
+    const deploymentAutomationById = new Map(
+      deploymentAutomationEvidenceItems.map((item) => [item.id, item]),
+    );
+
+    expect(catalogById.get('terraform-codepipeline-platform')).toBe(
+      continuousIntegrationById.get('terraform-codepipeline-platform'),
+    );
+    expect(
+      catalogById.get('argocd-environment-state-from-version-control'),
+    ).toBe(
+      continuousDeliveryById.get(
+        'argocd-environment-state-from-version-control',
+      ),
+    );
+    expect(catalogById.get('deterministic-kubernetes-overlays')).toBe(
+      deploymentAutomationById.get('deterministic-kubernetes-overlays'),
+    );
+  });
+
+  it('composes repeated canonical objects once and rejects conflicting IDs', () => {
+    const canonicalItem = devOpsCapabilityEvidenceItems[0];
+    const conflictingItem = { ...canonicalItem };
+
+    expect(
+      composeCanonicalCapabilityEvidenceItems([canonicalItem, canonicalItem]),
+    ).toEqual([canonicalItem]);
+    expect(() =>
+      composeCanonicalCapabilityEvidenceItems([canonicalItem, conflictingItem]),
+    ).toThrow(
+      `Conflicting duplicate capability evidence ID: ${canonicalItem.id}`,
+    );
   });
 
   it('stores recovered carved evidence on the curated capability scores', () => {
@@ -443,18 +490,12 @@ describe('devOpsCapabilityEvidence data', () => {
       {
         id: 'kubectl-troubleshooting',
         label: 'kubectl',
-        capabilityKeys: [
-          'flexible-infrastructure',
-          'monitoring-observability',
-        ],
+        capabilityKeys: ['flexible-infrastructure', 'monitoring-observability'],
       },
       {
         id: 'cluster-operations',
         label: 'Cluster ops',
-        capabilityKeys: [
-          'flexible-infrastructure',
-          'monitoring-observability',
-        ],
+        capabilityKeys: ['flexible-infrastructure', 'monitoring-observability'],
       },
       {
         id: 'portfolio-radar',
@@ -568,7 +609,9 @@ describe('devOpsCapabilityEvidence data', () => {
       expect(score).toBeDefined();
       expect(score?.strongestEvidenceId).toBe(score?.evidenceIds[0]);
 
-      const selectedItems = score?.evidenceIds.map((id) => evidenceById.get(id));
+      const selectedItems = score?.evidenceIds.map((id) =>
+        evidenceById.get(id),
+      );
       expect(selectedItems?.every(Boolean)).toBe(true);
       expect(
         selectedItems?.every((item) =>
@@ -602,7 +645,8 @@ describe('devOpsCapabilityEvidence data', () => {
     );
     expect(
       devOpsCapabilityEvidenceItems.filter(
-        ({ id }) => id === 'short-lived-branch-flow' || id === 'merge-commit-history',
+        ({ id }) =>
+          id === 'short-lived-branch-flow' || id === 'merge-commit-history',
       ),
     ).toHaveLength(2);
     expect(versionControlEvidenceItems).toContain(
@@ -695,9 +739,11 @@ describe('devOpsCapabilityEvidence data', () => {
       ? 'apps/github.io/src/app/devops-capability-evidence/devops-capability-evidence.data.ts'
       : 'src/app/devops-capability-evidence/devops-capability-evidence.data.ts';
     const source = readFileSync(dataFile, 'utf8');
-    const projections = [...source.matchAll(
-      /capabilityKey: '(?:version-control|trunk-based-development|deployment-automation|flexible-infrastructure)',[\s\S]*?evidenceSummary:/g,
-    )];
+    const projections = [
+      ...source.matchAll(
+        /capabilityKey: '(?:version-control|trunk-based-development|deployment-automation|flexible-infrastructure)',[\s\S]*?evidenceSummary:/g,
+      ),
+    ];
 
     expect(projections).toHaveLength(4);
 
