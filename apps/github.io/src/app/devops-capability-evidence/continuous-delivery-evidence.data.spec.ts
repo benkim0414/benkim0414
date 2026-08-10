@@ -173,11 +173,18 @@ describe('continuousDeliveryEvidenceItems', () => {
       ),
     );
 
-    expect(publicFacts).toMatch(/manual intervention/i);
     expect(publicFacts).toMatch(/does not verify successful build completion/i);
     expect(publicFacts).toMatch(/automated rollback.*absent/i);
     expect(publicFacts).toMatch(/progressive delivery.*absent/i);
     expect(publicFacts).toMatch(/partial coverage/i);
+  });
+
+  it('keeps approval-gated deployment facts affirmative and public-safe', () => {
+    expect(
+      byId.get('codepipeline-approval-gated-deployment')?.details?.facts,
+    ).toEqual([
+      'Automated deployment progresses through a reusable production approval gate.',
+    ]);
   });
 
   it('stores valid structured public evidence', () => {

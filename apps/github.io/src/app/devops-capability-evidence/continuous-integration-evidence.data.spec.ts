@@ -251,6 +251,12 @@ describe('continuousIntegrationEvidenceItems', () => {
     });
   });
 
+  it('keeps the shared GitOps handoff fact affirmative and public-safe', () => {
+    expect(byId.get('github-actions-gitops-handoff')?.details?.facts).toEqual([
+      'GitHub Actions dispatches affected deployments through version-controlled Kustomize configuration for Argo CD reconciliation.',
+    ]);
+  });
+
   it('maps shared CI experiences to Version Control without changing their IDs', () => {
     expect(capabilityKeysById('codepipeline-webhook-trunk')).toContain(
       'version-control',

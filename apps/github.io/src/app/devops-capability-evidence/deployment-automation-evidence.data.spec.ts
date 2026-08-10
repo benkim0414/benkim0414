@@ -1,3 +1,5 @@
+import { continuousDeliveryEvidenceItems } from './continuous-delivery-evidence.data';
+import { continuousIntegrationEvidenceItems } from './continuous-integration-evidence.data';
 import { deploymentAutomationEvidenceItems } from './deployment-automation-evidence.data';
 
 const expectedIds = [
@@ -20,6 +22,22 @@ describe('deploymentAutomationEvidenceItems', () => {
   it('stores the approved Deployment Automation experiences in display order', () => {
     expect(deploymentAutomationEvidenceItems.map(({ id }) => id)).toEqual(
       expectedIds,
+    );
+  });
+
+  it('reuses the canonical shared CI/CD records by identity', () => {
+    const continuousDeliveryById = new Map(
+      continuousDeliveryEvidenceItems.map((item) => [item.id, item]),
+    );
+    const continuousIntegrationById = new Map(
+      continuousIntegrationEvidenceItems.map((item) => [item.id, item]),
+    );
+
+    expect(byId.get('codepipeline-approval-gated-deployment')).toBe(
+      continuousDeliveryById.get('codepipeline-approval-gated-deployment'),
+    );
+    expect(byId.get('github-actions-gitops-handoff')).toBe(
+      continuousIntegrationById.get('github-actions-gitops-handoff'),
     );
   });
 

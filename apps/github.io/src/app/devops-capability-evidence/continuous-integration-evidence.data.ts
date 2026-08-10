@@ -455,9 +455,7 @@ const continuousIntegrationEvidenceItemCatalog = [
         },
       ],
       facts: [
-        'Dispatched affected deployments to an operations monorepo, updated Kustomize image references, and let Argo CD reconcile the desired state.',
-        'Deployment automation does not verify successful build completion before dispatch.',
-        'Production synchronization remains manual.',
+        'GitHub Actions dispatches affected deployments through version-controlled Kustomize configuration for Argo CD reconciliation.',
       ],
     },
   },

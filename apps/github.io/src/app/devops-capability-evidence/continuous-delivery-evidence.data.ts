@@ -90,8 +90,7 @@ const continuousDeliveryEvidenceItemCatalog = [
         additionalMetrics.approvalUnderOneHour,
       ],
       facts: [
-        'Production deployment requires one manual intervention after the automated process completes.',
-        'Production deployment frequency and lead time are not fully measurable from retained deployment history.',
+        'Automated deployment progresses through a reusable production approval gate.',
       ],
     },
   },
