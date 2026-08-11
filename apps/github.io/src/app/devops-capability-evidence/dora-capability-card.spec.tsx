@@ -238,8 +238,8 @@ describe('DoraCapabilityCard', () => {
       'Built approval-gated and GitOps delivery across AWS CodePipeline and GitHub Actions, with immutable artifacts, automated migrations, and reliable Kubernetes reconciliation.',
     ],
   ] as const)(
-    'renders the %s experience summary as supporting context',
-    (capability, description, text) => {
+    'renders the %s description before its primary experience summary',
+    (capability, description, summary) => {
       render(
         <DoraCapabilityCard
           capability={capability}
@@ -249,7 +249,19 @@ describe('DoraCapabilityCard', () => {
         />,
       );
 
-      expect(screen.getByText(text).tagName).toBe('SPAN');
+      const descriptionText = screen.getByText(description);
+      const summaryText = screen.getByText(summary);
+
+      expect(descriptionText.tagName).toBe('P');
+      expect(descriptionText.getAttribute('data-type')).toBe('supporting');
+      expect(descriptionText.getAttribute('data-color')).toBe('secondary');
+      expect(summaryText.tagName).toBe('P');
+      expect(summaryText.getAttribute('data-type')).toBe('body');
+      expect(summaryText.getAttribute('data-color')).toBe('primary');
+      expect(
+        descriptionText.compareDocumentPosition(summaryText) &
+          Node.DOCUMENT_POSITION_FOLLOWING,
+      ).toBeTruthy();
     },
   );
 
