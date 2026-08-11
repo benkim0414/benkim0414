@@ -113,7 +113,8 @@ export const BookLearning: Story = {
       id: 'book-learning',
       label: 'Clean Code',
       learningKind: 'book',
-      proofUrl: 'https://www.oreilly.com/library/view/clean-code-a/9780136083238/',
+      proofUrl:
+        'https://www.oreilly.com/library/view/clean-code-a/9780136083238/',
       title: 'Clean Code: A Handbook of Agile Software Craftsmanship',
       type: 'learning',
     }),

@@ -1,4 +1,5 @@
 import { existsSync, readFileSync } from 'node:fs';
+import * as ts from 'typescript';
 import {
   composeCanonicalCapabilityEvidenceItems,
   curatedDevOpsCapabilityRadarScores,
@@ -12,9 +13,17 @@ import { continuousIntegrationSkillEvidenceItems } from './continuous-integratio
 import { continuousIntegrationEvidenceItems } from './continuous-integration-evidence.data';
 import { deploymentAutomationEvidenceItems } from './deployment-automation-evidence.data';
 import { deploymentAutomationSkillEvidenceItems } from './deployment-automation-skill-evidence.data';
+import { documentationQualityEvidenceItems } from './documentation-quality-evidence.data';
+import { documentationQualitySkillEvidenceItems } from './documentation-quality-skill-evidence.data';
 import { flexibleInfrastructureEvidenceItems } from './flexible-infrastructure-evidence.data';
 import { flexibleInfrastructureSkillEvidenceItems } from './flexible-infrastructure-skill-evidence.data';
+import { monitoringObservabilityEvidenceItems } from './monitoring-observability-evidence.data';
+import { monitoringObservabilitySkillEvidenceItems } from './monitoring-observability-skill-evidence.data';
+import { pervasiveSecurityEvidenceItems } from './pervasive-security-evidence.data';
+import { pervasiveSecuritySkillEvidenceItems } from './pervasive-security-skill-evidence.data';
 import { expectPublicSafeText } from './public-evidence-safety.test-helpers';
+import { testAutomationEvidenceItems } from './test-automation-evidence.data';
+import { testAutomationSkillEvidenceItems } from './test-automation-skill-evidence.data';
 import { trunkBasedDevelopmentEvidenceItems } from './trunk-based-development-evidence.data';
 import { versionControlEvidenceItems } from './version-control-evidence.data';
 import {
@@ -27,6 +36,7 @@ import {
   getCapabilityScoreSummary,
   getEvidenceTypeSummary,
 } from './devops-capability-evidence.summary';
+import { getDoraCapabilityCardEvidenceRows } from './dora-capability-card.evidence';
 
 const deploymentAutomationExperienceIds = [
   'merge-triggered-deployment-path',
@@ -84,6 +94,287 @@ const flexibleInfrastructureScoreEvidenceIds = [
   'flexible-infrastructure-skill-argo-cd',
   'flexible-infrastructure-skill-gitops',
 ] as const;
+
+const remainingCapabilityScoreContracts = {
+  'test-automation': {
+    score: 3,
+    maxScore: 5,
+    evidenceIds: [
+      'jest-testcontainers-postgres',
+      'prometheus-alert-rule-tests',
+      'container-health-smoke-tests',
+      'service-generator-unit-tests',
+      'nx-affected-quality-gates',
+      'test-automation-skill-aws-codebuild',
+      'test-automation-skill-postgresql',
+      'test-automation-skill-parameter-store',
+      'test-automation-skill-jest',
+      'test-automation-skill-testcontainers',
+      'test-automation-skill-nx',
+      'test-automation-skill-github-actions',
+      'test-automation-skill-docker',
+      'test-automation-skill-typescript',
+      'test-automation-skill-prometheus',
+      'test-automation-skill-promtool',
+    ],
+    strongestEvidenceId: 'jest-testcontainers-postgres',
+    evidenceCounts: { experience: 5, skill: 11 },
+    evidenceSummary:
+      'Built automated test coverage across database-backed services, affected quality gates, service generators, Prometheus rules, and container health checks.',
+  },
+  'monitoring-observability': {
+    score: 3,
+    maxScore: 5,
+    evidenceIds: [
+      'version-controlled-observability-stack',
+      'tested-kubernetes-workload-alerts',
+      'alertmanager-notification-routing',
+      'alert-suppression-controls',
+      'encrypted-alert-destinations',
+      'monitoring-observability-skill-prometheus',
+      'monitoring-observability-skill-promtool',
+      'monitoring-observability-skill-alertmanager',
+      'monitoring-observability-skill-loki',
+      'monitoring-observability-skill-grafana',
+      'monitoring-observability-skill-grafana-alloy',
+      'monitoring-observability-skill-kubernetes',
+      'monitoring-observability-skill-helm',
+      'monitoring-observability-skill-argo-cd',
+      'monitoring-observability-skill-kustomize',
+      'monitoring-observability-skill-sealed-secrets',
+      'monitoring-observability-skill-aws-eventbridge',
+      'monitoring-observability-skill-aws-lambda',
+    ],
+    strongestEvidenceId: 'version-controlled-observability-stack',
+    evidenceCounts: { experience: 5, skill: 13 },
+    evidenceSummary:
+      'Built a version-controlled cloud native observability platform with tested workload alerts, routed notifications, suppression controls, and encrypted alert destinations.',
+  },
+  'pervasive-security': {
+    score: 2,
+    maxScore: 5,
+    evidenceIds: [
+      'terraform-scoped-iam',
+      'iam-mfa-coverage',
+      'iam-security-alerting',
+      'irsa-service-accounts',
+      'automated-sealed-secret-delivery',
+      'pervasive-security-skill-terraform',
+      'pervasive-security-skill-aws-iam',
+      'pervasive-security-skill-irsa',
+      'pervasive-security-skill-openid-connect',
+      'pervasive-security-skill-kubernetes',
+      'pervasive-security-skill-kubernetes-rbac',
+      'pervasive-security-skill-sealed-secrets',
+      'pervasive-security-skill-argo-cd',
+      'pervasive-security-skill-aws-eventbridge',
+      'pervasive-security-skill-aws-lambda',
+      'pervasive-security-skill-docker',
+      'pervasive-security-skill-amazon-ecr',
+    ],
+    strongestEvidenceId: 'terraform-scoped-iam',
+    evidenceCounts: { experience: 5, skill: 12 },
+    evidenceSummary:
+      'Implemented Terraform-managed least-privilege access, complete MFA coverage, identity security alerting, IRSA workload identity, and encrypted secret delivery.',
+  },
+  'documentation-quality': {
+    score: 4,
+    maxScore: 5,
+    evidenceIds: [
+      'structured-documentation-corpus',
+      'indexed-solution-documentation',
+      'current-documentation-maintenance',
+      'documentation-change-integration',
+      'cross-verified-documentation-claims',
+      'documentation-quality-skill-markdown',
+      'documentation-quality-skill-yaml',
+      'documentation-quality-skill-git',
+    ],
+    strongestEvidenceId: 'structured-documentation-corpus',
+    evidenceCounts: { experience: 5, skill: 3 },
+    evidenceSummary:
+      'Maintained a structured, indexed, and current documentation system, integrating documentation with engineering changes and cross-verifying operational claims.',
+  },
+} as const;
+
+const reviewedRemainingCapabilityScoreSummaries = [
+  'Built automated test coverage across database-backed services, affected quality gates, service generators, Prometheus rules, and container health checks.',
+  'Built a version-controlled cloud native observability platform with tested workload alerts, routed notifications, suppression controls, and encrypted alert destinations.',
+  'Implemented Terraform-managed least-privilege access, complete MFA coverage, identity security alerting, IRSA workload identity, and encrypted secret delivery.',
+  'Maintained a structured, indexed, and current documentation system, integrating documentation with engineering changes and cross-verifying operational claims.',
+] as const;
+
+type RemainingCapabilityKey = keyof typeof remainingCapabilityScoreContracts;
+
+const remainingCapabilityKeys = Object.keys(
+  remainingCapabilityScoreContracts,
+) as RemainingCapabilityKey[];
+
+const existingLiteralProjectionCapabilityKeys = [
+  'version-control',
+  'trunk-based-development',
+  'deployment-automation',
+  'flexible-infrastructure',
+] as const;
+
+const unwrapExpression = (expression: ts.Expression): ts.Expression => {
+  let current = expression;
+
+  while (
+    ts.isAsExpression(current) ||
+    ts.isSatisfiesExpression(current) ||
+    ts.isParenthesizedExpression(current)
+  ) {
+    current = current.expression;
+  }
+
+  return current;
+};
+
+const getPropertyName = (name: ts.PropertyName): string | undefined =>
+  ts.isIdentifier(name) || ts.isStringLiteral(name) ? name.text : undefined;
+
+const getLiteralScoreEvidenceIds = <CapabilityKey extends string>(
+  source: string,
+  capabilityKeys: readonly CapabilityKey[],
+): Record<CapabilityKey, readonly string[]> => {
+  const sourceFile = ts.createSourceFile(
+    'devops-capability-evidence.data.ts',
+    source,
+    ts.ScriptTarget.Latest,
+    true,
+    ts.ScriptKind.TS,
+  );
+  let scoreArray: ts.ArrayLiteralExpression | undefined;
+
+  const visit = (node: ts.Node): void => {
+    if (
+      ts.isVariableDeclaration(node) &&
+      ts.isIdentifier(node.name) &&
+      node.name.text === 'curatedDevOpsCapabilityRadarScores' &&
+      node.initializer
+    ) {
+      const initializer = unwrapExpression(node.initializer);
+
+      if (!ts.isArrayLiteralExpression(initializer)) {
+        throw new Error(
+          'curatedDevOpsCapabilityRadarScores must be an array literal',
+        );
+      }
+
+      scoreArray = initializer;
+      return;
+    }
+
+    ts.forEachChild(node, visit);
+  };
+
+  visit(sourceFile);
+
+  if (!scoreArray) {
+    throw new Error('curatedDevOpsCapabilityRadarScores was not found');
+  }
+
+  const literalEvidenceIds = new Map<CapabilityKey, readonly string[]>();
+
+  for (const scoreElement of scoreArray.elements) {
+    if (!ts.isObjectLiteralExpression(scoreElement)) {
+      continue;
+    }
+
+    const capabilityProperty = scoreElement.properties.find(
+      (property): property is ts.PropertyAssignment =>
+        ts.isPropertyAssignment(property) &&
+        getPropertyName(property.name) === 'capabilityKey',
+    );
+    const capabilityInitializer = capabilityProperty
+      ? unwrapExpression(capabilityProperty.initializer)
+      : undefined;
+
+    if (
+      !capabilityInitializer ||
+      !ts.isStringLiteral(capabilityInitializer) ||
+      !capabilityKeys.includes(capabilityInitializer.text as CapabilityKey)
+    ) {
+      continue;
+    }
+
+    const capabilityKey = capabilityInitializer.text as CapabilityKey;
+    const hasObjectSpread = scoreElement.properties.some((property) =>
+      ts.isSpreadAssignment(property),
+    );
+    const hasComputedProperty = scoreElement.properties.some(
+      (property) =>
+        !ts.isSpreadAssignment(property) &&
+        ts.isComputedPropertyName(property.name),
+    );
+
+    if (hasObjectSpread || hasComputedProperty) {
+      throw new Error(
+        `${capabilityKey} score object must not contain spreads or computed properties`,
+      );
+    }
+
+    const evidenceIdsProperties = scoreElement.properties.filter(
+      (property) =>
+        !ts.isSpreadAssignment(property) &&
+        getPropertyName(property.name) === 'evidenceIds',
+    );
+
+    if (evidenceIdsProperties.length !== 1) {
+      throw new Error(
+        `${capabilityKey} evidenceIds must be declared exactly once`,
+      );
+    }
+
+    const evidenceIdsProperty = evidenceIdsProperties[0];
+
+    if (!evidenceIdsProperty || !ts.isPropertyAssignment(evidenceIdsProperty)) {
+      throw new Error(
+        `${capabilityKey} evidenceIds must be an array literal of string literals`,
+      );
+    }
+
+    const evidenceIdsInitializer = unwrapExpression(
+      evidenceIdsProperty.initializer,
+    );
+
+    if (!ts.isArrayLiteralExpression(evidenceIdsInitializer)) {
+      throw new Error(
+        `${capabilityKey} evidenceIds must be an array literal of string literals`,
+      );
+    }
+
+    const evidenceIds: string[] = [];
+
+    for (const element of evidenceIdsInitializer.elements) {
+      if (!ts.isStringLiteral(element)) {
+        throw new Error(
+          `${capabilityKey} evidenceIds must contain only string literals`,
+        );
+      }
+
+      evidenceIds.push(element.text);
+    }
+
+    if (literalEvidenceIds.has(capabilityKey)) {
+      throw new Error(`Duplicate ${capabilityKey} score block`);
+    }
+
+    literalEvidenceIds.set(capabilityKey, evidenceIds);
+  }
+
+  for (const capabilityKey of capabilityKeys) {
+    if (!literalEvidenceIds.has(capabilityKey)) {
+      throw new Error(`Missing ${capabilityKey} score block`);
+    }
+  }
+
+  return Object.fromEntries(literalEvidenceIds) as Record<
+    CapabilityKey,
+    readonly string[]
+  >;
+};
 
 describe('devOpsCapabilityEvidence data', () => {
   it('defines the first DORA capability dimensions in order', () => {
@@ -212,7 +503,7 @@ describe('devOpsCapabilityEvidence data', () => {
     expect(catalogIds.length).toBe(new Set(catalogIds).size);
   });
 
-  it('composes all capability-owned deployment and infrastructure catalogs', () => {
+  it('composes every capability-owned catalog into one canonical aggregate', () => {
     const globalEvidenceIds = devOpsCapabilityEvidenceItems.map(
       (item) => item.id,
     );
@@ -229,10 +520,27 @@ describe('devOpsCapabilityEvidence data', () => {
       deploymentAutomationSkillEvidenceItems,
       flexibleInfrastructureEvidenceItems,
       flexibleInfrastructureSkillEvidenceItems,
+      testAutomationEvidenceItems,
+      testAutomationSkillEvidenceItems,
+      monitoringObservabilityEvidenceItems,
+      monitoringObservabilitySkillEvidenceItems,
+      pervasiveSecurityEvidenceItems,
+      pervasiveSecuritySkillEvidenceItems,
+      documentationQualityEvidenceItems,
+      documentationQualitySkillEvidenceItems,
     ]) {
       expect(globalEvidenceIds).toEqual(
         expect.arrayContaining(capabilityCatalog.map((item) => item.id)),
       );
+
+      for (const item of capabilityCatalog) {
+        expect(
+          devOpsCapabilityEvidenceItems.filter(({ id }) => id === item.id),
+        ).toEqual([item]);
+        expect(
+          devOpsCapabilityEvidenceItems.find(({ id }) => id === item.id),
+        ).toBe(item);
+      }
     }
   });
 
@@ -249,6 +557,15 @@ describe('devOpsCapabilityEvidence data', () => {
     const deploymentAutomationById = new Map(
       deploymentAutomationEvidenceItems.map((item) => [item.id, item]),
     );
+    const testAutomationById = new Map(
+      testAutomationEvidenceItems.map((item) => [item.id, item]),
+    );
+    const monitoringObservabilityById = new Map(
+      monitoringObservabilityEvidenceItems.map((item) => [item.id, item]),
+    );
+    const pervasiveSecurityById = new Map(
+      pervasiveSecurityEvidenceItems.map((item) => [item.id, item]),
+    );
 
     expect(catalogById.get('terraform-codepipeline-platform')).toBe(
       continuousIntegrationById.get('terraform-codepipeline-platform'),
@@ -262,6 +579,37 @@ describe('devOpsCapabilityEvidence data', () => {
     );
     expect(catalogById.get('deterministic-kubernetes-overlays')).toBe(
       deploymentAutomationById.get('deterministic-kubernetes-overlays'),
+    );
+    expect(catalogById.get('nx-affected-quality-gates')).toBe(
+      testAutomationById.get('nx-affected-quality-gates'),
+    );
+    expect(catalogById.get('iam-security-alerting')).toBe(
+      monitoringObservabilityById.get('iam-security-alerting'),
+    );
+    expect(catalogById.get('iam-security-alerting')).toBe(
+      pervasiveSecurityById.get('iam-security-alerting'),
+    );
+  });
+
+  it('curates the four remaining capability cards with exact literal projections', () => {
+    for (const [capabilityKey, expected] of Object.entries(
+      remainingCapabilityScoreContracts,
+    )) {
+      const score = curatedDevOpsCapabilityRadarScores.find(
+        (item) => item.capabilityKey === capabilityKey,
+      );
+
+      expect(score).toEqual(expect.objectContaining(expected));
+      expect(score?.strongestEvidenceId).toBe(expected.evidenceIds[0]);
+    }
+
+    expectPublicSafeText(
+      curatedDevOpsCapabilityRadarScores
+        .filter(({ capabilityKey }) =>
+          Object.hasOwn(remainingCapabilityScoreContracts, capabilityKey),
+        )
+        .map(({ evidenceSummary }) => evidenceSummary ?? ''),
+      reviewedRemainingCapabilityScoreSummaries,
     );
   });
 
@@ -346,23 +694,17 @@ describe('devOpsCapabilityEvidence data', () => {
       },
       {
         capabilityKey: 'test-automation',
-        evidenceIds: [
-          'nx-affected-quality-gates',
-          'jest-testcontainers-postgres',
-          'regression-gates',
-        ],
+        evidenceIds:
+          remainingCapabilityScoreContracts['test-automation'].evidenceIds,
         strongestEvidenceId: 'jest-testcontainers-postgres',
-        evidenceCounts: { experience: 3 },
+        evidenceCounts: { experience: 5, skill: 11 },
       },
       {
         capabilityKey: 'pervasive-security',
-        evidenceIds: [
-          'image-digest-deployments',
-          'irsa-service-accounts',
-          'terraform-scoped-iam',
-        ],
-        strongestEvidenceId: 'irsa-service-accounts',
-        evidenceCounts: { experience: 3 },
+        evidenceIds:
+          remainingCapabilityScoreContracts['pervasive-security'].evidenceIds,
+        strongestEvidenceId: 'terraform-scoped-iam',
+        evidenceCounts: { experience: 5, skill: 12 },
       },
       {
         capabilityKey: 'continuous-delivery',
@@ -391,20 +733,19 @@ describe('devOpsCapabilityEvidence data', () => {
       },
       {
         capabilityKey: 'monitoring-observability',
-        evidenceIds: [
-          'kubectl-troubleshooting',
-          'cluster-operations',
-          'cncf-kubernetes-certification',
-          'kubernetes-skill',
-        ],
-        strongestEvidenceId: 'cncf-kubernetes-certification',
-        evidenceCounts: { certification: 1, learning: 2, skill: 1 },
+        evidenceIds:
+          remainingCapabilityScoreContracts['monitoring-observability']
+            .evidenceIds,
+        strongestEvidenceId: 'version-controlled-observability-stack',
+        evidenceCounts: { experience: 5, skill: 13 },
       },
       {
         capabilityKey: 'documentation-quality',
-        evidenceIds: ['portfolio-radar', 'roadmap-repository'],
-        strongestEvidenceId: 'portfolio-radar',
-        evidenceCounts: { project: 2 },
+        evidenceIds:
+          remainingCapabilityScoreContracts['documentation-quality']
+            .evidenceIds,
+        strongestEvidenceId: 'structured-documentation-corpus',
+        evidenceCounts: { experience: 5, skill: 3 },
       },
     ]);
   });
@@ -438,16 +779,6 @@ describe('devOpsCapabilityEvidence data', () => {
         ],
       },
       {
-        id: 'jest-testcontainers-postgres',
-        label: 'Postgres tests',
-        capabilityKeys: ['test-automation'],
-      },
-      {
-        id: 'regression-gates',
-        label: 'Regression gates',
-        capabilityKeys: ['test-automation', 'continuous-integration'],
-      },
-      {
         id: 'image-digest-deployments',
         label: 'Image digests',
         capabilityKeys: ['pervasive-security', 'deployment-automation'],
@@ -461,6 +792,16 @@ describe('devOpsCapabilityEvidence data', () => {
         id: 'terraform-scoped-iam',
         label: 'Terraform scoped IAM',
         capabilityKeys: ['flexible-infrastructure', 'pervasive-security'],
+      },
+      {
+        id: 'jest-testcontainers-postgres',
+        label: 'PostgreSQL test environments',
+        capabilityKeys: ['test-automation'],
+      },
+      {
+        id: 'regression-gates',
+        label: 'Regression gates',
+        capabilityKeys: ['test-automation'],
       },
     ]);
   });
@@ -658,104 +999,135 @@ describe('devOpsCapabilityEvidence data', () => {
     );
   });
 
-  it('does not change explicit compact cards when an unselected record exists', () => {
-    const syntheticUnselectedCatalog = [
+  it('keeps remaining compact projections independent of a sixth catalog experience', () => {
+    const augmentedCatalog = composeCanonicalCapabilityEvidenceItems([
       ...devOpsCapabilityEvidenceItems,
       {
-        id: 'synthetic-unselected-versioning-record',
+        id: 'synthetic-unselected-capability-record',
         title: 'Synthetic unselected record',
         type: 'experience' as const,
         capabilityKeys: [
-          'version-control',
-          'trunk-based-development',
-          'deployment-automation',
-          'flexible-infrastructure',
+          'test-automation',
+          'monitoring-observability',
+          'pervasive-security',
+          'documentation-quality',
         ] as const,
         summary: 'Synthetic public evidence that must not alter curated cards.',
         isPublic: true,
         strength: 'primary' as const,
       },
-    ];
-
-    expect(syntheticUnselectedCatalog).toHaveLength(
-      devOpsCapabilityEvidenceItems.length + 1,
-    );
-    expect(
-      curatedDevOpsCapabilityRadarScores.find(
-        (score) => score.capabilityKey === 'version-control',
-      )?.evidenceIds,
-    ).toEqual([
-      'terraform-codepipeline-platform',
-      'github-actions-gitops-handoff',
-      'argocd-environment-state-from-version-control',
-      'argocd-automated-database-migrations',
-      'merge-commit-history',
-      'version-control-skill-git',
-      'version-control-skill-github',
-      'version-control-skill-codepipeline',
-      'version-control-skill-terraform',
-      'version-control-skill-docker',
-      'version-control-skill-helm',
-      'version-control-skill-conventional-commits',
-      'version-control-skill-husky',
-      'version-control-skill-nx',
-      'version-control-skill-github-actions',
-      'version-control-skill-kustomize',
-      'version-control-skill-argo-cd',
-      'version-control-skill-kubernetes',
     ]);
-    expect(
-      curatedDevOpsCapabilityRadarScores.find(
-        (score) => score.capabilityKey === 'trunk-based-development',
-      )?.evidenceIds,
-    ).toEqual([
-      'single-trunk-repository-flow',
-      'short-lived-branch-flow',
-      'small-change-landings',
-      'nx-affected-quality-gates',
-      'merge-commit-history',
-      'trunk-based-development-skill-git',
-      'trunk-based-development-skill-github',
-      'trunk-based-development-skill-nx',
-      'trunk-based-development-skill-github-actions',
-      'trunk-based-development-skill-conventional-commits',
-      'trunk-based-development-skill-husky',
-    ]);
-    expect(
-      curatedDevOpsCapabilityRadarScores.find(
-        (score) => score.capabilityKey === 'deployment-automation',
-      )?.evidenceIds,
-    ).toEqual(deploymentAutomationScoreEvidenceIds);
-    expect(
-      curatedDevOpsCapabilityRadarScores.find(
-        (score) => score.capabilityKey === 'flexible-infrastructure',
-      )?.evidenceIds,
-    ).toEqual(flexibleInfrastructureScoreEvidenceIds);
-  });
-
-  it('uses literal score projections instead of catalog ranking or slicing', () => {
     const dataFile = existsSync(
       'apps/github.io/src/app/devops-capability-evidence/devops-capability-evidence.data.ts',
     )
       ? 'apps/github.io/src/app/devops-capability-evidence/devops-capability-evidence.data.ts'
       : 'src/app/devops-capability-evidence/devops-capability-evidence.data.ts';
     const source = readFileSync(dataFile, 'utf8');
-    const projections = [
-      ...source.matchAll(
-        /capabilityKey: '(?:version-control|trunk-based-development|deployment-automation|flexible-infrastructure)',[\s\S]*?evidenceSummary:/g,
+    const literalEvidenceIds = getLiteralScoreEvidenceIds(
+      source,
+      remainingCapabilityKeys,
+    );
+
+    for (const [capabilityKey, expected] of Object.entries(
+      remainingCapabilityScoreContracts,
+    )) {
+      const key = capabilityKey as RemainingCapabilityKey;
+      const originalExperienceCount = devOpsCapabilityEvidenceItems.filter(
+        (item) =>
+          item.type === 'experience' && item.capabilityKeys.includes(key),
+      ).length;
+      const augmentedExperienceCount = augmentedCatalog.filter(
+        (item) =>
+          item.type === 'experience' && item.capabilityKeys.includes(key),
+      ).length;
+      const originalProjectionIds = getDoraCapabilityCardEvidenceRows(
+        key,
+        devOpsCapabilityEvidenceItems,
+        curatedDevOpsCapabilityRadarScores,
+      ).flatMap((row) => row.evidence.map((item) => item.id));
+      const augmentedProjectionIds = getDoraCapabilityCardEvidenceRows(
+        key,
+        augmentedCatalog,
+        curatedDevOpsCapabilityRadarScores,
+      ).flatMap((row) => row.evidence.map((item) => item.id));
+
+      expect(augmentedExperienceCount).toBe(originalExperienceCount + 1);
+      expect(literalEvidenceIds[key]).toEqual(expected.evidenceIds);
+      expect(originalProjectionIds).toEqual(expected.evidenceIds);
+      expect(augmentedProjectionIds).toEqual(originalProjectionIds);
+      expect(augmentedProjectionIds).not.toContain(
+        'synthetic-unselected-capability-record',
+      );
+    }
+
+    expect(
+      Object.keys(
+        getLiteralScoreEvidenceIds(
+          source,
+          existingLiteralProjectionCapabilityKeys,
+        ),
+      ),
+    ).toEqual(existingLiteralProjectionCapabilityKeys);
+  });
+
+  it('rejects non-literal remaining compact projection syntax', () => {
+    const literalFixture = `
+      const curatedDevOpsCapabilityRadarScores = [
+        { evidenceIds: ['test-id'], capabilityKey: 'test-automation' },
+        { capabilityKey: 'monitoring-observability', evidenceIds: ['monitoring-id'] },
+        { capabilityKey: 'pervasive-security', evidenceIds: ['security-id'] },
+        { capabilityKey: 'documentation-quality', evidenceIds: ['documentation-id'] },
+      ] as const;
+    `;
+    const prohibitedInitializers = [
+      '[...skillIds]',
+      '[skillIds[0]]',
+      "skillIds.filter((id) => id !== 'unused')",
+      'skillIds.reduce((ids, id) => [...ids, id], [])',
+      'skillIds.toSorted()',
+    ];
+    const testScoreFixture =
+      "{ evidenceIds: ['test-id'], capabilityKey: 'test-automation' }";
+    const prohibitedObjectFixtures = [
+      literalFixture.replace(
+        testScoreFixture,
+        "{ evidenceIds: ['test-id'], capabilityKey: 'test-automation', ...overrides }",
+      ),
+      literalFixture.replace(
+        testScoreFixture,
+        "{ evidenceIds: ['test-id'], capabilityKey: 'test-automation', evidenceIds: derivedIds }",
+      ),
+      literalFixture.replace(
+        testScoreFixture,
+        "{ evidenceIds: ['test-id'], capabilityKey: 'test-automation', ['evidenceIds']: derivedIds }",
       ),
     ];
 
-    expect(projections).toHaveLength(4);
+    expect(
+      getLiteralScoreEvidenceIds(literalFixture, remainingCapabilityKeys),
+    ).toEqual({
+      'test-automation': ['test-id'],
+      'monitoring-observability': ['monitoring-id'],
+      'pervasive-security': ['security-id'],
+      'documentation-quality': ['documentation-id'],
+    });
 
-    for (const projection of projections) {
-      expect(projection[0]).not.toContain('slice(');
-      expect(projection[0]).not.toContain('.sort(');
-      expect(projection[0]).not.toContain('.map(');
-      expect(projection[0]).not.toMatch(/strength|rank/i);
-      expect(projection[0]).not.toMatch(
-        /\.\.\.(?:versionControlEvidenceItems|trunkBasedDevelopmentEvidenceItems|deploymentAutomationSkillEvidenceItems|flexibleInfrastructureSkillEvidenceItems)/,
-      );
+    for (const prohibitedInitializer of prohibitedInitializers) {
+      expect(() =>
+        getLiteralScoreEvidenceIds(
+          literalFixture.replace("['test-id']", prohibitedInitializer),
+          remainingCapabilityKeys,
+        ),
+      ).toThrow(/evidenceIds must/);
+    }
+
+    for (const prohibitedObjectFixture of prohibitedObjectFixtures) {
+      expect(() =>
+        getLiteralScoreEvidenceIds(
+          prohibitedObjectFixture,
+          remainingCapabilityKeys,
+        ),
+      ).toThrow(/evidenceIds must|score object/);
     }
   });
 
@@ -1069,11 +1441,11 @@ describe('devOpsCapabilityEvidence scoring', () => {
 
   it('groups evidence counts by type and capability', () => {
     expect(getEvidenceTypeCounts(devOpsCapabilityEvidenceItems)).toMatchObject({
-      experience: 48,
+      experience: 67,
       learning: 3,
       certification: 1,
       project: 2,
-      skill: 72,
+      skill: 111,
     });
 
     expect(
@@ -1101,7 +1473,7 @@ describe('devOpsCapabilityEvidence scoring', () => {
         getEvidenceTypeCounts(devOpsCapabilityEvidenceItems),
       ),
     ).toBe(
-      'Evidence includes 72 skills, 3 learning items, 48 experience items, 1 certification, and 2 projects.',
+      'Evidence includes 111 skills, 3 learning items, 67 experience items, 1 certification, and 2 projects.',
     );
   });
 });

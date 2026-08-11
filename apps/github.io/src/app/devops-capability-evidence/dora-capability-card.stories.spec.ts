@@ -2,17 +2,44 @@ import meta, {
   ContinuousDelivery,
   ContinuousIntegration,
   DeploymentAutomation,
+  DocumentationQuality,
   FlexibleInfrastructure,
+  MonitoringAndObservability,
+  PervasiveSecurity,
+  TestAutomation,
   TrunkBasedDevelopment,
   VersionControl,
 } from './dora-capability-card.stories';
 import {
   curatedDevOpsCapabilityRadarScores,
   devOpsCapabilityEvidenceItems,
+  doraCapabilityDefinitions,
 } from './devops-capability-evidence.data';
 import { doraCapabilityDescriptions } from './dora-capability-card.evidence';
 
 describe('DoraCapabilityCard stories', () => {
+  it.each([
+    ['test-automation', TestAutomation],
+    ['monitoring-observability', MonitoringAndObservability],
+    ['pervasive-security', PervasiveSecurity],
+    ['documentation-quality', DocumentationQuality],
+  ] as const)(
+    'uses the production catalog and score collection for %s',
+    (key, story) => {
+      const args = { ...meta.args, ...story.args };
+      const definition = doraCapabilityDefinitions.find(
+        (capability) => capability.key === key,
+      );
+
+      expect(meta.args?.evidence).toBe(devOpsCapabilityEvidenceItems);
+      expect(meta.args?.scores).toBe(curatedDevOpsCapabilityRadarScores);
+      expect(story.args?.evidence).toBeUndefined();
+      expect(story.args?.scores).toBeUndefined();
+      expect(args.capability).toBe(definition);
+      expect(args.description).toBe(doraCapabilityDescriptions[key]);
+    },
+  );
+
   it('uses shared production data for Continuous Integration', () => {
     expect(meta.args?.evidence).toBe(devOpsCapabilityEvidenceItems);
     expect(meta.args?.scores).toBe(curatedDevOpsCapabilityRadarScores);

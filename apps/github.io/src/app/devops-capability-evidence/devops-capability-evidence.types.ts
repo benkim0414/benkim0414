@@ -19,18 +19,18 @@ export type EvidenceType =
   | 'project';
 
 export type LearningEvidenceKind =
-  | 'course'
-  | 'article'
-  | 'book'
-  | 'docs'
-  | 'lab';
+  'course' | 'article' | 'book' | 'docs' | 'lab';
 
 export type EvidenceStrength = 'supporting' | 'strong' | 'primary';
 
 export type CapabilityEvidenceInitiativeId =
   | 'aws-codepipeline-platform'
   | 'github-actions-monorepo'
-  | 'delivery-repository-practices';
+  | 'delivery-repository-practices'
+  | 'automated-testing-practices'
+  | 'observability-platform'
+  | 'security-governance'
+  | 'documentation-system';
 
 export interface CapabilityEvidenceInitiative {
   readonly id: CapabilityEvidenceInitiativeId;

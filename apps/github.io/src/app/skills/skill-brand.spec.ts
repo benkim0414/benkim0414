@@ -34,6 +34,42 @@ const cdSkillNames = [
 ] as const;
 
 describe('getSkillBrand', () => {
+  it.each([
+    'Git',
+    'GitHub Actions',
+    'Docker',
+    'Grafana',
+    'Jest',
+    'Markdown',
+    'Prometheus',
+    'PostgreSQL',
+    'TypeScript',
+    'YAML',
+  ])('uses the existing truthful Simple Icon for %s', (skill) => {
+    expect(hasSkillBrandIcon(getSkillBrand(skill))).toBe(true);
+  });
+
+  it.each(['IRSA', 'Sealed Secrets'])(
+    'keeps %s text-only instead of fabricating an icon',
+    (skill) => {
+      expect(hasSkillBrandIcon(getSkillBrand(skill))).toBe(false);
+    },
+  );
+
+  it('uses the official AWS wordmark for AWS', () => {
+    const brand = getSkillBrand('AWS');
+
+    expect(brand?.iconPath).toBeUndefined();
+    expect(brand?.iconDataUrl).toMatch(/aws-logo.*\.svg/);
+  });
+
+  it('uses the official AWS Architecture Icon for AWS IAM', () => {
+    const brand = getSkillBrand('AWS IAM');
+
+    expect(brand?.iconPath).toBeUndefined();
+    expect(brand?.iconDataUrl).toMatch(/^data:image\/png;base64,/);
+  });
+
   it('resolves an icon for every selected CI skill', () => {
     for (const skill of ciSkillNames) {
       expect(hasSkillBrandIcon(getSkillBrand(skill))).toBe(true);
@@ -43,6 +79,8 @@ describe('getSkillBrand', () => {
   it.each([
     'AWS CodePipeline',
     'AWS CodeBuild',
+    'AWS EventBridge',
+    'AWS Lambda',
     'Amazon ECR',
     'AWS Systems Manager Parameter Store',
   ])('uses a local full-color AWS asset for %s', (skill) => {
@@ -87,10 +125,40 @@ describe('getSkillBrand', () => {
     );
   });
 
+  it('uses the Prometheus icon for Alertmanager', () => {
+    expect(getSkillBrand('Alertmanager')?.iconPath).toBe(
+      getSkillBrand('Prometheus')?.iconPath,
+    );
+  });
+
+  it('uses the Prometheus icon for promtool', () => {
+    expect(getSkillBrand('promtool')?.iconPath).toBe(
+      getSkillBrand('Prometheus')?.iconPath,
+    );
+  });
+
+  it('uses the Kubernetes icon for Kubernetes RBAC', () => {
+    expect(getSkillBrand('Kubernetes RBAC')?.iconPath).toBe(
+      getSkillBrand('Kubernetes')?.iconPath,
+    );
+  });
+
+  it.each([
+    ['Loki', /loki.*\.svg/],
+    ['Alloy', /alloy.*\.svg/],
+    ['Testcontainers', /testcontainers.*\.svg/],
+  ] as const)(
+    'uses the official local project asset for %s',
+    (skill, asset) => {
+      const brand = getSkillBrand(skill);
+
+      expect(brand?.iconPath).toBeUndefined();
+      expect(brand?.iconDataUrl).toMatch(asset);
+    },
+  );
+
   it('uses AWS color metadata for deployment infrastructure concepts', () => {
-    for (const skill of ['AWS', 'AWS IAM', 'IRSA']) {
-      expect(getSkillBrand(skill)).toMatchObject({ color: '#FF9900' });
-    }
+    expect(getSkillBrand('IRSA')).toMatchObject({ color: '#FF9900' });
   });
 
   it('does not invent icons for unbranded deployment infrastructure concepts', () => {
@@ -136,10 +204,10 @@ describe('getSkillBrand', () => {
   });
 
   it('returns color-only brand metadata when no logo is available', () => {
-    const brand = getSkillBrand('AWS');
+    const brand = getSkillBrand('IRSA');
 
     expect(brand).toMatchObject({
-      name: 'AWS',
+      name: 'IRSA',
       color: '#FF9900',
       foreground: 'var(--color-on-light)',
     });

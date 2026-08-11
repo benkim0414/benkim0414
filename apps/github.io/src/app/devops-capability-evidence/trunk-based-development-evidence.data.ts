@@ -159,9 +159,10 @@ const trunkBasedDevelopmentAdditionalExperienceItems = [
   },
 ] as const satisfies readonly CapabilityEvidenceItem[];
 
-export const trunkBasedDevelopmentEvidenceItems: readonly CapabilityEvidenceItem[] = [
-  ...trunkBasedDevelopmentAdditionalExperienceItems,
-  requiredSharedExperience('merge-commit-history'),
-  requiredSharedExperience('nx-affected-quality-gates'),
-  requiredSharedExperience('conventional-commit-governance'),
-];
+export const trunkBasedDevelopmentEvidenceItems: readonly CapabilityEvidenceItem[] =
+  [
+    ...trunkBasedDevelopmentAdditionalExperienceItems,
+    requiredSharedExperience('merge-commit-history'),
+    requiredSharedExperience('nx-affected-quality-gates'),
+    requiredSharedExperience('conventional-commit-governance'),
+  ];

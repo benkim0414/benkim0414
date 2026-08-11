@@ -1,4 +1,7 @@
-import type { DoraCapabilityScore, EvidenceType } from './devops-capability-evidence.types';
+import type {
+  DoraCapabilityScore,
+  EvidenceType,
+} from './devops-capability-evidence.types';
 
 const evidenceTypeSingular: Record<EvidenceType, string> = {
   skill: 'skill',
