@@ -29,10 +29,10 @@ import { trunkBasedDevelopmentEvidenceItems } from './trunk-based-development-ev
 import { versionControlEvidenceItems } from './version-control-evidence.data';
 import {
   getCapabilityEvidenceMatrix,
-  getCapabilityEvidenceScores,
   getEvidenceTypeCounts,
   getPublicCapabilityEvidence,
 } from './devops-capability-evidence.scoring';
+import type { DoraCapabilityScore } from './devops-capability-evidence.types';
 import {
   getCapabilityScoreSummary,
   getEvidenceTypeSummary,
@@ -1436,24 +1436,7 @@ describe('devOpsCapabilityEvidence scoring', () => {
     expect(evidence.map((item) => item.id)).toEqual(['delivery-summary']);
   });
 
-  it('derives non-zero capability scores from evidence', () => {
-    const scores = getCapabilityEvidenceScores(
-      devOpsCapabilityEvidenceItems,
-      doraCapabilityDefinitions,
-    );
-
-    expect(
-      scores.find((score) => score.capabilityKey === 'continuous-delivery'),
-    ).toMatchObject({
-      label: 'Continuous Delivery',
-      score: 5,
-      maxScore: 5,
-      strongestEvidenceId: 'terraform-codepipeline-platform',
-    });
-    expect(scores.some((score) => score.score === 0)).toBe(false);
-  });
-
-  it('omits definitions without evidence from scores and the matrix', () => {
+  it('omits definitions without evidence from the matrix', () => {
     const definitionsWithoutEvidence = [
       { key: 'test-automation', label: 'Test Automation', shortLabel: 'Tests' },
     ] as const;
@@ -1461,12 +1444,6 @@ describe('devOpsCapabilityEvidence scoring', () => {
       (item) => !item.capabilityKeys.includes('test-automation'),
     );
 
-    expect(
-      getCapabilityEvidenceScores(
-        evidenceWithoutTestAutomation,
-        definitionsWithoutEvidence,
-      ),
-    ).toEqual([]);
     expect(
       getCapabilityEvidenceMatrix(
         evidenceWithoutTestAutomation,
@@ -1496,13 +1473,20 @@ describe('devOpsCapabilityEvidence scoring', () => {
   });
 
   it('builds accessible summaries', () => {
-    const scores = getCapabilityEvidenceScores(
-      devOpsCapabilityEvidenceItems,
-      doraCapabilityDefinitions,
-    );
+    const scores: DoraCapabilityScore[] = [
+      {
+        capabilityKey: 'continuous-delivery',
+        label: 'Continuous Delivery',
+        score: 3.5,
+        maxScore: 5,
+        evidenceIds: ['delivery-evidence'],
+        strongestEvidenceId: 'delivery-evidence',
+        evidenceCounts: { experience: 1 },
+      },
+    ];
 
     expect(getCapabilityScoreSummary(scores)).toContain(
-      'Continuous Delivery 5 of 5',
+      'Continuous Delivery 3.5 of 5',
     );
     expect(
       getEvidenceTypeSummary(
