@@ -1,23 +1,23 @@
-# DORA Card Summary Hierarchy Design
+# DORA Card Summary Typography Design
 
 ## Goal
 
-Make each DORA capability card distinguish the generic DORA capability
-description from the portfolio owner's experience summary. The experience
-summary should draw attention first while remaining after the description in
-the existing content order.
+Present the generic DORA capability description and the portfolio owner's
+experience summary as equally readable supporting prose. Keep their existing
+content order and let their wording communicate their different roles without
+adding stronger visual or quotation semantics.
 
 ## Context
 
-`DoraCapabilityCard` currently renders both sentences with Astryx `Text` using
-the `supporting` type. The experience summary also sets `color="secondary"`,
-which is already the default color for supporting text. The two different
-content roles therefore receive effectively identical typography.
+The first implementation made the generic description supporting, secondary
+text and the experience summary body, primary text. Visual review in Storybook
+showed that this hierarchy made the summary unnecessarily prominent.
 
-Astryx defines `supporting` text for secondary information and `body` text for
-primary prose. Its guidance recommends expressing intent through these
-semantic types rather than setting local font size, line height, or raw font
-weight values.
+Astryx `Blockquote` was also considered because its left rule distinguishes a
+passage while retaining secondary text color. The component is documented for
+quotations, testimonials, and externally sourced excerpts. These achievement-
+led summaries are portfolio statements rather than quotations, so using
+`Blockquote` would add misleading HTML and content semantics.
 
 ## Design
 
@@ -28,27 +28,27 @@ Keep the card sequence unchanged:
 3. experience summary, when the selected score provides one; and
 4. evidence rows.
 
-Render the generic description as an Astryx paragraph with supporting,
-secondary typography:
+Render the generic description as an Astryx paragraph with body, secondary
+typography:
 
 ```tsx
-<Text type="supporting" color="secondary" as="p">
+<Text type="body" color="secondary" as="p">
   {description}
 </Text>
 ```
 
-Render the experience summary as an Astryx paragraph with body, primary
-typography:
+Render the experience summary with the same body, secondary typography:
 
 ```tsx
-<Text type="body" color="primary" as="p">
+<Text type="body" color="secondary" as="p">
   {evidenceSummary}
 </Text>
 ```
 
-The explicit colors document the intended hierarchy even though they match
-Astryx defaults. Astryx continues to own font size, weight, line height, color
-tokens, and theme behavior. Do not add a label, italic styling, custom font
+The explicit color documents the intended supporting role. Astryx continues
+to own font size, weight, line height, color tokens, and theme behavior. The
+description and summary are distinguished by their content and sequence, not
+by typography. Do not add a label, `Blockquote`, italic styling, custom font
 rules, a divider, or another component.
 
 ## Component Boundary And Data Flow
@@ -60,8 +60,8 @@ The existing data flow remains:
 
 Do not change score records, summary copy, capability descriptions, evidence
 selection, row grouping, token rendering, or card props. Every card with an
-experience summary inherits the new hierarchy from the shared component. A
-card without a summary continues to omit that paragraph.
+experience summary inherits the uniform typography from the shared component.
+A card without a summary continues to omit that paragraph.
 
 ## Layout And Accessibility
 
@@ -81,28 +81,29 @@ Update the focused `DoraCapabilityCard` component tests to verify:
 - the description and experience summary both render;
 - the description precedes the experience summary;
 - both values use paragraph semantics;
-- the description uses Astryx supporting, secondary text;
-- the experience summary uses Astryx body, primary text; and
+- the description and experience summary both use Astryx body, secondary text;
 - a card without a summary still omits the summary cleanly.
 
 Run the focused DORA capability card tests, then the relevant `github.io` lint
 and build checks. Review representative Storybook cards at phone and tablet
-widths to confirm that the stronger experience summary remains readable,
-wraps naturally, and does not compete with the capability heading.
+widths to confirm that both prose passages remain readable, wrap naturally,
+and do not compete with the capability heading.
 
 ## Out Of Scope
 
 - Rewriting descriptions or experience summaries.
 - Moving the experience summary before the DORA description.
 - Adding a visible label such as "My experience."
+- Presenting the experience summary as a quotation or pull-quote.
 - Changing evidence data, scores, tokens, rows, spacing, or card dimensions.
 - Introducing local typography styles or changing the Astryx theme.
 
 ## Acceptance Criteria
 
-- The generic DORA description remains first and reads as secondary context.
-- The following experience summary is visibly primary without a label.
-- The distinction uses supported Astryx `Text` props only.
+- The generic DORA description remains first.
+- The following experience summary has the same body, secondary typography.
+- Both passages use supported Astryx `Text` props only.
+- Neither passage is presented with quotation semantics.
 - All existing card content, ordering, responsive behavior, and accessibility
   relationships remain intact.
 - Cards without an experience summary remain unchanged.
