@@ -93,7 +93,7 @@ export function DevOpsCapabilityEvidenceRadar({
             metrics: radarMetrics,
           }}
           series={series}
-          shape="circular"
+          shape="sharp"
           skipAnimation
           slotProps={RADAR_SLOT_PROPS}
           sx={{
