@@ -126,6 +126,35 @@ describe('getCapabilityEvidenceScores', () => {
     expect(getScore(items).score).toBe(1.5);
   });
 
+  it('caps the applied evidence subtotal at 3.5 before calibration', () => {
+    const items = Array.from({ length: 5 }, (_, index) =>
+      makeEvidence({
+        id: `primary-${index + 1}`,
+        initiativeId: 'aws-codepipeline-platform',
+      }),
+    );
+
+    expect(getScore(items).score).toBe(3);
+  });
+
+  it('caps initiative breadth at 1 point', () => {
+    const initiativeIds = [
+      'aws-codepipeline-platform',
+      'github-actions-monorepo',
+      'delivery-repository-practices',
+      'automated-testing-practices',
+    ] as const;
+    const items = initiativeIds.map((initiativeId, index) =>
+      makeEvidence({
+        id: `supporting-${index + 1}`,
+        strength: 'supporting',
+        initiativeId,
+      }),
+    );
+
+    expect(getScore(items).score).toBe(2.5);
+  });
+
   it('caps five applied outcomes with breadth and skills at an ordinary 4.0', () => {
     const items = [
       makeEvidence({
@@ -178,7 +207,15 @@ describe('getCapabilityEvidenceScores', () => {
   it.each([
     [
       'a third primary',
-      exceptionalEvidence().filter((item) => item.id !== 'primary-three'),
+      exceptionalEvidence().map((item) =>
+        item.id === 'primary-three'
+          ? makeEvidence({
+              id: 'primary-three',
+              strength: 'strong',
+              initiativeId: 'delivery-repository-practices',
+            })
+          : item,
+      ),
     ],
     [
       'a third initiative',
