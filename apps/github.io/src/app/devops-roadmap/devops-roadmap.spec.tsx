@@ -12,7 +12,10 @@ import {
   DevOpsRoadmapNode,
 } from './devops-roadmap-node';
 import { DevOpsRoadmap } from './devops-roadmap';
-import type { DevOpsRoadmapItem } from './devops-roadmap.types';
+import type {
+  Certification,
+  DevOpsRoadmapItem,
+} from './devops-roadmap.types';
 
 vi.mock('../skills/skill-token', () => ({
   SkillToken: ({ label }: { label: string }) => (
@@ -300,6 +303,24 @@ describe('DevOpsRoadmapNode', () => {
       container.querySelector(
         '[data-roadmap-node-skills] + [data-roadmap-node-certifications]',
       ),
+    ).toBeTruthy();
+  });
+
+  it('supports incomplete certification citations with fallback icons', () => {
+    const certification: Certification = {
+      title: 'Cloud Native Fundamentals',
+      fallbackIcon: <span aria-hidden="true" />,
+    };
+    const item: DevOpsRoadmapItem = {
+      id: 'cloud-native-fundamentals',
+      title: 'Cloud Native Fundamentals',
+      skills: [],
+      certifications: [certification],
+    };
+    const { getByTestId } = render(<DevOpsRoadmapNode item={item} />);
+
+    expect(
+      getByTestId('certification-citation-Cloud Native Fundamentals'),
     ).toBeTruthy();
   });
 
