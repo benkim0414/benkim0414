@@ -78,7 +78,7 @@ Astryx Spacing Tokens let visual spacing feedback stay inside the design system:
 
 ### Astryx Component Contract
 
-The verified public API for an Astryx component, including its props, named sizes, slots, accessibility labels, and default ownership boundaries.
+The verified public API and intended content role for an Astryx component, including its props, named sizes, slots, semantic HTML output, accessibility labels, and default ownership boundaries.
 
 Astryx Component Contracts are the source of truth for local wrappers: wrappers should express supported behavior through Astryx props before adding StyleX, Tailwind, or scoped CSS overrides.
 
