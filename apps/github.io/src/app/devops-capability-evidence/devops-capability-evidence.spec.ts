@@ -17,6 +17,7 @@ import { documentationQualityEvidenceItems } from './documentation-quality-evide
 import { documentationQualitySkillEvidenceItems } from './documentation-quality-skill-evidence.data';
 import { flexibleInfrastructureEvidenceItems } from './flexible-infrastructure-evidence.data';
 import { flexibleInfrastructureSkillEvidenceItems } from './flexible-infrastructure-skill-evidence.data';
+import { kubernetesCertificationEvidenceItems } from './kubernetes-certification-evidence.data';
 import { monitoringObservabilityEvidenceItems } from './monitoring-observability-evidence.data';
 import { monitoringObservabilitySkillEvidenceItems } from './monitoring-observability-skill-evidence.data';
 import { pervasiveSecurityEvidenceItems } from './pervasive-security-evidence.data';
@@ -52,6 +53,7 @@ const deploymentAutomationScoreEvidenceIds = [
   'generator-based-service-onboarding',
   'automated-sealed-secret-delivery',
   'deterministic-kubernetes-overlays',
+  'cncf-ckad-certification',
   'deployment-automation-skill-aws-codepipeline',
   'deployment-automation-skill-terraform',
   'deployment-automation-skill-github-actions',
@@ -81,6 +83,8 @@ const flexibleInfrastructureScoreEvidenceIds = [
   'terraform-scoped-iam',
   'terraform-codepipeline-platform',
   'argocd-environment-state-from-version-control',
+  'cncf-kcna-certification',
+  'cncf-cka-certification',
   'flexible-infrastructure-skill-terraform',
   'flexible-infrastructure-skill-aws',
   'flexible-infrastructure-skill-kubernetes',
@@ -131,6 +135,8 @@ const remainingCapabilityScoreContracts = {
       'alertmanager-notification-routing',
       'alert-suppression-controls',
       'encrypted-alert-destinations',
+      'cncf-cka-certification',
+      'cncf-ckad-certification',
       'monitoring-observability-skill-prometheus',
       'monitoring-observability-skill-promtool',
       'monitoring-observability-skill-alertmanager',
@@ -146,7 +152,7 @@ const remainingCapabilityScoreContracts = {
       'monitoring-observability-skill-aws-lambda',
     ],
     strongestEvidenceId: 'version-controlled-observability-stack',
-    evidenceCounts: { experience: 5, skill: 13 },
+    evidenceCounts: { experience: 5, certification: 2, skill: 13 },
     evidenceSummary:
       'Built a version-controlled cloud native observability platform with tested workload alerts, routed notifications, suppression controls, and encrypted alert destinations.',
   },
@@ -520,6 +526,7 @@ describe('devOpsCapabilityEvidence data', () => {
       deploymentAutomationSkillEvidenceItems,
       flexibleInfrastructureEvidenceItems,
       flexibleInfrastructureSkillEvidenceItems,
+      kubernetesCertificationEvidenceItems,
       testAutomationEvidenceItems,
       testAutomationSkillEvidenceItems,
       monitoringObservabilityEvidenceItems,
@@ -542,6 +549,33 @@ describe('devOpsCapabilityEvidence data', () => {
         ).toBe(item);
       }
     }
+  });
+
+  it('includes three Kubernetes certifications in the approved compact projections', () => {
+    expect(kubernetesCertificationEvidenceItems).toHaveLength(3);
+    expect(
+      devOpsCapabilityEvidenceItems.filter(
+        (item) => item.type === 'certification',
+      ),
+    ).toEqual(kubernetesCertificationEvidenceItems);
+    expect(
+      [
+        'continuous-delivery',
+        'deployment-automation',
+        'monitoring-observability',
+        'flexible-infrastructure',
+      ].map((capabilityKey) => ({
+        capabilityKey,
+        certificationCount: curatedDevOpsCapabilityRadarScores.find(
+          (score) => score.capabilityKey === capabilityKey,
+        )?.evidenceCounts.certification,
+      })),
+    ).toEqual([
+      { capabilityKey: 'continuous-delivery', certificationCount: 1 },
+      { capabilityKey: 'deployment-automation', certificationCount: 1 },
+      { capabilityKey: 'monitoring-observability', certificationCount: 2 },
+      { capabilityKey: 'flexible-infrastructure', certificationCount: 2 },
+    ]);
   });
 
   it('preserves known shared evidence by canonical object identity', () => {
@@ -714,22 +748,23 @@ describe('devOpsCapabilityEvidence data', () => {
           'argocd-environment-state-from-version-control',
           'gitops-same-package-environments',
           'argocd-automated-database-migrations',
+          'cncf-ckad-certification',
           ...continuousDeliverySkillEvidenceItems.map((item) => item.id),
         ],
         strongestEvidenceId: 'codepipeline-approval-gated-deployment',
-        evidenceCounts: { experience: 5, skill: 14 },
+        evidenceCounts: { experience: 5, certification: 1, skill: 14 },
       },
       {
         capabilityKey: 'deployment-automation',
         evidenceIds: deploymentAutomationScoreEvidenceIds,
         strongestEvidenceId: 'merge-triggered-deployment-path',
-        evidenceCounts: { experience: 5, skill: 13 },
+        evidenceCounts: { experience: 5, certification: 1, skill: 13 },
       },
       {
         capabilityKey: 'flexible-infrastructure',
         evidenceIds: flexibleInfrastructureScoreEvidenceIds,
         strongestEvidenceId: 'terraform-managed-cloud-foundations',
-        evidenceCounts: { experience: 5, skill: 12 },
+        evidenceCounts: { experience: 5, certification: 2, skill: 12 },
       },
       {
         capabilityKey: 'monitoring-observability',
@@ -737,7 +772,7 @@ describe('devOpsCapabilityEvidence data', () => {
           remainingCapabilityScoreContracts['monitoring-observability']
             .evidenceIds,
         strongestEvidenceId: 'version-controlled-observability-stack',
-        evidenceCounts: { experience: 5, skill: 13 },
+        evidenceCounts: { experience: 5, certification: 2, skill: 13 },
       },
       {
         capabilityKey: 'documentation-quality',
@@ -1201,7 +1236,7 @@ describe('devOpsCapabilityEvidence data', () => {
     );
   });
 
-  it('curates the approved Continuous Delivery experiences and skills', () => {
+  it('curates the approved Continuous Delivery experiences, certification, and skills', () => {
     const score = curatedDevOpsCapabilityRadarScores.find(
       (entry) => entry.capabilityKey === 'continuous-delivery',
     );
@@ -1210,7 +1245,7 @@ describe('devOpsCapabilityEvidence data', () => {
       score: 4,
       maxScore: 5,
       strongestEvidenceId: 'codepipeline-approval-gated-deployment',
-      evidenceCounts: { experience: 5, skill: 14 },
+      evidenceCounts: { experience: 5, certification: 1, skill: 14 },
       evidenceSummary:
         'Built approval-gated and GitOps delivery across AWS CodePipeline and GitHub Actions, with immutable artifacts, automated migrations, and reliable Kubernetes reconciliation.',
     });
@@ -1221,7 +1256,8 @@ describe('devOpsCapabilityEvidence data', () => {
       'gitops-same-package-environments',
       'argocd-automated-database-migrations',
     ]);
-    expect(score?.evidenceIds.slice(5)).toEqual(
+    expect(score?.evidenceIds.slice(5, 6)).toEqual(['cncf-ckad-certification']);
+    expect(score?.evidenceIds.slice(6)).toEqual(
       continuousDeliverySkillEvidenceItems.map((item) => item.id),
     );
   });
@@ -1235,7 +1271,7 @@ describe('devOpsCapabilityEvidence data', () => {
       score: 4,
       maxScore: 5,
       strongestEvidenceId: 'merge-triggered-deployment-path',
-      evidenceCounts: { experience: 5, skill: 13 },
+      evidenceCounts: { experience: 5, certification: 1, skill: 13 },
       evidenceSummary:
         'Built merge-triggered deployment automation across environments, with generator-based onboarding, automated secret delivery, and deterministic Kubernetes rendering.',
     });
@@ -1254,7 +1290,7 @@ describe('devOpsCapabilityEvidence data', () => {
       score: 4,
       maxScore: 5,
       strongestEvidenceId: 'terraform-managed-cloud-foundations',
-      evidenceCounts: { experience: 5, skill: 12 },
+      evidenceCounts: { experience: 5, certification: 2, skill: 12 },
       evidenceSummary:
         'Built reusable Terraform and Kubernetes foundations with workload identity, scoped IAM, delivery-platform provisioning, and GitOps-managed environments.',
     });

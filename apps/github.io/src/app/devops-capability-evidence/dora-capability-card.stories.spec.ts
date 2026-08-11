@@ -19,17 +19,22 @@ import { doraCapabilityDescriptions } from './dora-capability-card.evidence';
 
 describe('DoraCapabilityCard stories', () => {
   it.each([
-    ['test-automation', TestAutomation],
-    ['monitoring-observability', MonitoringAndObservability],
-    ['pervasive-security', PervasiveSecurity],
-    ['documentation-quality', DocumentationQuality],
+    ['test-automation', TestAutomation, []],
+    ['monitoring-observability', MonitoringAndObservability, ['CKA', 'CKAD']],
+    ['pervasive-security', PervasiveSecurity, []],
+    ['documentation-quality', DocumentationQuality, []],
   ] as const)(
     'uses the production catalog and score collection for %s',
-    (key, story) => {
+    (key, story, certificationLabels) => {
       const args = { ...meta.args, ...story.args };
       const definition = doraCapabilityDefinitions.find(
         (capability) => capability.key === key,
       );
+      const selected = curatedDevOpsCapabilityRadarScores
+        .find((entry) => entry.capabilityKey === key)
+        ?.evidenceIds.map((id) =>
+          devOpsCapabilityEvidenceItems.find((item) => item.id === id),
+        );
 
       expect(meta.args?.evidence).toBe(devOpsCapabilityEvidenceItems);
       expect(meta.args?.scores).toBe(curatedDevOpsCapabilityRadarScores);
@@ -37,6 +42,11 @@ describe('DoraCapabilityCard stories', () => {
       expect(story.args?.scores).toBeUndefined();
       expect(args.capability).toBe(definition);
       expect(args.description).toBe(doraCapabilityDescriptions[key]);
+      expect(
+        selected
+          ?.filter((item) => item?.type === 'certification')
+          .map((item) => item?.label),
+      ).toEqual(certificationLabels);
     },
   );
 
@@ -45,6 +55,15 @@ describe('DoraCapabilityCard stories', () => {
     expect(meta.args?.scores).toBe(curatedDevOpsCapabilityRadarScores);
     expect(ContinuousIntegration.args?.evidence).toBeUndefined();
     expect(ContinuousIntegration.args?.scores).toBeUndefined();
+    expect(
+      curatedDevOpsCapabilityRadarScores
+        .find((entry) => entry.capabilityKey === 'continuous-integration')
+        ?.evidenceIds.map((id) =>
+          devOpsCapabilityEvidenceItems.find((item) => item.id === id),
+        )
+        .filter((item) => item?.type === 'certification')
+        .map((item) => item?.label),
+    ).toEqual([]);
   });
 
   it('resolves the approved Continuous Integration evidence and skills', () => {
@@ -86,7 +105,7 @@ describe('DoraCapabilityCard stories', () => {
     expect(ContinuousDelivery.args?.scores).toBeUndefined();
   });
 
-  it('resolves the approved Continuous Delivery evidence and skills', () => {
+  it('resolves the approved Continuous Delivery evidence, certifications, and skills', () => {
     const score = curatedDevOpsCapabilityRadarScores.find(
       (entry) => entry.capabilityKey === 'continuous-delivery',
     );
@@ -101,7 +120,16 @@ describe('DoraCapabilityCard stories', () => {
       'Same package across environments',
       'Automated database migrations',
     ]);
-    expect(selected?.slice(5).map((item) => item?.title)).toEqual([
+    expect(
+      selected
+        ?.filter((item) => item?.type === 'certification')
+        .map((item) => item?.label),
+    ).toEqual(['CKAD']);
+    expect(
+      selected
+        ?.filter((item) => item?.type === 'skill')
+        .map((item) => item?.title),
+    ).toEqual([
       'AWS CodePipeline',
       'GitHub',
       'Docker',
@@ -153,6 +181,33 @@ describe('DoraCapabilityCard stories', () => {
 
   it.each([
     [
+      'continuous-delivery',
+      [
+        'Approval-gated deployment automation',
+        'Automated deployment process',
+        'Version-controlled environment state',
+        'Same package across environments',
+        'Automated database migrations',
+      ],
+      ['CKAD'],
+      [
+        'AWS CodePipeline',
+        'GitHub',
+        'Docker',
+        'Amazon ECR',
+        'Helm',
+        'Amazon EKS',
+        'Terraform',
+        'Kubernetes',
+        'GitHub Actions',
+        'OpenID Connect',
+        'Nx',
+        'Kustomize',
+        'Argo CD',
+        'Sealed Secrets',
+      ],
+    ],
+    [
       'deployment-automation',
       [
         'Merge-triggered deployments',
@@ -161,6 +216,7 @@ describe('DoraCapabilityCard stories', () => {
         'Automated secret delivery',
         'Deterministic overlays',
       ],
+      ['CKAD'],
       [
         'AWS CodePipeline',
         'Terraform',
@@ -186,6 +242,7 @@ describe('DoraCapabilityCard stories', () => {
         'Reusable Terraform CI pipelines',
         'Version-controlled environment state',
       ],
+      ['KCNA', 'CKA'],
       [
         'Terraform',
         'AWS',
@@ -202,6 +259,32 @@ describe('DoraCapabilityCard stories', () => {
       ],
     ],
     [
+      'monitoring-observability',
+      [
+        'Observability stack',
+        'Workload alerts',
+        'Notification routing',
+        'Alert suppression',
+        'Encrypted destinations',
+      ],
+      ['CKA', 'CKAD'],
+      [
+        'Prometheus',
+        'promtool',
+        'Alertmanager',
+        'Loki',
+        'Grafana',
+        'Alloy',
+        'Kubernetes',
+        'Helm',
+        'Argo CD',
+        'Kustomize',
+        'Sealed Secrets',
+        'AWS EventBridge',
+        'AWS Lambda',
+      ],
+    ],
+    [
       'version-control',
       [
         'Reusable Terraform CI pipelines',
@@ -210,6 +293,7 @@ describe('DoraCapabilityCard stories', () => {
         'Automated database migrations',
         'Merge-preserved history',
       ],
+      [],
       [
         'Git',
         'GitHub',
@@ -235,6 +319,7 @@ describe('DoraCapabilityCard stories', () => {
         'Affected-change quality gates',
         'Merge-preserved history',
       ],
+      [],
       [
         'Git',
         'GitHub',
@@ -245,8 +330,8 @@ describe('DoraCapabilityCard stories', () => {
       ],
     ],
   ] as const)(
-    'resolves the approved %s evidence and skills',
-    (capabilityKey, experienceLabels, skillTitles) => {
+    'resolves the approved %s evidence, certifications, and skills',
+    (capabilityKey, experienceLabels, certificationTitles, skillTitles) => {
       const score = curatedDevOpsCapabilityRadarScores.find(
         (entry) => entry.capabilityKey === capabilityKey,
       );
@@ -257,9 +342,16 @@ describe('DoraCapabilityCard stories', () => {
       expect(selected?.slice(0, 5).map((item) => item?.label)).toEqual(
         experienceLabels,
       );
-      expect(selected?.slice(5).map((item) => item?.title)).toEqual(
-        skillTitles,
-      );
+      expect(
+        selected
+          ?.filter((item) => item?.type === 'certification')
+          .map((item) => item?.label),
+      ).toEqual(certificationTitles);
+      expect(
+        selected
+          ?.filter((item) => item?.type === 'skill')
+          .map((item) => item?.title),
+      ).toEqual(skillTitles);
     },
   );
 });

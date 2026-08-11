@@ -89,7 +89,73 @@ describe('getDoraCapabilityCardEvidenceSummary', () => {
 });
 
 describe('getDoraCapabilityCardEvidenceRows', () => {
+  const expectedCertificationIds = {
+    'continuous-delivery': ['cncf-ckad-certification'],
+    'deployment-automation': ['cncf-ckad-certification'],
+    'monitoring-observability': [
+      'cncf-cka-certification',
+      'cncf-ckad-certification',
+    ],
+    'flexible-infrastructure': [
+      'cncf-kcna-certification',
+      'cncf-cka-certification',
+    ],
+  } as const;
+
   it.each([
+    [
+      'continuous-delivery',
+      [
+        'codepipeline-approval-gated-deployment',
+        'github-actions-gitops-handoff',
+        'argocd-environment-state-from-version-control',
+        'gitops-same-package-environments',
+        'argocd-automated-database-migrations',
+      ],
+      [
+        'continuous-delivery-skill-codepipeline',
+        'continuous-delivery-skill-github',
+        'continuous-delivery-skill-docker',
+        'continuous-delivery-skill-ecr',
+        'continuous-delivery-skill-helm',
+        'continuous-delivery-skill-eks',
+        'continuous-delivery-skill-terraform',
+        'continuous-delivery-skill-kubernetes',
+        'continuous-delivery-skill-github-actions',
+        'continuous-delivery-skill-openid-connect',
+        'continuous-delivery-skill-nx',
+        'continuous-delivery-skill-kustomize',
+        'continuous-delivery-skill-argo-cd',
+        'continuous-delivery-skill-sealed-secrets',
+      ],
+      expectedCertificationIds['continuous-delivery'],
+    ],
+    [
+      'deployment-automation',
+      [
+        'merge-triggered-deployment-path',
+        'environment-neutral-deployment-mechanism',
+        'generator-based-service-onboarding',
+        'automated-sealed-secret-delivery',
+        'deterministic-kubernetes-overlays',
+      ],
+      [
+        'deployment-automation-skill-aws-codepipeline',
+        'deployment-automation-skill-terraform',
+        'deployment-automation-skill-github-actions',
+        'deployment-automation-skill-argo-cd',
+        'deployment-automation-skill-gitops',
+        'deployment-automation-skill-docker',
+        'deployment-automation-skill-amazon-ecr',
+        'deployment-automation-skill-kubernetes',
+        'deployment-automation-skill-openid-connect',
+        'deployment-automation-skill-nx',
+        'deployment-automation-skill-github-api',
+        'deployment-automation-skill-kustomize',
+        'deployment-automation-skill-sealed-secrets',
+      ],
+      expectedCertificationIds['deployment-automation'],
+    ],
     [
       'test-automation',
       [
@@ -112,6 +178,7 @@ describe('getDoraCapabilityCardEvidenceRows', () => {
         'test-automation-skill-prometheus',
         'test-automation-skill-promtool',
       ],
+      [],
     ],
     [
       'monitoring-observability',
@@ -137,6 +204,32 @@ describe('getDoraCapabilityCardEvidenceRows', () => {
         'monitoring-observability-skill-aws-eventbridge',
         'monitoring-observability-skill-aws-lambda',
       ],
+      expectedCertificationIds['monitoring-observability'],
+    ],
+    [
+      'flexible-infrastructure',
+      [
+        'terraform-managed-cloud-foundations',
+        'irsa-service-accounts',
+        'terraform-scoped-iam',
+        'terraform-codepipeline-platform',
+        'argocd-environment-state-from-version-control',
+      ],
+      [
+        'flexible-infrastructure-skill-terraform',
+        'flexible-infrastructure-skill-aws',
+        'flexible-infrastructure-skill-kubernetes',
+        'flexible-infrastructure-skill-kubectl',
+        'flexible-infrastructure-skill-helm',
+        'flexible-infrastructure-skill-docker',
+        'flexible-infrastructure-skill-amazon-ecr',
+        'flexible-infrastructure-skill-aws-iam',
+        'flexible-infrastructure-skill-irsa',
+        'flexible-infrastructure-skill-kustomize',
+        'flexible-infrastructure-skill-argo-cd',
+        'flexible-infrastructure-skill-gitops',
+      ],
+      expectedCertificationIds['flexible-infrastructure'],
     ],
     [
       'pervasive-security',
@@ -161,6 +254,7 @@ describe('getDoraCapabilityCardEvidenceRows', () => {
         'pervasive-security-skill-docker',
         'pervasive-security-skill-amazon-ecr',
       ],
+      [],
     ],
     [
       'documentation-quality',
@@ -176,19 +270,37 @@ describe('getDoraCapabilityCardEvidenceRows', () => {
         'documentation-quality-skill-yaml',
         'documentation-quality-skill-git',
       ],
+      [],
     ],
   ] as const)(
     'selects the exact production %s evidence rows',
-    (key, experienceIds, skillIds) => {
+    (key, experienceIds, skillIds, certificationIds) => {
       const rows = getDoraCapabilityCardEvidenceRows(
         key,
         devOpsCapabilityEvidenceItems,
         curatedDevOpsCapabilityRadarScores,
       );
 
-      expect(rows.map((row) => row.group)).toEqual(['applied', 'skills']);
-      expect(rows[0]?.evidence.map((item) => item.id)).toEqual(experienceIds);
-      expect(rows[1]?.evidence.map((item) => item.id)).toEqual(skillIds);
+      expect(rows.map((row) => row.group)).toEqual(
+        certificationIds.length > 0
+          ? ['applied', 'certifications', 'skills']
+          : ['applied', 'skills'],
+      );
+      expect(
+        rows
+          .find(({ group }) => group === 'certifications')
+          ?.evidence.map(({ id }) => id),
+      ).toEqual(certificationIds.length > 0 ? certificationIds : undefined);
+      expect(
+        rows
+          .find(({ group }) => group === 'applied')
+          ?.evidence.map((item) => item.id),
+      ).toEqual(experienceIds);
+      expect(
+        rows
+          .find(({ group }) => group === 'skills')
+          ?.evidence.map((item) => item.id),
+      ).toEqual(skillIds);
     },
   );
 
