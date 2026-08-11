@@ -21,6 +21,18 @@ const continuousDelivery = doraCapabilityDefinitions.find(
 const deploymentAutomation = doraCapabilityDefinitions.find(
   (capability) => capability.key === 'deployment-automation',
 );
+const testAutomation = doraCapabilityDefinitions.find(
+  (capability) => capability.key === 'test-automation',
+);
+const monitoringObservability = doraCapabilityDefinitions.find(
+  (capability) => capability.key === 'monitoring-observability',
+);
+const pervasiveSecurity = doraCapabilityDefinitions.find(
+  (capability) => capability.key === 'pervasive-security',
+);
+const documentationQuality = doraCapabilityDefinitions.find(
+  (capability) => capability.key === 'documentation-quality',
+);
 const versionControl = doraCapabilityDefinitions.find(
   (capability) => capability.key === 'version-control',
 );
@@ -33,6 +45,10 @@ if (
   !continuousIntegration ||
   !continuousDelivery ||
   !deploymentAutomation ||
+  !testAutomation ||
+  !monitoringObservability ||
+  !pervasiveSecurity ||
+  !documentationQuality ||
   !versionControl ||
   !trunkBasedDevelopment
 ) {
@@ -56,6 +72,141 @@ function evidence(
 }
 
 describe('DoraCapabilityCard', () => {
+  it.each([
+    [
+      testAutomation,
+      'Built automated test coverage across database-backed services, affected quality gates, service generators, Prometheus rules, and container health checks.',
+      [
+        'PostgreSQL test environments',
+        'Alert-rule tests',
+        'Container smoke tests',
+        'Generator tests',
+        'Affected-change quality gates',
+      ],
+      [
+        'AWS CodeBuild',
+        'PostgreSQL',
+        'AWS Systems Manager Parameter Store',
+        'Jest',
+        'Testcontainers',
+        'Nx',
+        'GitHub Actions',
+        'Docker',
+        'TypeScript',
+        'Prometheus',
+        'promtool',
+      ],
+    ],
+    [
+      monitoringObservability,
+      'Built a version-controlled cloud native observability platform with tested workload alerts, routed notifications, suppression controls, and encrypted alert destinations.',
+      [
+        'Observability stack',
+        'Workload alerts',
+        'Notification routing',
+        'Alert suppression',
+        'Encrypted destinations',
+      ],
+      [
+        'Prometheus',
+        'promtool',
+        'Alertmanager',
+        'Loki',
+        'Grafana',
+        'Alloy',
+        'Kubernetes',
+        'Helm',
+        'Argo CD',
+        'Kustomize',
+        'Sealed Secrets',
+        'AWS EventBridge',
+        'AWS Lambda',
+      ],
+    ],
+    [
+      pervasiveSecurity,
+      'Implemented Terraform-managed least-privilege access, complete MFA coverage, identity security alerting, IRSA workload identity, and encrypted secret delivery.',
+      [
+        'Terraform scoped IAM',
+        'MFA coverage',
+        'IAM security alerts',
+        'Shared IRSA modules',
+        'Automated secret delivery',
+      ],
+      [
+        'Terraform',
+        'AWS IAM',
+        'IRSA',
+        'OpenID Connect',
+        'Kubernetes',
+        'Kubernetes RBAC',
+        'Sealed Secrets',
+        'Argo CD',
+        'AWS EventBridge',
+        'AWS Lambda',
+        'Docker',
+        'Amazon ECR',
+      ],
+    ],
+    [
+      documentationQuality,
+      'Maintained a structured, indexed, and current documentation system, integrating documentation with engineering changes and cross-verifying operational claims.',
+      [
+        'Documentation corpus',
+        'Indexed solutions',
+        'Documentation currency',
+        'Docs with changes',
+        'Verified claims',
+      ],
+      ['Markdown', 'YAML', 'Git'],
+    ],
+  ] as const)(
+    'renders the exact production %s rows without internal dates',
+    (capability, summary, experienceLabels, skillTitles) => {
+      const { container } = render(
+        <DoraCapabilityCard
+          capability={capability}
+          description={doraCapabilityDescriptions[capability.key]}
+          evidence={devOpsCapabilityEvidenceItems}
+          scores={curatedDevOpsCapabilityRadarScores}
+        />,
+      );
+
+      const experienceRow = screen.getByRole('list', {
+        name: 'Relevant experience',
+      });
+      const skillRow = screen.getByRole('list', { name: 'Technical skills' });
+      const rows = screen.getAllByTestId('dora-capability-evidence-row');
+      const skillTokens = within(skillRow).getAllByTestId('skill-token');
+
+      expect(screen.getByText(summary)).toBeTruthy();
+      expect(rows.map((row) => row.getAttribute('data-group'))).toEqual([
+        'applied',
+        'skills',
+      ]);
+      expect(
+        within(experienceRow)
+          .getAllByRole('group')
+          .map((group) => group.getAttribute('aria-label')),
+      ).toEqual(
+        experienceLabels.map((label) => `Experience evidence: ${label}`),
+      );
+      expect(skillTokens.map((token) => token.textContent)).toEqual(
+        skillTitles,
+      );
+      expect(
+        within(skillRow)
+          .getAllByRole('group')
+          .map((group) => group.getAttribute('aria-label')),
+      ).toEqual(skillTitles.map((title) => `Skill evidence: ${title}`));
+      expect(
+        experienceRow.compareDocumentPosition(skillRow) &
+          Node.DOCUMENT_POSITION_FOLLOWING,
+      ).toBeTruthy();
+      expect(container.textContent).not.toMatch(/\b20\d{2}-\d{2}-\d{2}\b/);
+    },
+  );
+
   it('renders the full capability title and description', () => {
     render(
       <DoraCapabilityCard

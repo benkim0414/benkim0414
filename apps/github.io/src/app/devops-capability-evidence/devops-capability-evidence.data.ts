@@ -4,8 +4,16 @@ import { continuousIntegrationEvidenceItems } from './continuous-integration-evi
 import { continuousIntegrationSkillEvidenceItems } from './continuous-integration-skill-evidence.data';
 import { deploymentAutomationEvidenceItems } from './deployment-automation-evidence.data';
 import { deploymentAutomationSkillEvidenceItems } from './deployment-automation-skill-evidence.data';
+import { documentationQualityEvidenceItems } from './documentation-quality-evidence.data';
+import { documentationQualitySkillEvidenceItems } from './documentation-quality-skill-evidence.data';
 import { flexibleInfrastructureEvidenceItems } from './flexible-infrastructure-evidence.data';
 import { flexibleInfrastructureSkillEvidenceItems } from './flexible-infrastructure-skill-evidence.data';
+import { monitoringObservabilityEvidenceItems } from './monitoring-observability-evidence.data';
+import { monitoringObservabilitySkillEvidenceItems } from './monitoring-observability-skill-evidence.data';
+import { pervasiveSecurityEvidenceItems } from './pervasive-security-evidence.data';
+import { pervasiveSecuritySkillEvidenceItems } from './pervasive-security-skill-evidence.data';
+import { testAutomationEvidenceItems } from './test-automation-evidence.data';
+import { testAutomationSkillEvidenceItems } from './test-automation-skill-evidence.data';
 import { trunkBasedDevelopmentEvidenceItems } from './trunk-based-development-evidence.data';
 import { trunkBasedDevelopmentSkillEvidenceItems } from './trunk-based-development-skill-evidence.data';
 import { versionControlEvidenceItems } from './version-control-evidence.data';
@@ -144,12 +152,27 @@ export const curatedDevOpsCapabilityRadarScores = [
     score: 3,
     maxScore: 5,
     evidenceIds: [
-      'nx-affected-quality-gates',
       'jest-testcontainers-postgres',
-      'regression-gates',
+      'prometheus-alert-rule-tests',
+      'container-health-smoke-tests',
+      'service-generator-unit-tests',
+      'nx-affected-quality-gates',
+      'test-automation-skill-aws-codebuild',
+      'test-automation-skill-postgresql',
+      'test-automation-skill-parameter-store',
+      'test-automation-skill-jest',
+      'test-automation-skill-testcontainers',
+      'test-automation-skill-nx',
+      'test-automation-skill-github-actions',
+      'test-automation-skill-docker',
+      'test-automation-skill-typescript',
+      'test-automation-skill-prometheus',
+      'test-automation-skill-promtool',
     ],
     strongestEvidenceId: 'jest-testcontainers-postgres',
-    evidenceCounts: { experience: 3 },
+    evidenceCounts: { experience: 5, skill: 11 },
+    evidenceSummary:
+      'Built automated test coverage across database-backed services, affected quality gates, service generators, Prometheus rules, and container health checks.',
   },
   {
     capabilityKey: 'pervasive-security',
@@ -157,12 +180,28 @@ export const curatedDevOpsCapabilityRadarScores = [
     score: 2,
     maxScore: 5,
     evidenceIds: [
-      'image-digest-deployments',
-      'irsa-service-accounts',
       'terraform-scoped-iam',
+      'iam-mfa-coverage',
+      'iam-security-alerting',
+      'irsa-service-accounts',
+      'automated-sealed-secret-delivery',
+      'pervasive-security-skill-terraform',
+      'pervasive-security-skill-aws-iam',
+      'pervasive-security-skill-irsa',
+      'pervasive-security-skill-openid-connect',
+      'pervasive-security-skill-kubernetes',
+      'pervasive-security-skill-kubernetes-rbac',
+      'pervasive-security-skill-sealed-secrets',
+      'pervasive-security-skill-argo-cd',
+      'pervasive-security-skill-aws-eventbridge',
+      'pervasive-security-skill-aws-lambda',
+      'pervasive-security-skill-docker',
+      'pervasive-security-skill-amazon-ecr',
     ],
-    strongestEvidenceId: 'irsa-service-accounts',
-    evidenceCounts: { experience: 3 },
+    strongestEvidenceId: 'terraform-scoped-iam',
+    evidenceCounts: { experience: 5, skill: 12 },
+    evidenceSummary:
+      'Implemented Terraform-managed least-privilege access, complete MFA coverage, identity security alerting, IRSA workload identity, and encrypted secret delivery.',
   },
   {
     capabilityKey: 'continuous-delivery',
@@ -247,22 +286,49 @@ export const curatedDevOpsCapabilityRadarScores = [
     score: 3,
     maxScore: 5,
     evidenceIds: [
-      'kubectl-troubleshooting',
-      'cluster-operations',
-      'cncf-kubernetes-certification',
-      'kubernetes-skill',
+      'version-controlled-observability-stack',
+      'tested-kubernetes-workload-alerts',
+      'alertmanager-notification-routing',
+      'alert-suppression-controls',
+      'encrypted-alert-destinations',
+      'monitoring-observability-skill-prometheus',
+      'monitoring-observability-skill-promtool',
+      'monitoring-observability-skill-alertmanager',
+      'monitoring-observability-skill-loki',
+      'monitoring-observability-skill-grafana',
+      'monitoring-observability-skill-grafana-alloy',
+      'monitoring-observability-skill-kubernetes',
+      'monitoring-observability-skill-helm',
+      'monitoring-observability-skill-argo-cd',
+      'monitoring-observability-skill-kustomize',
+      'monitoring-observability-skill-sealed-secrets',
+      'monitoring-observability-skill-aws-eventbridge',
+      'monitoring-observability-skill-aws-lambda',
     ],
-    strongestEvidenceId: 'cncf-kubernetes-certification',
-    evidenceCounts: { certification: 1, learning: 2, skill: 1 },
+    strongestEvidenceId: 'version-controlled-observability-stack',
+    evidenceCounts: { experience: 5, skill: 13 },
+    evidenceSummary:
+      'Built a version-controlled cloud native observability platform with tested workload alerts, routed notifications, suppression controls, and encrypted alert destinations.',
   },
   {
     capabilityKey: 'documentation-quality',
     label: 'Docs',
     score: 4,
     maxScore: 5,
-    evidenceIds: ['portfolio-radar', 'roadmap-repository'],
-    strongestEvidenceId: 'portfolio-radar',
-    evidenceCounts: { project: 2 },
+    evidenceIds: [
+      'structured-documentation-corpus',
+      'indexed-solution-documentation',
+      'current-documentation-maintenance',
+      'documentation-change-integration',
+      'cross-verified-documentation-claims',
+      'documentation-quality-skill-markdown',
+      'documentation-quality-skill-yaml',
+      'documentation-quality-skill-git',
+    ],
+    strongestEvidenceId: 'structured-documentation-corpus',
+    evidenceCounts: { experience: 5, skill: 3 },
+    evidenceSummary:
+      'Maintained a structured, indexed, and current documentation system, integrating documentation with engineering changes and cross-verifying operational claims.',
   },
 ] as const satisfies readonly DoraCapabilityScore[];
 
@@ -310,36 +376,18 @@ export const devOpsCapabilityEvidenceItems: readonly CapabilityEvidenceItem[] =
     ...versionControlSkillEvidenceItems,
     ...trunkBasedDevelopmentEvidenceItems,
     ...trunkBasedDevelopmentSkillEvidenceItems,
-    {
-      id: 'jest-testcontainers-postgres',
-      title: 'Jest and Testcontainers PostgreSQL coverage',
-      label: 'Postgres tests',
-      type: 'experience',
-      organization: 'Current company',
-      capabilityKeys: ['test-automation'],
-      summary:
-        'Ran microservice unit and integration tests with Jest and Testcontainers-provisioned PostgreSQL for database-backed regression coverage.',
-      technologies: ['Jest', 'Testcontainers', 'PostgreSQL'],
-      isPublic: true,
-      strength: 'primary',
-    },
-    {
-      id: 'regression-gates',
-      title: 'Automated regression gates before merge',
-      label: 'Regression gates',
-      type: 'experience',
-      organization: 'Current company',
-      capabilityKeys: ['test-automation', 'continuous-integration'],
-      summary:
-        'Kept merge decisions gated on automated regression checks so changes that fail required tests are not merged.',
-      technologies: ['CI', 'Jest'],
-      isPublic: true,
-      strength: 'primary',
-    },
     ...deploymentAutomationEvidenceItems,
     ...deploymentAutomationSkillEvidenceItems,
     ...flexibleInfrastructureEvidenceItems,
     ...flexibleInfrastructureSkillEvidenceItems,
+    ...testAutomationEvidenceItems,
+    ...testAutomationSkillEvidenceItems,
+    ...monitoringObservabilityEvidenceItems,
+    ...monitoringObservabilitySkillEvidenceItems,
+    ...pervasiveSecurityEvidenceItems,
+    ...pervasiveSecuritySkillEvidenceItems,
+    ...documentationQualityEvidenceItems,
+    ...documentationQualitySkillEvidenceItems,
     {
       id: 'kubernetes-workloads',
       title: 'Kubernetes workload practice',

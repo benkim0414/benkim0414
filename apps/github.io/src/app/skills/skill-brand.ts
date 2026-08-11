@@ -22,10 +22,12 @@ import {
   siHelm,
   siHomebrew,
   siIstio,
+  siJest,
   siJson,
   siJfrog,
   siKubernetes,
   siLua,
+  siMarkdown,
   siNeovim,
   siNodedotjs,
   siNx,
@@ -33,6 +35,7 @@ import {
   siOpenid,
   siPnpm,
   siPrometheus,
+  siPostgresql,
   siPython,
   siReact,
   siStarship,
@@ -52,8 +55,14 @@ import {
 import codeBuildIconUrl from '../../assets/skills/aws/aws-codebuild.svg?no-inline';
 import codePipelineIconUrl from '../../assets/skills/aws/aws-codepipeline.svg?no-inline';
 import ecrIconUrl from '../../assets/skills/aws/amazon-ecr.svg?no-inline';
+import eventBridgeIconUrl from '../../assets/skills/aws/amazon-eventbridge.svg?no-inline';
 import eksIconUrl from '../../assets/skills/aws/amazon-eks.svg?no-inline';
 import systemsManagerIconUrl from '../../assets/skills/aws/aws-systems-manager.svg?no-inline';
+import lambdaIconUrl from '../../assets/skills/aws/aws-lambda.svg?no-inline';
+import awsLogoUrl from '../../assets/skills/aws/aws-logo.svg?no-inline';
+import alloyIconUrl from '../../assets/skills/grafana/alloy-icon-orange.svg?no-inline';
+import lokiIconUrl from '../../assets/skills/grafana/loki-icon.svg?no-inline';
+import testcontainersIconUrl from '../../assets/skills/testcontainers/testcontainers-mark.svg?no-inline';
 
 export interface SkillBrand {
   name: string;
@@ -65,6 +74,9 @@ export interface SkillBrand {
 
 export type IconBackedSkillBrand = SkillBrand &
   ({ iconPath: string } | { iconDataUrl: string });
+
+const awsIamIconDataUrl =
+  'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAIAAAAlC+aJAAAAAXNSR0IArs4c6QAAAERlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAA6ABAAMAAAABAAEAAKACAAQAAAABAAAAQKADAAQAAAABAAAAQAAAAABGUUKwAAADP0lEQVRoBWO8a+LDMJQB01B2PMjtox4Y6BgcjYHRGKAwBEaTEIUBSLH20RigOAgpNGA0BigMQIq1j8YAxUFIoQFDPgZY8AeAxIR6LmsT/GpoKvvt6JkXBY14rCAQAwPreqC7CTqAQAxAvH7P1BdPGNBOSun0ZoKGE4gBgvoHXMGQ9wBRSQhrMLOpKPAFe7JrKLPKSTEwMv1++uL3w6ffDp/8uvfY/z9/sGqhhSA5HmARFRapzeWyNEZ2ENAnQMTjbvc788Wrys6f1+8gy9KOTbIHmEWEpOb3sIiL/H3/8fOm3V/3Hfv9+BnQfSyS4hx6GnwhXmzK8pIz2p7GFv5+9JR27oabTHIeEMqJB7r+x6XrTyJz301Z+PPa7X+fvwLRr1v3Pq3Z9jSm4OuBE0xcnELZcXA7aMog2QOQgvlVbe/ft+8xXQZM/W+7ZgDFOU31MWVpIUKyB5gF+IDu+PPsJS7X/Hn9FijFxMuNSwF1xUn2AHWtp9w0kjMx2VbiqVbhNT1EDZxLjF2jMUBMKIHVEBOuxKhBs5CEJCTRV8dlawrRjyc9wC1QOrXp25EzL4qa4CK0YJCQhOCuJ9YdjIwkayHWaIQ6EmIAoumemR/D//8IA9BYjIxwAWAMwNlABmakIScYZFlkcWQTsLJJ9gBWUxCCePyGUERNFukeQHUif7ivQEII0EUfFqz5uBLU/0AOS2SX4g9X/LLI5qCxScgDaDqBXA59TeGSNGDzDoiADCAXUw2tRUiPASQXsWuqAnlfdhwEkjwe9kDuj4vX4WGJFhVoXCRjEEy4XoQQIRZFHvhx/grQfKDTIbZAuIRspLI8RR74efPe64Z+0YZCoKOADCAXyMAV0mSELjF+pSgPAC34vHUfxBo4A8VW1ByPIkUlDkUxgNUN0JBmZESrB7AqplyQdA8AqyrUcKVR2iDSbyR7gD7hSqTrgcpIyAPfDp9GC3uC1gAbcwTVUKiAhBigdbuSPJ+QEAPkWUBrXUTFAK6indaOI8Z8AjEAHJ4nxhTaqSHoAMbRBU+0C32iTCaQhIgyY0AVjXpgQIMfaPloDIzGAIUhMJqEKAxAirWPxgDFQUihAaMxQGEAUqx9yMcAABcs0QNqdPp+AAAAAElFTkSuQmCC';
 
 const skillIcons: Readonly<Record<string, SimpleIcon>> = {
   Ansible: siAnsible,
@@ -93,11 +105,14 @@ const skillIcons: Readonly<Record<string, SimpleIcon>> = {
   Homebrew: siHomebrew,
   Istio: siIstio,
   Artifactory: siJfrog,
+  Jest: siJest,
   JSON: siJson,
   Kubernetes: siKubernetes,
+  'Kubernetes RBAC': siKubernetes,
   Kustomize: siKubernetes,
   kubectl: siKubernetes,
   Lua: siLua,
+  Markdown: siMarkdown,
   Neovim: siNeovim,
   Nginx: siNginx,
   'Node.js': siNodedotjs,
@@ -105,6 +120,9 @@ const skillIcons: Readonly<Record<string, SimpleIcon>> = {
   'OpenID Connect': siOpenid,
   pnpm: siPnpm,
   Prometheus: siPrometheus,
+  Alertmanager: siPrometheus,
+  promtool: siPrometheus,
+  PostgreSQL: siPostgresql,
   Python: siPython,
   React: siReact,
   Starship: siStarship,
@@ -121,22 +139,34 @@ const skillIcons: Readonly<Record<string, SimpleIcon>> = {
 };
 
 const skillIconAssets: Readonly<Record<string, string>> = {
+  AWS: awsLogoUrl,
+  'AWS IAM': awsIamIconDataUrl,
   'AWS CodePipeline': codePipelineIconUrl,
   'AWS CodeBuild': codeBuildIconUrl,
   'Amazon ECR': ecrIconUrl,
   'Amazon EKS': eksIconUrl,
+  'AWS EventBridge': eventBridgeIconUrl,
+  'AWS Lambda': lambdaIconUrl,
   'AWS Systems Manager Parameter Store': systemsManagerIconUrl,
+  Alloy: alloyIconUrl,
+  Loki: lokiIconUrl,
+  Testcontainers: testcontainersIconUrl,
 };
 
 const skillBrandColors: Readonly<Record<string, string>> = {
-  AWS: '#FF9900',
-  'AWS IAM': '#FF9900',
+  AWS: '#FFFFFF',
+  'AWS IAM': '#FFFFFF',
   IRSA: '#FF9900',
   'AWS CodePipeline': '#FFFFFF',
   'AWS CodeBuild': '#FFFFFF',
   'Amazon ECR': '#FFFFFF',
   'Amazon EKS': '#FFFFFF',
+  'AWS EventBridge': '#FFFFFF',
+  'AWS Lambda': '#FFFFFF',
   'AWS Systems Manager Parameter Store': '#FFFFFF',
+  Alloy: '#FFFFFF',
+  Loki: '#FFFFFF',
+  Testcontainers: '#FFFFFF',
 };
 
 const ASTRYX_NEUTRAL_FOREGROUND = 'var(--color-on-light)';

@@ -62,7 +62,7 @@ describe('SkillToken', () => {
   });
 
   it('keeps color-only brands text-only with the purple roadmap treatment', () => {
-    const { container, getByText } = render(<SkillToken label="AWS" />);
+    const { container } = render(<SkillToken label="IRSA" />);
     const token = container.querySelector('[data-testid="skill-token"]');
 
     expect(token).toBeTruthy();
@@ -134,7 +134,7 @@ describe('SkillToken', () => {
     expect(image?.getAttribute('src')).toMatch(/assets\/.*\.svg/);
   });
 
-  it.each(['Forward Proxy', 'AWS'])(
+  it.each(['Forward Proxy', 'IRSA'])(
     'keeps neutral text-only skill %s on the gray surface without an icon',
     (label) => {
       const { container, getByTestId } = render(

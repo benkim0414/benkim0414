@@ -53,6 +53,22 @@ describe('getDoraCapabilityCardEvidenceSummary', () => {
       'continuous-delivery',
       'Built approval-gated and GitOps delivery across AWS CodePipeline and GitHub Actions, with immutable artifacts, automated migrations, and reliable Kubernetes reconciliation.',
     ],
+    [
+      'test-automation',
+      'Built automated test coverage across database-backed services, affected quality gates, service generators, Prometheus rules, and container health checks.',
+    ],
+    [
+      'monitoring-observability',
+      'Built a version-controlled cloud native observability platform with tested workload alerts, routed notifications, suppression controls, and encrypted alert destinations.',
+    ],
+    [
+      'pervasive-security',
+      'Implemented Terraform-managed least-privilege access, complete MFA coverage, identity security alerting, IRSA workload identity, and encrypted secret delivery.',
+    ],
+    [
+      'documentation-quality',
+      'Maintained a structured, indexed, and current documentation system, integrating documentation with engineering changes and cross-verifying operational claims.',
+    ],
   ] as const)('returns the score-owned %s evidence summary', (key, summary) => {
     expect(
       getDoraCapabilityCardEvidenceSummary(
@@ -62,12 +78,9 @@ describe('getDoraCapabilityCardEvidenceSummary', () => {
     ).toBe(summary);
   });
 
-  it('returns undefined when the capability or score collection has no summary', () => {
+  it('returns undefined when the score collection has no matching summary', () => {
     expect(
-      getDoraCapabilityCardEvidenceSummary(
-        'test-automation',
-        curatedDevOpsCapabilityRadarScores,
-      ),
+      getDoraCapabilityCardEvidenceSummary('test-automation', []),
     ).toBeUndefined();
     expect(
       getDoraCapabilityCardEvidenceSummary('continuous-delivery', undefined),
@@ -76,6 +89,109 @@ describe('getDoraCapabilityCardEvidenceSummary', () => {
 });
 
 describe('getDoraCapabilityCardEvidenceRows', () => {
+  it.each([
+    [
+      'test-automation',
+      [
+        'jest-testcontainers-postgres',
+        'prometheus-alert-rule-tests',
+        'container-health-smoke-tests',
+        'service-generator-unit-tests',
+        'nx-affected-quality-gates',
+      ],
+      [
+        'test-automation-skill-aws-codebuild',
+        'test-automation-skill-postgresql',
+        'test-automation-skill-parameter-store',
+        'test-automation-skill-jest',
+        'test-automation-skill-testcontainers',
+        'test-automation-skill-nx',
+        'test-automation-skill-github-actions',
+        'test-automation-skill-docker',
+        'test-automation-skill-typescript',
+        'test-automation-skill-prometheus',
+        'test-automation-skill-promtool',
+      ],
+    ],
+    [
+      'monitoring-observability',
+      [
+        'version-controlled-observability-stack',
+        'tested-kubernetes-workload-alerts',
+        'alertmanager-notification-routing',
+        'alert-suppression-controls',
+        'encrypted-alert-destinations',
+      ],
+      [
+        'monitoring-observability-skill-prometheus',
+        'monitoring-observability-skill-promtool',
+        'monitoring-observability-skill-alertmanager',
+        'monitoring-observability-skill-loki',
+        'monitoring-observability-skill-grafana',
+        'monitoring-observability-skill-grafana-alloy',
+        'monitoring-observability-skill-kubernetes',
+        'monitoring-observability-skill-helm',
+        'monitoring-observability-skill-argo-cd',
+        'monitoring-observability-skill-kustomize',
+        'monitoring-observability-skill-sealed-secrets',
+        'monitoring-observability-skill-aws-eventbridge',
+        'monitoring-observability-skill-aws-lambda',
+      ],
+    ],
+    [
+      'pervasive-security',
+      [
+        'terraform-scoped-iam',
+        'iam-mfa-coverage',
+        'iam-security-alerting',
+        'irsa-service-accounts',
+        'automated-sealed-secret-delivery',
+      ],
+      [
+        'pervasive-security-skill-terraform',
+        'pervasive-security-skill-aws-iam',
+        'pervasive-security-skill-irsa',
+        'pervasive-security-skill-openid-connect',
+        'pervasive-security-skill-kubernetes',
+        'pervasive-security-skill-kubernetes-rbac',
+        'pervasive-security-skill-sealed-secrets',
+        'pervasive-security-skill-argo-cd',
+        'pervasive-security-skill-aws-eventbridge',
+        'pervasive-security-skill-aws-lambda',
+        'pervasive-security-skill-docker',
+        'pervasive-security-skill-amazon-ecr',
+      ],
+    ],
+    [
+      'documentation-quality',
+      [
+        'structured-documentation-corpus',
+        'indexed-solution-documentation',
+        'current-documentation-maintenance',
+        'documentation-change-integration',
+        'cross-verified-documentation-claims',
+      ],
+      [
+        'documentation-quality-skill-markdown',
+        'documentation-quality-skill-yaml',
+        'documentation-quality-skill-git',
+      ],
+    ],
+  ] as const)(
+    'selects the exact production %s evidence rows',
+    (key, experienceIds, skillIds) => {
+      const rows = getDoraCapabilityCardEvidenceRows(
+        key,
+        devOpsCapabilityEvidenceItems,
+        curatedDevOpsCapabilityRadarScores,
+      );
+
+      expect(rows.map((row) => row.group)).toEqual(['applied', 'skills']);
+      expect(rows[0]?.evidence.map((item) => item.id)).toEqual(experienceIds);
+      expect(rows[1]?.evidence.map((item) => item.id)).toEqual(skillIds);
+    },
+  );
+
   it('selects evidence in curated score order', () => {
     const rows = getDoraCapabilityCardEvidenceRows(
       'continuous-integration',

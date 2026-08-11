@@ -241,9 +241,9 @@ describe('continuousDeliveryEvidenceItems', () => {
     expect(capabilityKeysById('gitops-same-package-environments')).toContain(
       'version-control',
     );
-    expect(capabilityKeysById('argocd-automated-database-migrations')).toContain(
-      'version-control',
-    );
+    expect(
+      capabilityKeysById('argocd-automated-database-migrations'),
+    ).toContain('version-control');
   });
 
   it('keeps selected Version Control evidence affirmative', () => {

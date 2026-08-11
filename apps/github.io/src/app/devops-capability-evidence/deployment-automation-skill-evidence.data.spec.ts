@@ -51,9 +51,9 @@ const expectedSupport = {
 
 describe('deploymentAutomationSkillEvidenceItems', () => {
   it('stores the approved skills in display order', () => {
-    expect(deploymentAutomationSkillEvidenceItems.map(({ title }) => title)).toEqual(
-      expectedTitles,
-    );
+    expect(
+      deploymentAutomationSkillEvidenceItems.map(({ title }) => title),
+    ).toEqual(expectedTitles);
   });
 
   it('links every skill to its approved deployment automation experience', () => {
@@ -68,11 +68,12 @@ describe('deploymentAutomationSkillEvidenceItems', () => {
     const experienceById = new Map(
       deploymentAutomationEvidenceItems.map((item) => [item.id, item]),
     );
-    const earliestDates = deploymentAutomationSkillEvidenceItems.map((skill) =>
-      skill.supportingEvidenceIds
-        ?.map((id) => experienceById.get(id)?.details?.period.startedAt)
-        .filter((date): date is string => Boolean(date))
-        .sort()[0],
+    const earliestDates = deploymentAutomationSkillEvidenceItems.map(
+      (skill) =>
+        skill.supportingEvidenceIds
+          ?.map((id) => experienceById.get(id)?.details?.period.startedAt)
+          .filter((date): date is string => Boolean(date))
+          .sort()[0],
     );
 
     expect(earliestDates).toEqual([...earliestDates].sort());

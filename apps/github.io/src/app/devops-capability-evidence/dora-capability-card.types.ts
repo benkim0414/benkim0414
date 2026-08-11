@@ -5,10 +5,7 @@ import type {
 } from './devops-capability-evidence.types';
 
 export type DoraCapabilityCardEvidenceGroup =
-  | 'applied'
-  | 'certifications'
-  | 'skills'
-  | 'learning';
+  'applied' | 'certifications' | 'skills' | 'learning';
 
 export interface DoraCapabilityCardEvidenceRow {
   group: DoraCapabilityCardEvidenceGroup;
