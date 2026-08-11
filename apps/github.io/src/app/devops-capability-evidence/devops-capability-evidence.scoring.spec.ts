@@ -117,6 +117,15 @@ describe('getCapabilityEvidenceScores', () => {
     },
   );
 
+  it('preserves the strong weight before half-point rounding', () => {
+    const items = [
+      makeEvidence({ id: 'primary' }),
+      makeEvidence({ id: 'strong', strength: 'strong' }),
+    ];
+
+    expect(getScore(items).score).toBe(1.5);
+  });
+
   it('caps five applied outcomes with breadth and skills at an ordinary 4.0', () => {
     const items = [
       makeEvidence({
