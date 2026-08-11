@@ -1,10 +1,10 @@
-# DORA Card Summary Hierarchy Implementation Plan
+# DORA Card Summary Typography Implementation Plan
 
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
-**Goal:** Make the experience summary the primary prose in every DORA capability card while retaining the generic DORA description as preceding secondary context.
+**Goal:** Render the DORA description and experience summary as equally readable Astryx body/secondary prose while preserving their order and semantics.
 
-**Architecture:** Change only the shared `DoraCapabilityCard` presentation boundary. Express the hierarchy through supported Astryx `Text` props, and lock the semantic type, color, paragraph markup, and content order in the focused component suite.
+**Architecture:** Keep the change inside the shared `DoraCapabilityCard` presentation boundary. Use identical supported Astryx `Text` props for both prose passages, and lock their type, color, paragraph markup, order, non-quotation semantics, and missing-summary fallback in the focused component suite.
 
 **Tech Stack:** React 19, TypeScript, Astryx `Text`, Testing Library, Vitest, Nx, pnpm
 
@@ -13,6 +13,8 @@
 - Keep the sequence: capability heading, DORA description, experience summary, evidence rows.
 - Add no visible label for the experience summary.
 - Use Astryx `Text` semantic props only; add no local typography styles.
+- Render both prose passages with `type="body"`, `color="secondary"`, and `as="p"`.
+- Do not use `Blockquote` or otherwise present either passage as a quotation.
 - Keep all description and summary copy unchanged.
 - Do not change score data, evidence selection, row layout, spacing, card dimensions, or accessibility labels.
 - Cards without an experience summary must continue to omit it.
@@ -23,70 +25,22 @@
 
 ## File Structure
 
-- Modify `apps/github.io/src/app/devops-capability-evidence/dora-capability-card.tsx`: assign the approved Astryx semantic role and paragraph element to each prose value.
-- Modify `apps/github.io/src/app/devops-capability-evidence/dora-capability-card.spec.tsx`: replace the old summary-markup assertion with the complete hierarchy contract.
+- Modify `apps/github.io/src/app/devops-capability-evidence/dora-capability-card.tsx`: retain the approved uniform Astryx semantic role, color, and paragraph element for both prose values.
+- Modify `apps/github.io/src/app/devops-capability-evidence/dora-capability-card.spec.tsx`: replace the superseded hierarchy assertions with the complete uniform-typography contract.
 
 No new file, component, type, style, data record, resolver, or Storybook fixture is needed.
 
-### Task 1: Distinguish The Experience Summary With Astryx Typography
+### Task 1: Apply Uniform Astryx Typography To Both Prose Passages
 
 **Files:**
 - Modify: `apps/github.io/src/app/devops-capability-evidence/dora-capability-card.tsx:128-135`
-- Test: `apps/github.io/src/app/devops-capability-evidence/dora-capability-card.spec.tsx:229-254`
+- Test: `apps/github.io/src/app/devops-capability-evidence/dora-capability-card.spec.tsx:229-267,520-539`
 
 **Interfaces:**
 - Consumes: `description: string` from `DoraCapabilityCardProps` and `evidenceSummary: string | undefined` from `getDoraCapabilityCardEvidenceSummary(capabilityKey, scores)`.
-- Produces: unchanged `DoraCapabilityCard(props: DoraCapabilityCardProps): ReactElement`; the description renders as Astryx supporting/secondary paragraph text, and a present summary renders as Astryx body/primary paragraph text.
+- Produces: unchanged `DoraCapabilityCard(props: DoraCapabilityCardProps): ReactElement`; both present prose values render as Astryx body/secondary paragraphs, and a missing summary renders no second prose paragraph.
 
-- [ ] **Step 1: Write the failing semantic-hierarchy test**
-
-Replace the parameterized test at `dora-capability-card.spec.tsx:229-254` with:
-
-```tsx
-it.each([
-  [
-    continuousIntegration,
-    doraCapabilityDescriptions['continuous-integration'],
-    'Built and evolved CI from reusable AWS CodePipeline and CodeBuild pipelines to monorepo GitHub Actions, with affected quality gates and immutable artifacts.',
-  ],
-  [
-    continuousDelivery,
-    doraCapabilityDescriptions['continuous-delivery'],
-    'Built approval-gated and GitOps delivery across AWS CodePipeline and GitHub Actions, with immutable artifacts, automated migrations, and reliable Kubernetes reconciliation.',
-  ],
-] as const)(
-  'renders the %s description before its primary experience summary',
-  (capability, description, summary) => {
-    render(
-      <DoraCapabilityCard
-        capability={capability}
-        description={description}
-        evidence={devOpsCapabilityEvidenceItems}
-        scores={curatedDevOpsCapabilityRadarScores}
-      />,
-    );
-
-    const descriptionText = screen.getByText(description);
-    const summaryText = screen.getByText(summary);
-
-    expect(descriptionText.tagName).toBe('P');
-    expect(descriptionText.getAttribute('data-type')).toBe('supporting');
-    expect(descriptionText.getAttribute('data-color')).toBe('secondary');
-    expect(summaryText.tagName).toBe('P');
-    expect(summaryText.getAttribute('data-type')).toBe('body');
-    expect(summaryText.getAttribute('data-color')).toBe('primary');
-    expect(
-      descriptionText.compareDocumentPosition(summaryText) &
-        Node.DOCUMENT_POSITION_FOLLOWING,
-    ).toBeTruthy();
-  },
-);
-```
-
-Keep the existing `does not render a summary for capabilities without one`
-test at lines 508-528. It already locks the required fallback behavior.
-
-- [ ] **Step 2: Run the focused test and verify the new contract fails**
+- [ ] **Step 1: Run the focused suite to capture the superseded-contract failure**
 
 From `.worktrees/dora-card-summary-hierarchy`, run:
 
@@ -96,31 +50,85 @@ From `.worktrees/dora-card-summary-hierarchy`, run:
   apps/github.io/src/app/devops-capability-evidence/dora-capability-card.spec.tsx
 ```
 
-Expected: FAIL in both parameterized cases because the current summary is a
-`SPAN` with `data-type="supporting"` and `data-color="secondary"` rather than
-the approved paragraph with body/primary typography. The existing tests should
-otherwise remain green.
+Expected: FAIL in both parameterized typography cases. The live component
+experiment already renders both passages as body/secondary text, while the
+tests still require a supporting/secondary description and body/primary
+summary. Do not change the component to satisfy the superseded assertions.
 
-- [ ] **Step 3: Implement the minimal Astryx hierarchy**
+- [ ] **Step 2: Replace the hierarchy assertions with the approved contract**
 
-In `dora-capability-card.tsx`, replace only the description and summary markup
-inside the existing inner `VStack` with:
+Rename the parameterized test to
+`renders the %s description before its experience summary with uniform prose typography`
+and replace its assertions with:
 
 ```tsx
-<Text type="supporting" color="secondary" as="p">
+const card = screen.getByTestId('dora-capability-card');
+const descriptionText = screen.getByText(description);
+const summaryText = screen.getByText(summary);
+
+expect(descriptionText.tagName).toBe('P');
+expect(descriptionText.getAttribute('data-type')).toBe('body');
+expect(descriptionText.getAttribute('data-color')).toBe('secondary');
+expect(summaryText.tagName).toBe('P');
+expect(summaryText.getAttribute('data-type')).toBe('body');
+expect(summaryText.getAttribute('data-color')).toBe('secondary');
+expect(
+  descriptionText.compareDocumentPosition(summaryText) &
+    Node.DOCUMENT_POSITION_FOLLOWING,
+).toBeTruthy();
+expect(card.querySelector('blockquote')).toBeNull();
+expect(screen.queryByText(/my experience/i)).toBeNull();
+```
+
+Replace the no-summary test body with a content-specific fallback assertion:
+
+```tsx
+const description =
+  doraCapabilityDescriptions['flexible-infrastructure'];
+
+render(
+  <DoraCapabilityCard
+    capability={flexibleInfrastructure}
+    description={description}
+    evidence={devOpsCapabilityEvidenceItems}
+    scores={undefined}
+  />,
+);
+
+const card = screen.getByTestId('dora-capability-card');
+const prose = card.querySelectorAll(
+  'p[data-type="body"][data-color="secondary"]',
+);
+
+expect(prose).toHaveLength(1);
+expect(prose.item(0).textContent).toBe(description);
+expect(card.querySelector('blockquote')).toBeNull();
+```
+
+This replaces the obsolete query for body/primary text, which would pass even
+if the summary fallback regressed because body/primary text is no longer part
+of the approved design.
+
+- [ ] **Step 3: Verify the component contains only the minimal approved markup**
+
+Keep the inner `VStack` prose markup exactly as:
+
+```tsx
+<Text type="body" color="secondary" as="p">
   {description}
 </Text>
 {evidenceSummary ? (
-  <Text type="body" color="primary" as="p">
+  <Text type="body" color="secondary" as="p">
     {evidenceSummary}
   </Text>
 ) : null}
 ```
 
+Do not add a `Blockquote` import, label, wrapper, local style, or attribution.
 Do not change either `VStack` gap, the `Heading`, resolver calls, conditional,
 evidence rows, or StyleX styles.
 
-- [ ] **Step 4: Run the focused suite and verify it passes**
+- [ ] **Step 4: Run the focused suite and verify the approved contract passes**
 
 Run:
 
@@ -130,27 +138,28 @@ Run:
   apps/github.io/src/app/devops-capability-evidence/dora-capability-card.spec.tsx
 ```
 
-Expected: PASS with all 20 `DoraCapabilityCard` tests green, including both
-semantic-hierarchy cases and the no-summary fallback.
+Expected: PASS with all `DoraCapabilityCard` tests green, including both
+uniform-typography cases, content order, non-quotation semantics, and the
+no-summary fallback.
 
-- [ ] **Step 5: Run relevant static and build validation**
+- [ ] **Step 5: Run the complete relevant validation**
 
 Run from the linked worktree:
 
 ```bash
-../../node_modules/.bin/nx lint github.io
-../../node_modules/.bin/nx build github.io
+../../node_modules/.bin/nx run-many -t lint,test,build -p github.io
 ```
 
-Expected: both commands exit 0. Existing deprecation warnings from the Nx Vite
-TypeScript-paths plugin do not fail validation.
+Expected: lint, test, and build all exit 0. Existing deprecation warnings from
+the Nx Vite TypeScript-paths plugin do not fail validation.
 
 - [ ] **Step 6: Verify representative responsive stories**
 
-Start Storybook from the linked worktree:
+Use the already-running Storybook when available; otherwise start it with:
 
 ```bash
-../../node_modules/.bin/nx storybook github.io -- --host 127.0.0.1 --port 6009 --no-open
+../../node_modules/.bin/nx storybook github.io -- \
+  --host 127.0.0.1 --port 6009 --no-open
 ```
 
 Inspect these production-data stories at `390x844` and `768x1024`:
@@ -160,15 +169,13 @@ http://127.0.0.1:6009/iframe.html?id=github-io-devops-capability-evidence-dora-c
 http://127.0.0.1:6009/iframe.html?id=github-io-devops-capability-evidence-dora-capability-card--continuous-delivery&viewMode=story
 ```
 
-Confirm the DORA description remains before the experience summary, the
-summary is visibly primary without competing with the capability heading, both
-paragraphs wrap without clipping or overflow, evidence rows retain their
-spacing, and cards without summaries remain visually unchanged. Stop the
-Storybook process after inspection.
+Confirm the description remains before the experience summary, both passages
+have matching body/secondary typography, neither looks like a quotation, both
+wrap without clipping or overflow, and evidence-row spacing is unchanged.
 
 - [ ] **Step 7: Review and commit the implementation**
 
-Inspect both unstaged and staged changes:
+Inspect the scoped diff, stage explicit paths, and verify the staged patch:
 
 ```bash
 git diff -- \
@@ -181,13 +188,14 @@ git diff --cached --check
 git diff --cached
 ```
 
-Confirm the staged diff contains only the approved Astryx hierarchy and its
-focused tests, then commit:
+Confirm the staged diff contains only the approved uniform typography and its
+focused tests. In particular, do not stage the unrelated `nx.json` analytics
+change. Commit with:
 
 ```bash
-git commit -m "fix(github.io): emphasize DORA experience summaries"
+git commit -m "fix(github.io): align DORA summary typography"
 ```
 
-Finally run `git status --short --branch` and confirm the feature worktree is
-clean. Do not push or open a pull request; stop in the repository's
+Finally run `git status --short --branch`. Leave unrelated pre-existing edits
+untouched. Do not push or open a pull request; stop in the repository's
 awaiting-handoff state.
