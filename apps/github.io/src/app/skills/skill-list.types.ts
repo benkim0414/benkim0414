@@ -1,4 +1,4 @@
-import type { CertificationMetadata } from '../certifications/certification-citation';
+import type { CertificationRecord } from '../certifications/certification.types';
 
 export const skillCategories = [
   'Language',
@@ -18,14 +18,7 @@ export const skillCategories = [
 
 export type SkillCategory = (typeof skillCategories)[number];
 
-export interface SkillCertification {
-  title: string;
-  url: string;
-  skills: readonly string[];
-  expiresAt: string;
-  citationIcon?: string;
-  metadata?: CertificationMetadata;
-}
+export type SkillCertification = Omit<CertificationRecord, 'id'>;
 
 export interface Skill {
   id: string;
