@@ -52,9 +52,15 @@ The explicit, score-owned subset, order, and optional capability-level supplemen
 
 A Compact Capability Projection remains stable when the full catalog grows unless its curated evidence references or supplemental summary are deliberately changed.
 
+### Evidence-Calibrated Capability Score
+
+A public capability maturity value derived only from a Compact Capability Projection by combining bounded evidence strength, initiative breadth, and corroboration.
+
+An Evidence-Calibrated Capability Score remains stable when unrelated catalog evidence grows, and its exceptional tier requires independent evidence conditions rather than volume alone.
+
 ### Capability Skill Evidence
 
-A public skill record supported by at least one non-skill evidence record for the same capability, distinct from an accomplishment and not inferred merely from a technology name.
+A public skill record retained only when at least one separate public non-skill evidence record supports a shared capability.
 
 ## Design System
 
