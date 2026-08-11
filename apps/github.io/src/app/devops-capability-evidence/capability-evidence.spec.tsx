@@ -1,4 +1,4 @@
-import { render, screen } from '@testing-library/react';
+import { render, screen, within } from '@testing-library/react';
 import { Token } from '@astryxdesign/core/Token';
 
 import { cncfCertificationBadges } from '../certifications/cncf-certification-badges';
@@ -244,6 +244,32 @@ describe('CapabilityEvidence', () => {
     );
 
     expect(screen.getByText('Active certification')).toBeTruthy();
+  });
+
+  it('forwards complete certification metadata to the hover card', () => {
+    render(
+      <CapabilityEvidence
+        evidence={evidence({
+          certificationMetadata: {
+            id: 'LF-assbyzy17c',
+            name: 'Certified Kubernetes Administrator',
+            completedAt: '2025-04-20',
+          },
+          endDate: '2099-01-01T00:00:00+00:00',
+          label: 'CKA',
+          proofUrl: 'https://example.com/cka',
+          technologies: ['Kubernetes'],
+          type: 'certification',
+        })}
+      />,
+    );
+
+    const hoverCard = screen.getByRole('dialog', { hidden: true });
+    expect(
+      within(hoverCard).getByText('Certified Kubernetes Administrator'),
+    ).toBeTruthy();
+    expect(within(hoverCard).getByText('LF-assbyzy17c')).toBeTruthy();
+    expect(within(hoverCard).getByText('Active')).toBeTruthy();
   });
 
   it('renders GitHub project evidence as a named citation with the GitHub icon', () => {

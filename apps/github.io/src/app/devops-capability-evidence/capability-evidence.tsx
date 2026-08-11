@@ -122,6 +122,7 @@ export function CertificationEvidenceCitation({
             : undefined
         }
         expiresAt={evidence.endDate}
+        metadata={evidence.certificationMetadata}
         number={citationNumber}
         skills={evidence.technologies}
         title={label}
