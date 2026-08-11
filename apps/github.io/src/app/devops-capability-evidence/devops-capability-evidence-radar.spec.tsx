@@ -1,4 +1,5 @@
 import { render, screen } from '@testing-library/react';
+import { radarClasses } from '@mui/x-charts/RadarChart';
 
 import { curatedDevOpsCapabilityRadarScores } from './devops-capability-evidence.data';
 import { DevOpsCapabilityEvidenceRadar } from './devops-capability-evidence-radar';
@@ -43,6 +44,9 @@ describe('DevOpsCapabilityEvidenceRadar', () => {
 
     expect(chart).toBeTruthy();
     expect(chart?.querySelectorAll('[tabindex]').length).toBe(0);
+    expect(
+      container.querySelectorAll(`.${radarClasses.gridDivider}`),
+    ).toHaveLength(10);
   });
 
   it('renders nothing when no scores exist', () => {
