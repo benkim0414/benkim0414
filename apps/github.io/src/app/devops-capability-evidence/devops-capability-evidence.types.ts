@@ -1,3 +1,5 @@
+import type { CertificationMetadata } from '../certifications/certification.types';
+
 export type DoraCapabilityKey =
   | 'continuous-delivery'
   | 'deployment-automation'
@@ -72,6 +74,7 @@ export interface CapabilityEvidenceItem {
   date?: string;
   endDate?: string;
   citationIcon?: string;
+  certificationMetadata?: CertificationMetadata;
   issuer?: string;
   organization?: string;
   summary: string;

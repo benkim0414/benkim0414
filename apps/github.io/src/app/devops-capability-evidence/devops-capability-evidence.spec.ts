@@ -1443,7 +1443,7 @@ describe('devOpsCapabilityEvidence scoring', () => {
     expect(getEvidenceTypeCounts(devOpsCapabilityEvidenceItems)).toMatchObject({
       experience: 67,
       learning: 3,
-      certification: 1,
+      certification: 3,
       project: 2,
       skill: 111,
     });
@@ -1455,7 +1455,7 @@ describe('devOpsCapabilityEvidence scoring', () => {
       ).find((row) => row.capabilityKey === 'flexible-infrastructure'),
     ).toMatchObject({
       label: 'Flexible Infrastructure',
-      counts: { certification: 1, experience: 7, learning: 3, skill: 13 },
+      counts: { certification: 2, experience: 7, learning: 3, skill: 13 },
     });
   });
 
@@ -1473,7 +1473,7 @@ describe('devOpsCapabilityEvidence scoring', () => {
         getEvidenceTypeCounts(devOpsCapabilityEvidenceItems),
       ),
     ).toBe(
-      'Evidence includes 111 skills, 3 learning items, 67 experience items, 1 certification, and 2 projects.',
+      'Evidence includes 111 skills, 3 learning items, 67 experience items, 3 certifications, and 2 projects.',
     );
   });
 });

@@ -8,6 +8,7 @@ import { documentationQualityEvidenceItems } from './documentation-quality-evide
 import { documentationQualitySkillEvidenceItems } from './documentation-quality-skill-evidence.data';
 import { flexibleInfrastructureEvidenceItems } from './flexible-infrastructure-evidence.data';
 import { flexibleInfrastructureSkillEvidenceItems } from './flexible-infrastructure-skill-evidence.data';
+import { kubernetesCertificationEvidenceItems } from './kubernetes-certification-evidence.data';
 import { monitoringObservabilityEvidenceItems } from './monitoring-observability-evidence.data';
 import { monitoringObservabilitySkillEvidenceItems } from './monitoring-observability-skill-evidence.data';
 import { pervasiveSecurityEvidenceItems } from './pervasive-security-evidence.data';
@@ -388,6 +389,7 @@ export const devOpsCapabilityEvidenceItems: readonly CapabilityEvidenceItem[] =
     ...pervasiveSecuritySkillEvidenceItems,
     ...documentationQualityEvidenceItems,
     ...documentationQualitySkillEvidenceItems,
+    ...kubernetesCertificationEvidenceItems,
     {
       id: 'kubernetes-workloads',
       title: 'Kubernetes workload practice',
@@ -429,19 +431,6 @@ export const devOpsCapabilityEvidenceItems: readonly CapabilityEvidenceItem[] =
       technologies: ['Kubernetes'],
       isPublic: true,
       strength: 'strong',
-    },
-    {
-      id: 'cncf-kubernetes-certification',
-      title: 'CNCF Kubernetes certification',
-      label: 'Kubernetes cert',
-      type: 'certification',
-      issuer: 'Cloud Native Computing Foundation',
-      capabilityKeys: ['flexible-infrastructure', 'monitoring-observability'],
-      summary:
-        'Cloud native certification evidence mapped to Kubernetes operations and infrastructure capability.',
-      technologies: ['Kubernetes'],
-      isPublic: true,
-      strength: 'primary',
     },
     {
       id: 'portfolio-radar',
