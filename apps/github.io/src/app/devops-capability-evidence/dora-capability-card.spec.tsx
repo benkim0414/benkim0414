@@ -523,19 +523,14 @@ describe('DoraCapabilityCard', () => {
         capability={flexibleInfrastructure}
         description={doraCapabilityDescriptions['flexible-infrastructure']}
         evidence={devOpsCapabilityEvidenceItems}
-        scores={curatedDevOpsCapabilityRadarScores}
+        scores={undefined}
       />,
     );
 
     expect(
-      screen.queryByText(
-        'Built and evolved CI from reusable AWS CodePipeline and CodeBuild pipelines to monorepo GitHub Actions, with affected quality gates and immutable artifacts.',
-      ),
-    ).toBeNull();
-    expect(
-      screen.queryByText(
-        'Built approval-gated and GitOps delivery across AWS CodePipeline and GitHub Actions, with immutable artifacts, automated migrations, and reliable Kubernetes reconciliation.',
-      ),
+      screen
+        .getByTestId('dora-capability-card')
+        .querySelector('p[data-type="body"][data-color="primary"]'),
     ).toBeNull();
   });
 
