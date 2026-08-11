@@ -87,7 +87,7 @@ export function DevOpsCapabilityEvidenceRadar({
           aria-hidden="true"
           colors={RADAR_COLORS}
           disableKeyboardNavigation
-          divisions={5}
+          divisions={10}
           height={CHART_HEIGHT}
           radar={{
             metrics: radarMetrics,
