@@ -35,6 +35,53 @@ describe('project data', () => {
     );
   });
 
+  it('provides evidence-backed homelab project data', () => {
+    const project = sampleProjects.find((item) => item.id === 'homelab');
+
+    expect(project).toEqual({
+      id: 'homelab',
+      title: 'homelab',
+      description:
+        'Self-managed K3s homelab automated with Argo CD and Helm, with private networking, encrypted secrets, distributed storage, observability, databases, and off-site backups.',
+      skills: [
+        { label: 'K3s' },
+        { label: 'Argo CD' },
+        { label: 'Helm' },
+        { label: 'Ansible' },
+        { label: 'kubectl' },
+        { label: 'Tailscale' },
+        { label: 'Sealed Secrets' },
+        { label: 'Traefik' },
+        { label: 'Longhorn' },
+        { label: 'MetalLB' },
+        { label: 'kube-vip' },
+        { label: 'Prometheus' },
+        { label: 'Grafana' },
+        { label: 'Loki' },
+        { label: 'Alloy' },
+        { label: 'PostgreSQL' },
+        { label: 'Redis' },
+        { label: 'NFS' },
+        { label: 'Amazon S3', brandLabel: 'AWS' },
+        { label: 'Renovate' },
+      ],
+      githubUrl: 'https://github.com/benkim0414/homelab',
+      evidenceIds: ['homelab-project'],
+      capabilityKeys: [
+        'deployment-automation',
+        'flexible-infrastructure',
+        'monitoring-observability',
+        'pervasive-security',
+      ],
+    });
+
+    const skillLabels = project?.skills.map(({ label }) => label) ?? [];
+
+    expect(skillLabels).not.toEqual(
+      expect.arrayContaining(['Kubernetes', 'GitOps', 'Bash', 'mise']),
+    );
+  });
+
   it('keeps future evidence linkage as optional project metadata', () => {
     const project = sampleProjects.find(
       (item) => item.id === 'dotfiles',
