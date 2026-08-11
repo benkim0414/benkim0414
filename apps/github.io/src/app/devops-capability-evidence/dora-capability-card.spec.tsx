@@ -180,10 +180,11 @@ describe('DoraCapabilityCard', () => {
       const skillTokens = within(skillRow).getAllByTestId('skill-token');
 
       expect(screen.getByText(summary)).toBeTruthy();
-      expect(rows.map((row) => row.getAttribute('data-group'))).toEqual([
-        'applied',
-        'skills',
-      ]);
+      expect(rows.map((row) => row.getAttribute('data-group'))).toEqual(
+        capability.key === 'monitoring-observability'
+          ? ['applied', 'certifications', 'skills']
+          : ['applied', 'skills'],
+      );
       expect(
         within(experienceRow)
           .getAllByRole('group')
@@ -325,7 +326,7 @@ describe('DoraCapabilityCard', () => {
         'Kustomize',
         'Sealed Secrets',
       ],
-      ['applied', 'skills'],
+      ['applied', 'certifications', 'skills'],
     ],
     [
       flexibleInfrastructure,
@@ -352,7 +353,7 @@ describe('DoraCapabilityCard', () => {
         'Argo CD',
         'GitOps',
       ],
-      ['applied', 'skills'],
+      ['applied', 'certifications', 'skills'],
     ],
   ] as const)(
     'renders the exact production %s evidence rows',
@@ -543,7 +544,7 @@ describe('DoraCapabilityCard', () => {
     expect(card.querySelector('blockquote')).toBeNull();
   });
 
-  it('labels experience and skill rows without changing group order', () => {
+  it('labels certification evidence between experience and technical skills', () => {
     render(
       <DoraCapabilityCard
         capability={flexibleInfrastructure}
@@ -554,23 +555,79 @@ describe('DoraCapabilityCard', () => {
     );
 
     const rows = screen.getAllByTestId('dora-capability-evidence-row');
+    const experienceRow = screen.getByRole('list', {
+      name: 'Relevant experience',
+    });
+    const certificationRow = screen.getByRole('list', {
+      name: 'Certifications',
+    });
+    const skillRow = screen.getByRole('list', { name: 'Technical skills' });
 
-    expect(rows).toHaveLength(2);
+    expect(rows).toHaveLength(3);
     expect(rows.map((row) => row.getAttribute('data-group'))).toEqual([
       'applied',
+      'certifications',
       'skills',
     ]);
     expect(screen.getByText('Relevant experience')).toBeTruthy();
+    expect(screen.getByText('Certifications')).toBeTruthy();
     expect(screen.getByText('Technical skills')).toBeTruthy();
-    expect(screen.queryByText('Certifications')).toBeNull();
     expect(screen.queryByText('Learning')).toBeNull();
 
-    expect(screen.getByRole('list', { name: 'Relevant experience' })).toBe(
-      rows[0],
+    expect(certificationRow).toBe(rows[1]);
+    expect(
+      within(certificationRow)
+        .getAllByRole('doc-noteref')
+        .map((citation) => citation.textContent),
+    ).toEqual(['KCNA', 'CKA']);
+    expect(
+      experienceRow.compareDocumentPosition(certificationRow) &
+        Node.DOCUMENT_POSITION_FOLLOWING,
+    ).toBeTruthy();
+    expect(
+      certificationRow.compareDocumentPosition(skillRow) &
+        Node.DOCUMENT_POSITION_FOLLOWING,
+    ).toBeTruthy();
+  });
+
+  it.each([
+    [continuousDelivery, ['CKAD']],
+    [deploymentAutomation, ['CKAD']],
+    [monitoringObservability, ['CKA', 'CKAD']],
+    [flexibleInfrastructure, ['KCNA', 'CKA']],
+  ] as const)(
+    'renders the approved %s certification citations in registry order',
+    (capability, certificationLabels) => {
+      render(
+        <DoraCapabilityCard
+          capability={capability}
+          description={doraCapabilityDescriptions[capability.key]}
+          evidence={devOpsCapabilityEvidenceItems}
+          scores={curatedDevOpsCapabilityRadarScores}
+        />,
+      );
+
+      expect(
+        within(screen.getByRole('list', { name: 'Certifications' }))
+          .getAllByRole('doc-noteref')
+          .map((citation) => citation.textContent),
+      ).toEqual(certificationLabels);
+    },
+  );
+
+  it('omits the certification row for unaffected capabilities', () => {
+    render(
+      <DoraCapabilityCard
+        capability={continuousIntegration}
+        description={doraCapabilityDescriptions['continuous-integration']}
+        evidence={devOpsCapabilityEvidenceItems}
+        scores={curatedDevOpsCapabilityRadarScores}
+      />,
     );
-    expect(screen.getByRole('list', { name: 'Technical skills' })).toBe(
-      rows[1],
-    );
+
+    expect(
+      screen.queryByRole('list', { name: 'Certifications' }),
+    ).toBeNull();
   });
 
   it('delegates evidence rendering to CapabilityEvidence', () => {
@@ -691,6 +748,7 @@ describe('DoraCapabilityCard', () => {
 
     expect(screen.queryByTestId('dora-capability-evidence-row')).toBeNull();
     expect(screen.queryByText('Relevant experience')).toBeNull();
+    expect(screen.queryByText('Certifications')).toBeNull();
     expect(screen.queryByText('Technical skills')).toBeNull();
   });
 });
