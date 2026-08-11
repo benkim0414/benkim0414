@@ -125,11 +125,11 @@ export function DoraCapabilityCard({
             <Heading id={titleId} level={3}>
               {capability.label}
             </Heading>
-            <Text type="supporting" as="p">
+            <Text type="supporting" color="secondary" as="p">
               {description}
             </Text>
             {evidenceSummary ? (
-              <Text type="supporting" color="secondary">
+              <Text type="body" color="primary" as="p">
                 {evidenceSummary}
               </Text>
             ) : null}
