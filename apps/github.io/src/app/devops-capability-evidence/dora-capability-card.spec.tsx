@@ -238,7 +238,7 @@ describe('DoraCapabilityCard', () => {
       'Built approval-gated and GitOps delivery across AWS CodePipeline and GitHub Actions, with immutable artifacts, automated migrations, and reliable Kubernetes reconciliation.',
     ],
   ] as const)(
-    'renders the %s description before its primary experience summary',
+    'renders the %s description before its experience summary with uniform prose typography',
     (capability, description, summary) => {
       render(
         <DoraCapabilityCard
@@ -251,17 +251,20 @@ describe('DoraCapabilityCard', () => {
 
       const descriptionText = screen.getByText(description);
       const summaryText = screen.getByText(summary);
+      const card = screen.getByTestId('dora-capability-card');
 
       expect(descriptionText.tagName).toBe('P');
-      expect(descriptionText.getAttribute('data-type')).toBe('supporting');
+      expect(descriptionText.getAttribute('data-type')).toBe('body');
       expect(descriptionText.getAttribute('data-color')).toBe('secondary');
       expect(summaryText.tagName).toBe('P');
       expect(summaryText.getAttribute('data-type')).toBe('body');
-      expect(summaryText.getAttribute('data-color')).toBe('primary');
+      expect(summaryText.getAttribute('data-color')).toBe('secondary');
       expect(
         descriptionText.compareDocumentPosition(summaryText) &
           Node.DOCUMENT_POSITION_FOLLOWING,
       ).toBeTruthy();
+      expect(card.querySelector('blockquote')).toBeNull();
+      expect(screen.queryByText(/my experience/i)).toBeNull();
     },
   );
 
@@ -518,20 +521,26 @@ describe('DoraCapabilityCard', () => {
   });
 
   it('does not render a summary for capabilities without one', () => {
+    const description =
+      doraCapabilityDescriptions['flexible-infrastructure'];
+
     render(
       <DoraCapabilityCard
         capability={flexibleInfrastructure}
-        description={doraCapabilityDescriptions['flexible-infrastructure']}
+        description={description}
         evidence={devOpsCapabilityEvidenceItems}
         scores={undefined}
       />,
     );
 
-    expect(
-      screen
-        .getByTestId('dora-capability-card')
-        .querySelector('p[data-type="body"][data-color="primary"]'),
-    ).toBeNull();
+    const card = screen.getByTestId('dora-capability-card');
+    const prose = card.querySelectorAll(
+      'p[data-type="body"][data-color="secondary"]',
+    );
+
+    expect(prose).toHaveLength(1);
+    expect(prose.item(0).textContent).toBe(description);
+    expect(card.querySelector('blockquote')).toBeNull();
   });
 
   it('labels experience and skill rows without changing group order', () => {
