@@ -44,9 +44,15 @@ describe('DevOpsCapabilityEvidenceRadar', () => {
 
     expect(chart).toBeTruthy();
     expect(chart?.querySelectorAll('[tabindex]').length).toBe(0);
+    const gridDividerSelector = `.${radarClasses.gridDivider}`;
+
+    expect(container.querySelectorAll(gridDividerSelector)).toHaveLength(10);
+    expect(container.querySelectorAll(`path${gridDividerSelector}`)).toHaveLength(
+      10,
+    );
     expect(
-      container.querySelectorAll(`.${radarClasses.gridDivider}`),
-    ).toHaveLength(10);
+      container.querySelectorAll(`circle${gridDividerSelector}`),
+    ).toHaveLength(0);
   });
 
   it('renders nothing when no scores exist', () => {
