@@ -101,7 +101,7 @@ const flexibleInfrastructureScoreEvidenceIds = [
 
 const remainingCapabilityScoreContracts = {
   'test-automation': {
-    score: 3,
+    score: 3.5,
     maxScore: 5,
     evidenceIds: [
       'jest-testcontainers-postgres',
@@ -157,7 +157,7 @@ const remainingCapabilityScoreContracts = {
       'Built a version-controlled cloud native observability platform with tested workload alerts, routed notifications, suppression controls, and encrypted alert destinations.',
   },
   'pervasive-security': {
-    score: 2,
+    score: 3.5,
     maxScore: 5,
     evidenceIds: [
       'terraform-scoped-iam',
@@ -178,13 +178,13 @@ const remainingCapabilityScoreContracts = {
       'pervasive-security-skill-docker',
       'pervasive-security-skill-amazon-ecr',
     ],
-    strongestEvidenceId: 'terraform-scoped-iam',
+    strongestEvidenceId: 'iam-mfa-coverage',
     evidenceCounts: { experience: 5, skill: 12 },
     evidenceSummary:
       'Implemented Terraform-managed least-privilege access, complete MFA coverage, identity security alerting, IRSA workload identity, and encrypted secret delivery.',
   },
   'documentation-quality': {
-    score: 4,
+    score: 3,
     maxScore: 5,
     evidenceIds: [
       'structured-documentation-corpus',
@@ -257,14 +257,14 @@ const getLiteralScoreEvidenceIds = <CapabilityKey extends string>(
     if (
       ts.isVariableDeclaration(node) &&
       ts.isIdentifier(node.name) &&
-      node.name.text === 'curatedDevOpsCapabilityRadarScores' &&
+      node.name.text === 'curatedDevOpsCapabilityRadarScoreProjections' &&
       node.initializer
     ) {
       const initializer = unwrapExpression(node.initializer);
 
       if (!ts.isArrayLiteralExpression(initializer)) {
         throw new Error(
-          'curatedDevOpsCapabilityRadarScores must be an array literal',
+          'curatedDevOpsCapabilityRadarScoreProjections must be an array literal',
         );
       }
 
@@ -278,7 +278,7 @@ const getLiteralScoreEvidenceIds = <CapabilityKey extends string>(
   visit(sourceFile);
 
   if (!scoreArray) {
-    throw new Error('curatedDevOpsCapabilityRadarScores was not found');
+    throw new Error('curatedDevOpsCapabilityRadarScoreProjections was not found');
   }
 
   const literalEvidenceIds = new Map<CapabilityKey, readonly string[]>();
@@ -317,7 +317,7 @@ const getLiteralScoreEvidenceIds = <CapabilityKey extends string>(
 
     if (hasObjectSpread || hasComputedProperty) {
       throw new Error(
-        `${capabilityKey} score object must not contain spreads or computed properties`,
+        `${capabilityKey} projection object must not contain spreads or computed properties`,
       );
     }
 
@@ -402,74 +402,35 @@ describe('devOpsCapabilityEvidence data', () => {
 
   it('defines approved curated radar scores with shortened labels', () => {
     expect(
-      curatedDevOpsCapabilityRadarScores.map((score) => ({
-        capabilityKey: score.capabilityKey,
-        label: score.label,
-        score: score.score,
-        maxScore: score.maxScore,
-      })),
+      curatedDevOpsCapabilityRadarScores.map((score) => [
+        score.capabilityKey,
+        score.label,
+        score.score,
+      ]),
     ).toEqual([
-      {
-        capabilityKey: 'version-control',
-        label: 'Versioning',
-        score: 4,
-        maxScore: 5,
-      },
-      {
-        capabilityKey: 'trunk-based-development',
-        label: 'Trunk',
-        score: 4,
-        maxScore: 5,
-      },
-      {
-        capabilityKey: 'continuous-integration',
-        label: 'CI',
-        score: 4,
-        maxScore: 5,
-      },
-      {
-        capabilityKey: 'test-automation',
-        label: 'Tests',
-        score: 3,
-        maxScore: 5,
-      },
-      {
-        capabilityKey: 'pervasive-security',
-        label: 'Security',
-        score: 2,
-        maxScore: 5,
-      },
-      {
-        capabilityKey: 'continuous-delivery',
-        label: 'Delivery',
-        score: 4,
-        maxScore: 5,
-      },
-      {
-        capabilityKey: 'deployment-automation',
-        label: 'Deploys',
-        score: 4,
-        maxScore: 5,
-      },
-      {
-        capabilityKey: 'flexible-infrastructure',
-        label: 'Infrastructure',
-        score: 4,
-        maxScore: 5,
-      },
-      {
-        capabilityKey: 'monitoring-observability',
-        label: 'Observability',
-        score: 3,
-        maxScore: 5,
-      },
-      {
-        capabilityKey: 'documentation-quality',
-        label: 'Docs',
-        score: 4,
-        maxScore: 5,
-      },
+      ['version-control', 'Versioning', 4.5],
+      ['trunk-based-development', 'Trunk', 3.5],
+      ['continuous-integration', 'CI', 3.5],
+      ['test-automation', 'Tests', 3.5],
+      ['pervasive-security', 'Security', 3.5],
+      ['continuous-delivery', 'Delivery', 3.5],
+      ['deployment-automation', 'Deploys', 3],
+      ['flexible-infrastructure', 'Infrastructure', 3.5],
+      ['monitoring-observability', 'Observability', 3],
+      ['documentation-quality', 'Docs', 3],
     ]);
+
+    expect(
+      curatedDevOpsCapabilityRadarScores.every((score) => score.maxScore === 5),
+    ).toBe(true);
+    expect(
+      curatedDevOpsCapabilityRadarScores.every((score) => score.score <= 4.5),
+    ).toBe(true);
+    expect(
+      curatedDevOpsCapabilityRadarScores.every((score) =>
+        Number.isInteger(score.score * 2),
+      ),
+    ).toBe(true);
 
     expect(curatedDevOpsCapabilityRadarScores).toHaveLength(
       doraCapabilityDefinitions.length,
@@ -634,7 +595,6 @@ describe('devOpsCapabilityEvidence data', () => {
       );
 
       expect(score).toEqual(expect.objectContaining(expected));
-      expect(score?.strongestEvidenceId).toBe(expected.evidenceIds[0]);
     }
 
     expectPublicSafeText(
@@ -737,7 +697,7 @@ describe('devOpsCapabilityEvidence data', () => {
         capabilityKey: 'pervasive-security',
         evidenceIds:
           remainingCapabilityScoreContracts['pervasive-security'].evidenceIds,
-        strongestEvidenceId: 'terraform-scoped-iam',
+        strongestEvidenceId: 'iam-mfa-coverage',
         evidenceCounts: { experience: 5, skill: 12 },
       },
       {
@@ -916,6 +876,12 @@ describe('devOpsCapabilityEvidence data', () => {
           }, new Map<string, number>()),
         ),
       ).toEqual(score.evidenceCounts);
+      expect(
+        Object.values(score.evidenceCounts).reduce(
+          (total, count) => total + count,
+          0,
+        ),
+      ).toBe(score.evidenceIds.length);
     }
   });
 
@@ -928,7 +894,7 @@ describe('devOpsCapabilityEvidence data', () => {
     );
 
     expect(versionControlScore).toMatchObject({
-      score: 4,
+      score: 4.5,
       maxScore: 5,
       strongestEvidenceId: 'terraform-codepipeline-platform',
       evidenceCounts: { experience: 5, skill: 13 },
@@ -957,7 +923,7 @@ describe('devOpsCapabilityEvidence data', () => {
     ]);
 
     expect(trunkBasedScore).toMatchObject({
-      score: 4,
+      score: 3.5,
       maxScore: 5,
       strongestEvidenceId: 'single-trunk-repository-flow',
       evidenceCounts: { experience: 5, skill: 6 },
@@ -1107,7 +1073,7 @@ describe('devOpsCapabilityEvidence data', () => {
 
   it('rejects non-literal remaining compact projection syntax', () => {
     const literalFixture = `
-      const curatedDevOpsCapabilityRadarScores = [
+      const curatedDevOpsCapabilityRadarScoreProjections = [
         { evidenceIds: ['test-id'], capabilityKey: 'test-automation' },
         { capabilityKey: 'monitoring-observability', evidenceIds: ['monitoring-id'] },
         { capabilityKey: 'pervasive-security', evidenceIds: ['security-id'] },
@@ -1162,7 +1128,7 @@ describe('devOpsCapabilityEvidence data', () => {
           prohibitedObjectFixture,
           remainingCapabilityKeys,
         ),
-      ).toThrow(/evidenceIds must|score object/);
+      ).toThrow(/evidenceIds must|projection object/);
     }
   });
 
@@ -1175,7 +1141,7 @@ describe('devOpsCapabilityEvidence data', () => {
     );
 
     expect(score).toMatchObject({
-      score: 4,
+      score: 3.5,
       maxScore: 5,
       strongestEvidenceId: 'terraform-codepipeline-platform',
       evidenceCounts: { experience: 5, skill: 13 },
@@ -1242,7 +1208,7 @@ describe('devOpsCapabilityEvidence data', () => {
     );
 
     expect(score).toMatchObject({
-      score: 4,
+      score: 3.5,
       maxScore: 5,
       strongestEvidenceId: 'codepipeline-approval-gated-deployment',
       evidenceCounts: { experience: 5, certification: 1, skill: 14 },
@@ -1268,7 +1234,7 @@ describe('devOpsCapabilityEvidence data', () => {
     );
 
     expect(deploymentAutomationScore).toMatchObject({
-      score: 4,
+      score: 3,
       maxScore: 5,
       strongestEvidenceId: 'merge-triggered-deployment-path',
       evidenceCounts: { experience: 5, certification: 1, skill: 13 },
@@ -1287,7 +1253,7 @@ describe('devOpsCapabilityEvidence data', () => {
     );
 
     expect(flexibleInfrastructureScore).toMatchObject({
-      score: 4,
+      score: 3.5,
       maxScore: 5,
       strongestEvidenceId: 'terraform-managed-cloud-foundations',
       evidenceCounts: { experience: 5, certification: 2, skill: 12 },

@@ -32,7 +32,7 @@ describe('DevOpsCapabilityEvidenceRadar', () => {
     expect(screen.queryByText('Pervasive Security')).toBeNull();
     expect(
       screen.getByText(
-        /Versioning 4 of 5, Trunk 4 of 5, CI 4 of 5, Tests 3 of 5, Security 2 of 5, Delivery 4 of 5, Deploys 4 of 5, Infrastructure 4 of 5, Observability 3 of 5, Docs 4 of 5/,
+        /Versioning 4.5 of 5, Trunk 3.5 of 5, CI 3.5 of 5, Tests 3.5 of 5, Security 3.5 of 5, Delivery 3.5 of 5, Deploys 3 of 5, Infrastructure 3.5 of 5, Observability 3 of 5, Docs 3 of 5/,
       ),
     ).toBeTruthy();
     expect(

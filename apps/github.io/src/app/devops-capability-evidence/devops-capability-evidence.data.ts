@@ -19,10 +19,11 @@ import { trunkBasedDevelopmentEvidenceItems } from './trunk-based-development-ev
 import { trunkBasedDevelopmentSkillEvidenceItems } from './trunk-based-development-skill-evidence.data';
 import { versionControlEvidenceItems } from './version-control-evidence.data';
 import { versionControlSkillEvidenceItems } from './version-control-skill-evidence.data';
+import { getCapabilityEvidenceScores } from './devops-capability-evidence.scoring';
 import type {
   CapabilityEvidenceItem,
   DoraCapabilityDefinition,
-  DoraCapabilityScore,
+  DoraCapabilityScoreProjection,
   EvidenceType,
 } from './devops-capability-evidence.types';
 
@@ -75,12 +76,10 @@ export const doraCapabilityDefinitions = [
   },
 ] as const satisfies readonly DoraCapabilityDefinition[];
 
-export const curatedDevOpsCapabilityRadarScores = [
+const curatedDevOpsCapabilityRadarScoreProjections = [
   {
     capabilityKey: 'version-control',
     label: 'Versioning',
-    score: 4,
-    maxScore: 5,
     evidenceIds: [
       'terraform-codepipeline-platform',
       'github-actions-gitops-handoff',
@@ -101,16 +100,12 @@ export const curatedDevOpsCapabilityRadarScores = [
       'version-control-skill-argo-cd',
       'version-control-skill-kubernetes',
     ],
-    strongestEvidenceId: 'terraform-codepipeline-platform',
-    evidenceCounts: { experience: 5, skill: 13 },
     evidenceSummary:
       'Built and maintained version-controlled delivery platforms spanning reusable Terraform pipelines and GitOps-managed Kubernetes environments, with traceable infrastructure, configuration, automation, and database changes.',
   },
   {
     capabilityKey: 'trunk-based-development',
     label: 'Trunk',
-    score: 4,
-    maxScore: 5,
     evidenceIds: [
       'single-trunk-repository-flow',
       'short-lived-branch-flow',
@@ -124,16 +119,12 @@ export const curatedDevOpsCapabilityRadarScores = [
       'trunk-based-development-skill-conventional-commits',
       'trunk-based-development-skill-husky',
     ],
-    strongestEvidenceId: 'single-trunk-repository-flow',
-    evidenceCounts: { experience: 5, skill: 6 },
     evidenceSummary:
       'Created and maintained single-trunk delivery repositories, integrating short-lived branches and small change batches with merge-preserved history and affected quality gates.',
   },
   {
     capabilityKey: 'continuous-integration',
     label: 'CI',
-    score: 4,
-    maxScore: 5,
     evidenceIds: [
       'terraform-codepipeline-platform',
       'codebuild-pr-gates',
@@ -142,16 +133,12 @@ export const curatedDevOpsCapabilityRadarScores = [
       'kustomize-tag-update-reliability',
       ...continuousIntegrationSkillEvidenceItems.map((item) => item.id),
     ],
-    strongestEvidenceId: 'terraform-codepipeline-platform',
-    evidenceCounts: { experience: 5, skill: 13 },
     evidenceSummary:
       'Built and evolved CI from reusable AWS CodePipeline and CodeBuild pipelines to monorepo GitHub Actions, with affected quality gates and immutable artifacts.',
   },
   {
     capabilityKey: 'test-automation',
     label: 'Tests',
-    score: 3,
-    maxScore: 5,
     evidenceIds: [
       'jest-testcontainers-postgres',
       'prometheus-alert-rule-tests',
@@ -170,16 +157,12 @@ export const curatedDevOpsCapabilityRadarScores = [
       'test-automation-skill-prometheus',
       'test-automation-skill-promtool',
     ],
-    strongestEvidenceId: 'jest-testcontainers-postgres',
-    evidenceCounts: { experience: 5, skill: 11 },
     evidenceSummary:
       'Built automated test coverage across database-backed services, affected quality gates, service generators, Prometheus rules, and container health checks.',
   },
   {
     capabilityKey: 'pervasive-security',
     label: 'Security',
-    score: 2,
-    maxScore: 5,
     evidenceIds: [
       'terraform-scoped-iam',
       'iam-mfa-coverage',
@@ -199,16 +182,12 @@ export const curatedDevOpsCapabilityRadarScores = [
       'pervasive-security-skill-docker',
       'pervasive-security-skill-amazon-ecr',
     ],
-    strongestEvidenceId: 'terraform-scoped-iam',
-    evidenceCounts: { experience: 5, skill: 12 },
     evidenceSummary:
       'Implemented Terraform-managed least-privilege access, complete MFA coverage, identity security alerting, IRSA workload identity, and encrypted secret delivery.',
   },
   {
     capabilityKey: 'continuous-delivery',
     label: 'Delivery',
-    score: 4,
-    maxScore: 5,
     evidenceIds: [
       'codepipeline-approval-gated-deployment',
       'github-actions-gitops-handoff',
@@ -218,16 +197,12 @@ export const curatedDevOpsCapabilityRadarScores = [
       'cncf-ckad-certification',
       ...continuousDeliverySkillEvidenceItems.map((item) => item.id),
     ],
-    strongestEvidenceId: 'codepipeline-approval-gated-deployment',
-    evidenceCounts: { experience: 5, certification: 1, skill: 14 },
     evidenceSummary:
       'Built approval-gated and GitOps delivery across AWS CodePipeline and GitHub Actions, with immutable artifacts, automated migrations, and reliable Kubernetes reconciliation.',
   },
   {
     capabilityKey: 'deployment-automation',
     label: 'Deploys',
-    score: 4,
-    maxScore: 5,
     evidenceIds: [
       'merge-triggered-deployment-path',
       'environment-neutral-deployment-mechanism',
@@ -249,16 +224,12 @@ export const curatedDevOpsCapabilityRadarScores = [
       'deployment-automation-skill-kustomize',
       'deployment-automation-skill-sealed-secrets',
     ],
-    strongestEvidenceId: 'merge-triggered-deployment-path',
-    evidenceCounts: { experience: 5, certification: 1, skill: 13 },
     evidenceSummary:
       'Built merge-triggered deployment automation across environments, with generator-based onboarding, automated secret delivery, and deterministic Kubernetes rendering.',
   },
   {
     capabilityKey: 'flexible-infrastructure',
     label: 'Infrastructure',
-    score: 4,
-    maxScore: 5,
     evidenceIds: [
       'terraform-managed-cloud-foundations',
       'irsa-service-accounts',
@@ -280,16 +251,12 @@ export const curatedDevOpsCapabilityRadarScores = [
       'flexible-infrastructure-skill-argo-cd',
       'flexible-infrastructure-skill-gitops',
     ],
-    strongestEvidenceId: 'terraform-managed-cloud-foundations',
-    evidenceCounts: { experience: 5, certification: 2, skill: 12 },
     evidenceSummary:
       'Built reusable Terraform and Kubernetes foundations with workload identity, scoped IAM, delivery-platform provisioning, and GitOps-managed environments.',
   },
   {
     capabilityKey: 'monitoring-observability',
     label: 'Observability',
-    score: 3,
-    maxScore: 5,
     evidenceIds: [
       'version-controlled-observability-stack',
       'tested-kubernetes-workload-alerts',
@@ -312,16 +279,12 @@ export const curatedDevOpsCapabilityRadarScores = [
       'monitoring-observability-skill-aws-eventbridge',
       'monitoring-observability-skill-aws-lambda',
     ],
-    strongestEvidenceId: 'version-controlled-observability-stack',
-    evidenceCounts: { experience: 5, certification: 2, skill: 13 },
     evidenceSummary:
       'Built a version-controlled cloud native observability platform with tested workload alerts, routed notifications, suppression controls, and encrypted alert destinations.',
   },
   {
     capabilityKey: 'documentation-quality',
     label: 'Docs',
-    score: 4,
-    maxScore: 5,
     evidenceIds: [
       'structured-documentation-corpus',
       'indexed-solution-documentation',
@@ -332,12 +295,10 @@ export const curatedDevOpsCapabilityRadarScores = [
       'documentation-quality-skill-yaml',
       'documentation-quality-skill-git',
     ],
-    strongestEvidenceId: 'structured-documentation-corpus',
-    evidenceCounts: { experience: 5, skill: 3 },
     evidenceSummary:
       'Maintained a structured, indexed, and current documentation system, integrating documentation with engineering changes and cross-verifying operational claims.',
   },
-] as const satisfies readonly DoraCapabilityScore[];
+] as const satisfies readonly DoraCapabilityScoreProjection[];
 
 export const evidenceTypeLabels = {
   skill: 'Skills',
@@ -481,3 +442,9 @@ export const devOpsCapabilityEvidenceItems: readonly CapabilityEvidenceItem[] =
       ],
     },
   ] as const satisfies readonly CapabilityEvidenceItem[]);
+
+export const curatedDevOpsCapabilityRadarScores =
+  getCapabilityEvidenceScores(
+    curatedDevOpsCapabilityRadarScoreProjections,
+    devOpsCapabilityEvidenceItems,
+  );
