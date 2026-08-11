@@ -98,3 +98,10 @@ export interface DoraCapabilityScore {
   evidenceCounts: Partial<Record<EvidenceType, number>>;
   evidenceSummary?: string;
 }
+
+export interface DoraCapabilityScoreProjection {
+  capabilityKey: DoraCapabilityKey;
+  label: string;
+  evidenceIds: readonly string[];
+  evidenceSummary?: string;
+}
