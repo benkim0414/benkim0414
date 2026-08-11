@@ -14,6 +14,9 @@ import { VisuallyHidden } from '@astryxdesign/core/VisuallyHidden';
 import type { ReactElement, ReactNode } from 'react';
 
 import { getSkillBrand } from '../skills/skill-brand';
+import type { CertificationMetadata } from './certification.types';
+
+export type { CertificationMetadata } from './certification.types';
 
 const ASTRYX_CITATION_LABEL_TEXT = '#737373';
 
@@ -31,12 +34,6 @@ const styles = stylex.create({
     filter: 'grayscale(1)',
   },
 });
-
-export interface CertificationMetadata {
-  id: string;
-  name: string;
-  completedAt: string;
-}
 
 export interface CertificationCitationProps {
   title: string;

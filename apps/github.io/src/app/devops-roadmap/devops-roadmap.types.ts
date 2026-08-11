@@ -1,9 +1,6 @@
-import type { CertificationCitationProps } from '../certifications/certification-citation';
+import type { CertificationRecord } from '../certifications/certification.types';
 
-export type Certification = Omit<
-  CertificationCitationProps,
-  'number' | 'currentDate'
->;
+export type Certification = Omit<CertificationRecord, 'id'>;
 
 export interface DevOpsRoadmapItem {
   id: string;

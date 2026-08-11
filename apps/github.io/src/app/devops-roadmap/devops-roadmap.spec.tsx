@@ -5,7 +5,7 @@ import type { ReactNode } from 'react';
 import { vi } from 'vitest';
 
 import { devOpsRoadmapItems } from './devops-roadmap.data';
-import { cncfCertificationBadges } from '../certifications/cncf-certification-badges';
+import { kubernetesCertifications } from '../certifications/kubernetes-certifications.data';
 import {
   DEVOPS_ROADMAP_NODE_MOBILE_WIDTH,
   DEVOPS_ROADMAP_NODE_WIDTH,
@@ -196,50 +196,28 @@ describe('devOpsRoadmapItems', () => {
   });
 
   it('stores Kubernetes certifications under Container Orchestration', () => {
-    expect(
-      devOpsRoadmapItems.find((item) => item.id === 'container-orchestration'),
-    ).toMatchObject({
+    const containerOrchestration = devOpsRoadmapItems.find(
+      (item) => item.id === 'container-orchestration',
+    );
+
+    expect(containerOrchestration).toMatchObject({
       title: 'Container Orchestration',
       skills: ['Kubernetes'],
-      certifications: [
-        {
-          title: 'CKA',
-          citationIcon: cncfCertificationBadges.CKA,
-          skills: ['Kubernetes'],
-          expiresAt: '2027-04-20T10:00:00+10:00',
-          url: 'https://ti-user-certificates.s3.amazonaws.com/e0df7fbf-a057-42af-8a1f-590912be5460/10cf307b-dcb8-5917-a301-c854a583ed97-gunwoo-kim-02c68021-40fe-473f-8087-6309221395ca-certificate.pdf',
-          metadata: {
-            id: 'LF-assbyzy17c',
-            name: 'Certified Kubernetes Administrator',
-            completedAt: '2025-04-20',
-          },
-        },
-        {
-          title: 'CKAD',
-          citationIcon: cncfCertificationBadges.CKAD,
-          skills: ['Kubernetes'],
-          expiresAt: '2028-02-25T11:00:00+11:00',
-          url: 'https://ti-user-certificates.s3.amazonaws.com/e0df7fbf-a057-42af-8a1f-590912be5460/10cf307b-dcb8-5917-a301-c854a583ed97-gunwoo-kim-83c53ec1-bf5d-4b01-ae0a-c79be21d7cf2-certificate.pdf',
-          metadata: {
-            id: 'LF-kyh6ajhr7y',
-            name: 'Certified Kubernetes Application Developer',
-            completedAt: '2026-02-25',
-          },
-        },
-        {
-          title: 'KCNA',
-          citationIcon: cncfCertificationBadges.KCNA,
-          skills: ['Kubernetes'],
-          expiresAt: '2028-02-26T10:59:00+11:00',
-          url: 'https://ti-user-certificates.s3.amazonaws.com/e0df7fbf-a057-42af-8a1f-590912be5460/10cf307b-dcb8-5917-a301-c854a583ed97-gunwoo-kim-8a295e12-57c5-4008-b8ba-171b09419221-certificate.pdf',
-          metadata: {
-            id: 'LF-bau2ptq4ve',
-            name: 'Kubernetes and Cloud Native Associate',
-            completedAt: '2025-03-21',
-          },
-        },
-      ],
     });
+    expect(containerOrchestration?.certifications).toEqual([
+      kubernetesCertifications.cka,
+      kubernetesCertifications.ckad,
+      kubernetesCertifications.kcna,
+    ]);
+    expect(containerOrchestration?.certifications?.[0]).toBe(
+      kubernetesCertifications.cka,
+    );
+    expect(containerOrchestration?.certifications?.[1]).toBe(
+      kubernetesCertifications.ckad,
+    );
+    expect(containerOrchestration?.certifications?.[2]).toBe(
+      kubernetesCertifications.kcna,
+    );
   });
 });
 
