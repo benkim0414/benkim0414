@@ -28,6 +28,7 @@ const visibleEvidenceGroupLabels: Partial<
   Record<DoraCapabilityCardEvidenceGroup, string>
 > = {
   applied: 'Relevant experience',
+  certifications: 'Certifications',
   skills: 'Technical skills',
 };
 
