@@ -140,7 +140,7 @@ export function HomePage({
           endContent={
             <Button
               href="https://dora.dev/capabilities/"
-              label="Learn more about DORA"
+              label="Learn more"
               rel="noopener noreferrer"
               target="_blank"
               variant="secondary"
