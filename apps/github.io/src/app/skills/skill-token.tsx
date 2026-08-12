@@ -46,11 +46,12 @@ function tokenStyle(
 export function SkillToken({
   label,
   brandLabel,
-  variant = 'brand',
+  variant,
 }: SkillTokenProps): ReactElement {
   const brand = getSkillBrand(brandLabel ?? label);
+  const effectiveVariant = variant ?? brand?.surface ?? 'neutral';
   const hasIcon = hasSkillBrandIcon(brand);
-  const usesBrandSurface = variant === 'brand' && hasIcon;
+  const usesBrandSurface = effectiveVariant === 'brand' && hasIcon;
   const icon = brand?.iconPath ? (
     <svg
       aria-hidden="true"
@@ -60,7 +61,7 @@ export function SkillToken({
     >
       <path
         d={brand.iconPath}
-        fill={variant === 'neutral' ? brand.color : 'currentColor'}
+        fill={effectiveVariant === 'neutral' ? brand.color : 'currentColor'}
       />
     </svg>
   ) : brand?.iconDataUrl ? (
@@ -74,12 +75,12 @@ export function SkillToken({
 
   return (
     <Token
-      color={variant === 'neutral' ? 'gray' : 'purple'}
+      color={effectiveVariant === 'neutral' ? 'gray' : 'purple'}
       data-testid="skill-token"
       icon={icon}
       label={label}
       size="sm"
-      style={tokenStyle(brand, variant)}
+      style={tokenStyle(brand, effectiveVariant)}
       xstyle={usesBrandSurface ? styles.brandToken : undefined}
     />
   );
