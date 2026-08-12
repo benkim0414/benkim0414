@@ -1,63 +1,73 @@
 ---
-title: Mirror App Shell Ownership In Mobile Storybook Pages
+title: Mirror App Shell Ownership in Mobile Storybook Pages
 date: 2026-08-01
-last_updated: 2026-08-06
+last_updated: 2026-08-12
 category: design-patterns
-module: apps/github.io mobile skills page
+module: apps/github.io home page
 problem_type: design_pattern
 component: testing_framework
 severity: medium
 applies_when:
   - "Building mobile-only Storybook page stories for app routes"
   - "Verifying persistent top navigation in scrollable mobile or tablet layouts"
-  - "Separating route-level shell, nav, search, and content ownership"
+  - "Separating app-shell, page-shell, search, and content ownership"
   - "Adding Astryx-native gutters without changing a reusable carousel default"
   - "Testing Astryx prop contracts represented by generated StyleX classes"
 related_components:
+  - github.io HomePage
   - github.io Astryx skill components
-  - github.io command palette filtering
-  - github.io mobile navigation
-tags: [github-io, storybook, mobile, navigation, astryx, skills, spacing, stylex]
+  - github.io command palette selection
+  - github.io DORA capability cards
+tags: [github-io, storybook, mobile, navigation, astryx, home-page, spacing, stylex]
 ---
 
-# Mirror App Shell Ownership In Mobile Storybook Pages
+# Mirror App Shell Ownership in Mobile Storybook Pages
 
 ## Context
 
-The `github.io` mobile skills page work exposed a visual verification gap: an iPad Storybook review kept showing that the expected top navigation was not present or persistent while scrolling. The reusable lesson is about ownership boundaries. A mobile-only page story should render the same page-level shell concerns that the app route renders: theme context, mobile viewport shell, top navigation, search affordance, highlighted content rail, and scrollable content.
+A page-level Storybook story can verify the wrong layout when it renders only
+an inner list, carousel, or card collection. Mobile shell requirements include
+the constrained viewport, persistent top navigation, search affordance, fixed
+content rails, and the boundary around the vertically scrollable content.
+Those concerns must appear in the story at the same ownership level as they do
+in the application.
 
-The current route-level shell is thin. `AppShell` applies the Astryx neutral
-theme and renders `MobileSkillsPage` directly
-(`apps/github.io/src/app/app-shell.tsx:6`). The fullscreen page story also
-renders `MobileSkillsPage` directly
-(`apps/github.io/src/app/skills/mobile-skills-page.stories.tsx:6`), while the
-global Storybook decorator supplies the same neutral theme
-(`apps/github.io/.storybook/preview.ts:9`). Storybook therefore verifies the
-same page-owned layout shell without implying that the page owns its theme.
+The `github.io` application has two distinct boundaries. `AppShell` supplies
+the neutral Astryx theme and chooses whether `HomePage` or the temporary
+`SkillDetailPage` is active (`apps/github.io/src/app/app-shell.tsx:9`).
+`HomePage` owns the mobile viewport shell, navigation, command palette, fixed
+Top skills rail, and scrollable DORA section
+(`apps/github.io/src/app/skills/home-page.tsx:77`).
 
-The mobile page owns the scroll model. Its root is a constrained full-height
-mobile column with `h-dvh`, `max-w-md`, `flex-col`, and `overflow-hidden`
-(`apps/github.io/src/app/skills/mobile-skills-page.tsx:87`). `TopNav` and the
-horizontally scrollable highlighted carousel are fixed vertical shell rails,
-and the full skills list is the only vertically scrollable shell region. The list region is an
-Astryx `VStack` with `isScrollable`, `min-h-0 flex-1`, `gap={3}`,
-`paddingBlock={4}`, and `paddingInline={4}`
-(`apps/github.io/src/app/skills/mobile-skills-page.tsx:131`).
+The fullscreen Home story renders `HomePage` directly
+(`apps/github.io/src/app/skills/home-page.stories.tsx:6`), while the global
+Storybook decorator supplies the same neutral theme
+(`apps/github.io/.storybook/preview.ts:9`). This mirrors the page-owned layout
+without claiming that the page owns the application theme or active-page
+selection.
 
 ## Guidance
 
-For mobile-only Storybook page stories, render the same page component that owns the route-level mobile shell. If production ownership sits above the content component, either move that ownership into the page component or create a route-equivalent story wrapper. Do not verify a route-level mobile behavior with a story that renders only the inner list or carousel.
+For a mobile page story, render the component that owns the viewport and scroll
+shell. If the behavior being reviewed belongs above that component—such as an
+`AppShell` transition—use a route-equivalent wrapper or an app-level story
+instead. Do not infer app-level behavior from a page story that cannot exercise
+it.
 
-For "always visible while scrolling" mobile requirements, prefer a non-scrolling shell rail over a sticky element inside the same scrolling content. A robust pattern is:
+For rails that must remain visible while the body scrolls, place them outside
+the vertical scroll container:
 
 ```tsx
 <div className="mx-auto flex h-dvh min-h-screen w-full max-w-md flex-col overflow-hidden">
   <TopNav className="shrink-0" />
-  <div className="shrink-0 pt-4">
-    <SkillCarousel padding={4} skills={highlightedSkills} />
-  </div>
+  <VStack className="shrink-0" gap={3} paddingBlock={4}>
+    <VStack paddingInline={4}>
+      <Text as="h2" type="body" weight="bold">Top skills</Text>
+    </VStack>
+    <SkillCarousel padding={4} skills={highlightedSkills} variant="compact" />
+  </VStack>
   <VStack
-    aria-labelledby="skills-page-title"
+    aria-labelledby="home-page-title"
     as="main"
     className="min-h-0 flex-1"
     gap={3}
@@ -65,141 +75,138 @@ For "always visible while scrolling" mobile requirements, prefer a non-scrolling
     paddingBlock={4}
     paddingInline={4}
   >
-    <VisuallyHidden as="h1" id="skills-page-title">Skills</VisuallyHidden>
-    <Text as="h2" type="body" weight="bold">All skills</Text>
-    <SkillCardList heading="All skills" skills={visibleSkills} />
+    <Text as="h2" type="body" weight="bold">DORA capabilities</Text>
+    {doraCapabilityDefinitions.map(renderCapability)}
   </VStack>
 </div>
 ```
 
-This keeps the nav and top-five carousel visible because they are outside the
-vertical scroll container. Only the lower content list scrolls vertically; the
-carousel retains its own horizontal scrolling. It also avoids hard-coding a
-carousel height just to offset content below a fixed overlay.
+`HomePage` follows this structure: the top navigation and Top skills stack are
+`shrink-0`, while the DORA `main` is the only `flex-1` scrollable region
+(`apps/github.io/src/app/skills/home-page.tsx:79`,
+`apps/github.io/src/app/skills/home-page.tsx:122`,
+`apps/github.io/src/app/skills/home-page.tsx:140`). Keeping these regions as
+siblings avoids hard-coded overlay heights and preserves the carousel's own
+horizontal scrolling.
 
-Let each Astryx component own the spacing on the axis it implements. The page's
-scrollable `VStack` owns the list gutter and vertical rhythm. The outer carousel
-wrapper owns only top separation and fixed-shell behavior. `SkillCarousel`
-forwards an optional `CarouselProps['padding']` to Astryx `Carousel`, so the
-mobile page can opt into spacing step `4` without changing the reusable
+Let each Astryx component own spacing on the axis it implements. The page's
+scrollable `VStack` owns its inline gutter and vertical rhythm. `SkillCarousel`
+forwards optional `CarouselProps['padding']` to Astryx `Carousel`, allowing the
+Home page to opt into spacing step `4` without changing the reusable
 carousel's omitted-padding default
 (`apps/github.io/src/app/skills/skill-carousel.tsx:12`,
-`apps/github.io/src/app/skills/skill-carousel.tsx:39`). An empty carousel has no
-scroller to receive native content padding, so only the opted-in empty state is
-wrapped in `VStack paddingInline={padding}`; the default empty state remains
-unwrapped (`apps/github.io/src/app/skills/skill-carousel.tsx:27`).
+`apps/github.io/src/app/skills/skill-carousel.tsx:39`). For an empty carousel,
+only an explicitly padded state receives a `VStack` inline-padding wrapper
+(`apps/github.io/src/app/skills/skill-carousel.tsx:27`).
 
-Keep search ownership with the nav that opens it. `MobileSkillsPage` owns
-`isSearchOpen`, `selectedSkillId`, and the Astryx `CommandPalette` source
-(`apps/github.io/src/app/skills/mobile-skills-page.tsx:48`). Filtering is scoped
-to `visibleSkills`, while the highlighted carousel remains supplied
-independently (`apps/github.io/src/app/skills/mobile-skills-page.tsx:77`). Cap
-overlay widths to the mobile shell on wide devices; the command palette uses
-`min(calc(100vw - 32px), 448px)`
-(`apps/github.io/src/app/skills/mobile-skills-page.tsx:101`).
+Keep page-local and application-level state distinct. `HomePage` owns search
+visibility, the controlled palette value, the command source, and the
+`onSkillSelect` callback boundary
+(`apps/github.io/src/app/skills/home-page.tsx:41`,
+`apps/github.io/src/app/skills/home-page.tsx:52`). `AppShell` owns the selected
+`Skill` that replaces the Home page with the minimal detail page
+(`apps/github.io/src/app/app-shell.tsx:10`). A Home page story can verify the
+callback and all Home layout; the app integration test verifies the resulting
+page transition.
 
-Use behavioral tests to encode the shell contract, but do not hard-code a
-generated StyleX class or accept any class difference as proof of a prop.
-Render a direct Astryx control with the expected props beside the wrapper under
-test, then compare their rendered class output. Render an otherwise identical
-negative control for the semantic prop being protected.
+Use matched Astryx controls when jsdom must verify a semantic prop through
+generated StyleX classes. Compare the component under test with a direct
+Astryx control using the expected props and with an otherwise identical
+negative control. This protects the public prop contract without coupling the
+test to a generated class hash.
 
-The carousel spec compares padded and default `SkillCarousel` scrollers with
-matched Astryx `Carousel` controls using `gap={3}` and `hasSnap`. It also
-compares the padded empty-state wrapper with `VStack paddingInline={4}` and
-proves that the default empty state remains unwrapped
-(`apps/github.io/src/app/skills/skill-carousel.spec.tsx:85`). The page spec
-compares `main` with matched scrollable and non-scrollable `VStack` controls,
-then separately asserts that the carousel wrapper is the direct sibling before
-`main` and is not contained by it
-(`apps/github.io/src/app/skills/mobile-skills-page.spec.tsx:101`,
-`apps/github.io/src/app/skills/mobile-skills-page.spec.tsx:146`).
+The carousel tests compare padded and default `SkillCarousel` instances with
+matching Astryx `Carousel` controls, and separately compare the padded empty
+state with `VStack paddingInline={4}`
+(`apps/github.io/src/app/skills/skill-carousel.spec.tsx:85`,
+`apps/github.io/src/app/skills/skill-carousel.spec.tsx:123`). The Home page
+test applies the same technique to `VStack isScrollable` and asserts that the
+carousel rail is a sibling before `main`, not its descendant
+(`apps/github.io/src/app/skills/home-page.spec.tsx:129`,
+`apps/github.io/src/app/skills/home-page.spec.tsx:172`).
 
 ## Why This Matters
 
-Storybook can verify the wrong thing if a page story omits route-owned UI. A content component can render correctly while the actual page still lacks the persistent nav, search button, theme wrapper, or scroll shell that the user sees on device.
+Storybook parity is about ownership, not merely visual similarity. An inner
+content story can look correct while omitting the persistent navigation,
+search control, fixed rail, theme context, or scroll boundary the user sees on
+device.
 
-The scroll-container boundary matters more than the positioning keyword. `sticky` can be correct for a section header inside a known scroller, but it does not prove that a mobile app rail remains visible while the lower page body scrolls. Placing the nav and carousel outside the scrollable region makes the requirement explicit and easier to test.
+The scroll-container boundary matters more than the positioning keyword.
+`sticky` can be appropriate inside a known scroller, but it does not prove that
+an application rail remains visible while a different region scrolls. Sibling
+rails outside `main` make that relationship explicit in both markup and tests.
 
-Keeping the command palette and filtering in the page component prevents drift between Storybook and the route. The app-level command-palette test opens the search UI, verifies the `Skills` group, filters to Terraform, and confirms the carousel remains unchanged while only the full list changes in `apps/github.io/src/app/app.spec.tsx:82`.
+The same ownership rule prevents interaction drift. The Home page test proves
+that selecting a text-only Terraform result emits the matching `Skill`, while
+the app integration test proves that the shell replaces Home with the
+Terraform heading (`apps/github.io/src/app/skills/home-page.spec.tsx:273`,
+`apps/github.io/src/app/app.spec.tsx:83`). Each test protects the boundary its
+component owns.
 
-Component-native spacing keeps the values on Astryx's token scale and keeps
-carousel scroll padding and snap alignment inside the component that implements
-them. Wrapper-level horizontal padding may look similar, but it does not express
-the same `Carousel.padding` contract. Keeping the prop optional prevents a
-page-specific mobile gutter from becoming an accidental default for every
-`SkillCarousel` consumer.
-
-Matched controls protect the public Astryx prop contract without coupling tests
-to generated identifiers. A broad `astryx-stack` assertion can still pass after
-`isScrollable` or a padding prop disappears; a hard-coded StyleX hash can fail
-after an unrelated generation change. The positive and negative controls catch
-the semantic regression while tolerating hash churn.
+Component-native spacing also preserves carousel snap alignment and keeps
+values on the Astryx token scale. Wrapper padding may look similar, but it does
+not express the same `Carousel.padding` contract and can shift the wrong box.
 
 ## When to Apply
 
-- Building a Storybook story for a mobile-only route or page-level experience in `apps/github.io`.
-- Debugging a visual review where navigation, shell spacing, search, or theme is missing in Storybook but expected in the route.
-- Implementing a mobile top rail that must remain visible while the content below it scrolls.
-- Keeping highlighted content, such as a top-five carousel, visible above a scrollable full list.
-- Adding jsdom tests for shell behavior where real scroll physics cannot be measured but ownership, roles, and class contracts can still be protected.
+- Building a Storybook story for a mobile-only route or page-level experience
+  in `apps/github.io`.
+- Debugging a visual review where navigation, shell spacing, search, or theme
+  is missing in Storybook but expected in the application.
+- Implementing a top rail that must remain visible while DORA cards or other
+  page content scroll below it.
 - Adding local carousel gutters while preserving the reusable carousel's
   omitted-padding behavior.
+- Separating a page-local selection callback from an app-shell-owned page
+  transition.
 - Verifying Astryx props whose observable jsdom output is a generated class.
 
 ## Examples
 
-Prefer a page story that renders the shell-owning page:
+Prefer a fullscreen story that renders the shell-owning page:
 
 ```tsx
-const meta: Meta<typeof MobileSkillsPage> = {
-  component: MobileSkillsPage,
+const meta: Meta<typeof HomePage> = {
+  component: HomePage,
   parameters: {
     layout: 'fullscreen',
   },
-  title: 'GitHub.io/Skills/Mobile Skills Page',
+  title: 'GitHub.io/Home/Home Page',
 };
 ```
 
-Avoid stories that render only the content slice when the requirement is about page shell behavior:
+Avoid rendering only the scrollable content when the requirement concerns the
+whole page:
 
 ```tsx
-// Too narrow for route-level mobile visual verification.
-export const Default = {
-  render: () => <SkillCardList skills={skills} />,
+// Too narrow for navigation, search, fixed-rail, or scroll-shell review.
+export const DORACardsOnly = {
+  render: () => doraCapabilityDefinitions.map(renderCapability),
 };
 ```
 
-For a mobile skills list, keep the one-column stack explicit by using a wrapper
-like `SkillCardList`. It renders an Astryx `EmptyState` for empty data and a
-`VStack` of full-width `SkillCard` components
-(`apps/github.io/src/app/skills/skill-card-list.tsx:7`).
-
-Avoid moving the carousel gutter to its outer rail:
+Avoid moving native carousel content padding to an outer wrapper:
 
 ```tsx
-<div className="shrink-0 px-4">
+<div className="px-4">
   <SkillCarousel skills={highlightedSkills} />
 </div>
 ```
 
-Prefer the component-native content-padding contract at the page call site:
+Prefer the component contract at the page call site:
 
 ```tsx
-<div className="shrink-0 pt-4">
-  <SkillCarousel padding={4} skills={highlightedSkills} />
-</div>
+<SkillCarousel padding={4} skills={highlightedSkills} variant="compact" />
 ```
 
-The branch verification covered 26 test files with 193 tests, lint, the app
-build, and the Storybook build. The default mobile-skills story was visually
-approved on an iPad. A 390x844 phone viewport and the non-default single-skill
-and empty stories were not explicitly recorded, so those remain visual
-validation gaps rather than claimed coverage. This change is still pending on
-the unmerged `feat/mobile-skills-spacing` branch as of 2026-08-06.
+For device review from a linked worktree, serve that worktree's Storybook and
+open the Home story on the target device. The workflow details remain in the
+linked-worktree verification learning below.
 
 ## Related
 
+- [Keep Skill Selection Transition in AppShell](keep-skill-selection-transition-in-app-shell.md)
 - [Verify Storybook From Linked Worktrees](../workflow-issues/verify-storybook-from-linked-worktree.md)
 - [Verify Astryx Component API Contracts Before Styling](../best-practices/astryx-component-api-contracts.md)
 - [Keep Astryx StyleX Tailwind Boundaries Explicit](../best-practices/astryx-stylex-tailwind-boundaries.md)
