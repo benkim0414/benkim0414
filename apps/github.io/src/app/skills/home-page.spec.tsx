@@ -2,6 +2,7 @@ import type { ComponentProps, ReactNode } from 'react';
 import { fireEvent, render, waitFor, within } from '@testing-library/react';
 import { Theme } from '@astryxdesign/core';
 import { VStack } from '@astryxdesign/core/Layout';
+import { Text } from '@astryxdesign/core/Text';
 import { neutralTheme } from '@astryxdesign/theme-neutral/built';
 import { vi } from 'vitest';
 
@@ -162,14 +163,29 @@ describe('HomePage', () => {
 
   it('keeps top skills fixed above the scrollable DORA section', () => {
     const { getByLabelText, getByRole } = renderHomePage();
+    const { getByTestId } = render(
+      <Theme theme={neutralTheme}>
+        <VStack data-testid="top-skills-padding-control" paddingInline={4}>
+          <Text as="h2" type="body" weight="bold">
+            Top skills control
+          </Text>
+        </VStack>
+      </Theme>,
+    );
     const carousel = getByLabelText('Highlighted skills');
     const main = getByRole('main', { name: 'Home' });
+    const topSkillsHeading = getByRole('heading', {
+      level: 2,
+      name: 'Top skills',
+    });
     const doraHeading = getByRole('heading', {
       level: 2,
       name: 'DORA capabilities',
     });
 
-    expect(getByRole('heading', { level: 2, name: 'Top skills' })).toBeTruthy();
+    expect(topSkillsHeading.parentElement?.className).toBe(
+      getByTestId('top-skills-padding-control').className,
+    );
     expect(carousel.parentElement?.nextElementSibling).toBe(main);
     expect(main.contains(carousel)).toBe(false);
     expect(main.className).toContain('flex-1');
@@ -177,7 +193,7 @@ describe('HomePage', () => {
     expect(main.contains(doraHeading)).toBe(true);
   });
 
-  it('explains DORA and links to the official capability catalog', () => {
+  it('explains DORA and uses a secondary button for the official capability catalog', () => {
     const { getByRole, getByText } = renderHomePage();
 
     expect(getByText('About DORA capabilities')).toBeTruthy();
@@ -186,10 +202,13 @@ describe('HomePage', () => {
         'DORA capabilities are technical, process, and cultural practices associated with stronger software delivery and organizational performance. Each card connects a capability to supporting experience, certifications, and technical skills.',
       ),
     ).toBeTruthy();
-    const link = getByRole('link', { name: /Learn more about DORA/ });
-    expect(link.getAttribute('href')).toBe('https://dora.dev/capabilities/');
-    expect(link.getAttribute('target')).toBe('_blank');
-    expect(link.getAttribute('rel')).toContain('noopener');
+    const cta = getByRole('link', { name: /Learn more about DORA/ });
+    expect(cta.className).toContain('astryx-button');
+    expect(cta.getAttribute('data-variant')).toBe('secondary');
+    expect(cta.getAttribute('href')).toBe('https://dora.dev/capabilities/');
+    expect(cta.getAttribute('target')).toBe('_blank');
+    expect(cta.getAttribute('rel')).toContain('noopener');
+    expect(cta.getAttribute('rel')).toContain('noreferrer');
   });
 
   it('renders all evidence-backed DORA cards in canonical order', () => {
