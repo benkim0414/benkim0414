@@ -2,6 +2,8 @@
 
 Date: 2026-08-12
 
+Last updated: 2026-08-13
+
 ## Summary
 
 Add a dedicated, shareable skill detail page to the `github.io` portfolio app.
@@ -43,11 +45,11 @@ in a later change.
 Use an editorial evidence flow in one centered reading column:
 
 1. Breadcrumbs
-2. Skill title and categories
-3. Rating and overview description
+2. Skill title and overview description
+3. A compact skill metadata list containing categories, rating, and
+   certifications when present
 4. An "In practice" collection of experience evidence
 5. Related projects
-6. Certifications, when present
 
 The content is full-width within phone padding. On iPad and desktop viewports,
 it grows to a comfortable article width and remains centered rather than
@@ -131,19 +133,39 @@ renders:
 
 - Astryx `Breadcrumbs` with `Skills` and the current skill name.
 - Astryx `Heading` level 1 for the skill name.
-- Existing `SkillCategory` instances for category badges.
-- Existing `SkillRating` for the skill level.
 - Astryx `Text` for the description.
+- One untitled Astryx `MetadataList` containing the skill's categories, rating,
+  and certifications.
 - A dedicated experience list under the concise `In practice` heading when
   resolved evidence is present.
 - Astryx `Heading` level 3 for each evidence title and Astryx `Blockquote` for
   each evidence statement, using the components' built-in semantics and visual
   treatment.
 - Related project content when resolved projects are present.
-- Existing certification citations when present.
 
 The page receives a resolved view model. It does not query unrelated data
 modules while rendering.
+
+### Skill Metadata List
+
+Place one Astryx `MetadataList` immediately after the skill description. Use a
+single-column layout and top-positioned labels so long or complex values retain
+their available reading width on phones and iPads. The list has no title because
+the page heading and description already establish its subject.
+
+Render these Astryx `MetadataListItem` rows in order:
+
+1. `Categories`: existing `SkillCategory` instances, which wrap as needed.
+2. `Rating`: the existing accessible `SkillRating`.
+3. `Certifications`: existing `CertificationCitation` instances in their
+   existing order, including their Astryx citation and hover-card behavior.
+
+The metadata list replaces the categories and rating previously displayed as
+loose hero content and replaces the standalone Certifications section. Do not
+duplicate those values elsewhere on the page. Omit the Certifications row when
+the skill has no certifications; do not render placeholder text. Category and
+certification collections retain semantic list markup, with Astryx layout
+primitives controlling wrapping and spacing.
 
 ### Detail Resolver
 
@@ -176,6 +198,9 @@ Official Astryx guidance checked during design:
 
 - `Badge`: category tags may use non-semantic color variants; badges remain
   read-only and concise.
+- `MetadataList`: use it for clear key-value detail-page attributes; use
+  top-positioned labels for long or complex values. Its item values may contain
+  components such as badges and links.
 - `Layout`: decide the page frame and responsive contract first, use rows for
   scannable data, and reserve cards for self-contained objects.
 - `Typography`: use semantic `Heading` and `Text` variants without manual font
@@ -200,7 +225,8 @@ design contains no custom MD3-derived styling.
 ## Responsive Contract
 
 - Phone: the detail content fills the available width inside semantic page
-  padding; category badges wrap; all content remains in one column.
+  padding; metadata labels remain above their values, category badges and
+  certification citations wrap, and all content remains in one column.
 - iPad: the reading column expands beyond the current phone-width canvas but
   remains centered with readable line length.
 - Desktop: the same centered reading column is retained; no side rail or
@@ -212,8 +238,10 @@ design contains no custom MD3-derived styling.
 
 - Render a semantic `main` landmark for the detail page.
 - Render one visible `h1` containing the skill name.
-- Use sequential `h2` headings for experience, projects, and certifications
-  when those sections exist.
+- Use sequential `h2` headings for experience and projects when those sections
+  exist.
+- Preserve Astryx `MetadataList` and `MetadataListItem` semantics and visible
+  labels for Categories, Rating, and Certifications.
 - Render every experience evidence summary with Astryx `Blockquote`. Omit its
   optional `cite` prop because the preceding level-3 heading labels the evidence
   and is not an attribution source.
@@ -243,11 +271,15 @@ design contains no custom MD3-derived styling.
 
 Add focused automated coverage for:
 
-- `/skills/kubernetes` renders the visible `h1`, description, category badges,
-  rating, `In practice` heading, and one Astryx blockquote for each selected
-  evidence item, plus the related project and certifications.
-- A known non-enriched skill renders a basic detail page without empty
-  experience or project headings.
+- `/skills/kubernetes` renders the visible `h1`, description, one Astryx
+  `MetadataList` with Categories, Rating, and Certifications rows, the `In
+  practice` heading, one Astryx blockquote for each selected evidence item, and
+  the related project.
+- The metadata rows preserve the existing category badges, accessible rating,
+  certification ordering, citation links, and hover-card behavior without
+  duplicate loose metadata or a standalone Certifications section.
+- A known non-enriched and uncertified skill renders a basic detail page without
+  a Certifications row or empty experience or project headings.
 - An unknown skill ID and unknown route render the not-found state with a link
   to Skills.
 - The detail resolver preserves explicit record order and distinguishes known
@@ -275,8 +307,9 @@ pnpm nx build-storybook github.io
 ```
 
 Perform browser visual checks at representative phone, iPad, and desktop
-viewports. Confirm reading width, heading hierarchy, badge wrapping, blockquote
-border alignment, link focus treatment, and the absence of clipping or overlap.
+viewports. Confirm reading width, heading hierarchy, top-positioned metadata
+labels, badge and citation wrapping, blockquote border alignment, link focus
+treatment, and the absence of clipping or overlap.
 
 ## Risks and Mitigations
 
@@ -302,6 +335,8 @@ The implementation is ready for review when:
 
 - clean `/skills/:skillId` routes and direct GitHub Pages visits work;
 - Kubernetes renders the approved complete editorial detail view;
+- summary metadata renders once through Astryx `MetadataList`, with
+  Certifications omitted when absent;
 - every existing skill renders at least a valid basic detail page;
 - unknown IDs render the approved not-found state;
 - explicit evidence and project references pass integrity and public-safety
