@@ -3,19 +3,27 @@ import {
   CommandPalette,
   CommandPaletteInput,
 } from '@astryxdesign/core/CommandPalette';
+import { Banner } from '@astryxdesign/core/Banner';
 import { Icon } from '@astryxdesign/core/Icon';
 import { IconButton } from '@astryxdesign/core/IconButton';
 import { VStack } from '@astryxdesign/core/Layout';
+import { Link } from '@astryxdesign/core/Link';
 import { Text } from '@astryxdesign/core/Text';
 import { TopNav } from '@astryxdesign/core/TopNav';
 import { createStaticSource } from '@astryxdesign/core/Typeahead';
 import { VisuallyHidden } from '@astryxdesign/core/VisuallyHidden';
 
+import { DoraCapabilityCard } from '../devops-capability-evidence/dora-capability-card';
+import { doraCapabilityDescriptions } from '../devops-capability-evidence/dora-capability-card.evidence';
+import {
+  curatedDevOpsCapabilityRadarScores,
+  devOpsCapabilityEvidenceItems,
+  doraCapabilityDefinitions,
+} from '../devops-capability-evidence/devops-capability-evidence.data';
 import {
   highlightedSkills as defaultHighlightedSkills,
   skills as defaultSkills,
 } from './skill-list.data';
-import { SkillCardList } from './skill-card-list';
 import { SkillCarousel } from './skill-carousel';
 import type { Skill } from './skill-list.types';
 
@@ -125,9 +133,31 @@ export function HomePage({
         paddingInline={4}
       >
         <Text as="h2" type="body" weight="bold">
-          All skills
+          DORA capabilities
         </Text>
-        <SkillCardList heading="All skills" skills={skills} variant="compact" />
+        <Banner
+          description="DORA capabilities are technical, process, and cultural practices associated with stronger software delivery and organizational performance. Each card connects a capability to supporting experience, certifications, and technical skills."
+          endContent={
+            <Link
+              href="https://dora.dev/capabilities/"
+              isExternalLink
+              isStandalone
+            >
+              Learn more about DORA
+            </Link>
+          }
+          status="info"
+          title="About DORA capabilities"
+        />
+        {doraCapabilityDefinitions.map((capability) => (
+          <DoraCapabilityCard
+            capability={capability}
+            description={doraCapabilityDescriptions[capability.key]}
+            evidence={devOpsCapabilityEvidenceItems}
+            key={capability.key}
+            scores={curatedDevOpsCapabilityRadarScores}
+          />
+        ))}
       </VStack>
     </div>
   );

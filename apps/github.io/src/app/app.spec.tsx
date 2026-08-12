@@ -74,13 +74,17 @@ describe('App', () => {
     expect(getByRole('heading', { level: 1, name: 'Home' })).toBeTruthy();
     expect(getByRole('heading', { level: 2, name: 'Top skills' })).toBeTruthy();
     expect(getByLabelText('Highlighted skills')).toBeTruthy();
-    expect(getAllByTestId('skill-card')).toHaveLength(22);
-    expect(getByText('TypeScript')).toBeTruthy();
-    expect(getByText('React')).toBeTruthy();
+    expect(getAllByTestId('skill-card')).toHaveLength(5);
+    expect(getAllByTestId('dora-capability-card')).toHaveLength(10);
+    expect(getByRole('link', { name: /Learn more about DORA/ })).toBeTruthy();
+    expect(getByText('DORA capabilities')).toBeTruthy();
   });
 
   it('keeps home content unchanged when a skill command is selected', async () => {
     const { getAllByTestId, getByLabelText, getByRole } = render(<App />);
+    const capabilityCardsBefore = getAllByTestId('dora-capability-card').map(
+      (card) => card.textContent,
+    );
 
     fireEvent.click(getByRole('button', { name: 'Search skills' }));
     fireEvent.change(getByRole('combobox', { name: 'Search skills' }), {
@@ -95,12 +99,11 @@ describe('App', () => {
     expect(
       within(getByLabelText('Highlighted skills')).getAllByTestId('skill-card'),
     ).toHaveLength(5);
+    expect(getAllByTestId('skill-card')).toHaveLength(5);
+    expect(getAllByTestId('dora-capability-card')).toHaveLength(10);
     expect(
-      within(getByRole('region', { name: 'All skills' })).getAllByTestId(
-        'skill-card',
-      ),
-    ).toHaveLength(17);
-    expect(getAllByTestId('skill-card')).toHaveLength(22);
+      getAllByTestId('dora-capability-card').map((card) => card.textContent),
+    ).toEqual(capabilityCardsBefore);
   });
 
   it('does not render generic navigation or desktop shell content', () => {

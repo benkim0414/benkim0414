@@ -6,6 +6,8 @@ import { neutralTheme } from '@astryxdesign/theme-neutral/built';
 import { vi } from 'vitest';
 
 import { HomePage } from './home-page';
+import { doraCapabilityDescriptions } from '../devops-capability-evidence/dora-capability-card.evidence';
+import { doraCapabilityDefinitions } from '../devops-capability-evidence/devops-capability-evidence.data';
 import { highlightedSkills, skills } from './skill-list.data';
 
 vi.mock('@astryxdesign/core/CommandPalette', () => ({
@@ -158,76 +160,65 @@ describe('HomePage', () => {
     expect(queryByRole('combobox', { name: 'Search skills' })).toBeNull();
   });
 
-  it('keeps highlighted carousel above the scrollable full skills list', () => {
+  it('keeps top skills fixed above the scrollable DORA section', () => {
     const { getByLabelText, getByRole } = renderHomePage();
     const carousel = getByLabelText('Highlighted skills');
-    const carouselContainer = carousel.parentElement;
     const main = getByRole('main', { name: 'Home' });
-    const pageHeading = getByRole('heading', { level: 1, name: 'Home' });
-    const carouselHeading = getByRole('heading', {
+    const doraHeading = getByRole('heading', {
       level: 2,
-      name: 'Top skills',
+      name: 'DORA capabilities',
     });
-    const listHeading = getByRole('heading', {
-      level: 2,
-      name: 'All skills',
-    });
-    const list = getByRole('region', { name: 'All skills' });
 
-    expect(listHeading.compareDocumentPosition(carousel)).toBe(
-      Node.DOCUMENT_POSITION_PRECEDING,
-    );
-    expect(pageHeading).toBeTruthy();
-    expect(carouselHeading.compareDocumentPosition(carousel)).toBe(
-      Node.DOCUMENT_POSITION_FOLLOWING,
-    );
-    expect(listHeading.compareDocumentPosition(list)).toBe(
-      Node.DOCUMENT_POSITION_FOLLOWING,
-    );
-    expect(listHeading.parentElement).toBe(list.parentElement);
-    expect(listHeading.className).toContain('astryx-text');
-    expect(carouselContainer?.className).toContain('shrink-0');
-    expect(carouselContainer?.className).toContain('astryx-stack');
-    expect(carouselContainer?.parentElement).toBe(main.parentElement);
-    expect(carouselContainer?.nextElementSibling).toBe(main);
+    expect(getByRole('heading', { level: 2, name: 'Top skills' })).toBeTruthy();
+    expect(carousel.parentElement?.nextElementSibling).toBe(main);
     expect(main.contains(carousel)).toBe(false);
-    expect(main.className).toContain('astryx-stack');
     expect(main.className).toContain('flex-1');
-    expect(main.className).not.toContain('px-4');
-    expect(carousel).toBeTruthy();
-    expect(within(carousel).getAllByTestId('skill-card')).toHaveLength(5);
-    expect(within(list).getAllByTestId('skill-card')).toHaveLength(
-      skills.length,
-    );
-
-    expect(list).toBeTruthy();
-    [
-      'Argo',
-      'Claude Code',
-      'Docker',
-      'Expo',
-      'GitHub Actions',
-      'Go',
-      'Grafana',
-      'Kubernetes',
-      'Neovim',
-      'Nx',
-      'React',
-      'Storybook',
-      'Swift',
-      'Terraform',
-      'Tmux',
-      'TypeScript',
-      'Zsh',
-    ].forEach((skillName) => {
-      expect(within(list).getByText(skillName)).toBeTruthy();
-    });
+    expect(main.className).toContain('astryx-stack');
+    expect(main.contains(doraHeading)).toBe(true);
   });
 
-  it('uses compact skill surfaces for mobile', () => {
-    const { getByLabelText, getByRole, queryByText } = renderHomePage();
+  it('explains DORA and links to the official capability catalog', () => {
+    const { getByRole, getByText } = renderHomePage();
+
+    expect(getByText('About DORA capabilities')).toBeTruthy();
+    expect(
+      getByText(
+        'DORA capabilities are technical, process, and cultural practices associated with stronger software delivery and organizational performance. Each card connects a capability to supporting experience, certifications, and technical skills.',
+      ),
+    ).toBeTruthy();
+    const link = getByRole('link', { name: /Learn more about DORA/ });
+    expect(link.getAttribute('href')).toBe('https://dora.dev/capabilities/');
+    expect(link.getAttribute('target')).toBe('_blank');
+    expect(link.getAttribute('rel')).toContain('noopener');
+  });
+
+  it('renders all evidence-backed DORA cards in canonical order', () => {
+    const { getAllByTestId } = renderHomePage();
+    const cards = getAllByTestId('dora-capability-card');
+
+    expect(cards).toHaveLength(doraCapabilityDefinitions.length);
+    expect(
+      cards.map((card) =>
+        within(card).getByRole('heading', { level: 3 }).textContent,
+      ),
+    ).toEqual(doraCapabilityDefinitions.map((capability) => capability.label));
+    const firstCard = cards.at(0);
+    const firstCapability = doraCapabilityDefinitions.at(0);
+
+    if (!firstCard || !firstCapability) {
+      throw new Error('Expected the canonical DORA capability list to be non-empty.');
+    }
+    expect(
+      within(firstCard).getByText(
+        doraCapabilityDescriptions[firstCapability.key],
+      ),
+    ).toBeTruthy();
+    expect(within(firstCard).getByText('Relevant experience')).toBeTruthy();
+  });
+
+  it('uses compact skill surfaces for the fixed carousel', () => {
+    const { getByLabelText } = renderHomePage();
     const carousel = getByLabelText('Highlighted skills');
-    const list = getByRole('region', { name: 'All skills' });
 
     expect(within(carousel).queryByText('Container')).toBeNull();
     expect(
@@ -235,8 +226,6 @@ describe('HomePage', () => {
         'Cloud-native workload operations, troubleshooting, and infrastructure practice backed by Kubernetes certification evidence.',
       ),
     ).toBeTruthy();
-    expect(within(list).queryByText('Language')).toBeNull();
-    expect(queryByText('TypeScript')).toBeTruthy();
   });
 
   it('renders skill command results as names without avatars', async () => {
@@ -254,27 +243,34 @@ describe('HomePage', () => {
     ).toBeNull();
   });
 
-  it('uses the full empty message only when no local skills are supplied', () => {
-    const { getByText } = renderHomePage({
+  it('shows no skills in the palette while keeping the empty carousel state', () => {
+    const { getByRole, getByText } = renderHomePage({
       highlightedSkills: [],
       skills: [],
     });
 
-    expect(getByText('No skills have been supplied.')).toBeTruthy();
+    fireEvent.click(getByRole('button', { name: 'Search skills' }));
+
+    expect(getByRole('dialog', { name: 'Search skills' })).toBeTruthy();
+    expect(getByText('No skills')).toBeTruthy();
     expect(getByText('No highlighted skills have been supplied.')).toBeTruthy();
   });
 
-  it('accepts supplied skills while preserving supplied highlighted skills', () => {
+  it('uses supplied skills only for text search while preserving highlighted skills', async () => {
     const suppliedSkills = skills.filter((skill) => skill.id === 'react');
 
-    const { getAllByTestId, getByText, queryByText } = renderHomePage({
+    const { getAllByTestId, getByRole } = renderHomePage({
       highlightedSkills,
       skills: suppliedSkills,
     });
 
-    expect(getAllByTestId('skill-card')).toHaveLength(6);
-    expect(getByText('React')).toBeTruthy();
-    expect(getByText('Kubernetes')).toBeTruthy();
-    expect(queryByText('TypeScript')).toBeNull();
+    expect(getAllByTestId('skill-card')).toHaveLength(5);
+    fireEvent.click(getByRole('button', { name: 'Search skills' }));
+    const dialog = getByRole('dialog', { name: 'Search skills' });
+
+    await waitFor(() => {
+      expect(within(dialog).getByText('React')).toBeTruthy();
+    });
+    expect(within(dialog).queryByText('TypeScript')).toBeNull();
   });
 });
