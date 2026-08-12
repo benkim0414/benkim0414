@@ -5,6 +5,13 @@ import { sampleProjects } from './project-list.data';
 import type { Project } from './project-list.types';
 
 const baseProject = sampleProjects[0];
+const homelabProject = sampleProjects.find(
+  (project) => project.id === 'homelab',
+);
+
+if (!homelabProject) {
+  throw new Error('Homelab project fixture is required for its visual story.');
+}
 
 const manySkillsProject: Project = {
   ...baseProject,
@@ -43,6 +50,12 @@ type Story = StoryObj<typeof ProjectCard>;
 export const Default: Story = {
   args: {
     project: baseProject,
+  },
+};
+
+export const Homelab: Story = {
+  args: {
+    project: homelabProject,
   },
 };
 

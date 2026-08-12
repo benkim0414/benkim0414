@@ -39,7 +39,7 @@ export const sampleProjects: readonly Project[] = [
   },
   {
     id: 'homelab',
-    title: 'homelab',
+    title: 'benkim0414/homelab',
     description:
       'Self-managed K3s homelab automated with Argo CD and Helm, with private networking, encrypted secrets, distributed storage, observability, databases, and off-site backups.',
     skills: [
