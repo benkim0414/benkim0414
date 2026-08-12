@@ -12,9 +12,8 @@ first and use Material Design 3 only where Astryx has no applicable guidance.
 ## Goals
 
 - Support clean skill URLs such as `/skills/kubernetes`.
-- Present the skill name, category badges, rating, description, authored usage
-  narrative, supporting experience, related projects, and certifications when
-  those records exist.
+- Present the skill name, category badges, rating, description, experience
+  evidence, related projects, and certifications when those records exist.
 - Make Kubernetes the first complete detail-page example.
 - Let all other current skills render useful basic detail pages from existing
   skill data without placeholder narratives.
@@ -46,10 +45,9 @@ Use an editorial evidence flow in one centered reading column:
 1. Breadcrumbs
 2. Skill title and categories
 3. Rating and overview description
-4. Authored "In practice" experience statement
-5. Supporting experience rows
-6. Related projects
-7. Certifications, when present
+4. An "In practice" collection of experience evidence
+5. Related projects
+6. Certifications, when present
 
 The content is full-width within phone padding. On iPad and desktop viewports,
 it grows to a comfortable article width and remains centered rather than
@@ -58,10 +56,10 @@ width must use an existing Astryx layout capability or semantic spacing-backed
 local style selected during implementation; it must preserve readable line
 length rather than fill the viewport.
 
-Experience entries render as restrained rows separated by dividers. They are
-not wrapped in individual cards. A project may use the existing `ProjectCard`
-because it is a self-contained linked portfolio object. Cards must not be
-nested.
+Experience entries render as a restrained sequence of Astryx headings and
+blockquotes. They are not separated by dividers or wrapped in individual cards.
+A project may use the existing `ProjectCard` because it is a self-contained
+linked portfolio object. Cards must not be nested.
 
 ## Routing Architecture
 
@@ -93,8 +91,6 @@ used by lists and cards. Add a separate detail record keyed by skill ID.
 The detail record contains:
 
 - `skillId`: an existing `Skill.id`.
-- `experienceSummary`: the concise, first-person experience statement shown
-  below the overview.
 - `experienceEvidenceIds`: explicit IDs of existing public-safe experience
   evidence.
 - `projectIds`: explicit IDs of existing project records.
@@ -109,14 +105,10 @@ technology labels. Focused integrity tests must verify that every referenced
 skill, evidence item, and project exists and that rendered evidence is public
 and not marked sensitive.
 
-Kubernetes receives the first complete detail record. Its authored statement is:
-
-> I've used Kubernetes to operate application platforms, manage GitOps
-> environments with Argo CD, and build reusable Kustomize foundations across
-> professional and homelab projects.
-
-Supporting rows and project content must come from existing public-safe records
-rather than newly invented claims.
+Kubernetes receives the first complete detail record. Its experience content
+comes entirely from the selected existing evidence records; the detail record
+does not duplicate those claims in a separate summary. Project content must
+also come from existing public-safe records rather than newly invented claims.
 
 If a known skill has no detail record, the page still renders its existing name,
 description, categories, rating, and certifications. It omits the experience
@@ -142,9 +134,11 @@ renders:
 - Existing `SkillCategory` instances for category badges.
 - Existing `SkillRating` for the skill level.
 - Astryx `Text` for the description.
-- Astryx `Blockquote` under the concise `In practice` heading, using the
-  component's built-in semantic markup, leading border, spacing, and text color.
-- A dedicated experience list when resolved evidence is present.
+- A dedicated experience list under the concise `In practice` heading when
+  resolved evidence is present.
+- Astryx `Heading` level 3 for each evidence title and Astryx `Blockquote` for
+  each evidence statement, using the components' built-in semantics and visual
+  treatment.
 - Related project content when resolved projects are present.
 - Existing certification citations when present.
 
@@ -165,11 +159,13 @@ collections.
 
 ### Experience List
 
-The experience list renders semantic list or section markup with dividers. Each
-row uses the existing evidence title or label and summary. Evidence facts,
-metrics, dates, and external proof links remain out of scope unless the existing
-Astryx component used during implementation exposes a compact, accessible
-pattern without expanding the approved page scope.
+The experience list renders semantic list markup without dividers. Each item
+uses its existing evidence title in an Astryx level-3 `Heading` and its summary
+in an Astryx `Blockquote`. Do not pass the optional `cite` prop: the title is a
+label for the evidence, not an attribution source. Evidence facts, metrics,
+dates, and external proof links remain out of scope unless an existing Astryx
+component exposes a compact, accessible pattern without expanding the approved
+page scope.
 
 ## Astryx and MD3 Guidance
 
@@ -218,9 +214,9 @@ design contains no custom MD3-derived styling.
 - Render one visible `h1` containing the skill name.
 - Use sequential `h2` headings for experience, projects, and certifications
   when those sections exist.
-- Render the authored experience statement with Astryx `Blockquote`. Omit its
-  optional `cite` prop because the statement is written in the portfolio
-  owner's own voice and does not need external attribution.
+- Render every experience evidence summary with Astryx `Blockquote`. Omit its
+  optional `cite` prop because the preceding level-3 heading labels the evidence
+  and is not an attribution source.
 - Give breadcrumb navigation an accessible label.
 - Use normal link semantics for breadcrumb, project, citation, and not-found
   navigation.
@@ -248,8 +244,8 @@ design contains no custom MD3-derived styling.
 Add focused automated coverage for:
 
 - `/skills/kubernetes` renders the visible `h1`, description, category badges,
-  rating, `In practice` heading, authored experience blockquote, selected
-  evidence, related project, and certifications.
+  rating, `In practice` heading, and one Astryx blockquote for each selected
+  evidence item, plus the related project and certifications.
 - A known non-enriched skill renders a basic detail page without empty
   experience or project headings.
 - An unknown skill ID and unknown route render the not-found state with a link
@@ -279,8 +275,8 @@ pnpm nx build-storybook github.io
 ```
 
 Perform browser visual checks at representative phone, iPad, and desktop
-viewports. Confirm reading width, heading hierarchy, badge wrapping, divider
-alignment, link focus treatment, and the absence of clipping or overlap.
+viewports. Confirm reading width, heading hierarchy, badge wrapping, blockquote
+border alignment, link focus treatment, and the absence of clipping or overlap.
 
 ## Risks and Mitigations
 
@@ -291,8 +287,9 @@ alignment, link focus treatment, and the absence of clipping or overlap.
   skill card, list-item, or command-palette navigation in this scope.
 - **Display-name relationship matching can drift.** Store explicit skill,
   evidence, and project IDs and validate them.
-- **Detail content can become visually fragmented.** Keep one editorial column,
-  render experience as divided rows, and avoid nested cards.
+- **Repeated blockquote borders can fragment the experience section.** Keep one
+  editorial column, group each heading tightly with its blockquote, use spacing
+  rather than dividers between items, and avoid nested cards.
 - **Professional experience may expose sensitive facts.** Reuse only evidence
   already marked public and not sensitive, and cover that constraint with data
   integrity tests.
