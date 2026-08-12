@@ -4,10 +4,10 @@ import {
   CommandPaletteInput,
 } from '@astryxdesign/core/CommandPalette';
 import { Banner } from '@astryxdesign/core/Banner';
+import { Button } from '@astryxdesign/core/Button';
 import { Icon } from '@astryxdesign/core/Icon';
 import { IconButton } from '@astryxdesign/core/IconButton';
 import { VStack } from '@astryxdesign/core/Layout';
-import { Link } from '@astryxdesign/core/Link';
 import { Text } from '@astryxdesign/core/Text';
 import { TopNav } from '@astryxdesign/core/TopNav';
 import { createStaticSource } from '@astryxdesign/core/Typeahead';
@@ -110,11 +110,11 @@ export function HomePage({
         gap={3}
         paddingBlock={4}
       >
-        <div className="px-4">
+        <VStack paddingInline={4}>
           <Text as="h2" type="body" weight="bold">
             Top skills
           </Text>
-        </div>
+        </VStack>
         <SkillCarousel
           ariaLabel="Highlighted skills"
           emptyMessage="No highlighted skills have been supplied."
@@ -138,13 +138,13 @@ export function HomePage({
         <Banner
           description="DORA capabilities are technical, process, and cultural practices associated with stronger software delivery and organizational performance. Each card connects a capability to supporting experience, certifications, and technical skills."
           endContent={
-            <Link
+            <Button
               href="https://dora.dev/capabilities/"
-              isExternalLink
-              isStandalone
-            >
-              Learn more about DORA
-            </Link>
+              label="Learn more about DORA"
+              rel="noopener noreferrer"
+              target="_blank"
+              variant="secondary"
+            />
           }
           status="info"
           title="About DORA capabilities"
