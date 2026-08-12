@@ -26,7 +26,6 @@ export function resolveSkillDetail(
       status: 'found',
       value: {
         skill,
-        experienceSummary: undefined,
         experienceEvidence: [],
         projects: [],
       },
@@ -71,7 +70,6 @@ export function resolveSkillDetail(
     status: 'found',
     value: {
       skill,
-      experienceSummary: record.experienceSummary,
       experienceEvidence,
       projects,
     },

@@ -25,19 +25,18 @@ describe('resolveSkillDetail', () => {
       'reusable-kubernetes-deployment-foundations',
     ]);
     expect(result.value.projects.map(({ id }) => id)).toEqual(['homelab']);
+    expect(result.value).not.toHaveProperty('experienceSummary');
   });
 
   it('resolves a known skill without invented enrichment', () => {
     const result = resolveSkillDetail('react', productionSources);
 
-    expect(result).toMatchObject({
-      status: 'found',
-      value: {
-        experienceSummary: undefined,
-        experienceEvidence: [],
-        projects: [],
-      },
-    });
+    expect(result.status).toBe('found');
+    if (result.status !== 'found') return;
+
+    expect(result.value.experienceEvidence).toEqual([]);
+    expect(result.value.projects).toEqual([]);
+    expect(result.value).not.toHaveProperty('experienceSummary');
   });
 
   it('distinguishes an unknown skill from a basic known skill', () => {

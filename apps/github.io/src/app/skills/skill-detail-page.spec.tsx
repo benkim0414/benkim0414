@@ -40,11 +40,11 @@ describe('SkillDetailPage', () => {
     expect(
       getByRole('heading', { level: 2, name: 'In practice' }),
     ).toBeTruthy();
-    const experienceStatement = container.querySelector('blockquote');
+    const evidenceBlockquotes = [...container.querySelectorAll('blockquote')];
 
-    expect(experienceStatement).toBeTruthy();
-    expect(experienceStatement?.textContent).toBe(
-      "I've used Kubernetes to operate application platforms, manage GitOps environments with Argo CD, and build reusable Kustomize foundations across professional and homelab projects.",
+    expect(evidenceBlockquotes).toHaveLength(detail.experienceEvidence.length);
+    expect(evidenceBlockquotes.map(({ textContent }) => textContent)).toEqual(
+      detail.experienceEvidence.map(({ summary }) => summary),
     );
     expect(getByRole('heading', { level: 2, name: 'Projects' })).toBeTruthy();
     expect(
