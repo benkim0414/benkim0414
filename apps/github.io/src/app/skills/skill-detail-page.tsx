@@ -1,5 +1,4 @@
 import { BreadcrumbItem, Breadcrumbs } from '@astryxdesign/core/Breadcrumbs';
-import { Blockquote } from '@astryxdesign/core/Blockquote';
 import { Heading } from '@astryxdesign/core/Heading';
 import { HStack, VStack } from '@astryxdesign/core/Layout';
 import { Text } from '@astryxdesign/core/Text';
@@ -80,13 +79,12 @@ export function SkillDetailPage({ detail }: SkillDetailPageProps): ReactElement 
         </Text>
       </VStack>
 
-      {detail.experienceSummary ? (
+      {detail.experienceEvidence.length > 0 ? (
         <section aria-labelledby="skill-experience-heading">
           <VStack gap={3}>
             <Heading id="skill-experience-heading" level={2}>
               In practice
             </Heading>
-            <Blockquote>{detail.experienceSummary}</Blockquote>
             <SkillExperienceList evidence={detail.experienceEvidence} />
           </VStack>
         </section>

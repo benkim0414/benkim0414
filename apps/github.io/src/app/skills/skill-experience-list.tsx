@@ -1,7 +1,6 @@
-import { Divider } from '@astryxdesign/core/Divider';
+import { Blockquote } from '@astryxdesign/core/Blockquote';
 import { Heading } from '@astryxdesign/core/Heading';
 import { VStack } from '@astryxdesign/core/Layout';
-import { Text } from '@astryxdesign/core/Text';
 import * as stylex from '@stylexjs/stylex';
 import type { ReactElement } from 'react';
 
@@ -27,14 +26,11 @@ export function SkillExperienceList({
 }: SkillExperienceListProps): ReactElement {
   return (
     <ul aria-label="Supporting experience" {...stylex.props(styles.list)}>
-      {evidence.map((item, index) => (
+      {evidence.map((item) => (
         <li key={item.id} {...stylex.props(styles.item)}>
-          {index > 0 ? <Divider variant="subtle" /> : null}
           <VStack gap={1} paddingBlock={3}>
             <Heading level={3}>{item.title}</Heading>
-            <Text as="p" type="body" color="secondary">
-              {item.summary}
-            </Text>
+            <Blockquote>{item.summary}</Blockquote>
           </VStack>
         </li>
       ))}

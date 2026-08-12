@@ -11,24 +11,23 @@ const experienceFixtures = devOpsCapabilityEvidenceItems.filter((item) =>
 );
 
 describe('SkillExperienceList', () => {
-  it('renders public evidence as divided semantic rows', () => {
+  it('renders every evidence summary as an Astryx blockquote', () => {
     expect(experienceFixtures).toHaveLength(2);
 
-    const { getAllByRole, getByRole, getByText, queryByTestId } = render(
+    const { container, getAllByRole, getByRole, queryAllByRole } = render(
       <SkillExperienceList evidence={experienceFixtures} />,
     );
 
     expect(getByRole('list', { name: 'Supporting experience' })).toBeTruthy();
     expect(getAllByRole('listitem')).toHaveLength(2);
-    expect(
-      getByRole('heading', {
-        level: 3,
-        name: 'Environment state from version control',
-      }),
-    ).toBeTruthy();
-    expect(getByText(experienceFixtures[0].summary)).toBeTruthy();
-    expect(getByText(experienceFixtures[1].summary)).toBeTruthy();
-    expect(queryByTestId('skill-card')).toBeNull();
-    expect(queryByTestId('project-card')).toBeNull();
+    expect(getAllByRole('heading', { level: 3 })).toHaveLength(2);
+
+    const blockquotes = [...container.querySelectorAll('blockquote')];
+
+    expect(blockquotes).toHaveLength(2);
+    expect(blockquotes.map(({ textContent }) => textContent)).toEqual(
+      experienceFixtures.map(({ summary }) => summary),
+    );
+    expect(queryAllByRole('separator')).toHaveLength(0);
   });
 });

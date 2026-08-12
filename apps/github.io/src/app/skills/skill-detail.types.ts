@@ -4,7 +4,6 @@ import type { Skill } from './skill-list.types';
 
 export interface SkillDetailRecord {
   readonly skillId: string;
-  readonly experienceSummary: string;
   readonly experienceEvidenceIds: readonly string[];
   readonly projectIds: readonly string[];
 }
@@ -18,7 +17,6 @@ export interface SkillDetailSources {
 
 export interface ResolvedSkillDetail {
   readonly skill: Skill;
-  readonly experienceSummary?: string;
   readonly experienceEvidence: readonly CapabilityEvidenceItem[];
   readonly projects: readonly Project[];
 }
