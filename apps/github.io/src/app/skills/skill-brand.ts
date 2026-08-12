@@ -25,7 +25,9 @@ import {
   siJest,
   siJson,
   siJfrog,
+  siK3s,
   siKubernetes,
+  siLonghorn,
   siLua,
   siMarkdown,
   siNeovim,
@@ -38,9 +40,13 @@ import {
   siPostgresql,
   siPython,
   siReact,
+  siRedis,
+  siRenovate,
   siStarship,
+  siTailscale,
   siToml,
   siTerraform,
+  siTraefikproxy,
   siTmux,
   siTypescript,
   siUdemy,
@@ -62,6 +68,8 @@ import lambdaIconUrl from '../../assets/skills/aws/aws-lambda.svg?no-inline';
 import awsLogoUrl from '../../assets/skills/aws/aws-logo.svg?no-inline';
 import alloyIconUrl from '../../assets/skills/grafana/alloy-icon-orange.svg?no-inline';
 import lokiIconUrl from '../../assets/skills/grafana/loki-icon.svg?no-inline';
+import kubeVipIconUrl from '../../assets/skills/kube-vip/kube-vip.png';
+import metallbIconUrl from '../../assets/skills/metallb/metallb.svg?no-inline';
 import testcontainersIconUrl from '../../assets/skills/testcontainers/testcontainers-mark.svg?no-inline';
 
 export interface SkillBrand {
@@ -107,11 +115,13 @@ const skillIcons: Readonly<Record<string, SimpleIcon>> = {
   Artifactory: siJfrog,
   Jest: siJest,
   JSON: siJson,
+  K3s: siK3s,
   Kubernetes: siKubernetes,
   'Kubernetes RBAC': siKubernetes,
   Kustomize: siKubernetes,
   kubectl: siKubernetes,
   Lua: siLua,
+  Longhorn: siLonghorn,
   Markdown: siMarkdown,
   Neovim: siNeovim,
   Nginx: siNginx,
@@ -125,8 +135,12 @@ const skillIcons: Readonly<Record<string, SimpleIcon>> = {
   PostgreSQL: siPostgresql,
   Python: siPython,
   React: siReact,
+  Redis: siRedis,
+  Renovate: siRenovate,
   Starship: siStarship,
   Terraform: siTerraform,
+  Tailscale: siTailscale,
+  Traefik: siTraefikproxy,
   tmux: siTmux,
   TOML: siToml,
   TypeScript: siTypescript,
@@ -150,6 +164,8 @@ const skillIconAssets: Readonly<Record<string, string>> = {
   'AWS Systems Manager Parameter Store': systemsManagerIconUrl,
   Alloy: alloyIconUrl,
   Loki: lokiIconUrl,
+  MetalLB: metallbIconUrl,
+  'kube-vip': kubeVipIconUrl,
   Testcontainers: testcontainersIconUrl,
 };
 
@@ -166,6 +182,8 @@ const skillBrandColors: Readonly<Record<string, string>> = {
   'AWS Systems Manager Parameter Store': '#FFFFFF',
   Alloy: '#FFFFFF',
   Loki: '#FFFFFF',
+  MetalLB: '#FFFFFF',
+  'kube-vip': '#FFFFFF',
   Testcontainers: '#FFFFFF',
 };
 
