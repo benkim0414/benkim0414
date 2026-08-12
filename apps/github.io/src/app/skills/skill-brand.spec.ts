@@ -43,6 +43,25 @@ const cdSkillNames = [
 ] as const;
 
 describe('getSkillBrand', () => {
+  it('marks Simple Icons metadata as an official brand surface', () => {
+    expect(getSkillBrand('Docker')?.surface).toBe('brand');
+  });
+
+  it.each([
+    'Amazon S3',
+    'Alloy',
+    'Codex',
+    'gh-dash',
+    'Herdr',
+    'Loki',
+    'MetalLB',
+    'mise',
+    'kube-vip',
+    'Yazi',
+  ])('marks audited custom-image skill %s as a neutral surface', (skill) => {
+    expect(getSkillBrand(skill)?.surface).toBe('neutral');
+  });
+
   it.each([
     ['K3s', siK3s],
     ['Tailscale', siTailscale],
@@ -253,6 +272,7 @@ describe('getSkillBrand', () => {
       name: 'Kubernetes',
       color: '#326CE5',
       foreground: 'var(--color-on-dark)',
+      surface: 'brand',
     });
     expect(brand?.iconPath).toBeTruthy();
     expect(brand?.iconDataUrl).toContain('data:image/svg+xml;utf8,');
