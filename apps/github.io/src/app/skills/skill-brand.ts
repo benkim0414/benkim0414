@@ -209,6 +209,7 @@ const skillBrandColors: Readonly<Record<string, string>> = {
 };
 
 const skillBrandSurfaces: Readonly<Record<string, SkillBrandSurface>> = {
+  Ansible: 'neutral',
   'Amazon S3': 'neutral',
   Alloy: 'neutral',
   Codex: 'neutral',
