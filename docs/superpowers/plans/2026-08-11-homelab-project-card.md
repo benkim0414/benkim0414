@@ -36,7 +36,7 @@
 - `apps/github.io/src/assets/skills/kube-vip/kube-vip.png`: vendored official kube-vip artwork.
 - `apps/github.io/src/assets/skills/README.md`: records asset provenance and licensing.
 
-### Task 1: Finalize the Homelab title and permanent story
+### Task 2: Finalize the Homelab title and permanent story
 
 **Files:**
 - Modify: `apps/github.io/src/app/projects/project-card.spec.tsx`
@@ -127,7 +127,7 @@ git commit -m "feat(github.io): finalize homelab card title"
 
 Expected: only the title, permanent Homelab story, and their tests are staged.
 
-### Task 2: Add all available official Homelab skill logos
+### Task 3: Add all available official Homelab skill logos
 
 **Files:**
 - Create: `apps/github.io/src/assets/skills/metallb/metallb.svg`
@@ -324,7 +324,7 @@ Do not add entries for Sealed Secrets or NFS.
 
 - [ ] **Step 6: Run focused tests and verify they pass**
 
-Run the resolver test from Step 2 and the project-card test from Task 1.
+Run the resolver test from Step 2 and the project-card test from Task 2.
 
 Expected: both files PASS, proving exact mappings, vendored URLs, full Homelab
 coverage, and text-only fallbacks.
@@ -344,7 +344,7 @@ git commit -m "feat(github.io): add homelab skill logos"
 Expected: only the resolver, tests, provenance, and two official assets are
 staged. Inspect the binary path and size in `--stat` before committing.
 
-### Task 3: Validate the complete card and inspect it from iPad
+### Task 4: Validate the complete card and inspect it from iPad
 
 **Files:**
 - Verify only; modify implementation files only if a check exposes a defect.
