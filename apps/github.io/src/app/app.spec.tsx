@@ -155,10 +155,7 @@ describe('AppRoutes', () => {
 
     expect(getByRole('heading', { level: 1, name: 'Kubernetes' })).toBeTruthy();
     expect(
-      getByRole('heading', {
-        level: 2,
-        name: "How I've used Kubernetes",
-      }),
+      getByRole('heading', { level: 2, name: 'In practice' }),
     ).toBeTruthy();
   });
 

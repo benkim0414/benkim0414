@@ -27,7 +27,9 @@ function getResolvedDetail(skillId: string) {
 describe('SkillDetailPage', () => {
   it('renders the enriched Kubernetes detail surface', () => {
     const detail = getResolvedDetail('kubernetes');
-    const { getByRole, getByText } = render(<SkillDetailPage detail={detail} />);
+    const { container, getByRole, getByText } = render(
+      <SkillDetailPage detail={detail} />,
+    );
 
     expect(getByRole('main')).toBeTruthy();
     expect(getByRole('navigation', { name: 'Skill breadcrumb' })).toBeTruthy();
@@ -36,11 +38,14 @@ describe('SkillDetailPage', () => {
     expect(getByText('Cloud')).toBeTruthy();
     expect(getByText('4 out of 5')).toBeTruthy();
     expect(
-      getByRole('heading', {
-        level: 2,
-        name: "How I've used Kubernetes",
-      }),
+      getByRole('heading', { level: 2, name: 'In practice' }),
     ).toBeTruthy();
+    const experienceStatement = container.querySelector('blockquote');
+
+    expect(experienceStatement).toBeTruthy();
+    expect(experienceStatement?.textContent).toBe(
+      "I've used Kubernetes to operate application platforms, manage GitOps environments with Argo CD, and build reusable Kustomize foundations across professional and homelab projects.",
+    );
     expect(getByRole('heading', { level: 2, name: 'Projects' })).toBeTruthy();
     expect(
       getByRole('heading', { level: 3, name: 'benkim0414/homelab' }),
