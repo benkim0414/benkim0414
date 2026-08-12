@@ -40,7 +40,7 @@ describe('project data', () => {
 
     expect(project).toEqual({
       id: 'homelab',
-      title: 'homelab',
+      title: 'benkim0414/homelab',
       description:
         'Self-managed K3s homelab automated with Argo CD and Helm, with private networking, encrypted secrets, distributed storage, observability, databases, and off-site backups.',
       skills: [
@@ -158,6 +158,9 @@ describe('ProjectCard', () => {
 describe('ProjectCard stories', () => {
   it('exports the expected story fixtures', () => {
     expect(stories.Default.args?.project?.id).toBe('dotfiles');
+    expect(stories.Homelab.args?.project?.id).toBe('homelab');
+    expect(stories.Homelab.args?.project?.title).toBe('benkim0414/homelab');
+    expect(stories.Homelab.args?.project?.skills).toHaveLength(20);
     expect(stories.ManySkills.args?.project?.skills.length).toBeGreaterThan(8);
     expect(stories.LongCopy.args?.project?.title).toContain('observability');
     expect(stories.FullWidth.parameters?.viewport?.defaultViewport).toBe(
