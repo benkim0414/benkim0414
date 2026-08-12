@@ -1,4 +1,4 @@
-import { render } from '@testing-library/react';
+import { render, within } from '@testing-library/react';
 
 import { devOpsCapabilityEvidenceItems } from '../devops-capability-evidence/devops-capability-evidence.data';
 import { sampleProjects } from '../projects/project-list.data';
@@ -27,16 +27,41 @@ function getResolvedDetail(skillId: string) {
 describe('SkillDetailPage', () => {
   it('renders the enriched Kubernetes detail surface', () => {
     const detail = getResolvedDetail('kubernetes');
-    const { container, getByRole, getByText } = render(
+    const {
+      container,
+      getAllByTestId,
+      getAllByText,
+      getByRole,
+      getByTestId,
+      queryByRole,
+    } = render(
       <SkillDetailPage detail={detail} />,
     );
+    const metadata = getByTestId('skill-metadata');
+    const metadataQueries = within(metadata);
 
     expect(getByRole('main')).toBeTruthy();
     expect(getByRole('navigation', { name: 'Skill breadcrumb' })).toBeTruthy();
     expect(getByRole('heading', { level: 1, name: 'Kubernetes' })).toBeTruthy();
-    expect(getByText('Container')).toBeTruthy();
-    expect(getByText('Cloud')).toBeTruthy();
-    expect(getByText('4 out of 5')).toBeTruthy();
+    expect(metadata.querySelector('dl')).toBeTruthy();
+    expect(
+      metadataQueries.getByText('Categories', { selector: 'dt' }),
+    ).toBeTruthy();
+    expect(metadataQueries.getByText('Rating', { selector: 'dt' })).toBeTruthy();
+    expect(
+      metadataQueries.getByText('Certifications', { selector: 'dt' }),
+    ).toBeTruthy();
+    expect(
+      [...metadata.querySelectorAll(':scope > dl > div > dt')].map(
+        ({ textContent }) => textContent,
+      ),
+    ).toEqual(['Categories', 'Rating', 'Certifications']);
+    expect(getAllByText('Container')).toHaveLength(1);
+    expect(getAllByText('Cloud')).toHaveLength(1);
+    expect(getAllByText('4 out of 5')).toHaveLength(1);
+    expect(getAllByTestId('certification-citation')).toHaveLength(
+      detail.skill.certifications?.length ?? 0,
+    );
     expect(
       getByRole('heading', { level: 2, name: 'In practice' }),
     ).toBeTruthy();
@@ -51,20 +76,32 @@ describe('SkillDetailPage', () => {
       getByRole('heading', { level: 3, name: 'benkim0414/homelab' }),
     ).toBeTruthy();
     expect(
-      getByRole('heading', { level: 2, name: 'Certifications' }),
-    ).toBeTruthy();
+      queryByRole('heading', { level: 2, name: 'Certifications' }),
+    ).toBeNull();
   });
 
   it('renders a basic skill without empty enrichment sections', () => {
     const detail = getResolvedDetail('react');
-    const { getByRole, getByText, queryByRole } = render(
+    const { getByRole, getByText, getByTestId, queryByRole } = render(
       <SkillDetailPage detail={detail} />,
     );
+    const metadata = getByTestId('skill-metadata');
+    const metadataQueries = within(metadata);
 
     expect(getByRole('heading', { level: 1, name: 'React' })).toBeTruthy();
     expect(getByText(detail.skill.description)).toBeTruthy();
     expect(getByText('Framework')).toBeTruthy();
     expect(getByText('3 out of 5')).toBeTruthy();
+    expect(
+      metadataQueries.getByText('Categories', { selector: 'dt' }),
+    ).toBeTruthy();
+    expect(metadataQueries.getByText('Rating', { selector: 'dt' })).toBeTruthy();
+    expect(
+      metadataQueries.queryByText('Certifications', { selector: 'dt' }),
+    ).toBeNull();
+    expect(metadataQueries.queryAllByTestId('certification-citation')).toHaveLength(
+      0,
+    );
     expect(
       queryByRole('heading', { level: 2, name: 'In practice' }),
     ).toBeNull();
