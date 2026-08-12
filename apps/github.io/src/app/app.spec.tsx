@@ -76,7 +76,7 @@ describe('App', () => {
     expect(getByLabelText('Highlighted skills')).toBeTruthy();
     expect(getAllByTestId('skill-card')).toHaveLength(5);
     expect(getAllByTestId('dora-capability-card')).toHaveLength(10);
-    expect(getByRole('link', { name: /Learn more about DORA/ })).toBeTruthy();
+    expect(getByRole('link', { name: 'Learn more' })).toBeTruthy();
     expect(getByText('DORA capabilities')).toBeTruthy();
   });
 

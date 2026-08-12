@@ -94,9 +94,9 @@ Its title is `About DORA capabilities`, and its description is:
 > connects a capability to supporting experience, certifications, and technical
 > skills.
 
-The end action is an Astryx `Link` with the descriptive text
-`Learn more about DORA`, `href="https://dora.dev/capabilities/"`, and external
-link behavior. The capabilities catalog is the canonical destination for this
+The end action is an Astryx secondary `Button` with the concise text
+`Learn more`, `href="https://dora.dev/capabilities/"`, and external-link
+behavior. The capabilities catalog is the canonical destination for this
 section and covers the capabilities shown by the app.
 
 ## DORA Card Composition and Data Flow
@@ -147,7 +147,7 @@ Focused tests and Storybook coverage will verify:
 - Empty skill and highlighted-skill inputs retain their respective search and
   carousel empty states.
 - The informational banner contains the approved copy and an external
-  `Learn more about DORA` link to `https://dora.dev/capabilities/`.
+  `Learn more` link to `https://dora.dev/capabilities/`.
 - Exactly ten DORA cards render in the canonical definition order.
 - Cards receive the existing descriptions, evidence catalog, and curated
   scores, preserving evidence-backed summaries and rows.

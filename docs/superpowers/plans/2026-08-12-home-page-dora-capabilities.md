@@ -17,7 +17,7 @@
 - Use visible labels exactly as `Top skills` and `DORA capabilities`.
 - Use banner title exactly as `About DORA capabilities`.
 - Use this banner description exactly: `DORA capabilities are technical, process, and cultural practices associated with stronger software delivery and organizational performance. Each card connects a capability to supporting experience, certifications, and technical skills.`
-- Use external link text exactly as `Learn more about DORA` and destination exactly as `https://dora.dev/capabilities/`.
+- Use external link text exactly as `Learn more` and destination exactly as `https://dora.dev/capabilities/`.
 - Do not implement a skill-detail page, route, navigation action, DORA card redesign, evidence/scoring change, or broader responsive-shell work.
 - Stage explicit paths only and use conventional commits with the `github.io` scope.
 - Keep each task in a separate logical commit and run both the specification and code-quality review gates required by `superpowers:subagent-driven-development`.
@@ -347,7 +347,7 @@ it('keeps top skills fixed above the scrollable DORA section', () => {
   expect(main.className).toContain('astryx-stack');
 });
 
-it('explains DORA and links to the official capability catalog', () => {
+it('explains DORA and uses a secondary button for the official capability catalog', () => {
   const { getByRole, getByText } = renderHomePage();
 
   expect(getByText('About DORA capabilities')).toBeTruthy();
@@ -356,10 +356,13 @@ it('explains DORA and links to the official capability catalog', () => {
       'DORA capabilities are technical, process, and cultural practices associated with stronger software delivery and organizational performance. Each card connects a capability to supporting experience, certifications, and technical skills.',
     ),
   ).toBeTruthy();
-  const link = getByRole('link', { name: /Learn more about DORA/ });
-  expect(link.getAttribute('href')).toBe('https://dora.dev/capabilities/');
-  expect(link.getAttribute('target')).toBe('_blank');
-  expect(link.getAttribute('rel')).toContain('noopener');
+  const cta = getByRole('link', { name: 'Learn more' });
+  expect(cta.className).toContain('astryx-button');
+  expect(cta.getAttribute('data-variant')).toBe('secondary');
+  expect(cta.getAttribute('href')).toBe('https://dora.dev/capabilities/');
+  expect(cta.getAttribute('target')).toBe('_blank');
+  expect(cta.getAttribute('rel')).toContain('noopener');
+  expect(cta.getAttribute('rel')).toContain('noreferrer');
 });
 
 it('renders all evidence-backed DORA cards in canonical order', () => {
@@ -439,13 +442,13 @@ Replace the scrollable main contents with:
   <Banner
     description="DORA capabilities are technical, process, and cultural practices associated with stronger software delivery and organizational performance. Each card connects a capability to supporting experience, certifications, and technical skills."
     endContent={
-      <Link
+      <Button
         href="https://dora.dev/capabilities/"
-        isExternalLink
-        isStandalone
-      >
-        Learn more about DORA
-      </Link>
+        label="Learn more"
+        rel="noopener noreferrer"
+        target="_blank"
+        variant="secondary"
+      />
     }
     status="info"
     title="About DORA capabilities"

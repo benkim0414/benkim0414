@@ -202,7 +202,7 @@ describe('HomePage', () => {
         'DORA capabilities are technical, process, and cultural practices associated with stronger software delivery and organizational performance. Each card connects a capability to supporting experience, certifications, and technical skills.',
       ),
     ).toBeTruthy();
-    const cta = getByRole('link', { name: /Learn more about DORA/ });
+    const cta = getByRole('link', { name: 'Learn more' });
     expect(cta.className).toContain('astryx-button');
     expect(cta.getAttribute('data-variant')).toBe('secondary');
     expect(cta.getAttribute('href')).toBe('https://dora.dev/capabilities/');
