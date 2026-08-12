@@ -87,7 +87,7 @@ wrong navigation semantics.
 
 The banner uses `status="info"` and its default card container. It is not
 dismissable because the explanation provides enduring context for the section.
-Its copy is:
+Its title is `About DORA capabilities`, and its description is:
 
 > DORA capabilities are technical, process, and cultural practices associated
 > with stronger software delivery and organizational performance. Each card
