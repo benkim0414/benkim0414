@@ -143,6 +143,28 @@ describe('SkillToken', () => {
     expect(path?.getAttribute('fill')).toBe('#2496ED');
   });
 
+  // Production mutation caught: removing Ansible's neutral surface restores
+  // the inaccessible 12px label on its #EE0000 brand background.
+  it('keeps Ansible on the accessible Astryx gray token surface', () => {
+    const { container, getByTestId } = render(
+      <>
+        <SkillToken label="Ansible" />
+        <Token
+          color="gray"
+          data-testid="gray-reference"
+          label="Reference"
+          size="sm"
+        />
+      </>,
+    );
+    const token = getByTestId('skill-token');
+    const path = container.querySelector('[data-testid="skill-token"] path');
+
+    expect(token.className).toBe(getByTestId('gray-reference').className);
+    expect(token.getAttribute('style')).toBeNull();
+    expect(path?.getAttribute('fill')).toBe('#EE0000');
+  });
+
   it('renders Conventional Commits with its official icon on the neutral surface', () => {
     const { container, getByTestId } = render(
       <>
