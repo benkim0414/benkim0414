@@ -5,7 +5,7 @@ import {
 } from '@astryxdesign/core/CommandPalette';
 import { Icon } from '@astryxdesign/core/Icon';
 import { IconButton } from '@astryxdesign/core/IconButton';
-import { HStack, VStack } from '@astryxdesign/core/Layout';
+import { VStack } from '@astryxdesign/core/Layout';
 import { Text } from '@astryxdesign/core/Text';
 import { TopNav } from '@astryxdesign/core/TopNav';
 import { createStaticSource } from '@astryxdesign/core/Typeahead';
@@ -17,7 +17,6 @@ import {
 } from './skill-list.data';
 import { SkillCardList } from './skill-card-list';
 import { SkillCarousel } from './skill-carousel';
-import { SkillAvatar } from './skill-avatar';
 import type { Skill } from './skill-list.types';
 
 interface SkillCommandAuxiliaryData {
@@ -31,26 +30,16 @@ interface SkillCommandItem {
   auxiliaryData: SkillCommandAuxiliaryData;
 }
 
-export interface MobileSkillsPageProps {
+export interface HomePageProps {
   skills?: readonly Skill[];
   highlightedSkills?: readonly Skill[];
 }
 
-function SkillCommandResult({ skill }: { skill: Skill }): ReactElement {
-  return (
-    <HStack gap={2} vAlign="center">
-      <SkillAvatar skill={skill} size="tiny" />
-      <Text type="body">{skill.name}</Text>
-    </HStack>
-  );
-}
-
-export function MobileSkillsPage({
+export function HomePage({
   skills = defaultSkills,
   highlightedSkills = defaultHighlightedSkills,
-}: MobileSkillsPageProps): ReactElement {
+}: HomePageProps): ReactElement {
   const [isSearchOpen, setIsSearchOpen] = useState(false);
-  const [selectedSkillId, setSelectedSkillId] = useState('');
   const skillCommandItems = useMemo<SkillCommandItem[]>(
     () =>
       skills.map((skill) => ({
@@ -74,15 +63,6 @@ export function MobileSkillsPage({
       }),
     [skillCommandItems],
   );
-  const visibleSkills =
-    selectedSkillId.length === 0
-      ? skills
-      : skills.filter((skill) => skill.id === selectedSkillId);
-  const listEmptyMessage =
-    skills.length === 0
-      ? 'No skills have been supplied.'
-      : 'No skills match your search.';
-
   return (
     <div className="mx-auto flex h-dvh min-h-screen w-full max-w-md flex-col overflow-hidden">
       <TopNav
@@ -98,6 +78,9 @@ export function MobileSkillsPage({
         }
         label="Mobile navigation"
       />
+      <VisuallyHidden as="h1" id="home-page-title">
+        Home
+      </VisuallyHidden>
       <CommandPalette
         isOpen={isSearchOpen}
         input={
@@ -108,18 +91,22 @@ export function MobileSkillsPage({
         }
         label="Search skills"
         maxHeight="min(80vh, 480px)"
-        renderItem={(item) => (
-          <SkillCommandResult skill={item.auxiliaryData.skill} />
-        )}
         searchSource={skillSearchSource}
-        value={selectedSkillId}
         width="min(calc(100vw - 32px), 448px)"
         emptyBootstrapText="No skills"
         emptySearchText="No skills"
         onOpenChange={setIsSearchOpen}
-        onValueChange={setSelectedSkillId}
       />
-      <div className="shrink-0 bg-[var(--color-background-surface)] pt-4">
+      <VStack
+        className="shrink-0 bg-[var(--color-background-surface)]"
+        gap={3}
+        paddingBlock={4}
+      >
+        <div className="px-4">
+          <Text as="h2" type="body" weight="bold">
+            Top skills
+          </Text>
+        </div>
         <SkillCarousel
           ariaLabel="Highlighted skills"
           emptyMessage="No highlighted skills have been supplied."
@@ -127,9 +114,9 @@ export function MobileSkillsPage({
           skills={highlightedSkills}
           variant="compact"
         />
-      </div>
+      </VStack>
       <VStack
-        aria-labelledby="skills-page-title"
+        aria-labelledby="home-page-title"
         as="main"
         className="min-h-0 flex-1"
         gap={3}
@@ -137,18 +124,10 @@ export function MobileSkillsPage({
         paddingBlock={4}
         paddingInline={4}
       >
-        <VisuallyHidden as="h1" id="skills-page-title">
-          Skills
-        </VisuallyHidden>
         <Text as="h2" type="body" weight="bold">
           All skills
         </Text>
-        <SkillCardList
-          emptyMessage={listEmptyMessage}
-          heading="All skills"
-          skills={visibleSkills}
-          variant="compact"
-        />
+        <SkillCardList heading="All skills" skills={skills} variant="compact" />
       </VStack>
     </div>
   );
