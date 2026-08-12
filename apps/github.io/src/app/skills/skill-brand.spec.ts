@@ -1,3 +1,12 @@
+import {
+  siK3s,
+  siLonghorn,
+  siRedis,
+  siRenovate,
+  siTailscale,
+  siTraefikproxy,
+} from 'simple-icons';
+
 import { getSkillBrand, hasSkillBrandIcon } from './skill-brand';
 
 const ciSkillNames = [
@@ -34,6 +43,61 @@ const cdSkillNames = [
 ] as const;
 
 describe('getSkillBrand', () => {
+  it.each([
+    ['K3s', siK3s],
+    ['Tailscale', siTailscale],
+    ['Traefik', siTraefikproxy],
+    ['Longhorn', siLonghorn],
+    ['Redis', siRedis],
+    ['Renovate', siRenovate],
+  ] as const)('uses the exact official Simple Icon for %s', (skill, icon) => {
+    expect(getSkillBrand(skill)?.iconPath).toBe(icon.path);
+  });
+
+  it.each([
+    ['MetalLB', /metallb.*\.svg/],
+    ['kube-vip', /kube-vip.*\.png/],
+  ] as const)('uses the official vendored project asset for %s', (skill, asset) => {
+    const brand = getSkillBrand(skill);
+
+    expect(brand?.iconPath).toBeUndefined();
+    expect(brand?.iconDataUrl).toMatch(asset);
+  });
+
+  it('provides an icon for every Homelab skill with an official mark', () => {
+    const iconBackedSkills = [
+      'K3s',
+      'Argo CD',
+      'Helm',
+      'Ansible',
+      'kubectl',
+      'Tailscale',
+      'Traefik',
+      'Longhorn',
+      'MetalLB',
+      'kube-vip',
+      'Prometheus',
+      'Grafana',
+      'Loki',
+      'Alloy',
+      'PostgreSQL',
+      'Redis',
+      'AWS',
+      'Renovate',
+    ];
+
+    for (const skill of iconBackedSkills) {
+      expect(hasSkillBrandIcon(getSkillBrand(skill)), skill).toBe(true);
+    }
+  });
+
+  it.each(['Sealed Secrets', 'NFS'])(
+    'keeps %s text-only because it has no official product logo',
+    (skill) => {
+      expect(hasSkillBrandIcon(getSkillBrand(skill))).toBe(false);
+    },
+  );
+
   it.each([
     'Git',
     'GitHub Actions',

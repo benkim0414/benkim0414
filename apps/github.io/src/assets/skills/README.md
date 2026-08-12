@@ -59,3 +59,23 @@ Kustomize does not publish a dedicated official brand asset. The UI uses the
 Kubernetes mark from the installed Simple Icons package as a contextual fallback
 because Kustomize is Kubernetes SIG CLI tooling and is integrated into `kubectl`.
 The Kubernetes mark is not represented as a distinct Kustomize brand.
+
+## MetalLB project logo
+
+- Source: [`metallb/metallb`](https://github.com/metallb/metallb/blob/main/website/static/images/logo/metallb-blue.svg)
+- Retrieval date: 2026-08-12
+- Source repository license: Apache-2.0
+
+The local SVG is the unmodified blue MetalLB artwork published in the official
+project repository. The logo remains the property of its project; the
+repository license is recorded as provenance rather than a trademark grant.
+
+## kube-vip project logo
+
+- Source: [`kube-vip/kube-vip`](https://github.com/kube-vip/kube-vip/blob/main/kube-vip.png)
+- Retrieval date: 2026-08-12
+- Source repository license: Apache-2.0
+
+The local PNG is the unmodified project artwork published by kube-vip's
+official repository. The logo remains the property of its project; the
+repository license is recorded as provenance rather than a trademark grant.
