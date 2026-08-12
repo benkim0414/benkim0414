@@ -1,7 +1,8 @@
 import { fireEvent, render, waitFor, within } from '@testing-library/react';
-import { vi } from 'vitest';
+import { MemoryRouter } from 'react-router-dom';
+import { beforeEach, vi } from 'vitest';
 
-import App from './app';
+import App, { AppRoutes } from './app';
 
 vi.stubGlobal(
   'ResizeObserver',
@@ -43,12 +44,17 @@ HTMLDialogElement.prototype.close = vi.fn(function close(
 });
 
 describe('App', () => {
+  beforeEach(() => {
+    window.history.replaceState({}, '', '/');
+  });
+
   it('renders the mobile-only skills page with a scroll-persistent search nav', () => {
     const {
       getAllByTestId,
       getByLabelText,
       getByRole,
       getByText,
+      queryByLabelText,
       queryByRole,
       queryByText,
     } = render(<App />);
@@ -68,6 +74,8 @@ describe('App', () => {
     expect(main.className).toContain('astryx-stack');
     expect(navigation).toBeTruthy();
     expect(queryByText('Ben Kim')).toBeNull();
+    expect(queryByLabelText('Skill breadcrumb')).toBeNull();
+    expect(queryByRole('link', { name: 'Skills' })).toBeNull();
     expect(queryByRole('search', { name: 'Skill search' })).toBeNull();
     expect(queryByRole('combobox', { name: 'Search skills' })).toBeNull();
     expect(getByRole('button', { name: 'Search skills' })).toBeTruthy();
@@ -116,8 +124,9 @@ describe('App', () => {
     const list = getByRole('region', { name: 'All skills' });
 
     expect(getAllByTestId('skill-card')).toHaveLength(6);
-    expect(within(carousel).getByRole('heading', { name: 'Kubernetes' }))
-      .toBeTruthy();
+    expect(
+      within(carousel).getByRole('heading', { name: 'Kubernetes' }),
+    ).toBeTruthy();
     expect(within(list).getByText('Terraform')).toBeTruthy();
   });
 
@@ -129,5 +138,61 @@ describe('App', () => {
     expect(queryByText('Generic Layout Skeleton')).toBeNull();
     expect(queryByText('Content Region')).toBeNull();
     expect(queryByText('Footer Region')).toBeNull();
+  });
+});
+
+describe('AppRoutes', () => {
+  beforeEach(() => {
+    window.history.replaceState({}, '', '/');
+  });
+
+  it('renders Kubernetes skill detail for its clean route', () => {
+    const { getByRole } = render(
+      <MemoryRouter initialEntries={['/skills/kubernetes']}>
+        <AppRoutes />
+      </MemoryRouter>,
+    );
+
+    expect(getByRole('heading', { level: 1, name: 'Kubernetes' })).toBeTruthy();
+    expect(
+      getByRole('heading', {
+        level: 2,
+        name: "How I've used Kubernetes",
+      }),
+    ).toBeTruthy();
+  });
+
+  it('renders React skill detail for its clean route', () => {
+    const { getByRole } = render(
+      <MemoryRouter initialEntries={['/skills/react']}>
+        <AppRoutes />
+      </MemoryRouter>,
+    );
+
+    expect(getByRole('heading', { level: 1, name: 'React' })).toBeTruthy();
+  });
+
+  it('renders the skill not found page for an unknown skill route', () => {
+    const { getByRole } = render(
+      <MemoryRouter initialEntries={['/skills/not-real']}>
+        <AppRoutes />
+      </MemoryRouter>,
+    );
+
+    expect(
+      getByRole('heading', { level: 1, name: 'Skill not found' }),
+    ).toBeTruthy();
+  });
+
+  it('renders the skill not found page for an unknown route', () => {
+    const { getByRole } = render(
+      <MemoryRouter initialEntries={['/not-a-route']}>
+        <AppRoutes />
+      </MemoryRouter>,
+    );
+
+    expect(
+      getByRole('heading', { level: 1, name: 'Skill not found' }),
+    ).toBeTruthy();
   });
 });

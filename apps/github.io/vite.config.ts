@@ -1,4 +1,5 @@
 /// <reference types='vitest' />
+import { resolve } from 'node:path';
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 import stylex from '@stylexjs/unplugin';
@@ -41,11 +42,7 @@ export default defineConfig(({ mode }) => ({
     host: 'localhost',
   },
 
-  plugins: [
-    getStylexPlugin(mode),
-    react(),
-    nxViteTsPaths(),
-  ],
+  plugins: [getStylexPlugin(mode), react(), nxViteTsPaths()],
 
   // Uncomment this if you are using workers.
   // worker: {
@@ -56,6 +53,12 @@ export default defineConfig(({ mode }) => ({
     outDir: '../../dist/apps/github.io',
     emptyOutDir: true,
     reportCompressedSize: true,
+    rollupOptions: {
+      input: {
+        main: resolve(__dirname, 'index.html'),
+        notFound: resolve(__dirname, '404.html'),
+      },
+    },
     commonjsOptions: {
       transformMixedEsModules: true,
     },
