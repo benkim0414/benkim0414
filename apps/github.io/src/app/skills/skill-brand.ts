@@ -78,10 +78,13 @@ import miseIconUrl from '../../assets/skills/mise/mise.svg?no-inline';
 import testcontainersIconUrl from '../../assets/skills/testcontainers/testcontainers-mark.svg?no-inline';
 import yaziIconUrl from '../../assets/skills/yazi/yazi.png';
 
+export type SkillBrandSurface = 'brand' | 'neutral';
+
 export interface SkillBrand {
   name: string;
   color: string;
   foreground: string;
+  surface: SkillBrandSurface;
   iconPath?: string;
   iconDataUrl?: string;
 }
@@ -205,6 +208,19 @@ const skillBrandColors: Readonly<Record<string, string>> = {
   Yazi: '#FFFFFF',
 };
 
+const skillBrandSurfaces: Readonly<Record<string, SkillBrandSurface>> = {
+  'Amazon S3': 'neutral',
+  Alloy: 'neutral',
+  Codex: 'neutral',
+  'gh-dash': 'neutral',
+  Herdr: 'neutral',
+  Loki: 'neutral',
+  MetalLB: 'neutral',
+  mise: 'neutral',
+  'kube-vip': 'neutral',
+  Yazi: 'neutral',
+};
+
 const ASTRYX_NEUTRAL_FOREGROUND = 'var(--color-on-light)';
 const ASTRYX_INVERSE_FOREGROUND = 'var(--color-on-dark)';
 const NEUTRAL_FOREGROUND_HEX = '000000';
@@ -264,6 +280,7 @@ export function getSkillBrand(label: string): SkillBrand | undefined {
   }
 
   const brandColor = color ?? '#FFFFFF';
+  const surface = skillBrandSurfaces[label] ?? (icon ? 'brand' : 'neutral');
 
   const iconData = icon
     ? {
@@ -278,6 +295,7 @@ export function getSkillBrand(label: string): SkillBrand | undefined {
     name: label,
     color: brandColor,
     foreground: brandForeground(brandColor.slice(1)),
+    surface,
     ...iconData,
   };
 }
