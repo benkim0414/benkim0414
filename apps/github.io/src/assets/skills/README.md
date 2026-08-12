@@ -62,8 +62,10 @@ The Kubernetes mark is not represented as a distinct Kustomize brand.
 
 ## MetalLB project logo
 
-- Source: [`metallb/metallb`](https://github.com/metallb/metallb/blob/main/website/static/images/logo/metallb-blue.svg)
+- Source: [`metallb/metallb`](https://github.com/metallb/metallb/blob/90208910655f9203abdcc8c24c9539166dc6ab3b/website/static/images/logo/metallb-blue.svg)
+- Pinned revision: `90208910655f9203abdcc8c24c9539166dc6ab3b`
 - Retrieval date: 2026-08-12
+- SHA-256: `4f1ada0dc51500a01353bd73655012b22918fbceb590c6b457eb4df31debe35f`
 - Source repository license: Apache-2.0
 
 The local SVG is the unmodified blue MetalLB artwork published in the official
@@ -72,8 +74,10 @@ repository license is recorded as provenance rather than a trademark grant.
 
 ## kube-vip project logo
 
-- Source: [`kube-vip/kube-vip`](https://github.com/kube-vip/kube-vip/blob/main/kube-vip.png)
+- Source: [`kube-vip/kube-vip`](https://github.com/kube-vip/kube-vip/blob/ec0014d9ea96cd482088df60c317040886c445ac/kube-vip.png)
+- Pinned revision: `ec0014d9ea96cd482088df60c317040886c445ac`
 - Retrieval date: 2026-08-12
+- SHA-256: `93bbb7f0da7fdb54c6939fd08e2e81e3a93ab684e585856fe67559cda92b4786`
 - Source repository license: Apache-2.0
 
 The local PNG is the unmodified project artwork published by kube-vip's
@@ -138,7 +142,7 @@ The repository license is recorded as provenance and is not a trademark grant.
 ## Codex project mark
 
 - Source: https://raw.githubusercontent.com/lobehub/lobe-icons/befa2f8022c22985891e5d28aa706f9fba8c578d/packages/static-svg/icons/codex-color.svg
-- Pinned revision: `befa2f8022c22985891e6d28aa706f9fba8c578d`
+- Pinned revision: `befa2f8022c22985891e5d28aa706f9fba8c578d`
 - Retrieval date: 2026-08-12
 - SHA-256: `4a2f43ce46b5b6e3722c95088f88d26ef91e6a8c2e598e70642a1c54367386e4`
 - Provenance: LobeHub community-maintained Codex mark; LobeHub license MIT;
