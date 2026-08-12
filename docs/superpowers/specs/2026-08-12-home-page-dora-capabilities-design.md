@@ -15,9 +15,9 @@ capability cards.
 - Add the visible label `Top skills` above the five-skill carousel.
 - Remove `SkillAvatar` from command-palette skill results and render each result
   as its skill name only.
-- Remove the selected-skill page state and controlled picker props. Selecting a
-  result may perform the command palette's built-in selection and dismissal,
-  but it must not navigate, filter, or otherwise mutate home-page content.
+- Restore only the controlled command-palette selection needed to resolve a
+  selected skill and call `onSkillSelect`. `AppShell` temporarily switches to a
+  minimal selected-skill page after selection.
 - Replace the full skills list below the carousel with a `DORA capabilities`
   section.
 - Introduce that section with an Astryx informational banner and an external
@@ -27,8 +27,8 @@ capability cards.
 
 The following are out of scope:
 
-- A skill-detail page or any new route.
-- Navigation changes beyond removing page-level skill selection behavior.
+- A full skill-detail page or any new route.
+- Navigation changes beyond the temporary selected-skill transition.
 - Changes to skill data, highlighted-skill selection, or carousel card design.
 - DORA capability-card redesign.
 - DORA evidence, scoring, descriptions, or canonical ordering changes.
@@ -64,14 +64,15 @@ match names, descriptions, categories, and keywords.
 
 Results use the command palette's standard text rendering rather than a custom
 `SkillCommandResult`. `SkillAvatar`, `HStack`, and the custom result component
-are removed from `HomePage`. The page also removes `selectedSkillId`,
-`visibleSkills`, `value`, and `onValueChange` because the home page is no longer
-a skill picker.
+are removed from `HomePage`. The page removes `visibleSkills` and custom result
+rendering, but keeps the minimal controlled `selectedSkillId`, `value`, and
+`onValueChange` bridge needed to resolve an item and call `onSkillSelect`.
 
-Keyboard navigation and the command palette's built-in result selection and
-dismissal remain intact. A result selection has no downstream application
-effect: it does not navigate, filter DORA cards, create a detail page, or change
-the carousel.
+Keyboard navigation and command-palette selection remain intact. Selecting a
+result calls `onSkillSelect` with its `Skill`; `AppShell` owns the temporary
+selected-skill state and replaces `HomePage` with the minimal `SkillDetailPage`.
+The transition does not introduce URL routing, full detail content, or mutations
+to the DORA cards and carousel.
 
 An empty skill catalog preserves the existing command-palette `No skills`
 messages. An empty highlighted-skill collection preserves the carousel's
@@ -119,9 +120,12 @@ story and focused tests configurable.
 
 ## Component Boundaries
 
-- `AppShell` supplies the Astryx theme and renders `HomePage`.
+- `AppShell` supplies the Astryx theme, owns the temporary selected-skill state,
+  and renders either `HomePage` or `SkillDetailPage`.
 - `HomePage` owns the mobile frame, search-dialog state, section labels,
-  informational banner, and composition of existing data-backed surfaces.
+  informational banner, composition of existing data-backed surfaces, and the
+  `onSkillSelect` callback contract.
+- `SkillDetailPage` owns only the selected skill's accessible page heading.
 - `SkillCarousel` continues to own carousel and highlighted-skill empty-state
   behavior.
 - `DoraCapabilityCard` continues to own capability presentation and the
@@ -143,7 +147,8 @@ Focused tests and Storybook coverage will verify:
 - The carousel remains above the scrollable main region and renders the five
   configured highlighted skills.
 - Command-palette results render skill names without skill avatars.
-- Choosing a command result does not change the carousel or DORA-card content.
+- Choosing a command result calls `onSkillSelect` with the selected `Skill` and
+  transitions to a page whose accessible heading is that skill's name.
 - Empty skill and highlighted-skill inputs retain their respective search and
   carousel empty states.
 - The informational banner contains the approved copy and an external

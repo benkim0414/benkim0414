@@ -80,11 +80,8 @@ describe('App', () => {
     expect(getByText('DORA capabilities')).toBeTruthy();
   });
 
-  it('keeps home content unchanged when a skill command is selected', async () => {
-    const { getAllByTestId, getByLabelText, getByRole } = render(<App />);
-    const capabilityCardsBefore = getAllByTestId('dora-capability-card').map(
-      (card) => card.textContent,
-    );
+  it('replaces home content with the selected skill page', async () => {
+    const { getByRole, queryByRole } = render(<App />);
 
     fireEvent.click(getByRole('button', { name: 'Search skills' }));
     fireEvent.change(getByRole('combobox', { name: 'Search skills' }), {
@@ -96,14 +93,8 @@ describe('App', () => {
     expect(within(terraformOption).queryByRole('img')).toBeNull();
     fireEvent.click(terraformOption);
 
-    expect(
-      within(getByLabelText('Highlighted skills')).getAllByTestId('skill-card'),
-    ).toHaveLength(5);
-    expect(getAllByTestId('skill-card')).toHaveLength(5);
-    expect(getAllByTestId('dora-capability-card')).toHaveLength(10);
-    expect(
-      getAllByTestId('dora-capability-card').map((card) => card.textContent),
-    ).toEqual(capabilityCardsBefore);
+    expect(getByRole('heading', { level: 1, name: 'Terraform' })).toBeTruthy();
+    expect(queryByRole('main', { name: 'Home' })).toBeNull();
   });
 
   it('does not render generic navigation or desktop shell content', () => {

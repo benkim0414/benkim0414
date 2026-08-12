@@ -4,7 +4,7 @@
 
 **Goal:** Rename the mobile skills landing surface to `HomePage`, keep a text-only searchable skill reference and labeled top-five carousel, and replace the full skills list with an explained, evidence-backed DORA capability collection.
 
-**Architecture:** `HomePage` remains the composition root inside `AppShell`: it owns the constrained mobile frame, command-palette visibility, and section ordering while delegating skill presentation to `SkillCarousel` and capability presentation to `DoraCapabilityCard`. It consumes the canonical skill and DORA data modules directly, removes page-level skill selection state, and relies on each DORA card to project its own evidence and score summary.
+**Architecture:** `HomePage` remains the composition root for the constrained mobile home frame, command-palette visibility, and section ordering while delegating skill presentation to `SkillCarousel` and capability presentation to `DoraCapabilityCard`. It consumes the canonical skill and DORA data modules directly, restores only controlled selection needed to call `onSkillSelect`, and relies on each DORA card to project its own evidence and score summary. `AppShell` owns temporary selected-skill state and renders the minimal `SkillDetailPage` transition.
 
 **Tech Stack:** React 19, TypeScript, Nx, pnpm, Vitest, Testing Library, Storybook, Astryx (`TopNav`, `CommandPalette`, `Banner`, `Button`, `Layout`, `Text`), Tailwind utilities backed by Astryx tokens.
 
@@ -18,7 +18,7 @@
 - Use banner title exactly as `About DORA capabilities`.
 - Use this banner description exactly: `DORA capabilities are technical, process, and cultural practices associated with stronger software delivery and organizational performance. Each card connects a capability to supporting experience, certifications, and technical skills.`
 - Use external link text exactly as `Learn more` and destination exactly as `https://dora.dev/capabilities/`.
-- Do not implement a skill-detail page, route, navigation action, DORA card redesign, evidence/scoring change, or broader responsive-shell work.
+- Do not implement URL routing, full skill-detail content, DORA card redesign, evidence/scoring change, or broader responsive-shell work.
 - Stage explicit paths only and use conventional commits with the `github.io` scope.
 - Keep each task in a separate logical commit and run both the specification and code-quality review gates required by `superpowers:subagent-driven-development`.
 
@@ -29,8 +29,9 @@
 - Rename `apps/github.io/src/app/skills/mobile-skills-page.tsx` to `apps/github.io/src/app/skills/home-page.tsx`: own the mobile home frame, skill search, labeled carousel, DORA introduction, and capability-card composition.
 - Rename `apps/github.io/src/app/skills/mobile-skills-page.spec.tsx` to `apps/github.io/src/app/skills/home-page.spec.tsx`: verify the component contract with focused Astryx mocks and configurable skill props.
 - Rename `apps/github.io/src/app/skills/mobile-skills-page.stories.tsx` to `apps/github.io/src/app/skills/home-page.stories.tsx`: expose the default, constrained-search-catalog, and empty-skill states for visual review.
-- Modify `apps/github.io/src/app/app-shell.tsx`: render `HomePage` under the existing neutral Astryx theme.
-- Modify `apps/github.io/src/app/app.spec.tsx`: exercise the real app root, real command palette, immutable home content after selection, and final DORA composition.
+- Modify `apps/github.io/src/app/app-shell.tsx`: own temporary selection state and render `HomePage` or the minimal `SkillDetailPage` under the existing neutral Astryx theme.
+- Add `apps/github.io/src/app/skills/skill-detail-page.tsx`: render the supplied selected skill name as the accessible page heading.
+- Modify `apps/github.io/src/app/app.spec.tsx`: exercise the real app root, real command palette, selected-skill transition, and final DORA composition.
 - Do not change `DoraCapabilityCard`, `SkillCarousel`, or any skill/DORA data module; they are consumed through their existing interfaces.
 
 ---
@@ -49,7 +50,7 @@
 
 - Consumes: `Skill`, `skills`, `highlightedSkills`, `SkillCarousel`, `createStaticSource`, and Astryx `CommandPalette`.
 - Produces: `HomePageProps { skills?: readonly Skill[]; highlightedSkills?: readonly Skill[] }` and `HomePage(props: HomePageProps): ReactElement` from `./skills/home-page`.
-- Preserves for Task 2: the existing `All skills` region temporarily, so this task can prove that renaming and removing page-level selection are independently safe before the content replacement.
+- Preserves for Task 2: the existing `All skills` region temporarily, while the final implementation restores only the selected-skill transition required by the review fix.
 
 - [ ] **Step 1: Re-check the Astryx contracts used by this task**
 
@@ -62,7 +63,7 @@ pnpm exec astryx component Heading
 pnpm exec astryx component TopNav
 ```
 
-Expected: each command exits successfully and confirms that `renderItem` is optional while `value` and `onValueChange` are picker-mode props.
+Expected: each command exits successfully and confirms that `renderItem` is optional while `value` and `onValueChange` can provide the controlled selection bridge.
 
 - [ ] **Step 2: Rename the focused test and write failing home/search assertions**
 
@@ -152,11 +153,11 @@ expect(getByRole('heading', { level: 1, name: 'Home' })).toBeTruthy();
 expect(getByRole('heading', { level: 2, name: 'Top skills' })).toBeTruthy();
 ```
 
-In `app.spec.tsx`, replace the picker-filter test with a failing immutability test that clicks the real Terraform option and expects the full temporary skills list to remain:
+In `app.spec.tsx`, replace the picker-filter test with a failing transition test that clicks the real Terraform option and expects the selected-skill page heading:
 
 ```tsx
-it('keeps home content unchanged when a skill command is selected', async () => {
-  const { getAllByTestId, getByLabelText, getByRole } = render(<App />);
+it('replaces home content with the selected skill page', async () => {
+  const { getByRole, queryByRole } = render(<App />);
 
   fireEvent.click(getByRole('button', { name: 'Search skills' }));
   fireEvent.change(getByRole('combobox', { name: 'Search skills' }), {
@@ -168,9 +169,8 @@ it('keeps home content unchanged when a skill command is selected', async () => 
   expect(within(terraformOption).queryByRole('img')).toBeNull();
   fireEvent.click(terraformOption);
 
-  expect(within(getByLabelText('Highlighted skills')).getAllByTestId('skill-card')).toHaveLength(5);
-  expect(within(getByRole('region', { name: 'All skills' })).getAllByTestId('skill-card')).toHaveLength(17);
-  expect(getAllByTestId('skill-card')).toHaveLength(22);
+  expect(getByRole('heading', { level: 1, name: 'Terraform' })).toBeTruthy();
+  expect(queryByRole('main', { name: 'Home' })).toBeNull();
 });
 ```
 
@@ -196,7 +196,7 @@ git mv apps/github.io/src/app/skills/mobile-skills-page.stories.tsx apps/github.
 In `home-page.tsx`:
 
 - Rename `MobileSkillsPageProps` to `HomePageProps` and `MobileSkillsPage` to `HomePage`.
-- Remove `SkillAvatar`, `HStack`, `SkillCommandResult`, `selectedSkillId`, `visibleSkills`, `listEmptyMessage`, `renderItem`, `value`, and `onValueChange`.
+- Remove `SkillAvatar`, `HStack`, `SkillCommandResult`, `visibleSkills`, `listEmptyMessage`, and `renderItem`; keep only the controlled `selectedSkillId`, `value`, and `onValueChange` needed to call `onSkillSelect`.
 - Keep `skill` inside `auxiliaryData` because the search keyword function still reads its description, categories, and keywords.
 - Add the hidden page title before the section headings and label the fixed carousel region:
 
@@ -292,7 +292,7 @@ git diff --cached
 git commit -m "feat(github.io): establish home page skill search"
 ```
 
-Expected: one commit containing the rename, text-only command results, immutable page content after selection, and the `Top skills` label.
+Expected: one commit containing the rename, text-only command results, selected-skill transition, and the `Top skills` label.
 
 ---
 
@@ -384,17 +384,12 @@ it('renders all evidence-backed DORA cards in canonical order', () => {
 
 Update the configurable-props tests so `skills={[]}` is verified by opening the palette and observing `No skills`, while `highlightedSkills={[]}` is verified through `No highlighted skills have been supplied.`. Remove assertions that supplied non-highlighted skills render as page cards.
 
-Update `app.spec.tsx` to assert five skill cards, ten DORA cards, the Banner's secondary external Button anchor, and unchanged DORA content after clicking a skill command:
+Update `app.spec.tsx` to assert five skill cards, ten DORA cards, the Banner's secondary external Button anchor, and a selected-skill page heading after clicking a skill command.
 
 ```tsx
-const capabilityCardsBefore = getAllByTestId('dora-capability-card').map(
-  (card) => card.textContent,
-);
 fireEvent.click(terraformOption);
-expect(getAllByTestId('skill-card')).toHaveLength(5);
-expect(getAllByTestId('dora-capability-card')).toHaveLength(10);
-expect(getAllByTestId('dora-capability-card').map((card) => card.textContent))
-  .toEqual(capabilityCardsBefore);
+expect(getByRole('heading', { level: 1, name: 'Terraform' })).toBeTruthy();
+expect(queryByRole('main', { name: 'Home' })).toBeNull();
 ```
 
 - [ ] **Step 3: Run focused tests and confirm the old full-list page fails**
@@ -477,7 +472,7 @@ pnpm nx lint github.io
 pnpm nx test github.io
 pnpm nx build github.io
 pnpm nx build-storybook github.io
-rg -n "MobileSkillsPage|mobile-skills-page|SkillCommandResult|selectedSkillId|visibleSkills" apps/github.io
+rg -n "MobileSkillsPage|mobile-skills-page|SkillCommandResult|visibleSkills" apps/github.io
 ```
 
 Expected:
@@ -530,5 +525,5 @@ Before reporting implementation complete, fresh evidence must show:
 - `git status --short --branch` is clean.
 - `pnpm nx lint github.io`, `pnpm nx test github.io`, `pnpm nx build github.io`, and `pnpm nx build-storybook github.io` all exit 0.
 - Storybook visual QA has covered default and empty home stories at the constrained mobile width.
-- No stale `MobileSkillsPage`, picker-state, or custom command-result identifiers remain.
+- No stale `MobileSkillsPage`, removed picker-state, or custom command-result identifiers remain; the minimal selected-skill transition remains covered by focused tests.
 - No push, PR, merge, or deployment occurs; stop in the repository's awaiting-handoff state.
