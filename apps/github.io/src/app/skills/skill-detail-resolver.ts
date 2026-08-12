@@ -11,9 +11,15 @@ export function resolveSkillDetail(
 
   if (!skill) return { status: 'not-found' };
 
-  const record = sources.detailRecords.find(
+  const detailRecords = sources.detailRecords.filter(
     (candidate) => candidate.skillId === skillId,
   );
+
+  if (detailRecords.length > 1) {
+    throw new Error(`Duplicate skill detail record for "${skillId}".`);
+  }
+
+  const record = detailRecords[0];
 
   if (!record) {
     return {

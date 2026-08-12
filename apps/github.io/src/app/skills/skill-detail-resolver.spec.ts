@@ -79,6 +79,28 @@ describe('resolveSkillDetail', () => {
     }
   });
 
+  it('rejects duplicate detail records before a later record can bypass validation', () => {
+    const privateEvidence = {
+      ...devOpsCapabilityEvidenceItems[0],
+      id: 'private-duplicate-record-evidence',
+      isPublic: false,
+    };
+
+    expect(() =>
+      resolveSkillDetail('kubernetes', {
+        ...productionSources,
+        detailRecords: [
+          skillDetailRecords[0],
+          {
+            ...skillDetailRecords[0],
+            experienceEvidenceIds: [privateEvidence.id],
+          },
+        ],
+        evidenceItems: [...devOpsCapabilityEvidenceItems, privateEvidence],
+      }),
+    ).toThrow('Duplicate skill detail record for "kubernetes".');
+  });
+
   it('rejects missing project references', () => {
     expect(() =>
       resolveSkillDetail('kubernetes', {
