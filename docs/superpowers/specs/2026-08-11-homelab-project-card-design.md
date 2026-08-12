@@ -53,14 +53,15 @@ tracked Homelab configuration or documented workflows:
 mapping can provide AWS visual metadata. The shared brand resolver gains exact
 Simple Icons mappings for K3s, Tailscale, Traefik (using the official Traefik
 Proxy mark), Longhorn, Redis, and Renovate. MetalLB uses its published SVG from
-the CNCF Landscape, vendored with its source and license provenance recorded in
-`apps/github.io/src/assets/skills/README.md`.
+the CNCF Landscape. kube-vip uses the PNG published by its official website
+repository. Both assets are vendored with their source and license provenance
+recorded in `apps/github.io/src/assets/skills/README.md`.
 
-Sealed Secrets, kube-vip, and NFS remain text-only because no clear official
+Sealed Secrets and NFS remain text-only because no clear official
 product-specific logo is published for them. They do not receive generic,
-Kubernetes-family, or invented substitute icons. This follows the existing
-logo policy: exact official mark first, truthful official parent/platform only
-when intentionally selected, then a provenance-recorded official asset, and
+Kubernetes-family, or invented substitute icons. This follows the existing logo
+policy: exact official mark first, truthful official parent/platform only when
+intentionally selected, then a provenance-recorded official asset, and
 otherwise text-only.
 
 The card explicitly excludes `Kubernetes`, `GitOps`, `Bash`, and `mise`. It also
@@ -78,8 +79,8 @@ description, skill tokens, and GitHub citation without branching by project.
 
 `apps/github.io/src/app/skills/skill-brand.ts` remains the centralized resolver
 for both Simple Icons and vendored assets. The MetalLB asset follows the
-existing `?no-inline` SVG import pattern. No project-card-specific logo logic is
-added.
+existing `?no-inline` SVG import pattern, while the kube-vip PNG is imported as
+an asset URL. No project-card-specific logo logic is added.
 
 `apps/github.io/src/app/projects/project-card.stories.tsx` selects the Homelab
 fixture by its stable `homelab` ID and exposes it as a permanent `Homelab`
@@ -87,7 +88,8 @@ story. This gives the full skill set a direct visual inspection surface on
 desktop and iPad through the existing Tailscale-compatible Storybook setup.
 
 No new component, state, network request, dependency, or data-loading path is
-introduced. The only new runtime asset is the provenance-recorded MetalLB SVG.
+introduced. The only new runtime assets are the provenance-recorded MetalLB SVG
+and kube-vip PNG.
 
 ## Error Handling
 
@@ -113,9 +115,10 @@ by `id === 'homelab'` and verify:
 - `homelab-project` and all four capability keys are present.
 
 Extend the skill-brand resolver tests to verify the new Simple Icons mappings,
-the vendored MetalLB asset, and text-only results for Sealed Secrets, kube-vip,
-and NFS. Extend the project-card Storybook tests to verify that the `Homelab`
-story selects the fixture by stable ID and renders its title and skill set.
+the vendored MetalLB and kube-vip assets, and text-only results for Sealed
+Secrets and NFS. Extend the project-card Storybook tests to verify that the
+`Homelab` story selects the fixture by stable ID and renders its title and skill
+set.
 
 Run these checks during implementation:
 
