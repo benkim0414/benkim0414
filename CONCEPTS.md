@@ -110,13 +110,19 @@ A horizontal skills presentation where each Skill Card remains content-driven on
 
 ### Skill Brand Metadata
 
-The shared visual metadata for a skill label, covering the skill's brand color and, when available, a logo asset.
+The shared visual metadata for a skill label, covering its display color, Skill Brand Surface, and, when available, a logo asset.
 
 Skill Brand Metadata can be color-only. A logo represents either the exact
-brand or an intentionally documented project-family relationship; locally held
-artwork should retain verifiable upstream provenance. Consumers must decide whether
-color alone is meaningful for their UI instead of assuming every branded skill
-has a logo.
+brand or an intentionally documented project-family relationship. Record those
+relationships in mappings and tests, and retain verifiable upstream provenance
+for locally held artwork. Consumers must decide whether color alone is meaningful
+for their UI instead of assuming every branded skill has a logo.
+
+### Skill Brand Surface
+
+The provenance-backed decision that a skill presentation may use branded chrome or should keep neutral chrome independently of whether it displays a logo.
+
+Skill Brand Surface keeps artwork approval and background-color approval as separate decisions. Shared metadata owns the default surface, while a consumer may override it for a specific presentation context without changing that default.
 
 ### Skill Avatar
 
