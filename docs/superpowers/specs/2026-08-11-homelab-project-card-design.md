@@ -52,10 +52,10 @@ tracked Homelab configuration or documented workflows:
 `Amazon S3` uses `brandLabel: 'AWS'` so the existing truthful parent-brand
 mapping can provide AWS visual metadata. The shared brand resolver gains exact
 Simple Icons mappings for K3s, Tailscale, Traefik (using the official Traefik
-Proxy mark), Longhorn, Redis, and Renovate. MetalLB uses its published SVG from
-the CNCF Landscape. kube-vip uses the PNG published by its official website
-repository. Both assets are vendored with their source and license provenance
-recorded in `apps/github.io/src/assets/skills/README.md`.
+Proxy mark), Longhorn, Redis, and Renovate. MetalLB uses the blue SVG published
+by its official project repository. kube-vip uses the PNG published by its
+official website. Both assets are vendored with their source and license
+provenance recorded in `apps/github.io/src/assets/skills/README.md`.
 
 Sealed Secrets and NFS remain text-only because no clear official
 product-specific logo is published for them. They do not receive generic,

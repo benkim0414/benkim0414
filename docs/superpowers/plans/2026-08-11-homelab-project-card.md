@@ -16,7 +16,7 @@
 - Preserve `brandLabel: 'AWS'` for Amazon S3.
 - Do not include Kubernetes, GitOps, Bash, mise, hosted applications, or repo-local agent skills.
 - Add exact Simple Icons mappings for K3s, Tailscale, Traefik using the Traefik Proxy mark, Longhorn, Redis, and Renovate.
-- Vendor the official MetalLB SVG from CNCF Landscape and the official kube-vip PNG from the kube-vip website repository; record source, retrieval date, and license provenance.
+- Vendor the official MetalLB blue SVG from the MetalLB repository and the official kube-vip PNG from the kube-vip website; record source, retrieval date, and license provenance.
 - Keep Sealed Secrets and NFS text-only; do not use generic, Kubernetes-family, or invented substitute icons.
 - Preserve `ProjectCard` markup, styling, responsiveness, accessibility, types, dependencies, and page architecture.
 - Keep `homelab-project` as the evidence ID and preserve the capability keys `deployment-automation`, `flexible-infrastructure`, `monitoring-observability`, and `pervasive-security` in that order.
@@ -237,8 +237,8 @@ upstream files:
 
 ```bash
 mkdir -p apps/github.io/src/assets/skills/metallb apps/github.io/src/assets/skills/kube-vip
-curl -L https://raw.githubusercontent.com/cncf/landscape/master/hosted_logos/metallb.svg -o apps/github.io/src/assets/skills/metallb/metallb.svg
-curl -L https://raw.githubusercontent.com/kube-vip/website/main/static/images/kube-vip.png -o apps/github.io/src/assets/skills/kube-vip/kube-vip.png
+curl -L https://raw.githubusercontent.com/metallb/metallb/main/website/static/images/logo/metallb-blue.svg -o apps/github.io/src/assets/skills/metallb/metallb.svg
+curl -L https://kube-vip.io/images/kube-vip.png -o apps/github.io/src/assets/skills/kube-vip/kube-vip.png
 file apps/github.io/src/assets/skills/metallb/metallb.svg apps/github.io/src/assets/skills/kube-vip/kube-vip.png
 sha256sum apps/github.io/src/assets/skills/metallb/metallb.svg apps/github.io/src/assets/skills/kube-vip/kube-vip.png
 rg -n "<script|javascript:|https?://|xlink:href" apps/github.io/src/assets/skills/metallb/metallb.svg
@@ -256,22 +256,22 @@ Append these sections to `apps/github.io/src/assets/skills/README.md`:
 ```markdown
 ## MetalLB project logo
 
-- Source: [`cncf/landscape`](https://github.com/cncf/landscape/blob/master/hosted_logos/metallb.svg)
+- Source: [`metallb/metallb`](https://github.com/metallb/metallb/blob/main/website/static/images/logo/metallb-blue.svg)
 - Retrieval date: 2026-08-12
 - Source repository license: Apache-2.0
 
-The local SVG is the unmodified MetalLB artwork published in the CNCF
-Landscape logo collection. The logo remains the property of its project; the
+The local SVG is the unmodified blue MetalLB artwork published in the official
+project repository. The logo remains the property of its project; the
 repository license is recorded as provenance rather than a trademark grant.
 
 ## kube-vip project logo
 
-- Source: [`kube-vip/website`](https://github.com/kube-vip/website/blob/main/static/images/kube-vip.png)
+- Source: [`kube-vip.io`](https://kube-vip.io/images/kube-vip.png)
 - Retrieval date: 2026-08-12
 - Source repository license: Apache-2.0
 
 The local PNG is the unmodified project artwork published by kube-vip's
-official website repository. The logo remains the property of its project; the
+official website. The logo remains the property of its project; the
 repository license is recorded as provenance rather than a trademark grant.
 ```
 
