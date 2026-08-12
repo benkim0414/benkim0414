@@ -35,9 +35,19 @@ export function resolveSkillDetail(
   const evidenceById = new Map(
     sources.evidenceItems.map((item) => [item.id, item]),
   );
-  const projectById = new Map(
-    sources.projects.map((project) => [project.id, project]),
-  );
+  const projectById = new Map<
+    string,
+    (typeof sources.projects)[number]
+  >();
+
+  for (const project of sources.projects) {
+    if (projectById.has(project.id)) {
+      throw new Error(`Duplicate project source ID "${project.id}".`);
+    }
+
+    projectById.set(project.id, project);
+  }
+
   const experienceEvidence = record.experienceEvidenceIds.map((evidenceId) => {
     const evidence = evidenceById.get(evidenceId);
 
