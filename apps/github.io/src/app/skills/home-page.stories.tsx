@@ -1,22 +1,22 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 
-import { MobileSkillsPage } from './mobile-skills-page';
+import { HomePage } from './home-page';
 import { highlightedSkills, skills } from './skill-list.data';
 
-const meta: Meta<typeof MobileSkillsPage> = {
-  component: MobileSkillsPage,
+const meta: Meta<typeof HomePage> = {
+  component: HomePage,
   parameters: {
     layout: 'fullscreen',
   },
-  title: 'GitHub.io/Skills/Mobile Skills Page',
+  title: 'GitHub.io/Home/Home Page',
 };
 
 export default meta;
-type Story = StoryObj<typeof MobileSkillsPage>;
+type Story = StoryObj<typeof HomePage>;
 
 export const Default: Story = {};
 
-export const SingleListSkill: Story = {
+export const SingleSearchSkill: Story = {
   args: {
     highlightedSkills,
     skills: skills.filter((skill) => skill.id === 'react'),

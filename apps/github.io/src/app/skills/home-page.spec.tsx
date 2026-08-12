@@ -5,27 +5,31 @@ import { VStack } from '@astryxdesign/core/Layout';
 import { neutralTheme } from '@astryxdesign/theme-neutral/built';
 import { vi } from 'vitest';
 
-import { MobileSkillsPage } from './mobile-skills-page';
+import { HomePage } from './home-page';
 import { highlightedSkills, skills } from './skill-list.data';
 
 vi.mock('@astryxdesign/core/CommandPalette', () => ({
   CommandPalette: ({
+    emptyBootstrapText,
     isOpen,
     input,
     label,
     renderItem,
     searchSource,
   }: {
+    emptyBootstrapText: ReactNode;
     isOpen: boolean;
     input: ReactNode;
     label: string;
-    renderItem: (item: {
+    renderItem?: (item: {
       id: string;
+      label: string;
       auxiliaryData: { group: string };
     }) => ReactNode;
     searchSource: {
       bootstrap: () => Array<{
         id: string;
+        label: string;
         auxiliaryData: { group: string };
       }>;
     };
@@ -35,6 +39,14 @@ vi.mock('@astryxdesign/core/CommandPalette', () => ({
     }
 
     const items = searchSource.bootstrap();
+    if (items.length === 0) {
+      return (
+        <div aria-label={label} role="dialog">
+          {input}
+          {emptyBootstrapText}
+        </div>
+      );
+    }
     const groups = [...new Set(items.map((item) => item.auxiliaryData.group))];
 
     return (
@@ -47,7 +59,9 @@ vi.mock('@astryxdesign/core/CommandPalette', () => ({
               {items
                 .filter((item) => item.auxiliaryData.group === group)
                 .map((item) => (
-                  <div key={item.id}>{renderItem(item)}</div>
+                  <div key={item.id}>
+                    {renderItem ? renderItem(item) : item.label}
+                  </div>
                 ))}
             </div>
           ))}
@@ -56,7 +70,12 @@ vi.mock('@astryxdesign/core/CommandPalette', () => ({
     );
   },
   CommandPaletteInput: (props: ComponentProps<'input'>) => (
-    <input aria-controls="command-results" aria-expanded role="combobox" {...props} />
+    <input
+      aria-controls="command-results"
+      aria-expanded
+      role="combobox"
+      {...props}
+    />
   ),
 }));
 
@@ -88,19 +107,17 @@ HTMLDialogElement.prototype.close = vi.fn(function close(
   this.open = false;
 });
 
-const renderMobileSkillsPage = (
-  props: ComponentProps<typeof MobileSkillsPage> = {},
-) =>
+const renderHomePage = (props: ComponentProps<typeof HomePage> = {}) =>
   render(
     <Theme theme={neutralTheme}>
-      <MobileSkillsPage {...props} />
+      <HomePage {...props} />
     </Theme>,
   );
 
-describe('MobileSkillsPage', () => {
+describe('HomePage', () => {
   it('owns the mobile scroll shell and persistent top nav', () => {
-    const { getByRole, queryByRole } = renderMobileSkillsPage();
-    const main = getByRole('main', { name: 'Skills' });
+    const { getByRole, queryByRole } = renderHomePage();
+    const main = getByRole('main', { name: 'Home' });
     const navigation = getByRole('navigation', { name: 'Mobile navigation' });
     const mobileShell = main.parentElement;
     const { getByTestId } = render(
@@ -125,9 +142,7 @@ describe('MobileSkillsPage', () => {
       </Theme>,
     );
     const scrollableMainControl = getByTestId('scrollable-main-control');
-    const nonScrollableMainControl = getByTestId(
-      'non-scrollable-main-control',
-    );
+    const nonScrollableMainControl = getByTestId('non-scrollable-main-control');
 
     expect(mobileShell).toBe(navigation.parentElement);
     expect(mobileShell?.className).toContain('max-w-md');
@@ -144,11 +159,15 @@ describe('MobileSkillsPage', () => {
   });
 
   it('keeps highlighted carousel above the scrollable full skills list', () => {
-    const { getAllByTestId, getByLabelText, getByRole, getByText } =
-      renderMobileSkillsPage();
+    const { getByLabelText, getByRole } = renderHomePage();
     const carousel = getByLabelText('Highlighted skills');
     const carouselContainer = carousel.parentElement;
-    const main = getByRole('main', { name: 'Skills' });
+    const main = getByRole('main', { name: 'Home' });
+    const pageHeading = getByRole('heading', { level: 1, name: 'Home' });
+    const carouselHeading = getByRole('heading', {
+      level: 2,
+      name: 'Top skills',
+    });
     const listHeading = getByRole('heading', {
       level: 2,
       name: 'All skills',
@@ -158,15 +177,17 @@ describe('MobileSkillsPage', () => {
     expect(listHeading.compareDocumentPosition(carousel)).toBe(
       Node.DOCUMENT_POSITION_PRECEDING,
     );
+    expect(pageHeading).toBeTruthy();
+    expect(carouselHeading.compareDocumentPosition(carousel)).toBe(
+      Node.DOCUMENT_POSITION_FOLLOWING,
+    );
     expect(listHeading.compareDocumentPosition(list)).toBe(
       Node.DOCUMENT_POSITION_FOLLOWING,
     );
     expect(listHeading.parentElement).toBe(list.parentElement);
     expect(listHeading.className).toContain('astryx-text');
     expect(carouselContainer?.className).toContain('shrink-0');
-    expect(carouselContainer?.className).toContain('pt-4');
-    expect(carouselContainer?.className).not.toContain('px-4');
-    expect(carouselContainer?.className).not.toContain('pb-4');
+    expect(carouselContainer?.className).toContain('astryx-stack');
     expect(carouselContainer?.parentElement).toBe(main.parentElement);
     expect(carouselContainer?.nextElementSibling).toBe(main);
     expect(main.contains(carousel)).toBe(false);
@@ -204,8 +225,7 @@ describe('MobileSkillsPage', () => {
   });
 
   it('uses compact skill surfaces for mobile', () => {
-    const { getByLabelText, getByRole, queryByText } =
-      renderMobileSkillsPage();
+    const { getByLabelText, getByRole, queryByText } = renderHomePage();
     const carousel = getByLabelText('Highlighted skills');
     const list = getByRole('region', { name: 'All skills' });
 
@@ -219,30 +239,23 @@ describe('MobileSkillsPage', () => {
     expect(queryByText('TypeScript')).toBeTruthy();
   });
 
-  it('renders a 20px avatar before each skill command result', async () => {
-    const { getByRole } = renderMobileSkillsPage();
+  it('renders skill command results as names without avatars', async () => {
+    const { getByRole } = renderHomePage();
 
     fireEvent.click(getByRole('button', { name: 'Search skills' }));
-
     const dialog = getByRole('dialog', { name: 'Search skills' });
 
     await waitFor(() => {
       expect(within(dialog).getByText('Skills')).toBeTruthy();
-      expect(
-        within(dialog).getByRole('img', { name: 'Kubernetes' }),
-      ).toBeTruthy();
+      expect(within(dialog).getByText('Kubernetes')).toBeTruthy();
     });
-
-    const avatar = within(dialog).getByRole('img', { name: 'Kubernetes' });
-    const content = avatar.firstElementChild as HTMLElement;
-
-    expect(avatar.getAttribute('data-size')).toBe('tiny');
-    expect(content.style.getPropertyValue('--x-width')).toBe('20px');
-    expect(content.style.getPropertyValue('--x-height')).toBe('20px');
+    expect(
+      within(dialog).queryByRole('img', { name: 'Kubernetes' }),
+    ).toBeNull();
   });
 
   it('uses the full empty message only when no local skills are supplied', () => {
-    const { getByText } = renderMobileSkillsPage({
+    const { getByText } = renderHomePage({
       highlightedSkills: [],
       skills: [],
     });
@@ -254,11 +267,10 @@ describe('MobileSkillsPage', () => {
   it('accepts supplied skills while preserving supplied highlighted skills', () => {
     const suppliedSkills = skills.filter((skill) => skill.id === 'react');
 
-    const { getAllByTestId, getByText, queryByText } =
-      renderMobileSkillsPage({
-        highlightedSkills,
-        skills: suppliedSkills,
-      });
+    const { getAllByTestId, getByText, queryByText } = renderHomePage({
+      highlightedSkills,
+      skills: suppliedSkills,
+    });
 
     expect(getAllByTestId('skill-card')).toHaveLength(6);
     expect(getByText('React')).toBeTruthy();
