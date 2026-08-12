@@ -4,7 +4,7 @@ export const skillDetailRecords = [
   {
     skillId: 'kubernetes',
     experienceSummary:
-      'Kubernetes has been a core part of my delivery and infrastructure work. I have used it to operate application platforms, manage version-controlled environments with Argo CD, build deterministic Kustomize overlays, and maintain reusable deployment foundations across professional and homelab projects.',
+      "I've used Kubernetes to operate application platforms, manage GitOps environments with Argo CD, and build reusable Kustomize foundations across professional and homelab projects.",
     experienceEvidenceIds: [
       'argocd-environment-state-from-version-control',
       'deterministic-kubernetes-overlays',
