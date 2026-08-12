@@ -17,6 +17,7 @@ vi.mock('@astryxdesign/core/CommandPalette', () => ({
     isOpen,
     input,
     label,
+    onValueChange,
     renderItem,
     searchSource,
   }: {
@@ -24,6 +25,7 @@ vi.mock('@astryxdesign/core/CommandPalette', () => ({
     isOpen: boolean;
     input: ReactNode;
     label: string;
+    onValueChange?: (value: string) => void;
     renderItem?: (item: {
       id: string;
       label: string;
@@ -62,7 +64,13 @@ vi.mock('@astryxdesign/core/CommandPalette', () => ({
               {items
                 .filter((item) => item.auxiliaryData.group === group)
                 .map((item) => (
-                  <div key={item.id}>
+                  <div
+                    aria-label={item.label}
+                    aria-selected={false}
+                    key={item.id}
+                    onClick={() => onValueChange?.(item.id)}
+                    role="option"
+                  >
                     {renderItem ? renderItem(item) : item.label}
                   </div>
                 ))}
@@ -260,6 +268,23 @@ describe('HomePage', () => {
     expect(
       within(dialog).queryByRole('img', { name: 'Kubernetes' }),
     ).toBeNull();
+  });
+
+  it('calls onSkillSelect with the selected skill while keeping results text-only', async () => {
+    const onSkillSelect = vi.fn();
+    const { getByRole } = renderHomePage({ onSkillSelect });
+
+    fireEvent.click(getByRole('button', { name: 'Search skills' }));
+    const terraformOption = await waitFor(() =>
+      getByRole('option', { name: 'Terraform' }),
+    );
+
+    expect(within(terraformOption).queryByRole('img')).toBeNull();
+    fireEvent.click(terraformOption);
+
+    expect(onSkillSelect).toHaveBeenCalledWith(
+      skills.find((skill) => skill.id === 'terraform'),
+    );
   });
 
   it('shows no skills in the palette while keeping the empty carousel state', () => {

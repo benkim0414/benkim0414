@@ -41,13 +41,16 @@ interface SkillCommandItem {
 export interface HomePageProps {
   skills?: readonly Skill[];
   highlightedSkills?: readonly Skill[];
+  onSkillSelect?: (skill: Skill) => void;
 }
 
 export function HomePage({
   skills = defaultSkills,
   highlightedSkills = defaultHighlightedSkills,
+  onSkillSelect,
 }: HomePageProps): ReactElement {
   const [isSearchOpen, setIsSearchOpen] = useState(false);
+  const [selectedSkillId, setSelectedSkillId] = useState<string>();
   const skillCommandItems = useMemo<SkillCommandItem[]>(
     () =>
       skills.map((skill) => ({
@@ -103,7 +106,18 @@ export function HomePage({
         width="min(calc(100vw - 32px), 448px)"
         emptyBootstrapText="No skills"
         emptySearchText="No skills"
+        value={selectedSkillId}
         onOpenChange={setIsSearchOpen}
+        onValueChange={(skillId) => {
+          setSelectedSkillId(skillId);
+          const selectedSkill = skillCommandItems.find(
+            (item) => item.id === skillId,
+          )?.auxiliaryData.skill;
+
+          if (selectedSkill) {
+            onSkillSelect?.(selectedSkill);
+          }
+        }}
       />
       <VStack
         className="shrink-0 bg-[var(--color-background-surface)]"
