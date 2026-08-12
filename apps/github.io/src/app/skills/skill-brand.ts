@@ -63,14 +63,20 @@ import codePipelineIconUrl from '../../assets/skills/aws/aws-codepipeline.svg?no
 import ecrIconUrl from '../../assets/skills/aws/amazon-ecr.svg?no-inline';
 import eventBridgeIconUrl from '../../assets/skills/aws/amazon-eventbridge.svg?no-inline';
 import eksIconUrl from '../../assets/skills/aws/amazon-eks.svg?no-inline';
+import amazonS3IconUrl from '../../assets/skills/aws/amazon-s3.png';
 import systemsManagerIconUrl from '../../assets/skills/aws/aws-systems-manager.svg?no-inline';
 import lambdaIconUrl from '../../assets/skills/aws/aws-lambda.svg?no-inline';
 import awsLogoUrl from '../../assets/skills/aws/aws-logo.svg?no-inline';
+import codexIconUrl from '../../assets/skills/codex/codex.svg?no-inline';
+import ghDashIconUrl from '../../assets/skills/gh-dash/gh-dash.png';
 import alloyIconUrl from '../../assets/skills/grafana/alloy-icon-orange.svg?no-inline';
 import lokiIconUrl from '../../assets/skills/grafana/loki-icon.svg?no-inline';
+import herdrIconUrl from '../../assets/skills/herdr/herdr.svg?no-inline';
 import kubeVipIconUrl from '../../assets/skills/kube-vip/kube-vip.png';
 import metallbIconUrl from '../../assets/skills/metallb/metallb.svg?no-inline';
+import miseIconUrl from '../../assets/skills/mise/mise.svg?no-inline';
 import testcontainersIconUrl from '../../assets/skills/testcontainers/testcontainers-mark.svg?no-inline';
+import yaziIconUrl from '../../assets/skills/yazi/yazi.png';
 
 export interface SkillBrand {
   name: string;
@@ -162,11 +168,17 @@ const skillIconAssets: Readonly<Record<string, string>> = {
   'AWS EventBridge': eventBridgeIconUrl,
   'AWS Lambda': lambdaIconUrl,
   'AWS Systems Manager Parameter Store': systemsManagerIconUrl,
+  'Amazon S3': amazonS3IconUrl,
   Alloy: alloyIconUrl,
+  Codex: codexIconUrl,
+  'gh-dash': ghDashIconUrl,
+  Herdr: herdrIconUrl,
   Loki: lokiIconUrl,
   MetalLB: metallbIconUrl,
+  mise: miseIconUrl,
   'kube-vip': kubeVipIconUrl,
   Testcontainers: testcontainersIconUrl,
+  Yazi: yaziIconUrl,
 };
 
 const skillBrandColors: Readonly<Record<string, string>> = {
@@ -180,11 +192,17 @@ const skillBrandColors: Readonly<Record<string, string>> = {
   'AWS EventBridge': '#FFFFFF',
   'AWS Lambda': '#FFFFFF',
   'AWS Systems Manager Parameter Store': '#FFFFFF',
+  'Amazon S3': '#FFFFFF',
   Alloy: '#FFFFFF',
+  Codex: '#FFFFFF',
+  'gh-dash': '#FFFFFF',
+  Herdr: '#FFFFFF',
   Loki: '#FFFFFF',
   MetalLB: '#FFFFFF',
+  mise: '#FFFFFF',
   'kube-vip': '#FFFFFF',
   Testcontainers: '#FFFFFF',
+  Yazi: '#FFFFFF',
 };
 
 const ASTRYX_NEUTRAL_FOREGROUND = 'var(--color-on-light)';

@@ -79,3 +79,69 @@ repository license is recorded as provenance rather than a trademark grant.
 The local PNG is the unmodified project artwork published by kube-vip's
 official repository. The logo remains the property of its project; the
 repository license is recorded as provenance rather than a trademark grant.
+
+## Amazon S3 project mark
+
+- Source: https://raw.githubusercontent.com/awslabs/aws-icons-for-plantuml/50efda948226ff4e06937596201528b707ef3ef9/dist/Storage/SimpleStorageService.png
+- Pinned revision: `50efda948226ff4e06937596201528b707ef3ef9`
+- Retrieval date: 2026-08-12
+- SHA-256: `6715951abe7d964792afc3d36dec4e2f89e7d27df74d702ba75e575304a80d22`
+- Provenance: Amazon-published AWS architecture artwork, `CC-BY-ND-2.0` in
+  the source package.
+
+The source package license is recorded as provenance and is not a trademark
+grant.
+
+## Yazi project mark
+
+- Source: https://raw.githubusercontent.com/sxyazi/yazi/5ab58e3029c023ca1ae4bd788716b3da927fb525/assets/logo.png
+- Pinned revision: `5ab58e3029c023ca1ae4bd788716b3da927fb525`
+- Retrieval date: 2026-08-12
+- SHA-256: `7df01d685d6727dcf165f2de5d9145dedca89d38e18f526209a9ec6346ab9915`
+- Provenance: official `sxyazi/yazi` repository asset; repository license
+  MIT.
+
+The repository license is recorded as provenance and is not a trademark grant.
+
+## mise project mark
+
+- Source: https://raw.githubusercontent.com/jdx/mise/05251b278bd78682dd56a879d5975a2d7faad794/docs/public/logo.svg
+- Pinned revision: `05251b278bd78682dd56a879d5975a2d7faad794`
+- Retrieval date: 2026-08-12
+- SHA-256: `e4a37c1531f5f7d7fcb0ba2e7f55ec37c1ff88d9124f226bea397451e70c5873`
+- Provenance: official `jdx/mise` repository asset; repository license MIT.
+
+The repository license is recorded as provenance and is not a trademark grant.
+
+## gh-dash project mark
+
+- Source: https://raw.githubusercontent.com/dlvhdr/gh-dash/4ea7c39fbe4d12dbbd66398253fbd81b61073e06/docs/public/favicon.png
+- Pinned revision: `4ea7c39fbe4d12dbbd66398253fbd81b61073e06`
+- Retrieval date: 2026-08-12
+- SHA-256: `42d4d02e60d51e8e7125ec8fb0308b8d5b1409a1f7d40a99179f779b0ad74d7c`
+- Provenance: official `dlvhdr/gh-dash` documentation favicon; repository
+  license MIT.
+
+The repository license is recorded as provenance and is not a trademark grant.
+
+## Herdr project mark
+
+- Source: https://raw.githubusercontent.com/herdrdev/herdr/5600197f00e871764465d4e3d9ba5e6aa6fd9547/assets/logo.svg
+- Pinned revision: `5600197f00e871764465d4e3d9ba5e6aa6fd9547`
+- Retrieval date: 2026-08-12
+- SHA-256: `f4a8400d515fcf50112a952a5b48f5fa6e6b02b4dcb0b483ca92be39f7d7f7a1`
+- Provenance: official `herdrdev/herdr` repository asset; repository license
+  Apache-2.0.
+
+The repository license is recorded as provenance and is not a trademark grant.
+
+## Codex project mark
+
+- Source: https://raw.githubusercontent.com/lobehub/lobe-icons/befa2f8022c22985891e5d28aa706f9fba8c578d/packages/static-svg/icons/codex-color.svg
+- Pinned revision: `befa2f8022c22985891e6d28aa706f9fba8c578d`
+- Retrieval date: 2026-08-12
+- SHA-256: `4a2f43ce46b5b6e3722c95088f88d26ef91e6a8c2e598e70642a1c54367386e4`
+- Provenance: LobeHub community-maintained Codex mark; LobeHub license MIT;
+  not an official OpenAI asset source.
+
+The repository license is recorded as provenance and is not a trademark grant.

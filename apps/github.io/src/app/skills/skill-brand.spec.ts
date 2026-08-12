@@ -64,6 +64,21 @@ describe('getSkillBrand', () => {
     expect(brand?.iconDataUrl).toMatch(asset);
   });
 
+  it.each([
+    ['Amazon S3', /amazon-s3.*\.png/],
+    ['Yazi', /yazi.*\.png/],
+    ['mise', /mise.*\.svg/],
+    ['gh-dash', /gh-dash.*\.png/],
+    ['Herdr', /herdr.*\.svg/],
+    ['Codex', /codex.*\.svg/],
+  ] as const)('uses the approved vendored asset for %s', (skill, asset) => {
+    const brand = getSkillBrand(skill);
+
+    expect(brand?.iconPath).toBeUndefined();
+    expect(brand?.iconDataUrl).toMatch(asset);
+    expect(hasSkillBrandIcon(brand)).toBe(true);
+  });
+
   it('provides an icon for every Homelab skill with an official mark', () => {
     const iconBackedSkills = [
       'K3s',
@@ -82,7 +97,7 @@ describe('getSkillBrand', () => {
       'Alloy',
       'PostgreSQL',
       'Redis',
-      'AWS',
+      'Amazon S3',
       'Renovate',
     ];
 
@@ -279,12 +294,12 @@ describe('getSkillBrand', () => {
     expect(brand?.iconDataUrl).toBeUndefined();
   });
 
-  it('does not use unrelated icons for dotfiles skills without exact logos', () => {
-    for (const skill of ['delta', 'gh-dash']) {
-      expect(getSkillBrand(skill)?.iconPath).toBeUndefined();
-      expect(getSkillBrand(skill)?.iconDataUrl).toBeUndefined();
-    }
-  });
+  it.each(['eza', 'fzf', 'ripgrep', 'zoxide', 'delta', 'LazyGit', 'SSH'])(
+    'keeps %s text-only because it has no approved exact mark',
+    (skill) => {
+      expect(hasSkillBrandIcon(getSkillBrand(skill))).toBe(false);
+    },
+  );
 
   it('returns undefined for skills without Simple Icons metadata', () => {
     expect(getSkillBrand('Forward Proxy')).toBeUndefined();
