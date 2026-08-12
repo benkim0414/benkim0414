@@ -66,7 +66,7 @@ describe('SkillDetailPage', () => {
     expect(getByText('Framework')).toBeTruthy();
     expect(getByText('3 out of 5')).toBeTruthy();
     expect(
-      queryByRole('heading', { level: 2, name: "How I've used React" }),
+      queryByRole('heading', { level: 2, name: 'In practice' }),
     ).toBeNull();
     expect(
       queryByRole('heading', { level: 2, name: 'Projects' }),
