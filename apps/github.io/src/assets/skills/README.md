@@ -141,6 +141,7 @@ The repository license is recorded as provenance and is not a trademark grant.
 
 ## Codex project mark
 
+- LobeHub page: https://lobehub.com/icons/codex
 - Source: https://raw.githubusercontent.com/lobehub/lobe-icons/befa2f8022c22985891e5d28aa706f9fba8c578d/packages/static-svg/icons/codex-color.svg
 - Pinned revision: `befa2f8022c22985891e5d28aa706f9fba8c578d`
 - Retrieval date: 2026-08-12
