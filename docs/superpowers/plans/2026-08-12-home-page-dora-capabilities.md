@@ -6,13 +6,13 @@
 
 **Architecture:** `HomePage` remains the composition root inside `AppShell`: it owns the constrained mobile frame, command-palette visibility, and section ordering while delegating skill presentation to `SkillCarousel` and capability presentation to `DoraCapabilityCard`. It consumes the canonical skill and DORA data modules directly, removes page-level skill selection state, and relies on each DORA card to project its own evidence and score summary.
 
-**Tech Stack:** React 19, TypeScript, Nx, pnpm, Vitest, Testing Library, Storybook, Astryx (`TopNav`, `CommandPalette`, `Banner`, `Link`, `Layout`, `Text`), Tailwind utilities backed by Astryx tokens.
+**Tech Stack:** React 19, TypeScript, Nx, pnpm, Vitest, Testing Library, Storybook, Astryx (`TopNav`, `CommandPalette`, `Banner`, `Button`, `Layout`, `Text`), Tailwind utilities backed by Astryx tokens.
 
 ## Global Constraints
 
 - Work only in the linked worktree `/home/benkim0414/workspace/benkim0414/.worktrees/home-page-dora-capabilities` on branch `feat/home-page-dora-capabilities`.
 - Use pnpm and focused Nx targets for `github.io`; do not add dependencies or tooling.
-- Before changing UI code, re-run `pnpm exec astryx docs layout` and inspect `Banner`, `CommandPalette`, `Link`, `Heading`, and `TopNav` with `pnpm exec astryx component <name>`.
+- Before changing UI code, re-run `pnpm exec astryx docs layout` and inspect `Banner`, `Button`, `CommandPalette`, `Heading`, and `TopNav` with `pnpm exec astryx component <name>`.
 - Preserve the existing `max-w-md`, `h-dvh`, persistent-navigation, fixed-carousel, and scrollable-main frame.
 - Use visible labels exactly as `Top skills` and `DORA capabilities`.
 - Use banner title exactly as `About DORA capabilities`.
@@ -311,18 +311,18 @@ Expected: one commit containing the rename, text-only command results, immutable
 - Produces: a canonical ten-card DORA section under `DORA capabilities`; no new exported component or data type.
 - Preserves: `HomePageProps`, text-only skill search, the five-skill carousel, and the mobile scroll-shell contract from Task 1.
 
-- [ ] **Step 1: Re-check the Astryx information and link contracts**
+- [ ] **Step 1: Re-check the Astryx information and Button contracts**
 
 Run:
 
 ```bash
 pnpm exec astryx component Banner
-pnpm exec astryx component Link
+pnpm exec astryx component Button
 pnpm exec astryx component Heading
 pnpm exec astryx docs layout
 ```
 
-Expected: commands exit successfully; `Banner` requires `status` and `title`, accepts `description` and `endContent`, and `Link` supports `isExternalLink` and `isStandalone`.
+Expected: commands exit successfully; `Banner` requires `status` and `title`, accepts `description` and `endContent`, and secondary `Button` supports `href`, `target`, and `rel` while rendering an external anchor labeled `Learn more`.
 
 - [ ] **Step 2: Write failing component tests for the DORA section**
 
@@ -384,7 +384,7 @@ it('renders all evidence-backed DORA cards in canonical order', () => {
 
 Update the configurable-props tests so `skills={[]}` is verified by opening the palette and observing `No skills`, while `highlightedSkills={[]}` is verified through `No highlighted skills have been supplied.`. Remove assertions that supplied non-highlighted skills render as page cards.
 
-Update `app.spec.tsx` to assert five skill cards, ten DORA cards, the banner link, and unchanged DORA content after clicking a skill command:
+Update `app.spec.tsx` to assert five skill cards, ten DORA cards, the Banner's secondary external Button anchor, and unchanged DORA content after clicking a skill command:
 
 ```tsx
 const capabilityCardsBefore = getAllByTestId('dora-capability-card').map(
@@ -413,7 +413,7 @@ Replace `SkillCardList` with the existing DORA surfaces. The final `home-page.ts
 
 ```tsx
 import { Banner } from '@astryxdesign/core/Banner';
-import { Link } from '@astryxdesign/core/Link';
+import { Button } from '@astryxdesign/core/Button';
 
 import { DoraCapabilityCard } from '../devops-capability-evidence/dora-capability-card';
 import { doraCapabilityDescriptions } from '../devops-capability-evidence/dora-capability-card.evidence';
@@ -499,7 +499,7 @@ Open the `GitHub.io/Home/Home Page` default and empty stories at a mobile viewpo
 
 - `Top skills` is visibly associated with the five-card carousel.
 - The top navigation and carousel region stay fixed while the DORA region scrolls.
-- The banner title, description, and external link wrap without clipping.
+- The banner title, description, and external Button action wrap without clipping.
 - All ten capability cards fit the constrained width without horizontal overflow.
 - The empty carousel state stays beneath `Top skills`.
 - Opening search shows text-only skill results; choosing one closes the palette without changing the carousel or DORA cards.
