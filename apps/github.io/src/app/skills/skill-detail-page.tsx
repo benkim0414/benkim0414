@@ -1,6 +1,10 @@
 import { BreadcrumbItem, Breadcrumbs } from '@astryxdesign/core/Breadcrumbs';
 import { Heading } from '@astryxdesign/core/Heading';
 import { HStack, VStack } from '@astryxdesign/core/Layout';
+import {
+  MetadataList,
+  MetadataListItem,
+} from '@astryxdesign/core/MetadataList';
 import { Text } from '@astryxdesign/core/Text';
 import { spacingVars } from '@astryxdesign/core/theme/tokens.stylex';
 import * as stylex from '@stylexjs/stylex';
@@ -23,15 +27,12 @@ const styles = stylex.create({
     maxWidth: `calc(${spacingVars['--spacing-12']} * 14)`,
     marginInline: 'auto',
   },
-  certificationList: {
-    display: 'flex',
-    flexWrap: 'wrap',
-    gap: spacingVars['--spacing-2'],
+  metadataValueList: {
     margin: 0,
     padding: 0,
     listStyle: 'none',
   },
-  certificationItem: {
+  metadataValueItem: {
     display: 'inline-flex',
     maxWidth: '100%',
     listStyle: 'none',
@@ -68,16 +69,58 @@ export function SkillDetailPage({ detail }: SkillDetailPageProps): ReactElement 
         <Heading ref={headingRef} level={1} tabIndex={-1}>
           {detail.skill.name}
         </Heading>
-        <HStack gap={1} wrap="wrap">
-          {detail.skill.categories.map((category) => (
-            <SkillCategory key={category} name={category} />
-          ))}
-        </HStack>
-        <SkillRating level={detail.skill.level} />
         <Text as="p" type="body" color="secondary">
           {detail.skill.description}
         </Text>
       </VStack>
+
+      <MetadataList
+        columns="single"
+        data-testid="skill-metadata"
+        label={{ position: 'top' }}
+      >
+        <MetadataListItem label="Categories">
+          <HStack
+            as="ul"
+            gap={1}
+            wrap="wrap"
+            xstyle={styles.metadataValueList}
+          >
+            {detail.skill.categories.map((category) => (
+              <li key={category} {...stylex.props(styles.metadataValueItem)}>
+                <SkillCategory name={category} />
+              </li>
+            ))}
+          </HStack>
+        </MetadataListItem>
+
+        <MetadataListItem label="Rating">
+          <SkillRating level={detail.skill.level} />
+        </MetadataListItem>
+
+        {certifications.length > 0 ? (
+          <MetadataListItem label="Certifications">
+            <HStack
+              as="ul"
+              gap={2}
+              wrap="wrap"
+              xstyle={styles.metadataValueList}
+            >
+              {certifications.map((certification, index) => (
+                <li
+                  key={`${certification.title}-${certification.url}-${certification.expiresAt}`}
+                  {...stylex.props(styles.metadataValueItem)}
+                >
+                  <CertificationCitation
+                    {...certification}
+                    number={index + 1}
+                  />
+                </li>
+              ))}
+            </HStack>
+          </MetadataListItem>
+        ) : null}
+      </MetadataList>
 
       {detail.experienceEvidence.length > 0 ? (
         <section aria-labelledby="skill-experience-heading">
@@ -103,25 +146,6 @@ export function SkillDetailPage({ detail }: SkillDetailPageProps): ReactElement 
         </section>
       ) : null}
 
-      {certifications.length > 0 ? (
-        <section aria-labelledby="skill-certifications-heading">
-          <VStack gap={3}>
-            <Heading id="skill-certifications-heading" level={2}>
-              Certifications
-            </Heading>
-            <ul {...stylex.props(styles.certificationList)}>
-              {certifications.map((certification, index) => (
-                <li
-                  key={`${certification.title}-${certification.url}-${certification.expiresAt}`}
-                  {...stylex.props(styles.certificationItem)}
-                >
-                  <CertificationCitation {...certification} number={index + 1} />
-                </li>
-              ))}
-            </ul>
-          </VStack>
-        </section>
-      ) : null}
     </VStack>
   );
 }
