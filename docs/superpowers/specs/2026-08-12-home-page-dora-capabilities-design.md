@@ -21,7 +21,7 @@ capability cards.
 - Replace the full skills list below the carousel with a `DORA capabilities`
   section.
 - Introduce that section with an Astryx informational banner and an external
-  link to the official DORA capabilities catalog.
+  secondary Button action linking to the official DORA capabilities catalog.
 - Render all ten existing evidence-backed DORA capability cards in canonical
   order.
 
@@ -42,7 +42,7 @@ ownership:
 1. A persistent `TopNav` with the skill-search action.
 2. A fixed `Top skills` heading followed by the five-card skill carousel.
 3. A scrollable main region headed `DORA capabilities`.
-4. An Astryx `Banner` that explains DORA and links to the official catalog.
+4. An Astryx `Banner` that explains DORA and provides a secondary Button action to the official catalog.
 5. The ten existing `DoraCapabilityCard` components.
 
 The fixed top-skills region stays outside the scrollable main region, matching
@@ -147,7 +147,7 @@ Focused tests and Storybook coverage will verify:
 - Empty skill and highlighted-skill inputs retain their respective search and
   carousel empty states.
 - The informational banner contains the approved copy and an external
-  `Learn more` link to `https://dora.dev/capabilities/`.
+  `Learn more` secondary Button anchor to `https://dora.dev/capabilities/`.
 - Exactly ten DORA cards render in the canonical definition order.
 - Cards receive the existing descriptions, evidence catalog, and curated
   scores, preserving evidence-backed summaries and rows.
@@ -160,10 +160,10 @@ Implementation validation must include:
 - `pnpm nx test github.io`
 - `pnpm nx build github.io`
 - Focused Storybook visual review at the existing mobile page viewport,
-  checking heading spacing, banner/link wrapping, card overflow, and scroll
+  checking heading spacing, Banner/Button wrapping, card overflow, and scroll
   behavior.
 
 The UI design was checked against the official Astryx documentation for
-layout, `Banner`, `TopNavMegaMenuFeaturedCard`, `CommandPalette`, `Link`, and
+layout, `Banner`, `Button`, `TopNavMegaMenuFeaturedCard`, `CommandPalette`, and
 `Heading`. Implementation must re-check the relevant component contracts before
 changing UI code, as required by the app instructions.
