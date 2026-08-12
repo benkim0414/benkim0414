@@ -5,7 +5,7 @@ import { SkillToken } from './skill-token';
 
 describe('SkillToken', () => {
   it('renders a mapped Simple Icons skill as a brand-colored token', () => {
-    const { container, getByText } = render(<SkillToken label="Docker" />);
+    const { container } = render(<SkillToken label="Docker" />);
     const token = container.querySelector('[data-testid="skill-token"]');
     const icon = container.querySelector('svg');
 
@@ -49,27 +49,78 @@ describe('SkillToken', () => {
     );
   });
 
-  it('keeps unmapped skills text-only with the purple roadmap treatment', () => {
-    const { container, getByText } = render(
-      <SkillToken label="Forward Proxy" />,
-    );
-    const token = container.querySelector('[data-testid="skill-token"]');
+  it.each([
+    'eza',
+    'fzf',
+    'ripgrep',
+    'zoxide',
+    'delta',
+    'LazyGit',
+    'SSH',
+    'Sealed Secrets',
+    'NFS',
+  ])(
+    'defaults text-only project skill %s to the Astryx gray surface',
+    (label) => {
+      const { container, getByTestId } = render(
+        <>
+          <SkillToken label={label} />
+          <Token
+            color="gray"
+            data-testid="gray-reference"
+            label="Reference"
+            size="sm"
+          />
+        </>,
+      );
+      const token = getByTestId('skill-token');
 
-    expect(token).toBeTruthy();
-    expect(token?.className).toContain('astryx-token');
-    expect(token?.getAttribute('style')).toBeNull();
-    expect(container.querySelector('svg')).toBeNull();
-  });
+      expect(token.className).toBe(getByTestId('gray-reference').className);
+      expect(token.getAttribute('style')).toBeNull();
+      expect(
+        container.querySelector('[data-testid="skill-token"] svg'),
+      ).toBeNull();
+      expect(
+        container.querySelector('[data-testid="skill-token"] img'),
+      ).toBeNull();
+    },
+  );
 
-  it('keeps color-only brands text-only with the purple roadmap treatment', () => {
-    const { container } = render(<SkillToken label="IRSA" />);
-    const token = container.querySelector('[data-testid="skill-token"]');
+  it.each([
+    'Amazon S3',
+    'Alloy',
+    'Codex',
+    'gh-dash',
+    'Herdr',
+    'Loki',
+    'MetalLB',
+    'mise',
+    'kube-vip',
+    'Yazi',
+  ])(
+    'defaults custom-image project skill %s to the Astryx gray surface',
+    (label) => {
+      const { container, getByTestId } = render(
+        <>
+          <SkillToken label={label} />
+          <Token
+            color="gray"
+            data-testid="gray-reference"
+            label="Reference"
+            size="sm"
+          />
+        </>,
+      );
+      const token = getByTestId('skill-token');
+      const image = container.querySelector('[data-testid="skill-token"] img');
 
-    expect(token).toBeTruthy();
-    expect(token?.className).toContain('astryx-token');
-    expect(token?.getAttribute('style')).toBeNull();
-    expect(container.querySelector('svg')).toBeNull();
-  });
+      expect(token.className).toBe(getByTestId('gray-reference').className);
+      expect(token.getAttribute('style')).toBeNull();
+      expect(image?.getAttribute('aria-hidden')).toBe('true');
+      expect(image?.getAttribute('alt')).toBe('');
+      expect(image?.getAttribute('src')).toBeTruthy();
+    },
+  );
 
   it('uses the Astryx gray surface with only a brand-colored Simple Icon', () => {
     const { container, getByTestId } = render(
@@ -160,6 +211,14 @@ describe('SkillToken', () => {
       ).toBeNull();
     },
   );
+
+  it('honors an explicit brand variant for a neutral-default local asset', () => {
+    const { getByTestId } = render(<SkillToken label="Yazi" variant="brand" />);
+
+    expect(getByTestId('skill-token').getAttribute('style')).toContain(
+      '--skill-token-background: #FFFFFF',
+    );
+  });
 
   it('keeps the visible label as the accessible token text', () => {
     const { getByText } = render(<SkillToken label="GitHub Actions" />);
