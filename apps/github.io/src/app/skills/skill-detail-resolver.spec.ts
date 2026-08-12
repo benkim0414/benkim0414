@@ -111,6 +111,20 @@ describe('resolveSkillDetail', () => {
     ).toThrow('missing project "missing-project"');
   });
 
+  // Production mutation caught: removing project-source collision detection
+  // lets the later duplicate silently replace the referenced project.
+  it('rejects duplicate project source IDs before resolving references', () => {
+    expect(() =>
+      resolveSkillDetail('kubernetes', {
+        ...productionSources,
+        projects: [
+          ...sampleProjects,
+          { ...sampleProjects[1], title: 'Unexpected duplicate project' },
+        ],
+      }),
+    ).toThrow('Duplicate project source ID "homelab".');
+  });
+
   it('validates every production detail record', () => {
     for (const detail of skillDetailRecords) {
       expect(resolveSkillDetail(detail.skillId, productionSources)).toMatchObject({
