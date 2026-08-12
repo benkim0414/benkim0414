@@ -61,7 +61,7 @@ export const sampleProjects: readonly Project[] = [
       { label: 'PostgreSQL' },
       { label: 'Redis' },
       { label: 'NFS' },
-      { label: 'Amazon S3', brandLabel: 'AWS' },
+      { label: 'Amazon S3' },
       { label: 'Renovate' },
     ],
     githubUrl: 'https://github.com/benkim0414/homelab',
