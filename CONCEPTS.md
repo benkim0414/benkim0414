@@ -52,6 +52,12 @@ The explicit, score-owned subset, order, and optional capability-level supplemen
 
 A Compact Capability Projection remains stable when the full catalog grows unless its curated evidence references or supplemental summary are deliberately changed.
 
+### Skill Detail Evidence Projection
+
+The explicit, ordered subset of Canonical Evidence Records selected to demonstrate fluency on one skill detail page, independently of related project-card content.
+
+A Skill Detail Evidence Projection accepts only public, non-sensitive experience evidence; projects remain a separate portfolio presentation even when they demonstrate the same skill.
+
 ### Evidence-Calibrated Capability Score
 
 A public capability maturity value derived only from a Compact Capability Projection by combining bounded evidence strength, initiative breadth, and corroboration.

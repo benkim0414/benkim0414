@@ -1,7 +1,7 @@
 ---
 title: Tokenize DORA Capability Evidence
 date: 2026-07-30
-last_updated: 2026-08-10
+last_updated: 2026-08-13
 category: conventions
 module: github.io DevOps capability evidence
 problem_type: convention
@@ -16,6 +16,7 @@ applies_when:
 related_components:
   - github.io DevOps capability evidence radar
   - CapabilityEvidence renderer
+  - github.io skill detail
 tags:
   [
     github-io,
@@ -80,6 +81,38 @@ When the projection itself must be reviewable as a fixed editorial decision, lis
 
 The card resolver follows score order and skips unresolved IDs; it does not truncate or re-rank the full catalog (`apps/github.io/src/app/devops-capability-evidence/dora-capability-card.evidence.ts:35-52`). Adding a sixth experience to the catalog does not change the current compact summary unless the score references change.
 
+### Keep skill-detail evidence experience-only
+
+A compact skill-detail page applies the same projection rule outside the DORA
+capability card. Author the selected `experienceEvidenceIds` literally and in
+display order; do not discover them from technology tags, capability keys,
+runtime ranking, or catalog order. The Kubernetes detail currently selects
+three DORA evidence IDs and resolves its `homelab` project through a separate
+`projectIds` collection
+(`apps/github.io/src/app/skills/skill-detail.data.ts:3-13`). Catalog growth can
+then add reusable evidence without silently rewriting the page's editorial
+claim.
+
+Resolve those IDs only against the canonical capability evidence catalog. At
+the resolver boundary, validate existence first, then the public and
+non-sensitive trust boundary, then require `type === 'experience'`
+(`apps/github.io/src/app/skills/skill-detail-resolver.ts:51-70`). Visibility
+alone is insufficient: a project, learning record, certification, or skill can
+be public and non-sensitive without being professional experience. Resolve
+project-card IDs independently against the project source
+(`apps/github.io/src/app/skills/skill-detail-resolver.ts:72-81`); relevance to a
+skill does not make project presentation data part of the evidence list.
+
+Lock both the malformed-input boundary and the production projection in tests.
+The resolver test supplies a public, non-sensitive project record and requires
+rejection, while the Kubernetes production assertion requires the exact three
+authored IDs, verifies that every resolved record is an experience, and checks
+the separate Homelab project result
+(`apps/github.io/src/app/skills/skill-detail-resolver.spec.ts:15-33` and
+`apps/github.io/src/app/skills/skill-detail-resolver.spec.ts:85-106`). The
+three-item count is the current compact Kubernetes contract, not a universal
+limit for every future skill page.
+
 ### Keep compact labels and capability summaries with their owners
 
 Use an atomic record's `label` for short text that should follow that evidence
@@ -134,9 +167,10 @@ and `apps/github.io/src/app/devops-capability-evidence/dora-capability-card.tsx:
 
 Separating catalog ownership from projection ownership keeps the evidence reusable. A dedicated capability page can consume the full history while the compact card remains a deliberate five-experience summary plus supported skills. Stable IDs make every score auditable, structured details preserve evidence strength, and focused support links explain why each skill belongs.
 
-The boundaries also prevent five common failures:
+The boundaries also prevent six common failures:
 
 - Catalog growth accidentally changes a compact card.
+- Catalog drift places a public non-experience record in an experience-only skill detail.
 - ID-only deduplication silently masks conflicting definitions of shared evidence.
 - Capability summaries drift from the score-owned projection they describe.
 - Technology strings overstate skills that lack concrete support.
@@ -150,6 +184,7 @@ Neutral skill surfaces and visible row labels solve the related presentation pro
 - Splitting one broad answer into accomplishments that should be independently reusable or scored.
 - Adding a skill that must be backed by concrete experience.
 - Growing a full catalog without changing a compact card's curated selection.
+- Curating skill-detail fluency evidence while rendering related project cards separately.
 - Clarifying a reusable evidence token or adding capability-level supporting copy.
 - Preserving chronological meaning independently of UI grouping.
 - Showing many branded skills in a dense evidence row.
@@ -226,6 +261,24 @@ Back a skill with focused evidence instead of inferring it from a technology lis
     'github-actions-oidc-ecr-publishing',
     'github-actions-gitops-handoff',
   ],
+}
+```
+
+Keep skill-detail evidence and project presentation as two explicit projections:
+
+```ts
+{
+  skillId: 'kubernetes',
+  experienceEvidenceIds: [
+    'argocd-environment-state-from-version-control',
+    'deterministic-kubernetes-overlays',
+    'reusable-kubernetes-deployment-foundations',
+  ],
+  projectIds: ['homelab'],
+}
+
+if (evidence.type !== 'experience') {
+  throw new Error('Skill detail evidence must be experience evidence.');
 }
 ```
 
