@@ -114,3 +114,69 @@ fix(github.io): use full-width mobile layout
 
 - Real iPad portrait/landscape QA is intentionally pending controller coordination. No dev server was started.
 - No other functional concern remains from automated validation.
+
+## Fix round 1: in-frame unknown skill Not Found layout
+
+### Finding addressed
+
+`/skills/not-real` is resolved by `SkillDetailRoute` inside the global frame. It previously rendered the same constrained `NotFoundPage` used by the standalone wildcard route, so the detail-route page could retain a centered maximum-width column even when the global-frame verifier passed.
+
+### Files changed
+
+- `apps/github.io/src/app/not-found-page.tsx`
+- `apps/github.io/src/app/not-found-page.spec.tsx`
+- `apps/github.io/src/app/skills/skill-detail-route.tsx`
+- `apps/github.io/src/app/app.spec.tsx`
+- `apps/github.io/scripts/verify-global-layout-css.mjs`
+
+### TDD evidence
+
+RED command:
+
+```bash
+pnpm nx test github.io -- --run src/app/app.spec.tsx src/app/not-found-page.spec.tsx; pnpm nx verify-global-layout-css github.io --skip-nx-cache
+```
+
+Result: exited non-zero as expected. The unknown skill and wildcard route assertions both received no layout variant, and the verifier failed with `Unknown skill routes must render the full-width not found page.` The first focused unit-test draft also exposed that StyleX emits class names rather than inline styles; it was replaced with a stable comparison against an equivalent unstyled `VStack` control.
+
+GREEN command:
+
+```bash
+pnpm nx test github.io -- --run src/app/app.spec.tsx src/app/not-found-page.spec.tsx && pnpm nx verify-global-layout-css github.io --skip-nx-cache
+```
+
+Result: exited 0. The focused suite passed 17 tests in 2 files. The fresh build-backed verifier passed and printed `Verified compiled global frame, Home layout, and detail width rules`.
+
+### Implementation and verifier changes
+
+- Added the optional `NotFoundPage.isFullWidth` variant. Its default continues applying `styles.page`, preserving the standalone wildcard route's existing maximum-width and centered layout.
+- `SkillDetailRoute` passes `isFullWidth`, so only unknown skills rendered in the application frame omit the page constraint.
+- Route tests distinguish `/skills/not-real` (`data-layout="full-width"` and global search) from `/not-a-route` (`data-layout="standalone"` and no global search).
+- The focused page test proves the full-width variant receives the same generated StyleX classes as an otherwise identical unconstrained `VStack`, while the default does not.
+- The CSS/source verifier now reads both route and Not Found sources: it requires the in-frame variant wiring and the conditional `xstyle`, but deliberately permits the default standalone constraint.
+
+### Source inspection and self-review
+
+- Confirmed `SkillDetailRoute` is the only supported detail-route Not Found branch and it is rendered beneath the global layout.
+- Confirmed the wildcard `*` route continues to render `NotFoundPage` with its default constrained layout outside that frame.
+- Ran `git diff --check` successfully; no responsive styles or component-local width rules were changed.
+
+### Complete verification
+
+All commands exited 0:
+
+```bash
+pnpm nx lint github.io --skip-nx-cache
+pnpm nx test github.io --skip-nx-cache
+pnpm nx build github.io --skip-nx-cache
+```
+
+- Lint: 28 pre-existing warnings, 0 errors.
+- Full tests: 61 files, 591 tests passed.
+- Build passed.
+- Existing non-failing Vite, jsdom, Lightning CSS, and chunk-size warnings remain unchanged.
+
+### Commit and concerns
+
+- Commit subject: `fix(github.io): keep unknown skills full width`.
+- No dev server was started. Real iPad QA remains controller-coordinated.

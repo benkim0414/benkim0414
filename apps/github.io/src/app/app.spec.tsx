@@ -249,10 +249,13 @@ describe('AppRoutes', () => {
         <AppRoutes />
       </MemoryRouter>,
     );
+    const main = getByRole('main');
 
     expect(
       getByRole('heading', { level: 1, name: 'Skill not found' }),
     ).toBeTruthy();
+    expect(getByRole('button', { name: 'Search skills' })).toBeTruthy();
+    expect(main.dataset.layout).toBe('full-width');
   });
 
   it('renders the skill not found page for an unknown route', () => {
@@ -261,10 +264,12 @@ describe('AppRoutes', () => {
         <AppRoutes />
       </MemoryRouter>,
     );
+    const main = getByRole('main');
 
     expect(
       getByRole('heading', { level: 1, name: 'Skill not found' }),
     ).toBeTruthy();
     expect(queryByRole('button', { name: 'Search skills' })).toBeNull();
+    expect(main.dataset.layout).toBe('standalone');
   });
 });
