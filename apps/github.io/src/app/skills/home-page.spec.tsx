@@ -1,7 +1,7 @@
-import type { ComponentProps, ReactNode } from 'react';
-import { fireEvent, render, waitFor, within } from '@testing-library/react';
+import type { ComponentProps } from 'react';
+import { render, within } from '@testing-library/react';
 import { Theme } from '@astryxdesign/core';
-import { HStack, VStack } from '@astryxdesign/core/Layout';
+import { HStack, LayoutContent, VStack } from '@astryxdesign/core/Layout';
 import { Text } from '@astryxdesign/core/Text';
 import { neutralTheme } from '@astryxdesign/theme-neutral/built';
 import { vi } from 'vitest';
@@ -9,86 +9,6 @@ import { vi } from 'vitest';
 import { HomePage } from './home-page';
 import { doraCapabilityDescriptions } from '../devops-capability-evidence/dora-capability-card.evidence';
 import { doraCapabilityDefinitions } from '../devops-capability-evidence/devops-capability-evidence.data';
-import { highlightedSkills, skills } from './skill-list.data';
-
-vi.mock('@astryxdesign/core/CommandPalette', () => ({
-  CommandPalette: ({
-    emptyBootstrapText,
-    isOpen,
-    input,
-    label,
-    onValueChange,
-    renderItem,
-    searchSource,
-  }: {
-    emptyBootstrapText: ReactNode;
-    isOpen: boolean;
-    input: ReactNode;
-    label: string;
-    onValueChange?: (value: string) => void;
-    renderItem?: (item: {
-      id: string;
-      label: string;
-      auxiliaryData: { group: string };
-    }) => ReactNode;
-    searchSource: {
-      bootstrap: () => Array<{
-        id: string;
-        label: string;
-        auxiliaryData: { group: string };
-      }>;
-    };
-  }) => {
-    if (!isOpen) {
-      return null;
-    }
-
-    const items = searchSource.bootstrap();
-    if (items.length === 0) {
-      return (
-        <div aria-label={label} role="dialog">
-          {input}
-          {emptyBootstrapText}
-        </div>
-      );
-    }
-    const groups = [...new Set(items.map((item) => item.auxiliaryData.group))];
-
-    return (
-      <div aria-label={label} role="dialog">
-        {input}
-        <div role="listbox">
-          {groups.map((group) => (
-            <div key={group}>
-              <div>{group}</div>
-              {items
-                .filter((item) => item.auxiliaryData.group === group)
-                .map((item) => (
-                  <div
-                    aria-label={item.label}
-                    aria-selected={false}
-                    key={item.id}
-                    onClick={() => onValueChange?.(item.id)}
-                    role="option"
-                  >
-                    {renderItem ? renderItem(item) : item.label}
-                  </div>
-                ))}
-            </div>
-          ))}
-        </div>
-      </div>
-    );
-  },
-  CommandPaletteInput: (props: ComponentProps<'input'>) => (
-    <input
-      aria-controls="command-results"
-      aria-expanded
-      role="combobox"
-      {...props}
-    />
-  ),
-}));
 
 vi.stubGlobal(
   'ResizeObserver',
@@ -126,13 +46,19 @@ const renderHomePage = (props: ComponentProps<typeof HomePage> = {}) =>
   );
 
 describe('HomePage', () => {
-  it('owns the mobile scroll shell and persistent top nav', () => {
-    const { getByRole, queryByRole } = renderHomePage();
+  it('renders content without page-local navigation or palette ownership', () => {
+    const { container, getByRole, queryByRole } = renderHomePage();
     const main = getByRole('main', { name: 'Home' });
-    const navigation = getByRole('navigation', { name: 'Mobile navigation' });
-    const mobileShell = main.parentElement;
     const { getByTestId } = render(
       <Theme theme={neutralTheme}>
+        <LayoutContent
+          className="flex flex-col"
+          data-testid="non-scrollable-content-control"
+          isScrollable={false}
+          label="Control"
+          padding={0}
+          role="main"
+        />
         <VStack
           as="main"
           className="min-h-0 flex-1"
@@ -142,31 +68,25 @@ describe('HomePage', () => {
           paddingBlock={4}
           paddingInline={4}
         />
-        <VStack
-          as="main"
-          className="min-h-0 flex-1"
-          data-testid="non-scrollable-main-control"
-          gap={3}
-          paddingBlock={4}
-          paddingInline={4}
-        />
       </Theme>,
     );
     const scrollableMainControl = getByTestId('scrollable-main-control');
-    const nonScrollableMainControl = getByTestId('non-scrollable-main-control');
+    const nonScrollableContentControl = getByTestId(
+      'non-scrollable-content-control',
+    );
+    const doraContent = getByRole('heading', {
+      level: 2,
+      name: 'DORA capabilities',
+    }).parentElement;
 
-    expect(mobileShell).toBe(navigation.parentElement);
-    expect(mobileShell?.className).toContain('max-w-md');
-    expect(mobileShell?.className).toContain('h-dvh');
-    expect(mobileShell?.className).toContain('flex');
-    expect(mobileShell?.className).toContain('overflow-hidden');
-    expect(navigation.className).toContain('shrink-0');
-    expect(main.className).toContain('flex-1');
-    expect(main.className).toContain('astryx-stack');
-    expect(main.className).toBe(scrollableMainControl.className);
-    expect(main.className).not.toBe(nonScrollableMainControl.className);
-    expect(getByRole('button', { name: 'Search skills' })).toBeTruthy();
+    expect(queryByRole('navigation')).toBeNull();
+    expect(queryByRole('button', { name: 'Search skills' })).toBeNull();
     expect(queryByRole('combobox', { name: 'Search skills' })).toBeNull();
+    expect(container.querySelectorAll('.astryx-layout-content')).toHaveLength(
+      1,
+    );
+    expect(main.className).toBe(nonScrollableContentControl.className);
+    expect(doraContent?.className).toBe(scrollableMainControl.className);
   });
 
   it('keeps top skills fixed above the scrollable DORA section', () => {
@@ -190,14 +110,15 @@ describe('HomePage', () => {
       level: 2,
       name: 'DORA capabilities',
     });
+    const doraContent = doraHeading.parentElement;
 
     expect(topSkillsHeading.parentElement?.className).toBe(
       getByTestId('top-skills-padding-control').className,
     );
-    expect(carousel.parentElement?.nextElementSibling).toBe(main);
-    expect(main.contains(carousel)).toBe(false);
-    expect(main.className).toContain('flex-1');
-    expect(main.className).toContain('astryx-stack');
+    expect(carousel.parentElement?.nextElementSibling).toBe(doraContent);
+    expect(main.contains(carousel)).toBe(true);
+    expect(doraContent?.className).toContain('flex-1');
+    expect(doraContent?.className).toContain('astryx-stack');
     expect(main.contains(doraHeading)).toBe(true);
   });
 
@@ -225,15 +146,17 @@ describe('HomePage', () => {
 
     expect(cards).toHaveLength(doraCapabilityDefinitions.length);
     expect(
-      cards.map((card) =>
-        within(card).getByRole('heading', { level: 3 }).textContent,
+      cards.map(
+        (card) => within(card).getByRole('heading', { level: 3 }).textContent,
       ),
     ).toEqual(doraCapabilityDefinitions.map((capability) => capability.label));
     const firstCard = cards.at(0);
     const firstCapability = doraCapabilityDefinitions.at(0);
 
     if (!firstCard || !firstCapability) {
-      throw new Error('Expected the canonical DORA capability list to be non-empty.');
+      throw new Error(
+        'Expected the canonical DORA capability list to be non-empty.',
+      );
     }
     expect(
       within(firstCard).getByText(
@@ -259,6 +182,10 @@ describe('HomePage', () => {
     const { getByLabelText, getByRole } = renderHomePage();
     const carousel = getByLabelText('Highlighted skills');
     const main = getByRole('main', { name: 'Home' });
+    const doraContent = getByRole('heading', {
+      level: 2,
+      name: 'DORA capabilities',
+    }).parentElement;
     const showAll = getByRole('link', { name: 'Show all' });
     const actionRow = showAll.parentElement;
     const { getByTestId } = render(
@@ -281,73 +208,20 @@ describe('HomePage', () => {
     expect(actionRow?.className).toBe(
       getByTestId('show-all-row-control').className,
     );
-    expect(actionRow?.parentElement?.nextElementSibling).toBe(main);
+    expect(actionRow?.parentElement?.nextElementSibling).toBe(doraContent);
+    expect(main.contains(actionRow)).toBe(true);
     expect(carousel.contains(showAll)).toBe(false);
   });
 
-  it('renders skill command results as names without avatars', async () => {
-    const { getByRole } = renderHomePage();
-
-    fireEvent.click(getByRole('button', { name: 'Search skills' }));
-    const dialog = getByRole('dialog', { name: 'Search skills' });
-
-    await waitFor(() => {
-      expect(within(dialog).getByText('Skills')).toBeTruthy();
-      expect(within(dialog).getByText('Kubernetes')).toBeTruthy();
-    });
-    expect(
-      within(dialog).queryByRole('img', { name: 'Kubernetes' }),
-    ).toBeNull();
-  });
-
-  it('calls onSkillSelect with the selected skill while keeping results text-only', async () => {
-    const onSkillSelect = vi.fn();
-    const { getByRole } = renderHomePage({ onSkillSelect });
-
-    fireEvent.click(getByRole('button', { name: 'Search skills' }));
-    const terraformOption = await waitFor(() =>
-      getByRole('option', { name: 'Terraform' }),
-    );
-
-    expect(within(terraformOption).queryByRole('img')).toBeNull();
-    fireEvent.click(terraformOption);
-
-    expect(onSkillSelect).toHaveBeenCalledWith(
-      skills.find((skill) => skill.id === 'terraform'),
-    );
-  });
-
-  it('shows no skills in the palette while keeping the empty carousel state', () => {
-    const { getByRole, getByText } = renderHomePage({
+  it('keeps the empty carousel state without adding page-level search', () => {
+    const { getByRole, getByText, queryByRole } = renderHomePage({
       highlightedSkills: [],
-      skills: [],
     });
 
-    fireEvent.click(getByRole('button', { name: 'Search skills' }));
-
-    expect(getByRole('dialog', { name: 'Search skills' })).toBeTruthy();
-    expect(getByText('No skills')).toBeTruthy();
     expect(getByText('No highlighted skills have been supplied.')).toBeTruthy();
     expect(getByRole('link', { name: 'Show all' }).getAttribute('href')).toBe(
       '/skills',
     );
-  });
-
-  it('uses supplied skills only for text search while preserving highlighted skills', async () => {
-    const suppliedSkills = skills.filter((skill) => skill.id === 'react');
-
-    const { getAllByTestId, getByRole } = renderHomePage({
-      highlightedSkills,
-      skills: suppliedSkills,
-    });
-
-    expect(getAllByTestId('skill-card')).toHaveLength(5);
-    fireEvent.click(getByRole('button', { name: 'Search skills' }));
-    const dialog = getByRole('dialog', { name: 'Search skills' });
-
-    await waitFor(() => {
-      expect(within(dialog).getByText('React')).toBeTruthy();
-    });
-    expect(within(dialog).queryByText('TypeScript')).toBeNull();
+    expect(queryByRole('button', { name: 'Search skills' })).toBeNull();
   });
 });

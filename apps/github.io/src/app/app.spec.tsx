@@ -1,5 +1,5 @@
 import { fireEvent, render, waitFor, within } from '@testing-library/react';
-import { MemoryRouter } from 'react-router-dom';
+import { MemoryRouter, useLocation } from 'react-router-dom';
 import { beforeEach, vi } from 'vitest';
 
 import App, { AppRoutes } from './app';
@@ -49,7 +49,7 @@ describe('App', () => {
     window.history.replaceState({}, '', '/');
   });
 
-  it('renders the home page with a scroll-persistent search nav', () => {
+  it('renders the home route inside the global navigation frame', () => {
     const {
       getAllByTestId,
       getByLabelText,
@@ -60,20 +60,14 @@ describe('App', () => {
       queryByText,
     } = render(<App />);
     const main = getByRole('main', { name: 'Home' });
-    const navigation = getByRole('navigation', { name: 'Mobile navigation' });
-    const mobileShell = main.parentElement;
+    const navigation = getByRole('navigation', { name: 'Global navigation' });
+    const shell = navigation.closest('[data-height="fill"]');
 
-    expect(mobileShell).toBe(navigation.parentElement);
-    expect(mobileShell?.className).toContain('max-w-md');
-    expect(mobileShell?.className).toContain('h-dvh');
-    expect(mobileShell?.className).toContain('min-h-screen');
-    expect(mobileShell?.className).toContain('flex');
-    expect(mobileShell?.className).toContain('overflow-hidden');
-    expect(main.className).not.toContain('min-h-screen');
-    expect(navigation.className).toContain('shrink-0');
-    expect(main.className).toContain('flex-1');
-    expect(main.className).toContain('astryx-stack');
-    expect(navigation).toBeTruthy();
+    expect(shell?.className).toContain('max-w-md');
+    expect(shell?.className).toContain('h-dvh');
+    expect(shell?.className).toContain('min-h-screen');
+    expect(shell?.className).toContain('overflow-hidden');
+    expect(main.className).toContain('astryx-layout-content');
     expect(queryByText('Ben Kim')).toBeNull();
     expect(queryByLabelText('Skill breadcrumb')).toBeNull();
     expect(queryByRole('link', { name: 'Skills' })).toBeNull();
@@ -92,7 +86,7 @@ describe('App', () => {
     expect(getByText('DORA capabilities')).toBeTruthy();
   });
 
-  it('replaces home content with the selected skill page', async () => {
+  it('navigates from home search to the selected skill page', async () => {
     const { getByRole, queryByRole } = render(<App />);
 
     fireEvent.click(getByRole('button', { name: 'Search skills' }));
@@ -123,6 +117,50 @@ describe('App', () => {
 describe('AppRoutes', () => {
   beforeEach(() => {
     window.history.replaceState({}, '', '/');
+  });
+
+  it.each([
+    ['/', 'Home'],
+    ['/skills', 'Skills'],
+    ['/skills/kubernetes', 'Kubernetes'],
+  ])('renders one identical global nav at %s', (path, pageHeading) => {
+    const { getAllByRole, getByRole } = render(
+      <MemoryRouter initialEntries={[path]}>
+        <AppRoutes />
+      </MemoryRouter>,
+    );
+
+    expect(
+      getAllByRole('navigation', { name: 'Global navigation' }),
+    ).toHaveLength(1);
+    expect(getAllByRole('button', { name: 'Search skills' })).toHaveLength(1);
+    expect(getByRole('heading', { level: 1, name: pageHeading })).toBeTruthy();
+  });
+
+  it('navigates from detail search to the selected skill route', async () => {
+    function Location() {
+      const location = useLocation();
+
+      return <output data-testid="location">{location.pathname}</output>;
+    }
+
+    const { getByRole, getByTestId } = render(
+      <MemoryRouter initialEntries={['/skills/kubernetes']}>
+        <Location />
+        <AppRoutes />
+      </MemoryRouter>,
+    );
+
+    fireEvent.click(getByRole('button', { name: 'Search skills' }));
+    fireEvent.change(getByRole('combobox', { name: 'Search skills' }), {
+      target: { value: 'terraform' },
+    });
+    fireEvent.click(
+      await waitFor(() => getByRole('option', { name: 'Terraform' })),
+    );
+
+    expect(getByRole('heading', { level: 1, name: 'Terraform' })).toBeTruthy();
+    expect(getByTestId('location').textContent).toBe('/skills/terraform');
   });
 
   it('renders the complete alphabetical linked catalog at /skills', () => {
@@ -182,7 +220,7 @@ describe('AppRoutes', () => {
   });
 
   it('renders the skill not found page for an unknown route', () => {
-    const { getByRole } = render(
+    const { getByRole, queryByRole } = render(
       <MemoryRouter initialEntries={['/not-a-route']}>
         <AppRoutes />
       </MemoryRouter>,
@@ -191,5 +229,6 @@ describe('AppRoutes', () => {
     expect(
       getByRole('heading', { level: 1, name: 'Skill not found' }),
     ).toBeTruthy();
+    expect(queryByRole('button', { name: 'Search skills' })).toBeNull();
   });
 });

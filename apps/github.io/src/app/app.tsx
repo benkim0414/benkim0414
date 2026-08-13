@@ -3,31 +3,26 @@ import { neutralTheme } from '@astryxdesign/theme-neutral/built';
 import type { ReactElement } from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 
-import { AppShell } from './app-shell';
+import { GlobalNavigationLayout } from './global-navigation-layout';
 import { NotFoundPage } from './not-found-page';
+import { HomePage } from './skills/home-page';
 import { SkillDetailRoute } from './skills/skill-detail-route';
 import { SkillsPage } from './skills/skills-page';
 
 export function AppRoutes(): ReactElement {
   return (
     <Routes>
-      <Route path="/" element={<AppShell />} />
       <Route
-        path="/skills"
         element={
           <Theme theme={neutralTheme}>
-            <SkillsPage />
+            <GlobalNavigationLayout />
           </Theme>
         }
-      />
-      <Route
-        path="/skills/:skillId"
-        element={
-          <Theme theme={neutralTheme}>
-            <SkillDetailRoute />
-          </Theme>
-        }
-      />
+      >
+        <Route path="/" element={<HomePage />} />
+        <Route path="/skills" element={<SkillsPage />} />
+        <Route path="/skills/:skillId" element={<SkillDetailRoute />} />
+      </Route>
       <Route
         path="*"
         element={
