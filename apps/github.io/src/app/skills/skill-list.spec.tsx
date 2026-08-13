@@ -58,4 +58,20 @@ describe('SkillList', () => {
     expect(list.getAttribute('aria-labelledby')).toBeNull();
     expect(queryByRole('heading', { level: 2, name: 'Skills' })).toBeNull();
   });
+
+  it('resolves a semantic link for each skill when requested', () => {
+    const typeScript = sampleSkills.find((skill) => skill.id === 'typescript');
+
+    expect(typeScript).toBeTruthy();
+
+    const { getByRole } = render(
+      <SkillList
+        getSkillHref={(skill) => `/skills/${skill.id}`}
+        skills={[typeScript!]}
+      />,
+    );
+    const link = getByRole('link', { name: /TypeScript/ });
+
+    expect(link.getAttribute('href')).toBe('/skills/typescript');
+  });
 });

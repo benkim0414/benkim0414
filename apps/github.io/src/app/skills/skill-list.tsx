@@ -9,6 +9,7 @@ export function SkillList({
   heading = 'Skills',
   emptyMessage = 'No skills have been supplied.',
   variant = 'default',
+  getSkillHref,
 }: SkillListProps) {
   return (
     <section aria-label={heading}>
@@ -17,7 +18,12 @@ export function SkillList({
       ) : (
         <List className="w-full" density="compact" hasDividers>
           {skills.map((skill) => (
-            <SkillListItem key={skill.id} skill={skill} variant={variant} />
+            <SkillListItem
+              href={getSkillHref?.(skill)}
+              key={skill.id}
+              skill={skill}
+              variant={variant}
+            />
           ))}
         </List>
       )}
