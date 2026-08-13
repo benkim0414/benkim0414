@@ -28,6 +28,8 @@ const RAW_HTML_BLOCK_TAG_PATTERN = new RegExp(
   `^ {0,3}</?(?:${RAW_HTML_BLOCK_TAGS})(?:\\s|/?>|$)`,
   'i',
 );
+const RAW_HTML_COMPLETE_TAG_PATTERN =
+  /^ {0,3}(?:<([A-Za-z][A-Za-z0-9-]*)(?:[ \t]+[A-Za-z_:][A-Za-z0-9_.:-]*(?:[ \t]*=[ \t]*(?:[^\s"'=<>`]+|'[^']*'|"[^"]*"))?)*[ \t]*\/?>|<\/([A-Za-z][A-Za-z0-9-]*)[ \t]*>)[ \t]*$/;
 
 function productionRefreshInstruction(label) {
   return label === DEFAULT_TARGET
@@ -102,6 +104,11 @@ function rawHtmlBlockStart(line) {
   }
 
   if (RAW_HTML_BLOCK_TAG_PATTERN.test(line)) return { endsOnBlankLine: true };
+  const completeTag = RAW_HTML_COMPLETE_TAG_PATTERN.exec(line);
+  const tag = completeTag?.[1] ?? completeTag?.[2];
+  if (tag && !/^(?:pre|script|style|textarea)$/i.test(tag)) {
+    return { endsOnBlankLine: true };
+  }
   return undefined;
 }
 
