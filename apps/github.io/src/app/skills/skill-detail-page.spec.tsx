@@ -52,6 +52,20 @@ describe('SkillDetailPage', () => {
     expect(metadataOpeningTag).not.toMatch(/\borientation=/);
   });
 
+  it('places skill metadata in a full-width muted Astryx Card', () => {
+    const detail = getResolvedDetail('kubernetes');
+    const { getByTestId } = render(<SkillDetailPage detail={detail} />);
+    const metadata = getByTestId('skill-metadata');
+    const card = metadata.closest('.astryx-card');
+
+    expect(card).not.toBeNull();
+    expect(card?.getAttribute('data-variant')).toBe('muted');
+    expect((card as HTMLElement).style.getPropertyValue('--x-width')).toBe(
+      '100%',
+    );
+    expect(card?.firstElementChild).toBe(metadata);
+  });
+
   it('renders the enriched Kubernetes detail surface', () => {
     const detail = getResolvedDetail('kubernetes');
     const {
