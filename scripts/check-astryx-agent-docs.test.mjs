@@ -17,8 +17,10 @@ import {
   checkAstryxAgentDocs,
   extractAstryxBlock,
   generateExpectedAgentDocs,
+  repairAstryxAgentDocs,
   resolveRepoPath,
 } from './check-astryx-agent-docs.mjs';
+import { refreshAstryxAgentDocs } from './refresh-astryx-agent-docs.mjs';
 
 const block = (version) =>
   `${ASTRYX_MARKER_START}\nAstryx v${version}\n${ASTRYX_MARKER_END}`;
@@ -51,7 +53,11 @@ test('extractAstryxBlock gives a repair instruction for missing markers', () => 
 
 for (const [name, content] of [
   ['fenced', '```md\n' + block('0.1.4') + '\n```'],
-  ['indented', `  ${ASTRYX_MARKER_START}\nAstryx v0.1.4\n${ASTRYX_MARKER_END}`],
+  ['mixed delimiter', '````\n' + block('0.1.4') + '\n~~~\n'],
+  [
+    'indented',
+    `    ${ASTRYX_MARKER_START}\nAstryx v0.1.4\n${ASTRYX_MARKER_END}`,
+  ],
 ]) {
   test(`extractAstryxBlock rejects ${name} code markers`, () => {
     assert.throws(
@@ -102,6 +108,63 @@ test('resolveRepoPath rejects a symlinked ancestor escaping the repository', () 
   } finally {
     rmSync(repoRoot, { recursive: true, force: true });
     rmSync(outsideRoot, { recursive: true, force: true });
+  }
+});
+
+test('resolveRepoPath rejects dangling file and ancestor symlinks', () => {
+  const repoRoot = mkdtempSync(
+    join(process.cwd(), '.astryx-safe-path-dangling-'),
+  );
+  try {
+    symlinkSync(join(repoRoot, 'missing.md'), join(repoRoot, 'AGENTS.md'));
+    assert.throws(
+      () => resolveRepoPath(repoRoot, 'AGENTS.md'),
+      /must stay inside/,
+    );
+    rmSync(join(repoRoot, 'AGENTS.md'));
+    symlinkSync(join(repoRoot, 'missing-dir'), join(repoRoot, 'apps'));
+    assert.throws(
+      () => resolveRepoPath(repoRoot, 'apps/github.io/AGENTS.md'),
+      /must stay inside/,
+    );
+  } finally {
+    rmSync(repoRoot, { recursive: true, force: true });
+  }
+});
+
+test('repairAstryxAgentDocs removes orphan and duplicate generated bodies', () => {
+  const malformed =
+    `handwritten\n${ASTRYX_MARKER_START}\nold body\n${ASTRYX_MARKER_END}\n` +
+    `${ASTRYX_MARKER_START}\nsecond old body\n${ASTRYX_MARKER_END}\n`;
+  const repaired = repairAstryxAgentDocs(malformed);
+  assert.equal(repaired, 'handwritten\n');
+  assert.equal((repaired.match(/ASTRYX:/g) ?? []).length, 0);
+});
+
+test('refreshAstryxAgentDocs repairs malformed content before regenerating one block', () => {
+  const repoRoot = mkdtempSync(join(process.cwd(), '.astryx-refresh-repair-'));
+  const targetRelativePath = 'AGENTS.md';
+  try {
+    writeFileSync(
+      join(repoRoot, targetRelativePath),
+      `handwritten\n${ASTRYX_MARKER_START}\nold body\n${ASTRYX_MARKER_END}\n${ASTRYX_MARKER_START}\nsecond old body\n${ASTRYX_MARKER_END}\n`,
+    );
+    symlinkSync(
+      join(process.cwd(), 'node_modules'),
+      join(repoRoot, 'node_modules'),
+    );
+    refreshAstryxAgentDocs({ repoRoot, targetRelativePath });
+    const refreshed = readFileSync(join(repoRoot, targetRelativePath), 'utf8');
+    assert.equal(
+      (refreshed.match(new RegExp(ASTRYX_MARKER_START, 'g')) ?? []).length,
+      1,
+    );
+    assert.doesNotMatch(refreshed, /old body|second old body/);
+    assert.doesNotThrow(() =>
+      extractAstryxBlock(refreshed, targetRelativePath),
+    );
+  } finally {
+    rmSync(repoRoot, { recursive: true, force: true });
   }
 });
 

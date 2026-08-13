@@ -2,6 +2,7 @@ import {
   existsSync,
   mkdtempSync,
   readFileSync,
+  lstatSync,
   realpathSync,
   rmSync,
 } from 'node:fs';
@@ -41,16 +42,27 @@ export function extractAstryxBlock(content, label) {
   }
 
   const lines = content.split('\n');
-  let fenced = false;
+  let fence;
   for (const line of lines) {
     const trimmed = line.trimStart();
-    if (/^(```|~~~)/.test(trimmed) && line.length - trimmed.length <= 3) {
-      fenced = !fenced;
+    const fenceMatch = /^( {0,3})(`{3,}|~{3,})(.*)$/.exec(line);
+    if (fenceMatch) {
+      const [, , run, info] = fenceMatch;
+      if (!fence) {
+        if (run[0] === '`' && info.includes('`')) continue;
+        fence = { char: run[0], length: run.length };
+      } else if (
+        run[0] === fence.char &&
+        run.length >= fence.length &&
+        info.trim() === ''
+      ) {
+        fence = undefined;
+      }
     }
     if (
       (line.includes(ASTRYX_MARKER_START) ||
         line.includes(ASTRYX_MARKER_END)) &&
-      (fenced || /^\s+/.test(line))
+      (fence || line.match(/^ {4}/))
     ) {
       throw new Error(
         `${label} has Astryx managed markers inside fenced or indented Markdown code. ` +
@@ -60,6 +72,18 @@ export function extractAstryxBlock(content, label) {
   }
 
   return content.slice(startIndex, endIndex + ASTRYX_MARKER_END.length);
+}
+
+export function repairAstryxAgentDocs(content) {
+  let repaired = content;
+  const markerPattern = new RegExp(
+    `${ASTRYX_MARKER_START}[\\s\\S]*?${ASTRYX_MARKER_END}\\n?`,
+    'g',
+  );
+  repaired = repaired.replace(markerPattern, '');
+  const orphanStart = repaired.indexOf(ASTRYX_MARKER_START);
+  if (orphanStart !== -1) repaired = repaired.slice(0, orphanStart);
+  return repaired.replaceAll(ASTRYX_MARKER_END, '');
 }
 
 export function resolveRepoPath(repoRoot, relativePath) {
@@ -73,16 +97,31 @@ export function resolveRepoPath(repoRoot, relativePath) {
     throw new Error(`Target must stay inside the repository: ${relativePath}`);
   }
   const realRoot = realpathSync(repoRoot);
-  let existingPath = absolutePath;
-  while (!existsSync(existingPath)) {
-    const parent = dirname(existingPath);
-    if (parent === existingPath) break;
-    existingPath = parent;
-  }
-  const realExistingPath = realpathSync(existingPath);
-  const fromRoot = relative(realRoot, realExistingPath);
-  if (fromRoot === '..' || fromRoot.startsWith(`..${sep}`)) {
-    throw new Error(`Target must stay inside the repository: ${relativePath}`);
+  let current = realRoot;
+  const parts = relative(realRoot, absolutePath).split(sep).filter(Boolean);
+  for (const part of parts) {
+    current = join(current, part);
+    let stat;
+    try {
+      stat = lstatSync(current);
+    } catch {
+      break;
+    }
+    if (stat.isSymbolicLink()) {
+      try {
+        current = realpathSync(current);
+      } catch {
+        throw new Error(
+          `Target must stay inside the repository: ${relativePath}`,
+        );
+      }
+    }
+    const fromRoot = relative(realRoot, current);
+    if (fromRoot === '..' || fromRoot.startsWith(`..${sep}`)) {
+      throw new Error(
+        `Target must stay inside the repository: ${relativePath}`,
+      );
+    }
   }
 
   return absolutePath;
