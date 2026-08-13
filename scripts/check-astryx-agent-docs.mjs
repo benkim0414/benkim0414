@@ -37,7 +37,7 @@ export function extractAstryxBlock(content, label) {
 
   if (starts !== 1 || ends !== 1 || endIndex < startIndex) {
     throw new Error(
-      `${label} has malformed Astryx managed markers. Remove all ASTRYX:START and ASTRYX:END marker lines, then run pnpm astryx:agents.`,
+      `${label} has malformed Astryx managed markers. Restore the entire stale Astryx guidance region from version control (or remove that complete region manually), then run pnpm astryx:agents.`,
     );
   }
 
@@ -62,28 +62,16 @@ export function extractAstryxBlock(content, label) {
     if (
       (line.includes(ASTRYX_MARKER_START) ||
         line.includes(ASTRYX_MARKER_END)) &&
-      (fence || line.match(/^ {4}/))
+      (fence || /^(?: {4}|\t)/.test(line))
     ) {
       throw new Error(
         `${label} has Astryx managed markers inside fenced or indented Markdown code. ` +
-          'Remove all ASTRYX:START and ASTRYX:END marker lines, then run pnpm astryx:agents.',
+          'Restore the entire stale Astryx guidance region from version control (or remove that complete region manually), then run pnpm astryx:agents.',
       );
     }
   }
 
   return content.slice(startIndex, endIndex + ASTRYX_MARKER_END.length);
-}
-
-export function repairAstryxAgentDocs(content) {
-  let repaired = content;
-  const markerPattern = new RegExp(
-    `${ASTRYX_MARKER_START}[\\s\\S]*?${ASTRYX_MARKER_END}\\n?`,
-    'g',
-  );
-  repaired = repaired.replace(markerPattern, '');
-  const orphanStart = repaired.indexOf(ASTRYX_MARKER_START);
-  if (orphanStart !== -1) repaired = repaired.slice(0, orphanStart);
-  return repaired.replaceAll(ASTRYX_MARKER_END, '');
 }
 
 export function resolveRepoPath(repoRoot, relativePath) {
