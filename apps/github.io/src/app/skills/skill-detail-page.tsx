@@ -1,4 +1,5 @@
 import { BreadcrumbItem, Breadcrumbs } from '@astryxdesign/core/Breadcrumbs';
+import { Card } from '@astryxdesign/core/Card';
 import { Heading } from '@astryxdesign/core/Heading';
 import { HStack, VStack } from '@astryxdesign/core/Layout';
 import {
@@ -74,49 +75,51 @@ export function SkillDetailPage({ detail }: SkillDetailPageProps): ReactElement 
         </Text>
       </VStack>
 
-      <MetadataList data-testid="skill-metadata">
-        <MetadataListItem label="Categories">
-          <HStack
-            as="ul"
-            gap={1}
-            wrap="wrap"
-            xstyle={styles.metadataValueList}
-          >
-            {detail.skill.categories.map((category) => (
-              <li key={category} {...stylex.props(styles.metadataValueItem)}>
-                <SkillCategory name={category} />
-              </li>
-            ))}
-          </HStack>
-        </MetadataListItem>
-
-        <MetadataListItem label="Rating">
-          <SkillRating level={detail.skill.level} />
-        </MetadataListItem>
-
-        {certifications.length > 0 ? (
-          <MetadataListItem label="Certifications">
+      <Card variant="muted" width="100%">
+        <MetadataList data-testid="skill-metadata">
+          <MetadataListItem label="Categories">
             <HStack
               as="ul"
-              gap={2}
+              gap={1}
               wrap="wrap"
               xstyle={styles.metadataValueList}
             >
-              {certifications.map((certification, index) => (
-                <li
-                  key={`${certification.title}-${certification.url}-${certification.expiresAt}`}
-                  {...stylex.props(styles.metadataValueItem)}
-                >
-                  <CertificationCitation
-                    {...certification}
-                    number={index + 1}
-                  />
+              {detail.skill.categories.map((category) => (
+                <li key={category} {...stylex.props(styles.metadataValueItem)}>
+                  <SkillCategory name={category} />
                 </li>
               ))}
             </HStack>
           </MetadataListItem>
-        ) : null}
-      </MetadataList>
+
+          <MetadataListItem label="Rating">
+            <SkillRating level={detail.skill.level} />
+          </MetadataListItem>
+
+          {certifications.length > 0 ? (
+            <MetadataListItem label="Certifications">
+              <HStack
+                as="ul"
+                gap={2}
+                wrap="wrap"
+                xstyle={styles.metadataValueList}
+              >
+                {certifications.map((certification, index) => (
+                  <li
+                    key={`${certification.title}-${certification.url}-${certification.expiresAt}`}
+                    {...stylex.props(styles.metadataValueItem)}
+                  >
+                    <CertificationCitation
+                      {...certification}
+                      number={index + 1}
+                    />
+                  </li>
+                ))}
+              </HStack>
+            </MetadataListItem>
+          ) : null}
+        </MetadataList>
+      </Card>
 
       {detail.experienceEvidence.length > 0 ? (
         <section aria-labelledby="skill-experience-heading">
