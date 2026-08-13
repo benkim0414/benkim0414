@@ -39,4 +39,5 @@ export interface SkillListProps {
   emptyMessage?: string;
   isHeadingHidden?: boolean;
   variant?: SkillSurfaceVariant;
+  getSkillHref?: (skill: Skill) => string | undefined;
 }

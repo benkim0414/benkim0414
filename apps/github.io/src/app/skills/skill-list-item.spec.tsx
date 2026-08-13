@@ -37,4 +37,28 @@ describe('SkillListItem', () => {
     expect(queryByText('Language')).toBeNull();
     expect(getByText('4 out of 5')).toBeTruthy();
   });
+
+  it('uses the Astryx row link contract when href is supplied', () => {
+    const typeScript = sampleSkills.find((skill) => skill.id === 'typescript');
+
+    expect(typeScript).toBeTruthy();
+
+    const { getByRole } = render(
+      <SkillListItem href="/skills/typescript" skill={typeScript!} />,
+    );
+
+    expect(
+      getByRole('link', { name: /TypeScript/ }).getAttribute('href'),
+    ).toBe('/skills/typescript');
+  });
+
+  it('remains a static Astryx row when href is omitted', () => {
+    const typeScript = sampleSkills.find((skill) => skill.id === 'typescript');
+
+    expect(typeScript).toBeTruthy();
+
+    const { queryByRole } = render(<SkillListItem skill={typeScript!} />);
+
+    expect(queryByRole('link')).toBeNull();
+  });
 });

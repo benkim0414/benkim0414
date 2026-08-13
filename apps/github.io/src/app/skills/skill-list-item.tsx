@@ -9,11 +9,13 @@ import type { Skill, SkillSurfaceVariant } from './skill-list.types';
 interface SkillListItemProps {
   skill: Skill;
   variant?: SkillSurfaceVariant;
+  href?: string;
 }
 
 export function SkillListItem({
   skill,
   variant = 'default',
+  href,
 }: SkillListItemProps) {
   const shouldShowCategories = variant === 'default';
 
@@ -29,6 +31,7 @@ export function SkillListItem({
           <SkillRating level={skill.level} />
         </HStack>
       }
+      href={href}
       label={skill.name}
       startContent={<SkillAvatar skill={skill} size="small" />}
     />
