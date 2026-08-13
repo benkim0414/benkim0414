@@ -12,6 +12,7 @@ import { Text } from '@astryxdesign/core/Text';
 import { TopNav } from '@astryxdesign/core/TopNav';
 import { createStaticSource } from '@astryxdesign/core/Typeahead';
 import { VisuallyHidden } from '@astryxdesign/core/VisuallyHidden';
+import { useNavigate } from 'react-router-dom';
 
 import { DoraCapabilityCard } from '../devops-capability-evidence/dora-capability-card';
 import { doraCapabilityDescriptions } from '../devops-capability-evidence/dora-capability-card.evidence';
@@ -26,6 +27,7 @@ import {
 } from './skill-list.data';
 import { SkillCarousel } from './skill-carousel';
 import type { Skill } from './skill-list.types';
+import { getSkillDetailPath } from './skill-route';
 
 interface SkillCommandAuxiliaryData {
   skill: Skill;
@@ -41,14 +43,13 @@ interface SkillCommandItem {
 export interface HomePageProps {
   skills?: readonly Skill[];
   highlightedSkills?: readonly Skill[];
-  onSkillSelect?: (skill: Skill) => void;
 }
 
 export function HomePage({
   skills = defaultSkills,
   highlightedSkills = defaultHighlightedSkills,
-  onSkillSelect,
 }: HomePageProps): ReactElement {
+  const navigate = useNavigate();
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [selectedSkillId, setSelectedSkillId] = useState<string>();
   const skillCommandItems = useMemo<SkillCommandItem[]>(
@@ -115,7 +116,7 @@ export function HomePage({
           )?.auxiliaryData.skill;
 
           if (selectedSkill) {
-            onSkillSelect?.(selectedSkill);
+            navigate(getSkillDetailPath(selectedSkill.id));
           }
         }}
       />
