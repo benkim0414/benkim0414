@@ -5,7 +5,9 @@ import {
   readFileSync,
   readdirSync,
   rmSync,
+  statSync,
   symlinkSync,
+  utimesSync,
   writeFileSync,
 } from 'node:fs';
 import { dirname, join } from 'node:path';
@@ -17,16 +19,43 @@ import {
   ASTRYX_MARKER_START,
   checkAstryxAgentDocs,
   extractAstryxBlock,
+  formatError,
   generateExpectedAgentDocs,
   resolveRepoPath,
 } from './check-astryx-agent-docs.mjs';
+import { refreshAstryxAgentDocs } from './refresh-astryx-agent-docs.mjs';
 
 const block = (version) =>
   `${ASTRYX_MARKER_START}\nAstryx v${version}\n${ASTRYX_MARKER_END}`;
 
+function writeFakeAstryxCli(repoRoot, source) {
+  const cliPath = join(
+    repoRoot,
+    'node_modules/@astryxdesign/cli/bin/astryx.mjs',
+  );
+  mkdirSync(dirname(cliPath), { recursive: true });
+  writeFileSync(cliPath, source);
+}
+
+function runRefreshExecutable(repoRoot, ...args) {
+  return spawnSync(
+    process.execPath,
+    [join(process.cwd(), 'scripts/refresh-astryx-agent-docs.mjs'), ...args],
+    { cwd: repoRoot, encoding: 'utf8' },
+  );
+}
+
 test('extractAstryxBlock returns one complete managed block', () => {
   assert.equal(
     extractAstryxBlock(`before\n${block('0.1.4')}\nafter`, 'fixture'),
+    block('0.1.4'),
+  );
+});
+
+test('extractAstryxBlock accepts top-level markers after unmatched backticks', () => {
+  const content = `prose \`\`\n${block('0.1.4')}`;
+  assert.equal(
+    extractAstryxBlock(content, 'unmatched backticks'),
     block('0.1.4'),
   );
 });
@@ -53,6 +82,44 @@ for (const spaces of [1, 2, 3]) {
   });
 }
 
+for (const [name, content] of [
+  ['multiline code span', `prose \`\`\n${block('0.1.4')}\n\`\` tail`],
+  [
+    'blockquote',
+    `> ${ASTRYX_MARKER_START}\n> generated\n> ${ASTRYX_MARKER_END}`,
+  ],
+  ['list item', `- item\n  ${block('0.1.4').replaceAll('\n', '\n  ')}`],
+  ['empty list item', `-\n  ${block('0.1.4').replaceAll('\n', '\n  ')}`],
+  [
+    'nested list item',
+    `- outer\n  - nested\n  ${block('0.1.4').replaceAll('\n', '\n  ')}`,
+  ],
+  [
+    'inline text',
+    `before ${ASTRYX_MARKER_START}\ngenerated\n${ASTRYX_MARKER_END}`,
+  ],
+]) {
+  test(`extractAstryxBlock rejects markers in ${name}`, () => {
+    assert.throws(
+      () => extractAstryxBlock(content, name),
+      /standalone top-level Markdown nodes.*Restore.*region/s,
+    );
+  });
+}
+
+for (const tag of ['pre', 'script', 'style', 'textarea']) {
+  test(`extractAstryxBlock rejects markers in a ${tag} raw HTML block`, () => {
+    assert.throws(
+      () =>
+        extractAstryxBlock(
+          `<${tag} data-fixture>\n${block('0.1.4')}\n</${tag}>`,
+          `${tag} raw HTML`,
+        ),
+      /standalone top-level Markdown nodes.*Restore.*region/s,
+    );
+  });
+}
+
 for (const indentation of ['\t', ' \t', '  \t', '   \t']) {
   test(`extractAstryxBlock rejects ${JSON.stringify(indentation)} indentation`, () => {
     assert.throws(
@@ -66,7 +133,7 @@ for (const indentation of ['\t', ' \t', '  \t', '   \t']) {
   });
 }
 
-test('refresh preserves repository-root AGENTS.md while generating optional target', () => {
+test('refresh relies on the installed CLI explicit target without rewriting root AGENTS.md', () => {
   const repoRoot = mkdtempSync(join(process.cwd(), '.astryx-refresh-root-'));
   try {
     const rootPath = join(repoRoot, 'AGENTS.md');
@@ -78,25 +145,181 @@ test('refresh preserves repository-root AGENTS.md while generating optional targ
       join(process.cwd(), 'node_modules'),
       join(repoRoot, 'node_modules'),
     );
-    const before = readFileSync(rootPath, 'utf8');
+    const oldTimestamp = new Date('2000-01-01T00:00:00.000Z');
+    utimesSync(rootPath, oldTimestamp, oldTimestamp);
+    const before = statSync(rootPath, { bigint: true });
     const result = spawnSync(
       process.execPath,
-      [
-        join(process.cwd(), 'scripts/refresh-astryx-agent-docs.mjs'),
-        'apps/github.io/AGENTS.md',
-      ],
+      [join(process.cwd(), 'scripts/refresh-astryx-agent-docs.mjs')],
       { cwd: repoRoot, encoding: 'utf8' },
     );
-    assert.equal(result.status, 0);
-    assert.equal(readFileSync(rootPath, 'utf8'), before);
+    assert.equal(result.status, 0, `${result.stdout}\n${result.stderr}`);
+    const after = statSync(rootPath, { bigint: true });
+    assert.equal(readFileSync(rootPath, 'utf8'), 'root handwritten\n');
+    assert.equal(after.mtimeNs, before.mtimeNs);
+    assert.match(readFileSync(targetPath, 'utf8'), /<!-- ASTRYX:START -->/);
   } finally {
     rmSync(repoRoot, { recursive: true, force: true });
   }
 });
 
-test('extractAstryxBlock gives a repair instruction for missing markers', () => {
+test('refresh executable rejects positional targets without writing either guide', () => {
+  const repoRoot = mkdtempSync(join(process.cwd(), '.astryx-refresh-target-'));
+  try {
+    const productionPath = join(repoRoot, 'apps/github.io/AGENTS.md');
+    const customPath = join(repoRoot, 'custom/AGENTS.md');
+    mkdirSync(dirname(productionPath), { recursive: true });
+    mkdirSync(dirname(customPath), { recursive: true });
+    writeFileSync(productionPath, 'production handwritten\n');
+    writeFileSync(customPath, 'custom handwritten\n');
+    symlinkSync(
+      join(process.cwd(), 'node_modules'),
+      join(repoRoot, 'node_modules'),
+    );
+
+    const result = spawnSync(
+      process.execPath,
+      [
+        join(process.cwd(), 'scripts/refresh-astryx-agent-docs.mjs'),
+        'custom/AGENTS.md',
+      ],
+      { cwd: repoRoot, encoding: 'utf8' },
+    );
+
+    assert.notEqual(result.status, 0);
+    assert.match(
+      result.stderr,
+      /does not accept a target.*apps\/github\.io\/AGENTS\.md/s,
+    );
+    assert.equal(
+      readFileSync(productionPath, 'utf8'),
+      'production handwritten\n',
+    );
+    assert.equal(readFileSync(customPath, 'utf8'), 'custom handwritten\n');
+  } finally {
+    rmSync(repoRoot, { recursive: true, force: true });
+  }
+});
+
+test('refresh refuses to recreate a missing production guide', () => {
+  const repoRoot = mkdtempSync(join(process.cwd(), '.astryx-refresh-missing-'));
+  const targetPath = join(repoRoot, 'apps/github.io/AGENTS.md');
+  try {
+    mkdirSync(dirname(targetPath), { recursive: true });
+    symlinkSync(
+      join(process.cwd(), 'node_modules'),
+      join(repoRoot, 'node_modules'),
+    );
+
+    const result = spawnSync(
+      process.execPath,
+      [join(process.cwd(), 'scripts/refresh-astryx-agent-docs.mjs')],
+      { cwd: repoRoot, encoding: 'utf8' },
+    );
+
+    assert.notEqual(result.status, 0);
+    assert.match(result.stderr, /must already exist.*handwritten guidance/s);
+    assert.equal(statSync(dirname(targetPath)).isDirectory(), true);
+    assert.throws(() => readFileSync(targetPath, 'utf8'), /ENOENT/);
+  } finally {
+    rmSync(repoRoot, { recursive: true, force: true });
+  }
+});
+
+test('refresh fails when a zero-exit CLI removes its output', () => {
+  const repoRoot = mkdtempSync(
+    join(process.cwd(), '.astryx-refresh-no-output-'),
+  );
+  const targetPath = join(repoRoot, 'apps/github.io/AGENTS.md');
+  try {
+    mkdirSync(dirname(targetPath), { recursive: true });
+    writeFileSync(targetPath, `handwritten\n${block('0.1.3')}\n`);
+    writeFakeAstryxCli(
+      repoRoot,
+      "import {rmSync} from 'node:fs'; const output = process.argv.at(-1); rmSync(output);\n",
+    );
+
+    const result = runRefreshExecutable(repoRoot);
+
+    assert.notEqual(result.status, 0);
+    assert.match(result.stderr, /postcondition.*ENOENT/s);
+  } finally {
+    rmSync(repoRoot, { recursive: true, force: true });
+  }
+});
+
+test('refresh fails when a zero-exit CLI writes malformed output', () => {
+  const repoRoot = mkdtempSync(
+    join(process.cwd(), '.astryx-refresh-malformed-'),
+  );
+  const targetPath = join(repoRoot, 'apps/github.io/AGENTS.md');
+  try {
+    mkdirSync(dirname(targetPath), { recursive: true });
+    writeFileSync(targetPath, `handwritten\n${block('0.1.3')}\n`);
+    writeFakeAstryxCli(
+      repoRoot,
+      "import {writeFileSync} from 'node:fs'; const output = process.argv.at(-1); writeFileSync(output, '<!-- ASTRYX:START -->\\nbroken\\n');\n",
+    );
+
+    const result = runRefreshExecutable(repoRoot);
+
+    assert.notEqual(result.status, 0);
+    assert.match(
+      result.stderr,
+      /postcondition.*malformed Astryx managed markers/s,
+    );
+  } finally {
+    rmSync(repoRoot, { recursive: true, force: true });
+  }
+});
+
+test('refresh fails when a zero-exit CLI leaves stale output', () => {
+  const repoRoot = mkdtempSync(join(process.cwd(), '.astryx-refresh-stale-'));
+  const targetPath = join(repoRoot, 'apps/github.io/AGENTS.md');
+  try {
+    mkdirSync(dirname(targetPath), { recursive: true });
+    writeFileSync(targetPath, `handwritten\n${block('0.1.3')}\n`);
+    writeFakeAstryxCli(
+      repoRoot,
+      `import {mkdirSync,writeFileSync} from 'node:fs';
+import {dirname} from 'node:path';
+const output = process.argv.at(-1);
+if (output.startsWith('.astryx-agent-docs-check-')) {
+  mkdirSync(dirname(output), {recursive: true});
+  writeFileSync(output, ${JSON.stringify(block('0.1.4'))});
+}\n`,
+    );
+
+    const result = runRefreshExecutable(repoRoot);
+
+    assert.notEqual(result.status, 0);
+    assert.match(result.stderr, /postcondition.*stale.*pnpm astryx:agents/s);
+  } finally {
+    rmSync(repoRoot, { recursive: true, force: true });
+  }
+});
+
+test('checker executable rejects positional targets', () => {
+  const result = spawnSync(
+    process.execPath,
+    [join(process.cwd(), 'scripts/check-astryx-agent-docs.mjs'), 'AGENTS.md'],
+    { cwd: process.cwd(), encoding: 'utf8' },
+  );
+
+  assert.notEqual(result.status, 0);
+  assert.match(
+    result.stderr,
+    /does not accept a target.*apps\/github\.io\/AGENTS\.md/s,
+  );
+});
+
+test('extractAstryxBlock gives the production guide a refresh instruction', () => {
   assert.throws(
-    () => extractAstryxBlock('handwritten guidance only', 'missing'),
+    () =>
+      extractAstryxBlock(
+        'handwritten guidance only',
+        'apps/github.io/AGENTS.md',
+      ),
     /missing an Astryx managed block.*pnpm astryx:agents/s,
   );
 });
@@ -203,21 +426,9 @@ for (const [name, content] of [
     try {
       writeFileSync(targetPath, content);
       const before = readFileSync(targetPath, 'utf8');
-      symlinkSync(
-        join(process.cwd(), 'node_modules'),
-        join(repoRoot, 'node_modules'),
-      );
-      const result = spawnSync(
-        process.execPath,
-        [
-          join(process.cwd(), 'scripts/refresh-astryx-agent-docs.mjs'),
-          'AGENTS.md',
-        ],
-        { cwd: repoRoot, encoding: 'utf8' },
-      );
-      assert.notEqual(result.status, 0);
-      assert.match(
-        `${result.stdout}\n${result.stderr}`,
+      assert.throws(
+        () =>
+          refreshAstryxAgentDocs({ repoRoot, targetRelativePath: 'AGENTS.md' }),
         /Restore the entire stale Astryx guidance region/,
       );
       assert.equal(readFileSync(targetPath, 'utf8'), before);
@@ -342,6 +553,40 @@ test('checkAstryxAgentDocs rejects a stale copy and cleans generated files', () 
   }
 });
 
+test('custom checker diagnostics do not recommend refreshing the production guide', () => {
+  const repoRoot = mkdtempSync(
+    join(process.cwd(), '.astryx-agent-docs-test-custom-'),
+  );
+  const targetRelativePath = 'fixtures/AGENTS.md';
+  const targetPath = resolveRepoPath(repoRoot, targetRelativePath);
+
+  try {
+    mkdirSync(dirname(targetPath), { recursive: true });
+    writeFileSync(targetPath, block('0.1.3'));
+
+    assert.throws(
+      () =>
+        checkAstryxAgentDocs({
+          repoRoot,
+          targetRelativePath,
+          generateExpected: ({ repoRoot: root, outputRelativePath }) => {
+            writeFileSync(
+              resolveRepoPath(root, outputRelativePath),
+              block('0.1.4'),
+            );
+          },
+        }),
+      (error) => {
+        assert.match(error.message, /Astryx agent docs are stale/);
+        assert.doesNotMatch(error.message, /pnpm astryx:agents/);
+        return true;
+      },
+    );
+  } finally {
+    rmSync(repoRoot, { recursive: true, force: true });
+  }
+});
+
 test('checkAstryxAgentDocs preserves generator diagnostics and cleans on failure', () => {
   const repoRoot = mkdtempSync(
     join(process.cwd(), '.astryx-generator-failure-'),
@@ -366,6 +611,47 @@ test('checkAstryxAgentDocs preserves generator diagnostics and cleans on failure
         name.startsWith('.astryx-agent-docs-check-'),
       ),
       [],
+    );
+  } finally {
+    rmSync(repoRoot, { recursive: true, force: true });
+  }
+});
+
+test('checker renders nested generation and cleanup failures primary-first', () => {
+  const repoRoot = mkdtempSync(join(process.cwd(), '.astryx-dual-failure-'));
+  const targetRelativePath = 'apps/github.io/AGENTS.md';
+  const targetPath = resolveRepoPath(repoRoot, targetRelativePath);
+  try {
+    mkdirSync(dirname(targetPath), { recursive: true });
+    writeFileSync(targetPath, block('0.1.4'));
+    let failure;
+
+    try {
+      checkAstryxAgentDocs({
+        repoRoot,
+        targetRelativePath,
+        generateExpected: () => {
+          throw new Error('primary generation failure');
+        },
+        removeTemp: () => {
+          throw new AggregateError(
+            [new Error('cleanup leaf failure')],
+            'cleanup aggregate failure',
+          );
+        },
+      });
+    } catch (error) {
+      failure = error;
+    }
+
+    assert.ok(failure instanceof AggregateError);
+    const rendered = formatError(failure);
+    assert.match(rendered, /primary generation failure/);
+    assert.match(rendered, /cleanup leaf failure/);
+    assert.match(rendered, /cleanup aggregate failure/);
+    assert.ok(
+      rendered.indexOf('primary generation failure') <
+        rendered.indexOf('cleanup leaf failure'),
     );
   } finally {
     rmSync(repoRoot, { recursive: true, force: true });

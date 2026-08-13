@@ -18,6 +18,34 @@ const DEFAULT_REPO_ROOT = resolve(SCRIPT_DIR, '..');
 const DEFAULT_TARGET = 'apps/github.io/AGENTS.md';
 const TEMP_PREFIX = '.astryx-agent-docs-check-';
 
+function productionRefreshInstruction(label) {
+  return label === DEFAULT_TARGET
+    ? ' Run `pnpm astryx:agents` and commit the updated block.'
+    : '';
+}
+
+function markerRepairInstruction(label) {
+  return (
+    'Restore the entire stale Astryx guidance region from version control ' +
+    '(or remove that complete region manually).' +
+    productionRefreshInstruction(label)
+  );
+}
+
+export function formatError(error) {
+  if (error instanceof AggregateError) {
+    return [...error.errors.map(formatError), error.message]
+      .filter(Boolean)
+      .join('\n');
+  }
+  if (error instanceof Error) {
+    const cause =
+      error.cause === undefined ? '' : `\n${formatError(error.cause)}`;
+    return `${error.message}${cause}`;
+  }
+  return String(error);
+}
+
 function countOccurrences(content, marker) {
   return content.split(marker).length - 1;
 }
@@ -32,6 +60,65 @@ function leadingIndentColumns(line) {
   return columns;
 }
 
+function listContentIndent(line) {
+  const match = /^( {0,3})([*+-]|\d{1,9}[.)])(?:([ \t]+)(?=\S)|[ \t]*$)/.exec(
+    line,
+  );
+  if (!match) return undefined;
+
+  const [, indentation, marker, whitespace = ' '] = match;
+  return (
+    leadingIndentColumns(indentation) +
+    marker.length +
+    Math.min(leadingIndentColumns(whitespace), 4)
+  );
+}
+
+function isEscaped(line, index) {
+  let precedingBackslashes = 0;
+  for (let cursor = index - 1; cursor >= 0 && line[cursor] === '\\'; cursor--) {
+    precedingBackslashes += 1;
+  }
+  return precedingBackslashes % 2 === 1;
+}
+
+function hasCodeSpanCloser(lines, lineIndex, column, delimiterLength) {
+  for (let index = lineIndex; index < lines.length; index++) {
+    const candidate = lines[index];
+    if (index > lineIndex && candidate.trim() === '') return false;
+
+    for (const run of candidate.matchAll(/`+/g)) {
+      if (index === lineIndex && run.index <= column) continue;
+      if (
+        !isEscaped(candidate, run.index) &&
+        run[0].length === delimiterLength
+      ) {
+        return true;
+      }
+    }
+  }
+  return false;
+}
+
+function scanCodeSpanDelimiter(lines, lineIndex, delimiterLength) {
+  const line = lines[lineIndex];
+  const runs = line.matchAll(/`+/g);
+  let activeDelimiter = delimiterLength;
+
+  for (const run of runs) {
+    if (isEscaped(line, run.index)) continue;
+
+    if (
+      activeDelimiter === undefined &&
+      hasCodeSpanCloser(lines, lineIndex, run.index, run[0].length)
+    ) {
+      activeDelimiter = run[0].length;
+    } else if (run[0].length === activeDelimiter) activeDelimiter = undefined;
+  }
+
+  return activeDelimiter;
+}
+
 export function extractAstryxBlock(content, label) {
   const starts = countOccurrences(content, ASTRYX_MARKER_START);
   const ends = countOccurrences(content, ASTRYX_MARKER_END);
@@ -40,45 +127,104 @@ export function extractAstryxBlock(content, label) {
 
   if (starts === 0 && ends === 0) {
     throw new Error(
-      `${label} is missing an Astryx managed block. ` +
-        'Run `pnpm astryx:agents` to generate it.',
+      `${label} is missing an Astryx managed block.` +
+        productionRefreshInstruction(label),
     );
   }
 
   if (starts !== 1 || ends !== 1 || endIndex < startIndex) {
     throw new Error(
-      `${label} has malformed Astryx managed markers. Restore the entire stale Astryx guidance region from version control (or remove that complete region manually), then run pnpm astryx:agents.`,
+      `${label} has malformed Astryx managed markers. ${markerRepairInstruction(label)}`,
     );
   }
 
   const lines = content.split('\n');
   let fence;
-  for (const line of lines) {
-    const trimmed = line.trimStart();
-    const fenceMatch = /^( {0,3})(`{3,}|~{3,})(.*)$/.exec(line);
-    if (fenceMatch) {
-      const [, , run, info] = fenceMatch;
-      if (!fence) {
-        if (run[0] === '`' && info.includes('`')) continue;
-        fence = { char: run[0], length: run.length };
-      } else if (
-        run[0] === fence.char &&
-        run.length >= fence.length &&
-        info.trim() === ''
+  let rawHtmlTag;
+  let codeSpanDelimiter;
+  const listIndents = [];
+  for (const [lineIndex, line] of lines.entries()) {
+    const containsMarker =
+      line.includes(ASTRYX_MARKER_START) || line.includes(ASTRYX_MARKER_END);
+    const indentation = leadingIndentColumns(line);
+    if (line.trim() !== '') {
+      while (
+        listIndents.length > 0 &&
+        indentation < listIndents[listIndents.length - 1]
       ) {
-        fence = undefined;
+        listIndents.pop();
       }
     }
-    if (
-      (line.includes(ASTRYX_MARKER_START) ||
-        line.includes(ASTRYX_MARKER_END)) &&
-      (fence || leadingIndentColumns(line) >= 4)
-    ) {
-      throw new Error(
-        `${label} has Astryx managed markers inside fenced or indented Markdown code. ` +
-          'Restore the entire stale Astryx guidance region from version control (or remove that complete region manually), then run pnpm astryx:agents.',
-      );
+
+    if (containsMarker) {
+      if (fence || indentation >= 4) {
+        throw new Error(
+          `${label} has Astryx managed markers inside fenced or indented Markdown code. ` +
+            markerRepairInstruction(label),
+        );
+      }
+
+      const standaloneMarker =
+        /^ {0,3}<!-- ASTRYX:(?:START|END) -->[ \t]*$/.test(line);
+      if (
+        !standaloneMarker ||
+        rawHtmlTag !== undefined ||
+        codeSpanDelimiter !== undefined ||
+        listIndents.length > 0
+      ) {
+        throw new Error(
+          `${label} must use standalone top-level Markdown nodes for Astryx managed markers. ` +
+            markerRepairInstruction(label),
+        );
+      }
     }
+
+    const fenceMatch = /^( {0,3})(`{3,}|~{3,})(.*)$/.exec(line);
+    if (fence) {
+      if (fenceMatch) {
+        const [, , run, info] = fenceMatch;
+        if (
+          run[0] === fence.char &&
+          run.length >= fence.length &&
+          info.trim() === ''
+        ) {
+          fence = undefined;
+        }
+      }
+      continue;
+    }
+
+    if (rawHtmlTag !== undefined) {
+      if (new RegExp(`</${rawHtmlTag}\\s*>`, 'i').test(line)) {
+        rawHtmlTag = undefined;
+      }
+      continue;
+    }
+
+    if (codeSpanDelimiter === undefined && fenceMatch) {
+      const [, , run, info] = fenceMatch;
+      if (run[0] !== '`' || !info.includes('`')) {
+        fence = { char: run[0], length: run.length };
+        continue;
+      }
+    }
+
+    const rawHtmlStart = /^ {0,3}<(pre|script|style|textarea)(?:\s|>|$)/i.exec(
+      line,
+    );
+    if (codeSpanDelimiter === undefined && rawHtmlStart) {
+      const tag = rawHtmlStart[1];
+      if (!new RegExp(`</${tag}\\s*>`, 'i').test(line)) rawHtmlTag = tag;
+      continue;
+    }
+
+    codeSpanDelimiter = scanCodeSpanDelimiter(
+      lines,
+      lineIndex,
+      codeSpanDelimiter,
+    );
+    const contentIndent = listContentIndent(line);
+    if (contentIndent !== undefined) listIndents.push(contentIndent);
   }
 
   return content.slice(startIndex, endIndex + ASTRYX_MARKER_END.length);
@@ -164,6 +310,7 @@ export function checkAstryxAgentDocs({
   repoRoot = DEFAULT_REPO_ROOT,
   targetRelativePath = DEFAULT_TARGET,
   generateExpected = generateExpectedAgentDocs,
+  removeTemp = rmSync,
 } = {}) {
   const targetPath = resolveRepoPath(repoRoot, targetRelativePath);
   const checkedIn = extractAstryxBlock(
@@ -184,8 +331,8 @@ export function checkAstryxAgentDocs({
 
     if (checkedIn !== expected) {
       throw new Error(
-        `Astryx agent docs are stale in ${targetRelativePath}. ` +
-          'Run `pnpm astryx:agents` and commit the updated block.',
+        `Astryx agent docs are stale in ${targetRelativePath}.` +
+          productionRefreshInstruction(targetRelativePath),
       );
     }
   } catch (error) {
@@ -193,7 +340,7 @@ export function checkAstryxAgentDocs({
   }
 
   try {
-    rmSync(tempDir, { recursive: true, force: true });
+    removeTemp(tempDir, { recursive: true, force: true });
   } catch (cleanupError) {
     const message = `Failed to clean temporary Astryx docs at ${tempDir}: ${cleanupError.message}`;
     if (primaryError) {
@@ -212,12 +359,16 @@ const invokedPath = process.argv[1]
   : undefined;
 
 if (invokedPath === import.meta.url) {
-  const targetRelativePath = process.argv[2] ?? DEFAULT_TARGET;
   try {
-    checkAstryxAgentDocs({ targetRelativePath });
-    console.log(`Astryx agent docs are current: ${targetRelativePath}`);
+    if (process.argv.length > 2) {
+      throw new Error(
+        `Astryx agent-doc check does not accept a target; it always checks ${DEFAULT_TARGET}.`,
+      );
+    }
+    checkAstryxAgentDocs();
+    console.log(`Astryx agent docs are current: ${DEFAULT_TARGET}`);
   } catch (error) {
-    console.error(error instanceof Error ? error.message : error);
+    console.error(formatError(error));
     process.exitCode = 1;
   }
 }
