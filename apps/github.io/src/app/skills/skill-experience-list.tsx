@@ -1,6 +1,7 @@
 import { Blockquote } from '@astryxdesign/core/Blockquote';
 import { Heading } from '@astryxdesign/core/Heading';
 import { VStack } from '@astryxdesign/core/Layout';
+import { Text } from '@astryxdesign/core/Text';
 import * as stylex from '@stylexjs/stylex';
 import type { ReactElement } from 'react';
 
@@ -28,10 +29,14 @@ export function SkillExperienceList({
     <ul aria-label="Supporting experience" {...stylex.props(styles.list)}>
       {evidence.map((item) => (
         <li key={item.id} {...stylex.props(styles.item)}>
-          <VStack gap={1} paddingBlock={3}>
-            <Heading level={3}>{item.title}</Heading>
-            <Blockquote>{item.summary}</Blockquote>
-          </VStack>
+          <Blockquote>
+            <VStack gap={1} paddingBlock={3}>
+              <Heading level={3}>{item.title}</Heading>
+              <Text as="p" type="body" color="secondary">
+                {item.summary}
+              </Text>
+            </VStack>
+          </Blockquote>
         </li>
       ))}
     </ul>
