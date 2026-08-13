@@ -61,6 +61,11 @@ export function resolveSkillDetail(
         `Skill detail "${skillId}" must reference public, non-sensitive evidence; received "${evidenceId}".`,
       );
     }
+    if (evidence.type !== 'experience') {
+      throw new Error(
+        `Skill detail "${skillId}" must reference experience evidence; received "${evidenceId}" of type "${evidence.type}".`,
+      );
+    }
 
     return evidence;
   });

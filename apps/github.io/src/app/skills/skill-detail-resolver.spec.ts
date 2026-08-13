@@ -24,6 +24,10 @@ describe('resolveSkillDetail', () => {
       'deterministic-kubernetes-overlays',
       'reusable-kubernetes-deployment-foundations',
     ]);
+    expect(result.value.experienceEvidence).toHaveLength(3);
+    expect(
+      result.value.experienceEvidence.every(({ type }) => type === 'experience'),
+    ).toBe(true);
     expect(result.value.projects.map(({ id }) => id)).toEqual(['homelab']);
     expect(result.value).not.toHaveProperty('experienceSummary');
   });
@@ -76,6 +80,29 @@ describe('resolveSkillDetail', () => {
         }),
       ).toThrow(/public, non-sensitive evidence/);
     }
+  });
+
+  it('rejects a public, non-sensitive non-experience evidence reference', () => {
+    const projectEvidence = {
+      ...devOpsCapabilityEvidenceItems[0],
+      id: 'project-evidence',
+      type: 'project' as const,
+      isPublic: true,
+      isSensitive: false,
+    };
+
+    expect(() =>
+      resolveSkillDetail('kubernetes', {
+        ...productionSources,
+        detailRecords: [
+          {
+            ...skillDetailRecords[0],
+            experienceEvidenceIds: [projectEvidence.id],
+          },
+        ],
+        evidenceItems: [...devOpsCapabilityEvidenceItems, projectEvidence],
+      }),
+    ).toThrow('must reference experience evidence; received "project-evidence"');
   });
 
   it('rejects duplicate detail records before a later record can bypass validation', () => {
