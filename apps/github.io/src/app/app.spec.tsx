@@ -48,7 +48,7 @@ describe('App', () => {
     window.history.replaceState({}, '', '/');
   });
 
-  it('renders the mobile-only skills page with a scroll-persistent search nav', () => {
+  it('renders the home page with a scroll-persistent search nav', () => {
     const {
       getAllByTestId,
       getByLabelText,
@@ -58,7 +58,7 @@ describe('App', () => {
       queryByRole,
       queryByText,
     } = render(<App />);
-    const main = getByRole('main', { name: 'Skills' });
+    const main = getByRole('main', { name: 'Home' });
     const navigation = getByRole('navigation', { name: 'Mobile navigation' });
     const mobileShell = main.parentElement;
 
@@ -79,55 +79,30 @@ describe('App', () => {
     expect(queryByRole('search', { name: 'Skill search' })).toBeNull();
     expect(queryByRole('combobox', { name: 'Search skills' })).toBeNull();
     expect(getByRole('button', { name: 'Search skills' })).toBeTruthy();
-    expect(getByRole('heading', { level: 1, name: 'Skills' })).toBeTruthy();
+    expect(getByRole('heading', { level: 1, name: 'Home' })).toBeTruthy();
+    expect(getByRole('heading', { level: 2, name: 'Top skills' })).toBeTruthy();
     expect(getByLabelText('Highlighted skills')).toBeTruthy();
-    expect(getAllByTestId('skill-card')).toHaveLength(22);
-    expect(getByText('TypeScript')).toBeTruthy();
-    expect(getByText('React')).toBeTruthy();
+    expect(getAllByTestId('skill-card')).toHaveLength(5);
+    expect(getAllByTestId('dora-capability-card')).toHaveLength(10);
+    expect(getByRole('link', { name: 'Learn more' })).toBeTruthy();
+    expect(getByText('DORA capabilities')).toBeTruthy();
   });
 
-  it('filters only the full skills list from the command palette', async () => {
-    const { getAllByTestId, getByLabelText, getByRole } = render(<App />);
+  it('replaces home content with the selected skill page', async () => {
+    const { getByRole, queryByRole } = render(<App />);
 
     fireEvent.click(getByRole('button', { name: 'Search skills' }));
-    expect(getByRole('dialog', { name: 'Search skills' })).toBeTruthy();
-    expect(
-      await waitFor(() => getByRole('group', { name: 'Skills' })),
-    ).toBeTruthy();
-    expect(
-      await waitFor(() => getByRole('option', { name: /Terraform/ })),
-    ).toBeTruthy();
-    expect(getByRole('option', { name: /React/ })).toBeTruthy();
-    const terraformOption = getByRole('option', { name: /Terraform/ });
-    const terraformAvatar = within(terraformOption).getByRole('img', {
-      name: 'Terraform',
-    });
-    const terraformAvatarContent =
-      terraformAvatar.firstElementChild as HTMLElement;
-
-    expect(terraformAvatar.getAttribute('data-size')).toBe('tiny');
-    expect(terraformAvatarContent.style.getPropertyValue('--x-width')).toBe(
-      '20px',
-    );
-    expect(terraformAvatarContent.style.getPropertyValue('--x-height')).toBe(
-      '20px',
-    );
-
     fireEvent.change(getByRole('combobox', { name: 'Search skills' }), {
       target: { value: 'terraform' },
     });
-    fireEvent.click(
-      await waitFor(() => getByRole('option', { name: /Terraform/ })),
+    const terraformOption = await waitFor(() =>
+      getByRole('option', { name: 'Terraform' }),
     );
+    expect(within(terraformOption).queryByRole('img')).toBeNull();
+    fireEvent.click(terraformOption);
 
-    const carousel = getByLabelText('Highlighted skills');
-    const list = getByRole('region', { name: 'All skills' });
-
-    expect(getAllByTestId('skill-card')).toHaveLength(6);
-    expect(
-      within(carousel).getByRole('heading', { name: 'Kubernetes' }),
-    ).toBeTruthy();
-    expect(within(list).getByText('Terraform')).toBeTruthy();
+    expect(getByRole('heading', { level: 1, name: 'Terraform' })).toBeTruthy();
+    expect(queryByRole('main', { name: 'Home' })).toBeNull();
   });
 
   it('does not render generic navigation or desktop shell content', () => {

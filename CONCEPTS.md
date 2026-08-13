@@ -10,7 +10,9 @@ The static React application that will become the root GitHub Pages user site fo
 
 ### App Shell
 
-The generic first-screen layout scaffold for the `github.io` App: navigation, content regions, and footer without real portfolio content.
+The application-level composition boundary for the `github.io` App, owning shared context and deciding which page surface is active without absorbing page-specific content composition.
+
+An App Shell may own temporary cross-page selection state when a transition does not yet require a durable URL, while each page continues to own its local interactions and content.
 
 ### Mobile Page Shell
 
