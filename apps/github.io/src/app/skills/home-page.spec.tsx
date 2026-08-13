@@ -1,14 +1,18 @@
 import type { ComponentProps, ReactNode } from 'react';
 import { fireEvent, render, waitFor, within } from '@testing-library/react';
+import { LinkProvider } from '@astryxdesign/core/Link';
 import { Theme } from '@astryxdesign/core';
 import { VStack } from '@astryxdesign/core/Layout';
 import { Text } from '@astryxdesign/core/Text';
 import { neutralTheme } from '@astryxdesign/theme-neutral/built';
+import { MemoryRouter, useLocation } from 'react-router-dom';
 import { vi } from 'vitest';
 
+import { RouterLink } from '../router-link';
 import { HomePage } from './home-page';
 import { doraCapabilityDescriptions } from '../devops-capability-evidence/dora-capability-card.evidence';
 import { doraCapabilityDefinitions } from '../devops-capability-evidence/devops-capability-evidence.data';
+import { getSkillDetailPath } from './skill-route';
 import { highlightedSkills, skills } from './skill-list.data';
 
 vi.mock('@astryxdesign/core/CommandPalette', () => ({
@@ -118,11 +122,22 @@ HTMLDialogElement.prototype.close = vi.fn(function close(
   this.open = false;
 });
 
+function LocationProbe() {
+  const location = useLocation();
+
+  return <output aria-label="Current location">{location.pathname}</output>;
+}
+
 const renderHomePage = (props: ComponentProps<typeof HomePage> = {}) =>
   render(
-    <Theme theme={neutralTheme}>
-      <HomePage {...props} />
-    </Theme>,
+    <MemoryRouter>
+      <LinkProvider component={RouterLink}>
+        <Theme theme={neutralTheme}>
+          <HomePage {...props} />
+          <LocationProbe />
+        </Theme>
+      </LinkProvider>
+    </MemoryRouter>,
   );
 
 describe('HomePage', () => {
@@ -270,9 +285,8 @@ describe('HomePage', () => {
     ).toBeNull();
   });
 
-  it('calls onSkillSelect with the selected skill while keeping results text-only', async () => {
-    const onSkillSelect = vi.fn();
-    const { getByRole } = renderHomePage({ onSkillSelect });
+  it('navigates to the selected skill while keeping results text-only', async () => {
+    const { getByLabelText, getByRole } = renderHomePage();
 
     fireEvent.click(getByRole('button', { name: 'Search skills' }));
     const terraformOption = await waitFor(() =>
@@ -282,8 +296,8 @@ describe('HomePage', () => {
     expect(within(terraformOption).queryByRole('img')).toBeNull();
     fireEvent.click(terraformOption);
 
-    expect(onSkillSelect).toHaveBeenCalledWith(
-      skills.find((skill) => skill.id === 'terraform'),
+    expect(getByLabelText('Current location').textContent).toBe(
+      getSkillDetailPath('terraform'),
     );
   });
 

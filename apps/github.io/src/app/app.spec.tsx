@@ -1,8 +1,8 @@
 import { fireEvent, render, waitFor, within } from '@testing-library/react';
-import { MemoryRouter } from 'react-router-dom';
+import { MemoryRouter, useLocation } from 'react-router-dom';
 import { beforeEach, vi } from 'vitest';
 
-import App, { AppRoutes } from './app';
+import App, { AppProviders, AppRoutes } from './app';
 
 vi.stubGlobal(
   'ResizeObserver',
@@ -42,6 +42,12 @@ HTMLDialogElement.prototype.close = vi.fn(function close(
 ) {
   this.open = false;
 });
+
+function LocationProbe() {
+  const location = useLocation();
+
+  return <output aria-label="Current location">{location.pathname}</output>;
+}
 
 describe('App', () => {
   beforeEach(() => {
@@ -88,7 +94,19 @@ describe('App', () => {
     expect(getByText('DORA capabilities')).toBeTruthy();
   });
 
-  it('replaces home content with the selected skill page', async () => {
+  it('navigates from a home skill card to its detail route', async () => {
+    const { getByRole, queryByRole } = render(<App />);
+
+    fireEvent.click(getByRole('link', { name: 'Kubernetes' }));
+
+    await waitFor(() => {
+      expect(window.location.pathname).toBe('/skills/kubernetes');
+    });
+    expect(getByRole('heading', { level: 1, name: 'Kubernetes' })).toBeTruthy();
+    expect(queryByRole('main', { name: 'Home' })).toBeNull();
+  });
+
+  it('navigates from a command result to its detail route', async () => {
     const { getByRole, queryByRole } = render(<App />);
 
     fireEvent.click(getByRole('button', { name: 'Search skills' }));
@@ -124,7 +142,10 @@ describe('AppRoutes', () => {
   it('renders Kubernetes skill detail for its clean route', () => {
     const { getByRole } = render(
       <MemoryRouter initialEntries={['/skills/kubernetes']}>
-        <AppRoutes />
+        <AppProviders>
+          <AppRoutes />
+          <LocationProbe />
+        </AppProviders>
       </MemoryRouter>,
     );
 
@@ -137,7 +158,10 @@ describe('AppRoutes', () => {
   it('renders React skill detail for its clean route', () => {
     const { getByRole } = render(
       <MemoryRouter initialEntries={['/skills/react']}>
-        <AppRoutes />
+        <AppProviders>
+          <AppRoutes />
+          <LocationProbe />
+        </AppProviders>
       </MemoryRouter>,
     );
 
@@ -147,7 +171,10 @@ describe('AppRoutes', () => {
   it('renders the skill not found page for an unknown skill route', () => {
     const { getByRole } = render(
       <MemoryRouter initialEntries={['/skills/not-real']}>
-        <AppRoutes />
+        <AppProviders>
+          <AppRoutes />
+          <LocationProbe />
+        </AppProviders>
       </MemoryRouter>,
     );
 
@@ -159,7 +186,10 @@ describe('AppRoutes', () => {
   it('renders the skill not found page for an unknown route', () => {
     const { getByRole } = render(
       <MemoryRouter initialEntries={['/not-a-route']}>
-        <AppRoutes />
+        <AppProviders>
+          <AppRoutes />
+          <LocationProbe />
+        </AppProviders>
       </MemoryRouter>,
     );
 
