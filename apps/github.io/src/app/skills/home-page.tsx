@@ -4,6 +4,8 @@ import { Button } from '@astryxdesign/core/Button';
 import { HStack, LayoutContent, VStack } from '@astryxdesign/core/Layout';
 import { Text } from '@astryxdesign/core/Text';
 import { VisuallyHidden } from '@astryxdesign/core/VisuallyHidden';
+import { colorVars } from '@astryxdesign/core/theme/tokens.stylex';
+import * as stylex from '@stylexjs/stylex';
 
 import { DoraCapabilityCard } from '../devops-capability-evidence/dora-capability-card';
 import { doraCapabilityDescriptions } from '../devops-capability-evidence/dora-capability-card.evidence';
@@ -20,25 +22,38 @@ export interface HomePageProps {
   highlightedSkills?: readonly Skill[];
 }
 
+const styles = stylex.create({
+  page: {
+    display: 'flex',
+    flexDirection: 'column',
+  },
+  topSkills: {
+    flexShrink: 0,
+    backgroundColor: colorVars['--color-background-surface'],
+  },
+  doraContent: {
+    flexGrow: 1,
+    flexShrink: 1,
+    flexBasis: 0,
+    minHeight: 0,
+  },
+});
+
 export function HomePage({
   highlightedSkills = defaultHighlightedSkills,
 }: HomePageProps): ReactElement {
   return (
     <LayoutContent
-      className="flex flex-col"
       isScrollable={false}
       label="Home"
       padding={0}
       role="main"
+      xstyle={styles.page}
     >
       <VisuallyHidden as="h1" id="home-page-title">
         Home
       </VisuallyHidden>
-      <VStack
-        className="shrink-0 bg-[var(--color-background-surface)]"
-        gap={3}
-        paddingBlock={4}
-      >
+      <VStack gap={3} paddingBlock={4} xstyle={styles.topSkills}>
         <VStack paddingInline={4}>
           <Text as="h2" type="body" weight="bold">
             Top skills
@@ -56,11 +71,11 @@ export function HomePage({
         </HStack>
       </VStack>
       <VStack
-        className="min-h-0 flex-1"
         gap={3}
         isScrollable
         paddingBlock={4}
         paddingInline={4}
+        xstyle={styles.doraContent}
       >
         <Text as="h2" type="body" weight="bold">
           DORA capabilities

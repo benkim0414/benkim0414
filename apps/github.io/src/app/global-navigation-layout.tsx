@@ -9,6 +9,7 @@ import { IconButton } from '@astryxdesign/core/IconButton';
 import { Layout, LayoutHeader } from '@astryxdesign/core/Layout';
 import { TopNav } from '@astryxdesign/core/TopNav';
 import { createStaticSource } from '@astryxdesign/core/Typeahead';
+import * as stylex from '@stylexjs/stylex';
 
 import type { GlobalSearchResult } from './global-search/global-search.types';
 import { createSkillSearchResults } from './global-search/skill-search-results';
@@ -19,6 +20,16 @@ interface GlobalSearchCommandItem extends GlobalSearchResult {
     readonly group: string;
   };
 }
+
+const styles = stylex.create({
+  frame: {
+    width: '100%',
+    maxWidth: '448px',
+    height: '100dvh',
+    overflow: 'hidden',
+    marginInline: 'auto',
+  },
+});
 
 export function GlobalNavigationLayout(): ReactElement {
   const navigate = useNavigate();
@@ -73,7 +84,6 @@ export function GlobalNavigationLayout(): ReactElement {
         }}
       />
       <Layout
-        className="mx-auto h-dvh min-h-screen w-full max-w-md overflow-hidden"
         content={<Outlet />}
         header={
           <LayoutHeader padding={0}>
@@ -92,6 +102,7 @@ export function GlobalNavigationLayout(): ReactElement {
           </LayoutHeader>
         }
         height="fill"
+        xstyle={styles.frame}
       />
     </>
   );

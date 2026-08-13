@@ -116,12 +116,17 @@ describe('GlobalNavigationLayout', () => {
     const navigation = getByRole('navigation', { name: 'Global navigation' });
     const shell = navigation.closest('[data-height="fill"]');
 
+    if (!(shell instanceof HTMLElement)) {
+      throw new Error('Expected the global navigation layout shell.');
+    }
+
     expect(getByRole('button', { name: 'Search skills' })).toBeTruthy();
     expect(queryByRole('heading', { name: /skills/i })).toBeNull();
     expect(getByText('Route content')).toBeTruthy();
-    expect(shell?.className).toContain('astryx-layout');
-    expect(shell?.className).toContain('max-w-md');
-    expect(shell?.className).toContain('h-dvh');
+    expect(shell.className).toContain('astryx-layout');
+    expect(shell.className).not.toMatch(
+      /\b(?:mx-auto|h-dvh|min-h-screen|w-full|max-w-md|overflow-hidden)\b/,
+    );
     expect(navigation.parentElement?.parentElement?.className).toContain(
       'astryx-layout-header',
     );

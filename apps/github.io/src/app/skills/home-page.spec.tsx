@@ -1,7 +1,7 @@
 import type { ComponentProps } from 'react';
 import { render, within } from '@testing-library/react';
 import { Theme } from '@astryxdesign/core';
-import { HStack, LayoutContent, VStack } from '@astryxdesign/core/Layout';
+import { HStack, VStack } from '@astryxdesign/core/Layout';
 import { Text } from '@astryxdesign/core/Text';
 import { neutralTheme } from '@astryxdesign/theme-neutral/built';
 import { vi } from 'vitest';
@@ -49,35 +49,14 @@ describe('HomePage', () => {
   it('renders content without page-local navigation or palette ownership', () => {
     const { container, getByRole, queryByRole } = renderHomePage();
     const main = getByRole('main', { name: 'Home' });
-    const { getByTestId } = render(
-      <Theme theme={neutralTheme}>
-        <LayoutContent
-          className="flex flex-col"
-          data-testid="non-scrollable-content-control"
-          isScrollable={false}
-          label="Control"
-          padding={0}
-          role="main"
-        />
-        <VStack
-          as="main"
-          className="min-h-0 flex-1"
-          data-testid="scrollable-main-control"
-          gap={3}
-          isScrollable
-          paddingBlock={4}
-          paddingInline={4}
-        />
-      </Theme>,
-    );
-    const scrollableMainControl = getByTestId('scrollable-main-control');
-    const nonScrollableContentControl = getByTestId(
-      'non-scrollable-content-control',
-    );
     const doraContent = getByRole('heading', {
       level: 2,
       name: 'DORA capabilities',
     }).parentElement;
+
+    if (!(doraContent instanceof HTMLElement)) {
+      throw new Error('Expected the DORA content allocation.');
+    }
 
     expect(queryByRole('navigation')).toBeNull();
     expect(queryByRole('button', { name: 'Search skills' })).toBeNull();
@@ -85,8 +64,8 @@ describe('HomePage', () => {
     expect(container.querySelectorAll('.astryx-layout-content')).toHaveLength(
       1,
     );
-    expect(main.className).toBe(nonScrollableContentControl.className);
-    expect(doraContent?.className).toBe(scrollableMainControl.className);
+    expect(main.className).not.toMatch(/\b(?:flex|flex-col)\b/);
+    expect(doraContent.className).not.toMatch(/\b(?:min-h-0|flex-1)\b/);
   });
 
   it('keeps top skills fixed above the scrollable DORA section', () => {
@@ -112,13 +91,25 @@ describe('HomePage', () => {
     });
     const doraContent = doraHeading.parentElement;
 
+    if (!(doraContent instanceof HTMLElement)) {
+      throw new Error('Expected the DORA content allocation.');
+    }
+
+    const topSkills = carousel.parentElement;
+
+    if (!(topSkills instanceof HTMLElement)) {
+      throw new Error('Expected the fixed Top skills allocation.');
+    }
+
     expect(topSkillsHeading.parentElement?.className).toBe(
       getByTestId('top-skills-padding-control').className,
     );
     expect(carousel.parentElement?.nextElementSibling).toBe(doraContent);
     expect(main.contains(carousel)).toBe(true);
-    expect(doraContent?.className).toContain('flex-1');
     expect(doraContent?.className).toContain('astryx-stack');
+    expect(topSkills.className).not.toMatch(
+      /\b(?:shrink-0|bg-\[var\(--color-background-surface\)\])\b/,
+    );
     expect(main.contains(doraHeading)).toBe(true);
   });
 
