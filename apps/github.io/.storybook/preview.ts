@@ -12,10 +12,10 @@ import '../src/styles.css';
 
 const preview: Preview = {
   decorators: [
-    (Story) =>
+    (Story, context) =>
       createElement(
         MemoryRouter,
-        undefined,
+        { key: context.id },
         createElement(
           LinkProvider,
           { component: RouterLink },
