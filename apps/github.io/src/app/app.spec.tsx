@@ -119,6 +119,9 @@ describe('App', () => {
     expect(within(terraformOption).queryByRole('img')).toBeNull();
     fireEvent.click(terraformOption);
 
+    await waitFor(() => {
+      expect(window.location.pathname).toBe('/skills/terraform');
+    });
     expect(getByRole('heading', { level: 1, name: 'Terraform' })).toBeTruthy();
     expect(queryByRole('main', { name: 'Home' })).toBeNull();
   });
