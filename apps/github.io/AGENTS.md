@@ -35,6 +35,7 @@ These instructions apply to files under `apps/github.io`. They supplement the re
 - New CSS selectors targeting Astryx components must use stable `.astryx-*` classes plus reflected `data-*` attributes. Do not target deprecated bare prop/state classes.
 - StyleX hover styles must be guarded with `@media (hover: hover)`.
 - Use CSS custom properties or Astryx typed StyleX token exports for DOM styling. Use token resolver APIs only for non-CSS consumers such as chart configuration, canvas, or SVG APIs that cannot consume CSS variables.
+- No inline style objects; use Astryx props, StyleX, or token-backed utilities instead.
 
 ## React Rules
 

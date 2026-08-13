@@ -59,6 +59,40 @@ test('astryx:agents forwards init arguments without a pnpm separator', () => {
   );
 });
 
+test('github.io AGENTS guidance satisfies the independent Astryx contract', () => {
+  const content = readFileSync(
+    join(process.cwd(), 'apps/github.io/AGENTS.md'),
+    'utf8',
+  );
+  const managed = extractAstryxBlock(content, 'apps/github.io/AGENTS.md');
+  const requirements = [
+    ['marker start', ASTRYX_MARKER_START],
+    ['marker end', ASTRYX_MARKER_END],
+    ['workflow', /WORKFLOW/],
+    ['template discovery', /template --list/],
+    ['template skeleton syntax', /template <name> \[--skeleton\]/],
+    ['component docs', /component <Name>/],
+    ['raw element prohibition', /No <div>/],
+    ['inline style prohibition', /No inline style objects/],
+    ['token guidance', /Tokens for every value/],
+    ['CLI reference', /MORE CLI/],
+  ];
+
+  for (const [name, pattern] of requirements) {
+    if (typeof pattern === 'string') {
+      assert.ok(content.includes(pattern), `missing ${name} guidance`);
+    } else {
+      assert.match(content, pattern, `missing ${name} guidance`);
+    }
+  }
+
+  assert.doesNotMatch(
+    managed,
+    /No inline style objects/,
+    'inline-style prohibition must remain handwritten outside the managed block',
+  );
+});
+
 test('checkAstryxAgentDocs accepts current content and cleans generated files', () => {
   const repoRoot = mkdtempSync(
     join(process.cwd(), '.astryx-agent-docs-test-current-'),
