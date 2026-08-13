@@ -1,13 +1,29 @@
 import { readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
+import type { ReactNode } from 'react';
 import { render, within } from '@testing-library/react';
+import { LinkProvider } from '@astryxdesign/core/Link';
+import { MemoryRouter } from 'react-router-dom';
 
+import { RouterLink } from '../router-link';
 import { devOpsCapabilityEvidenceItems } from '../devops-capability-evidence/devops-capability-evidence.data';
 import { sampleProjects } from '../projects/project-list.data';
 import { skillDetailRecords } from './skill-detail.data';
 import { SkillDetailPage } from './skill-detail-page';
 import { resolveSkillDetail } from './skill-detail-resolver';
 import { skills } from './skill-list.data';
+
+function SkillDetailTestProviders({ children }: { children: ReactNode }) {
+  return (
+    <MemoryRouter initialEntries={['/skills/kubernetes']}>
+      <LinkProvider component={RouterLink}>{children}</LinkProvider>
+    </MemoryRouter>
+  );
+}
+
+function renderSkillDetail(ui: ReactNode) {
+  return render(ui, { wrapper: SkillDetailTestProviders });
+}
 
 const productionSources = {
   skills,
@@ -59,7 +75,7 @@ describe('SkillDetailPage', () => {
     )?.[0];
     const metadataCardOpeningTag = source.match(/<Card[\s\S]*?>/)?.[0];
     const detail = getResolvedDetail('kubernetes');
-    const { getByTestId } = render(<SkillDetailPage detail={detail} />);
+    const { getByTestId } = renderSkillDetail(<SkillDetailPage detail={detail} />);
     const metadata = getByTestId('skill-metadata');
     const card = metadata.closest('.astryx-card');
 
@@ -86,7 +102,7 @@ describe('SkillDetailPage', () => {
       getByRole,
       getByTestId,
       queryByRole,
-    } = render(
+    } = renderSkillDetail(
       <SkillDetailPage detail={detail} />,
     );
     const metadata = getByTestId('skill-metadata');
@@ -145,7 +161,7 @@ describe('SkillDetailPage', () => {
 
   it('renders a basic skill without empty enrichment sections', () => {
     const detail = getResolvedDetail('react');
-    const { getByRole, getByText, getByTestId, queryByRole } = render(
+    const { getByRole, getByText, getByTestId, queryByRole } = renderSkillDetail(
       <SkillDetailPage detail={detail} />,
     );
     const metadata = getByTestId('skill-metadata');
@@ -179,7 +195,7 @@ describe('SkillDetailPage', () => {
   it('focuses the new page heading after an in-place skill change', () => {
     const reactDetail = getResolvedDetail('react');
     const kubernetesDetail = getResolvedDetail('kubernetes');
-    const { getByRole, rerender } = render(
+    const { getByRole, rerender } = renderSkillDetail(
       <SkillDetailPage detail={reactDetail} />,
     );
     const reactHeading = getByRole('heading', { level: 1, name: 'React' });
@@ -191,5 +207,31 @@ describe('SkillDetailPage', () => {
     expect(
       getByRole('heading', { level: 1, name: 'Kubernetes' }),
     ).toBe(document.activeElement);
+  });
+
+  it('renders Home, Skills, and the current skill in breadcrumb order', () => {
+    const detail = getResolvedDetail('kubernetes');
+    const { getByRole } = renderSkillDetail(
+      <SkillDetailPage detail={detail} />,
+    );
+    const breadcrumb = getByRole('navigation', { name: 'Skill breadcrumb' });
+    const items = [...breadcrumb.querySelectorAll('li')];
+
+    expect(items.map((item) => item.lastElementChild?.textContent)).toEqual([
+      'Home',
+      'Skills',
+      'Kubernetes',
+    ]);
+    expect(
+      within(breadcrumb)
+        .getByRole('link', { name: 'Home' })
+        .getAttribute('href'),
+    ).toBe('/');
+    expect(
+      within(breadcrumb).queryByRole('link', { name: 'Skills' }),
+    ).toBeNull();
+    expect(
+      within(breadcrumb).getByText('Kubernetes').getAttribute('aria-current'),
+    ).toBe('page');
   });
 });
