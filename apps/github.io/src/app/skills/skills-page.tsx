@@ -20,7 +20,11 @@ export function SkillsPage({
   );
 
   return (
-    <LayoutContent label="Skills" padding={4} role="main">
+    <LayoutContent
+      aria-labelledby="skills-page-title"
+      padding={4}
+      role="main"
+    >
       <VisuallyHidden as="h1" id="skills-page-title">
         Skills
       </VisuallyHidden>

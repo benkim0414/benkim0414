@@ -167,6 +167,38 @@ describe('AppRoutes', () => {
     expect(getByTestId('location').textContent).toBe('/skills/terraform');
   });
 
+  it.each([
+    ['description', 'scoped IAM'],
+    ['category', 'IaC'],
+    ['keyword', 'provisioning'],
+  ])(
+    'finds and navigates to Terraform from its %s search data',
+    async (_matchKind, query) => {
+      function Location() {
+        const location = useLocation();
+
+        return <output data-testid="location">{location.pathname}</output>;
+      }
+
+      const { getByRole, getByTestId } = render(
+        <MemoryRouter initialEntries={['/skills']}>
+          <Location />
+          <AppRoutes />
+        </MemoryRouter>,
+      );
+
+      fireEvent.click(getByRole('button', { name: 'Search skills' }));
+      fireEvent.change(getByRole('combobox', { name: 'Search skills' }), {
+        target: { value: query },
+      });
+      fireEvent.click(
+        await waitFor(() => getByRole('option', { name: 'Terraform' })),
+      );
+
+      expect(getByTestId('location').textContent).toBe('/skills/terraform');
+    },
+  );
+
   it('renders the complete alphabetical linked catalog at /skills', () => {
     const { getByRole } = render(
       <MemoryRouter initialEntries={['/skills']}>

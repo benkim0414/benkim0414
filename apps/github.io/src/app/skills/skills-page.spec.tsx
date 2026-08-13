@@ -31,6 +31,7 @@ describe('SkillsPage', () => {
     const main = getByRole('main', { name: 'Skills' });
 
     expect(getByRole('heading', { level: 1, name: 'Skills' })).toBeTruthy();
+    expect(main.getAttribute('aria-labelledby')).toBe('skills-page-title');
     expect(queryByRole('navigation')).toBeNull();
     expect(main.className).toContain('astryx-layout-content');
     expect(container.querySelectorAll('.astryx-layout-content')).toHaveLength(
