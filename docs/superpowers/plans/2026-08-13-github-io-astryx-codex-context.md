@@ -25,6 +25,7 @@
 
 - Modify `package.json`: expose stable Astryx invoke, refresh, check, and checker-test scripts.
 - Create `scripts/check-astryx-agent-docs.mjs`: validate markers, generate an expected block through the installed CLI, compare blocks, handle errors, and clean temporary files.
+- Create `scripts/refresh-astryx-agent-docs.mjs`: validate the target path before invoking the installed CLI refresh.
 - Create `scripts/check-astryx-agent-docs.test.mjs`: exercise marker validation, current/stale comparisons, target containment, and cleanup through Node's built-in test runner.
 - Modify `apps/github.io/AGENTS.md`: append the one generated block; no handwritten line may change.
 
@@ -46,6 +47,7 @@
 - Produces: `checkAstryxAgentDocs(options?: {repoRoot?: string, targetRelativePath?: string, generateExpected?: Function}): void`.
 - Produces CLI: `node scripts/check-astryx-agent-docs.mjs [repository-relative-target]`.
 - Produces package scripts: `astryx`, `astryx:agents`, `astryx:agents:check`, and `test:astryx-agents`.
+- Produces a refresh wrapper that rejects symlink escapes before invoking Astryx.
 - Consumes: installed `node_modules/@astryxdesign/cli/bin/astryx.mjs` and a repository-relative agent-doc target.
 
 - [ ] **Step 1: Write the failing Node tests**
@@ -336,7 +338,7 @@ Update the `scripts` object in `package.json` to:
 ```json
 "scripts": {
   "astryx": "node node_modules/@astryxdesign/cli/bin/astryx.mjs",
-  "astryx:agents": "pnpm run astryx init --features agents --agent-docs-path apps/github.io/AGENTS.md",
+  "astryx:agents": "node scripts/refresh-astryx-agent-docs.mjs",
   "astryx:agents:check": "node scripts/check-astryx-agent-docs.mjs",
   "test:astryx-agents": "node --test scripts/check-astryx-agent-docs.test.mjs",
   "prepare": "husky",
