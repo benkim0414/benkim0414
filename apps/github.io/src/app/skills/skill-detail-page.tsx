@@ -74,11 +74,7 @@ export function SkillDetailPage({ detail }: SkillDetailPageProps): ReactElement 
         </Text>
       </VStack>
 
-      <MetadataList
-        columns="single"
-        data-testid="skill-metadata"
-        label={{ position: 'top' }}
-      >
+      <MetadataList data-testid="skill-metadata">
         <MetadataListItem label="Categories">
           <HStack
             as="ul"
