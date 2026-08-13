@@ -6,6 +6,7 @@ import { neutralTheme } from '@astryxdesign/theme-neutral/built';
 import { MemoryRouter } from 'react-router-dom';
 
 import { RouterLink } from '../src/app/router-link';
+import { StoryRoutes } from './story-routes';
 import '@xyflow/react/dist/style.css';
 import '../src/styles.css';
 
@@ -18,7 +19,11 @@ const preview: Preview = {
         createElement(
           LinkProvider,
           { component: RouterLink },
-          createElement(Theme, { theme: neutralTheme }, createElement(Story)),
+          createElement(
+            Theme,
+            { theme: neutralTheme },
+            createElement(StoryRoutes, undefined, createElement(Story)),
+          ),
         ),
       ),
   ],
