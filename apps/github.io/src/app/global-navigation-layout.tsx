@@ -24,10 +24,8 @@ interface GlobalSearchCommandItem extends GlobalSearchResult {
 const styles = stylex.create({
   frame: {
     width: '100%',
-    maxWidth: '448px',
     height: '100dvh',
     overflow: 'hidden',
-    marginInline: 'auto',
   },
 });
 
