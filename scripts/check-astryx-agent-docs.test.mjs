@@ -184,6 +184,34 @@ for (const [name, prefix] of [
   });
 }
 
+for (const [name, prefix] of [
+  ['complete tag continuing a paragraph', 'paragraph\n<x-panel>'],
+  [
+    'self-closing tag continuing a multiline paragraph',
+    'paragraph\ncontinuation\n<x-panel />',
+  ],
+  ['closing tag continuing a paragraph', 'paragraph\n</x-panel>'],
+  [
+    'three-space tag continuation in a paragraph',
+    'paragraph\n   <x-panel data-fixture>',
+  ],
+]) {
+  test(`extractAstryxBlock accepts markers after a ${name}`, () => {
+    assert.equal(
+      extractAstryxBlock(`${prefix}\n${block('0.1.4')}`, name),
+      block('0.1.4'),
+    );
+  });
+}
+
+test('extractAstryxBlock rejects type 7 markers after a paragraph-ending blank line', () => {
+  const content = `paragraph\n\n<x-panel>\n${block('0.1.4')}`;
+  assert.throws(
+    () => extractAstryxBlock(content, 'type 7 after blank line'),
+    /standalone top-level Markdown nodes.*Restore.*region/s,
+  );
+});
+
 for (const indentation of ['\t', ' \t', '  \t', '   \t']) {
   test(`extractAstryxBlock rejects ${JSON.stringify(indentation)} indentation`, () => {
     assert.throws(
