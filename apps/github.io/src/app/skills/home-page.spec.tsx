@@ -328,6 +328,9 @@ describe('HomePage', () => {
     expect(getByRole('dialog', { name: 'Search skills' })).toBeTruthy();
     expect(getByText('No skills')).toBeTruthy();
     expect(getByText('No highlighted skills have been supplied.')).toBeTruthy();
+    expect(getByRole('link', { name: 'Show all' }).getAttribute('href')).toBe(
+      '/skills',
+    );
   });
 
   it('uses supplied skills only for text search while preserving highlighted skills', async () => {

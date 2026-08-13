@@ -1,4 +1,9 @@
-import { VStack } from '@astryxdesign/core/Layout';
+import {
+  Layout,
+  LayoutContent,
+  LayoutHeader,
+  VStack,
+} from '@astryxdesign/core/Layout';
 import { TopNav, TopNavHeading } from '@astryxdesign/core/TopNav';
 import { VisuallyHidden } from '@astryxdesign/core/VisuallyHidden';
 import type { ReactElement } from 'react';
@@ -21,30 +26,31 @@ export function SkillsPage({
   );
 
   return (
-    <div className="mx-auto flex h-dvh min-h-screen w-full max-w-md flex-col overflow-hidden">
-      <TopNav
-        className="shrink-0 bg-[var(--color-background-surface)]"
-        heading={<TopNavHeading heading="Skills" />}
-        label="Skills navigation"
-      />
-      <VisuallyHidden as="h1" id="skills-page-title">
-        Skills
-      </VisuallyHidden>
-      <VStack
-        aria-labelledby="skills-page-title"
-        as="main"
-        className="min-h-0 flex-1"
-        gap={3}
-        isScrollable
-        paddingBlock={4}
-        paddingInline={4}
-      >
-        <SkillList
-          getSkillHref={getSkillHref}
-          heading="All skills"
-          skills={sortedSkills}
-        />
-      </VStack>
-    </div>
+    <Layout
+      className="mx-auto h-dvh min-h-screen w-full max-w-md overflow-hidden"
+      header={
+        <LayoutHeader padding={0}>
+          <TopNav
+            heading={<TopNavHeading heading="Skills" />}
+            label="Skills navigation"
+          />
+        </LayoutHeader>
+      }
+      height="fill"
+      content={
+        <LayoutContent label="Skills" padding={4} role="main">
+          <VisuallyHidden as="h1" id="skills-page-title">
+            Skills
+          </VisuallyHidden>
+          <VStack gap={3}>
+            <SkillList
+              getSkillHref={getSkillHref}
+              heading="All skills"
+              skills={sortedSkills}
+            />
+          </VStack>
+        </LayoutContent>
+      }
+    />
   );
 }
