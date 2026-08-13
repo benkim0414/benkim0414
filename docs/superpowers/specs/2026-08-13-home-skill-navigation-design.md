@@ -33,7 +33,8 @@ of page state.
 
 - `App` owns `BrowserRouter` and the shared neutral Astryx theme.
 - `AppRoutes` maps `/` directly to `HomePage`.
-- Skill cards are semantic React Router links to their detail routes.
+- Skill cards use Astryx `ClickableCard` with React Router-backed links to
+  their detail routes.
 - Command-palette selection navigates to the same detail route.
 - The URL is authoritative for the active page and skill.
 
@@ -54,6 +55,11 @@ Delete `app-shell.tsx` and `app-shell.stories.tsx`. No replacement shell or
 selection controller is introduced. Keep `HomePage` and its Storybook stories
 as the canonical home surface.
 
+Add a small link adapter that maps the `href` interface expected by Astryx to
+React Router's `to` interface. Provide it to Astryx `LinkProvider` inside the
+router so `ClickableCard` and breadcrumb links use client-side navigation
+without coupling Astryx components to React Router-specific props.
+
 Centralize detail URL construction in a small skill-route helper that accepts a
 skill ID and returns `/skills/:skillId`. `SkillCard` and `HomePage` use this
 helper so card and command-palette destinations cannot drift.
@@ -65,22 +71,22 @@ of whether it is rendered standalone, in `SkillCarousel`, or in
 `SkillCardList`. Navigation belongs to `SkillCard`, so current and future card
 collections do not need to thread callbacks or reconstruct URLs.
 
-Use a React Router `Link` as a full-card overlay and keep it as a sibling of the
-article content. `SkillCard` can contain certification citation links, so
-wrapping the card content in the route link would create invalid nested links.
-Place citation links above the overlay so they retain their independent targets
-while the rest of the card navigates to the skill detail route.
+Replace the static Astryx `Card` wrapper with Astryx `ClickableCard`, supplying
+the skill name as its accessible label and the centralized skill detail path as
+its `href`. `ClickableCard` composes `Card`, provides the full-card navigation
+target and focus treatment, and deliberately keeps nested interactive elements
+independent. This allows certification citation links to retain their own
+targets without invalid nested links or custom overlay CSS.
 
-Preserve the existing Astryx `Card`, article structure, visual variants,
-dimensions, content ordering, and certification behavior. Associate the route
-link and article with the existing generated title ID so the interactive card
-has an accessible name based on the skill heading. Give the overlay a visible
-keyboard focus treatment that follows the card boundary. Do not introduce
-click handlers, button semantics, nested links, or duplicate visible link text.
+Preserve the article structure, visual variants, dimensions, content ordering,
+and certification behavior. Keep the article associated with the existing
+generated title ID. Do not introduce local click handlers, button semantics,
+nested links, duplicate visible link text, or a second custom interaction
+layer.
 
-Router-dependent `SkillCard` consumers in tests and Storybook receive a
-memory-router context. The navigation change must not redesign the card or
-alter carousel sizing.
+Router-dependent `SkillCard` consumers in tests and Storybook receive a memory
+router and the Astryx link adapter. The navigation change must not redesign the
+card or alter carousel sizing.
 
 ## Command-Palette Navigation
 
@@ -120,9 +126,10 @@ unknown-ID handling.
 ## Storybook and Tests
 
 Delete the `AppShell` Storybook story. Keep the `HomePage`, `SkillCard`,
-`SkillCarousel`, `SkillCardList`, and `SkillDetailPage` stories and provide
-router context where their linked components require it. Historical design and
-solution documents remain unchanged.
+`SkillCarousel`, `SkillCardList`, and `SkillDetailPage` stories. Provide the
+memory router and the same Astryx `LinkProvider` adapter in Storybook so linked
+components exercise client-side navigation. Historical design and solution
+documents remain unchanged.
 
 Focused coverage must verify:
 
@@ -168,12 +175,13 @@ Out of scope:
 
 ## Risks and Validation Points
 
-- The full-card overlay can accidentally obscure certification links, interfere
-  with text layout, or lose visible keyboard focus. Interaction tests must
-  exercise both route and citation links, while visual Storybook verification
-  and existing sizing tests confirm the card remains unchanged.
-- Router-native components fail outside router context. Component tests and
-  stories must establish that context deliberately.
+- Replacing `Card` with `ClickableCard` can accidentally alter dimensions or
+  nested-link behavior. Interaction tests must exercise both route and citation
+  links, while visual Storybook verification and existing sizing tests confirm
+  the card remains unchanged.
+- Router-backed Astryx links fail without both router and `LinkProvider`
+  context. App, component tests, and Storybook must establish those providers
+  in the same order.
 - Moving the theme boundary can accidentally double-wrap or omit route
   surfaces. App route tests must cover home, valid detail, and not-found paths.
 - Command-palette selection must navigate exactly once and retain text-only
