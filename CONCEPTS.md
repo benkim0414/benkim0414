@@ -10,15 +10,21 @@ The static React application that will become the root GitHub Pages user site fo
 
 ### App Shell
 
-The application-level composition boundary for the `github.io` App, owning shared context and deciding which page surface is active without absorbing page-specific content composition.
+The application-level composition boundary for the `github.io` App, owning shared context and the route table that decides which page surface is active without absorbing page-specific content composition.
 
-An App Shell may own temporary cross-page selection state when a transition does not yet require a durable URL, while each page continues to own its local interactions and content.
+An App Shell keeps cross-page transitions URL-authoritative while each page continues to own its local interactions and content.
 
 ### Mobile Page Shell
 
 The mobile-only route wrapper for a `github.io` page, including the constrained viewport, non-scrolling top rails such as navigation or highlighted content, and the scrollable content region below them.
 
 Mobile Page Shells should be rendered by page-level Storybook stories when the visual requirement involves navigation, search, fixed rails, or mobile scroll behavior.
+
+### Skill Detail Navigation
+
+The URL-backed transition from a skill entry point to the corresponding Skill Detail page, shared by card links and command-palette selection.
+
+Skill Detail Navigation keeps the destination durable and delegates skill lookup, missing-skill handling, and detail rendering to the routed detail surface.
 
 ### DevOps Roadmap
 
