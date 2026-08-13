@@ -26,21 +26,22 @@ const renderSkillsPage = (suppliedSkills?: readonly Skill[]) =>
   );
 
 describe('SkillsPage', () => {
-  it('owns a centered mobile shell with one scrollable labelled main', () => {
-    const { getByRole } = renderSkillsPage();
+  it('owns a centered Astryx page layout with one scrollable labelled main', () => {
+    const { container, getByRole } = renderSkillsPage();
     const main = getByRole('main', { name: 'Skills' });
     const navigation = getByRole('navigation', { name: 'Skills navigation' });
-    const shell = main.parentElement;
+    const shell = main.closest('[data-height="fill"]');
 
     expect(getByRole('heading', { level: 1, name: 'Skills' })).toBeTruthy();
-    expect(shell).toBe(navigation.parentElement);
+    expect(shell?.className).toContain('astryx-layout');
     expect(shell?.className).toContain('max-w-md');
     expect(shell?.className).toContain('h-dvh');
     expect(shell?.className).toContain('overflow-hidden');
-    expect(navigation.className).toContain('shrink-0');
-    expect(main.className).toContain('min-h-0');
-    expect(main.className).toContain('flex-1');
-    expect(main.className).toContain('astryx-stack');
+    expect(shell?.contains(navigation)).toBe(true);
+    expect(main.className).toContain('astryx-layout-content');
+    expect(container.querySelectorAll('.astryx-layout-content')).toHaveLength(
+      1,
+    );
   });
 
   it('sorts a copy of supplied skills and links every row to its detail route', () => {

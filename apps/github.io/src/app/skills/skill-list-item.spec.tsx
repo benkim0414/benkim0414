@@ -43,13 +43,19 @@ describe('SkillListItem', () => {
 
     expect(typeScript).toBeTruthy();
 
-    const { getByRole } = render(
+    const { getByRole, getByText } = render(
       <SkillListItem href="/skills/typescript" skill={typeScript!} />,
     );
+    const link = getByRole('link', { name: /TypeScript/ });
+    const avatar = getByRole('img', { name: 'TypeScript' });
+    const category = getByText('Language');
+    const rating = getByText('4 out of 5');
 
-    expect(
-      getByRole('link', { name: /TypeScript/ }).getAttribute('href'),
-    ).toBe('/skills/typescript');
+    expect(link.getAttribute('href')).toBe('/skills/typescript');
+    expect(link.contains(avatar)).toBe(true);
+    expect(link.contains(category)).toBe(true);
+    expect(link.contains(rating)).toBe(true);
+    expect(link.querySelectorAll('a, button')).toHaveLength(0);
   });
 
   it('remains a static Astryx row when href is omitted', () => {
