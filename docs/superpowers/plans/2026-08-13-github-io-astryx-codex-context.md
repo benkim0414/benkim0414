@@ -336,7 +336,7 @@ Update the `scripts` object in `package.json` to:
 ```json
 "scripts": {
   "astryx": "node node_modules/@astryxdesign/cli/bin/astryx.mjs",
-  "astryx:agents": "pnpm run astryx -- init --features agents --agent-docs-path apps/github.io/AGENTS.md",
+  "astryx:agents": "pnpm run astryx init --features agents --agent-docs-path apps/github.io/AGENTS.md",
   "astryx:agents:check": "node scripts/check-astryx-agent-docs.mjs",
   "test:astryx-agents": "node --test scripts/check-astryx-agent-docs.test.mjs",
   "prepare": "husky",

@@ -2,6 +2,7 @@ import assert from 'node:assert/strict';
 import {
   mkdirSync,
   mkdtempSync,
+  readFileSync,
   readdirSync,
   rmSync,
   writeFileSync,
@@ -44,6 +45,17 @@ test('resolveRepoPath rejects targets outside the repository', () => {
   assert.throws(
     () => resolveRepoPath('/workspace/repo', '../AGENTS.md'),
     /must stay inside the repository/,
+  );
+});
+
+test('astryx:agents forwards init arguments without a pnpm separator', () => {
+  const packageJson = JSON.parse(
+    readFileSync(join(process.cwd(), 'package.json'), 'utf8'),
+  );
+
+  assert.equal(
+    packageJson.scripts['astryx:agents'],
+    'pnpm run astryx init --features agents --agent-docs-path apps/github.io/AGENTS.md',
   );
 });
 
