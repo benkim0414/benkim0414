@@ -29,14 +29,16 @@ export function SkillExperienceList({
     <ul aria-label="Supporting experience" {...stylex.props(styles.list)}>
       {evidence.map((item) => (
         <li key={item.id} {...stylex.props(styles.item)}>
-          <Blockquote>
-            <VStack gap={1} paddingBlock={3}>
-              <Heading level={3}>{item.title}</Heading>
-              <Text as="p" type="body" color="secondary">
-                {item.summary}
-              </Text>
-            </VStack>
-          </Blockquote>
+          <VStack paddingBlock={3}>
+            <Blockquote>
+              <VStack gap={1}>
+                <Heading level={3}>{item.title}</Heading>
+                <Text as="p" type="body" color="secondary">
+                  {item.summary}
+                </Text>
+              </VStack>
+            </Blockquote>
+          </VStack>
         </li>
       ))}
     </ul>
