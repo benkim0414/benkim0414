@@ -63,51 +63,70 @@ function countOccurrences(content, marker) {
   return content.split(marker).length - 1;
 }
 
-function leadingIndentColumns(line) {
-  let columns = 0;
+function leadingIndentColumns(line, initialColumns = 0) {
+  let columns = initialColumns;
   for (const character of line) {
     if (character === ' ') columns += 1;
     else if (character === '\t') columns += 4 - (columns % 4);
     else break;
   }
-  return columns;
+  return columns - initialColumns;
 }
 
-function listContentIndent(line) {
+function listItemStart(line) {
   const match = /^( {0,3})([*+-]|\d{1,9}[.)])(?:([ \t]+)(?=\S)|[ \t]*$)/.exec(
     line,
   );
   if (!match) return undefined;
 
   const [, indentation, marker, whitespace = ' '] = match;
-  const separatorWidth = leadingIndentColumns(whitespace);
-  return (
-    leadingIndentColumns(indentation) +
-    marker.length +
-    (separatorWidth > 4 ? 1 : separatorWidth)
-  );
+  const markerColumns = indentation.length + marker.length;
+  const separatorWidth = leadingIndentColumns(whitespace, markerColumns);
+  const effectiveSeparatorWidth = separatorWidth > 4 ? 1 : separatorWidth;
+  const remainder = line.slice(match[0].length);
+  const contentIndent =
+    leadingIndentColumns(indentation) + marker.length + effectiveSeparatorWidth;
+  const orderedStart = /^\d/.test(marker)
+    ? Number.parseInt(marker, 10)
+    : undefined;
+  return {
+    content:
+      separatorWidth > 4
+        ? `${' '.repeat(separatorWidth - effectiveSeparatorWidth)}${remainder}`
+        : remainder,
+    contentIndent,
+    hasContent: remainder.trim() !== '',
+    orderedStart,
+  };
 }
 
-function rawHtmlBlockStart(line, paragraphOpen) {
+function rawHtmlBlockStart(line) {
   const typeOne = /^ {0,3}<(pre|script|style|textarea)(?:\s|>|$)/i.exec(line);
   if (typeOne) {
-    return { endPattern: new RegExp(`</${typeOne[1]}\\s*>`, 'i') };
+    return {
+      endPattern: /<\/(?:pre|script|style|textarea)>/i,
+      interruptsParagraph: true,
+    };
   }
 
   for (const [startPattern, endPattern] of [
     [/^ {0,3}<!--/, /-->/],
     [/^ {0,3}<\?/, /\?>/],
-    [/^ {0,3}<![A-Z]/, />/],
+    [/^ {0,3}<![A-Za-z]/, />/],
     [/^ {0,3}<!\[CDATA\[/, /\]\]>/],
   ]) {
-    if (startPattern.test(line)) return { endPattern };
+    if (startPattern.test(line)) {
+      return { endPattern, interruptsParagraph: true };
+    }
   }
 
-  if (RAW_HTML_BLOCK_TAG_PATTERN.test(line)) return { endsOnBlankLine: true };
+  if (RAW_HTML_BLOCK_TAG_PATTERN.test(line)) {
+    return { endsOnBlankLine: true, interruptsParagraph: true };
+  }
   const completeTag = RAW_HTML_COMPLETE_TAG_PATTERN.exec(line);
   const tag = completeTag?.[1] ?? completeTag?.[2];
-  if (!paragraphOpen && tag && !/^(?:pre|script|style|textarea)$/i.test(tag)) {
-    return { endsOnBlankLine: true };
+  if (tag && !/^(?:pre|script|style|textarea)$/i.test(tag)) {
+    return { endsOnBlankLine: true, interruptsParagraph: false };
   }
   return undefined;
 }
@@ -116,6 +135,171 @@ function rawHtmlBlockEnds(block, line) {
   return block.endsOnBlankLine
     ? line.trim() === ''
     : block.endPattern.test(line);
+}
+
+function stripIndentColumns(line, columnsToStrip) {
+  let columns = 0;
+  let index = 0;
+  while (index < line.length && columns < columnsToStrip) {
+    if (line[index] === ' ') {
+      columns += 1;
+      index += 1;
+    } else if (line[index] === '\t') {
+      const nextTabStop = columns + 4 - (columns % 4);
+      index += 1;
+      if (nextTabStop > columnsToStrip) {
+        return `${' '.repeat(nextTabStop - columnsToStrip)}${line.slice(index)}`;
+      }
+      columns = nextTabStop;
+    } else break;
+  }
+  return line.slice(index);
+}
+
+function stripBlockQuoteMarker(line) {
+  const marker = /^( {0,3})>/.exec(line);
+  if (!marker) return undefined;
+
+  let content = line.slice(marker[0].length);
+  if (content.startsWith(' ')) content = content.slice(1);
+  else if (content.startsWith('\t')) {
+    const markerColumns = leadingIndentColumns(marker[1]) + 1;
+    const tabWidth = 4 - (markerColumns % 4);
+    content = `${' '.repeat(tabWidth - 1)}${content.slice(1)}`;
+  }
+  return content;
+}
+
+function stripBlockQuoteMarkers(line) {
+  let content = line;
+  let depth = 0;
+  while (true) {
+    const nextContent = stripBlockQuoteMarker(content);
+    if (nextContent === undefined) return { content, depth };
+    content = nextContent;
+    depth += 1;
+  }
+}
+
+function listItemEndsCurrentItem(line) {
+  const item = listItemStart(stripBlockQuoteMarkers(line).content);
+  return item?.hasContent === true;
+}
+
+function matchLeafContainers(line, containers) {
+  if (line.trim() === '' && containers.every(({ kind }) => kind === 'list')) {
+    return { content: line, listDepth: containers.length, matched: true };
+  }
+
+  let content = line;
+  let listDepth = 0;
+  for (const container of containers) {
+    if (container.kind === 'quote') {
+      const nextContent = stripBlockQuoteMarker(content);
+      if (nextContent === undefined) return { listDepth, matched: false };
+      content = nextContent;
+    } else {
+      if (leadingIndentColumns(content) < container.contentIndent) {
+        return { listDepth, matched: false };
+      }
+      content = stripIndentColumns(content, container.contentIndent);
+      listDepth += 1;
+    }
+  }
+  return { content, listDepth, matched: true };
+}
+
+function codeFenceStart(line) {
+  const match = /^( {0,3})(`{3,}|~{3,})(.*)$/.exec(line);
+  if (!match) return undefined;
+  const [, , run, info] = match;
+  if (run[0] === '`' && info.includes('`')) return undefined;
+  return { char: run[0], info, length: run.length };
+}
+
+function isAtxHeading(line) {
+  return /^ {0,3}#{1,6}(?:[ \t]+|$)/.test(line);
+}
+
+function isSetextHeadingUnderline(line) {
+  return /^ {0,3}(?:=+|-+)[ \t]*$/.test(line);
+}
+
+function isThematicBreak(line) {
+  return /^ {0,3}(?:(?:\*[ \t]*){3,}|(?:-[ \t]*){3,}|(?:_[ \t]*){3,})$/.test(
+    line,
+  );
+}
+
+function paragraphLine(quoteDepth, continuesParagraph) {
+  return { kind: 'paragraph', quoteDepth, continuesParagraph };
+}
+
+function classifyLeafContent(line, paragraph, quoteDepth) {
+  if (line.trim() === '') return { kind: 'blank' };
+
+  const fence = codeFenceStart(line);
+  if (fence) return { kind: 'fence', ...fence, quoteDepth };
+
+  const rawHtmlBlock = rawHtmlBlockStart(line);
+  if (
+    rawHtmlBlock &&
+    (rawHtmlBlock.interruptsParagraph || paragraph === undefined)
+  ) {
+    return { kind: 'rawHtml', block: rawHtmlBlock, line, quoteDepth };
+  }
+
+  if (isAtxHeading(line)) return { kind: 'boundary' };
+  if (paragraph && isSetextHeadingUnderline(line)) {
+    return { kind: 'boundary' };
+  }
+  if (isThematicBreak(line)) return { kind: 'boundary' };
+
+  const listItem = listItemStart(line);
+  if (listItem) {
+    const canInterruptParagraph =
+      listItem.hasContent &&
+      (listItem.orderedStart === undefined || listItem.orderedStart === 1);
+    if (!paragraph || canInterruptParagraph) {
+      return { kind: 'listItem', item: listItem, quoteDepth };
+    }
+  }
+
+  if (leadingIndentColumns(line) >= 4) {
+    return paragraph ? paragraphLine(quoteDepth, true) : { kind: 'boundary' };
+  }
+
+  return paragraphLine(quoteDepth, paragraph !== undefined);
+}
+
+function classifyMarkdownLine(line, paragraph) {
+  const blockQuote = stripBlockQuoteMarkers(line);
+  if (blockQuote.depth > 0) {
+    const continuedParagraph =
+      paragraph?.quoteDepth === blockQuote.depth ? paragraph : undefined;
+    return classifyLeafContent(
+      blockQuote.content,
+      continuedParagraph,
+      blockQuote.depth,
+    );
+  }
+
+  if (paragraph?.quoteDepth > 0) {
+    const lazyContinuation = classifyLeafContent(
+      line,
+      paragraph,
+      paragraph.quoteDepth,
+    );
+    if (
+      lazyContinuation.kind === 'paragraph' &&
+      lazyContinuation.continuesParagraph
+    ) {
+      return lazyContinuation;
+    }
+    return classifyLeafContent(line, undefined, 0);
+  }
+
+  return classifyLeafContent(line, paragraph, 0);
 }
 
 function isEscaped(line, index) {
@@ -183,27 +367,184 @@ export function extractAstryxBlock(content, label) {
   }
 
   const lines = content.split('\n');
-  let fence;
-  let rawHtmlBlock;
-  let codeSpanDelimiter;
-  let paragraphOpen = false;
-  const listIndents = [];
+  let leaf;
+  const listContainers = [];
+
+  function applyLineAction(action, baseIndent, lineIndex, containers = []) {
+    const actionContainers = [
+      ...containers,
+      ...Array.from({ length: action.quoteDepth ?? 0 }, () => ({
+        kind: 'quote',
+      })),
+    ];
+
+    if (action.kind === 'listItem') {
+      leaf = undefined;
+      const contentIndent = baseIndent + action.item.contentIndent;
+      const childContainers = [
+        ...actionContainers,
+        { kind: 'list', contentIndent: action.item.contentIndent },
+      ];
+      listContainers.push({ containerPath: childContainers, contentIndent });
+      const child = classifyMarkdownLine(action.item.content, undefined);
+      applyLineAction(child, contentIndent, lineIndex, childContainers);
+      return;
+    }
+
+    if (action.kind === 'paragraph') {
+      const activeDelimiter =
+        action.continuesParagraph && leaf?.kind === 'paragraph'
+          ? leaf.codeSpanDelimiter
+          : undefined;
+      leaf = {
+        kind: 'paragraph',
+        codeSpanDelimiter: scanCodeSpanDelimiter(
+          lines,
+          lineIndex,
+          activeDelimiter,
+        ),
+        containerPath:
+          action.continuesParagraph && leaf?.kind === 'paragraph'
+            ? leaf.containerPath
+            : actionContainers,
+        listDepth: listContainers.length,
+        quoteDepth:
+          action.continuesParagraph && leaf?.kind === 'paragraph'
+            ? leaf.quoteDepth
+            : actionContainers.filter(({ kind }) => kind === 'quote').length,
+      };
+      return;
+    }
+
+    leaf = undefined;
+    if (action.kind === 'fence') {
+      leaf = {
+        kind: 'fence',
+        char: action.char,
+        containerPath: actionContainers,
+        length: action.length,
+      };
+    } else if (
+      action.kind === 'rawHtml' &&
+      !rawHtmlBlockEnds(action.block, action.line)
+    ) {
+      leaf = {
+        kind: 'rawHtml',
+        block: action.block,
+        containerPath: actionContainers,
+      };
+    }
+  }
+
   for (const [lineIndex, line] of lines.entries()) {
     const containsMarker =
       line.includes(ASTRYX_MARKER_START) || line.includes(ASTRYX_MARKER_END);
     const indentation = leadingIndentColumns(line);
-    if (line.trim() === '') paragraphOpen = false;
-    if (line.trim() !== '') {
-      while (
-        listIndents.length > 0 &&
-        indentation < listIndents[listIndents.length - 1]
-      ) {
-        listIndents.pop();
+
+    if (leaf?.kind === 'fence' || leaf?.kind === 'rawHtml') {
+      const containerMatch = matchLeafContainers(line, leaf.containerPath);
+      if (containerMatch.matched) {
+        if (containsMarker) {
+          const diagnostic =
+            leaf.kind === 'fence'
+              ? `${label} has Astryx managed markers inside fenced or indented Markdown code. `
+              : `${label} must use standalone top-level Markdown nodes for Astryx managed markers. `;
+          throw new Error(diagnostic + markerRepairInstruction(label));
+        }
+
+        if (leaf.kind === 'fence') {
+          const fenceMatch = /^( {0,3})(`{3,}|~{3,})(.*)$/.exec(
+            containerMatch.content,
+          );
+          if (fenceMatch) {
+            const [, , run, info] = fenceMatch;
+            if (
+              run[0] === leaf.char &&
+              run.length >= leaf.length &&
+              info.trim() === ''
+            ) {
+              leaf = undefined;
+            }
+          }
+        } else if (rawHtmlBlockEnds(leaf.block, containerMatch.content)) {
+          leaf = undefined;
+        }
+        continue;
+      }
+
+      listContainers.length = Math.min(
+        listContainers.length,
+        containerMatch.listDepth,
+      );
+      leaf = undefined;
+    }
+
+    if (line.trim() === '') {
+      leaf = undefined;
+      continue;
+    }
+
+    const incomingCodeSpanDelimiter =
+      leaf?.kind === 'paragraph' ? leaf.codeSpanDelimiter : undefined;
+    let paragraph = leaf?.kind === 'paragraph' ? leaf : undefined;
+    let baseIndent = 0;
+    let containerPath = [];
+    let markdownLine = line;
+    let action;
+
+    if (listContainers.length > 0) {
+      const activeIndent =
+        listContainers[listContainers.length - 1].contentIndent;
+      if (indentation >= activeIndent) {
+        baseIndent = activeIndent;
+        containerPath = listContainers[listContainers.length - 1].containerPath;
+        markdownLine = stripIndentColumns(line, activeIndent);
+        if (paragraph?.listDepth !== listContainers.length) {
+          paragraph = undefined;
+        }
+      } else if (paragraph?.listDepth === listContainers.length) {
+        const retainedContainer = listContainers.findLast(
+          (container) => indentation >= container.contentIndent,
+        );
+        const destinationLine = stripIndentColumns(
+          line,
+          retainedContainer?.contentIndent ?? 0,
+        );
+        if (!listItemEndsCurrentItem(destinationLine)) {
+          const lazyAction = classifyMarkdownLine(line, paragraph);
+          if (
+            lazyAction.kind === 'paragraph' &&
+            lazyAction.continuesParagraph
+          ) {
+            action = lazyAction;
+            containerPath = paragraph.containerPath;
+          }
+        }
+      }
+
+      if (!action && indentation < activeIndent) {
+        while (
+          listContainers.length > 0 &&
+          indentation < listContainers[listContainers.length - 1].contentIndent
+        ) {
+          listContainers.pop();
+        }
+        if (paragraph && paragraph.listDepth > listContainers.length) {
+          paragraph = undefined;
+          leaf = undefined;
+        }
+        baseIndent =
+          listContainers[listContainers.length - 1]?.contentIndent ?? 0;
+        containerPath =
+          listContainers[listContainers.length - 1]?.containerPath ?? [];
+        markdownLine = stripIndentColumns(line, baseIndent);
       }
     }
 
+    action ??= classifyMarkdownLine(markdownLine, paragraph);
+
     if (containsMarker) {
-      if (fence || indentation >= 4) {
+      if (indentation >= 4) {
         throw new Error(
           `${label} has Astryx managed markers inside fenced or indented Markdown code. ` +
             markerRepairInstruction(label),
@@ -214,9 +555,8 @@ export function extractAstryxBlock(content, label) {
         /^ {0,3}<!-- ASTRYX:(?:START|END) -->[ \t]*$/.test(line);
       if (
         !standaloneMarker ||
-        rawHtmlBlock !== undefined ||
-        codeSpanDelimiter !== undefined ||
-        listIndents.length > 0
+        incomingCodeSpanDelimiter !== undefined ||
+        listContainers.length > 0
       ) {
         throw new Error(
           `${label} must use standalone top-level Markdown nodes for Astryx managed markers. ` +
@@ -225,60 +565,7 @@ export function extractAstryxBlock(content, label) {
       }
     }
 
-    const fenceMatch = /^( {0,3})(`{3,}|~{3,})(.*)$/.exec(line);
-    if (fence) {
-      if (fenceMatch) {
-        const [, , run, info] = fenceMatch;
-        if (
-          run[0] === fence.char &&
-          run.length >= fence.length &&
-          info.trim() === ''
-        ) {
-          fence = undefined;
-        }
-      }
-      continue;
-    }
-
-    if (rawHtmlBlock !== undefined) {
-      if (rawHtmlBlockEnds(rawHtmlBlock, line)) rawHtmlBlock = undefined;
-      continue;
-    }
-
-    if (codeSpanDelimiter === undefined && fenceMatch) {
-      const [, , run, info] = fenceMatch;
-      if (run[0] !== '`' || !info.includes('`')) {
-        fence = { char: run[0], length: run.length };
-        paragraphOpen = false;
-        continue;
-      }
-    }
-
-    const nextRawHtmlBlock = rawHtmlBlockStart(line, paragraphOpen);
-    if (codeSpanDelimiter === undefined && nextRawHtmlBlock) {
-      paragraphOpen = false;
-      if (!rawHtmlBlockEnds(nextRawHtmlBlock, line)) {
-        rawHtmlBlock = nextRawHtmlBlock;
-      }
-      continue;
-    }
-
-    codeSpanDelimiter = scanCodeSpanDelimiter(
-      lines,
-      lineIndex,
-      codeSpanDelimiter,
-    );
-    const contentIndent = listContentIndent(line);
-    if (contentIndent !== undefined) {
-      listIndents.push(contentIndent);
-      paragraphOpen = false;
-    } else if (
-      line.trim() !== '' &&
-      listIndents.length === 0 &&
-      indentation < 4
-    ) {
-      paragraphOpen = true;
-    }
+    applyLineAction(action, baseIndent, lineIndex, containerPath);
   }
 
   return content.slice(startIndex, endIndex + ASTRYX_MARKER_END.length);
