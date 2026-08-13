@@ -88,7 +88,7 @@ function listContentIndent(line) {
   );
 }
 
-function rawHtmlBlockStart(line) {
+function rawHtmlBlockStart(line, paragraphOpen) {
   const typeOne = /^ {0,3}<(pre|script|style|textarea)(?:\s|>|$)/i.exec(line);
   if (typeOne) {
     return { endPattern: new RegExp(`</${typeOne[1]}\\s*>`, 'i') };
@@ -106,7 +106,7 @@ function rawHtmlBlockStart(line) {
   if (RAW_HTML_BLOCK_TAG_PATTERN.test(line)) return { endsOnBlankLine: true };
   const completeTag = RAW_HTML_COMPLETE_TAG_PATTERN.exec(line);
   const tag = completeTag?.[1] ?? completeTag?.[2];
-  if (tag && !/^(?:pre|script|style|textarea)$/i.test(tag)) {
+  if (!paragraphOpen && tag && !/^(?:pre|script|style|textarea)$/i.test(tag)) {
     return { endsOnBlankLine: true };
   }
   return undefined;
@@ -186,11 +186,13 @@ export function extractAstryxBlock(content, label) {
   let fence;
   let rawHtmlBlock;
   let codeSpanDelimiter;
+  let paragraphOpen = false;
   const listIndents = [];
   for (const [lineIndex, line] of lines.entries()) {
     const containsMarker =
       line.includes(ASTRYX_MARKER_START) || line.includes(ASTRYX_MARKER_END);
     const indentation = leadingIndentColumns(line);
+    if (line.trim() === '') paragraphOpen = false;
     if (line.trim() !== '') {
       while (
         listIndents.length > 0 &&
@@ -247,12 +249,14 @@ export function extractAstryxBlock(content, label) {
       const [, , run, info] = fenceMatch;
       if (run[0] !== '`' || !info.includes('`')) {
         fence = { char: run[0], length: run.length };
+        paragraphOpen = false;
         continue;
       }
     }
 
-    const nextRawHtmlBlock = rawHtmlBlockStart(line);
+    const nextRawHtmlBlock = rawHtmlBlockStart(line, paragraphOpen);
     if (codeSpanDelimiter === undefined && nextRawHtmlBlock) {
+      paragraphOpen = false;
       if (!rawHtmlBlockEnds(nextRawHtmlBlock, line)) {
         rawHtmlBlock = nextRawHtmlBlock;
       }
@@ -265,7 +269,16 @@ export function extractAstryxBlock(content, label) {
       codeSpanDelimiter,
     );
     const contentIndent = listContentIndent(line);
-    if (contentIndent !== undefined) listIndents.push(contentIndent);
+    if (contentIndent !== undefined) {
+      listIndents.push(contentIndent);
+      paragraphOpen = false;
+    } else if (
+      line.trim() !== '' &&
+      listIndents.length === 0 &&
+      indentation < 4
+    ) {
+      paragraphOpen = true;
+    }
   }
 
   return content.slice(startIndex, endIndex + ASTRYX_MARKER_END.length);
