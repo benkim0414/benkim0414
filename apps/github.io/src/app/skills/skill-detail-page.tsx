@@ -68,7 +68,7 @@ export function SkillDetailPage({ detail }: SkillDetailPageProps): ReactElement 
       xstyle={styles.page}
     >
       <Breadcrumbs label="Skill breadcrumb">
-        <BreadcrumbItem href="/">Skills</BreadcrumbItem>
+        <BreadcrumbItem href="/skills">Skills</BreadcrumbItem>
         <BreadcrumbItem isCurrent>{detail.skill.name}</BreadcrumbItem>
       </Breadcrumbs>
 

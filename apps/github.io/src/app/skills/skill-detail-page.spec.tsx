@@ -35,6 +35,15 @@ function readAppSource(relativePath: string): string {
 }
 
 describe('SkillDetailPage', () => {
+  it('returns to the dedicated skills collection', () => {
+    const { getByRole } = render(
+      <SkillDetailPage detail={getResolvedDetail('kubernetes')} />,
+    );
+    const skillsLink = getByRole('link', { name: 'Skills' });
+
+    expect(skillsLink.getAttribute('href')).toBe('/skills');
+  });
+
   it('does not globally override Astryx link colors outside cascade layers', () => {
     const styles = readAppSource('src/styles.css');
     const unscopedAnchorRule = styles.match(/(?:^|\n)a\s*\{[^}]*\}/)?.[0];
