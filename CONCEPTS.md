@@ -144,6 +144,17 @@ Skill Category Badge Variants distinguish grouping labels without implying statu
 
 ## Tooling Workflow
 
+### Astryx Managed Agent Context
+
+The version-matched Astryx guidance embedded in an app's agent instructions as
+a generated baseline while reviewed repository-specific guidance remains
+handwritten alongside it.
+
+An Astryx Managed Agent Context is current only when its generated content
+matches a fresh installed-tool result and its boundary markers remain operative
+top-level Markdown; refreshing it must preserve the surrounding handwritten
+contract.
+
 ### pnpm Build Approval
 
 The workspace-level record of which dependency install scripts are allowed to run under pnpm's build-script protection.
