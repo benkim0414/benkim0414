@@ -1,0 +1,102 @@
+import { useMemo, useState, type ReactElement } from 'react';
+import { useNavigate, Outlet } from 'react-router-dom';
+import {
+  CommandPalette,
+  CommandPaletteInput,
+} from '@astryxdesign/core/CommandPalette';
+import { Icon } from '@astryxdesign/core/Icon';
+import { IconButton } from '@astryxdesign/core/IconButton';
+import { Layout, LayoutContent, LayoutHeader } from '@astryxdesign/core/Layout';
+import { TopNav } from '@astryxdesign/core/TopNav';
+import { createStaticSource } from '@astryxdesign/core/Typeahead';
+
+import type { GlobalSearchResult } from './global-search/global-search.types';
+import { createSkillSearchResults } from './global-search/skill-search-results';
+import { skills } from './skills/skill-list.data';
+
+interface GlobalSearchCommandItem extends GlobalSearchResult {
+  readonly auxiliaryData: {
+    readonly group: string;
+  };
+}
+
+export function GlobalNavigationLayout(): ReactElement {
+  const navigate = useNavigate();
+  const [isSearchOpen, setIsSearchOpen] = useState(false);
+  const [selectedResultId, setSelectedResultId] = useState<string>();
+  const results = useMemo(() => createSkillSearchResults(skills), []);
+  const resultById = useMemo(
+    () => new Map(results.map((result) => [result.id, result])),
+    [results],
+  );
+  const searchItems = useMemo<GlobalSearchCommandItem[]>(
+    () =>
+      results.map((result) => ({
+        ...result,
+        auxiliaryData: { group: result.group },
+      })),
+    [results],
+  );
+  const searchSource = useMemo(
+    () =>
+      createStaticSource(searchItems, {
+        keywords: (result) => [...result.keywords],
+      }),
+    [searchItems],
+  );
+
+  return (
+    <>
+      <CommandPalette
+        emptyBootstrapText="No skills"
+        emptySearchText="No skills"
+        input={
+          <CommandPaletteInput
+            aria-label="Search skills"
+            placeholder="Search skills"
+          />
+        }
+        isOpen={isSearchOpen}
+        label="Search skills"
+        maxHeight="min(80vh, 480px)"
+        searchSource={searchSource}
+        value={selectedResultId}
+        width="min(calc(100vw - 32px), 448px)"
+        onOpenChange={setIsSearchOpen}
+        onValueChange={(resultId) => {
+          setSelectedResultId(resultId);
+          const result = resultById.get(resultId);
+
+          if (result) {
+            navigate(result.href);
+          }
+        }}
+      />
+      <Layout
+        className="mx-auto h-dvh min-h-screen w-full max-w-md overflow-hidden"
+        content={
+          <LayoutContent padding={0}>
+            <Outlet />
+          </LayoutContent>
+        }
+        header={
+          <LayoutHeader padding={0}>
+            <TopNav
+              endContent={
+                <IconButton
+                  icon={<Icon color="inherit" icon="search" size="sm" />}
+                  label="Search skills"
+                  size="sm"
+                  variant="ghost"
+                  onClick={() => setIsSearchOpen(true)}
+                />
+              }
+              label="Global navigation"
+            />
+          </LayoutHeader>
+        }
+        height="fill"
+      />
+    </>
+  );
+}
