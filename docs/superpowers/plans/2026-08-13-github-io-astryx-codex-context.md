@@ -4,7 +4,7 @@
 
 **Goal:** Give Codex version-matched Astryx guidance under `apps/github.io`, with deterministic refresh and non-destructive freshness checks.
 
-**Architecture:** Keep the existing nested `AGENTS.md` as the app's single instruction source and let the installed Astryx CLI own only one marker-delimited block inside it. Root package scripts expose the installed CLI, refresh that block, and run a standalone Node.js checker that generates an expected block in a temporary repository-local file before comparing it byte for byte.
+**Architecture:** Keep the existing nested `AGENTS.md` as the app's single instruction source and let the installed Astryx CLI own only one marker-delimited block inside it. Reviewed, narrowly scoped app-specific handwritten supplements remain outside that block. Root package scripts expose the installed CLI, refresh only the fixed app target, and run a standalone Node.js checker that generates an expected block in a temporary repository-local file before comparing it byte for byte.
 
 **Tech Stack:** pnpm 11, Node.js 24 ESM and `node:test`, Astryx CLI/core/theme-neutral 0.1.4, Nx 23, Markdown `AGENTS.md` instructions.
 
@@ -12,6 +12,16 @@
 
 - Scope generated guidance to `apps/github.io`; do not change global Codex configuration or the root `AGENTS.md`.
 - Preserve all handwritten content outside `<!-- ASTRYX:START -->` and `<!-- ASTRYX:END -->` exactly.
+- Permit reviewed, narrowly scoped app-specific handwritten supplements outside
+  the managed block; the existing inline-style prohibition is an approved
+  supplement.
+- Treat the marker lines as standalone top-level Markdown nodes. Reject markers
+  inside code spans, fenced or indented code, raw HTML blocks, block quotes, or
+  list containers.
+- Keep production refresh and check commands fixed to
+  `apps/github.io/AGENTS.md`; custom targets are internal function/test seams.
+- Require the production guide to exist before refresh and validate the
+  refreshed postcondition against a fresh CLI-generated block.
 - Use installed `@astryxdesign/cli@0.1.4`; do not upgrade or add dependencies.
 - Invoke the executable declared by the installed package at `node_modules/@astryxdesign/cli/bin/astryx.mjs`.
 - Treat the Astryx CLI as the only generator; do not import its private generator modules.
@@ -24,9 +34,9 @@
 ## File Map
 
 - Modify `package.json`: expose stable Astryx invoke, refresh, check, and checker-test scripts.
-- Create `scripts/check-astryx-agent-docs.mjs`: validate markers, generate an expected block through the installed CLI, compare blocks, handle errors, and clean temporary files.
-- Create `scripts/refresh-astryx-agent-docs.mjs`: validate the target and fail closed on malformed markers before invoking the installed CLI refresh.
-- Create `scripts/check-astryx-agent-docs.test.mjs`: exercise marker validation, current/stale comparisons, target containment, and cleanup through Node's built-in test runner.
+- Create `scripts/check-astryx-agent-docs.mjs`: validate active top-level markers, generate an expected block through the installed CLI, compare blocks, render nested errors primary-first, and clean temporary files.
+- Create `scripts/refresh-astryx-agent-docs.mjs`: require and validate the fixed production target, invoke the installed CLI refresh, and validate its postcondition.
+- Create `scripts/check-astryx-agent-docs.test.mjs`: exercise Markdown marker contexts, single-target command behavior, explicit-target integration, current/stale comparisons, refresh postconditions, target containment, and cleanup through Node's built-in test runner.
 - Modify `apps/github.io/AGENTS.md`: append the one generated block; no handwritten line may change.
 
 ---
@@ -44,8 +54,8 @@
 - Produces: `extractAstryxBlock(content: string, label: string): string`.
 - Produces: `resolveRepoPath(repoRoot: string, relativePath: string): string`.
 - Produces: `generateExpectedAgentDocs({repoRoot: string, outputRelativePath: string}): void`.
-- Produces: `checkAstryxAgentDocs(options?: {repoRoot?: string, targetRelativePath?: string, generateExpected?: Function}): void`.
-- Produces CLI: `node scripts/check-astryx-agent-docs.mjs [repository-relative-target]`.
+- Produces: `checkAstryxAgentDocs(options?: {repoRoot?: string, targetRelativePath?: string, generateExpected?: Function, removeTemp?: Function}): void`; non-default targets and injected operations are internal test/function seams.
+- Produces CLI: `node scripts/check-astryx-agent-docs.mjs`, fixed to `apps/github.io/AGENTS.md` and rejecting positional targets.
 - Produces package scripts: `astryx`, `astryx:agents`, `astryx:agents:check`, and `test:astryx-agents`.
 - Produces a refresh wrapper that rejects symlink escapes and malformed managed spans before invoking Astryx.
 - Consumes: installed `node_modules/@astryxdesign/cli/bin/astryx.mjs` and a repository-relative agent-doc target.
@@ -320,10 +330,14 @@ const invokedPath = process.argv[1]
   : undefined;
 
 if (invokedPath === import.meta.url) {
-  const targetRelativePath = process.argv[2] ?? DEFAULT_TARGET;
   try {
-    checkAstryxAgentDocs({targetRelativePath});
-    console.log(`Astryx agent docs are current: ${targetRelativePath}`);
+    if (process.argv.length > 2) {
+      throw new Error(
+        `Astryx agent-doc check does not accept a target; it always checks ${DEFAULT_TARGET}.`,
+      );
+    }
+    checkAstryxAgentDocs();
+    console.log(`Astryx agent docs are current: ${DEFAULT_TARGET}`);
   } catch (error) {
     console.error(error instanceof Error ? error.message : error);
     process.exitCode = 1;
@@ -360,8 +374,8 @@ node --check scripts/check-astryx-agent-docs.test.mjs
 pnpm astryx --version
 ```
 
-Expected: all seven Node tests pass, both syntax checks exit 0, and the CLI
-prints `0.1.4`.
+Expected: all Node tests pass, both syntax checks exit 0, and the CLI prints
+`0.1.4`.
 
 - [ ] **Step 6: Review and commit the checker capability**
 
@@ -450,16 +464,17 @@ pnpm astryx:agents:check
 
 Expected: `Astryx agent docs are current: apps/github.io/AGENTS.md`.
 
-Then verify a deliberately stale repository-local copy using the optional
-target argument, with cleanup in the same Node process:
+Then verify stale and internal custom-target behavior through the focused test
+surface rather than a user-facing positional target:
 
 ```bash
-node -e "const{mkdirSync,readFileSync,writeFileSync,rmSync}=require('node:fs');const{spawnSync}=require('node:child_process');const d='.astryx-agent-docs-fixture';const p=d+'/AGENTS.md';try{mkdirSync(d,{recursive:true});const current=readFileSync('apps/github.io/AGENTS.md','utf8');writeFileSync(p,current.replace('Astryx v0.1.4','Astryx v0.1.3'));const r=spawnSync(process.execPath,['scripts/check-astryx-agent-docs.mjs',p],{encoding:'utf8'});process.stdout.write(r.stdout);process.stderr.write(r.stderr);if(r.status!==1||!/stale/.test(r.stderr)){process.exitCode=1}}finally{rmSync(d,{recursive:true,force:true})}"
+node --test --test-name-pattern='rejects a stale copy|custom checker diagnostics' scripts/check-astryx-agent-docs.test.mjs
 ```
 
-Expected: the nested checker exits 1, stderr contains `stale`, the wrapper exits
-0, and `.astryx-agent-docs-fixture` no longer exists. Malformed markers remain
-covered by `pnpm test:astryx-agents`; do not alter the checked-in file.
+Expected: both focused tests pass, including stale detection, cleanup, and the
+rule that internal custom-target diagnostics never recommend the fixed
+production refresh command. Malformed markers remain covered by
+`pnpm test:astryx-agents`; do not alter the checked-in file.
 
 - [ ] **Step 6: Confirm the installed component knowledge checks**
 
@@ -483,6 +498,10 @@ Run:
 
 ```bash
 pnpm test:astryx-agents
+node --check scripts/check-astryx-agent-docs.mjs
+node --check scripts/refresh-astryx-agent-docs.mjs
+pnpm astryx:agents
+node -e "const{readFileSync}=require('node:fs');const{spawnSync}=require('node:child_process');const p='apps/github.io/AGENTS.md';const before=readFileSync(p,'utf8');const r=spawnSync('pnpm',['astryx:agents'],{stdio:'inherit'});if(r.status!==0)process.exit(r.status??1);const after=readFileSync(p,'utf8');if(before!==after){console.error('Second Astryx refresh changed AGENTS.md');process.exit(1)}console.log('Astryx refresh is idempotent')"
 pnpm astryx:agents:check
 pnpm nx lint github.io
 pnpm nx test github.io
@@ -492,8 +511,9 @@ git status --short
 
 Expected: checker tests and freshness pass; lint has zero errors and no new
 warnings beyond the 23 baseline warnings; all 549 baseline app tests pass;
-`git diff --check` exits 0; and the only Task 2 path is
-`apps/github.io/AGENTS.md`.
+both script syntax checks and `git diff --check` exit 0; the second refresh is
+byte-for-byte idempotent; and no refresh changes the repository-root
+`AGENTS.md` or handwritten app guidance outside the managed block.
 
 Do not run the app build or browser checks: the approved design excludes
 runtime and visual changes.
@@ -514,6 +534,43 @@ Then commit only that path:
 git add apps/github.io/AGENTS.md
 git commit -m "chore(github.io): sync Astryx agent context"
 ```
+
+---
+
+## Approved Final Review Corrections
+
+This section supersedes the initial implementation snippets wherever they
+describe target arguments, marker validation, refresh completion, root-file
+restoration, or error rendering.
+
+1. Use a container-aware Markdown scanner and require each marker line to be a
+   standalone top-level node. Preserve the accepted one-to-three-space
+   top-level indentation and existing fenced/indented-code behavior while also
+   rejecting multiline code spans, `pre`/`script`/`style`/`textarea` raw HTML
+   blocks, block quotes, and list containers.
+2. Expose no positional target on either production executable. Both
+   `pnpm astryx:agents` and `pnpm astryx:agents:check` operate only on
+   `apps/github.io/AGENTS.md`; custom targets remain internal to exported
+   functions and tests.
+3. Require the production guide to exist before refresh. This prevents a
+   deleted handwritten guide from being recreated as generated-only content.
+4. Do not snapshot, restore, or otherwise write repository-root `AGENTS.md`.
+   Verify with a real installed-CLI integration test that the explicit
+   `--agent-docs-path` branch touches only the app guide.
+5. After a zero-exit CLI refresh, run the same checker/generator comparison as
+   the freshness command. Missing, malformed, or stale output is a refresh
+   failure and retains the underlying diagnostic.
+6. When generation and temporary cleanup both fail, retain both errors and
+   recursively render aggregate errors with the primary generation failure
+   first.
+7. Keep the inline-style prohibition as a reviewed handwritten app supplement
+   outside the managed block. The CLI owns only the marker-delimited block and
+   must never rewrite surrounding instructions.
+
+Each behavior above requires a focused failing test observed before the minimum
+production change, followed by the focused passing run. The final verification
+contract is the command block in Task 2 Step 7; no positional-target fixture
+command is part of the public interface.
 
 ---
 

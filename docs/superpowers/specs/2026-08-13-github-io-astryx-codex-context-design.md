@@ -31,6 +31,12 @@ existing handwritten content outside `<!-- ASTRYX:START -->` and
 `<!-- ASTRYX:END -->`; the Astryx CLI owns only the content between those
 markers.
 
+The managed block is the generated baseline, not the exclusive source of app
+rules. Narrowly scoped, reviewed app-specific supplements may remain outside
+the markers when the generated guidance does not express a repository rule.
+The existing prohibition on inline style objects is one such approved
+supplement. Refresh must never rewrite any surrounding handwritten text.
+
 Add repository commands that:
 
 1. invoke the installed Astryx CLI through its documented entry point;
@@ -66,8 +72,11 @@ and creating incorrect defaults outside `apps/github.io`.
 ### `apps/github.io/AGENTS.md`
 
 - Remains the single automatically discovered instruction file for the app.
-- Retains all existing human-authored sections.
+- Retains all existing human-authored sections and any narrowly scoped,
+  reviewed app-specific supplements.
 - Contains exactly one Astryx marker-delimited generated block.
+- Keeps both marker lines as standalone top-level Markdown nodes, outside code
+  spans, code blocks, raw HTML blocks, block quotes, and list containers.
 - Receives generated content from the installed CLI rather than copied web
   documentation, so an Astryx dependency update can update the guidance in
   place.
@@ -79,21 +88,25 @@ Add three scripts:
 - `astryx`: invokes
   `node node_modules/@astryxdesign/cli/bin/astryx.mjs`, the executable declared
   by installed `@astryxdesign/cli@0.1.4`.
-- `astryx:agents`: runs the CLI initializer with `--features agents` and
-  `--agent-docs-path apps/github.io/AGENTS.md`.
-- `astryx:agents:check`: runs the repository freshness checker.
+- `astryx:agents`: runs a single-target wrapper that requires the existing
+  `apps/github.io/AGENTS.md`, invokes the CLI initializer with `--features
+  agents` and `--agent-docs-path apps/github.io/AGENTS.md`, then validates the
+  refreshed result.
+- `astryx:agents:check`: runs the single-target repository freshness checker.
 
 The stable alias applies Astryx's guidance using the executable path actually
 shipped by the installed package and prevents agents from guessing a CLI path.
-The explicit output path ensures generation never targets the root `AGENTS.md`.
+Neither executable accepts a positional target. The explicit output path
+ensures production commands cannot target the root `AGENTS.md` or another
+repository file. Custom target paths remain internal test/function seams only.
 
 ### Freshness checker
 
 Add a small Node.js script under a new root `scripts/` directory. It will:
 
 1. resolve the repository root and target app instruction file;
-2. validate that the checked-in file has exactly one complete pair of Astryx
-   markers;
+2. validate that the checked-in file has exactly one complete pair of active,
+   standalone top-level Astryx markers;
 3. create a uniquely named temporary directory inside the repository;
 4. run the repository's Astryx CLI against a temporary agent document;
 5. extract and compare the generated and checked-in marker blocks byte for
@@ -111,10 +124,13 @@ undocumented package internals.
 
 ```text
 pnpm astryx:agents
-  -> installed Astryx CLI
+  -> require the existing apps/github.io/AGENTS.md
+  -> validate any existing managed markers
+  -> installed Astryx CLI with the explicit app target
   -> inspect installed core version and styling system
-  -> generate current workflow, rules, component index, and CLI reference
   -> append or replace only the marker block in apps/github.io/AGENTS.md
+  -> generate a temporary expected block through the same CLI
+  -> fail unless the app target exists and contains current, valid output
 ```
 
 Running refresh twice must leave no second-run diff.
@@ -141,8 +157,12 @@ The checked-in Astryx block must teach agents to:
 2. inspect a selected template's skeleton;
 3. read official component documentation for every Astryx component used;
 4. prefer Astryx components over raw layout elements;
-5. avoid invented props, inline style objects, and magic values; and
+5. avoid invented props and magic values; and
 6. use Astryx tokens and the styling path detected for this repository.
+
+The combined app guidance also prohibits inline style objects through the
+reviewed handwritten supplement outside the managed block. That rule is not
+required to be duplicated into CLI-generated text.
 
 The installed CLI remains authoritative for exact component APIs. The setup
 knowledge check should resolve from current CLI output:
@@ -158,30 +178,38 @@ relying on model memory.
 
 The freshness checker must distinguish these failures:
 
-- Missing, incomplete, or duplicate markers: explain that the managed block is
-  malformed and recommend `pnpm astryx:agents`.
+- Missing, incomplete, duplicate, non-standalone, or Markdown-inoperative
+  markers: explain that the production managed block is malformed and
+  recommend `pnpm astryx:agents` only for the production target.
 - CLI execution failure: preserve the CLI's diagnostic output and exit nonzero.
 - Stale content: report the target path and exact refresh command.
+- Missing production guide: fail before invoking the CLI so deleted handwritten
+  guidance cannot be recreated as generated-only content.
+- Zero-exit CLI with missing, malformed, or stale output: fail the refresh
+  postcondition and retain the underlying diagnostic.
 - Temporary cleanup failure: report the temporary path and exit nonzero rather
-  than silently leaving repository-local artifacts.
+  than silently leaving repository-local artifacts. If generation and cleanup
+  both fail, render nested errors with the primary failure first.
 
-The refresh command itself delegates write and merge behavior to the Astryx
-CLI, whose marker protocol preserves surrounding handwritten content.
+The refresh command delegates marker-bound write and merge behavior to the
+Astryx CLI and validates the result. A real integration test confirms the
+installed CLI's explicit-target path leaves the repository-root `AGENTS.md`
+untouched; the wrapper does not snapshot or restore that file.
 
 ## Validation
 
 Implementation verification will include:
 
-1. `node --check` for the freshness-check script.
-2. A refresh run that creates exactly one complete marker block.
-3. A second refresh run with no resulting diff.
-4. A successful freshness check against the checked-in block.
-5. A failing check against a deliberately altered temporary copy, without
-   changing the checked-in file.
-6. Inspection of the generated block for the template-first workflow and
-   component/docs commands.
-7. CLI queries for `Button`, `Dialog`, and `Selector` to confirm the documented
-   knowledge-check answers.
+1. `pnpm test:astryx-agents` for marker contexts, single-target commands,
+   explicit-target integration, refresh postconditions, cleanup, and nested
+   error ordering.
+2. `node --check scripts/check-astryx-agent-docs.mjs` and
+   `node --check scripts/refresh-astryx-agent-docs.mjs`.
+3. Two consecutive `pnpm astryx:agents` runs with byte-for-byte idempotence.
+4. `pnpm astryx:agents:check` against the checked-in production block.
+5. `pnpm nx lint github.io` and `pnpm nx test github.io`.
+6. `git diff --check` plus diff inspection proving handwritten text outside the
+   managed block and the repository-root `AGENTS.md` are unchanged.
 
 Application build and browser validation are unnecessary because this change
 does not alter runtime application code. Existing `github.io` lint and test
@@ -204,7 +232,9 @@ tests and no lint errors, alongside 23 pre-existing lint warnings.
 - Root `AGENTS.md` changes.
 - Astryx dependency upgrades.
 - UI, theme, or application-runtime changes.
-- Rewriting existing app-specific guidance to duplicate generated wording.
+- Rewriting existing app-specific guidance to duplicate generated wording,
+  except for narrowly scoped reviewed supplements such as the inline-style
+  prohibition.
 - CI workflow integration; the freshness command will be available for later
   CI adoption.
 
@@ -227,10 +257,13 @@ tests and no lint errors, alongside 23 pre-existing lint warnings.
 - Codex sessions working under `apps/github.io` receive both the existing app
   rules and the current Astryx-generated context.
 - Existing handwritten instruction text remains unchanged outside Astryx
-  markers.
+  markers, while reviewed app-specific supplements remain permitted there.
 - The managed block is version-matched to installed Astryx packages and is
   idempotently refreshable.
-- `pnpm astryx:agents:check` detects current, stale, and malformed guidance with
-  actionable output and leaves no temporary files.
+- The production refresh/check commands are single-target and cannot write an
+  arbitrary repository file or recreate a missing handwritten guide.
+- Refresh and check detect current, stale, missing, malformed, and
+  Markdown-inoperative guidance with actionable output and leave no temporary
+  files.
 - No global configuration, runtime application code, dependency version, or CI
   workflow changes are introduced.
