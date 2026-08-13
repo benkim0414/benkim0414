@@ -1,9 +1,15 @@
-import { existsSync } from 'node:fs';
+import { existsSync, readFileSync, writeFileSync } from 'node:fs';
 import { join, resolve } from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 import { spawnSync } from 'node:child_process';
 
-import { resolveRepoPath } from './check-astryx-agent-docs.mjs';
+import {
+  ASTRYX_MARKER_END,
+  ASTRYX_MARKER_START,
+  extractAstryxBlock,
+  repairAstryxAgentDocs,
+  resolveRepoPath,
+} from './check-astryx-agent-docs.mjs';
 
 const SCRIPT_DIR = fileURLToPath(new URL('.', import.meta.url));
 const DEFAULT_REPO_ROOT = resolve(SCRIPT_DIR, '..');
@@ -14,6 +20,20 @@ export function refreshAstryxAgentDocs({
   targetRelativePath = DEFAULT_TARGET,
 } = {}) {
   resolveRepoPath(repoRoot, targetRelativePath);
+  const targetPath = resolve(repoRoot, targetRelativePath);
+  if (existsSync(targetPath)) {
+    const current = readFileSync(targetPath, 'utf8');
+    try {
+      extractAstryxBlock(current, targetRelativePath);
+    } catch {
+      if (
+        current.includes(ASTRYX_MARKER_START) ||
+        current.includes(ASTRYX_MARKER_END)
+      ) {
+        writeFileSync(targetPath, repairAstryxAgentDocs(current));
+      }
+    }
+  }
   const cliPath = join(
     repoRoot,
     'node_modules/@astryxdesign/cli/bin/astryx.mjs',
@@ -44,6 +64,8 @@ export function refreshAstryxAgentDocs({
       .join('\n');
     throw new Error(`Astryx CLI failed (${result.status}).\n${diagnostic}`);
   }
+  if (result.stdout) process.stdout.write(result.stdout);
+  if (result.stderr) process.stderr.write(result.stderr);
 }
 
 const invokedPath = process.argv[1]
