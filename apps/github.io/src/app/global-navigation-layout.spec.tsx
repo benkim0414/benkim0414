@@ -127,6 +127,9 @@ describe('GlobalNavigationLayout', () => {
     );
     expect(navigation.className).toContain('astryx-top-nav');
     expect(container.querySelectorAll('.astryx-top-nav')).toHaveLength(1);
+    expect(container.querySelectorAll('.astryx-layout-content')).toHaveLength(
+      0,
+    );
   });
 
   it('opens search and navigates a selected skill result', () => {
