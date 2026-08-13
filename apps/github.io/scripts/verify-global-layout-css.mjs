@@ -122,6 +122,25 @@ for (const forbiddenSource of [
   }
 }
 
+const detailRouteSource = readFileSync(
+  resolve(process.cwd(), 'src/app/skills/skill-detail-route.tsx'),
+  'utf8',
+);
+const notFoundSource = readFileSync(
+  resolve(process.cwd(), 'src/app/not-found-page.tsx'),
+  'utf8',
+);
+
+if (!detailRouteSource.includes('<NotFoundPage isFullWidth />')) {
+  throw new Error('Unknown skill routes must render the full-width not found page.');
+}
+
+if (!notFoundSource.includes('xstyle={isFullWidth ? undefined : styles.page}')) {
+  throw new Error(
+    'The not found page must preserve its standalone constraint only outside the global frame.',
+  );
+}
+
 assertStyle('page', ['display:flex', 'flex-direction:column']);
 assertStyle('topSkills', [
   'flex-shrink:0',

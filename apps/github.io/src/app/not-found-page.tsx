@@ -14,15 +14,23 @@ const styles = stylex.create({
   },
 });
 
-export function NotFoundPage(): ReactElement {
+export interface NotFoundPageProps {
+  isFullWidth?: boolean;
+}
+
+export function NotFoundPage({
+  isFullWidth = false,
+}: NotFoundPageProps): ReactElement {
   return (
     <VStack
       as="main"
+      data-layout={isFullWidth ? 'full-width' : 'standalone'}
+      data-testid="not-found-page"
       gap={3}
       hAlign="start"
       paddingBlock={6}
       paddingInline={4}
-      xstyle={styles.page}
+      xstyle={isFullWidth ? undefined : styles.page}
     >
       <Heading level={1}>Skill not found</Heading>
       <Text as="p" type="body" color="secondary">

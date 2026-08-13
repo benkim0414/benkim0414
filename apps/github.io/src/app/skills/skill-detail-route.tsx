@@ -19,7 +19,7 @@ export function SkillDetailRoute(): ReactElement {
   });
 
   if (resolution.status === 'not-found') {
-    return <NotFoundPage />;
+    return <NotFoundPage isFullWidth />;
   }
 
   return <SkillDetailPage detail={resolution.value} />;
