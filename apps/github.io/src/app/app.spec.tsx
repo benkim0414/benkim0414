@@ -3,6 +3,7 @@ import { MemoryRouter } from 'react-router-dom';
 import { beforeEach, vi } from 'vitest';
 
 import App, { AppRoutes } from './app';
+import { skills } from './skills/skill-list.data';
 
 vi.stubGlobal(
   'ResizeObserver',
@@ -119,6 +120,27 @@ describe('App', () => {
 describe('AppRoutes', () => {
   beforeEach(() => {
     window.history.replaceState({}, '', '/');
+  });
+
+  it('renders the complete alphabetical linked catalog at /skills', () => {
+    const { getByRole } = render(
+      <MemoryRouter initialEntries={['/skills']}>
+        <AppRoutes />
+      </MemoryRouter>,
+    );
+    const main = getByRole('main', { name: 'Skills' });
+    const links = within(main).getAllByRole('link');
+    const expectedSkills = [...skills].sort((left, right) =>
+      left.name.localeCompare(right.name),
+    );
+
+    expect(links).toHaveLength(skills.length);
+    expect(links.map((link) => link.getAttribute('href'))).toEqual(
+      expectedSkills.map((skill) => `/skills/${skill.id}`),
+    );
+    expectedSkills.forEach((skill) => {
+      expect(within(main).getAllByText(skill.name)).toHaveLength(1);
+    });
   });
 
   it('renders Kubernetes skill detail for its clean route', () => {
