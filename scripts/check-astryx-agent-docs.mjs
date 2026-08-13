@@ -17,6 +17,17 @@ const SCRIPT_DIR = dirname(fileURLToPath(import.meta.url));
 const DEFAULT_REPO_ROOT = resolve(SCRIPT_DIR, '..');
 const DEFAULT_TARGET = 'apps/github.io/AGENTS.md';
 const TEMP_PREFIX = '.astryx-agent-docs-check-';
+const RAW_HTML_BLOCK_TAGS =
+  'address|article|aside|base|basefont|blockquote|body|caption|center|col|' +
+  'colgroup|dd|details|dialog|dir|div|dl|dt|fieldset|figcaption|figure|' +
+  'footer|form|frame|frameset|h1|h2|h3|h4|h5|h6|head|header|hr|html|' +
+  'iframe|legend|li|link|main|menu|menuitem|nav|noframes|ol|optgroup|' +
+  'option|p|param|search|section|summary|table|tbody|td|tfoot|th|thead|' +
+  'title|tr|track|ul';
+const RAW_HTML_BLOCK_TAG_PATTERN = new RegExp(
+  `^ {0,3}</?(?:${RAW_HTML_BLOCK_TAGS})(?:\\s|/?>|$)`,
+  'i',
+);
 
 function productionRefreshInstruction(label) {
   return label === DEFAULT_TARGET
@@ -67,11 +78,37 @@ function listContentIndent(line) {
   if (!match) return undefined;
 
   const [, indentation, marker, whitespace = ' '] = match;
+  const separatorWidth = leadingIndentColumns(whitespace);
   return (
     leadingIndentColumns(indentation) +
     marker.length +
-    Math.min(leadingIndentColumns(whitespace), 4)
+    (separatorWidth > 4 ? 1 : separatorWidth)
   );
+}
+
+function rawHtmlBlockStart(line) {
+  const typeOne = /^ {0,3}<(pre|script|style|textarea)(?:\s|>|$)/i.exec(line);
+  if (typeOne) {
+    return { endPattern: new RegExp(`</${typeOne[1]}\\s*>`, 'i') };
+  }
+
+  for (const [startPattern, endPattern] of [
+    [/^ {0,3}<!--/, /-->/],
+    [/^ {0,3}<\?/, /\?>/],
+    [/^ {0,3}<![A-Z]/, />/],
+    [/^ {0,3}<!\[CDATA\[/, /\]\]>/],
+  ]) {
+    if (startPattern.test(line)) return { endPattern };
+  }
+
+  if (RAW_HTML_BLOCK_TAG_PATTERN.test(line)) return { endsOnBlankLine: true };
+  return undefined;
+}
+
+function rawHtmlBlockEnds(block, line) {
+  return block.endsOnBlankLine
+    ? line.trim() === ''
+    : block.endPattern.test(line);
 }
 
 function isEscaped(line, index) {
@@ -140,7 +177,7 @@ export function extractAstryxBlock(content, label) {
 
   const lines = content.split('\n');
   let fence;
-  let rawHtmlTag;
+  let rawHtmlBlock;
   let codeSpanDelimiter;
   const listIndents = [];
   for (const [lineIndex, line] of lines.entries()) {
@@ -168,7 +205,7 @@ export function extractAstryxBlock(content, label) {
         /^ {0,3}<!-- ASTRYX:(?:START|END) -->[ \t]*$/.test(line);
       if (
         !standaloneMarker ||
-        rawHtmlTag !== undefined ||
+        rawHtmlBlock !== undefined ||
         codeSpanDelimiter !== undefined ||
         listIndents.length > 0
       ) {
@@ -194,10 +231,8 @@ export function extractAstryxBlock(content, label) {
       continue;
     }
 
-    if (rawHtmlTag !== undefined) {
-      if (new RegExp(`</${rawHtmlTag}\\s*>`, 'i').test(line)) {
-        rawHtmlTag = undefined;
-      }
+    if (rawHtmlBlock !== undefined) {
+      if (rawHtmlBlockEnds(rawHtmlBlock, line)) rawHtmlBlock = undefined;
       continue;
     }
 
@@ -209,12 +244,11 @@ export function extractAstryxBlock(content, label) {
       }
     }
 
-    const rawHtmlStart = /^ {0,3}<(pre|script|style|textarea)(?:\s|>|$)/i.exec(
-      line,
-    );
-    if (codeSpanDelimiter === undefined && rawHtmlStart) {
-      const tag = rawHtmlStart[1];
-      if (!new RegExp(`</${tag}\\s*>`, 'i').test(line)) rawHtmlTag = tag;
+    const nextRawHtmlBlock = rawHtmlBlockStart(line);
+    if (codeSpanDelimiter === undefined && nextRawHtmlBlock) {
+      if (!rawHtmlBlockEnds(nextRawHtmlBlock, line)) {
+        rawHtmlBlock = nextRawHtmlBlock;
+      }
       continue;
     }
 

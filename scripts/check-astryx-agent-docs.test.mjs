@@ -107,6 +107,24 @@ for (const [name, content] of [
   });
 }
 
+for (const [name, content] of [
+  [
+    'five-space bullet list separator',
+    `-     item\n  ${block('0.1.4').replaceAll('\n', '\n  ')}`,
+  ],
+  [
+    'five-space ordered list separator',
+    `1.     item\n   ${block('0.1.4').replaceAll('\n', '\n   ')}`,
+  ],
+]) {
+  test(`extractAstryxBlock rejects markers in a ${name}`, () => {
+    assert.throws(
+      () => extractAstryxBlock(content, name),
+      /standalone top-level Markdown nodes.*Restore.*region/s,
+    );
+  });
+}
+
 for (const tag of ['pre', 'script', 'style', 'textarea']) {
   test(`extractAstryxBlock rejects markers in a ${tag} raw HTML block`, () => {
     assert.throws(
@@ -115,6 +133,21 @@ for (const tag of ['pre', 'script', 'style', 'textarea']) {
           `<${tag} data-fixture>\n${block('0.1.4')}\n</${tag}>`,
           `${tag} raw HTML`,
         ),
+      /standalone top-level Markdown nodes.*Restore.*region/s,
+    );
+  });
+}
+
+for (const [name, content] of [
+  ['div', `<div data-fixture>\n${block('0.1.4')}\n</div>`],
+  ['comment', `<!-- fixture\n${block('0.1.4')}\n-->`],
+  ['processing instruction', `<?fixture\n${block('0.1.4')}\n?>`],
+  ['declaration', `<!FIXTURE\n${block('0.1.4')}\n>`],
+  ['CDATA', `<![CDATA[\n${block('0.1.4')}\n]]>`],
+]) {
+  test(`extractAstryxBlock rejects markers in a ${name} raw HTML block`, () => {
+    assert.throws(
+      () => extractAstryxBlock(content, `${name} raw HTML`),
       /standalone top-level Markdown nodes.*Restore.*region/s,
     );
   });
