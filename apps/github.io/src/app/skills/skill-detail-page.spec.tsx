@@ -35,6 +35,13 @@ function readAppSource(relativePath: string): string {
 }
 
 describe('SkillDetailPage', () => {
+  it('does not globally override Astryx link colors outside cascade layers', () => {
+    const styles = readAppSource('src/styles.css');
+    const unscopedAnchorRule = styles.match(/(?:^|\n)a\s*\{[^}]*\}/)?.[0];
+
+    expect(unscopedAnchorRule).toBeUndefined();
+  });
+
   it('uses the Astryx Basic Metadata defaults without layout overrides', () => {
     const source = readAppSource('src/app/skills/skill-detail-page.tsx');
     const metadataOpeningTag = source.match(/<MetadataList[\s\S]*?>/)?.[0];

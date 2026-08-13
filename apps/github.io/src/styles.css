@@ -21,11 +21,6 @@ body {
   font-family: var(--font-family-body);
 }
 
-a {
-  color: inherit;
-  text-decoration: none;
-}
-
 .devops-roadmap__flow .react-flow__handle {
   opacity: 0;
   pointer-events: none;
