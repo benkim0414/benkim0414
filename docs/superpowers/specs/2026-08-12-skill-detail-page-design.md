@@ -190,11 +190,14 @@ collections.
 ### Experience List
 
 The experience list renders semantic list markup without dividers. Each list
-item contains one Astryx `Blockquote`. Inside it, an Astryx vertical layout
+item uses an outer Astryx vertical layout for block spacing and contains one
+Astryx `Blockquote`. Inside the Blockquote, a second Astryx vertical layout
 groups the existing evidence title as a level-3 `Heading` with its summary as
-secondary Astryx `Text`. This treats the complete evidence item as one
-highlighted excerpt and gives its title and summary one continuous accent
-border while retaining the title in the document heading hierarchy.
+secondary Astryx `Text`. Keep vertical item padding on the outer layout rather
+than inside the Blockquote. This treats the complete evidence item as one
+highlighted excerpt, gives its title and summary one continuous accent border,
+and leaves visible space between adjacent borders while retaining the title in
+the document heading hierarchy.
 
 Do not pass the optional `cite` prop: the title labels the evidence and is not
 an attribution source. Evidence facts, metrics, dates, and external proof links
@@ -276,6 +279,8 @@ design contains no custom MD3-derived styling.
   with its level-3 heading and secondary summary text nested inside. Omit the
   optional `cite` prop because the heading labels the evidence and is not an
   attribution source.
+- Keep inter-item spacing outside each Blockquote so adjacent evidence borders
+  remain visually distinct. The border must span only its own title and summary.
 - Give breadcrumb navigation an accessible label.
 - Preserve the default Astryx breadcrumb hierarchy: linked ancestors use
   secondary text color and the current page uses primary text color.
@@ -310,6 +315,8 @@ Add focused automated coverage for:
   the related project.
 - Each experience blockquote contains exactly its associated level-3 evidence
   heading and summary, so the two elements share one accent-border container.
+- Adjacent experience blockquote border rectangles do not touch; Astryx outer
+  layout spacing separates them without dividers or custom border styles.
 - The metadata rows preserve the existing category badges, accessible rating,
   certification ordering, citation links, and hover-card behavior without
   duplicate loose metadata or a standalone Certifications section.
@@ -349,8 +356,8 @@ pnpm nx build-storybook github.io
 Perform browser visual checks at representative phone, iPad, and desktop
 viewports. Confirm reading width, heading hierarchy, Basic Metadata row
 alignment, secondary/primary breadcrumb contrast, badge and citation wrapping,
-blockquote border alignment, link focus treatment, and the absence of clipping
-or overlap.
+one visually separate blockquote border per evidence item, link focus treatment,
+and the absence of clipping or overlap.
 
 ## Risks and Mitigations
 
@@ -363,7 +370,8 @@ or overlap.
   evidence, and project IDs and validate them.
 - **Repeated blockquote borders can fragment the experience section.** Keep one
   editorial column, place each heading and summary inside a single blockquote,
-  use spacing rather than dividers between items, and avoid nested cards.
+  put Astryx spacing outside the Blockquotes so their borders remain distinct,
+  use no dividers, and avoid nested cards.
 - **Professional experience may expose sensitive facts.** Reuse only evidence
   already marked public and not sensitive, and cover that constraint with data
   integrity tests.
