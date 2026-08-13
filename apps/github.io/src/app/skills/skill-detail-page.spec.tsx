@@ -52,12 +52,23 @@ describe('SkillDetailPage', () => {
     expect(metadataOpeningTag).not.toMatch(/\borientation=/);
   });
 
-  it('places skill metadata in a full-width muted Astryx Card', () => {
+  it('places skill metadata in a full-width muted Card with a scoped Astryx surface', () => {
+    const source = readAppSource('src/app/skills/skill-detail-page.tsx');
+    const metadataCardStyle = source.match(
+      /metadataCard:\s*\{[\s\S]*?\n\s*\},/,
+    )?.[0];
+    const metadataCardOpeningTag = source.match(/<Card[\s\S]*?>/)?.[0];
     const detail = getResolvedDetail('kubernetes');
     const { getByTestId } = render(<SkillDetailPage detail={detail} />);
     const metadata = getByTestId('skill-metadata');
     const card = metadata.closest('.astryx-card');
 
+    expect(metadataCardStyle).toContain(
+      "backgroundColor: colorVars['--color-background-surface']",
+    );
+    expect(metadataCardOpeningTag).toContain('variant="muted"');
+    expect(metadataCardOpeningTag).toContain('width="100%"');
+    expect(metadataCardOpeningTag).toContain('xstyle={styles.metadataCard}');
     expect(card).not.toBeNull();
     expect(card?.getAttribute('data-variant')).toBe('muted');
     expect((card as HTMLElement).style.getPropertyValue('--x-width')).toBe(

@@ -7,7 +7,10 @@ import {
   MetadataListItem,
 } from '@astryxdesign/core/MetadataList';
 import { Text } from '@astryxdesign/core/Text';
-import { spacingVars } from '@astryxdesign/core/theme/tokens.stylex';
+import {
+  colorVars,
+  spacingVars,
+} from '@astryxdesign/core/theme/tokens.stylex';
 import * as stylex from '@stylexjs/stylex';
 import { useEffect, useRef, type ReactElement } from 'react';
 
@@ -27,6 +30,9 @@ const styles = stylex.create({
     width: '100%',
     maxWidth: `calc(${spacingVars['--spacing-12']} * 14)`,
     marginInline: 'auto',
+  },
+  metadataCard: {
+    backgroundColor: colorVars['--color-background-surface'],
   },
   metadataValueList: {
     margin: 0,
@@ -75,7 +81,7 @@ export function SkillDetailPage({ detail }: SkillDetailPageProps): ReactElement 
         </Text>
       </VStack>
 
-      <Card variant="muted" width="100%">
+      <Card variant="muted" width="100%" xstyle={styles.metadataCard}>
         <MetadataList data-testid="skill-metadata">
           <MetadataListItem label="Categories">
             <HStack
