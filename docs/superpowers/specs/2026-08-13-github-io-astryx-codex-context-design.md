@@ -77,14 +77,15 @@ and creating incorrect defaults outside `apps/github.io`.
 Add three scripts:
 
 - `astryx`: invokes
-  `node node_modules/@astryxdesign/cli/clients/cli/bin/astryx.mjs`.
+  `node node_modules/@astryxdesign/cli/bin/astryx.mjs`, the executable declared
+  by installed `@astryxdesign/cli@0.1.4`.
 - `astryx:agents`: runs the CLI initializer with `--features agents` and
   `--agent-docs-path apps/github.io/AGENTS.md`.
 - `astryx:agents:check`: runs the repository freshness checker.
 
-The stable alias follows Astryx's guidance and prevents agents from guessing a
-CLI path. The explicit output path ensures generation never targets the root
-`AGENTS.md`.
+The stable alias applies Astryx's guidance using the executable path actually
+shipped by the installed package and prevents agents from guessing a CLI path.
+The explicit output path ensures generation never targets the root `AGENTS.md`.
 
 ### Freshness checker
 
