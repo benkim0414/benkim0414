@@ -148,10 +148,13 @@ modules while rendering.
 
 ### Skill Metadata List
 
-Place one Astryx `MetadataList` immediately after the skill description. Use a
-single-column layout and top-positioned labels so long or complex values retain
-their available reading width on phones and iPads. The list has no title because
-the page heading and description already establish its subject.
+Place one Astryx `MetadataList` immediately after the skill description. Follow
+the official Astryx **Basic Metadata** example: render plain `MetadataList` and
+`MetadataListItem` composition without overriding `columns`, `label`,
+`orientation`, or component styles. The component's defaults own the standard
+single-column key/value layout, with short labels at the start of each row. The
+list has no title because the page heading and description already establish
+its subject.
 
 Render these Astryx `MetadataListItem` rows in order:
 
@@ -166,6 +169,11 @@ duplicate those values elsewhere on the page. Omit the Certifications row when
 the skill has no certifications; do not render placeholder text. Category and
 certification collections retain semantic list markup, with Astryx layout
 primitives controlling wrapping and spacing.
+
+Do not pass `columns="single"` or `label={{ position: 'start' }}` merely to
+restate the Basic Metadata defaults. Do not use the top-positioned label variant
+for this surface. Category badges and certification citations wrap within the
+value column when required.
 
 ### Detail Resolver
 
@@ -198,8 +206,9 @@ Official Astryx guidance checked during design:
 
 - `Badge`: category tags may use non-semantic color variants; badges remain
   read-only and concise.
-- `MetadataList`: use it for clear key-value detail-page attributes; use
-  top-positioned labels for long or complex values. Its item values may contain
+- `MetadataList`: use it for clear key-value detail-page attributes. The
+  official Basic Metadata example uses a plain `MetadataList`, whose defaults
+  provide the standard single-column key/value layout. Item values may contain
   components such as badges and links.
 - `Layout`: decide the page frame and responsive contract first, use rows for
   scannable data, and reserve cards for self-contained objects.
@@ -214,9 +223,22 @@ package documentation are the component API source of truth. Implementation
 must run the relevant Astryx CLI component commands again before using or
 modifying each component.
 
+The public Astryx MetadataList URL supplied for correction was also not readable
+from the development environment. Its installed official
+`MetadataListBasicMetadata` template is therefore the verifiable example source
+and must be followed directly.
+
 Reuse the existing deterministic `SkillCategory` mapping to Astryx's
 non-semantic badge variants. Do not make category badges clickable, introduce
 custom category colors, or use semantic status variants.
+
+Use Astryx `Breadcrumbs` with its default variant. Linked ancestor items must
+resolve to Astryx secondary text color, while the current-page item resolves to
+primary text color. Do not add custom breadcrumb colors or use the supporting
+variant, because supporting intentionally makes the entire trail secondary.
+Remove the app's unlayered global anchor color reset so it cannot override the
+layered Astryx `BreadcrumbItem` color contract; rely on the existing Astryx and
+Tailwind reset layers for generic anchor normalization.
 
 Use MD3 only if implementation encounters a behavior for which Astryx has no
 guidance or component. No such gap is currently identified, so the approved
@@ -225,8 +247,9 @@ design contains no custom MD3-derived styling.
 ## Responsive Contract
 
 - Phone: the detail content fills the available width inside semantic page
-  padding; metadata labels remain above their values, category badges and
-  certification citations wrap, and all content remains in one column.
+  padding; Basic Metadata labels remain at the start of their rows, values use
+  the remaining width, category badges and certification citations wrap, and
+  all page content remains in one reading column.
 - iPad: the reading column expands beyond the current phone-width canvas but
   remains centered with readable line length.
 - Desktop: the same centered reading column is retained; no side rail or
@@ -246,6 +269,8 @@ design contains no custom MD3-derived styling.
   optional `cite` prop because the preceding level-3 heading labels the evidence
   and is not an attribution source.
 - Give breadcrumb navigation an accessible label.
+- Preserve the default Astryx breadcrumb hierarchy: linked ancestors use
+  secondary text color and the current page uses primary text color.
 - Use normal link semantics for breadcrumb, project, citation, and not-found
   navigation.
 - Do not use category color as the only source of meaning.
@@ -278,6 +303,11 @@ Add focused automated coverage for:
 - The metadata rows preserve the existing category badges, accessible rating,
   certification ordering, citation links, and hover-card behavior without
   duplicate loose metadata or a standalone Certifications section.
+- The metadata surface matches the official Astryx Basic Metadata example: it
+  uses the default single-column key/value layout without `columns`, `label`, or
+  `orientation` overrides.
+- The linked `Skills` breadcrumb computes to Astryx secondary text color while
+  the current skill computes to Astryx primary text color.
 - A known non-enriched and uncertified skill renders a basic detail page without
   a Certifications row or empty experience or project headings.
 - An unknown skill ID and unknown route render the not-found state with a link
@@ -307,9 +337,10 @@ pnpm nx build-storybook github.io
 ```
 
 Perform browser visual checks at representative phone, iPad, and desktop
-viewports. Confirm reading width, heading hierarchy, top-positioned metadata
-labels, badge and citation wrapping, blockquote border alignment, link focus
-treatment, and the absence of clipping or overlap.
+viewports. Confirm reading width, heading hierarchy, Basic Metadata row
+alignment, secondary/primary breadcrumb contrast, badge and citation wrapping,
+blockquote border alignment, link focus treatment, and the absence of clipping
+or overlap.
 
 ## Risks and Mitigations
 
@@ -328,6 +359,9 @@ treatment, and the absence of clipping or overlap.
   integrity tests.
 - **Empty enrichment can look unfinished.** Render a complete basic overview and
   omit absent optional sections instead of showing placeholders.
+- **Unlayered global anchor styles can defeat Astryx component colors.** Keep
+  generic anchor normalization inside the existing reset layers and verify
+  computed breadcrumb colors in a real browser.
 
 ## Handoff Criteria
 
@@ -337,6 +371,8 @@ The implementation is ready for review when:
 - Kubernetes renders the approved complete editorial detail view;
 - summary metadata renders once through Astryx `MetadataList`, with
   Certifications omitted when absent;
+- summary metadata matches Astryx Basic Metadata defaults and breadcrumb
+  ancestors/current pages retain their Astryx secondary/primary distinction;
 - every existing skill renders at least a valid basic detail page;
 - unknown IDs render the approved not-found state;
 - explicit evidence and project references pass integrity and public-safety
