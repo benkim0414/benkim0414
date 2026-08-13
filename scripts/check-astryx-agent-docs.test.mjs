@@ -153,6 +153,37 @@ for (const [name, content] of [
   });
 }
 
+for (const [name, content] of [
+  [
+    'custom element type 7 raw HTML block',
+    `<x-panel data-fixture="true">\n${block('0.1.4')}\n</x-panel>`,
+  ],
+  [
+    'self-closing type 7 raw HTML block',
+    `<x-panel data-fixture />\n${block('0.1.4')}`,
+  ],
+  ['closing-tag type 7 raw HTML block', `</x-panel>\n${block('0.1.4')}`],
+]) {
+  test(`extractAstryxBlock rejects markers in a ${name}`, () => {
+    assert.throws(
+      () => extractAstryxBlock(content, name),
+      /standalone top-level Markdown nodes.*Restore.*region/s,
+    );
+  });
+}
+
+for (const [name, prefix] of [
+  ['ordinary inline HTML', 'prose <x-panel>inline</x-panel>'],
+  ['same-line open and close tags', '<x-panel></x-panel>'],
+]) {
+  test(`extractAstryxBlock accepts markers after ${name}`, () => {
+    assert.equal(
+      extractAstryxBlock(`${prefix}\n${block('0.1.4')}`, name),
+      block('0.1.4'),
+    );
+  });
+}
+
 for (const indentation of ['\t', ' \t', '  \t', '   \t']) {
   test(`extractAstryxBlock rejects ${JSON.stringify(indentation)} indentation`, () => {
     assert.throws(
