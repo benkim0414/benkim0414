@@ -22,6 +22,16 @@ function countOccurrences(content, marker) {
   return content.split(marker).length - 1;
 }
 
+function leadingIndentColumns(line) {
+  let columns = 0;
+  for (const character of line) {
+    if (character === ' ') columns += 1;
+    else if (character === '\t') columns += 4 - (columns % 4);
+    else break;
+  }
+  return columns;
+}
+
 export function extractAstryxBlock(content, label) {
   const starts = countOccurrences(content, ASTRYX_MARKER_START);
   const ends = countOccurrences(content, ASTRYX_MARKER_END);
@@ -62,7 +72,7 @@ export function extractAstryxBlock(content, label) {
     if (
       (line.includes(ASTRYX_MARKER_START) ||
         line.includes(ASTRYX_MARKER_END)) &&
-      (fence || /^(?: {4}|\t)/.test(line))
+      (fence || leadingIndentColumns(line) >= 4)
     ) {
       throw new Error(
         `${label} has Astryx managed markers inside fenced or indented Markdown code. ` +

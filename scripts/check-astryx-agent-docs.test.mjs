@@ -43,6 +43,29 @@ for (const [name, content] of [
   });
 }
 
+for (const spaces of [1, 2, 3]) {
+  test(`extractAstryxBlock accepts ${spaces} leading spaces`, () => {
+    const content = `${' '.repeat(spaces)}${block('0.1.4')}`;
+    assert.equal(
+      extractAstryxBlock(content, 'valid indentation'),
+      content.trimStart(),
+    );
+  });
+}
+
+for (const indentation of ['\t', ' \t', '  \t', '   \t']) {
+  test(`extractAstryxBlock rejects ${JSON.stringify(indentation)} indentation`, () => {
+    assert.throws(
+      () =>
+        extractAstryxBlock(
+          `${indentation}${block('0.1.4')}`,
+          'tab indentation',
+        ),
+      /markers inside fenced or indented Markdown code.*Restore.*region/s,
+    );
+  });
+}
+
 test('refresh preserves repository-root AGENTS.md while generating optional target', () => {
   const repoRoot = mkdtempSync(join(process.cwd(), '.astryx-refresh-root-'));
   try {
