@@ -7,7 +7,7 @@ import {
   MetadataListItem,
 } from '@astryxdesign/core/MetadataList';
 import { Text } from '@astryxdesign/core/Text';
-import { colorVars, spacingVars } from '@astryxdesign/core/theme/tokens.stylex';
+import { colorVars } from '@astryxdesign/core/theme/tokens.stylex';
 import * as stylex from '@stylexjs/stylex';
 import { useEffect, useRef, type ReactElement } from 'react';
 
@@ -23,11 +23,6 @@ export interface SkillDetailPageProps {
 }
 
 const styles = stylex.create({
-  page: {
-    width: '100%',
-    maxWidth: `calc(${spacingVars['--spacing-12']} * 14)`,
-    marginInline: 'auto',
-  },
   metadataCard: {
     backgroundColor: colorVars['--color-background-surface'],
   },
@@ -60,7 +55,12 @@ export function SkillDetailPage({
 
   return (
     <LayoutContent label="Skill detail" padding={0} role="main">
-      <VStack gap={6} paddingBlock={6} paddingInline={4} xstyle={styles.page}>
+      <VStack
+        data-testid="skill-detail-content"
+        gap={6}
+        paddingBlock={6}
+        paddingInline={4}
+      >
         <Breadcrumbs label="Skill breadcrumb">
           <BreadcrumbItem href="/skills">Skills</BreadcrumbItem>
           <BreadcrumbItem isCurrent>{detail.skill.name}</BreadcrumbItem>

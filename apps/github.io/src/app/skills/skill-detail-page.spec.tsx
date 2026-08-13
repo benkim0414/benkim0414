@@ -1,7 +1,7 @@
 import { readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 import { render, within } from '@testing-library/react';
-import { LayoutContent } from '@astryxdesign/core/Layout';
+import { LayoutContent, VStack } from '@astryxdesign/core/Layout';
 
 import { devOpsCapabilityEvidenceItems } from '../devops-capability-evidence/devops-capability-evidence.data';
 import { sampleProjects } from '../projects/project-list.data';
@@ -62,6 +62,24 @@ describe('SkillDetailPage', () => {
     expect(
       within(main).getByRole('navigation', { name: 'Skill breadcrumb' }),
     ).toBeTruthy();
+  });
+
+  it('does not apply a local maximum-width or centering margin to detail content', () => {
+    const { getByTestId } = render(
+      <SkillDetailPage detail={getResolvedDetail('kubernetes')} />,
+    );
+    const { getByTestId: getControlByTestId } = render(
+      <VStack
+        data-testid="detail-content-without-local-style"
+        gap={6}
+        paddingBlock={6}
+        paddingInline={4}
+      />,
+    );
+    const detailContent = getByTestId('skill-detail-content');
+    const control = getControlByTestId('detail-content-without-local-style');
+
+    expect(detailContent.className).toBe(control.className);
   });
 
   it('returns to the dedicated skills collection', () => {

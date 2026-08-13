@@ -85,15 +85,41 @@ function assertStyle(name, declarations) {
 
 const frame = assertStyle('frame', [
   'width:100%',
-  'max-width:448px',
   'height:100dvh',
   'overflow:hidden',
-  'margin-inline:auto',
 ]);
-const viewportMinHeightClass = findClass('min-height:100vh');
 
-if (viewportMinHeightClass && frame.includes(`\`${viewportMinHeightClass}\``)) {
-  throw new Error('Global frame combines 100dvh with min-height: 100vh.');
+for (const frameClass of frame.matchAll(/`([^`]+)`/g)) {
+  const className = frameClass[1];
+  const declaration = css.match(
+    new RegExp(`\\.${escapeRegExp(className)}\\{([^}]*)\\}`),
+  )?.[1];
+
+  if (
+    declaration?.startsWith('max-width:') ||
+    declaration?.startsWith('margin-inline:') ||
+    declaration === 'min-height:100vh'
+  ) {
+    throw new Error(
+      `Global frame includes forbidden declaration: ${declaration}`,
+    );
+  }
+}
+
+const detailSource = readFileSync(
+  resolve(process.cwd(), 'src/app/skills/skill-detail-page.tsx'),
+  'utf8',
+);
+
+for (const forbiddenSource of [
+  'marginInline:',
+  'xstyle={styles.page}',
+]) {
+  if (detailSource.includes(forbiddenSource)) {
+    throw new Error(
+      `Skill detail retains a page-width constraint: ${forbiddenSource}`,
+    );
+  }
 }
 
 assertStyle('page', ['display:flex', 'flex-direction:column']);
@@ -109,5 +135,5 @@ assertStyle('doraContent', [
 ]);
 
 console.log(
-  `Verified compiled global frame and Home layout StyleX rules in ${cssPath}.`,
+  `Verified compiled global frame, Home layout, and detail width rules in ${cssPath}.`,
 );
