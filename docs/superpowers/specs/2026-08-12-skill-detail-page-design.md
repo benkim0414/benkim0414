@@ -138,9 +138,9 @@ renders:
   and certifications.
 - A dedicated experience list under the concise `In practice` heading when
   resolved evidence is present.
-- Astryx `Heading` level 3 for each evidence title and Astryx `Blockquote` for
-  each evidence statement, using the components' built-in semantics and visual
-  treatment.
+- One Astryx `Blockquote` for each evidence item, containing its Astryx
+  `Heading` level 3 title and secondary Astryx `Text` summary so both share one
+  continuous accent border.
 - Related project content when resolved projects are present.
 
 The page receives a resolved view model. It does not query unrelated data
@@ -189,13 +189,17 @@ collections.
 
 ### Experience List
 
-The experience list renders semantic list markup without dividers. Each item
-uses its existing evidence title in an Astryx level-3 `Heading` and its summary
-in an Astryx `Blockquote`. Do not pass the optional `cite` prop: the title is a
-label for the evidence, not an attribution source. Evidence facts, metrics,
-dates, and external proof links remain out of scope unless an existing Astryx
-component exposes a compact, accessible pattern without expanding the approved
-page scope.
+The experience list renders semantic list markup without dividers. Each list
+item contains one Astryx `Blockquote`. Inside it, an Astryx vertical layout
+groups the existing evidence title as a level-3 `Heading` with its summary as
+secondary Astryx `Text`. This treats the complete evidence item as one
+highlighted excerpt and gives its title and summary one continuous accent
+border while retaining the title in the document heading hierarchy.
+
+Do not pass the optional `cite` prop: the title labels the evidence and is not
+an attribution source. Evidence facts, metrics, dates, and external proof links
+remain out of scope unless an existing Astryx component exposes a compact,
+accessible pattern without expanding the approved page scope.
 
 ## Astryx and MD3 Guidance
 
@@ -210,6 +214,9 @@ Official Astryx guidance checked during design:
   official Basic Metadata example uses a plain `MetadataList`, whose defaults
   provide the standard single-column key/value layout. Item values may contain
   components such as badges and links.
+- `Blockquote`: its `children` contract accepts structured React content. Use it
+  for the highlighted experience excerpt, with the semantic heading and summary
+  nested inside; do not use it as a generic informational callout.
 - `Layout`: decide the page frame and responsive contract first, use rows for
   scannable data, and reserve cards for self-contained objects.
 - `Typography`: use semantic `Heading` and `Text` variants without manual font
@@ -265,9 +272,10 @@ design contains no custom MD3-derived styling.
   exist.
 - Preserve Astryx `MetadataList` and `MetadataListItem` semantics and visible
   labels for Categories, Rating, and Certifications.
-- Render every experience evidence summary with Astryx `Blockquote`. Omit its
-  optional `cite` prop because the preceding level-3 heading labels the evidence
-  and is not an attribution source.
+- Render every complete experience evidence item in one Astryx `Blockquote`,
+  with its level-3 heading and secondary summary text nested inside. Omit the
+  optional `cite` prop because the heading labels the evidence and is not an
+  attribution source.
 - Give breadcrumb navigation an accessible label.
 - Preserve the default Astryx breadcrumb hierarchy: linked ancestors use
   secondary text color and the current page uses primary text color.
@@ -300,6 +308,8 @@ Add focused automated coverage for:
   `MetadataList` with Categories, Rating, and Certifications rows, the `In
   practice` heading, one Astryx blockquote for each selected evidence item, and
   the related project.
+- Each experience blockquote contains exactly its associated level-3 evidence
+  heading and summary, so the two elements share one accent-border container.
 - The metadata rows preserve the existing category badges, accessible rating,
   certification ordering, citation links, and hover-card behavior without
   duplicate loose metadata or a standalone Certifications section.
@@ -352,8 +362,8 @@ or overlap.
 - **Display-name relationship matching can drift.** Store explicit skill,
   evidence, and project IDs and validate them.
 - **Repeated blockquote borders can fragment the experience section.** Keep one
-  editorial column, group each heading tightly with its blockquote, use spacing
-  rather than dividers between items, and avoid nested cards.
+  editorial column, place each heading and summary inside a single blockquote,
+  use spacing rather than dividers between items, and avoid nested cards.
 - **Professional experience may expose sensitive facts.** Reuse only evidence
   already marked public and not sensitive, and cover that constraint with data
   integrity tests.
