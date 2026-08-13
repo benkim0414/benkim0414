@@ -26,18 +26,12 @@ const renderSkillsPage = (suppliedSkills?: readonly Skill[]) =>
   );
 
 describe('SkillsPage', () => {
-  it('owns a centered Astryx page layout with one scrollable labelled main', () => {
-    const { container, getByRole } = renderSkillsPage();
+  it('renders one Astryx content main without page-local navigation', () => {
+    const { container, getByRole, queryByRole } = renderSkillsPage();
     const main = getByRole('main', { name: 'Skills' });
-    const navigation = getByRole('navigation', { name: 'Skills navigation' });
-    const shell = main.closest('[data-height="fill"]');
 
     expect(getByRole('heading', { level: 1, name: 'Skills' })).toBeTruthy();
-    expect(shell?.className).toContain('astryx-layout');
-    expect(shell?.className).toContain('max-w-md');
-    expect(shell?.className).toContain('h-dvh');
-    expect(shell?.className).toContain('overflow-hidden');
-    expect(shell?.contains(navigation)).toBe(true);
+    expect(queryByRole('navigation')).toBeNull();
     expect(main.className).toContain('astryx-layout-content');
     expect(container.querySelectorAll('.astryx-layout-content')).toHaveLength(
       1,

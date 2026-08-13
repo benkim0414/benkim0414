@@ -1,6 +1,7 @@
 import { readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 import { render, within } from '@testing-library/react';
+import { LayoutContent } from '@astryxdesign/core/Layout';
 
 import { devOpsCapabilityEvidenceItems } from '../devops-capability-evidence/devops-capability-evidence.data';
 import { sampleProjects } from '../projects/project-list.data';
@@ -35,6 +36,34 @@ function readAppSource(relativePath: string): string {
 }
 
 describe('SkillDetailPage', () => {
+  it('renders one scrollable Astryx content main without page-local navigation', () => {
+    const detail = getResolvedDetail('kubernetes');
+    const { container, getByRole, queryByRole } = render(
+      <SkillDetailPage detail={detail} />,
+    );
+    const { getByTestId } = render(
+      <LayoutContent
+        data-testid="scrollable-content-control"
+        label="Control"
+        padding={0}
+        role="main"
+      />,
+    );
+    const main = getByRole('main', { name: 'Skill detail' });
+
+    expect(queryByRole('navigation', { name: 'Global navigation' })).toBeNull();
+    expect(queryByRole('button', { name: 'Search skills' })).toBeNull();
+    expect(container.querySelectorAll('.astryx-layout-content')).toHaveLength(
+      1,
+    );
+    expect(main.className).toBe(
+      getByTestId('scrollable-content-control').className,
+    );
+    expect(
+      within(main).getByRole('navigation', { name: 'Skill breadcrumb' }),
+    ).toBeTruthy();
+  });
+
   it('returns to the dedicated skills collection', () => {
     const { getByRole } = render(
       <SkillDetailPage detail={getResolvedDetail('kubernetes')} />,
@@ -95,20 +124,20 @@ describe('SkillDetailPage', () => {
       getByRole,
       getByTestId,
       queryByRole,
-    } = render(
-      <SkillDetailPage detail={detail} />,
-    );
+    } = render(<SkillDetailPage detail={detail} />);
     const metadata = getByTestId('skill-metadata');
     const metadataQueries = within(metadata);
 
-    expect(getByRole('main')).toBeTruthy();
+    expect(getByRole('main', { name: 'Skill detail' })).toBeTruthy();
     expect(getByRole('navigation', { name: 'Skill breadcrumb' })).toBeTruthy();
     expect(getByRole('heading', { level: 1, name: 'Kubernetes' })).toBeTruthy();
     expect(metadata.querySelector('dl')).toBeTruthy();
     expect(
       metadataQueries.getByText('Categories', { selector: 'dt' }),
     ).toBeTruthy();
-    expect(metadataQueries.getByText('Rating', { selector: 'dt' })).toBeTruthy();
+    expect(
+      metadataQueries.getByText('Rating', { selector: 'dt' }),
+    ).toBeTruthy();
     expect(
       metadataQueries.getByText('Certifications', { selector: 'dt' }),
     ).toBeTruthy();
@@ -167,19 +196,19 @@ describe('SkillDetailPage', () => {
     expect(
       metadataQueries.getByText('Categories', { selector: 'dt' }),
     ).toBeTruthy();
-    expect(metadataQueries.getByText('Rating', { selector: 'dt' })).toBeTruthy();
+    expect(
+      metadataQueries.getByText('Rating', { selector: 'dt' }),
+    ).toBeTruthy();
     expect(
       metadataQueries.queryByText('Certifications', { selector: 'dt' }),
     ).toBeNull();
-    expect(metadataQueries.queryAllByTestId('certification-citation')).toHaveLength(
-      0,
-    );
+    expect(
+      metadataQueries.queryAllByTestId('certification-citation'),
+    ).toHaveLength(0);
     expect(
       queryByRole('heading', { level: 2, name: 'In practice' }),
     ).toBeNull();
-    expect(
-      queryByRole('heading', { level: 2, name: 'Projects' }),
-    ).toBeNull();
+    expect(queryByRole('heading', { level: 2, name: 'Projects' })).toBeNull();
     expect(
       queryByRole('heading', { level: 2, name: 'Certifications' }),
     ).toBeNull();
@@ -197,8 +226,8 @@ describe('SkillDetailPage', () => {
 
     rerender(<SkillDetailPage detail={kubernetesDetail} />);
 
-    expect(
-      getByRole('heading', { level: 1, name: 'Kubernetes' }),
-    ).toBe(document.activeElement);
+    expect(getByRole('heading', { level: 1, name: 'Kubernetes' })).toBe(
+      document.activeElement,
+    );
   });
 });
