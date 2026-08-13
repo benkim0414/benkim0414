@@ -19,7 +19,9 @@ describe('SkillExperienceList', () => {
     );
 
     expect(getByRole('list', { name: 'Supporting experience' })).toBeTruthy();
-    expect(getAllByRole('listitem')).toHaveLength(2);
+    const listItems = getAllByRole('listitem');
+
+    expect(listItems).toHaveLength(experienceFixtures.length);
     expect(getAllByRole('heading', { level: 3 })).toHaveLength(2);
 
     const blockquotes = [...container.querySelectorAll('blockquote')];
@@ -29,6 +31,13 @@ describe('SkillExperienceList', () => {
     blockquotes.forEach((blockquote, index) => {
       const item = experienceFixtures[index];
       const blockquoteQueries = within(blockquote);
+      const spacingWrapper = blockquote.parentElement;
+
+      expect(spacingWrapper).not.toBe(listItems[index]);
+      expect(spacingWrapper?.parentElement).toBe(listItems[index]);
+      expect(
+        spacingWrapper?.querySelectorAll(':scope > blockquote'),
+      ).toHaveLength(1);
 
       expect(
         blockquoteQueries.getByRole('heading', {
