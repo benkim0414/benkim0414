@@ -1,3 +1,5 @@
+import { readFileSync } from 'node:fs';
+import { resolve } from 'node:path';
 import { render, within } from '@testing-library/react';
 
 import { devOpsCapabilityEvidenceItems } from '../devops-capability-evidence/devops-capability-evidence.data';
@@ -24,7 +26,25 @@ function getResolvedDetail(skillId: string) {
   return result.value;
 }
 
+function readAppSource(relativePath: string): string {
+  const appRoot = process.cwd().endsWith('/apps/github.io')
+    ? process.cwd()
+    : resolve(process.cwd(), 'apps/github.io');
+
+  return readFileSync(resolve(appRoot, relativePath), 'utf8');
+}
+
 describe('SkillDetailPage', () => {
+  it('uses the Astryx Basic Metadata defaults without layout overrides', () => {
+    const source = readAppSource('src/app/skills/skill-detail-page.tsx');
+    const metadataOpeningTag = source.match(/<MetadataList[\s\S]*?>/)?.[0];
+
+    expect(metadataOpeningTag).toBeDefined();
+    expect(metadataOpeningTag).not.toMatch(/\bcolumns=/);
+    expect(metadataOpeningTag).not.toMatch(/\blabel=/);
+    expect(metadataOpeningTag).not.toMatch(/\borientation=/);
+  });
+
   it('renders the enriched Kubernetes detail surface', () => {
     const detail = getResolvedDetail('kubernetes');
     const {
@@ -52,7 +72,7 @@ describe('SkillDetailPage', () => {
       metadataQueries.getByText('Certifications', { selector: 'dt' }),
     ).toBeTruthy();
     expect(
-      [...metadata.querySelectorAll(':scope > dl > div > dt')].map(
+      [...metadata.querySelectorAll(':scope > dl > dt')].map(
         ({ textContent }) => textContent,
       ),
     ).toEqual(['Categories', 'Rating', 'Certifications']);
