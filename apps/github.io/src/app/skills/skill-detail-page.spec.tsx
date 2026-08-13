@@ -95,9 +95,20 @@ describe('SkillDetailPage', () => {
     const evidenceBlockquotes = [...container.querySelectorAll('blockquote')];
 
     expect(evidenceBlockquotes).toHaveLength(detail.experienceEvidence.length);
-    expect(evidenceBlockquotes.map(({ textContent }) => textContent)).toEqual(
-      detail.experienceEvidence.map(({ summary }) => summary),
-    );
+    evidenceBlockquotes.forEach((blockquote, index) => {
+      const evidence = detail.experienceEvidence[index];
+      const blockquoteQueries = within(blockquote);
+
+      expect(
+        blockquoteQueries.getByRole('heading', {
+          level: 3,
+          name: evidence.title,
+        }),
+      ).toBeTruthy();
+      expect(
+        blockquoteQueries.getByText(evidence.summary, { selector: 'p' }),
+      ).toBeTruthy();
+    });
     expect(getByRole('heading', { level: 2, name: 'Projects' })).toBeTruthy();
     expect(
       getByRole('heading', { level: 3, name: 'benkim0414/homelab' }),
