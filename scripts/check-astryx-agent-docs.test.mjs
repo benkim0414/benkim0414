@@ -143,7 +143,12 @@ for (const [name, content] of [
   ['comment', `<!-- fixture\n${block('0.1.4')}\n-->`],
   ['processing instruction', `<?fixture\n${block('0.1.4')}\n?>`],
   ['declaration', `<!FIXTURE\n${block('0.1.4')}\n>`],
+  ['lowercase declaration', `<!fixture\n${block('0.1.4')}\n>`],
   ['CDATA', `<![CDATA[\n${block('0.1.4')}\n]]>`],
+  [
+    'type-1 block with a spaced closing tag',
+    `<pre>\n</pre >\n${block('0.1.4')}`,
+  ],
 ]) {
   test(`extractAstryxBlock rejects markers in a ${name} raw HTML block`, () => {
     assert.throws(
@@ -152,6 +157,16 @@ for (const [name, content] of [
     );
   });
 }
+
+test('extractAstryxBlock accepts markers after a different type-1 closing tag', () => {
+  assert.equal(
+    extractAstryxBlock(
+      `<pre>\n</script>\n${block('0.1.4')}`,
+      'different type-1 closing tag',
+    ),
+    block('0.1.4'),
+  );
+});
 
 for (const [name, content] of [
   [
@@ -212,6 +227,88 @@ test('extractAstryxBlock rejects type 7 markers after a paragraph-ending blank l
   );
 });
 
+for (const [name, prefix] of [
+  ['ATX heading', '# Heading'],
+  ['paragraph-interrupting ATX heading', 'paragraph\n# Heading'],
+  ['equals setext heading', 'Heading\n==='],
+  ['hyphen setext heading', 'Heading\n---'],
+  ['thematic break', '***'],
+  ['paragraph-interrupting thematic break', 'paragraph\n* * *'],
+  ['empty block quote', '>'],
+  ['heading in a block quote', '> # Heading'],
+  ['tab-indented code in a block quote', '>\t  code'],
+  ['closed fenced code block', '```md\ncode\n```'],
+  ['indented code block', '    code'],
+  ['heading in a list item', '- # Heading'],
+  ['blank after a list paragraph', '- item\n'],
+  ['bullet list item containing indented code', '-     code'],
+  ['ordered list item containing indented code', '1.     code'],
+  ['heading in an ordered sibling item', '1. first\n2. # Heading'],
+  [
+    'heading in an ordered sibling item in a block quote',
+    '> 1. first\n> 2. # Heading',
+  ],
+  ['completed raw HTML leaf in a block quote', '> <pre>\n> raw\n> </pre>'],
+  [
+    'completed raw HTML leaf in nested block quotes',
+    '> > <pre>\n> > raw\n> > </pre>',
+  ],
+  ['completed raw HTML leaf in a list item', '- <pre>\n  raw\n  </pre>'],
+  ['completed HTML comment in a block quote', '> <!-- fixture\n> -->'],
+  ['completed HTML comment in a list item', '- <!-- fixture\n  -->'],
+  ['completed raw HTML block', '<pre>raw</pre>'],
+]) {
+  test(`extractAstryxBlock rejects a type 7 block after a ${name} boundary`, () => {
+    const content = `${prefix}\n<x-panel>\n${block('0.1.4')}`;
+    assert.throws(
+      () => extractAstryxBlock(content, `type 7 after ${name}`),
+      /standalone top-level Markdown nodes.*Restore.*region/s,
+    );
+  });
+}
+
+for (const [name, prefix] of [
+  ['single-line paragraph', 'paragraph'],
+  ['multiline paragraph', 'paragraph\ncontinuation'],
+  ['non-ATX hash text', '####### not a heading'],
+  ['standalone setext underline text', '==='],
+  ['indented paragraph continuation', 'paragraph\n    continuation'],
+  ['noninterrupting ordered-list text', 'paragraph\n2. continuation'],
+  ['noninterrupting empty-list text', 'paragraph\n*'],
+  ['noninterrupting link definition text', 'paragraph\n[reference]: /url'],
+  ['single-line link definition preamble', '[reference]: /url'],
+  ['multiline link definition preamble', '[reference]:\n  /url'],
+  ['multiline link definition title preamble', '[reference]: /url\n  "title"'],
+  ['invalid unbalanced link destination', '[reference]: /url(foo'],
+  ['lazy block-quote paragraph continuation', '> paragraph'],
+  ['lazy list-item paragraph continuation', '- paragraph'],
+  ['lazy empty bullet text in a list paragraph', '- paragraph\n*'],
+  ['lazy empty ordered text in a list paragraph', '- paragraph\n1.'],
+  [
+    'invalid link reference definition text',
+    '[reference]: /url "title" trailing',
+  ],
+]) {
+  test(`extractAstryxBlock accepts type 7 tag text in a ${name}`, () => {
+    assert.equal(
+      extractAstryxBlock(`${prefix}\n<x-panel>\n${block('0.1.4')}`, name),
+      block('0.1.4'),
+    );
+  });
+}
+
+test('extractAstryxBlock retains a lazy list container through type 7 tag text', () => {
+  const nestedBlock = block('0.1.4').replaceAll('\n', '\n  ');
+  assert.throws(
+    () =>
+      extractAstryxBlock(
+        `- paragraph\n<x-panel>\n\n  ${nestedBlock}`,
+        'lazy list container',
+      ),
+    /standalone top-level Markdown nodes.*Restore.*region/s,
+  );
+});
+
 for (const indentation of ['\t', ' \t', '  \t', '   \t']) {
   test(`extractAstryxBlock rejects ${JSON.stringify(indentation)} indentation`, () => {
     assert.throws(
@@ -253,6 +350,16 @@ test('refresh relies on the installed CLI explicit target without rewriting root
   } finally {
     rmSync(repoRoot, { recursive: true, force: true });
   }
+});
+
+test('extractAstryxBlock clears paragraph code-span state at a heading boundary', () => {
+  assert.equal(
+    extractAstryxBlock(
+      `prose \`\`\n# Heading\n${block('0.1.4')}\n\`\` tail`,
+      'heading after code-span opener',
+    ),
+    block('0.1.4'),
+  );
 });
 
 test('refresh executable rejects positional targets without writing either guide', () => {
