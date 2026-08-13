@@ -116,4 +116,4 @@ token-backed component overrides.
 
 - [Keep Astryx StyleX Tailwind Boundaries Explicit](../best-practices/astryx-stylex-tailwind-boundaries.md)
 - [Skill carousel card height alignment](skill-carousel-card-height.md)
-- [Keep Skill Selection Transition in AppShell](../design-patterns/keep-skill-selection-transition-in-app-shell.md)
+- [Keep Skill Navigation Route-Authoritative](../design-patterns/keep-skill-selection-transition-in-app-shell.md)
