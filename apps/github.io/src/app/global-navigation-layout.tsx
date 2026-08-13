@@ -6,7 +6,7 @@ import {
 } from '@astryxdesign/core/CommandPalette';
 import { Icon } from '@astryxdesign/core/Icon';
 import { IconButton } from '@astryxdesign/core/IconButton';
-import { Layout, LayoutContent, LayoutHeader } from '@astryxdesign/core/Layout';
+import { Layout, LayoutHeader } from '@astryxdesign/core/Layout';
 import { TopNav } from '@astryxdesign/core/TopNav';
 import { createStaticSource } from '@astryxdesign/core/Typeahead';
 
@@ -74,11 +74,7 @@ export function GlobalNavigationLayout(): ReactElement {
       />
       <Layout
         className="mx-auto h-dvh min-h-screen w-full max-w-md overflow-hidden"
-        content={
-          <LayoutContent padding={0}>
-            <Outlet />
-          </LayoutContent>
-        }
+        content={<Outlet />}
         header={
           <LayoutHeader padding={0}>
             <TopNav
