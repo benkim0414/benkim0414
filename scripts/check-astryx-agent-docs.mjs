@@ -1,7 +1,13 @@
-import {existsSync, mkdtempSync, readFileSync, rmSync} from 'node:fs';
-import {dirname, isAbsolute, join, relative, resolve, sep} from 'node:path';
-import {fileURLToPath, pathToFileURL} from 'node:url';
-import {spawnSync} from 'node:child_process';
+import {
+  existsSync,
+  mkdtempSync,
+  readFileSync,
+  realpathSync,
+  rmSync,
+} from 'node:fs';
+import { dirname, isAbsolute, join, relative, resolve, sep } from 'node:path';
+import { fileURLToPath, pathToFileURL } from 'node:url';
+import { spawnSync } from 'node:child_process';
 
 export const ASTRYX_MARKER_START = '<!-- ASTRYX:START -->';
 export const ASTRYX_MARKER_END = '<!-- ASTRYX:END -->';
@@ -21,11 +27,36 @@ export function extractAstryxBlock(content, label) {
   const startIndex = content.indexOf(ASTRYX_MARKER_START);
   const endIndex = content.indexOf(ASTRYX_MARKER_END);
 
+  if (starts === 0 && ends === 0) {
+    throw new Error(
+      `${label} is missing an Astryx managed block. ` +
+        'Run `pnpm astryx:agents` to generate it.',
+    );
+  }
+
   if (starts !== 1 || ends !== 1 || endIndex < startIndex) {
     throw new Error(
-      `${label} must contain exactly one complete Astryx managed block. ` +
-        'Run `pnpm astryx:agents` to regenerate it.',
+      `${label} has malformed Astryx managed markers. Remove all ASTRYX:START and ASTRYX:END marker lines, then run pnpm astryx:agents.`,
     );
+  }
+
+  const lines = content.split('\n');
+  let fenced = false;
+  for (const line of lines) {
+    const trimmed = line.trimStart();
+    if (/^(```|~~~)/.test(trimmed) && line.length - trimmed.length <= 3) {
+      fenced = !fenced;
+    }
+    if (
+      (line.includes(ASTRYX_MARKER_START) ||
+        line.includes(ASTRYX_MARKER_END)) &&
+      (fenced || /^\s+/.test(line))
+    ) {
+      throw new Error(
+        `${label} has Astryx managed markers inside fenced or indented Markdown code. ` +
+          'Remove all ASTRYX:START and ASTRYX:END marker lines, then run pnpm astryx:agents.',
+      );
+    }
   }
 
   return content.slice(startIndex, endIndex + ASTRYX_MARKER_END.length);
@@ -37,7 +68,19 @@ export function resolveRepoPath(repoRoot, relativePath) {
   }
 
   const absolutePath = resolve(repoRoot, relativePath);
-  const fromRoot = relative(repoRoot, absolutePath);
+  const lexicalFromRoot = relative(resolve(repoRoot), absolutePath);
+  if (lexicalFromRoot === '..' || lexicalFromRoot.startsWith(`..${sep}`)) {
+    throw new Error(`Target must stay inside the repository: ${relativePath}`);
+  }
+  const realRoot = realpathSync(repoRoot);
+  let existingPath = absolutePath;
+  while (!existsSync(existingPath)) {
+    const parent = dirname(existingPath);
+    if (parent === existingPath) break;
+    existingPath = parent;
+  }
+  const realExistingPath = realpathSync(existingPath);
+  const fromRoot = relative(realRoot, realExistingPath);
   if (fromRoot === '..' || fromRoot.startsWith(`..${sep}`)) {
     throw new Error(`Target must stay inside the repository: ${relativePath}`);
   }
@@ -45,7 +88,7 @@ export function resolveRepoPath(repoRoot, relativePath) {
   return absolutePath;
 }
 
-export function generateExpectedAgentDocs({repoRoot, outputRelativePath}) {
+export function generateExpectedAgentDocs({ repoRoot, outputRelativePath }) {
   const cliPath = join(
     repoRoot,
     'node_modules/@astryxdesign/cli/bin/astryx.mjs',
@@ -66,14 +109,16 @@ export function generateExpectedAgentDocs({repoRoot, outputRelativePath}) {
       '--agent-docs-path',
       outputRelativePath,
     ],
-    {cwd: repoRoot, encoding: 'utf8'},
+    { cwd: repoRoot, encoding: 'utf8' },
   );
 
   if (result.error) {
     throw new Error(`Astryx CLI failed to start: ${result.error.message}`);
   }
   if (result.status !== 0) {
-    const diagnostic = [result.stdout, result.stderr].filter(Boolean).join('\n');
+    const diagnostic = [result.stdout, result.stderr]
+      .filter(Boolean)
+      .join('\n');
     throw new Error(`Astryx CLI failed (${result.status}).\n${diagnostic}`);
   }
 }
@@ -94,7 +139,7 @@ export function checkAstryxAgentDocs({
   try {
     const expectedPath = join(tempDir, 'AGENTS.md');
     const outputRelativePath = relative(repoRoot, expectedPath);
-    generateExpected({repoRoot, outputRelativePath});
+    generateExpected({ repoRoot, outputRelativePath });
     const expected = extractAstryxBlock(
       readFileSync(expectedPath, 'utf8'),
       outputRelativePath,
@@ -111,13 +156,13 @@ export function checkAstryxAgentDocs({
   }
 
   try {
-    rmSync(tempDir, {recursive: true, force: true});
+    rmSync(tempDir, { recursive: true, force: true });
   } catch (cleanupError) {
     const message = `Failed to clean temporary Astryx docs at ${tempDir}: ${cleanupError.message}`;
     if (primaryError) {
       throw new AggregateError([primaryError, cleanupError], message);
     }
-    throw new Error(message, {cause: cleanupError});
+    throw new Error(message, { cause: cleanupError });
   }
 
   if (primaryError) {
@@ -132,7 +177,7 @@ const invokedPath = process.argv[1]
 if (invokedPath === import.meta.url) {
   const targetRelativePath = process.argv[2] ?? DEFAULT_TARGET;
   try {
-    checkAstryxAgentDocs({targetRelativePath});
+    checkAstryxAgentDocs({ targetRelativePath });
     console.log(`Astryx agent docs are current: ${targetRelativePath}`);
   } catch (error) {
     console.error(error instanceof Error ? error.message : error);
