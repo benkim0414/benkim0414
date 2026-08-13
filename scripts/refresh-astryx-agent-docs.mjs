@@ -4,10 +4,7 @@ import { fileURLToPath, pathToFileURL } from 'node:url';
 import { spawnSync } from 'node:child_process';
 
 import {
-  ASTRYX_MARKER_END,
-  ASTRYX_MARKER_START,
   extractAstryxBlock,
-  repairAstryxAgentDocs,
   resolveRepoPath,
 } from './check-astryx-agent-docs.mjs';
 
@@ -23,15 +20,8 @@ export function refreshAstryxAgentDocs({
   const targetPath = resolve(repoRoot, targetRelativePath);
   if (existsSync(targetPath)) {
     const current = readFileSync(targetPath, 'utf8');
-    try {
+    if (current.includes('ASTRYX:START') || current.includes('ASTRYX:END')) {
       extractAstryxBlock(current, targetRelativePath);
-    } catch {
-      if (
-        current.includes(ASTRYX_MARKER_START) ||
-        current.includes(ASTRYX_MARKER_END)
-      ) {
-        writeFileSync(targetPath, repairAstryxAgentDocs(current));
-      }
     }
   }
   const cliPath = join(
@@ -43,6 +33,10 @@ export function refreshAstryxAgentDocs({
       `Astryx CLI executable is missing at ${cliPath}. Run \`pnpm install --frozen-lockfile\`.`,
     );
   }
+  const rootAgentPath = join(repoRoot, 'AGENTS.md');
+  const rootAgentBefore = existsSync(rootAgentPath)
+    ? readFileSync(rootAgentPath)
+    : undefined;
   const result = spawnSync(
     process.execPath,
     [
@@ -55,6 +49,8 @@ export function refreshAstryxAgentDocs({
     ],
     { cwd: repoRoot, encoding: 'utf8' },
   );
+  if (rootAgentBefore !== undefined)
+    writeFileSync(rootAgentPath, rootAgentBefore);
   if (result.error) {
     throw new Error(`Astryx CLI failed to start: ${result.error.message}`);
   }
@@ -74,6 +70,7 @@ const invokedPath = process.argv[1]
 if (invokedPath === import.meta.url) {
   try {
     refreshAstryxAgentDocs({
+      repoRoot: process.cwd(),
       targetRelativePath: process.argv[2] ?? DEFAULT_TARGET,
     });
   } catch (error) {
