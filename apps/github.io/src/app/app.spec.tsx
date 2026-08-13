@@ -63,10 +63,14 @@ describe('App', () => {
     const navigation = getByRole('navigation', { name: 'Global navigation' });
     const shell = navigation.closest('[data-height="fill"]');
 
-    expect(shell?.className).toContain('max-w-md');
-    expect(shell?.className).toContain('h-dvh');
-    expect(shell?.className).toContain('min-h-screen');
-    expect(shell?.className).toContain('overflow-hidden');
+    if (!(shell instanceof HTMLElement)) {
+      throw new Error('Expected the global navigation layout shell.');
+    }
+
+    expect(shell.dataset.height).toBe('fill');
+    expect(shell.className).not.toMatch(
+      /\b(?:mx-auto|h-dvh|min-h-screen|w-full|max-w-md|overflow-hidden)\b/,
+    );
     expect(main.className).toContain('astryx-layout-content');
     expect(queryByText('Ben Kim')).toBeNull();
     expect(queryByLabelText('Skill breadcrumb')).toBeNull();
