@@ -7,7 +7,7 @@ import { Banner } from '@astryxdesign/core/Banner';
 import { Button } from '@astryxdesign/core/Button';
 import { Icon } from '@astryxdesign/core/Icon';
 import { IconButton } from '@astryxdesign/core/IconButton';
-import { VStack } from '@astryxdesign/core/Layout';
+import { HStack, VStack } from '@astryxdesign/core/Layout';
 import { Text } from '@astryxdesign/core/Text';
 import { TopNav } from '@astryxdesign/core/TopNav';
 import { createStaticSource } from '@astryxdesign/core/Typeahead';
@@ -136,6 +136,14 @@ export function HomePage({
           skills={highlightedSkills}
           variant="compact"
         />
+        <HStack hAlign="end" paddingInline={4}>
+          <Button
+            href="/skills"
+            label="Show all"
+            size="sm"
+            variant="ghost"
+          />
+        </HStack>
       </VStack>
       <VStack
         aria-labelledby="home-page-title"

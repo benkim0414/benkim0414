@@ -1,7 +1,7 @@
 import type { ComponentProps, ReactNode } from 'react';
 import { fireEvent, render, waitFor, within } from '@testing-library/react';
 import { Theme } from '@astryxdesign/core';
-import { VStack } from '@astryxdesign/core/Layout';
+import { HStack, VStack } from '@astryxdesign/core/Layout';
 import { Text } from '@astryxdesign/core/Text';
 import { neutralTheme } from '@astryxdesign/theme-neutral/built';
 import { vi } from 'vitest';
@@ -253,6 +253,36 @@ describe('HomePage', () => {
         'Cloud-native workload operations, troubleshooting, and infrastructure practice backed by Kubernetes certification evidence.',
       ),
     ).toBeTruthy();
+  });
+
+  it('places an Astryx Show all link below and right-aligned to the carousel', () => {
+    const { getByLabelText, getByRole } = renderHomePage();
+    const carousel = getByLabelText('Highlighted skills');
+    const main = getByRole('main', { name: 'Home' });
+    const showAll = getByRole('link', { name: 'Show all' });
+    const actionRow = showAll.parentElement;
+    const { getByTestId } = render(
+      <Theme theme={neutralTheme}>
+        <HStack
+          data-testid="show-all-row-control"
+          hAlign="end"
+          paddingInline={4}
+        >
+          <span>Control</span>
+        </HStack>
+      </Theme>,
+    );
+
+    expect(showAll.className).toContain('astryx-button');
+    expect(showAll.getAttribute('href')).toBe('/skills');
+    expect(showAll.getAttribute('data-size')).toBe('sm');
+    expect(showAll.getAttribute('data-variant')).toBe('ghost');
+    expect(carousel.nextElementSibling).toBe(actionRow);
+    expect(actionRow?.className).toBe(
+      getByTestId('show-all-row-control').className,
+    );
+    expect(actionRow?.parentElement?.nextElementSibling).toBe(main);
+    expect(carousel.contains(showAll)).toBe(false);
   });
 
   it('renders skill command results as names without avatars', async () => {

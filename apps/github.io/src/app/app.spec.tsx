@@ -83,6 +83,9 @@ describe('App', () => {
     expect(getByRole('heading', { level: 1, name: 'Home' })).toBeTruthy();
     expect(getByRole('heading', { level: 2, name: 'Top skills' })).toBeTruthy();
     expect(getByLabelText('Highlighted skills')).toBeTruthy();
+    const showAll = getByRole('link', { name: 'Show all' });
+
+    expect(showAll.getAttribute('href')).toBe('/skills');
     expect(getAllByTestId('skill-card')).toHaveLength(5);
     expect(getAllByTestId('dora-capability-card')).toHaveLength(10);
     expect(getByRole('link', { name: 'Learn more' })).toBeTruthy();
