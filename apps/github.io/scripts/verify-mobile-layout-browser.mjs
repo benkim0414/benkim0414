@@ -18,18 +18,21 @@ const routes = [
   {
     path: '/',
     isInFrame: true,
+    pageRootSelector: '[role="main"][aria-label="Home"]',
     readySelector: '[role="main"][aria-label="Home"]',
     scrollOwnerSelector: '[role="main"][aria-label="Home"] > :last-child',
   },
   {
     path: '/skills',
     isInFrame: true,
+    pageRootSelector: '[role="main"][aria-labelledby="skills-page-title"]',
     readySelector: '[role="main"][aria-labelledby="skills-page-title"]',
     scrollOwnerSelector: '[role="main"][aria-labelledby="skills-page-title"]',
   },
   {
     path: '/skills/kubernetes',
     isInFrame: true,
+    pageRootSelector: '[role="main"][aria-label="Skill detail"]',
     readySelector: '[role="main"][aria-label="Skill detail"] h1',
     focusSelector: '[role="main"][aria-label="Skill detail"] h1',
     scrollOwnerSelector: '[role="main"][aria-label="Skill detail"]',
@@ -37,6 +40,8 @@ const routes = [
   {
     path: '/skills/not-real',
     isInFrame: true,
+    pageRootSelector:
+      '[role="main"][data-testid="not-found-page"][data-layout="full-width"]',
     readySelector: '[data-testid="not-found-page"][data-layout="full-width"]',
     scrollOwnerSelector:
       '[role="main"][data-testid="not-found-page"][data-layout="full-width"]',
@@ -44,6 +49,8 @@ const routes = [
   {
     path: '/not-a-route',
     isInFrame: false,
+    pageRootSelector:
+      'main[data-testid="not-found-page"][data-layout="standalone"]',
     readySelector: '[data-testid="not-found-page"][data-layout="standalone"]',
   },
 ];
@@ -672,7 +679,9 @@ async function inspectRoute(bidi, context, route) {
         testId: element.getAttribute('data-testid'),
         isExpected: element === expectedScrollOwner,
       });
-      const main = document.querySelector('main, [role="main"]');
+      const pageRootSelector = ${JSON.stringify(route.pageRootSelector)};
+      const main = document.querySelector(pageRootSelector);
+      const pageRootMatches = document.querySelectorAll(pageRootSelector).length;
       const expectedScrollOwnerSelector = ${JSON.stringify(route.scrollOwnerSelector ?? null)};
       const expectedScrollOwner = expectedScrollOwnerSelector
         ? document.querySelector(expectedScrollOwnerSelector)
@@ -710,6 +719,7 @@ async function inspectRoute(bidi, context, route) {
         viewport: { width: innerWidth, height: innerHeight },
         frame: rectangle(main?.closest('.astryx-layout')),
         main: rectangle(main),
+        pageRootMatches,
         path: location.pathname,
         horizontalOverflow: Math.max(0, documentWidth - innerWidth),
         scrollOwners: scrollOwners.map(describe),
@@ -742,6 +752,10 @@ function assertRouteMetrics(route, viewport, metrics, navigationPath) {
     metrics.horizontalOverflow <= SUBPIXEL_TOLERANCE,
     `${label} has ${metrics.horizontalOverflow}px document horizontal overflow.`,
   );
+  assert(
+    metrics.pageRootMatches === 1,
+    `${label} page root selector ${route.pageRootSelector} matched ${metrics.pageRootMatches} elements.`,
+  );
 
   if (!route.isInFrame) {
     assert(
@@ -760,6 +774,13 @@ function assertRouteMetrics(route, viewport, metrics, navigationPath) {
       isWithinTolerance(metrics.frame.right, viewport.width) &&
       isWithinTolerance(metrics.frame.width, viewport.width),
     `${label} frame does not span the viewport: ${JSON.stringify(metrics.frame)}`,
+  );
+  assert(metrics.main != null, `${label} has no active page main.`);
+  assert(
+    isWithinTolerance(metrics.main.left, 0) &&
+      isWithinTolerance(metrics.main.right, viewport.width) &&
+      isWithinTolerance(metrics.main.width, viewport.width),
+    `${label} active page main does not span the viewport: ${JSON.stringify(metrics.main)}`,
   );
   assert(
     metrics.expectedScrollOwnerMatches === 1,
@@ -785,7 +806,7 @@ function assertRouteMetrics(route, viewport, metrics, navigationPath) {
   }
 
   console.log(
-    `PASS ${label} pathname=${metrics.path} frame=${metrics.frame.width.toFixed(2)}px horizontal-overflow=${metrics.horizontalOverflow.toFixed(2)}px scroll-owner=${route.scrollOwnerSelector}${route.focusSelector ? ' focus=detail-heading' : ''}`,
+    `PASS ${label} pathname=${metrics.path} frame=${metrics.frame.width.toFixed(2)}px main=${metrics.main.width.toFixed(2)}px horizontal-overflow=${metrics.horizontalOverflow.toFixed(2)}px scroll-owner=${route.scrollOwnerSelector}${route.focusSelector ? ' focus=detail-heading' : ''}`,
   );
 }
 
@@ -964,6 +985,7 @@ function selfTestRoute(overrides = {}) {
   return {
     path: '/skills',
     isInFrame: true,
+    pageRootSelector: '[role="main"][aria-labelledby="skills-page-title"]',
     readySelector: '[role="main"][aria-labelledby="skills-page-title"]',
     scrollOwnerSelector: '[role="main"][aria-labelledby="skills-page-title"]',
     ...overrides,
@@ -974,6 +996,8 @@ function selfTestMetrics(overrides = {}) {
   return {
     viewport: { width: 375, height: 667 },
     frame: { left: 0, right: 375, width: 375 },
+    main: { left: 0, right: 375, width: 375 },
+    pageRootMatches: 1,
     horizontalOverflow: 0,
     layoutMode: null,
     expectedScrollOwnerMatches: 1,
@@ -1066,6 +1090,19 @@ async function runSelfTests() {
         '/skills',
       ),
     /sole page scroll container/i,
+  );
+  await expectFailure(
+    'a full-width frame cannot mask a constrained active page main',
+    () =>
+      assertRouteMetrics(
+        selfTestRoute(),
+        { width: 375, height: 667 },
+        selfTestMetrics({
+          main: { left: 48, right: 327, width: 279 },
+        }),
+        '/skills',
+      ),
+    /active page main does not span the viewport/i,
   );
   await expectFailure(
     'a navigation-result pathname mismatch is rejected before PASS',
