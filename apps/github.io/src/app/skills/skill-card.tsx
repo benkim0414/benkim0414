@@ -1,5 +1,5 @@
 import * as stylex from '@stylexjs/stylex';
-import { Card } from '@astryxdesign/core/Card';
+import { ClickableCard } from '@astryxdesign/core/ClickableCard';
 import { Heading } from '@astryxdesign/core/Heading';
 import { HStack, VStack } from '@astryxdesign/core/Layout';
 import { Text } from '@astryxdesign/core/Text';
@@ -8,6 +8,7 @@ import { useId, type ReactElement } from 'react';
 
 import { CertificationCitation } from '../certifications/certification-citation';
 import { SkillCategory } from './skill-category';
+import { getSkillDetailPath } from './skill-route';
 import { SkillRating } from './skill-rating';
 import type { Skill, SkillSurfaceVariant } from './skill-list.types';
 
@@ -52,7 +53,9 @@ export function SkillCard({
   const titleId = useId();
 
   return (
-    <Card
+    <ClickableCard
+      href={getSkillDetailPath(skill.id)}
+      label={skill.name}
       padding={4}
       xstyle={[styles.root, isFullWidth && styles.fullWidth]}
     >
@@ -100,6 +103,6 @@ export function SkillCard({
           ) : null}
         </VStack>
       </article>
-    </Card>
+    </ClickableCard>
   );
 }

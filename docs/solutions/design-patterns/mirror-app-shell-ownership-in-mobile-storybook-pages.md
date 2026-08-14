@@ -1,181 +1,206 @@
 ---
-title: Mirror App Shell Ownership in Mobile Storybook Pages
+title: Mirror Route Ownership in Mobile Storybook Pages
 date: 2026-08-01
 last_updated: 2026-08-14
 category: design-patterns
-module: apps/github.io home page
+module: apps/github.io navigation and Storybook
 problem_type: design_pattern
 component: testing_framework
 severity: medium
 applies_when:
-  - "Building mobile-only Storybook page stories for app routes"
-  - "Verifying multiple Home sections scroll together below global navigation"
-  - "Separating global-shell, page-scroll, and component-scroll ownership"
-  - "Adding Astryx-native gutters without changing a reusable carousel default"
-  - "Testing scroll ownership with browser-observed movement"
+  - 'Building mobile-only Storybook page stories for app routes'
+  - 'Exercising React Router navigation from an isolated Storybook story'
+  - 'Verifying persistent navigation across routed mobile pages'
+  - 'Resetting stateful preview providers when the selected story changes'
+  - 'Testing preview decorators instead of reconstructing approximate wrappers'
 related_components:
-  - github.io GlobalNavigationLayout
+  - github.io AppRoutes
   - github.io HomePage
-  - github.io mobile layout verifier
-  - github.io SkillCarousel
-  - github.io DORA capability cards
-tags: [github-io, storybook, mobile, navigation, astryx, home-page, scroll-ownership, layout-content, webdriver-bidi]
+  - github.io SkillCard
+  - github.io SkillDetailRoute
+  - Storybook preview decorators
+tags:
+  [
+    github-io,
+    storybook,
+    mobile,
+    navigation,
+    react-router,
+    memory-router,
+    home-page,
+    testing,
+  ]
 ---
 
-# Mirror App Shell Ownership in Mobile Storybook Pages
+# Mirror Route Ownership in Mobile Storybook Pages
 
 ## Context
 
-A page-level Storybook story can verify the wrong layout when it renders only
-an inner list, carousel, or card collection. The story must preserve the same
-ownership boundaries as the application: the global shell owns persistent
-navigation and search, the route content owns vertical page scrolling, and a
-carousel owns only its horizontal scrolling.
+A page-level Storybook story can reproduce a page's layout while still omitting
+the application behavior around it. A navigable story also needs the same
+route-matching responsibility that turns a URL change into a different page.
 
-On the `github.io` Home page, `GlobalNavigationLayout` owns the full-height
-frame, `TopNav`, global command palette, and route outlet
-([global-navigation-layout.tsx](../../../apps/github.io/src/app/global-navigation-layout.tsx#L24)).
-`HomePage` renders one Astryx `LayoutContent` main containing Top skills and
-DORA capabilities as ordinary sibling sections
-([home-page.tsx](../../../apps/github.io/src/app/skills/home-page.tsx#L27)).
+The production `github.io` application keeps these responsibilities distinct.
+`AppProviders` supplies the Astryx link adapter and theme, while `AppRoutes`
+places `/`, `/skills`, and `/skills/:skillId` beneath
+`GlobalNavigationLayout`. The global layout owns navigation and search;
+`HomePage`, `SkillsPage`, and `SkillDetailRoute` own their route content
+(`apps/github.io/src/app/app.tsx:13`,
+`apps/github.io/src/app/global-navigation-layout.tsx:57`).
 
-The earlier layout put Top skills outside a DORA-only vertical scroller. That
-made the highlighted skills look fixed even though the requirement was for
-both sections to move together beneath global navigation. Removing sticky or
-fixed positioning alone would not have corrected that containment error: an
-ordinary-flow sibling outside the scroll owner still does not move with it.
+Storybook originally supplied `MemoryRouter` context but rendered every story
+directly. A `SkillCard` could follow its canonical detail link
+(`apps/github.io/src/app/skills/skill-card.tsx:56`), or another component could
+call `navigate`, but no Storybook route table existed to replace the story with
+`SkillDetailRoute`. The in-memory location changed while the canvas did not.
 
 ## Guidance
 
-### Match ownership at every scroll axis
+Render a mobile story at the ownership level of the behavior under review. A
+page story should render the component that owns the route surface under test.
+If an interaction navigates beyond that component, add a preview-level route
+harness instead of inferring app behavior from a callback, an `href`, or a
+location probe.
 
-Use one route-level vertical scroll owner for every section that should move
-together. Let the global shell remain outside that owner, and let nested
-components own only their intentional independent axis.
+Treat router setup as two responsibilities:
+
+1. A router such as `MemoryRouter` owns history and supplies location context.
+2. `Routes` and `Route` map that location to rendered UI.
+
+The Storybook preview composes both responsibilities with the existing Astryx
+providers:
 
 ```tsx
-<LayoutContent aria-label="Home" padding={0} role="main">
-  <VStack aria-labelledby="top-skills-heading" gap={3} paddingBlock={4}>
-    <Text as="h2" id="top-skills-heading">Top skills</Text>
-    <SkillCarousel padding={4} skills={highlightedSkills} variant="compact" />
-  </VStack>
-
-  <VStack aria-labelledby="dora-capabilities-heading" gap={3} paddingBlock={4}>
-    <Text as="h2" id="dora-capabilities-heading">DORA capabilities</Text>
-    {doraCapabilityDefinitions.map(renderCapability)}
-  </VStack>
-</LayoutContent>
+(Story, context) =>
+  createElement(
+    MemoryRouter,
+    { key: context.id },
+    createElement(
+      LinkProvider,
+      { component: RouterLink },
+      createElement(
+        Theme,
+        { theme: neutralTheme },
+        createElement(StoryRoutes, undefined, createElement(Story)),
+      ),
+    ),
+  );
 ```
 
-Do not add `isScrollable` to the DORA stack or allocate it as a nested
-`flex-1` region. Astryx `LayoutContent` supplies the page's vertical scrolling,
-while `SkillCarousel` retains horizontal scrolling and snap behavior
-([skill-carousel.tsx](../../../apps/github.io/src/app/skills/skill-carousel.tsx#L39)).
+This is the current global decorator composition
+(`apps/github.io/.storybook/preview.ts:15`). `StoryRoutes` renders the selected
+story at `/` and the real detail route at `/skills/:skillId`:
 
-Let Astryx components own spacing on the axis they implement. The Home page
-passes spacing step `4` through `SkillCarousel.padding`; the reusable carousel
-keeps its omitted-padding default, and its empty state only adds matching
-inline padding when requested
-([skill-carousel.tsx](../../../apps/github.io/src/app/skills/skill-carousel.tsx#L12)).
+```tsx
+export function StoryRoutes({ children }: StoryRoutesProps): ReactElement {
+  return (
+    <Routes>
+      <Route path="/" element={children} />
+      <Route path="/skills/:skillId" element={<SkillDetailRoute />} />
+    </Routes>
+  );
+}
+```
 
-### Use the right Storybook surface
+The route harness delegates resolution, not-found handling, and detail
+rendering to the production route component
+(`apps/github.io/.storybook/story-routes.tsx:10`,
+`apps/github.io/src/app/skills/skill-detail-route.tsx:12`). Keep this harness
+small: it should mirror only the app destinations an isolated story must reach.
 
-The Home story uses fullscreen layout and renders `HomePage` directly
-([home-page.stories.tsx](../../../apps/github.io/src/app/skills/home-page.stories.tsx#L5)).
-That is sufficient for reviewing route content. Use the global-navigation
-story or the routed application when reviewing persistent navigation, search,
-or page-scroll ownership and movement, because those concerns depend on
-`GlobalNavigationLayout`, not `HomePage` alone.
+Key stateful preview providers to the selected Storybook story when their state
+must not leak across stories. `MemoryRouter` preserves its history while React
+reuses the same component instance. The preview therefore uses
+`key={context.id}` so navigation remains stable within one story but selecting
+a different story creates fresh router state
+(`apps/github.io/.storybook/preview.ts:18`).
 
-### Test containment and real movement
+Test the exported preview decorator itself. Reconstructing the expected
+providers in a test can pass even when `preview.ts` omits a provider, route
+switch, provider order, or lifecycle key. The preview-routing test obtains the
+actual decorator (`apps/github.io/.storybook/story-routes.spec.ts:68`) and
+protects three transitions:
 
-Component tests should establish the intended structure: one
-`LayoutContent`, no page-local navigation or search, and adjacent Top skills
-and DORA sections inside the same main
-([home-page.spec.tsx](../../../apps/github.io/src/app/skills/home-page.spec.tsx#L48)).
-This prevents accidental nested-scroller classes, but jsdom cannot prove how
-the browser lays out or scrolls those elements.
+- A SkillCard click renders the Kubernetes detail heading
+  (`apps/github.io/.storybook/story-routes.spec.ts:94`).
+- A new Storybook context ID resets the route and renders the next story
+  (`apps/github.io/.storybook/story-routes.spec.ts:100`).
+- A command-palette selection renders the Terraform detail heading
+  (`apps/github.io/.storybook/story-routes.spec.ts:110`).
 
-The production browser verifier therefore checks both phone and iPad-sized
-viewports. It scans the rendered document for the sole vertical scroll owner,
-requires that owner to have real overflow, advances its `scrollTop`, and
-compares the observed displacement of the Top skills and DORA headings
-([verify-mobile-layout-browser.mjs](../../../apps/github.io/scripts/verify-mobile-layout-browser.mjs#L817)).
-Both headings must move by the same nonzero delta as the scroll owner, and no
-Top skills ancestor may be sticky or fixed. Negative self-tests cover a pinned
-Top skills section and a non-moving Top skills section
-([verify-mobile-layout-browser.mjs](../../../apps/github.io/scripts/verify-mobile-layout-browser.mjs#L1171)).
-
-Selector identity alone is not enough: an `overflow-y: auto` element may have
-no overflow, and the intended section may still sit outside it. Likewise,
-checking only for the absence of `sticky` or `fixed` misses an ordinary sibling
-that remains stationary because it is outside the scroller.
+Keep focused URL and component tests alongside this integration coverage. They
+protect useful narrower contracts, but they do not substitute for asserting
+that the Storybook canvas renders the destination page.
 
 ## Why This Matters
 
-Storybook parity is about ownership, not merely visual similarity. A narrow
-story can look plausible while omitting the global shell or introducing a
-scroll boundary the real route does not have.
+Storybook parity is about ownership, not merely visual similarity. A story can
+look correct and expose correct links while omitting the route matcher that
+makes those links observable as page transitions. Static app and Storybook
+builds can also pass because compilation does not exercise a click, route
+matching, detail rendering, or story-switch lifecycle.
 
-One page scroll owner is intended to give vertical gestures over either Home
-section one continuous page-scroll path, while the skills carousel remains
-independently swipeable on its horizontal axis. Browser-observed movement
-makes the containment contract durable rather than relying on class names or
-computed overflow values alone.
+The router key addresses a separate isolation risk. Without it, navigating to
+a detail route and then choosing another story can leave the canvas on the old
+detail page. Keying by Storybook's context ID preserves history where it is
+useful—inside the active story—and discards it at the story boundary.
+
+Layout ownership remains independent of navigation ownership. The global shell
+owns persistent navigation, each route owns its content and page scroll, and
+the preview harness owns only the missing route behavior needed for isolated
+stories. Keeping those concerns separate avoids turning reusable route content
+into Storybook-aware components.
 
 ## When to Apply
 
-- Building or reviewing a mobile-only route in `apps/github.io`.
-- Deciding whether navigation, search, page content, or a nested component
-  owns a layout or scroll behavior.
-- Fixing a page where one content section appears pinned while another scrolls.
-- Adding component-local carousel gutters without changing shared defaults.
-- Writing layout regression tests for sticky, fixed, overflow, or containment
-  behavior that jsdom cannot observe.
+- Building a Storybook story for a mobile-only route or page-level experience.
+- Debugging a story where the URL changes but the destination UI does not.
+- Adding a card, command palette, breadcrumb, or other client-side navigation
+  entry point to an isolated story.
+- Using a stateful global decorator whose state should reset when Storybook
+  changes the selected story.
+- Verifying global navigation without moving route logic into a page component.
 
 ## Examples
 
-Prefer a fullscreen route-content story:
+Prefer a fullscreen story that renders the route content under review:
 
 ```tsx
 const meta: Meta<typeof HomePage> = {
   component: HomePage,
-  parameters: { layout: 'fullscreen' },
+  parameters: {
+    layout: 'fullscreen',
+  },
   title: 'GitHub.io/Home/Home Page',
 };
 ```
 
-Avoid a DORA-only story when the requirement concerns whole-page movement:
+Avoid treating router context as a complete navigation harness:
 
 ```tsx
-// Too narrow to verify the shared page scroll owner.
-export const DORACardsOnly = {
-  render: () => doraCapabilityDefinitions.map(renderCapability),
-};
+// Location changes, but the story remains the only rendered element.
+<MemoryRouter>
+  <Story />
+</MemoryRouter>
 ```
 
-Avoid a nested DORA scroller when Top skills should move with it:
+Prefer explicit preview routes for destinations the story can reach:
 
 ```tsx
-<TopSkills />
-<VStack className="min-h-0 flex-1" isScrollable>
-  <DORACapabilities />
-</VStack>
-```
-
-Prefer component-native carousel padding at the page call site:
-
-```tsx
-<SkillCarousel padding={4} skills={highlightedSkills} variant="compact" />
+<MemoryRouter key={context.id}>
+  <StoryRoutes>
+    <Story />
+  </StoryRoutes>
+</MemoryRouter>
 ```
 
 For device review from a linked worktree, serve that worktree's Storybook and
-open the relevant route or story on the target device. The network and
-worktree details remain in the linked-worktree verification learning below.
+open the Home story on the target device. The operational details remain in
+the linked-worktree verification learning below.
 
 ## Related
 
-- [Keep Skill Selection Transition in AppShell](keep-skill-selection-transition-in-app-shell.md)
+- [Keep Home Sections Under One Page Scroll Owner](keep-home-sections-under-one-page-scroll-owner.md)
 - [Verify Storybook From Linked Worktrees](../workflow-issues/verify-storybook-from-linked-worktree.md)
 - [Verify Astryx Component API Contracts Before Styling](../best-practices/astryx-component-api-contracts.md)
 - [Keep Astryx StyleX Tailwind Boundaries Explicit](../best-practices/astryx-stylex-tailwind-boundaries.md)
