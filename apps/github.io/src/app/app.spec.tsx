@@ -2,7 +2,7 @@ import { fireEvent, render, waitFor, within } from '@testing-library/react';
 import { MemoryRouter, useLocation } from 'react-router-dom';
 import { beforeEach, vi } from 'vitest';
 
-import App, { AppRoutes } from './app';
+import App, { AppProviders, AppRoutes } from './app';
 import { skills } from './skills/skill-list.data';
 
 vi.stubGlobal(
@@ -43,6 +43,23 @@ HTMLDialogElement.prototype.close = vi.fn(function close(
 ) {
   this.open = false;
 });
+
+function LocationProbe() {
+  const location = useLocation();
+
+  return <output data-testid="location">{location.pathname}</output>;
+}
+
+function renderAppRoutes(path: string, includeLocation = false) {
+  return render(
+    <MemoryRouter initialEntries={[path]}>
+      <AppProviders>
+        {includeLocation ? <LocationProbe /> : null}
+        <AppRoutes />
+      </AppProviders>
+    </MemoryRouter>,
+  );
+}
 
 describe('App', () => {
   beforeEach(() => {
@@ -131,11 +148,7 @@ describe('AppRoutes', () => {
     ['/skills', 'Skills'],
     ['/skills/kubernetes', 'Kubernetes'],
   ])('renders one identical global nav at %s', (path, pageHeading) => {
-    const { getAllByRole, getByRole } = render(
-      <MemoryRouter initialEntries={[path]}>
-        <AppRoutes />
-      </MemoryRouter>,
-    );
+    const { getAllByRole, getByRole } = renderAppRoutes(path);
 
     expect(
       getAllByRole('navigation', { name: 'Global navigation' }),
@@ -145,17 +158,9 @@ describe('AppRoutes', () => {
   });
 
   it('navigates from detail search to the selected skill route', async () => {
-    function Location() {
-      const location = useLocation();
-
-      return <output data-testid="location">{location.pathname}</output>;
-    }
-
-    const { getByRole, getByTestId } = render(
-      <MemoryRouter initialEntries={['/skills/kubernetes']}>
-        <Location />
-        <AppRoutes />
-      </MemoryRouter>,
+    const { getByRole, getByTestId } = renderAppRoutes(
+      '/skills/kubernetes',
+      true,
     );
 
     fireEvent.click(getByRole('button', { name: 'Search skills' }));
@@ -177,18 +182,7 @@ describe('AppRoutes', () => {
   ])(
     'finds and navigates to Terraform from its %s search data',
     async (_matchKind, query) => {
-      function Location() {
-        const location = useLocation();
-
-        return <output data-testid="location">{location.pathname}</output>;
-      }
-
-      const { getByRole, getByTestId } = render(
-        <MemoryRouter initialEntries={['/skills']}>
-          <Location />
-          <AppRoutes />
-        </MemoryRouter>,
-      );
+      const { getByRole, getByTestId } = renderAppRoutes('/skills', true);
 
       fireEvent.click(getByRole('button', { name: 'Search skills' }));
       fireEvent.change(getByRole('combobox', { name: 'Search skills' }), {
@@ -203,11 +197,7 @@ describe('AppRoutes', () => {
   );
 
   it('renders the complete alphabetical linked catalog at /skills', () => {
-    const { getByRole } = render(
-      <MemoryRouter initialEntries={['/skills']}>
-        <AppRoutes />
-      </MemoryRouter>,
-    );
+    const { getByRole } = renderAppRoutes('/skills');
     const main = getByRole('main', { name: 'Skills' });
     const links = within(main).getAllByRole('link');
     const expectedSkills = [...skills].sort((left, right) =>
@@ -224,11 +214,7 @@ describe('AppRoutes', () => {
   });
 
   it('renders Kubernetes skill detail for its clean route', () => {
-    const { getByRole } = render(
-      <MemoryRouter initialEntries={['/skills/kubernetes']}>
-        <AppRoutes />
-      </MemoryRouter>,
-    );
+    const { getByRole } = renderAppRoutes('/skills/kubernetes');
 
     expect(getByRole('heading', { level: 1, name: 'Kubernetes' })).toBeTruthy();
     expect(
@@ -237,21 +223,13 @@ describe('AppRoutes', () => {
   });
 
   it('renders React skill detail for its clean route', () => {
-    const { getByRole } = render(
-      <MemoryRouter initialEntries={['/skills/react']}>
-        <AppRoutes />
-      </MemoryRouter>,
-    );
+    const { getByRole } = renderAppRoutes('/skills/react');
 
     expect(getByRole('heading', { level: 1, name: 'React' })).toBeTruthy();
   });
 
   it('renders one scrollable recovery region for an unknown skill route', () => {
-    const { getByRole } = render(
-      <MemoryRouter initialEntries={['/skills/not-real']}>
-        <AppRoutes />
-      </MemoryRouter>,
-    );
+    const { getByRole } = renderAppRoutes('/skills/not-real');
     const main = getByRole('main');
     const shell = getByRole('navigation', {
       name: 'Global navigation',
@@ -274,11 +252,7 @@ describe('AppRoutes', () => {
   });
 
   it('renders the skill not found page for an unknown route', () => {
-    const { getByRole, queryByRole } = render(
-      <MemoryRouter initialEntries={['/not-a-route']}>
-        <AppRoutes />
-      </MemoryRouter>,
-    );
+    const { getByRole, queryByRole } = renderAppRoutes('/not-a-route');
     const main = getByRole('main');
 
     expect(

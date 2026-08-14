@@ -1,5 +1,9 @@
+import { LinkProvider } from '@astryxdesign/core/Link';
 import { render } from '@testing-library/react';
+import type { ReactNode } from 'react';
+import { MemoryRouter } from 'react-router-dom';
 
+import { RouterLink } from '../router-link';
 import { SkillCard } from './skill-card';
 import type { Skill } from './skill-list.types';
 
@@ -14,9 +18,21 @@ const baseSkill: Skill = {
   keywords: ['containers', 'orchestration'],
 };
 
+function RouterTestProviders({ children }: { children: ReactNode }) {
+  return (
+    <MemoryRouter>
+      <LinkProvider component={RouterLink}>{children}</LinkProvider>
+    </MemoryRouter>
+  );
+}
+
+function renderSkillCard(ui: ReactNode) {
+  return render(ui, { wrapper: RouterTestProviders });
+}
+
 describe('SkillCard', () => {
   it('lets standalone Astryx Card usage keep its content-driven default height', () => {
-    const { container } = render(<SkillCard skill={baseSkill} />);
+    const { container } = renderSkillCard(<SkillCard skill={baseSkill} />);
     const card = container.querySelector('.astryx-card');
     const style = card?.getAttribute('style') ?? '';
 
@@ -25,19 +41,19 @@ describe('SkillCard', () => {
   });
 
   it('renders the skill name as the title', () => {
-    const { getByRole } = render(<SkillCard skill={baseSkill} />);
+    const { getByRole } = renderSkillCard(<SkillCard skill={baseSkill} />);
 
     expect(getByRole('heading', { name: 'Kubernetes', level: 3 })).toBeTruthy();
   });
 
   it('does not render a skill logo in the card', () => {
-    const { queryByRole } = render(<SkillCard skill={baseSkill} />);
+    const { queryByRole } = renderSkillCard(<SkillCard skill={baseSkill} />);
 
     expect(queryByRole('img', { name: 'Kubernetes' })).toBeNull();
   });
 
   it('renders the skill description as secondary body text', () => {
-    const { getByText } = render(<SkillCard skill={baseSkill} />);
+    const { getByText } = renderSkillCard(<SkillCard skill={baseSkill} />);
 
     const description = getByText(
       'Container orchestration for deploying, scaling, and operating cloud-native workloads.',
@@ -52,7 +68,7 @@ describe('SkillCard', () => {
   });
 
   it('renders title, rating, and description in order without a card header', () => {
-    const { getByRole, getByTestId, getByText, queryByTestId } = render(
+    const { getByRole, getByTestId, getByText, queryByTestId } = renderSkillCard(
       <SkillCard skill={baseSkill} />,
     );
 
@@ -76,13 +92,13 @@ describe('SkillCard', () => {
   });
 
   it('renders the skill rating as accessible star metadata', () => {
-    const { getByText } = render(<SkillCard skill={baseSkill} />);
+    const { getByText } = renderSkillCard(<SkillCard skill={baseSkill} />);
 
     expect(getByText('4 out of 5')).toBeTruthy();
   });
 
   it('renders every skill category before the skill title', () => {
-    const { getByText, getByRole } = render(<SkillCard skill={baseSkill} />);
+    const { getByText, getByRole } = renderSkillCard(<SkillCard skill={baseSkill} />);
 
     const containerCategory = getByText('Container');
     const cloudCategory = getByText('Cloud');
@@ -97,7 +113,7 @@ describe('SkillCard', () => {
   });
 
   it('renders compact cards without category badges', () => {
-    const { getByRole, getByText, queryByText } = render(
+    const { getByRole, getByText, queryByText } = renderSkillCard(
       <SkillCard skill={baseSkill} variant="compact" />,
     );
 
@@ -112,7 +128,7 @@ describe('SkillCard', () => {
   });
 
   it('keeps the compact title as the accessible card label', () => {
-    const { getByRole, getByTestId } = render(<SkillCard skill={baseSkill} />);
+    const { getByRole, getByTestId } = renderSkillCard(<SkillCard skill={baseSkill} />);
 
     const title = getByRole('heading', { name: 'Kubernetes', level: 3 });
     const card = getByTestId('skill-card');
@@ -121,7 +137,7 @@ describe('SkillCard', () => {
   });
 
   it('gives duplicate skill cards distinct accessible title targets', () => {
-    const { getAllByTestId } = render(
+    const { getAllByTestId } = renderSkillCard(
       <>
         <SkillCard skill={baseSkill} />
         <SkillCard skill={baseSkill} />
@@ -143,7 +159,7 @@ describe('SkillCard', () => {
   });
 
   it('omits certification citations when the skill has no certifications', () => {
-    const { container, queryByText } = render(<SkillCard skill={baseSkill} />);
+    const { container, queryByText } = renderSkillCard(<SkillCard skill={baseSkill} />);
 
     expect(
       container.querySelector('[data-testid="certification-citation"]'),
@@ -152,7 +168,7 @@ describe('SkillCard', () => {
   });
 
   it('renders multiple certification citations at the bottom of the card', () => {
-    const { getAllByTestId, getByRole, queryByText } = render(
+    const { getAllByTestId, getByRole, queryByText } = renderSkillCard(
       <SkillCard
         skill={{
           ...baseSkill,
@@ -185,5 +201,38 @@ describe('SkillCard', () => {
     expect(getByRole('doc-noteref', { name: 'Citation 1: KCNA' })).toBeTruthy();
     expect(getByRole('doc-noteref', { name: 'Citation 2: CKA' })).toBeTruthy();
     expect(getByRole('doc-noteref', { name: 'Citation 3: CKAD' })).toBeTruthy();
+  });
+
+  it('links the card to its canonical skill detail route', () => {
+    const { getByRole } = renderSkillCard(<SkillCard skill={baseSkill} />);
+
+    expect(getByRole('link', { name: 'Kubernetes' }).getAttribute('href')).toBe(
+      '/skills/kubernetes',
+    );
+  });
+
+  it('keeps certification links independent from the card route link', () => {
+    const { getByRole } = renderSkillCard(
+      <SkillCard
+        skill={{
+          ...baseSkill,
+          certifications: [
+            {
+              title: 'CKA',
+              url: 'https://example.com/cka',
+              skills: ['Kubernetes'],
+              expiresAt: '2028-02-26T10:59:00+11:00',
+            },
+          ],
+        }}
+      />,
+    );
+
+    const cardLink = getByRole('link', { name: 'Kubernetes' });
+    const citationLink = getByRole('doc-noteref', { name: 'Citation 1: CKA' });
+
+    expect(cardLink.contains(citationLink)).toBe(false);
+    expect(cardLink.getAttribute('href')).toBe('/skills/kubernetes');
+    expect(citationLink.getAttribute('href')).toBe('https://example.com/cka');
   });
 });

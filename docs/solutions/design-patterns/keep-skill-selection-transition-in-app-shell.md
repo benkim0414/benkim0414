@@ -1,67 +1,70 @@
 ---
-title: Keep Skill Selection Transition in AppShell
+title: Keep Skill Navigation Route-Authoritative
 date: 2026-08-12
+last_updated: 2026-08-13
 category: design-patterns
-module: github.io home skill selection
+module: github.io skill navigation
 problem_type: design_pattern
 component: frontend_stimulus
 severity: medium
 applies_when:
-  - "A command-palette selection must show a deliberately minimal detail destination"
-  - "A landing page should preserve its content composition after a selection"
-  - "A temporary detail transition does not justify URL routing"
+  - 'Multiple UI entry points navigate to the same skill detail destination'
+  - 'Skill detail URLs must support browser history, refresh, and direct entry'
+  - 'Storybook stories exercise navigation implemented by production routes'
 related_components:
-  - AppShell
-  - HomePage
-  - CommandPalette
-  - SkillDetailPage
+  - 'github.io AppRoutes'
+  - 'github.io HomePage'
+  - 'github.io SkillCard'
+  - 'github.io SkillDetailRoute'
+  - 'Storybook preview routes'
 tags:
-  - app-shell
+  - github-io
+  - navigation
+  - react-router
+  - skill-detail
   - command-palette
-  - skill-selection
-  - detail-transition
-  - home-page
-  - state-ownership
+  - deep-links
+  - storybook
+  - testing
 ---
 
-# Keep Skill Selection Transition in AppShell
+# Keep Skill Navigation Route-Authoritative
 
 ## Context
 
-A mobile home page can keep its command-palette results text-only while still
-treating a chosen result as a transition to a minimal destination. For the
-`github.io` App, that transition is intentionally in memory: `AppShell` stores
-the selected `Skill` and chooses between `HomePage` and `SkillDetailPage`
-(`apps/github.io/src/app/app-shell.tsx:9`).
+Skill selection in the `github.io` application is a URL-backed navigation
+contract. `AppRoutes` maps `/` to `HomePage`, `/skills/:skillId` to
+`SkillDetailRoute`, and all unmatched locations to `NotFoundPage`
+(`apps/github.io/src/app/app.tsx:24`). `App` owns the `BrowserRouter`, shared
+providers, and route table; it does not hold a selected `Skill` or conditionally
+swap pages from component state (`apps/github.io/src/app/app.tsx:34`).
 
-This boundary matters when the destination is deliberately incomplete. The
-skill detail surface currently renders only a constrained `main` region and
-the selected skill name as its level-one heading
-(`apps/github.io/src/app/skills/skill-detail-page.tsx:11`). It does not yet
-establish URL, refresh, history, or deep-link behavior.
+This replaces the earlier placeholder approach in which a shell-owned callback
+could switch pages without changing the URL. Browser history, refresh, and
+direct entry are now deliberate parts of the behavior, so the current route is
+the authority for which page is rendered.
+
+`HomePage` still owns page-local command-palette mechanics such as whether the
+dialog is open and which result is selected. Those values control the
+interaction, not the active application page. Choosing a resolved command item
+navigates to its canonical detail URL (`apps/github.io/src/app/skills/home-page.tsx:112`).
 
 ## Guidance
 
-Keep temporary page-selection state at the boundary that can replace the
-page. Let the home page translate its command-palette value into a domain
-object and notify that boundary through a callback:
+Keep every skill-navigation entry point on one path contract. Build that
+contract with `getSkillDetailPath`, which URL-encodes the skill ID:
 
-```tsx
-// AppShell owns the temporary transition.
-const [selectedSkill, setSelectedSkill] = useState<Skill>();
-
-return selectedSkill ? (
-  <SkillDetailPage skill={selectedSkill} />
-) : (
-  <HomePage onSkillSelect={setSelectedSkill} />
-);
+```ts
+export function getSkillDetailPath(skillId: string): string {
+  return `/skills/${encodeURIComponent(skillId)}`;
+}
 ```
 
-`AppShell` uses that exact conditional ownership pattern
-(`apps/github.io/src/app/app-shell.tsx:10`). `HomePage` exposes the callback in
-its public props and keeps the palette's selected ID local
-(`apps/github.io/src/app/skills/home-page.tsx:41`,
-`apps/github.io/src/app/skills/home-page.tsx:52`).
+The helper is the single place that defines outbound skill URLs
+(`apps/github.io/src/app/skills/skill-route.ts:1`). `SkillCard` supplies its
+result directly as the `ClickableCard` `href`
+(`apps/github.io/src/app/skills/skill-card.tsx:55`), while the command palette
+resolves the selected item and navigates to the same path:
 
 ```tsx
 onValueChange={(skillId) => {
@@ -70,81 +73,132 @@ onValueChange={(skillId) => {
     (item) => item.id === skillId,
   )?.auxiliaryData.skill;
 
-  if (selectedSkill) onSkillSelect?.(selectedSkill);
+  if (selectedSkill) {
+    navigate(getSkillDetailPath(selectedSkill.id));
+  }
 }}
 ```
 
-This bridge uses the selected ID to recover the existing `Skill` object before
-notifying the shell (`apps/github.io/src/app/skills/home-page.tsx:109`).
-`HomePage` supplies no `renderItem`, and its tests assert that the Terraform
-option has no image; selection therefore does not require a custom result
-renderer or a `SkillAvatar`.
+This is the current palette handoff
+(`apps/github.io/src/app/skills/home-page.tsx:112`). Sharing the helper prevents
+cards and search results from drifting into different URL shapes or handling
+special characters differently. It also lets links retain native link
+semantics while imperative selection uses React Router navigation.
 
-Do not add a router solely to support this placeholder transition. Add routing
-when the product needs a URL contract, browser history, refresh persistence,
-or deep links. Likewise, keep the placeholder page free of speculative detail
-content until that content has its own requirements.
+Keep inbound URL interpretation at the route boundary. `SkillDetailRoute`
+reads `skillId`, resolves it against production skill, detail, evidence, and
+project data, then renders either `NotFoundPage` or `SkillDetailPage`
+(`apps/github.io/src/app/skills/skill-detail-route.tsx:12`). Pages and entry
+points should not duplicate that resolution or decide what an unknown route
+means.
+
+```tsx
+const { skillId = '' } = useParams<{ skillId: string }>();
+const resolution = resolveSkillDetail(skillId, {
+  skills,
+  detailRecords: skillDetailRecords,
+  evidenceItems: devOpsCapabilityEvidenceItems,
+  projects: sampleProjects,
+});
+
+if (resolution.status === 'not-found') {
+  return <NotFoundPage />;
+}
+
+return <SkillDetailPage detail={resolution.value} />;
+```
+
+The rendered detail page can then present route-derived context consistently.
+Its breadcrumb order is Home, Skills, and the current skill
+(`apps/github.io/src/app/skills/skill-detail-page.tsx:70`).
 
 ## Why This Matters
 
-Result presentation and result behavior are separate contracts. A text-only
-result can still lead somewhere, and removing its visual customization must
-not silently remove its selection effect. The page-level test protects both
-contracts by checking that the Terraform result has no image and that choosing
-it calls `onSkillSelect` with the matching skill
-(`apps/github.io/src/app/skills/home-page.spec.tsx:273`).
+Route authority gives every entry point the same observable result: the URL
+changes, the route table renders the destination, refresh restores it, and an
+unknown ID follows one not-found policy. Application tests protect both common
+journeys: a Kubernetes card reaches `/skills/kubernetes`
+(`apps/github.io/src/app/app.spec.tsx:97`), and a Terraform command result
+reaches `/skills/terraform` (`apps/github.io/src/app/app.spec.tsx:109`). Route
+tests separately prove that known IDs render details and unknown skill IDs
+render the not-found page (`apps/github.io/src/app/app.spec.tsx:145`,
+`apps/github.io/src/app/app.spec.tsx:174`).
 
-The application-level test then protects the complete handoff: after choosing
-Terraform, its level-one heading appears and the accessible Home region is no
-longer rendered (`apps/github.io/src/app/app.spec.tsx:83`). This exercises the
-cross-component handoff that the callback-only component test does not
-exercise.
+The ownership boundary also keeps transient UI state from becoming navigation
+state. `HomePage` may track palette selection to operate the command component,
+but `BrowserRouter` and `AppRoutes` own location and page selection. This avoids
+two sources of truth in which local state says one skill is selected while the
+address bar identifies another.
 
-Keeping page replacement in `AppShell` means `HomePage` need not mutate its
-carousel or DORA capability content to imitate navigation. The home page
-continues to own search mechanics and content composition, while the shell
-owns which page is active.
+Storybook needs a route-equivalent harness because router context alone cannot
+turn a location change into destination UI. `StoryRoutes` maps the story to `/`
+and the production `SkillDetailRoute` to `/skills/:skillId`
+(`apps/github.io/.storybook/story-routes.tsx:10`). The preview supplies a keyed
+`MemoryRouter` together with the production Astryx link and theme providers, so
+navigation works within a story and resets when the story ID changes
+(`apps/github.io/.storybook/preview.ts:15`). The preview tests cover card
+navigation, palette navigation, and route reset on story change
+(`apps/github.io/.storybook/story-routes.spec.ts:79`).
 
 ## When to Apply
 
-- A selection must visibly lead somewhere, but the destination is intentionally
-  limited to an identity heading or another small placeholder.
-- The selected object is already available in the command source, so the child
-  can pass it to its owner without fetching it again.
-- A parent shell already owns the presentation boundary and can conditionally
-  replace the landing page.
-- Deep links, browser history, refresh persistence, and shareable URLs are not
-  yet requirements.
+- A detail destination must be refreshable, shareable, or reachable directly.
+- Multiple controls, such as cards and command results, navigate to the same
+  resource.
+- Route parameters must be resolved against canonical application data with a
+  consistent not-found outcome.
+- A Storybook story must exercise a production interaction that navigates beyond
+  the component rendered at the initial story route.
+- Page-local interaction state risks duplicating browser location as a second
+  source of navigation truth.
 
 ## Examples
 
-Keep the destination as small as its current contract:
+Keep route ownership visible at the application boundary:
 
 ```tsx
-export function SkillDetailPage({ skill }: { skill: Skill }) {
+export function AppRoutes(): ReactElement {
   return (
-    <VStack as="main" padding={4}>
-      <Heading level={1}>{skill.name}</Heading>
-    </VStack>
+    <Routes>
+      <Route path="/" element={<HomePage />} />
+      <Route path="/skills/:skillId" element={<SkillDetailRoute />} />
+      <Route path="*" element={<NotFoundPage />} />
+    </Routes>
+  );
+}
+
+export function App(): ReactElement {
+  return (
+    <BrowserRouter>
+      <AppProviders>
+        <AppRoutes />
+      </AppProviders>
+    </BrowserRouter>
   );
 }
 ```
 
-Test the shell transition as a user-visible journey rather than inferring it
-from state:
+This split is implemented in `apps/github.io/src/app/app.tsx:24` and
+`apps/github.io/src/app/app.tsx:34`. Tests that need deterministic locations can
+render `AppRoutes` inside `MemoryRouter`, while production keeps `BrowserRouter`
+ownership at `App` (`apps/github.io/src/app/app.spec.tsx:145`).
+
+For isolated stories, mirror only the destinations the story can reach and
+delegate detail behavior to the production route component:
 
 ```tsx
-fireEvent.click(terraformOption);
-
-expect(getByRole('heading', { level: 1, name: 'Terraform' })).toBeTruthy();
-expect(queryByRole('main', { name: 'Home' })).toBeNull();
+<Routes>
+  <Route path="/" element={children} />
+  <Route path="/skills/:skillId" element={<SkillDetailRoute />} />
+</Routes>
 ```
 
-The focused detail-page test separately verifies its accessible heading
-contract (`apps/github.io/src/app/skills/skill-detail-page.spec.tsx:8`).
+Do not replace this with a callback that directly renders a detail page. That
+would bypass the path helper, route parameter resolution, browser semantics,
+and not-found behavior that the application contract requires.
 
 ## Related
 
-- [Mirror App Shell Ownership in Mobile Storybook Pages](mirror-app-shell-ownership-in-mobile-storybook-pages.md)
+- [Mirror Route Ownership in Mobile Storybook Pages](mirror-app-shell-ownership-in-mobile-storybook-pages.md)
 - [Verify Astryx Component API Contracts Before Styling](../best-practices/astryx-component-api-contracts.md)
 - [Verify Storybook From Linked Worktrees](../workflow-issues/verify-storybook-from-linked-worktree.md)
