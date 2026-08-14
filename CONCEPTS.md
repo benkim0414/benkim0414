@@ -16,9 +16,15 @@ An App Shell may own temporary cross-page selection state when a transition does
 
 ### Mobile Page Shell
 
-The mobile-only route wrapper for a `github.io` page, including the constrained viewport, non-scrolling top rails such as navigation or highlighted content, and the scrollable content region below them.
+The mobile-only route wrapper for a `github.io` page, including the constrained viewport, persistent global navigation, and the route-level content region below it.
 
-Mobile Page Shells should be rendered by page-level Storybook stories when the visual requirement involves navigation, search, fixed rails, or mobile scroll behavior.
+Mobile Page Shells keep global navigation outside the route's Page Scroll Owner. Page-level Storybook stories should render the ownership boundary needed by the requirement: route content for page scrolling, or the global navigation layout for navigation and search.
+
+### Page Scroll Owner
+
+The single route-level region inside a Mobile Page Shell that owns vertical overflow for every page section intended to move together.
+
+Sections such as Top skills and DORA capabilities must be descendants of the same Page Scroll Owner when they share page movement. Component-local horizontal scrolling, such as a Skill Carousel, remains independent; browser verification should prove both real owner movement and equal displacement of representative sections.
 
 ### DevOps Roadmap
 
