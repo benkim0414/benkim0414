@@ -1,6 +1,8 @@
 import { HStack, StackItem } from '@astryxdesign/core/Layout';
 import { ListItem } from '@astryxdesign/core/List';
 import { Text } from '@astryxdesign/core/Text';
+import { spacingVars } from '@astryxdesign/core/theme/tokens.stylex';
+import * as stylex from '@stylexjs/stylex';
 
 import { SkillAvatar } from './skill-avatar';
 import { SkillCategory } from './skill-category';
@@ -12,6 +14,13 @@ interface SkillListItemProps {
   variant?: SkillSurfaceVariant;
   href?: string;
 }
+
+const styles = stylex.create({
+  linkedRoot: {
+    paddingBlock: spacingVars['--spacing-0'],
+    paddingInline: spacingVars['--spacing-0'],
+  },
+});
 
 export function SkillListItem({
   skill,
@@ -35,8 +44,14 @@ export function SkillListItem({
       <ListItem
         href={href}
         label={
-          <HStack gap={2} vAlign="center" width="100%">
-            <SkillAvatar skill={skill} size="small" />
+          <HStack
+            gap={2}
+            paddingBlock={2}
+            paddingInline={2}
+            vAlign="center"
+            width="100%"
+          >
+            <SkillAvatar isDecorative skill={skill} size="small" />
             <StackItem size="fill">
               <Text display="block" maxLines={1}>
                 {skill.name}
@@ -45,6 +60,7 @@ export function SkillListItem({
             {metadata}
           </HStack>
         }
+        xstyle={styles.linkedRoot}
       />
     );
   }

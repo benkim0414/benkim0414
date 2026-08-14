@@ -27,7 +27,7 @@ export function AppRoutes(): ReactElement {
         path="*"
         element={
           <Theme theme={neutralTheme}>
-            <NotFoundPage />
+            <NotFoundPage recoveryDestination="home" />
           </Theme>
         }
       />

@@ -1,4 +1,6 @@
 import { render } from '@testing-library/react';
+import { HStack } from '@astryxdesign/core/Layout';
+import { ListItem } from '@astryxdesign/core/List';
 
 import { sampleSkills } from './skill-list.data';
 import { SkillListItem } from './skill-list-item';
@@ -43,16 +45,46 @@ describe('SkillListItem', () => {
 
     expect(typeScript).toBeTruthy();
 
-    const { getByRole, getByText } = render(
-      <SkillListItem href="/skills/typescript" skill={typeScript!} />,
-    );
-    const link = getByRole('link', { name: /TypeScript/ });
-    const avatar = getByRole('img', { name: 'TypeScript' });
+    const { container, getByRole, getByTestId, getByText, queryByRole } =
+      render(
+        <>
+          <SkillListItem href="/skills/typescript" skill={typeScript!} />
+          <ListItem
+            data-testid="default-linked-row"
+            href="/control"
+            label="Control"
+          />
+          <HStack
+            data-testid="padded-link-content"
+            gap={2}
+            paddingBlock={2}
+            paddingInline={2}
+            vAlign="center"
+            width="100%"
+          />
+        </>,
+      );
+    const link = getByRole('link', {
+      name: 'TypeScript Language 4 out of 5',
+    });
+    const row = link.closest('li');
+    const linkContent = link.firstElementChild?.firstElementChild;
     const category = getByText('Language');
     const rating = getByText('4 out of 5');
 
     expect(link.getAttribute('href')).toBe('/skills/typescript');
-    expect(link.contains(avatar)).toBe(true);
+    expect(row).not.toBeNull();
+    expect(link.parentElement).toBe(row);
+    expect(row?.className).not.toBe(
+      getByTestId('default-linked-row').className,
+    );
+    expect(linkContent?.className).toBe(
+      getByTestId('padded-link-content').className,
+    );
+    expect(queryByRole('img', { name: 'TypeScript' })).toBeNull();
+    expect(
+      container.querySelector('[data-size="small"][aria-hidden="true"]'),
+    ).toBeTruthy();
     expect(link.contains(category)).toBe(true);
     expect(link.contains(rating)).toBe(true);
     expect(link.querySelectorAll('a, button')).toHaveLength(0);

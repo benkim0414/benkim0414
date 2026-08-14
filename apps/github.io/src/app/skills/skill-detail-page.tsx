@@ -42,15 +42,10 @@ export function SkillDetailPage({
   detail,
 }: SkillDetailPageProps): ReactElement {
   const headingRef = useRef<HTMLHeadingElement>(null);
-  const previousSkillIdRef = useRef(detail.skill.id);
   const certifications = detail.skill.certifications ?? [];
 
   useEffect(() => {
-    if (previousSkillIdRef.current !== detail.skill.id) {
-      headingRef.current?.focus();
-    }
-
-    previousSkillIdRef.current = detail.skill.id;
+    headingRef.current?.focus();
   }, [detail.skill.id]);
 
   return (

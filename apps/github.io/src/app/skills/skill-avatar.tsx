@@ -63,15 +63,23 @@ function skillAvatarPresentation(iconSlug: string) {
 }
 
 export interface SkillAvatarProps {
+  isDecorative?: boolean;
   skill: Skill;
   size?: AvatarSize;
 }
 
-export function SkillAvatar({ skill, size = 'medium' }: SkillAvatarProps) {
+export function SkillAvatar({
+  isDecorative = false,
+  skill,
+  size = 'medium',
+}: SkillAvatarProps) {
   return (
     <Avatar
+      aria-hidden={isDecorative || undefined}
+      aria-label={isDecorative ? undefined : skill.name}
       className="flex-none"
       name={skill.name}
+      role={isDecorative ? 'presentation' : 'img'}
       size={size}
       src={skillAvatarPresentation(skill.iconSlug)}
     />

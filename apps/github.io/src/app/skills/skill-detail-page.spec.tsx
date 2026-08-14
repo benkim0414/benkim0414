@@ -232,15 +232,31 @@ describe('SkillDetailPage', () => {
     ).toBeNull();
   });
 
-  it('focuses the new page heading after an in-place skill change', () => {
+  it('focuses the heading on initial detail mount and skill changes only', () => {
     const reactDetail = getResolvedDetail('react');
     const kubernetesDetail = getResolvedDetail('kubernetes');
     const { getByRole, rerender } = render(
       <SkillDetailPage detail={reactDetail} />,
     );
     const reactHeading = getByRole('heading', { level: 1, name: 'React' });
+    const skillsLink = getByRole('link', { name: 'Skills' });
 
-    expect(document.activeElement).not.toBe(reactHeading);
+    expect(document.activeElement).toBe(reactHeading);
+
+    skillsLink.focus();
+    rerender(
+      <SkillDetailPage
+        detail={{
+          ...reactDetail,
+          skill: {
+            ...reactDetail.skill,
+            description: `${reactDetail.skill.description} Updated`,
+          },
+        }}
+      />,
+    );
+
+    expect(document.activeElement).toBe(skillsLink);
 
     rerender(<SkillDetailPage detail={kubernetesDetail} />);
 
