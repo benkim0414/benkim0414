@@ -37,12 +37,19 @@ describe('RoadmapPage', () => {
     devOpsRoadmapSpy.mockClear();
   });
 
+  it('renders a constrained, full-width main content column', () => {
+    const { getByRole } = renderRoadmapPage();
+    const main = getByRole('main');
+
+    expect(main.style.width).toBe('100%');
+    expect(main.style.maxWidth).toBe('448px');
+    expect(main.style.minHeight).toBe('100vh');
+  });
+
   it('renders the approved roadmap introduction and external source action', () => {
     const { getByRole, getByText } = renderRoadmapPage();
-    const main = getByRole('main');
     const learnMore = getByRole('link', { name: 'Learn more' });
 
-    expect(main.className).toContain('mx-auto');
     expect(
       getByRole('heading', { level: 1, name: 'DevOps roadmap' }),
     ).toBeTruthy();
