@@ -239,7 +239,7 @@ describe('AppRoutes', () => {
     expect(getByRole('heading', { level: 1, name: 'React' })).toBeTruthy();
   });
 
-  it('renders one scrollable recovery region for an unknown skill route', () => {
+  it('keeps the unknown skill recovery region inside the global layout content', () => {
     const { getByRole } = renderAppRoutes('/skills/not-real');
     const main = getByRole('main');
     const shell = getByRole('navigation', {
@@ -256,7 +256,11 @@ describe('AppRoutes', () => {
     expect(getByRole('button', { name: 'Search skills' })).toBeTruthy();
     expect(main.dataset.layout).toBe('full-width');
     expect(main.className).toContain('astryx-layout-content');
-    expect(shell.querySelectorAll('.astryx-layout-content')).toHaveLength(1);
+    const layoutContents = shell.querySelectorAll('.astryx-layout-content');
+
+    expect(layoutContents).toHaveLength(2);
+    expect(layoutContents[0].contains(main)).toBe(true);
+    expect(layoutContents[1]).toBe(main);
     expect(
       getByRole('link', { name: 'Back to Skills' }).getAttribute('href'),
     ).toBe('/skills');

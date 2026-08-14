@@ -1,11 +1,31 @@
 import type { ComponentProps, ReactNode } from 'react';
 import { fireEvent, render } from '@testing-library/react';
 import { Theme } from '@astryxdesign/core';
+import { TopNavItem } from '@astryxdesign/core/TopNav';
+import {
+  colorVars,
+  fontWeightVars,
+} from '@astryxdesign/core/theme/tokens.stylex';
 import { neutralTheme } from '@astryxdesign/theme-neutral/built';
 import { MemoryRouter, Route, Routes, useLocation } from 'react-router-dom';
 import { vi } from 'vitest';
+import * as stylex from '@stylexjs/stylex';
 
 import { GlobalNavigationLayout } from './global-navigation-layout';
+
+const styles = stylex.create({
+  selectedNavigationItem: {
+    backgroundColor: {
+      default: 'transparent',
+      ':hover': {
+        '@media (hover: hover)': colorVars['--color-overlay-hover'],
+      },
+      ':active': colorVars['--color-overlay-pressed'],
+    },
+    color: colorVars['--color-text-primary'],
+    fontWeight: fontWeightVars['--font-weight-medium'],
+  },
+});
 
 vi.mock('@astryxdesign/core/CommandPalette', () => ({
   CommandPalette: ({
@@ -135,8 +155,9 @@ describe('GlobalNavigationLayout', () => {
     expect(navigation.className).toContain('astryx-top-nav');
     expect(container.querySelectorAll('.astryx-top-nav')).toHaveLength(1);
     expect(container.querySelectorAll('.astryx-layout-content')).toHaveLength(
-      0,
+      1,
     );
+    expect(getByText('Route content').closest('.astryx-layout-content')).toBeTruthy();
   });
 
   it('renders primary page links with their route destinations', () => {
@@ -164,6 +185,31 @@ describe('GlobalNavigationLayout', () => {
         label === currentLink ? 'page' : null,
       );
     }
+  });
+
+  it('keeps the selected navigation item text-only', () => {
+    const { getByRole } = render(
+      <Theme theme={neutralTheme}>
+        <MemoryRouter initialEntries={['/roadmap']}>
+          <GlobalNavigationLayout />
+          <TopNavItem
+            href="/control"
+            isSelected
+            label="Text-only selected control"
+            xstyle={styles.selectedNavigationItem}
+          />
+          <TopNavItem href="/control" isSelected label="Selected control" />
+        </MemoryRouter>
+      </Theme>,
+    );
+    const selectedLink = getByRole('link', { name: 'Roadmap' });
+    const textOnlySelectedControl = getByRole('link', {
+      name: 'Text-only selected control',
+    });
+    const selectedControl = getByRole('link', { name: 'Selected control' });
+
+    expect(selectedLink.className).toBe(textOnlySelectedControl.className);
+    expect(selectedLink.className).not.toBe(selectedControl.className);
   });
 
   it('opens search and navigates a selected skill result', () => {

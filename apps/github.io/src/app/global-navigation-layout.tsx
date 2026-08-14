@@ -6,8 +6,12 @@ import {
 } from '@astryxdesign/core/CommandPalette';
 import { Icon } from '@astryxdesign/core/Icon';
 import { IconButton } from '@astryxdesign/core/IconButton';
-import { Layout, LayoutHeader } from '@astryxdesign/core/Layout';
+import { Layout, LayoutContent, LayoutHeader } from '@astryxdesign/core/Layout';
 import { TopNav, TopNavItem } from '@astryxdesign/core/TopNav';
+import {
+  colorVars,
+  fontWeightVars,
+} from '@astryxdesign/core/theme/tokens.stylex';
 import { createStaticSource } from '@astryxdesign/core/Typeahead';
 import * as stylex from '@stylexjs/stylex';
 
@@ -26,6 +30,17 @@ const styles = stylex.create({
     width: '100%',
     height: '100dvh',
     overflow: 'hidden',
+  },
+  selectedNavigationItem: {
+    backgroundColor: {
+      default: 'transparent',
+      ':hover': {
+        '@media (hover: hover)': colorVars['--color-overlay-hover'],
+      },
+      ':active': colorVars['--color-overlay-pressed'],
+    },
+    color: colorVars['--color-text-primary'],
+    fontWeight: fontWeightVars['--font-weight-medium'],
   },
 });
 
@@ -83,7 +98,11 @@ export function GlobalNavigationLayout(): ReactElement {
         }}
       />
       <Layout
-        content={<Outlet />}
+        content={
+          <LayoutContent padding={0}>
+            <Outlet />
+          </LayoutContent>
+        }
         header={
           <LayoutHeader padding={0}>
             <TopNav
@@ -93,11 +112,21 @@ export function GlobalNavigationLayout(): ReactElement {
                     href="/"
                     isSelected={location.pathname === '/'}
                     label="Home"
+                    xstyle={
+                      location.pathname === '/'
+                        ? styles.selectedNavigationItem
+                        : undefined
+                    }
                   />
                   <TopNavItem
                     href="/roadmap"
                     isSelected={location.pathname === '/roadmap'}
                     label="Roadmap"
+                    xstyle={
+                      location.pathname === '/roadmap'
+                        ? styles.selectedNavigationItem
+                        : undefined
+                    }
                   />
                   <TopNavItem
                     href="/skills"
@@ -106,6 +135,12 @@ export function GlobalNavigationLayout(): ReactElement {
                       location.pathname.startsWith('/skills/')
                     }
                     label="Skills"
+                    xstyle={
+                      location.pathname === '/skills' ||
+                      location.pathname.startsWith('/skills/')
+                        ? styles.selectedNavigationItem
+                        : undefined
+                    }
                   />
                 </>
               }
