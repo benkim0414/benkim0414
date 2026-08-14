@@ -31,7 +31,7 @@ Apply this UI decision hierarchy throughout implementation:
 4. Fall back to Material Design 3 guidance only when Astryx provides neither a
    suitable component nor applicable guidance.
 
-Custom styling must be limited to necessary responsive page composition. It
+Custom styling must be limited to necessary mobile page composition. It
 must not override Astryx component anatomy or replace supported Astryx props.
 The implementation must inspect the installed version's official Astryx
 component documentation before using or modifying each Astryx component.
@@ -45,11 +45,11 @@ Register `/roadmap` in `AppRoutes` and render a dedicated `RoadmapPage`.
 2. An informational Astryx `Banner`.
 3. The existing `DevOpsRoadmap` with its default props and local-main data.
 
-Use Astryx layout and typography components where available. The page is a
-centered, responsive content column sized consistently with the existing
-portfolio experience. It uses normal document-level vertical scrolling, with
-no nested page scroller. The roadmap retains its existing responsive node
-layout and static React Flow behavior.
+Use Astryx layout and typography components where available. The page uses the
+full available mobile width with the existing page padding and no maximum-width
+constraint. It uses normal document-level vertical scrolling, with no nested
+page scroller. The roadmap retains its existing node layout and static React
+Flow behavior. Tablet and desktop composition are intentionally deferred.
 
 ## Banner content and action
 
@@ -110,8 +110,8 @@ Add focused tests that verify:
 - `AppRoutes` renders the page for `/roadmap`.
 
 Add a default `RoadmapPage` Storybook story for isolated visual review. Verify
-the implementation at narrow and wider viewport sizes, ensuring normal vertical
-scrolling, readable banner content, and no horizontal overflow.
+the implementation at a mobile viewport, ensuring full-width composition,
+normal vertical scrolling, readable banner content, and no horizontal overflow.
 
 Run the focused `github.io` tests plus its lint, build, and Storybook build
 targets. The implementation baseline is 59 passing test files and 578 passing
@@ -125,6 +125,7 @@ tests on local `main`.
 - Changing `DevOpsRoadmap` interactions, graph layout, or visual styling.
 - Reproducing the roadmap.sh site or the Astryx marketing homepage.
 - Introducing new design-system abstractions or a Material Design dependency.
+- Adding tablet or desktop layout constraints, breakpoints, or presentation.
 
 ## Risks and safeguards
 
@@ -133,8 +134,8 @@ tests on local `main`.
   beyond the route table if necessary.
 - **Design-system drift:** verify installed Astryx contracts and preserve default
   component styles before adding any local layout styling.
-- **Nested scrolling or overflow:** use document scrolling and test narrow and
-  wide layouts with the full roadmap dataset.
+- **Nested scrolling or overflow:** use document scrolling and test the mobile
+  layout with the full roadmap dataset.
 - **Accidental data changes:** page tests should prove default roadmap
   composition; data files and the existing roadmap component are not part of
   this feature's implementation scope.

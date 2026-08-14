@@ -37,12 +37,12 @@ describe('RoadmapPage', () => {
     devOpsRoadmapSpy.mockClear();
   });
 
-  it('renders a constrained, full-width main content column', () => {
+  it('renders a full-width mobile page without a width cap', () => {
     const { getByRole } = renderRoadmapPage();
     const main = getByRole('main');
 
     expect(main.style.width).toBe('100%');
-    expect(main.style.maxWidth).toBe('448px');
+    expect(main.style.maxWidth).toBe('');
     expect(main.style.minHeight).toBe('100vh');
   });
 
