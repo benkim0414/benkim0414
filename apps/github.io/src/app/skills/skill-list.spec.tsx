@@ -1,4 +1,5 @@
-import { render } from '@testing-library/react';
+import { render, within } from '@testing-library/react';
+import { List, ListItem } from '@astryxdesign/core/List';
 
 import { sampleSkills } from './skill-list.data';
 import { SkillList } from './skill-list';
@@ -73,5 +74,33 @@ describe('SkillList', () => {
     const link = getByRole('link', { name: /TypeScript/ });
 
     expect(link.getAttribute('href')).toBe('/skills/typescript');
+  });
+
+  it('keeps linked rows as direct anchors without outer divider geometry', () => {
+    const { getAllByRole, getByTestId } = render(
+      <>
+        <SkillList
+          getSkillHref={(skill) => `/skills/${skill.id}`}
+          skills={sampleSkills.slice(0, 2)}
+        />
+        <List
+          className="w-full"
+          data-testid="no-divider-list"
+          density="compact"
+        >
+          <ListItem label="Control" />
+        </List>
+      </>,
+    );
+    const list = getAllByRole('list')[0];
+    const rows = within(list).getAllByRole('listitem');
+
+    expect(list.className).toBe(getByTestId('no-divider-list').className);
+    for (const row of rows) {
+      const link = within(row).getByRole('link');
+
+      expect(row.children).toHaveLength(1);
+      expect(row.firstElementChild).toBe(link);
+    }
   });
 });
