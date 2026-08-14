@@ -88,7 +88,8 @@ describe('App', () => {
     expect(shell.className).not.toMatch(
       /\b(?:mx-auto|h-dvh|min-h-screen|w-full|max-w-md|overflow-hidden)\b/,
     );
-    expect(main.className).toContain('astryx-layout-content');
+    expect(main.className).toContain('astryx-stack');
+    expect(shell.querySelectorAll('.astryx-layout-content')).toHaveLength(1);
     expect(queryByText('Ben Kim')).toBeNull();
     expect(queryByLabelText('Skill breadcrumb')).toBeNull();
     expect(getByRole('link', { name: 'Skills' })).toBeTruthy();
@@ -148,13 +149,21 @@ describe('AppRoutes', () => {
     ['/roadmap', 'DevOps roadmap'],
     ['/skills', 'Skills'],
     ['/skills/kubernetes', 'Kubernetes'],
-  ])('renders one identical global nav at %s', (path, pageHeading) => {
+  ])('renders one shell-owned scroll region at %s', (path, pageHeading) => {
     const { getAllByRole, getByRole } = renderAppRoutes(path);
+    const shell = getByRole('navigation', {
+      name: 'Global navigation',
+    }).closest('[data-height="fill"]');
+
+    if (!(shell instanceof HTMLElement)) {
+      throw new Error('Expected the global navigation layout shell.');
+    }
 
     expect(
       getAllByRole('navigation', { name: 'Global navigation' }),
     ).toHaveLength(1);
     expect(getAllByRole('button', { name: 'Search skills' })).toHaveLength(1);
+    expect(shell.querySelectorAll('.astryx-layout-content')).toHaveLength(1);
     expect(getByRole('heading', { level: 1, name: pageHeading })).toBeTruthy();
   });
 
@@ -239,7 +248,7 @@ describe('AppRoutes', () => {
     expect(getByRole('heading', { level: 1, name: 'React' })).toBeTruthy();
   });
 
-  it('keeps the unknown skill recovery region inside the global layout content', () => {
+  it('keeps the unknown skill recovery region in the shell scroll owner', () => {
     const { getByRole } = renderAppRoutes('/skills/not-real');
     const main = getByRole('main');
     const shell = getByRole('navigation', {
@@ -255,12 +264,11 @@ describe('AppRoutes', () => {
     ).toBeTruthy();
     expect(getByRole('button', { name: 'Search skills' })).toBeTruthy();
     expect(main.dataset.layout).toBe('full-width');
-    expect(main.className).toContain('astryx-layout-content');
+    expect(main.className).toContain('astryx-stack');
     const layoutContents = shell.querySelectorAll('.astryx-layout-content');
 
-    expect(layoutContents).toHaveLength(2);
+    expect(layoutContents).toHaveLength(1);
     expect(layoutContents[0].contains(main)).toBe(true);
-    expect(layoutContents[1]).toBe(main);
     expect(
       getByRole('link', { name: 'Back to Skills' }).getAttribute('href'),
     ).toBe('/skills');

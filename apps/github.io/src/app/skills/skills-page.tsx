@@ -1,4 +1,4 @@
-import { LayoutContent, VStack } from '@astryxdesign/core/Layout';
+import { VStack } from '@astryxdesign/core/Layout';
 import { VisuallyHidden } from '@astryxdesign/core/VisuallyHidden';
 import type { ReactElement } from 'react';
 
@@ -20,21 +20,15 @@ export function SkillsPage({
   );
 
   return (
-    <LayoutContent
-      aria-labelledby="skills-page-title"
-      padding={4}
-      role="main"
-    >
+    <VStack aria-labelledby="skills-page-title" as="main" gap={3} padding={4}>
       <VisuallyHidden as="h1" id="skills-page-title">
         Skills
       </VisuallyHidden>
-      <VStack gap={3}>
-        <SkillList
-          getSkillHref={getSkillHref}
-          heading="All skills"
-          skills={sortedSkills}
-        />
-      </VStack>
-    </LayoutContent>
+      <SkillList
+        getSkillHref={getSkillHref}
+        heading="All skills"
+        skills={sortedSkills}
+      />
+    </VStack>
   );
 }

@@ -1,7 +1,7 @@
 import type { ReactElement } from 'react';
 import { Banner } from '@astryxdesign/core/Banner';
 import { Button } from '@astryxdesign/core/Button';
-import { HStack, LayoutContent, VStack } from '@astryxdesign/core/Layout';
+import { HStack, VStack } from '@astryxdesign/core/Layout';
 import { Text } from '@astryxdesign/core/Text';
 import { VisuallyHidden } from '@astryxdesign/core/VisuallyHidden';
 
@@ -24,11 +24,7 @@ export function HomePage({
   highlightedSkills = defaultHighlightedSkills,
 }: HomePageProps): ReactElement {
   return (
-    <LayoutContent
-      label="Home"
-      padding={0}
-      role="main"
-    >
+    <VStack aria-label="Home" as="main">
       <VisuallyHidden as="h1" id="home-page-title">
         Home
       </VisuallyHidden>
@@ -49,17 +45,8 @@ export function HomePage({
           <Button href="/skills" label="Show all" size="sm" variant="ghost" />
         </HStack>
       </VStack>
-      <VStack
-        gap={3}
-        paddingBlock={4}
-        paddingInline={4}
-      >
-        <Text
-          as="h2"
-          id="dora-capabilities-title"
-          type="body"
-          weight="bold"
-        >
+      <VStack gap={3} paddingBlock={4} paddingInline={4}>
+        <Text as="h2" id="dora-capabilities-title" type="body" weight="bold">
           DORA capabilities
         </Text>
         <Banner
@@ -86,6 +73,6 @@ export function HomePage({
           />
         ))}
       </VStack>
-    </LayoutContent>
+    </VStack>
   );
 }
