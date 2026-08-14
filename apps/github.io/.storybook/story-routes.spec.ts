@@ -1,6 +1,7 @@
 import type { Decorator, StoryContext } from '@storybook/react-vite';
 import { fireEvent, render, screen } from '@testing-library/react';
 import {
+  type ComponentType,
   createElement,
   type ComponentProps,
   type ReactElement,
@@ -9,6 +10,9 @@ import {
 import { vi } from 'vitest';
 
 import { GlobalNavigationLayout } from '../src/app/global-navigation-layout';
+import globalNavigationMeta, {
+  Roadmap as RoadmapStory,
+} from '../src/app/global-navigation-layout.stories';
 import { SkillCard } from '../src/app/skills/skill-card';
 import { skills } from '../src/app/skills/skill-list.data';
 import preview from './preview';
@@ -65,7 +69,11 @@ vi.stubGlobal(
   },
 );
 
-function decorateStory(Story: () => ReactElement, id: string): ReactNode {
+function decorateStory(
+  Story: () => ReactElement,
+  id: string,
+  context: Partial<StoryContext> = {},
+): ReactNode {
   const decorators = preview.decorators as Decorator[] | undefined;
   const decorator = decorators?.[0];
 
@@ -73,10 +81,37 @@ function decorateStory(Story: () => ReactElement, id: string): ReactNode {
     throw new Error('Expected the Storybook preview decorator to exist.');
   }
 
-  return decorator(Story, { id } as StoryContext);
+  return decorator(Story, { id, ...context } as StoryContext);
 }
 
 describe('Storybook preview routing', () => {
+  it('renders the routed global-navigation story inside the preview router', async () => {
+    const StoryComponent = globalNavigationMeta.component as ComponentType<
+      Record<string, unknown>
+    >;
+    const args = (RoadmapStory.args ?? {}) as Record<string, unknown>;
+
+    render(
+      decorateStory(
+        () => createElement(StoryComponent, args),
+        'github-io-navigation-global-navigation--roadmap',
+        {
+          args,
+          parameters: {
+            ...globalNavigationMeta.parameters,
+            ...RoadmapStory.parameters,
+          },
+        },
+      ),
+    );
+
+    expect(
+      (await screen.findByRole('link', { name: 'Roadmap' })).getAttribute(
+        'aria-current',
+      ),
+    ).toBe('page');
+  });
+
   it('renders a skill detail page after a card navigates, then resets for another story', async () => {
     const skill = skills.find(({ id }) => id === 'kubernetes');
 

@@ -1,28 +1,19 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
-import { MemoryRouter } from 'react-router-dom';
 
 import { AppRoutes } from './app';
 
-function RoutedGlobalNavigation({ path }: { path: string }) {
-  return (
-    <MemoryRouter initialEntries={[path]}>
-      <AppRoutes />
-    </MemoryRouter>
-  );
-}
-
 const meta = {
-  component: RoutedGlobalNavigation,
+  component: AppRoutes,
   parameters: { layout: 'fullscreen' },
   title: 'GitHub.io/Navigation/Global Navigation',
-} satisfies Meta<typeof RoutedGlobalNavigation>;
+} satisfies Meta<typeof AppRoutes>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-export const Home: Story = { args: { path: '/' } };
-export const Roadmap: Story = { args: { path: '/roadmap' } };
-export const Skills: Story = { args: { path: '/skills' } };
+export const Home: Story = { parameters: { appRoute: '/' } };
+export const Roadmap: Story = { parameters: { appRoute: '/roadmap' } };
+export const Skills: Story = { parameters: { appRoute: '/skills' } };
 export const SkillDetail: Story = {
-  args: { path: '/skills/kubernetes' },
+  parameters: { appRoute: '/skills/kubernetes' },
 };
