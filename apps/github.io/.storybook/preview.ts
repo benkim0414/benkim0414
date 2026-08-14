@@ -12,20 +12,30 @@ import '../src/styles.css';
 
 const preview: Preview = {
   decorators: [
-    (Story, context) =>
-      createElement(
+    (Story, context) => {
+      const appRoute = context.parameters?.['appRoute'];
+      const rendersAppRoutes = typeof appRoute === 'string';
+      const story = createElement(Story);
+
+      return createElement(
         MemoryRouter,
-        { key: context.id },
+        {
+          initialEntries: rendersAppRoutes ? [appRoute] : undefined,
+          key: context.id,
+        },
         createElement(
           LinkProvider,
           { component: RouterLink },
           createElement(
             Theme,
             { theme: neutralTheme },
-            createElement(StoryRoutes, undefined, createElement(Story)),
+            rendersAppRoutes
+              ? story
+              : createElement(StoryRoutes, undefined, story),
           ),
         ),
-      ),
+      );
+    },
   ],
   parameters: {
     controls: {
