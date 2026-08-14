@@ -12,10 +12,7 @@ import {
   DevOpsRoadmapNode,
 } from './devops-roadmap-node';
 import { DevOpsRoadmap } from './devops-roadmap';
-import type {
-  Certification,
-  DevOpsRoadmapItem,
-} from './devops-roadmap.types';
+import type { Certification, DevOpsRoadmapItem } from './devops-roadmap.types';
 
 vi.mock('../skills/skill-token', () => ({
   SkillToken: ({ label }: { label: string }) => (
@@ -234,10 +231,7 @@ describe('DevOpsRoadmapNode', () => {
     const appRoot = process.cwd().endsWith('/apps/github.io')
       ? process.cwd()
       : resolve(process.cwd(), 'apps/github.io');
-    const styles = readFileSync(
-      resolve(appRoot, 'src/styles.css'),
-      'utf8',
-    );
+    const styles = readFileSync(resolve(appRoot, 'src/styles.css'), 'utf8');
 
     expect(styles).toContain(
       `.devops-roadmap__flow .react-flow__node {\n  width: ${DEVOPS_ROADMAP_NODE_WIDTH};\n}`,
@@ -352,18 +346,19 @@ describe('DevOpsRoadmapNode', () => {
 
 describe('DevOpsRoadmap', () => {
   it('renders only the readonly roadmap diagram', () => {
-    const { container, getByRole, getByTestId, getByText } = render(
-      <DevOpsRoadmap
-        items={[
-          {
-            id: 'language',
-            title: 'Learn a Programming Language',
-            skills: ['Python', 'Go'],
-          },
-          { id: 'containers', title: 'Containers', skills: ['Docker'] },
-        ]}
-      />,
-    );
+    const { container, getByRole, getByTestId, getByText, queryByTestId } =
+      render(
+        <DevOpsRoadmap
+          items={[
+            {
+              id: 'language',
+              title: 'Learn a Programming Language',
+              skills: ['Python', 'Go'],
+            },
+            { id: 'containers', title: 'Containers', skills: ['Docker'] },
+          ]}
+        />,
+      );
 
     expect(container.querySelector('.devops-roadmap__heading')).toBeNull();
     expect(container.querySelector('.devops-roadmap')).toBeNull();
@@ -373,6 +368,7 @@ describe('DevOpsRoadmap', () => {
     expect(getByText('Go')).toBeTruthy();
     expect(getByText('Containers')).toBeTruthy();
     expect(getByText('Docker')).toBeTruthy();
+    expect(queryByTestId('react-flow-background')).toBeNull();
     expect(getByTestId('react-flow').getAttribute('data-node-count')).toBe('2');
     expect(getByTestId('react-flow').getAttribute('data-edge-count')).toBe('1');
     expect(getByTestId('react-flow').getAttribute('data-nodes-draggable')).toBe(
@@ -424,7 +420,11 @@ describe('DevOpsRoadmap', () => {
       '.devops-roadmap__flow',
     );
 
-    expect(flowWrapper?.getAttribute('style')).toBe('--x-height: 344px;');
+    expect(flowWrapper?.style.cssText).toContain('--x-height: 344px;');
+    expect(flowWrapper?.style.cssText).toContain(DEVOPS_ROADMAP_NODE_WIDTH);
+    expect(flowWrapper?.style.cssText).toContain(
+      DEVOPS_ROADMAP_NODE_MOBILE_WIDTH,
+    );
     expect(
       container
         .querySelector('[data-testid="react-flow"]')
@@ -457,7 +457,7 @@ describe('DevOpsRoadmap', () => {
       '.devops-roadmap__flow',
     );
 
-    expect(flowWrapper?.getAttribute('style')).toBe('--x-height: 444px;');
+    expect(flowWrapper?.style.cssText).toContain('--x-height: 444px;');
     expect(
       container
         .querySelector('[data-testid="react-flow"]')
@@ -503,7 +503,7 @@ describe('DevOpsRoadmap', () => {
       '.devops-roadmap__flow',
     );
 
-    expect(flowWrapper?.getAttribute('style')).toBe('--x-height: 394px;');
+    expect(flowWrapper?.style.cssText).toContain('--x-height: 394px;');
     expect(
       container
         .querySelector('[data-testid="react-flow"]')
@@ -554,9 +554,7 @@ describe('DevOpsRoadmap', () => {
         },
       ] satisfies readonly (DevOpsRoadmapItem & { measuredHeight: number })[];
 
-      const { getByTestId } = render(
-        <DevOpsRoadmap items={measuredItems} />,
-      );
+      const { getByTestId } = render(<DevOpsRoadmap items={measuredItems} />);
 
       await waitFor(() => {
         expect(
@@ -565,7 +563,7 @@ describe('DevOpsRoadmap', () => {
       });
 
       const flowWrapper = getByTestId('react-flow').parentElement;
-      expect(flowWrapper?.getAttribute('style')).toBe('--x-height: 596px;');
+      expect(flowWrapper?.style.cssText).toContain('--x-height: 596px;');
     } finally {
       rectSpy.mockRestore();
     }
