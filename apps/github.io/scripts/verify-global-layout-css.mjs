@@ -238,7 +238,7 @@ function isReturnedRoot(openingElement) {
   return current.parent != null && ts.isReturnStatement(current.parent);
 }
 
-function isStandaloneNotFoundSource(sourcePath) {
+function isNotFoundPageSource(sourcePath) {
   return (
     resolve(appDirectory, sourcePath) ===
     resolve(appDirectory, 'src/app/not-found-page.tsx')
@@ -323,8 +323,10 @@ export function auditPageRoots(sourcePath) {
         tagName === 'LayoutContent' ||
         (tagName === 'VStack' && parentJsxTag(node) === 'LayoutContent') ||
         (tagName === 'VStack' &&
-          !isStandaloneNotFoundSource(sourcePath) &&
-          isReturnedRoot(node));
+          isReturnedRoot(node) &&
+          (!isNotFoundPageSource(sourcePath) ||
+            attributeValue(jsxAttribute(node, 'data-layout')) ===
+              'full-width'));
 
       if (isPageRoot) {
         recognizedRoots += 1;
@@ -477,6 +479,16 @@ function runSelfTests() {
       );
     } else {
       console.log('PASS recognized page-root count: 2');
+    }
+
+    const notFoundRoots = auditPageRoots('src/app/not-found-page.tsx');
+
+    if (notFoundRoots !== 1) {
+      failures.push(
+        `full-width not found page roots returned ${notFoundRoots}, expected 1.`,
+      );
+    } else {
+      console.log('PASS full-width not found page-root count: 1');
     }
 
     assertRejects(
@@ -638,11 +650,12 @@ function verifyBuiltLayout() {
 
   if (
     !notFoundSource.includes('if (isFullWidth)') ||
-    !notFoundSource.includes('<LayoutContent') ||
+    !notFoundSource.includes('<VStack') ||
+    !notFoundSource.includes('data-layout="full-width"') ||
     !notFoundSource.includes('xstyle={styles.page}')
   ) {
     throw new Error(
-      'The not found page must use scrollable full-width content and constrain only its standalone branch.',
+      'The not found page must use a full-width semantic root and constrain only its standalone branch.',
     );
   }
 
