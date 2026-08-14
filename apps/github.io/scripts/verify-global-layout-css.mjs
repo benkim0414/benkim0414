@@ -245,6 +245,26 @@ function isStandaloneNotFoundSource(sourcePath) {
   );
 }
 
+function baseClassUtility(classToken) {
+  let bracketDepth = 0;
+  let lastVariantSeparator = -1;
+
+  for (const [index, character] of [...classToken].entries()) {
+    if (character === '[' || character === '(') {
+      bracketDepth += 1;
+    } else if (character === ']' || character === ')') {
+      bracketDepth = Math.max(0, bracketDepth - 1);
+    } else if (character === ':' && bracketDepth === 0) {
+      lastVariantSeparator = index;
+    }
+  }
+
+  return classToken
+    .slice(lastVariantSeparator + 1)
+    .replace(/^!/, '')
+    .replace(/!$/, '');
+}
+
 function assertPageRootClassName(attribute, sourcePath, tagName) {
   if (!attribute) {
     return;
@@ -268,12 +288,13 @@ function assertPageRootClassName(attribute, sourcePath, tagName) {
 
   const constrainedClass = className
     .split(/\s+/)
-    .map((classToken) => classToken.split(':').at(-1))
+    .map(baseClassUtility)
     .find(
       (classToken) =>
         classToken === 'mx-auto' ||
         classToken === 'w-fit' ||
-        classToken?.startsWith('max-w-'),
+        classToken?.startsWith('max-w-') ||
+        (classToken?.startsWith('w-') && classToken !== 'w-full'),
     );
 
   if (constrainedClass) {
@@ -446,7 +467,7 @@ function runSelfTests() {
     const recognizedRoots = auditPageRoots(
       fixture(
         'recognized-roots.tsx',
-        `import { LayoutContent, VStack } from '@astryxdesign/core/Layout';\nexport function Page() { return <LayoutContent><VStack /></LayoutContent>; }`,
+        `import { LayoutContent, VStack } from '@astryxdesign/core/Layout';\nexport function Page() { return <LayoutContent className="w-full"><VStack /></LayoutContent>; }`,
       ),
     );
 
@@ -503,6 +524,20 @@ function runSelfTests() {
             fixture(
               `constrained-class-${constrainedClassName.replaceAll(/[^a-z0-9]/g, '-')}.tsx`,
               `import { LayoutContent } from '@astryxdesign/core/Layout';\nexport function Page() { return <LayoutContent className="${constrainedClassName}" />; }`,
+            ),
+          ),
+        /constrained className/,
+      );
+    }
+    for (const widthClassName of ['w-96', 'w-1/2', 'w-[448px]', 'md:w-96']) {
+      assertRejects(
+        failures,
+        `constrained page-root width className ${widthClassName}`,
+        () =>
+          auditPageRoots(
+            fixture(
+              `constrained-width-class-${widthClassName.replaceAll(/[^a-z0-9]/g, '-')}.tsx`,
+              `import { LayoutContent } from '@astryxdesign/core/Layout';\nexport function Page() { return <LayoutContent className="${widthClassName}" />; }`,
             ),
           ),
         /constrained className/,
