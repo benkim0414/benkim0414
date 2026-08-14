@@ -68,7 +68,7 @@ describe('HomePage', () => {
     expect(doraContent.className).not.toMatch(/\b(?:min-h-0|flex-1)\b/);
   });
 
-  it('keeps top skills fixed above the scrollable DORA section', () => {
+  it('keeps top skills and DORA capabilities in the same page flow', () => {
     const { getByLabelText, getByRole } = renderHomePage();
     const { getByTestId } = render(
       <Theme theme={neutralTheme}>
@@ -98,7 +98,7 @@ describe('HomePage', () => {
     const topSkills = carousel.parentElement;
 
     if (!(topSkills instanceof HTMLElement)) {
-      throw new Error('Expected the fixed Top skills allocation.');
+      throw new Error('Expected the Top skills section.');
     }
 
     expect(topSkillsHeading.parentElement?.className).toBe(
@@ -157,7 +157,7 @@ describe('HomePage', () => {
     expect(within(firstCard).getByText('Relevant experience')).toBeTruthy();
   });
 
-  it('uses compact skill surfaces for the fixed carousel', () => {
+  it('uses compact skill surfaces for the carousel', () => {
     const { getByLabelText } = renderHomePage();
     const carousel = getByLabelText('Highlighted skills');
 
