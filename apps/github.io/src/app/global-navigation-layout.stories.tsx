@@ -21,6 +21,7 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Home: Story = { args: { path: '/' } };
+export const Roadmap: Story = { args: { path: '/roadmap' } };
 export const Skills: Story = { args: { path: '/skills' } };
 export const SkillDetail: Story = {
   args: { path: '/skills/kubernetes' },

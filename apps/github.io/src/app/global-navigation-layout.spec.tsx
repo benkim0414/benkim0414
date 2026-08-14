@@ -99,6 +99,8 @@ function renderGlobalLayout(initialEntry = '/') {
         <Routes>
           <Route element={<GlobalNavigationLayout />}>
             <Route index element={<RouteContent />} />
+            <Route path="roadmap" element={<RouteContent />} />
+            <Route path="skills" element={<RouteContent />} />
             <Route path="skills/:skillId" element={<RouteContent />} />
           </Route>
         </Routes>
@@ -135,6 +137,33 @@ describe('GlobalNavigationLayout', () => {
     expect(container.querySelectorAll('.astryx-layout-content')).toHaveLength(
       0,
     );
+  });
+
+  it('renders primary page links with their route destinations', () => {
+    const { getByRole } = renderGlobalLayout();
+
+    expect(getByRole('link', { name: 'Home' }).getAttribute('href')).toBe('/');
+    expect(getByRole('link', { name: 'Roadmap' }).getAttribute('href')).toBe(
+      '/roadmap',
+    );
+    expect(getByRole('link', { name: 'Skills' }).getAttribute('href')).toBe(
+      '/skills',
+    );
+  });
+
+  it.each([
+    ['/', 'Home'],
+    ['/roadmap', 'Roadmap'],
+    ['/skills', 'Skills'],
+    ['/skills/kubernetes', 'Skills'],
+  ])('marks only %s primary navigation item as current', (path, currentLink) => {
+    const { getByRole } = renderGlobalLayout(path);
+
+    for (const label of ['Home', 'Roadmap', 'Skills']) {
+      expect(getByRole('link', { name: label }).getAttribute('aria-current')).toBe(
+        label === currentLink ? 'page' : null,
+      );
+    }
   });
 
   it('opens search and navigates a selected skill result', () => {

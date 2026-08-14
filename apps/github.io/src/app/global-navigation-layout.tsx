@@ -1,5 +1,5 @@
 import { useMemo, useState, type ReactElement } from 'react';
-import { useNavigate, Outlet } from 'react-router-dom';
+import { useLocation, useNavigate, Outlet } from 'react-router-dom';
 import {
   CommandPalette,
   CommandPaletteInput,
@@ -7,7 +7,7 @@ import {
 import { Icon } from '@astryxdesign/core/Icon';
 import { IconButton } from '@astryxdesign/core/IconButton';
 import { Layout, LayoutHeader } from '@astryxdesign/core/Layout';
-import { TopNav } from '@astryxdesign/core/TopNav';
+import { TopNav, TopNavItem } from '@astryxdesign/core/TopNav';
 import { createStaticSource } from '@astryxdesign/core/Typeahead';
 import * as stylex from '@stylexjs/stylex';
 
@@ -30,6 +30,7 @@ const styles = stylex.create({
 });
 
 export function GlobalNavigationLayout(): ReactElement {
+  const location = useLocation();
   const navigate = useNavigate();
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [selectedResultId, setSelectedResultId] = useState<string>();
@@ -86,6 +87,28 @@ export function GlobalNavigationLayout(): ReactElement {
         header={
           <LayoutHeader padding={0}>
             <TopNav
+              centerContent={
+                <>
+                  <TopNavItem
+                    href="/"
+                    isSelected={location.pathname === '/'}
+                    label="Home"
+                  />
+                  <TopNavItem
+                    href="/roadmap"
+                    isSelected={location.pathname === '/roadmap'}
+                    label="Roadmap"
+                  />
+                  <TopNavItem
+                    href="/skills"
+                    isSelected={
+                      location.pathname === '/skills' ||
+                      location.pathname.startsWith('/skills/')
+                    }
+                    label="Skills"
+                  />
+                </>
+              }
               endContent={
                 <IconButton
                   icon={<Icon color="inherit" icon="search" size="sm" />}
