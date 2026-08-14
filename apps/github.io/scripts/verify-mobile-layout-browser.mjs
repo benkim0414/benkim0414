@@ -14,41 +14,48 @@ const viewports = [
   { width: 375, height: 667 },
   { width: 820, height: 1180 },
 ];
+const shellScrollOwnerSelector = '.astryx-layout-content:has(> main)';
 const routes = [
   {
     path: '/',
     isInFrame: true,
-    pageRootSelector: '[role="main"][aria-label="Home"]',
-    readySelector: '[role="main"][aria-label="Home"]',
-    scrollOwnerSelector: '[role="main"][aria-label="Home"]',
+    pageRootSelector: 'main[aria-label="Home"]',
+    readySelector: 'main[aria-label="Home"]',
+    scrollOwnerSelector: shellScrollOwnerSelector,
     scrollMotion: {
       doraSelector: '#dora-capabilities-title',
       topSkillsSelector: '#top-skills-title',
     },
   },
   {
+    path: '/roadmap',
+    isInFrame: true,
+    pageRootSelector: 'main',
+    readySelector: 'main h1',
+    scrollOwnerSelector: shellScrollOwnerSelector,
+  },
+  {
     path: '/skills',
     isInFrame: true,
-    pageRootSelector: '[role="main"][aria-labelledby="skills-page-title"]',
-    readySelector: '[role="main"][aria-labelledby="skills-page-title"]',
-    scrollOwnerSelector: '[role="main"][aria-labelledby="skills-page-title"]',
+    pageRootSelector: 'main[aria-labelledby="skills-page-title"]',
+    readySelector: 'main[aria-labelledby="skills-page-title"]',
+    scrollOwnerSelector: shellScrollOwnerSelector,
   },
   {
     path: '/skills/kubernetes',
     isInFrame: true,
-    pageRootSelector: '[role="main"][aria-label="Skill detail"]',
-    readySelector: '[role="main"][aria-label="Skill detail"] h1',
-    focusSelector: '[role="main"][aria-label="Skill detail"] h1',
-    scrollOwnerSelector: '[role="main"][aria-label="Skill detail"]',
+    pageRootSelector: 'main[aria-label="Skill detail"]',
+    readySelector: 'main[aria-label="Skill detail"] h1',
+    focusSelector: 'main[aria-label="Skill detail"] h1',
+    scrollOwnerSelector: shellScrollOwnerSelector,
   },
   {
     path: '/skills/not-real',
     isInFrame: true,
     pageRootSelector:
-      '[role="main"][data-testid="not-found-page"][data-layout="full-width"]',
+      'main[data-testid="not-found-page"][data-layout="full-width"]',
     readySelector: '[data-testid="not-found-page"][data-layout="full-width"]',
-    scrollOwnerSelector:
-      '[role="main"][data-testid="not-found-page"][data-layout="full-width"]',
+    scrollOwnerSelector: shellScrollOwnerSelector,
   },
   {
     path: '/not-a-route',
@@ -723,6 +730,8 @@ async function inspectRoute(bidi, context, route) {
         viewport: { width: innerWidth, height: innerHeight },
         frame: rectangle(main?.closest('.astryx-layout')),
         main: rectangle(main),
+        scrollOwner: rectangle(expectedScrollOwner),
+        scrollOwnerClientWidth: expectedScrollOwner?.clientWidth ?? null,
         pageRootMatches,
         path: location.pathname,
         horizontalOverflow: Math.max(0, documentWidth - innerWidth),
@@ -780,11 +789,19 @@ function assertRouteMetrics(route, viewport, metrics, navigationPath) {
     `${label} frame does not span the viewport: ${JSON.stringify(metrics.frame)}`,
   );
   assert(metrics.main != null, `${label} has no active page main.`);
+  assert(metrics.scrollOwner != null, `${label} has no shell scroll owner.`);
   assert(
-    isWithinTolerance(metrics.main.left, 0) &&
-      isWithinTolerance(metrics.main.right, viewport.width) &&
-      isWithinTolerance(metrics.main.width, viewport.width),
-    `${label} active page main does not span the viewport: ${JSON.stringify(metrics.main)}`,
+    typeof metrics.scrollOwnerClientWidth === 'number',
+    `${label} has no shell scroll viewport width.`,
+  );
+  assert(
+    isWithinTolerance(metrics.main.left, metrics.scrollOwner.left) &&
+      isWithinTolerance(
+        metrics.main.right,
+        metrics.scrollOwner.left + metrics.scrollOwnerClientWidth,
+      ) &&
+      isWithinTolerance(metrics.main.width, metrics.scrollOwnerClientWidth),
+    `${label} active page main does not span the shell scroll viewport: ${JSON.stringify({ main: metrics.main, scrollOwner: metrics.scrollOwner, scrollOwnerClientWidth: metrics.scrollOwnerClientWidth })}`,
   );
   assert(
     metrics.expectedScrollOwnerMatches === 1,
@@ -795,11 +812,11 @@ function assertRouteMetrics(route, viewport, metrics, navigationPath) {
   );
   assert(
     expectedScrollOwners.length === 1,
-    `${label} expected scroll owner is not an active page scroll container: ${JSON.stringify(metrics.scrollOwners)}`,
+    `${label} expected scroll owner is not an active shell scroll container: ${JSON.stringify(metrics.scrollOwners)}`,
   );
   assert(
     metrics.scrollOwners.length === 1,
-    `${label} expected scroll owner is not the sole page scroll container; found ${metrics.scrollOwners.length}: ${JSON.stringify(metrics.scrollOwners)}`,
+    `${label} expected scroll owner is not the sole shell scroll container; found ${metrics.scrollOwners.length}: ${JSON.stringify(metrics.scrollOwners)}`,
   );
 
   if (route.focusSelector) {
@@ -893,12 +910,12 @@ function assertHomeScrollMotion(viewport, motion) {
   }
   assert(
     before.scrollHeight > before.clientHeight + SUBPIXEL_TOLERANCE,
-    `${label} Home main has no vertical overflow to exercise.`,
+    `${label} Home shell content has no vertical overflow to exercise.`,
   );
   assert(
     targetScrollTop > SUBPIXEL_TOLERANCE &&
       after.scrollTop > before.scrollTop + SUBPIXEL_TOLERANCE,
-    `${label} Home main did not advance its scrollTop: ${JSON.stringify(motion)}`,
+    `${label} Home shell content did not advance its scrollTop: ${JSON.stringify(motion)}`,
   );
   assert(
     before.pinnedAncestors.length === 0,
@@ -928,7 +945,7 @@ async function inspectSkillRows(bidi, context) {
         const { left, right, top, bottom, width, height } = element.getBoundingClientRect();
         return { left, right, top, bottom, width, height };
       };
-      const rows = [...document.querySelectorAll('[role="main"] li')].map((row) => {
+      const rows = [...document.querySelectorAll('main li')].map((row) => {
         const directLinks = [...row.children].filter(
           (child) => child instanceof HTMLAnchorElement,
         );
@@ -1019,7 +1036,7 @@ async function tapSkillRowBottomEdge(bidi, context, row, signal) {
     await waitForSelector(
       bidi,
       context,
-      '[role="main"][aria-label="Skill detail"] h1',
+      'main[aria-label="Skill detail"] h1',
       signal,
     );
   } finally {
@@ -1030,7 +1047,7 @@ async function tapSkillRowBottomEdge(bidi, context, row, signal) {
     bidi,
     context,
     `
-      const heading = document.querySelector('[role="main"][aria-label="Skill detail"] h1');
+      const heading = document.querySelector('main[aria-label="Skill detail"] h1');
       return {
         path: location.pathname,
         focusIsHeading: document.activeElement === heading,
@@ -1105,9 +1122,9 @@ function selfTestRoute(overrides = {}) {
   return {
     path: '/skills',
     isInFrame: true,
-    pageRootSelector: '[role="main"][aria-labelledby="skills-page-title"]',
-    readySelector: '[role="main"][aria-labelledby="skills-page-title"]',
-    scrollOwnerSelector: '[role="main"][aria-labelledby="skills-page-title"]',
+    pageRootSelector: 'main[aria-labelledby="skills-page-title"]',
+    readySelector: 'main[aria-labelledby="skills-page-title"]',
+    scrollOwnerSelector: shellScrollOwnerSelector,
     ...overrides,
   };
 }
@@ -1117,6 +1134,8 @@ function selfTestMetrics(overrides = {}) {
     viewport: { width: 375, height: 667 },
     frame: { left: 0, right: 375, width: 375 },
     main: { left: 0, right: 375, width: 375 },
+    scrollOwner: { left: 0, right: 375, width: 375 },
+    scrollOwnerClientWidth: 375,
     pageRootMatches: 1,
     horizontalOverflow: 0,
     layoutMode: null,
@@ -1128,7 +1147,7 @@ function selfTestMetrics(overrides = {}) {
       {
         className: 'astryx-layout-content',
         isExpected: true,
-        role: 'main',
+        role: null,
         tag: 'div',
         testId: null,
       },
@@ -1168,6 +1187,33 @@ async function runSelfTests() {
     });
   };
 
+  await test('framed routes assign scrolling to the shared layout content', () => {
+    const framedRoutes = routes.filter((route) => route.isInFrame);
+
+    assert(
+      framedRoutes.length > 0,
+      'The route matrix has no framed routes to audit.',
+    );
+    assert(
+      shellScrollOwnerSelector === '.astryx-layout-content:has(> main)',
+      `The shell scroll owner must exclude nested layout content: ${shellScrollOwnerSelector}.`,
+    );
+    assert(
+      framedRoutes.every(
+        (route) => route.scrollOwnerSelector === shellScrollOwnerSelector,
+      ),
+      `Framed routes must use the shell scroll owner: ${JSON.stringify(framedRoutes.map(({ path, scrollOwnerSelector }) => ({ path, scrollOwnerSelector })))}.`,
+    );
+    assert(
+      framedRoutes.every((route) => route.pageRootSelector.startsWith('main')),
+      `Framed routes must select their semantic main landmark: ${JSON.stringify(framedRoutes.map(({ path, pageRootSelector }) => ({ path, pageRootSelector })))}.`,
+    );
+    assert(
+      framedRoutes.some((route) => route.path === '/roadmap'),
+      'The route matrix must include the Roadmap route.',
+    );
+  });
+
   await expectFailure(
     'sticky Top skills cannot pass the shared Home scroll check',
     () =>
@@ -1177,9 +1223,7 @@ async function runSelfTests() {
           before: {
             clientHeight: 667,
             doraTop: 420,
-            pinnedAncestors: [
-              { id: null, position: 'sticky', tag: 'div' },
-            ],
+            pinnedAncestors: [{ id: null, position: 'sticky', tag: 'div' }],
             scrollHeight: 1600,
             scrollTop: 0,
             topSkillsTop: 64,
@@ -1187,9 +1231,7 @@ async function runSelfTests() {
           after: {
             clientHeight: 667,
             doraTop: 260,
-            pinnedAncestors: [
-              { id: null, position: 'sticky', tag: 'div' },
-            ],
+            pinnedAncestors: [{ id: null, position: 'sticky', tag: 'div' }],
             scrollHeight: 1600,
             scrollTop: 160,
             topSkillsTop: 64,
@@ -1267,7 +1309,7 @@ async function runSelfTests() {
         }),
         '/skills',
       ),
-    /sole page scroll container/i,
+    /sole shell scroll container/i,
   );
   await expectFailure(
     'a full-width frame cannot mask a constrained active page main',
@@ -1280,8 +1322,19 @@ async function runSelfTests() {
         }),
         '/skills',
       ),
-    /active page main does not span the viewport/i,
+    /active page main does not span the shell scroll viewport/i,
   );
+  await test('a page main spans the shell scroll viewport', () =>
+    assertRouteMetrics(
+      selfTestRoute(),
+      { width: 375, height: 667 },
+      selfTestMetrics({
+        main: { left: 0, right: 363, width: 363 },
+        scrollOwner: { left: 0, right: 375, width: 375 },
+        scrollOwnerClientWidth: 363,
+      }),
+      '/skills',
+    ));
   await expectFailure(
     'a navigation-result pathname mismatch is rejected before PASS',
     () =>
