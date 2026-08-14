@@ -48,8 +48,10 @@ Register `/roadmap` in `AppRoutes` and render a dedicated `RoadmapPage`.
 Use Astryx layout and typography components where available. The page uses the
 full available mobile width with the existing page padding and no maximum-width
 constraint. It uses normal document-level vertical scrolling, with no nested
-page scroller. The roadmap retains its existing node layout and static React
-Flow behavior. Tablet and desktop composition are intentionally deferred.
+page scroller. The roadmap diagram is centered horizontally, and its React Flow
+background pattern is omitted so the normal page surface remains visible. The
+roadmap otherwise retains its existing node layout and static React Flow
+behavior. Tablet and desktop composition are intentionally deferred.
 
 ## Banner content and action
 
@@ -107,11 +109,13 @@ Add focused tests that verify:
   attributes.
 - The existing `DevOpsRoadmap` is composed without replacement or data
   overrides.
+- The roadmap omits the React Flow background pattern.
 - `AppRoutes` renders the page for `/roadmap`.
 
 Add a default `RoadmapPage` Storybook story for isolated visual review. Verify
-the implementation at a mobile viewport, ensuring full-width composition,
-normal vertical scrolling, readable banner content, and no horizontal overflow.
+the implementation at a mobile viewport, ensuring full-width composition, a
+horizontally centered roadmap diagram, normal vertical scrolling, readable
+banner content, and no horizontal overflow.
 
 Run the focused `github.io` tests plus its lint, build, and Storybook build
 targets. The implementation baseline is 59 passing test files and 578 passing
@@ -122,7 +126,8 @@ tests on local `main`.
 - Adding or changing navbar links, top navigation, or an application shell.
 - Updating roadmap topics, skill mappings, or certifications.
 - Adding editing, filtering, search, completion state, or persistence.
-- Changing `DevOpsRoadmap` interactions, graph layout, or visual styling.
+- Changing `DevOpsRoadmap` interactions, graph layout, or visual styling beyond
+  removing the background pattern and centering the diagram horizontally.
 - Reproducing the roadmap.sh site or the Astryx marketing homepage.
 - Introducing new design-system abstractions or a Material Design dependency.
 - Adding tablet or desktop layout constraints, breakpoints, or presentation.
