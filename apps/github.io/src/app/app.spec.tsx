@@ -145,6 +145,7 @@ describe('AppRoutes', () => {
 
   it.each([
     ['/', 'Home'],
+    ['/roadmap', 'DevOps roadmap'],
     ['/skills', 'Skills'],
     ['/skills/kubernetes', 'Kubernetes'],
   ])('renders one identical global nav at %s', (path, pageHeading) => {
@@ -155,6 +156,16 @@ describe('AppRoutes', () => {
     ).toHaveLength(1);
     expect(getAllByRole('button', { name: 'Search skills' })).toHaveLength(1);
     expect(getByRole('heading', { level: 1, name: pageHeading })).toBeTruthy();
+  });
+
+  it('renders the DevOps roadmap page for its clean route', () => {
+    const { getByRole, getByText } = renderAppRoutes('/roadmap');
+
+    expect(
+      getByRole('heading', { level: 1, name: 'DevOps roadmap' }),
+    ).toBeTruthy();
+    expect(getByText('About this roadmap')).toBeTruthy();
+    expect(getByRole('group', { name: 'DevOps roadmap diagram' })).toBeTruthy();
   });
 
   it('navigates from detail search to the selected skill route', async () => {

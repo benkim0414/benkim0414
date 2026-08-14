@@ -1,9 +1,13 @@
 import { useCallback, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import * as stylex from '@stylexjs/stylex';
-import { Background, ReactFlow, type Edge, type Node } from '@xyflow/react';
+import { ReactFlow, type Edge, type Node } from '@xyflow/react';
 
 import { devOpsRoadmapItems } from './devops-roadmap.data';
-import { DevOpsRoadmapNode } from './devops-roadmap-node';
+import {
+  DEVOPS_ROADMAP_NODE_MOBILE_WIDTH,
+  DEVOPS_ROADMAP_NODE_WIDTH,
+  DevOpsRoadmapNode,
+} from './devops-roadmap-node';
 import type {
   DevOpsRoadmapItem,
   DevOpsRoadmapProps,
@@ -31,6 +35,11 @@ const nodeTypes = {
 const styles = stylex.create({
   flow: (height: number) => ({
     height,
+    marginInline: 'auto',
+    width: {
+      default: DEVOPS_ROADMAP_NODE_WIDTH,
+      '@media (max-width: 640px)': DEVOPS_ROADMAP_NODE_MOBILE_WIDTH,
+    },
   }),
 });
 
@@ -211,7 +220,7 @@ export function DevOpsRoadmap({
     <div
       {...flowStylexProps}
       aria-label={ariaLabel}
-      className={`${flowStylexProps.className ?? ''} devops-roadmap__flow w-full min-w-0`}
+      className={`${flowStylexProps.className ?? ''} devops-roadmap__flow min-w-0`}
       ref={flowRef}
       role="group"
     >
@@ -232,9 +241,7 @@ export function DevOpsRoadmap({
         zoomOnDoubleClick={false}
         zoomOnPinch={false}
         zoomOnScroll={false}
-      >
-        <Background />
-      </ReactFlow>
+      />
     </div>
   );
 }

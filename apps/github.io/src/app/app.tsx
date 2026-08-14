@@ -5,6 +5,7 @@ import type { ReactElement, ReactNode } from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 
 import { GlobalNavigationLayout } from './global-navigation-layout';
+import { RoadmapPage } from './devops-roadmap/roadmap-page';
 import { NotFoundPage } from './not-found-page';
 import { RouterLink } from './router-link';
 import { HomePage } from './skills/home-page';
@@ -28,13 +29,11 @@ export function AppRoutes(): ReactElement {
     <Routes>
       <Route element={<GlobalNavigationLayout />}>
         <Route path="/" element={<HomePage />} />
+        <Route path="/roadmap" element={<RoadmapPage />} />
         <Route path="/skills" element={<SkillsPage />} />
         <Route path="/skills/:skillId" element={<SkillDetailRoute />} />
       </Route>
-      <Route
-        path="*"
-        element={<NotFoundPage recoveryDestination="home" />}
-      />
+      <Route path="*" element={<NotFoundPage recoveryDestination="home" />} />
     </Routes>
   );
 }
