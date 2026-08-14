@@ -2,6 +2,7 @@ import { Banner } from '@astryxdesign/core/Banner';
 import { Button } from '@astryxdesign/core/Button';
 import { Heading } from '@astryxdesign/core/Heading';
 import { VStack } from '@astryxdesign/core/Layout';
+import * as stylex from '@stylexjs/stylex';
 import type { ReactElement } from 'react';
 
 import { DevOpsRoadmap } from './devops-roadmap';
@@ -9,17 +10,23 @@ import { DevOpsRoadmap } from './devops-roadmap';
 const ROADMAP_DESCRIPTION =
   'This roadmap presents my DevOps capabilities using the learning path published by roadmap.sh as a reference framework. Each topic highlights relevant skills and certifications, providing a structured overview of my experience across the DevOps discipline.';
 
+const styles = stylex.create({
+  page: {
+    marginInline: 'auto',
+  },
+});
+
 export function RoadmapPage(): ReactElement {
   return (
     <VStack
       as="main"
-      className="mx-auto"
       gap={4}
       maxWidth={448}
       minHeight="100vh"
       paddingBlock={4}
       paddingInline={4}
       width="100%"
+      xstyle={styles.page}
     >
       <Heading level={1}>DevOps roadmap</Heading>
       <Banner
