@@ -1,5 +1,5 @@
 import { spawn } from 'node:child_process';
-import { mkdtempSync, rmSync } from 'node:fs';
+import { existsSync, mkdtempSync, rmSync } from 'node:fs';
 import { createServer } from 'node:net';
 import { tmpdir } from 'node:os';
 import { dirname, resolve } from 'node:path';
@@ -19,22 +19,27 @@ const routes = [
     path: '/',
     isInFrame: true,
     readySelector: '[role="main"][aria-label="Home"]',
+    scrollOwnerSelector: '[role="main"][aria-label="Home"] > :last-child',
   },
   {
     path: '/skills',
     isInFrame: true,
     readySelector: '[role="main"][aria-labelledby="skills-page-title"]',
+    scrollOwnerSelector: '[role="main"][aria-labelledby="skills-page-title"]',
   },
   {
     path: '/skills/kubernetes',
     isInFrame: true,
     readySelector: '[role="main"][aria-label="Skill detail"] h1',
     focusSelector: '[role="main"][aria-label="Skill detail"] h1',
+    scrollOwnerSelector: '[role="main"][aria-label="Skill detail"]',
   },
   {
     path: '/skills/not-real',
     isInFrame: true,
     readySelector: '[data-testid="not-found-page"][data-layout="full-width"]',
+    scrollOwnerSelector:
+      '[role="main"][data-testid="not-found-page"][data-layout="full-width"]',
   },
   {
     path: '/not-a-route',
@@ -53,10 +58,39 @@ function isWithinTolerance(actual, expected) {
   return Math.abs(actual - expected) <= SUBPIXEL_TOLERANCE;
 }
 
-function wait(milliseconds) {
-  return new Promise((resolvePromise) =>
-    setTimeout(resolvePromise, milliseconds),
-  );
+function throwIfCancelled(signal) {
+  signal?.throwIfAborted();
+}
+
+function wait(milliseconds, signal) {
+  throwIfCancelled(signal);
+
+  if (!signal) {
+    return new Promise((resolvePromise) =>
+      setTimeout(resolvePromise, milliseconds),
+    );
+  }
+
+  return new Promise((resolvePromise, reject) => {
+    const timer = setTimeout(() => {
+      signal.removeEventListener('abort', onAbort);
+      resolvePromise();
+    }, milliseconds);
+    const onAbort = () => {
+      clearTimeout(timer);
+      reject(signal.reason);
+    };
+
+    signal.addEventListener('abort', onAbort, { once: true });
+  });
+}
+
+async function acquireOwnedResource(signal, acquire, remember) {
+  throwIfCancelled(signal);
+  const resource = await acquire();
+  remember(resource);
+  throwIfCancelled(signal);
+  return resource;
 }
 
 function parseRequestedPort(environmentName) {
@@ -115,6 +149,38 @@ async function releasePort(reservation) {
   });
 }
 
+async function verifyPortReleased(port, label) {
+  if (!Number.isInteger(port)) {
+    return;
+  }
+
+  const server = createServer();
+
+  try {
+    await new Promise((resolvePromise, reject) => {
+      server.once('error', reject);
+      server.listen(port, HOST, () => {
+        server.off('error', reject);
+        resolvePromise();
+      });
+    });
+  } finally {
+    if (server.listening) {
+      await new Promise((resolvePromise, reject) => {
+        server.close((error) => {
+          if (error) {
+            reject(error);
+          } else {
+            resolvePromise();
+          }
+        });
+      });
+    }
+  }
+
+  console.log(`CLEANUP ${label} port ${port} released (bind probe passed).`);
+}
+
 function startOwnedProcess(command, arguments_, options = {}) {
   const output = [];
   const child = spawn(command, arguments_, {
@@ -140,6 +206,10 @@ function startOwnedProcess(command, arguments_, options = {}) {
   child.once('error', (error) => {
     child.spawnError = error;
   });
+  child.ownedProcessGroupId =
+    process.platform !== 'win32' && Number.isInteger(child.pid)
+      ? child.pid
+      : undefined;
   child.getOutput = () => output.join('').trim();
   return child;
 }
@@ -167,36 +237,122 @@ async function waitForProcessExit(child, timeoutMilliseconds) {
   });
 }
 
-async function stopOwnedProcess(child, label) {
+function processGroupIsAlive(processGroupId, killProcess = process.kill) {
+  assert(
+    Number.isInteger(processGroupId) && processGroupId > 1,
+    'Refusing to probe an invalid process group ID.',
+  );
+
+  try {
+    killProcess(-processGroupId, 0);
+    return true;
+  } catch (error) {
+    if (error?.code === 'ESRCH') {
+      return false;
+    }
+
+    if (error?.code === 'EPERM') {
+      return true;
+    }
+
+    throw error;
+  }
+}
+
+async function waitForProcessGroupExit(
+  processGroupId,
+  timeoutMilliseconds,
+  options = {},
+) {
+  const isProcessGroupAlive =
+    options.isProcessGroupAlive ?? processGroupIsAlive;
+  const waitFor = options.waitFor ?? wait;
+  const deadline = Date.now() + timeoutMilliseconds;
+
+  while (isProcessGroupAlive(processGroupId)) {
+    if (Date.now() >= deadline) {
+      return false;
+    }
+
+    await waitFor(Math.min(50, Math.max(1, deadline - Date.now())));
+  }
+
+  return true;
+}
+
+function signalProcess(target, signal, killProcess) {
+  try {
+    killProcess(target, signal);
+    return true;
+  } catch (error) {
+    if (error?.code === 'ESRCH') {
+      return false;
+    }
+
+    throw error;
+  }
+}
+
+async function stopOwnedProcess(child, label, options = {}) {
   if (child == null) {
     return;
   }
 
   const pid = child.pid;
+  const platform = options.platform ?? process.platform;
+  const killProcess = options.killProcess ?? process.kill;
+  const isProcessGroupAlive =
+    options.isProcessGroupAlive ??
+    ((processGroupId) => processGroupIsAlive(processGroupId, killProcess));
+  const waitForOwnedProcessGroupExit =
+    options.waitForProcessGroupExit ??
+    ((processGroupId, timeoutMilliseconds) =>
+      waitForProcessGroupExit(processGroupId, timeoutMilliseconds, {
+        isProcessGroupAlive,
+        waitFor: options.waitFor,
+      }));
+  const log = options.log ?? console.log;
+
+  if (platform !== 'win32' && child.ownedProcessGroupId != null) {
+    const processGroupId = child.ownedProcessGroupId;
+    assert(
+      Number.isInteger(processGroupId) && processGroupId > 1,
+      `Refusing to stop invalid ${label} process group.`,
+    );
+
+    if (isProcessGroupAlive(processGroupId)) {
+      signalProcess(-processGroupId, 'SIGTERM', killProcess);
+
+      if (!(await waitForOwnedProcessGroupExit(processGroupId, 3_000))) {
+        signalProcess(-processGroupId, 'SIGKILL', killProcess);
+        assert(
+          await waitForOwnedProcessGroupExit(processGroupId, 3_000),
+          `${label} process group ${processGroupId} remained alive after SIGKILL.`,
+        );
+      }
+    }
+
+    assert(
+      !isProcessGroupAlive(processGroupId),
+      `${label} process group ${processGroupId} is still alive.`,
+    );
+    log(
+      `CLEANUP ${label} process group stopped (pgid ${processGroupId}; verified absent).`,
+    );
+    return;
+  }
 
   if (!processHasExited(child)) {
     assert(
       Number.isInteger(pid) && pid > 1,
       `Refusing to stop invalid ${label} PID.`,
     );
-    const target = process.platform === 'win32' ? pid : -pid;
+    const target = pid;
 
-    try {
-      process.kill(target, 'SIGTERM');
-    } catch (error) {
-      if (error?.code !== 'ESRCH') {
-        throw error;
-      }
-    }
+    signalProcess(target, 'SIGTERM', killProcess);
 
     if (!(await waitForProcessExit(child, 3_000))) {
-      try {
-        process.kill(target, 'SIGKILL');
-      } catch (error) {
-        if (error?.code !== 'ESRCH') {
-          throw error;
-        }
-      }
+      signalProcess(target, 'SIGKILL', killProcess);
 
       assert(
         await waitForProcessExit(child, 3_000),
@@ -205,16 +361,16 @@ async function stopOwnedProcess(child, label) {
     }
   }
 
-  console.log(
-    `CLEANUP ${label} process stopped (pid ${pid ?? 'not-started'}).`,
-  );
+  log(`CLEANUP ${label} process stopped (pid ${pid ?? 'not-started'}).`);
 }
 
-async function waitForHttpReady(url, child) {
+async function waitForHttpReady(url, child, signal) {
   const deadline = Date.now() + READY_TIMEOUT_MS;
   let lastError;
 
   while (Date.now() < deadline) {
+    throwIfCancelled(signal);
+
     if (child.spawnError) {
       throw new Error(
         `Production preview failed to start: ${child.spawnError.message}`,
@@ -228,7 +384,12 @@ async function waitForHttpReady(url, child) {
     }
 
     try {
-      const response = await fetch(url, { signal: AbortSignal.timeout(1_000) });
+      const timeoutSignal = AbortSignal.timeout(1_000);
+      const response = await fetch(url, {
+        signal: signal
+          ? AbortSignal.any([signal, timeoutSignal])
+          : timeoutSignal,
+      });
 
       if (response.ok && (await response.text()).includes('<!doctype html>')) {
         return;
@@ -239,7 +400,7 @@ async function waitForHttpReady(url, child) {
       lastError = error;
     }
 
-    await wait(50);
+    await wait(50, signal);
   }
 
   throw new Error(
@@ -247,21 +408,41 @@ async function waitForHttpReady(url, child) {
   );
 }
 
-function openWebSocket(url) {
+function openWebSocket(url, signal) {
+  throwIfCancelled(signal);
+
   return new Promise((resolvePromise, reject) => {
     const socket = new WebSocket(url);
-    const onOpen = () => {
+    let settled = false;
+    const cleanupListeners = () => {
+      socket.removeEventListener('open', onOpen);
       socket.removeEventListener('error', onError);
+      signal?.removeEventListener('abort', onAbort);
+    };
+    const onOpen = () => {
+      if (settled) return;
+      settled = true;
+      cleanupListeners();
       resolvePromise(socket);
     };
     const onError = () => {
-      socket.removeEventListener('open', onOpen);
+      if (settled) return;
+      settled = true;
+      cleanupListeners();
       socket.close();
       reject(new Error(`Unable to connect to ${url}.`));
+    };
+    const onAbort = () => {
+      if (settled) return;
+      settled = true;
+      cleanupListeners();
+      socket.close();
+      reject(signal.reason);
     };
 
     socket.addEventListener('open', onOpen, { once: true });
     socket.addEventListener('error', onError, { once: true });
+    signal?.addEventListener('abort', onAbort, { once: true });
   });
 }
 
@@ -324,11 +505,13 @@ class BidiClient {
     });
   }
 
-  static async connect(url, child) {
+  static async connect(url, child, signal) {
     const deadline = Date.now() + READY_TIMEOUT_MS;
     let lastError;
 
     while (Date.now() < deadline) {
+      throwIfCancelled(signal);
+
       if (child.spawnError) {
         throw new Error(`Firefox failed to start: ${child.spawnError.message}`);
       }
@@ -340,12 +523,13 @@ class BidiClient {
       }
 
       try {
-        return new BidiClient(await openWebSocket(url));
+        return new BidiClient(await openWebSocket(url, signal));
       } catch (error) {
+        throwIfCancelled(signal);
         lastError = error;
       }
 
-      await wait(50);
+      await wait(50, signal);
     }
 
     throw new Error(
@@ -435,10 +619,11 @@ async function evaluateJson(bidi, context, expression) {
   return JSON.parse(evaluation.result.value);
 }
 
-async function waitForSelector(bidi, context, selector) {
+async function waitForSelector(bidi, context, selector, signal) {
   const deadline = Date.now() + READY_TIMEOUT_MS;
 
   while (Date.now() < deadline) {
+    throwIfCancelled(signal);
     const isReady = await evaluateJson(
       bidi,
       context,
@@ -449,7 +634,7 @@ async function waitForSelector(bidi, context, selector) {
       return;
     }
 
-    await wait(50);
+    await wait(50, signal);
   }
 
   const diagnostic = await evaluateJson(
@@ -470,7 +655,7 @@ async function waitForSelector(bidi, context, selector) {
   );
 }
 
-async function inspectRoute(bidi, context, focusSelector) {
+async function inspectRoute(bidi, context, route) {
   return evaluateJson(
     bidi,
     context,
@@ -482,22 +667,39 @@ async function inspectRoute(bidi, context, focusSelector) {
       };
       const describe = (element) => ({
         tag: element.tagName.toLowerCase(),
-        className: element.className,
+        className: typeof element.className === 'string' ? element.className : null,
         role: element.getAttribute('role'),
         testId: element.getAttribute('data-testid'),
+        isExpected: element === expectedScrollOwner,
       });
       const main = document.querySelector('main, [role="main"]');
-      const scrollOwners = main
-        ? [main, ...main.querySelectorAll('*')].filter((element) => {
-            const style = getComputedStyle(element);
-            const rect = element.getBoundingClientRect();
-            return (
-              (style.overflowY === 'auto' || style.overflowY === 'scroll') &&
-              rect.width > 0 &&
-              rect.height > 0
-            );
-          })
-        : [];
+      const expectedScrollOwnerSelector = ${JSON.stringify(route.scrollOwnerSelector ?? null)};
+      const expectedScrollOwner = expectedScrollOwnerSelector
+        ? document.querySelector(expectedScrollOwnerSelector)
+        : null;
+      const expectedScrollOwnerMatches = expectedScrollOwnerSelector
+        ? document.querySelectorAll(expectedScrollOwnerSelector).length
+        : 0;
+      // Audit the entire document, including html/body, the global frame,
+      // layout siblings, and descendants. Restricting this search to main
+      // lets an unrelated descendant mask a missing page owner and misses a
+      // second document or frame scroll container.
+      const scrollOwners = [...document.querySelectorAll('*')].filter((element) => {
+        const style = getComputedStyle(element);
+        const rect = element.getBoundingClientRect();
+        const hasScrollableOverflowStyle =
+          style.overflowY === 'auto' || style.overflowY === 'scroll';
+        const isScrollingDocumentRoot =
+          element === document.scrollingElement &&
+          element.scrollHeight > element.clientHeight + ${SUBPIXEL_TOLERANCE};
+        return (
+          (hasScrollableOverflowStyle || isScrollingDocumentRoot) &&
+          style.display !== 'none' &&
+          style.visibility !== 'hidden' &&
+          rect.width > 0 &&
+          rect.height > 0
+        );
+      });
       const activeElement = document.activeElement;
       const documentWidth = Math.max(
         document.documentElement.scrollWidth,
@@ -508,19 +710,29 @@ async function inspectRoute(bidi, context, focusSelector) {
         viewport: { width: innerWidth, height: innerHeight },
         frame: rectangle(main?.closest('.astryx-layout')),
         main: rectangle(main),
+        path: location.pathname,
         horizontalOverflow: Math.max(0, documentWidth - innerWidth),
         scrollOwners: scrollOwners.map(describe),
+        expectedScrollOwnerMatches,
         layoutMode: document.querySelector('[data-testid="not-found-page"]')?.getAttribute('data-layout') ?? null,
         focus: activeElement ? describe(activeElement) : null,
-        focusMatches: ${focusSelector ? `activeElement?.matches(${JSON.stringify(focusSelector)}) ?? false` : 'true'},
+        focusMatches: ${route.focusSelector ? `activeElement?.matches(${JSON.stringify(route.focusSelector)}) ?? false` : 'true'},
       };
     `,
   );
 }
 
-function assertRouteMetrics(route, viewport, metrics) {
+function assertRouteMetrics(route, viewport, metrics, navigationPath) {
   const label = `${viewport.width}x${viewport.height} ${route.path}`;
 
+  assert(
+    navigationPath === route.path,
+    `${label} navigation result pathname was ${navigationPath}, expected ${route.path}.`,
+  );
+  assert(
+    metrics.path === route.path,
+    `${label} evaluated pathname was ${metrics.path}, expected ${route.path}.`,
+  );
   assert(
     isWithinTolerance(metrics.viewport.width, viewport.width) &&
       isWithinTolerance(metrics.viewport.height, viewport.height),
@@ -537,7 +749,7 @@ function assertRouteMetrics(route, viewport, metrics) {
       `${label} did not render the standalone wildcard.`,
     );
     console.log(
-      `PASS ${label} standalone=yes horizontal-overflow=${metrics.horizontalOverflow.toFixed(2)}px`,
+      `PASS ${label} pathname=${metrics.path} standalone=yes horizontal-overflow=${metrics.horizontalOverflow.toFixed(2)}px`,
     );
     return;
   }
@@ -550,8 +762,19 @@ function assertRouteMetrics(route, viewport, metrics) {
     `${label} frame does not span the viewport: ${JSON.stringify(metrics.frame)}`,
   );
   assert(
+    metrics.expectedScrollOwnerMatches === 1,
+    `${label} expected scroll owner selector ${route.scrollOwnerSelector} matched ${metrics.expectedScrollOwnerMatches} elements.`,
+  );
+  const expectedScrollOwners = metrics.scrollOwners.filter(
+    (owner) => owner.isExpected,
+  );
+  assert(
+    expectedScrollOwners.length === 1,
+    `${label} expected scroll owner is not an active page scroll container: ${JSON.stringify(metrics.scrollOwners)}`,
+  );
+  assert(
     metrics.scrollOwners.length === 1,
-    `${label} has ${metrics.scrollOwners.length} intended page scroll owners: ${JSON.stringify(metrics.scrollOwners)}`,
+    `${label} expected scroll owner is not the sole page scroll container; found ${metrics.scrollOwners.length}: ${JSON.stringify(metrics.scrollOwners)}`,
   );
 
   if (route.focusSelector) {
@@ -562,7 +785,7 @@ function assertRouteMetrics(route, viewport, metrics) {
   }
 
   console.log(
-    `PASS ${label} frame=${metrics.frame.width.toFixed(2)}px horizontal-overflow=${metrics.horizontalOverflow.toFixed(2)}px scroll-owner=${metrics.scrollOwners[0].tag}${route.focusSelector ? ' focus=detail-heading' : ''}`,
+    `PASS ${label} pathname=${metrics.path} frame=${metrics.frame.width.toFixed(2)}px horizontal-overflow=${metrics.horizontalOverflow.toFixed(2)}px scroll-owner=${route.scrollOwnerSelector}${route.focusSelector ? ' focus=detail-heading' : ''}`,
   );
 }
 
@@ -622,7 +845,8 @@ function assertSkillRowGeometry(rows, viewport) {
   return nonFinalRow;
 }
 
-async function tapSkillRowBottomEdge(bidi, context, row) {
+async function tapSkillRowBottomEdge(bidi, context, row, signal) {
+  throwIfCancelled(signal);
   const x = Math.round(row.link.left + row.link.width / 2);
   // BiDi pointer coordinates are dispatched at integer CSS pixels in Firefox.
   // This is the closest representable point inside the row's bottom edge.
@@ -666,6 +890,7 @@ async function tapSkillRowBottomEdge(bidi, context, row) {
       bidi,
       context,
       '[role="main"][aria-label="Skill detail"] h1',
+      signal,
     );
   } finally {
     await bidi.command('input.releaseActions', { context });
@@ -694,8 +919,9 @@ async function tapSkillRowBottomEdge(bidi, context, row) {
   return navigation;
 }
 
-async function verifyRoutes(bidi, context, baseUrl) {
+async function verifyRoutes(bidi, context, baseUrl, signal) {
   for (const viewport of viewports) {
+    throwIfCancelled(signal);
     await bidi.command('browsingContext.setViewport', {
       context,
       devicePixelRatio: 1,
@@ -703,15 +929,19 @@ async function verifyRoutes(bidi, context, baseUrl) {
     });
 
     for (const route of routes) {
-      await bidi.command('browsingContext.navigate', {
+      throwIfCancelled(signal);
+      const navigationResult = await bidi.command('browsingContext.navigate', {
         context,
         url: `${baseUrl}${route.path}`,
         wait: 'complete',
       });
-      await waitForSelector(bidi, context, route.readySelector);
+      throwIfCancelled(signal);
+      await waitForSelector(bidi, context, route.readySelector, signal);
 
-      const metrics = await inspectRoute(bidi, context, route.focusSelector);
-      assertRouteMetrics(route, viewport, metrics);
+      const navigationPath = new URL(navigationResult.url).pathname;
+      const metrics = await inspectRoute(bidi, context, route);
+      throwIfCancelled(signal);
+      assertRouteMetrics(route, viewport, metrics, navigationPath);
 
       if (route.path === '/skills') {
         const rows = await inspectSkillRows(bidi, context);
@@ -720,6 +950,7 @@ async function verifyRoutes(bidi, context, baseUrl) {
           bidi,
           context,
           nonFinalRow,
+          signal,
         );
         console.log(
           `PASS ${viewport.width}x${viewport.height} /skills rows=${rows.length} four-edge-geometry=yes bottom-edge-navigation=${navigation.path} focus=detail-heading`,
@@ -729,15 +960,298 @@ async function verifyRoutes(bidi, context, baseUrl) {
   }
 }
 
+function selfTestRoute(overrides = {}) {
+  return {
+    path: '/skills',
+    isInFrame: true,
+    readySelector: '[role="main"][aria-labelledby="skills-page-title"]',
+    scrollOwnerSelector: '[role="main"][aria-labelledby="skills-page-title"]',
+    ...overrides,
+  };
+}
+
+function selfTestMetrics(overrides = {}) {
+  return {
+    viewport: { width: 375, height: 667 },
+    frame: { left: 0, right: 375, width: 375 },
+    horizontalOverflow: 0,
+    layoutMode: null,
+    expectedScrollOwnerMatches: 1,
+    focusMatches: true,
+    focus: null,
+    path: '/skills',
+    scrollOwners: [
+      {
+        className: 'astryx-layout-content',
+        isExpected: true,
+        role: 'main',
+        tag: 'div',
+        testId: null,
+      },
+    ],
+    ...overrides,
+  };
+}
+
+async function runSelfTests() {
+  const failures = [];
+  const test = async (name, operation) => {
+    try {
+      await operation();
+      console.log(`PASS self-test: ${name}`);
+    } catch (error) {
+      failures.push(
+        `${name}: ${error instanceof Error ? error.message : String(error)}`,
+      );
+      console.error(`FAIL self-test: ${failures.at(-1)}`);
+    }
+  };
+  const expectFailure = async (name, operation, messagePattern) => {
+    await test(name, async () => {
+      let actualError;
+
+      try {
+        await operation();
+      } catch (error) {
+        actualError = error;
+      }
+
+      assert(actualError instanceof Error, `${name} was not rejected.`);
+      assert(
+        messagePattern.test(actualError.message),
+        `${name} produced an unexpected error: ${actualError.message}`,
+      );
+    });
+  };
+
+  await expectFailure(
+    'an unrelated descendant cannot stand in for the intended scroll owner',
+    () =>
+      assertRouteMetrics(
+        selfTestRoute(),
+        { width: 375, height: 667 },
+        selfTestMetrics({
+          scrollOwners: [
+            {
+              className: 'nested-overflow',
+              isExpected: false,
+              role: null,
+              tag: 'div',
+              testId: 'unrelated-scroll-owner',
+            },
+          ],
+        }),
+        '/skills',
+      ),
+    /expected scroll owner/i,
+  );
+  await expectFailure(
+    'an extra root scroll owner is rejected',
+    () =>
+      assertRouteMetrics(
+        selfTestRoute(),
+        { width: 375, height: 667 },
+        selfTestMetrics({
+          scrollOwners: [
+            selfTestMetrics().scrollOwners[0],
+            {
+              className: '',
+              isExpected: false,
+              role: null,
+              tag: 'html',
+              testId: null,
+            },
+          ],
+        }),
+        '/skills',
+      ),
+    /sole page scroll container/i,
+  );
+  await expectFailure(
+    'a navigation-result pathname mismatch is rejected before PASS',
+    () =>
+      assertRouteMetrics(
+        selfTestRoute(),
+        { width: 375, height: 667 },
+        selfTestMetrics(),
+        '/redirected',
+      ),
+    /navigation result pathname/i,
+  );
+  await expectFailure(
+    'an evaluated pathname mismatch is rejected before PASS',
+    () =>
+      assertRouteMetrics(
+        selfTestRoute(),
+        { width: 375, height: 667 },
+        selfTestMetrics({ path: '/redirected' }),
+        '/skills',
+      ),
+    /evaluated pathname/i,
+  );
+
+  await test('a resource acquired during cancellation is registered before unwind', async () => {
+    const controller = new AbortController();
+    const resource = { id: 'late-resource' };
+    let finishAcquisition;
+    let ownedResource;
+    const pending = acquireOwnedResource(
+      controller.signal,
+      () =>
+        new Promise((resolvePromise) => {
+          finishAcquisition = resolvePromise;
+        }),
+      (value) => {
+        ownedResource = value;
+      },
+    );
+
+    controller.abort(new Error('self-test cancellation'));
+    finishAcquisition(resource);
+    let actualError;
+    try {
+      await pending;
+    } catch (error) {
+      actualError = error;
+    }
+
+    assert(ownedResource === resource, 'Late resource was not registered.');
+    assert(
+      actualError === controller.signal.reason,
+      'Acquisition did not unwind with the cancellation reason.',
+    );
+  });
+  await test('cancellation prevents a later acquisition', async () => {
+    const controller = new AbortController();
+    let acquisitionStarted = false;
+    controller.abort(new Error('self-test cancellation'));
+
+    let actualError;
+    try {
+      await acquireOwnedResource(
+        controller.signal,
+        async () => {
+          acquisitionStarted = true;
+          return {};
+        },
+        () => {},
+      );
+    } catch (error) {
+      actualError = error;
+    }
+
+    assert(!acquisitionStarted, 'A resource was acquired after cancellation.');
+    assert(
+      actualError === controller.signal.reason,
+      'Cancelled acquisition did not use the cancellation reason.',
+    );
+  });
+  await test('process-group liveness treats ESRCH as stopped', () => {
+    const alive = processGroupIsAlive(41_001, () => {
+      const error = new Error('missing group');
+      error.code = 'ESRCH';
+      throw error;
+    });
+    assert(!alive, 'An absent process group was reported alive.');
+  });
+  await test('process-group liveness treats EPERM as alive', () => {
+    const alive = processGroupIsAlive(41_002, () => {
+      const error = new Error('permission denied');
+      error.code = 'EPERM';
+      throw error;
+    });
+    assert(
+      alive,
+      'An existing inaccessible process group was reported stopped.',
+    );
+  });
+  await test('an owned process group is stopped after its leader exits', async () => {
+    const signals = [];
+    let alive = true;
+    const child = {
+      exitCode: 0,
+      ownedProcessGroupId: 41_003,
+      pid: 41_003,
+      signalCode: null,
+    };
+
+    await stopOwnedProcess(child, 'self-test', {
+      isProcessGroupAlive: () => alive,
+      killProcess: (target, signal) => {
+        signals.push({ signal, target });
+        alive = false;
+      },
+      log: () => {},
+    });
+
+    assert(
+      signals.some(
+        ({ signal, target }) => signal === 'SIGTERM' && target === -41_003,
+      ),
+      'The living process group did not receive SIGTERM.',
+    );
+    assert(!alive, 'The owned process group remained alive.');
+  });
+  await test('a process group receives SIGKILL after SIGTERM times out', async () => {
+    const signals = [];
+    let alive = true;
+    let exitChecks = 0;
+    const child = {
+      exitCode: null,
+      ownedProcessGroupId: 41_004,
+      pid: 41_004,
+      signalCode: null,
+    };
+
+    await stopOwnedProcess(child, 'self-test', {
+      isProcessGroupAlive: () => alive,
+      killProcess: (target, signal) => {
+        signals.push({ signal, target });
+      },
+      log: () => {},
+      waitFor: async () => {
+        throw new Error('Used real polling instead of the liveness test seam.');
+      },
+      waitForProcessGroupExit: async () => {
+        exitChecks += 1;
+        if (exitChecks === 1) return false;
+        alive = false;
+        return true;
+      },
+    });
+
+    assert(
+      JSON.stringify(signals) ===
+        JSON.stringify([
+          { signal: 'SIGTERM', target: -41_004 },
+          { signal: 'SIGKILL', target: -41_004 },
+        ]),
+      `Unexpected process-group escalation: ${JSON.stringify(signals)}.`,
+    );
+    assert(!alive, 'The process group remained alive after SIGKILL.');
+  });
+
+  if (failures.length > 0) {
+    throw new Error(
+      `Mobile layout browser verifier self-tests failed:\n- ${failures.join('\n- ')}`,
+    );
+  }
+}
+
 async function main() {
+  const cancellationController = new AbortController();
+  const cancellationSignal = cancellationController.signal;
   let bidi;
   let bidiSessionStarted = false;
+  let bidiPort;
   let firefoxProcess;
   let previewProcess;
+  let previewPort;
   let profileDirectory;
   let previewReservation;
   let bidiReservation;
   let cleanupPromise;
+  let receivedSignal;
 
   const attemptCleanup = async (label, operation, errors) => {
     try {
@@ -802,6 +1316,16 @@ async function main() {
         () => releasePort(previewReservation),
         errors,
       );
+      await attemptCleanup(
+        'BiDi port release verification',
+        () => verifyPortReleased(bidiPort, 'Firefox BiDi'),
+        errors,
+      );
+      await attemptCleanup(
+        'preview port release verification',
+        () => verifyPortReleased(previewPort, 'production preview'),
+        errors,
+      );
 
       if (profileDirectory) {
         const ownedProfileDirectory = profileDirectory;
@@ -811,8 +1335,12 @@ async function main() {
           errors,
         );
         if (profileRemoved) {
+          assert(
+            !existsSync(ownedProfileDirectory),
+            `Temporary Firefox profile still exists: ${ownedProfileDirectory}`,
+          );
           console.log(
-            `CLEANUP temporary Firefox profile removed (${ownedProfileDirectory}).`,
+            `CLEANUP temporary Firefox profile removed (${ownedProfileDirectory}; verified absent).`,
           );
         }
         profileDirectory = undefined;
@@ -829,90 +1357,183 @@ async function main() {
     return cleanupPromise;
   };
   const handleSignal = (signal) => {
-    console.error(`Received ${signal}; cleaning up owned resources.`);
-    void cleanup().then(
-      () => process.exit(signal === 'SIGINT' ? 130 : 143),
-      () => process.exit(signal === 'SIGINT' ? 130 : 143),
+    if (cancellationSignal.aborted) {
+      return;
+    }
+
+    receivedSignal = signal;
+    const cancellationError = new Error(
+      `Received ${signal}; cancelling verification before cleanup.`,
     );
+    cancellationError.name = 'AbortError';
+    console.error(cancellationError.message);
+    cancellationController.abort(cancellationError);
   };
 
-  process.once('SIGINT', handleSignal);
-  process.once('SIGTERM', handleSignal);
+  process.on('SIGINT', handleSignal);
+  process.on('SIGTERM', handleSignal);
+
+  let operationError;
 
   try {
-    previewReservation = await reservePort('MOBILE_LAYOUT_PREVIEW_PORT');
-    bidiReservation = await reservePort('MOBILE_LAYOUT_BIDI_PORT');
-    const previewPort = previewReservation.port;
-    const bidiPort = bidiReservation.port;
+    await acquireOwnedResource(
+      cancellationSignal,
+      () => reservePort('MOBILE_LAYOUT_PREVIEW_PORT'),
+      (reservation) => {
+        previewReservation = reservation;
+        previewPort = reservation.port;
+      },
+    );
+    await acquireOwnedResource(
+      cancellationSignal,
+      () => reservePort('MOBILE_LAYOUT_BIDI_PORT'),
+      (reservation) => {
+        bidiReservation = reservation;
+        bidiPort = reservation.port;
+      },
+    );
     const baseUrl = `http://${HOST}:${previewPort}`;
 
     await releasePort(previewReservation);
-    previewProcess = startOwnedProcess(
-      'pnpm',
-      [
-        'exec',
-        'vite',
-        'preview',
-        '--config',
-        'vite.config.ts',
-        '--host',
-        HOST,
-        '--port',
-        String(previewPort),
-        '--strictPort',
-      ],
-      { cwd: appDirectory },
+    await acquireOwnedResource(
+      cancellationSignal,
+      async () =>
+        startOwnedProcess(
+          'pnpm',
+          [
+            'exec',
+            'vite',
+            'preview',
+            '--config',
+            'vite.config.ts',
+            '--host',
+            HOST,
+            '--port',
+            String(previewPort),
+            '--strictPort',
+          ],
+          { cwd: appDirectory },
+        ),
+      (child) => {
+        previewProcess = child;
+      },
     );
-    await waitForHttpReady(baseUrl, previewProcess);
+    await waitForHttpReady(baseUrl, previewProcess, cancellationSignal);
     console.log(
       `READY production preview ${baseUrl} (pid ${previewProcess.pid}).`,
     );
 
-    profileDirectory = mkdtempSync(
-      resolve(tmpdir(), 'github-io-mobile-layout-firefox-'),
+    await acquireOwnedResource(
+      cancellationSignal,
+      async () =>
+        mkdtempSync(resolve(tmpdir(), 'github-io-mobile-layout-firefox-')),
+      (directory) => {
+        profileDirectory = directory;
+      },
     );
     await releasePort(bidiReservation);
-    firefoxProcess = startOwnedProcess(
-      process.env.FIREFOX_BINARY || 'firefox',
-      [
-        '--headless',
-        '--no-remote',
-        '--new-instance',
-        '--profile',
-        profileDirectory,
-        '--remote-debugging-port',
-        String(bidiPort),
-      ],
-      { env: { ...process.env, MOZ_HEADLESS: '1' } },
+    await acquireOwnedResource(
+      cancellationSignal,
+      async () =>
+        startOwnedProcess(
+          process.env.FIREFOX_BINARY || 'firefox',
+          [
+            '--headless',
+            '--no-remote',
+            '--new-instance',
+            '--profile',
+            profileDirectory,
+            '--remote-debugging-port',
+            String(bidiPort),
+          ],
+          { env: { ...process.env, MOZ_HEADLESS: '1' } },
+        ),
+      (child) => {
+        firefoxProcess = child;
+      },
     );
-    bidi = await BidiClient.connect(
-      `ws://${HOST}:${bidiPort}/session`,
-      firefoxProcess,
+    await acquireOwnedResource(
+      cancellationSignal,
+      () =>
+        BidiClient.connect(
+          `ws://${HOST}:${bidiPort}/session`,
+          firefoxProcess,
+          cancellationSignal,
+        ),
+      (client) => {
+        bidi = client;
+      },
     );
-    const session = await bidi.command('session.new', {
-      capabilities: { alwaysMatch: { browserName: 'firefox' } },
-    });
-    bidiSessionStarted = true;
+    const session = await acquireOwnedResource(
+      cancellationSignal,
+      () =>
+        bidi.command('session.new', {
+          capabilities: { alwaysMatch: { browserName: 'firefox' } },
+        }),
+      () => {
+        bidiSessionStarted = true;
+      },
+    );
     console.log(
       `READY Firefox ${session.capabilities.browserVersion} WebDriver BiDi session ${session.sessionId}.`,
     );
 
+    throwIfCancelled(cancellationSignal);
     const tree = await bidi.command('browsingContext.getTree', { maxDepth: 0 });
+    throwIfCancelled(cancellationSignal);
     assert(
       tree.contexts.length > 0,
       'Firefox did not expose a browsing context.',
     );
     const context = tree.contexts[0].context;
 
-    await verifyRoutes(bidi, context, baseUrl);
+    await verifyRoutes(bidi, context, baseUrl, cancellationSignal);
     console.log(
       `Verified ${routes.length} routes at ${viewports.length} viewports with production Firefox WebDriver BiDi.`,
     );
+  } catch (error) {
+    operationError = error;
   } finally {
-    process.off('SIGINT', handleSignal);
-    process.off('SIGTERM', handleSignal);
-    await cleanup();
+    try {
+      await cleanup();
+    } finally {
+      process.off('SIGINT', handleSignal);
+      process.off('SIGTERM', handleSignal);
+    }
   }
+
+  if (cancellationSignal.aborted) {
+    if (operationError && operationError !== cancellationSignal.reason) {
+      throw operationError;
+    }
+
+    console.error(`Verification cancelled by ${receivedSignal} after cleanup.`);
+    return receivedSignal === 'SIGINT' ? 130 : 143;
+  }
+
+  if (operationError) {
+    throw operationError;
+  }
+
+  return 0;
 }
 
-await main();
+export {
+  acquireOwnedResource,
+  assertRouteMetrics,
+  processGroupIsAlive,
+  runSelfTests,
+  stopOwnedProcess,
+  waitForProcessGroupExit,
+};
+
+if (
+  process.argv[1] &&
+  resolve(process.argv[1]) === fileURLToPath(import.meta.url)
+) {
+  if (process.argv.includes('--self-test')) {
+    await runSelfTests();
+  } else {
+    process.exitCode = await main();
+  }
+}
