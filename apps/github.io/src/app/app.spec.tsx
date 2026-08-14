@@ -142,6 +142,23 @@ describe('AppRoutes', () => {
     window.history.replaceState({}, '', '/');
   });
 
+  it('renders the DevOps roadmap page for its clean route', () => {
+    const { getByRole, getByText } = render(
+      <MemoryRouter initialEntries={['/roadmap']}>
+        <AppProviders>
+          <AppRoutes />
+          <LocationProbe />
+        </AppProviders>
+      </MemoryRouter>,
+    );
+
+    expect(
+      getByRole('heading', { level: 1, name: 'DevOps roadmap' }),
+    ).toBeTruthy();
+    expect(getByText('About this roadmap')).toBeTruthy();
+    expect(getByRole('group', { name: 'DevOps roadmap diagram' })).toBeTruthy();
+  });
+
   it('renders Kubernetes skill detail for its clean route', () => {
     const { getByRole } = render(
       <MemoryRouter initialEntries={['/skills/kubernetes']}>
