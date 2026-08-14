@@ -16,7 +16,7 @@ export function SkillList({
       {skills.length === 0 ? (
         <EmptyState headingLevel={3} isCompact title={emptyMessage} />
       ) : (
-        <List className="w-full" density="compact" hasDividers>
+        <List className="w-full" density="compact">
           {skills.map((skill) => (
             <SkillListItem
               href={getSkillHref?.(skill)}
