@@ -62,9 +62,9 @@ describe('HomePage', () => {
     expect(queryByRole('button', { name: 'Search skills' })).toBeNull();
     expect(queryByRole('combobox', { name: 'Search skills' })).toBeNull();
     expect(container.querySelectorAll('.astryx-layout-content')).toHaveLength(
-      1,
+      0,
     );
-    expect(main.className).not.toMatch(/\b(?:flex|flex-col)\b/);
+    expect(main.className).toContain('astryx-stack');
     expect(doraContent.className).not.toMatch(/\b(?:min-h-0|flex-1)\b/);
   });
 

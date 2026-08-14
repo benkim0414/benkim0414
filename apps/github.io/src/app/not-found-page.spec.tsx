@@ -1,5 +1,5 @@
 import { render } from '@testing-library/react';
-import { LayoutContent, VStack } from '@astryxdesign/core/Layout';
+import { VStack } from '@astryxdesign/core/Layout';
 
 import { NotFoundPage } from './not-found-page';
 
@@ -24,14 +24,17 @@ describe('NotFoundPage', () => {
     );
   });
 
-  it('uses one scrollable Astryx content region inside the global frame', () => {
+  it('uses a non-scrollable recovery main inside the global frame', () => {
     const { container, getByTestId } = render(<NotFoundPage isFullWidth />);
     const { getByTestId: getControlByTestId } = render(
-      <LayoutContent
+      <VStack
+        as="main"
+        aria-labelledby="not-found-title"
         data-testid="scrollable-not-found-control"
-        label="Control"
-        padding={0}
-        role="main"
+        gap={3}
+        hAlign="start"
+        paddingBlock={6}
+        paddingInline={4}
       />,
     );
     const scrollableControl = getControlByTestId(
@@ -39,7 +42,7 @@ describe('NotFoundPage', () => {
     );
 
     expect(container.querySelectorAll('.astryx-layout-content')).toHaveLength(
-      1,
+      0,
     );
     expect(getByTestId('not-found-page').className).toBe(
       scrollableControl.className,

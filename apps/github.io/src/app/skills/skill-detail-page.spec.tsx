@@ -1,7 +1,7 @@
 import { readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 import { render, within } from '@testing-library/react';
-import { LayoutContent, VStack } from '@astryxdesign/core/Layout';
+import { VStack } from '@astryxdesign/core/Layout';
 
 import { devOpsCapabilityEvidenceItems } from '../devops-capability-evidence/devops-capability-evidence.data';
 import { sampleProjects } from '../projects/project-list.data';
@@ -36,17 +36,18 @@ function readAppSource(relativePath: string): string {
 }
 
 describe('SkillDetailPage', () => {
-  it('renders one scrollable Astryx content main without page-local navigation', () => {
+  it('renders a non-scrollable main without page-local navigation', () => {
     const detail = getResolvedDetail('kubernetes');
     const { container, getByRole, queryByRole } = render(
       <SkillDetailPage detail={detail} />,
     );
     const { getByTestId } = render(
-      <LayoutContent
+      <VStack
+        as="main"
         data-testid="scrollable-content-control"
-        label="Control"
-        padding={0}
-        role="main"
+        gap={6}
+        paddingBlock={6}
+        paddingInline={4}
       />,
     );
     const main = getByRole('main', { name: 'Skill detail' });
@@ -54,7 +55,7 @@ describe('SkillDetailPage', () => {
     expect(queryByRole('navigation', { name: 'Global navigation' })).toBeNull();
     expect(queryByRole('button', { name: 'Search skills' })).toBeNull();
     expect(container.querySelectorAll('.astryx-layout-content')).toHaveLength(
-      1,
+      0,
     );
     expect(main.className).toBe(
       getByTestId('scrollable-content-control').className,

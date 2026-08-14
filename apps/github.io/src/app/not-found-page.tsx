@@ -1,5 +1,5 @@
 import { Heading } from '@astryxdesign/core/Heading';
-import { LayoutContent, VStack } from '@astryxdesign/core/Layout';
+import { VStack } from '@astryxdesign/core/Layout';
 import { Link } from '@astryxdesign/core/Link';
 import { Text } from '@astryxdesign/core/Text';
 import { spacingVars } from '@astryxdesign/core/theme/tokens.stylex';
@@ -43,17 +43,18 @@ export function NotFoundPage({
 
   if (isFullWidth) {
     return (
-      <LayoutContent
+      <VStack
         aria-labelledby="not-found-title"
+        as="main"
         data-layout="full-width"
         data-testid="not-found-page"
-        padding={0}
-        role="main"
+        gap={3}
+        hAlign="start"
+        paddingBlock={6}
+        paddingInline={4}
       >
-        <VStack gap={3} hAlign="start" paddingBlock={6} paddingInline={4}>
-          {content}
-        </VStack>
-      </LayoutContent>
+        {content}
+      </VStack>
     );
   }
 

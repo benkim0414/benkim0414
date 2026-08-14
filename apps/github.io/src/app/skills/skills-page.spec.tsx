@@ -26,16 +26,16 @@ const renderSkillsPage = (suppliedSkills?: readonly Skill[]) =>
   );
 
 describe('SkillsPage', () => {
-  it('renders one Astryx content main without page-local navigation', () => {
+  it('renders a non-scrollable main without page-local navigation', () => {
     const { container, getByRole, queryByRole } = renderSkillsPage();
     const main = getByRole('main', { name: 'Skills' });
 
     expect(getByRole('heading', { level: 1, name: 'Skills' })).toBeTruthy();
     expect(main.getAttribute('aria-labelledby')).toBe('skills-page-title');
     expect(queryByRole('navigation')).toBeNull();
-    expect(main.className).toContain('astryx-layout-content');
+    expect(main.className).toContain('astryx-stack');
     expect(container.querySelectorAll('.astryx-layout-content')).toHaveLength(
-      1,
+      0,
     );
   });
 
