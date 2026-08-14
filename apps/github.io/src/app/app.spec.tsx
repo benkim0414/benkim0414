@@ -103,7 +103,10 @@ describe('App', () => {
     expect(within(terraformOption).queryByRole('img')).toBeNull();
     fireEvent.click(terraformOption);
 
-    expect(getByRole('heading', { level: 1, name: 'Terraform' })).toBeTruthy();
+    const heading = getByRole('heading', { level: 1, name: 'Terraform' });
+
+    expect(heading).toBeTruthy();
+    expect(document.activeElement).toBe(heading);
     expect(queryByRole('main', { name: 'Home' })).toBeNull();
   });
 
@@ -243,19 +246,31 @@ describe('AppRoutes', () => {
     expect(getByRole('heading', { level: 1, name: 'React' })).toBeTruthy();
   });
 
-  it('renders the skill not found page for an unknown skill route', () => {
+  it('renders one scrollable recovery region for an unknown skill route', () => {
     const { getByRole } = render(
       <MemoryRouter initialEntries={['/skills/not-real']}>
         <AppRoutes />
       </MemoryRouter>,
     );
     const main = getByRole('main');
+    const shell = getByRole('navigation', {
+      name: 'Global navigation',
+    }).closest('[data-height="fill"]');
+
+    if (!(shell instanceof HTMLElement)) {
+      throw new Error('Expected the global navigation layout shell.');
+    }
 
     expect(
       getByRole('heading', { level: 1, name: 'Skill not found' }),
     ).toBeTruthy();
     expect(getByRole('button', { name: 'Search skills' })).toBeTruthy();
     expect(main.dataset.layout).toBe('full-width');
+    expect(main.className).toContain('astryx-layout-content');
+    expect(shell.querySelectorAll('.astryx-layout-content')).toHaveLength(1);
+    expect(
+      getByRole('link', { name: 'Back to Skills' }).getAttribute('href'),
+    ).toBe('/skills');
   });
 
   it('renders the skill not found page for an unknown route', () => {
@@ -271,5 +286,8 @@ describe('AppRoutes', () => {
     ).toBeTruthy();
     expect(queryByRole('button', { name: 'Search skills' })).toBeNull();
     expect(main.dataset.layout).toBe('standalone');
+    expect(getByRole('link', { name: 'Back home' }).getAttribute('href')).toBe(
+      '/',
+    );
   });
 });
