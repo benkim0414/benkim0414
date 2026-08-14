@@ -27,9 +27,9 @@ describe('SkillListItem', () => {
     const content = avatar.firstElementChild as HTMLElement;
 
     expect(container.querySelector('img')).toBeTruthy();
-    expect(avatar.getAttribute('data-size')).toBe('small');
-    expect(content.style.getPropertyValue('--x-width')).toBe('36px');
-    expect(content.style.getPropertyValue('--x-height')).toBe('36px');
+    expect(avatar.getAttribute('data-size')).toBe('xsmall');
+    expect(content.style.getPropertyValue('--x-width')).toBe('24px');
+    expect(content.style.getPropertyValue('--x-height')).toBe('24px');
     expect(getByText('TypeScript')).toBeTruthy();
     expect(getByText('Language')).toBeTruthy();
     expect(getByText('4 out of 5')).toBeTruthy();
@@ -100,7 +100,7 @@ describe('SkillListItem', () => {
     );
     expect(queryByRole('img', { name: 'TypeScript' })).toBeNull();
     expect(
-      container.querySelector('[data-size="small"][aria-hidden="true"]'),
+      container.querySelector('[data-size="xsmall"][aria-hidden="true"]'),
     ).toBeTruthy();
     expect(link.contains(category)).toBe(true);
     expect(link.contains(rating)).toBe(true);
