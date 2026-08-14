@@ -4,6 +4,7 @@ import { neutralTheme } from '@astryxdesign/theme-neutral/built';
 import type { ReactElement, ReactNode } from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 
+import { RoadmapPage } from './devops-roadmap/roadmap-page';
 import { NotFoundPage } from './not-found-page';
 import { RouterLink } from './router-link';
 import { HomePage } from './skills/home-page';
@@ -25,6 +26,7 @@ export function AppRoutes(): ReactElement {
   return (
     <Routes>
       <Route path="/" element={<HomePage />} />
+      <Route path="/roadmap" element={<RoadmapPage />} />
       <Route path="/skills/:skillId" element={<SkillDetailRoute />} />
       <Route path="*" element={<NotFoundPage />} />
     </Routes>
