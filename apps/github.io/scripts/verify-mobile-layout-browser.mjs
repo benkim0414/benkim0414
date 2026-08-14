@@ -20,7 +20,11 @@ const routes = [
     isInFrame: true,
     pageRootSelector: '[role="main"][aria-label="Home"]',
     readySelector: '[role="main"][aria-label="Home"]',
-    scrollOwnerSelector: '[role="main"][aria-label="Home"] > :last-child',
+    scrollOwnerSelector: '[role="main"][aria-label="Home"]',
+    scrollMotion: {
+      doraSelector: '#dora-capabilities-title',
+      topSkillsSelector: '#top-skills-title',
+    },
   },
   {
     path: '/skills',
@@ -810,6 +814,111 @@ function assertRouteMetrics(route, viewport, metrics, navigationPath) {
   );
 }
 
+async function inspectHomeScrollMotion(bidi, context, route, signal) {
+  const selectors = route.scrollMotion;
+  const readState = () =>
+    evaluateJson(
+      bidi,
+      context,
+      `
+        const owner = document.querySelector(${JSON.stringify(route.scrollOwnerSelector)});
+        const topSkills = document.querySelector(${JSON.stringify(selectors.topSkillsSelector)});
+        const dora = document.querySelector(${JSON.stringify(selectors.doraSelector)});
+        const pinnedAncestors = [];
+        for (let element = topSkills; element && element !== owner; element = element.parentElement) {
+          const position = getComputedStyle(element).position;
+          if (position === 'fixed' || position === 'sticky') {
+            pinnedAncestors.push({
+              tag: element.tagName.toLowerCase(),
+              id: element.id || null,
+              position,
+            });
+          }
+        }
+        return {
+          clientHeight: owner?.clientHeight ?? null,
+          doraTop: dora?.getBoundingClientRect().top ?? null,
+          pinnedAncestors,
+          scrollHeight: owner?.scrollHeight ?? null,
+          scrollTop: owner?.scrollTop ?? null,
+          topSkillsTop: topSkills?.getBoundingClientRect().top ?? null,
+        };
+      `,
+    );
+
+  const before = await readState();
+  const targetScrollTop = Math.min(
+    160,
+    Math.max(0, (before.scrollHeight ?? 0) - (before.clientHeight ?? 0)),
+  );
+  await evaluateJson(
+    bidi,
+    context,
+    `
+      const owner = document.querySelector(${JSON.stringify(route.scrollOwnerSelector)});
+      if (owner) owner.scrollTop = ${targetScrollTop};
+      return owner?.scrollTop ?? null;
+    `,
+  );
+  await wait(50, signal);
+  const after = await readState();
+  await evaluateJson(
+    bidi,
+    context,
+    `
+      const owner = document.querySelector(${JSON.stringify(route.scrollOwnerSelector)});
+      if (owner) owner.scrollTop = 0;
+      return owner?.scrollTop ?? null;
+    `,
+  );
+
+  return { after, before, targetScrollTop };
+}
+
+function assertHomeScrollMotion(viewport, motion) {
+  const label = `${viewport.width}x${viewport.height} /`;
+  const { after, before, targetScrollTop } = motion;
+
+  for (const [name, value] of Object.entries({
+    afterDoraTop: after.doraTop,
+    afterScrollTop: after.scrollTop,
+    afterTopSkillsTop: after.topSkillsTop,
+    beforeClientHeight: before.clientHeight,
+    beforeDoraTop: before.doraTop,
+    beforeScrollHeight: before.scrollHeight,
+    beforeScrollTop: before.scrollTop,
+    beforeTopSkillsTop: before.topSkillsTop,
+  })) {
+    assert(typeof value === 'number', `${label} has no numeric ${name}.`);
+  }
+  assert(
+    before.scrollHeight > before.clientHeight + SUBPIXEL_TOLERANCE,
+    `${label} Home main has no vertical overflow to exercise.`,
+  );
+  assert(
+    targetScrollTop > SUBPIXEL_TOLERANCE &&
+      after.scrollTop > before.scrollTop + SUBPIXEL_TOLERANCE,
+    `${label} Home main did not advance its scrollTop: ${JSON.stringify(motion)}`,
+  );
+  assert(
+    before.pinnedAncestors.length === 0,
+    `${label} Top skills has sticky or fixed positioning: ${JSON.stringify(before.pinnedAncestors)}`,
+  );
+
+  const scrollDelta = after.scrollTop - before.scrollTop;
+  const topSkillsDelta = before.topSkillsTop - after.topSkillsTop;
+  const doraDelta = before.doraTop - after.doraTop;
+  assert(
+    isWithinTolerance(topSkillsDelta, scrollDelta),
+    `${label} Top skills did not move with Home scroll: ${JSON.stringify({ scrollDelta, topSkillsDelta })}`,
+  );
+  assert(
+    isWithinTolerance(doraDelta, scrollDelta) &&
+      isWithinTolerance(doraDelta, topSkillsDelta),
+    `${label} DORA and Top skills did not move together: ${JSON.stringify({ doraDelta, scrollDelta, topSkillsDelta })}`,
+  );
+}
+
 async function inspectSkillRows(bidi, context) {
   return evaluateJson(
     bidi,
@@ -962,6 +1071,17 @@ async function verifyRoutes(bidi, context, baseUrl, signal) {
       const navigationPath = new URL(navigationResult.url).pathname;
       const metrics = await inspectRoute(bidi, context, route);
       throwIfCancelled(signal);
+
+      if (route.scrollMotion) {
+        const motion = await inspectHomeScrollMotion(
+          bidi,
+          context,
+          route,
+          signal,
+        );
+        assertHomeScrollMotion(viewport, motion);
+      }
+
       assertRouteMetrics(route, viewport, metrics, navigationPath);
 
       if (route.path === '/skills') {
@@ -1048,6 +1168,64 @@ async function runSelfTests() {
     });
   };
 
+  await expectFailure(
+    'sticky Top skills cannot pass the shared Home scroll check',
+    () =>
+      assertHomeScrollMotion(
+        { width: 375, height: 667 },
+        {
+          before: {
+            clientHeight: 667,
+            doraTop: 420,
+            pinnedAncestors: [
+              { id: null, position: 'sticky', tag: 'div' },
+            ],
+            scrollHeight: 1600,
+            scrollTop: 0,
+            topSkillsTop: 64,
+          },
+          after: {
+            clientHeight: 667,
+            doraTop: 260,
+            pinnedAncestors: [
+              { id: null, position: 'sticky', tag: 'div' },
+            ],
+            scrollHeight: 1600,
+            scrollTop: 160,
+            topSkillsTop: 64,
+          },
+          targetScrollTop: 160,
+        },
+      ),
+    /sticky or fixed positioning/i,
+  );
+  await expectFailure(
+    'Top skills must move by the Home scroll delta',
+    () =>
+      assertHomeScrollMotion(
+        { width: 375, height: 667 },
+        {
+          before: {
+            clientHeight: 667,
+            doraTop: 420,
+            pinnedAncestors: [],
+            scrollHeight: 1600,
+            scrollTop: 0,
+            topSkillsTop: 64,
+          },
+          after: {
+            clientHeight: 667,
+            doraTop: 260,
+            pinnedAncestors: [],
+            scrollHeight: 1600,
+            scrollTop: 160,
+            topSkillsTop: 64,
+          },
+          targetScrollTop: 160,
+        },
+      ),
+    /Top skills did not move with Home scroll/i,
+  );
   await expectFailure(
     'an unrelated descendant cannot stand in for the intended scroll owner',
     () =>

@@ -646,28 +646,13 @@ function verifyBuiltLayout() {
     );
   }
 
-  const homePage = assertStyle('page', [
-    'display:flex',
-    'flex-direction:column',
-  ]);
-  assertNoForbiddenCompiledDeclarations(homePage, 'Home page root');
   assertStyle('linkedRoot', [
     'padding-block:var(--spacing-0)',
     'padding-inline:var(--spacing-0)',
   ]);
-  assertStyle('topSkills', [
-    'flex-shrink:0',
-    'background-color:var(--color-background-surface)',
-  ]);
-  assertStyle('doraContent', [
-    'flex-grow:1',
-    'flex-shrink:1',
-    'flex-basis:0',
-    'min-height:0',
-  ]);
 
   console.log(
-    `Verified compiled global frame, Home layout, and detail width rules in ${cssPath}.`,
+    `Verified compiled global frame and detail width rules in ${cssPath}.`,
   );
 }
 
