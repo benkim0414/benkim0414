@@ -1,22 +1,22 @@
-import { readFileSync, readdirSync } from 'node:fs';
-import { resolve } from 'node:path';
+import {
+  mkdtempSync,
+  readFileSync,
+  readdirSync,
+  rmSync,
+  writeFileSync,
+} from 'node:fs';
+import { tmpdir } from 'node:os';
+import { dirname, resolve } from 'node:path';
+import { fileURLToPath } from 'node:url';
 import ts from 'typescript';
 
+const appDirectory = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const assetsDirectory = resolve(
-  process.cwd(),
+  appDirectory,
   '../../dist/apps/github.io/assets',
 );
-const assetNames = readdirSync(assetsDirectory);
-const cssPath = resolve(
-  assetsDirectory,
-  assetNames.find((name) => /^main-.*\.css$/.test(name)) ?? '',
-);
-const javascriptPath = resolve(
-  assetsDirectory,
-  assetNames.find((name) => /^main-.*\.js$/.test(name)) ?? '',
-);
-const css = readFileSync(cssPath, 'utf8').replace(/\s+/g, '');
-const javascript = readFileSync(javascriptPath, 'utf8');
+let css = '';
+let javascript = '';
 
 function escapeRegExp(value) {
   return value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
@@ -119,7 +119,7 @@ function attributeValue(attribute) {
     return undefined;
   }
 
-  if (ts.isStringLiteral(attribute.initializer)) {
+  if (attribute.initializer && ts.isStringLiteral(attribute.initializer)) {
     return attribute.initializer.text;
   }
 
@@ -238,8 +238,53 @@ function isReturnedRoot(openingElement) {
   return current.parent != null && ts.isReturnStatement(current.parent);
 }
 
-function assertPageRootIsFullWidth(sourcePath) {
-  const source = readFileSync(resolve(process.cwd(), sourcePath), 'utf8');
+function isStandaloneNotFoundSource(sourcePath) {
+  return (
+    resolve(appDirectory, sourcePath) ===
+    resolve(appDirectory, 'src/app/not-found-page.tsx')
+  );
+}
+
+function assertPageRootClassName(attribute, sourcePath, tagName) {
+  if (!attribute) {
+    return;
+  }
+
+  let className;
+
+  if (attribute.initializer && ts.isStringLiteral(attribute.initializer)) {
+    className = attribute.initializer.text;
+  } else if (
+    ts.isJsxExpression(attribute.initializer) &&
+    (ts.isStringLiteral(attribute.initializer.expression) ||
+      ts.isNoSubstitutionTemplateLiteral(attribute.initializer.expression))
+  ) {
+    className = attribute.initializer.expression.text;
+  } else {
+    throw new Error(
+      `${sourcePath} applies an unverifiable className to ${tagName}.`,
+    );
+  }
+
+  const constrainedClass = className
+    .split(/\s+/)
+    .map((classToken) => classToken.split(':').at(-1))
+    .find(
+      (classToken) =>
+        classToken === 'mx-auto' ||
+        classToken === 'w-fit' ||
+        classToken?.startsWith('max-w-'),
+    );
+
+  if (constrainedClass) {
+    throw new Error(
+      `${sourcePath} applies constrained className ${constrainedClass} to ${tagName}.`,
+    );
+  }
+}
+
+export function auditPageRoots(sourcePath) {
+  const source = readFileSync(resolve(appDirectory, sourcePath), 'utf8');
   const sourceFile = ts.createSourceFile(
     sourcePath,
     source,
@@ -248,6 +293,7 @@ function assertPageRootIsFullWidth(sourcePath) {
     ts.ScriptKind.TSX,
   );
   const styleDefinitions = styleObjectDefinitions(sourceFile);
+  let recognizedRoots = 0;
 
   function visit(node) {
     if (isOpeningElement(node)) {
@@ -256,10 +302,28 @@ function assertPageRootIsFullWidth(sourcePath) {
         tagName === 'LayoutContent' ||
         (tagName === 'VStack' && parentJsxTag(node) === 'LayoutContent') ||
         (tagName === 'VStack' &&
-          sourcePath !== 'src/app/not-found-page.tsx' &&
+          !isStandaloneNotFoundSource(sourcePath) &&
           isReturnedRoot(node));
 
       if (isPageRoot) {
+        recognizedRoots += 1;
+
+        if (
+          node.attributes.properties.some((attribute) =>
+            ts.isJsxSpreadAttribute(attribute),
+          )
+        ) {
+          throw new Error(
+            `${sourcePath} applies unverifiable spread attributes to ${tagName}.`,
+          );
+        }
+
+        assertPageRootClassName(
+          jsxAttribute(node, 'className'),
+          sourcePath,
+          tagName,
+        );
+
         for (const attributeName of ['width', 'maxWidth']) {
           const attribute = jsxAttribute(node, attributeName);
           const value = attributeValue(attribute);
@@ -313,10 +377,16 @@ function assertPageRootIsFullWidth(sourcePath) {
   }
 
   visit(sourceFile);
+
+  if (recognizedRoots === 0) {
+    throw new Error(`${sourcePath} has no recognized page root.`);
+  }
+
+  return recognizedRoots;
 }
 
-function assertGlobalLayoutHasNoContentWidth(sourcePath) {
-  const source = readFileSync(resolve(process.cwd(), sourcePath), 'utf8');
+export function auditGlobalLayout(sourcePath) {
+  const source = readFileSync(resolve(appDirectory, sourcePath), 'utf8');
   const sourceFile = ts.createSourceFile(
     sourcePath,
     source,
@@ -342,66 +412,237 @@ function assertGlobalLayoutHasNoContentWidth(sourcePath) {
   visit(sourceFile);
 }
 
-const frame = assertStyle('frame', [
-  'width:100%',
-  'height:100dvh',
-  'overflow:hidden',
-]);
+function assertRejects(failures, label, operation, messagePattern) {
+  try {
+    operation();
+  } catch (error) {
+    if (!(error instanceof Error) || !messagePattern.test(error.message)) {
+      failures.push(
+        `${label} failed for the wrong reason: ${error instanceof Error ? error.message : String(error)}`,
+      );
+      return;
+    }
 
-assertNoForbiddenCompiledDeclarations(frame, 'Global frame');
+    console.log(`PASS ${label}: ${error.message}`);
+    return;
+  }
 
-assertGlobalLayoutHasNoContentWidth('src/app/global-navigation-layout.tsx');
-for (const sourcePath of [
-  'src/app/skills/home-page.tsx',
-  'src/app/skills/skills-page.tsx',
-  'src/app/skills/skill-detail-page.tsx',
-  'src/app/not-found-page.tsx',
-]) {
-  assertPageRootIsFullWidth(sourcePath);
+  failures.push(`${label} was not rejected.`);
 }
 
-const detailRouteSource = readFileSync(
-  resolve(process.cwd(), 'src/app/skills/skill-detail-route.tsx'),
-  'utf8',
-);
-const notFoundSource = readFileSync(
-  resolve(process.cwd(), 'src/app/not-found-page.tsx'),
-  'utf8',
-);
+function runSelfTests() {
+  const failures = [];
+  const fixtureDirectory = mkdtempSync(
+    resolve(tmpdir(), 'verify-global-layout-css-'),
+  );
 
-if (!detailRouteSource.includes('<NotFoundPage isFullWidth />')) {
-  throw new Error(
-    'Unknown skill routes must render the full-width not found page.',
+  try {
+    const fixture = (name, source) => {
+      const sourcePath = resolve(fixtureDirectory, name);
+      writeFileSync(sourcePath, source);
+      return sourcePath;
+    };
+
+    const recognizedRoots = auditPageRoots(
+      fixture(
+        'recognized-roots.tsx',
+        `import { LayoutContent, VStack } from '@astryxdesign/core/Layout';\nexport function Page() { return <LayoutContent><VStack /></LayoutContent>; }`,
+      ),
+    );
+
+    if (recognizedRoots !== 2) {
+      failures.push(
+        `recognized page roots returned ${recognizedRoots}, expected 2.`,
+      );
+    } else {
+      console.log('PASS recognized page-root count: 2');
+    }
+
+    assertRejects(
+      failures,
+      'aliased page root',
+      () =>
+        auditPageRoots(
+          fixture(
+            'aliased-root.tsx',
+            `import { LayoutContent as PageRoot } from '@astryxdesign/core/Layout';\nexport function Page() { return <PageRoot />; }`,
+          ),
+        ),
+      /no recognized page root/,
+    );
+    assertRejects(
+      failures,
+      'constrained page-root className',
+      () =>
+        auditPageRoots(
+          fixture(
+            'constrained-class.tsx',
+            `import { LayoutContent } from '@astryxdesign/core/Layout';\nexport function Page() { return <LayoutContent className="max-w-md mx-auto" />; }`,
+          ),
+        ),
+      /constrained className/,
+    );
+    assertRejects(
+      failures,
+      'dynamic page-root className',
+      () =>
+        auditPageRoots(
+          fixture(
+            'dynamic-class.tsx',
+            `import { LayoutContent } from '@astryxdesign/core/Layout';\nexport function Page({ rootClass }) { return <LayoutContent className={rootClass} />; }`,
+          ),
+        ),
+      /unverifiable className/,
+    );
+    for (const constrainedClassName of ['mx-auto', 'w-fit', 'max-w-[28rem]']) {
+      assertRejects(
+        failures,
+        `constrained page-root className ${constrainedClassName}`,
+        () =>
+          auditPageRoots(
+            fixture(
+              `constrained-class-${constrainedClassName.replaceAll(/[^a-z0-9]/g, '-')}.tsx`,
+              `import { LayoutContent } from '@astryxdesign/core/Layout';\nexport function Page() { return <LayoutContent className="${constrainedClassName}" />; }`,
+            ),
+          ),
+        /constrained className/,
+      );
+    }
+    assertRejects(
+      failures,
+      'page-root spread attributes',
+      () =>
+        auditPageRoots(
+          fixture(
+            'spread-attributes.tsx',
+            `import { LayoutContent } from '@astryxdesign/core/Layout';\nexport function Page({ rootProps }) { return <LayoutContent {...rootProps} />; }`,
+          ),
+        ),
+      /unverifiable spread attributes/,
+    );
+    assertRejects(
+      failures,
+      'global Layout contentWidth',
+      () =>
+        auditGlobalLayout(
+          fixture(
+            'global-layout.tsx',
+            `import { Layout } from '@astryxdesign/core/Layout';\nexport function GlobalLayout() { return <Layout contentWidth={448} />; }`,
+          ),
+        ),
+      /contentWidth/,
+    );
+    assertRejects(
+      failures,
+      'page-root maxWidth',
+      () =>
+        auditPageRoots(
+          fixture(
+            'constrained-prop.tsx',
+            `import { LayoutContent } from '@astryxdesign/core/Layout';\nexport function Page() { return <LayoutContent maxWidth={448} />; }`,
+          ),
+        ),
+      /constrained maxWidth/,
+    );
+  } finally {
+    rmSync(fixtureDirectory, { recursive: true, force: true });
+  }
+
+  if (failures.length > 0) {
+    throw new Error(`Self-test failures:\n- ${failures.join('\n- ')}`);
+  }
+
+  console.log('Verified fail-closed page-root audit self-tests.');
+}
+
+function verifyBuiltLayout() {
+  const assetNames = readdirSync(assetsDirectory);
+  const cssPath = resolve(
+    assetsDirectory,
+    assetNames.find((name) => /^main-.*\.css$/.test(name)) ?? '',
+  );
+  const javascriptPath = resolve(
+    assetsDirectory,
+    assetNames.find((name) => /^main-.*\.js$/.test(name)) ?? '',
+  );
+  css = readFileSync(cssPath, 'utf8').replace(/\s+/g, '');
+  javascript = readFileSync(javascriptPath, 'utf8');
+
+  const frame = assertStyle('frame', [
+    'width:100%',
+    'height:100dvh',
+    'overflow:hidden',
+  ]);
+
+  assertNoForbiddenCompiledDeclarations(frame, 'Global frame');
+
+  auditGlobalLayout('src/app/global-navigation-layout.tsx');
+  for (const sourcePath of [
+    'src/app/skills/home-page.tsx',
+    'src/app/skills/skills-page.tsx',
+    'src/app/skills/skill-detail-page.tsx',
+    'src/app/not-found-page.tsx',
+  ]) {
+    auditPageRoots(sourcePath);
+  }
+
+  const detailRouteSource = readFileSync(
+    resolve(appDirectory, 'src/app/skills/skill-detail-route.tsx'),
+    'utf8',
+  );
+  const notFoundSource = readFileSync(
+    resolve(appDirectory, 'src/app/not-found-page.tsx'),
+    'utf8',
+  );
+
+  if (!detailRouteSource.includes('<NotFoundPage isFullWidth />')) {
+    throw new Error(
+      'Unknown skill routes must render the full-width not found page.',
+    );
+  }
+
+  if (
+    !notFoundSource.includes('if (isFullWidth)') ||
+    !notFoundSource.includes('<LayoutContent') ||
+    !notFoundSource.includes('xstyle={styles.page}')
+  ) {
+    throw new Error(
+      'The not found page must use scrollable full-width content and constrain only its standalone branch.',
+    );
+  }
+
+  const homePage = assertStyle('page', [
+    'display:flex',
+    'flex-direction:column',
+  ]);
+  assertNoForbiddenCompiledDeclarations(homePage, 'Home page root');
+  assertStyle('linkedRoot', [
+    'padding-block:var(--spacing-0)',
+    'padding-inline:var(--spacing-0)',
+  ]);
+  assertStyle('topSkills', [
+    'flex-shrink:0',
+    'background-color:var(--color-background-surface)',
+  ]);
+  assertStyle('doraContent', [
+    'flex-grow:1',
+    'flex-shrink:1',
+    'flex-basis:0',
+    'min-height:0',
+  ]);
+
+  console.log(
+    `Verified compiled global frame, Home layout, and detail width rules in ${cssPath}.`,
   );
 }
 
 if (
-  !notFoundSource.includes('if (isFullWidth)') ||
-  !notFoundSource.includes('<LayoutContent') ||
-  !notFoundSource.includes('xstyle={styles.page}')
+  process.argv[1] &&
+  resolve(process.argv[1]) === fileURLToPath(import.meta.url)
 ) {
-  throw new Error(
-    'The not found page must use scrollable full-width content and constrain only its standalone branch.',
-  );
+  if (process.argv.includes('--self-test')) {
+    runSelfTests();
+  } else {
+    verifyBuiltLayout();
+  }
 }
-
-const homePage = assertStyle('page', ['display:flex', 'flex-direction:column']);
-assertNoForbiddenCompiledDeclarations(homePage, 'Home page root');
-assertStyle('linkedRoot', [
-  'padding-block:var(--spacing-0)',
-  'padding-inline:var(--spacing-0)',
-]);
-assertStyle('topSkills', [
-  'flex-shrink:0',
-  'background-color:var(--color-background-surface)',
-]);
-assertStyle('doraContent', [
-  'flex-grow:1',
-  'flex-shrink:1',
-  'flex-basis:0',
-  'min-height:0',
-]);
-
-console.log(
-  `Verified compiled global frame, Home layout, and detail width rules in ${cssPath}.`,
-);

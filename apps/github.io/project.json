@@ -13,6 +13,14 @@
         "cwd": "apps/github.io",
         "command": "node scripts/verify-global-layout-css.mjs"
       }
+    },
+    "verify-mobile-layout-browser": {
+      "dependsOn": ["build"],
+      "executor": "nx:run-commands",
+      "options": {
+        "cwd": "apps/github.io",
+        "command": "node scripts/verify-mobile-layout-browser.mjs"
+      }
     }
   }
 }
