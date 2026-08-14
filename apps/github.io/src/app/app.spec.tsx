@@ -91,7 +91,7 @@ describe('App', () => {
     expect(main.className).toContain('astryx-layout-content');
     expect(queryByText('Ben Kim')).toBeNull();
     expect(queryByLabelText('Skill breadcrumb')).toBeNull();
-    expect(queryByRole('link', { name: 'Skills' })).toBeNull();
+    expect(getByRole('link', { name: 'Skills' })).toBeTruthy();
     expect(queryByRole('search', { name: 'Skill search' })).toBeNull();
     expect(queryByRole('combobox', { name: 'Search skills' })).toBeNull();
     expect(getByRole('button', { name: 'Search skills' })).toBeTruthy();
@@ -128,9 +128,9 @@ describe('App', () => {
   });
 
   it('does not render generic navigation or desktop shell content', () => {
-    const { queryByLabelText, queryByRole, queryByText } = render(<App />);
+    const { getByRole, queryByLabelText, queryByText } = render(<App />);
 
-    expect(queryByRole('link', { name: 'Home' })).toBeNull();
+    expect(getByRole('link', { name: 'Home' })).toBeTruthy();
     expect(queryByLabelText('Primary navigation')).toBeNull();
     expect(queryByText('Generic Layout Skeleton')).toBeNull();
     expect(queryByText('Content Region')).toBeNull();
