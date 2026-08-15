@@ -1078,6 +1078,10 @@ function assertTopNavScrollReset(viewport, destinationPath, transition) {
     `${label} did not expose the shell scroll position.`,
   );
   assert(
+    transition.sentinelSurvived === true,
+    `${label} did not preserve the in-document sentinel.`,
+  );
+  assert(
     isWithinTolerance(transition.scrollTop, 0),
     `${label} did not reset shell scroll: ${transition.scrollTop}.`,
   );
@@ -1091,6 +1095,8 @@ async function verifyTopNavScrollReset(
   destinationReadySelector,
   signal,
 ) {
+  const sentinelKey = '__githubIoTopNavScrollResetSentinel__';
+  const sentinel = `${Date.now()}-${Math.random()}`;
   const setup = await evaluateJson(
     bidi,
     context,
@@ -1102,6 +1108,7 @@ async function verifyTopNavScrollReset(
       const maxScrollTop = Math.max(0, (owner?.scrollHeight ?? 0) - (owner?.clientHeight ?? 0));
       const targetScrollTop = Math.min(160, maxScrollTop);
       if (owner) owner.scrollTop = targetScrollTop;
+      globalThis[${JSON.stringify(sentinelKey)}] = ${JSON.stringify(sentinel)};
       const rectangle = link?.getBoundingClientRect();
       return {
         link: rectangle
@@ -1150,7 +1157,13 @@ async function verifyTopNavScrollReset(
     context,
     `
       const owner = document.querySelector(${JSON.stringify(shellScrollOwnerSelector)});
-      return { path: location.pathname, scrollTop: owner?.scrollTop ?? null };
+      const sentinelSurvived = globalThis[${JSON.stringify(sentinelKey)}] === ${JSON.stringify(sentinel)};
+      delete globalThis[${JSON.stringify(sentinelKey)}];
+      return {
+        path: location.pathname,
+        scrollTop: owner?.scrollTop ?? null,
+        sentinelSurvived,
+      };
     `,
   );
 
@@ -1468,8 +1481,19 @@ async function runSelfTests() {
       assertTopNavScrollReset({ width: 375, height: 667 }, '/roadmap', {
         path: '/roadmap',
         scrollTop: 160,
+        sentinelSurvived: true,
       }),
     /did not reset shell scroll/i,
+  );
+  await expectFailure(
+    'a top-nav document reload is rejected',
+    () =>
+      assertTopNavScrollReset({ width: 375, height: 667 }, '/roadmap', {
+        path: '/roadmap',
+        scrollTop: 0,
+        sentinelSurvived: false,
+      }),
+    /in-document sentinel/i,
   );
 
   await test('a resource acquired during cancellation is registered before unwind', async () => {

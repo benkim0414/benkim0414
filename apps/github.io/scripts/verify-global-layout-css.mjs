@@ -430,6 +430,24 @@ function jsxElementContainsTag(node, tagName) {
   return isPresent;
 }
 
+function isLayoutContentInLayoutContentProp(layoutContent) {
+  const jsxElement = layoutContent.parent;
+  const contentExpression = jsxElement?.parent;
+  const contentAttribute = contentExpression?.parent;
+  const attributes = contentAttribute?.parent;
+  const layout = attributes?.parent;
+
+  return (
+    ts.isJsxElement(jsxElement) &&
+    ts.isJsxExpression(contentExpression) &&
+    ts.isJsxAttribute(contentAttribute) &&
+    contentAttribute.name.getText() === 'content' &&
+    ts.isJsxAttributes(attributes) &&
+    isOpeningElement(layout) &&
+    jsxTagName(layout) === 'Layout'
+  );
+}
+
 export function auditGlobalLayout(sourcePath) {
   const source = readFileSync(resolve(appDirectory, sourcePath), 'utf8');
   const sourceFile = ts.createSourceFile(
@@ -466,6 +484,12 @@ export function auditGlobalLayout(sourcePath) {
   }
 
   const [layoutContent] = layoutContents;
+
+  if (!isLayoutContentInLayoutContentProp(layoutContent)) {
+    throw new Error(
+      `${sourcePath} LayoutContent shell owner must be supplied through the Layout content prop.`,
+    );
+  }
 
   if (
     layoutContent.attributes.properties.some((attribute) =>
@@ -669,6 +693,18 @@ function runSelfTests() {
           ),
         ),
       /contain the routed Outlet/,
+    );
+    assertRejects(
+      failures,
+      'off-shell LayoutContent decoy',
+      () =>
+        auditGlobalLayout(
+          fixture(
+            'off-shell-layout-content.tsx',
+            `import { Layout, LayoutContent, VStack } from '@astryxdesign/core/Layout';\nimport { Outlet } from 'react-router-dom';\nexport function GlobalLayout() { return <Layout content={<VStack />}><LayoutContent padding={0}><Outlet /></LayoutContent></Layout>; }`,
+          ),
+        ),
+      /content prop/,
     );
     assertRejects(
       failures,
