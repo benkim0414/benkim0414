@@ -227,7 +227,7 @@ describe('DoraCapabilityCard', () => {
     expect(screen.getByTestId('dora-capability-card')).toBeTruthy();
   });
 
-  it('fills the available mobile content width without a maximum-width cap', () => {
+  it('uses the Astryx full-width card contract', () => {
     render(
       <DoraCapabilityCard
         capability={continuousIntegration}
