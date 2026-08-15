@@ -227,6 +227,27 @@ describe('DoraCapabilityCard', () => {
     expect(screen.getByTestId('dora-capability-card')).toBeTruthy();
   });
 
+  it('fills the available mobile content width without a maximum-width cap', () => {
+    render(
+      <DoraCapabilityCard
+        capability={continuousIntegration}
+        description={doraCapabilityDescriptions['continuous-integration']}
+        evidence={devOpsCapabilityEvidenceItems}
+        scores={curatedDevOpsCapabilityRadarScores}
+      />,
+    );
+
+    const cardSurface = screen.getByTestId(
+      'dora-capability-card',
+    ).parentElement;
+
+    if (!(cardSurface instanceof HTMLElement)) {
+      throw new Error('Expected the DORA capability card surface.');
+    }
+
+    expect(cardSurface.style.getPropertyValue('--x-width')).toBe('100%');
+  });
+
   it.each([
     [
       continuousIntegration,
