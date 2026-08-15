@@ -24,7 +24,8 @@ const routes = [
     scrollOwnerSelector: shellScrollOwnerSelector,
     fullWidthContent: {
       cardSelector: '[data-testid="dora-capability-card"]',
-      referenceSelector: '.astryx-banner',
+      referenceSelector: '[data-testid="dora-capabilities-banner"]',
+      regionSelector: '#dora-capabilities-title',
     },
     scrollMotion: {
       doraSelector: '#dora-capabilities-title',
@@ -704,10 +705,22 @@ async function inspectRoute(bidi, context, route) {
       const expectedScrollOwnerMatches = expectedScrollOwnerSelector
         ? document.querySelectorAll(expectedScrollOwnerSelector).length
         : 0;
+      const fullWidthRegionSelector = ${JSON.stringify(route.fullWidthContent?.regionSelector ?? null)};
       const fullWidthReferenceSelector = ${JSON.stringify(route.fullWidthContent?.referenceSelector ?? null)};
       const fullWidthCardSelector = ${JSON.stringify(route.fullWidthContent?.cardSelector ?? null)};
-      const fullWidthReference = ${route.fullWidthContent ? 'document.querySelector(fullWidthReferenceSelector)' : 'null'};
-      const fullWidthCardSurfaces = ${route.fullWidthContent ? '[...document.querySelectorAll(fullWidthCardSelector)].map((card) => card.parentElement)' : '[]'};
+      const fullWidthRegion = ${route.fullWidthContent ? 'document.querySelector(fullWidthRegionSelector)?.parentElement ?? null' : 'null'};
+      const fullWidthReferenceMatches = fullWidthRegion
+        ? fullWidthRegion.querySelectorAll(fullWidthReferenceSelector).length
+        : 0;
+      const fullWidthReference = fullWidthRegion?.querySelector(fullWidthReferenceSelector) ?? null;
+      const fullWidthCardSurfaces = fullWidthRegion
+        ? [...fullWidthRegion.querySelectorAll(fullWidthCardSelector)].map((card) =>
+            card.closest('.astryx-card'),
+          )
+        : [];
+      const fullWidthRegionStyle = fullWidthRegion
+        ? getComputedStyle(fullWidthRegion)
+        : null;
       // Audit the entire document, including html/body, the global frame,
       // layout siblings, and descendants. Restricting this search to main
       // lets an unrelated descendant mask a missing page owner and misses a
@@ -738,7 +751,15 @@ async function inspectRoute(bidi, context, route) {
         viewport: { width: innerWidth, height: innerHeight },
         frame: rectangle(main?.closest('.astryx-layout')),
         main: rectangle(main),
+        fullWidthRegion: rectangle(fullWidthRegion),
+        fullWidthRegionPaddingInlineEnd: fullWidthRegionStyle
+          ? Number.parseFloat(fullWidthRegionStyle.paddingInlineEnd)
+          : null,
+        fullWidthRegionPaddingInlineStart: fullWidthRegionStyle
+          ? Number.parseFloat(fullWidthRegionStyle.paddingInlineStart)
+          : null,
         fullWidthReference: rectangle(fullWidthReference),
+        fullWidthReferenceMatches,
         fullWidthCardSurfaces: fullWidthCardSurfaces.map(rectangle),
         scrollOwner: rectangle(expectedScrollOwner),
         scrollOwnerClientWidth: expectedScrollOwner?.clientWidth ?? null,
@@ -780,27 +801,6 @@ function assertRouteMetrics(route, viewport, metrics, navigationPath) {
     `${label} page root selector ${route.pageRootSelector} matched ${metrics.pageRootMatches} elements.`,
   );
 
-  if (route.fullWidthContent) {
-    assert(
-      metrics.fullWidthReference != null,
-      `${label} has no full-width content reference ${route.fullWidthContent.referenceSelector}.`,
-    );
-    assert(
-      metrics.fullWidthCardSurfaces.length > 0,
-      `${label} has no card surfaces for ${route.fullWidthContent.cardSelector}.`,
-    );
-    assert(
-      metrics.fullWidthCardSurfaces.every(
-        (card) =>
-          card != null &&
-          isWithinTolerance(card.left, metrics.fullWidthReference.left) &&
-          isWithinTolerance(card.right, metrics.fullWidthReference.right) &&
-          isWithinTolerance(card.width, metrics.fullWidthReference.width),
-      ),
-      `${label} DORA card surfaces do not match the banner width: ${JSON.stringify({ banner: metrics.fullWidthReference, cards: metrics.fullWidthCardSurfaces })}`,
-    );
-  }
-
   if (!route.isInFrame) {
     assert(
       metrics.layoutMode === 'standalone',
@@ -834,6 +834,56 @@ function assertRouteMetrics(route, viewport, metrics, navigationPath) {
       isWithinTolerance(metrics.main.width, metrics.scrollOwnerClientWidth),
     `${label} active page main does not span the shell scroll viewport: ${JSON.stringify({ main: metrics.main, scrollOwner: metrics.scrollOwner, scrollOwnerClientWidth: metrics.scrollOwnerClientWidth })}`,
   );
+
+  if (route.fullWidthContent) {
+    assert(
+      metrics.fullWidthRegion != null &&
+        isWithinTolerance(metrics.fullWidthRegion.left, metrics.main.left) &&
+        isWithinTolerance(metrics.fullWidthRegion.right, metrics.main.right) &&
+        isWithinTolerance(metrics.fullWidthRegion.width, metrics.main.width),
+      `${label} DORA region does not span the Home content allocation: ${JSON.stringify({ main: metrics.main, region: metrics.fullWidthRegion })}`,
+    );
+    assert(
+      Number.isFinite(metrics.fullWidthRegionPaddingInlineStart) &&
+        Number.isFinite(metrics.fullWidthRegionPaddingInlineEnd),
+      `${label} has invalid DORA region inline padding.`,
+    );
+    const expectedContentBounds = {
+      left:
+        metrics.fullWidthRegion.left +
+        metrics.fullWidthRegionPaddingInlineStart,
+      right:
+        metrics.fullWidthRegion.right -
+        metrics.fullWidthRegionPaddingInlineEnd,
+      width:
+        metrics.fullWidthRegion.width -
+        metrics.fullWidthRegionPaddingInlineStart -
+        metrics.fullWidthRegionPaddingInlineEnd,
+    };
+    assert(
+      metrics.fullWidthReferenceMatches === 1 &&
+        metrics.fullWidthReference != null,
+      `${label} expected one full-width reference ${route.fullWidthContent.referenceSelector}, found ${metrics.fullWidthReferenceMatches}.`,
+    );
+    assert(
+      metrics.fullWidthCardSurfaces.length > 0,
+      `${label} has no card surfaces for ${route.fullWidthContent.cardSelector}.`,
+    );
+    const surfaces = [
+      metrics.fullWidthReference,
+      ...metrics.fullWidthCardSurfaces,
+    ];
+    assert(
+      surfaces.every(
+        (surface) =>
+          surface != null &&
+          isWithinTolerance(surface.left, expectedContentBounds.left) &&
+          isWithinTolerance(surface.right, expectedContentBounds.right) &&
+          isWithinTolerance(surface.width, expectedContentBounds.width),
+      ),
+      `${label} DORA surfaces do not fill the padded Home content bounds: ${JSON.stringify({ expected: expectedContentBounds, banner: metrics.fullWidthReference, cards: metrics.fullWidthCardSurfaces })}`,
+    );
+  }
   assert(
     metrics.expectedScrollOwnerMatches === 1,
     `${label} expected scroll owner selector ${route.scrollOwnerSelector} matched ${metrics.expectedScrollOwnerMatches} elements.`,
@@ -1291,7 +1341,11 @@ function selfTestMetrics(overrides = {}) {
     expectedScrollOwnerMatches: 1,
     focusMatches: true,
     focus: null,
+    fullWidthRegion: null,
+    fullWidthRegionPaddingInlineEnd: null,
+    fullWidthRegionPaddingInlineStart: null,
     fullWidthReference: null,
+    fullWidthReferenceMatches: 0,
     fullWidthCardSurfaces: [],
     path: '/skills',
     scrollOwners: [
@@ -1476,25 +1530,35 @@ async function runSelfTests() {
     /active page main does not span the shell scroll viewport/i,
   );
   await expectFailure(
-    'a constrained DORA card cannot pass as full-width content',
+    'a shared DORA width cap cannot pass as full-width content',
     () =>
       assertRouteMetrics(
         selfTestRoute({
           fullWidthContent: {
             cardSelector: '[data-testid="dora-capability-card"]',
-            referenceSelector: '.astryx-banner',
+            referenceSelector: '[data-testid="dora-capabilities-banner"]',
+            regionSelector: '#dora-capabilities-title',
           },
           path: '/',
         }),
-        { width: 375, height: 667 },
+        { width: 820, height: 1180 },
         selfTestMetrics({
-          fullWidthReference: { left: 16, right: 359, width: 343 },
-          fullWidthCardSurfaces: [{ left: 16, right: 343, width: 327 }],
+          frame: { left: 0, right: 820, width: 820 },
+          main: { left: 0, right: 808, width: 808 },
+          fullWidthRegion: { left: 0, right: 808, width: 808 },
+          fullWidthRegionPaddingInlineEnd: 16,
+          fullWidthRegionPaddingInlineStart: 16,
+          fullWidthReference: { left: 16, right: 448, width: 432 },
+          fullWidthReferenceMatches: 1,
+          fullWidthCardSurfaces: [{ left: 16, right: 448, width: 432 }],
           path: '/',
+          scrollOwner: { left: 0, right: 820, width: 820 },
+          scrollOwnerClientWidth: 808,
+          viewport: { width: 820, height: 1180 },
         }),
         '/',
       ),
-    /DORA card surfaces do not match the banner width/i,
+    /DORA surfaces do not fill the padded Home content bounds/i,
   );
   await test('a page main spans the shell scroll viewport', () =>
     assertRouteMetrics(

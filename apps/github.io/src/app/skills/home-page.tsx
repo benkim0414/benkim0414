@@ -50,6 +50,7 @@ export function HomePage({
           DORA capabilities
         </Text>
         <Banner
+          data-testid="dora-capabilities-banner"
           description="DORA capabilities are technical, process, and cultural practices associated with stronger software delivery and organizational performance. Each card connects a capability to supporting experience, certifications, and technical skills."
           endContent={
             <Button
