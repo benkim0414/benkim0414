@@ -33,11 +33,6 @@ const visibleEvidenceGroupLabels: Partial<
 };
 
 const styles = stylex.create({
-  root: {
-    display: 'block',
-    maxWidth: `calc(${spacingVars['--spacing-12']} * 9)`,
-    width: '100%',
-  },
   evidenceRows: {
     display: 'flex',
     flexDirection: 'column',
@@ -119,7 +114,7 @@ export function DoraCapabilityCard({
   );
 
   return (
-    <Card padding={4} xstyle={styles.root}>
+    <Card padding={4} width="100%">
       <article aria-labelledby={titleId} data-testid="dora-capability-card">
         <VStack gap={3}>
           <VStack gap={1}>

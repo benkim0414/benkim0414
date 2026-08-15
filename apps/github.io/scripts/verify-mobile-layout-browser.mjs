@@ -22,6 +22,10 @@ const routes = [
     pageRootSelector: 'main[aria-label="Home"]',
     readySelector: 'main[aria-label="Home"]',
     scrollOwnerSelector: shellScrollOwnerSelector,
+    fullWidthContent: {
+      cardSelector: '[data-testid="dora-capability-card"]',
+      referenceSelector: '.astryx-banner',
+    },
     scrollMotion: {
       doraSelector: '#dora-capabilities-title',
       topSkillsSelector: '#top-skills-title',
@@ -700,6 +704,10 @@ async function inspectRoute(bidi, context, route) {
       const expectedScrollOwnerMatches = expectedScrollOwnerSelector
         ? document.querySelectorAll(expectedScrollOwnerSelector).length
         : 0;
+      const fullWidthReferenceSelector = ${JSON.stringify(route.fullWidthContent?.referenceSelector ?? null)};
+      const fullWidthCardSelector = ${JSON.stringify(route.fullWidthContent?.cardSelector ?? null)};
+      const fullWidthReference = ${route.fullWidthContent ? 'document.querySelector(fullWidthReferenceSelector)' : 'null'};
+      const fullWidthCardSurfaces = ${route.fullWidthContent ? '[...document.querySelectorAll(fullWidthCardSelector)].map((card) => card.parentElement)' : '[]'};
       // Audit the entire document, including html/body, the global frame,
       // layout siblings, and descendants. Restricting this search to main
       // lets an unrelated descendant mask a missing page owner and misses a
@@ -730,6 +738,8 @@ async function inspectRoute(bidi, context, route) {
         viewport: { width: innerWidth, height: innerHeight },
         frame: rectangle(main?.closest('.astryx-layout')),
         main: rectangle(main),
+        fullWidthReference: rectangle(fullWidthReference),
+        fullWidthCardSurfaces: fullWidthCardSurfaces.map(rectangle),
         scrollOwner: rectangle(expectedScrollOwner),
         scrollOwnerClientWidth: expectedScrollOwner?.clientWidth ?? null,
         pageRootMatches,
@@ -769,6 +779,27 @@ function assertRouteMetrics(route, viewport, metrics, navigationPath) {
     metrics.pageRootMatches === 1,
     `${label} page root selector ${route.pageRootSelector} matched ${metrics.pageRootMatches} elements.`,
   );
+
+  if (route.fullWidthContent) {
+    assert(
+      metrics.fullWidthReference != null,
+      `${label} has no full-width content reference ${route.fullWidthContent.referenceSelector}.`,
+    );
+    assert(
+      metrics.fullWidthCardSurfaces.length > 0,
+      `${label} has no card surfaces for ${route.fullWidthContent.cardSelector}.`,
+    );
+    assert(
+      metrics.fullWidthCardSurfaces.every(
+        (card) =>
+          card != null &&
+          isWithinTolerance(card.left, metrics.fullWidthReference.left) &&
+          isWithinTolerance(card.right, metrics.fullWidthReference.right) &&
+          isWithinTolerance(card.width, metrics.fullWidthReference.width),
+      ),
+      `${label} DORA card surfaces do not match the banner width: ${JSON.stringify({ banner: metrics.fullWidthReference, cards: metrics.fullWidthCardSurfaces })}`,
+    );
+  }
 
   if (!route.isInFrame) {
     assert(
@@ -1260,6 +1291,8 @@ function selfTestMetrics(overrides = {}) {
     expectedScrollOwnerMatches: 1,
     focusMatches: true,
     focus: null,
+    fullWidthReference: null,
+    fullWidthCardSurfaces: [],
     path: '/skills',
     scrollOwners: [
       {
@@ -1441,6 +1474,27 @@ async function runSelfTests() {
         '/skills',
       ),
     /active page main does not span the shell scroll viewport/i,
+  );
+  await expectFailure(
+    'a constrained DORA card cannot pass as full-width content',
+    () =>
+      assertRouteMetrics(
+        selfTestRoute({
+          fullWidthContent: {
+            cardSelector: '[data-testid="dora-capability-card"]',
+            referenceSelector: '.astryx-banner',
+          },
+          path: '/',
+        }),
+        { width: 375, height: 667 },
+        selfTestMetrics({
+          fullWidthReference: { left: 16, right: 359, width: 343 },
+          fullWidthCardSurfaces: [{ left: 16, right: 343, width: 327 }],
+          path: '/',
+        }),
+        '/',
+      ),
+    /DORA card surfaces do not match the banner width/i,
   );
   await test('a page main spans the shell scroll viewport', () =>
     assertRouteMetrics(
