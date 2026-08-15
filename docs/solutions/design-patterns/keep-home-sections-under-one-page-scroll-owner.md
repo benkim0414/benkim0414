@@ -1,120 +1,185 @@
 ---
-title: Keep Home Sections Under One Page Scroll Owner
+title: Keep Routed Pages Under One Shell Scroll Owner
 date: 2026-08-14
-last_updated: 2026-08-14
+last_updated: 2026-08-15
 category: design-patterns
-module: apps/github.io home page
+module: apps/github.io global navigation shell
 problem_type: design_pattern
 component: testing_framework
 severity: medium
 applies_when:
-  - "Verifying multiple Home sections scroll together below global navigation"
-  - "Separating global-shell, page-scroll, and component-scroll ownership"
-  - "Testing scroll ownership with browser-observed movement"
+  - "Rendering multiple React Router pages below persistent global navigation"
+  - "Keeping one vertical scroll owner across client-side route transitions"
+  - "Resetting a reused shell scroller before the destination paints"
+  - "Rendering routed app stories without nested routers"
+  - "Verifying scroll ownership and SPA transitions in a real browser"
 related_components:
   - github.io GlobalNavigationLayout
-  - github.io HomePage
-  - github.io mobile layout verifier
-  - github.io SkillCarousel
-  - github.io DORA capability cards
-tags: [github-io, mobile, astryx, home-page, scroll-ownership, layout-content, webdriver-bidi]
+  - github.io routed pages
+  - github.io Storybook preview
+  - github.io layout verifier
+  - github.io Firefox browser verifier
+tags:
+  - github-io
+  - app-shell
+  - react-router
+  - scroll-ownership
+  - scroll-reset
+  - storybook
+  - layout-content
+  - browser-verification
 ---
 
-# Keep Home Sections Under One Page Scroll Owner
+# Keep Routed Pages Under One Shell Scroll Owner
 
 ## Context
 
-The `github.io` mobile shell has three distinct ownership boundaries. The
-global layout owns persistent navigation and search, route content owns
-vertical page scrolling, and the skills carousel owns only horizontal
-scrolling.
+The `github.io` app renders several React Router pages beneath persistent global
+navigation. Giving route pages their own vertical overflow owners competed with
+the viewport-height frame: Roadmap rendered inside the shell but could not be
+scrolled through. Moving ownership into the persistent shell fixed page
+scrolling, but exposed a second consequence: the same DOM scroller survives
+client-side navigation and can carry the previous route's offset forward.
 
-An earlier Home layout put Top skills outside a DORA-only vertical scroller.
-That made Top skills appear fixed even without sticky or fixed positioning: an
-ordinary-flow sibling outside the scroll owner does not move with it.
+The durable boundary is one shell-owned vertical scroller around the routed
+outlet. Individual pages contribute a semantic `main`, route-local spacing, and
+content; they do not create another `LayoutContent` or vertical overflow owner.
 
 ## Guidance
 
-Use one route-level vertical scroll owner for every section that should move
-together. `HomePage` uses one Astryx `LayoutContent` main and renders Top skills
-and DORA capabilities as ordinary sibling sections inside it
-(`apps/github.io/src/app/skills/home-page.tsx:27`).
+### Put the scroll owner at the persistent route boundary
+
+Render one `LayoutContent` as the global `Layout`'s `content`, attach the scroll
+ref there, remove its default padding, and place `Outlet` inside it
+(`apps/github.io/src/app/global-navigation-layout.tsx:113`):
 
 ```tsx
-<LayoutContent label="Home" padding={0} role="main">
-  <VStack gap={3} paddingBlock={4}>
-    <Text as="h2" id="top-skills-title">Top skills</Text>
-    <SkillCarousel padding={4} skills={highlightedSkills} variant="compact" />
-  </VStack>
-
-  <VStack gap={3} paddingBlock={4} paddingInline={4}>
-    <Text as="h2" id="dora-capabilities-title">DORA capabilities</Text>
-    {doraCapabilityDefinitions.map(renderCapability)}
-  </VStack>
-</LayoutContent>
+<Layout
+  content={
+    <LayoutContent ref={contentRef} padding={0}>
+      <Outlet />
+    </LayoutContent>
+  }
+  header={/* persistent navigation */}
+/>
 ```
 
-Do not give the DORA stack its own `isScrollable` or `flex-1` allocation.
-Astryx `LayoutContent` supplies vertical scrolling, while `SkillCarousel`
-retains horizontal scrolling and snap behavior
-(`apps/github.io/src/app/skills/skill-carousel.tsx:39`).
+The outer frame uses the viewport height and clips document-level overflow, so
+the shell content is the intended vertical owner rather than the page or body
+(`apps/github.io/src/app/global-navigation-layout.tsx:34`). A route such as
+Roadmap then renders one full-width semantic main with its own spacing and
+content, but no page-local scroll container
+(`apps/github.io/src/app/devops-roadmap/roadmap-page.tsx:12`). Nested horizontal
+components, such as the skills carousel, can retain their independent axis.
 
-Component tests should establish containment: one `LayoutContent`, no
-page-local navigation or search, and adjacent Top skills and DORA sections in
-the same main (`apps/github.io/src/app/skills/home-page.spec.tsx:48`). Because
-jsdom does not perform layout, production browser verification must prove the
-motion contract.
+### Reset the reused owner before a new route paints
 
-The Firefox verifier checks phone and iPad-sized viewports. It finds the sole
-vertical scroll owner, requires real overflow, advances `scrollTop`, and
-compares the displacement of the Top skills and DORA headings
-(`apps/github.io/scripts/verify-mobile-layout-browser.mjs:817`). Both headings
-must move by the same nonzero delta as the owner, and no Top skills ancestor
-may be sticky or fixed. Negative self-tests cover pinned and non-moving Top
-skills sections
-(`apps/github.io/scripts/verify-mobile-layout-browser.mjs:1171`).
+Because React Router swaps the outlet while retaining the shell, reset the
+shell element when `location.pathname` changes. A layout effect applies the new
+route's initial position before paint (`apps/github.io/src/app/global-navigation-layout.tsx:53`,
+`apps/github.io/src/app/global-navigation-layout.tsx:80`):
 
-Selector identity is insufficient on its own: an `overflow-y: auto` element
-may have no overflow, or the intended section may sit outside it. Checking only
-for the absence of sticky or fixed positioning likewise misses an ordinary
-sibling outside the scroller.
+```tsx
+useLayoutEffect(() => {
+  if (contentRef.current) {
+    contentRef.current.scrollTop = 0;
+  }
+}, [location.pathname]);
+```
+
+A focused integration test first sets a nonzero shell offset, follows the real
+Roadmap link, observes the new pathname, and requires the same shell node to be
+back at zero (`apps/github.io/src/app/global-navigation-layout.spec.tsx:181`).
+
+### Give Storybook exactly one routing owner
+
+The preview decorator owns `MemoryRouter`. Routed application stories provide
+an `appRoute` initial entry and render the production route tree directly;
+isolated component stories continue through the smaller `StoryRoutes` harness
+(`apps/github.io/.storybook/preview.ts:13`). This preserves production route
+ownership without rendering a Router inside another Router.
+
+### Prove structure and runtime behavior separately
+
+The static audit resolves local aliases for `Layout`, `LayoutContent`, and
+`Outlet`, then inspects only the exported `GlobalNavigationLayout` function's
+returned tree. It requires exactly one `Layout`, requires its `content` root to
+be the sole `LayoutContent`, and requires that owner to contain the routed
+outlet (`apps/github.io/scripts/verify-global-layout-css.mjs:563`). Page audits
+reject imported `LayoutContent` aliases and require exactly one returned
+semantic main (`apps/github.io/scripts/verify-global-layout-css.mjs:353`).
+
+This fail-closed AST shape matters: raw text counts can be fooled by an aliased
+page owner, an off-shell owner, or unused valid-looking JSX. Negative fixtures
+must keep those realistic mutations failing.
+
+The Firefox verifier complements the source audit by finding the active
+overflow containers in the rendered document and requiring the shell to be the
+sole vertical owner. For route-reset coverage it scrolls the shell, plants a
+random sentinel on the current document, activates the real navigation link
+with pointer input, and requires both a zero destination offset and the same
+sentinel (`apps/github.io/scripts/verify-mobile-layout-browser.mjs:1069`,
+`apps/github.io/scripts/verify-mobile-layout-browser.mjs:1090`). The sentinel
+prevents a full reload—which also starts at zero—from masquerading as a valid
+SPA transition.
 
 ## Why This Matters
 
-Scroll ownership is a containment contract. One page owner is intended to give
-vertical gestures over either Home section one continuous path, while the
-skills carousel remains independently swipeable on its horizontal axis.
-Browser-observed movement protects that behavior more reliably than class
-names or computed overflow values alone.
+Scroll ownership is an architectural containment contract. A persistent frame
+and its routes cannot both assume responsibility for vertical overflow without
+creating clipped or nested scrolling. Keeping that responsibility in one shell
+lets every routed page move beneath the same navigation and keeps page markup
+focused on semantics.
+
+Persistence also creates state. React Router retains the shell while replacing
+its outlet, so correct ownership alone does not guarantee the correct starting
+position for the next route. Resetting on pathname changes makes the retained
+element behave like a fresh page without discarding the shell.
+
+The layered verification protects different failure modes: component tests
+prove the navigation-triggered state change, AST checks prove source ownership
+even through aliases and decoys, and Firefox proves actual overflow, pointer
+navigation, document continuity, and visible scroll position.
 
 ## When to Apply
 
-- A page section appears pinned while another section scrolls.
-- Multiple mobile sections should move beneath persistent global navigation.
-- A nested horizontal component must remain independent of vertical page
-  movement.
-- Layout behavior depends on overflow, containment, sticky, or fixed positioning
-  that jsdom cannot observe.
+- Multiple routes render beneath persistent navigation or another retained
+  application frame.
+- A page appears clipped, pinned, or unscrollable inside a height-constrained
+  shell.
+- A newly selected route inherits the previous route's scroll position.
+- Storybook needs to render production routes as well as isolated components.
+- Layout correctness depends on overflow and DOM persistence that jsdom cannot
+  model.
 
 ## Examples
 
-Avoid a nested DORA scroller when Top skills should move with it:
+Avoid route-local ownership inside an already scrollable shell:
 
 ```tsx
-<TopSkills />
-<VStack className="min-h-0 flex-1" isScrollable>
-  <DORACapabilities />
-</VStack>
+function RoadmapPage() {
+  return (
+    <LayoutContent isScrollable>
+      <main>{/* route content */}</main>
+    </LayoutContent>
+  );
+}
 ```
 
-Prefer component-native carousel padding at the page call site:
+Prefer a semantic route root beneath the shared outlet owner:
 
 ```tsx
-<SkillCarousel padding={4} skills={highlightedSkills} variant="compact" />
+function RoadmapPage() {
+  return <VStack as="main">{/* route content */}</VStack>;
+}
 ```
+
+For browser verification, URL and zero offset are insufficient on their own.
+Require a value stored on the original document to survive the pointer-driven
+transition before accepting the scroll reset.
 
 ## Related
 
 - [Mirror Route Ownership in Mobile Storybook Pages](mirror-app-shell-ownership-in-mobile-storybook-pages.md)
+- [Keep Skill Navigation Route-Authoritative](keep-skill-selection-transition-in-app-shell.md)
 - [Verify Storybook From Linked Worktrees](../workflow-issues/verify-storybook-from-linked-worktree.md)
-- [Verify Astryx Component API Contracts Before Styling](../best-practices/astryx-component-api-contracts.md)

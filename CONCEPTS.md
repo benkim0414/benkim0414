@@ -10,21 +10,21 @@ The static React application that will become the root GitHub Pages user site fo
 
 ### App Shell
 
-The application-level composition boundary for the `github.io` App, owning shared context and the route table that decides which page surface is active without absorbing page-specific content composition.
+The application-level composition boundary for the `github.io` App, owning shared context, persistent global navigation, the route table, and the shared vertical scroll region without absorbing page-specific content composition.
 
-An App Shell keeps cross-page transitions URL-authoritative while each page continues to own its local interactions and content.
+An App Shell keeps cross-page transitions URL-authoritative while each page owns its local interactions, semantic main landmark, spacing, and content. Because its scroll region persists across route changes, the shell also restores the destination route's initial scroll position.
 
 ### Mobile Page Shell
 
-The mobile-only route wrapper for a `github.io` page, including the constrained viewport, persistent global navigation, and the route-level content region below it.
+The responsive, mobile-oriented presentation of the App Shell, including the constrained viewport, persistent global navigation, and the shared scroll region containing the active route.
 
-Mobile Page Shells keep global navigation outside the route's Page Scroll Owner. Page-level Storybook stories should render the ownership boundary needed by the requirement: route content for page scrolling, or the global navigation layout for navigation and search.
+Mobile Page Shells keep global navigation outside the Page Scroll Owner while route mains remain descendants of that owner. Page-level Storybook stories should render the production shell for navigation, routing, or scroll behavior and use isolated route content only for page-local behavior.
 
 ### Page Scroll Owner
 
-The single route-level region inside a Mobile Page Shell that owns vertical overflow for every page section intended to move together.
+The single region inside a Mobile Page Shell that owns vertical overflow for every active-route section intended to move together; for globally framed routes, it belongs to the persistent App Shell rather than to an individual route.
 
-Sections such as Top skills and DORA capabilities must be descendants of the same Page Scroll Owner when they share page movement. Component-local horizontal scrolling, such as a Skill Carousel, remains independent; browser verification should prove both real owner movement and equal displacement of representative sections.
+Route components contribute semantic main landmarks beneath the Page Scroll Owner and do not create competing vertical owners. Sections such as Top skills and DORA capabilities remain descendants of the same owner when they share page movement; component-local horizontal scrolling, such as a Skill Carousel, stays independent.
 
 ### Skill Detail Navigation
 
