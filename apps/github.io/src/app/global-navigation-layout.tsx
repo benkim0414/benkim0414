@@ -1,4 +1,10 @@
-import { useMemo, useState, type ReactElement } from 'react';
+import {
+  useLayoutEffect,
+  useMemo,
+  useRef,
+  useState,
+  type ReactElement,
+} from 'react';
 import { useLocation, useNavigate, Outlet } from 'react-router-dom';
 import {
   CommandPalette,
@@ -47,6 +53,7 @@ const styles = stylex.create({
 export function GlobalNavigationLayout(): ReactElement {
   const location = useLocation();
   const navigate = useNavigate();
+  const contentRef = useRef<HTMLDivElement>(null);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [selectedResultId, setSelectedResultId] = useState<string>();
   const results = useMemo(() => createSkillSearchResults(skills), []);
@@ -69,6 +76,12 @@ export function GlobalNavigationLayout(): ReactElement {
       }),
     [searchItems],
   );
+
+  useLayoutEffect(() => {
+    if (contentRef.current) {
+      contentRef.current.scrollTop = 0;
+    }
+  }, [location.pathname]);
 
   return (
     <>
@@ -99,7 +112,7 @@ export function GlobalNavigationLayout(): ReactElement {
       />
       <Layout
         content={
-          <LayoutContent padding={0}>
+          <LayoutContent ref={contentRef} padding={0}>
             <Outlet />
           </LayoutContent>
         }
