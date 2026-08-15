@@ -217,17 +217,6 @@ function isOpeningElement(node) {
   return ts.isJsxOpeningElement(node) || ts.isJsxSelfClosingElement(node);
 }
 
-function parentJsxTag(openingElement) {
-  const ownElement = openingElement.parent;
-  const parentElement = ownElement?.parent;
-
-  if (!parentElement || !ts.isJsxElement(parentElement)) {
-    return undefined;
-  }
-
-  return jsxTagName(parentElement.openingElement);
-}
-
 function isReturnedRoot(openingElement) {
   let current = openingElement.parent;
 
@@ -315,18 +304,21 @@ export function auditPageRoots(sourcePath) {
   );
   const styleDefinitions = styleObjectDefinitions(sourceFile);
   let recognizedRoots = 0;
+  let pageOwnedLayoutContents = 0;
 
   function visit(node) {
     if (isOpeningElement(node)) {
       const tagName = jsxTagName(node);
       const isPageRoot =
-        tagName === 'LayoutContent' ||
-        (tagName === 'VStack' && parentJsxTag(node) === 'LayoutContent') ||
-        (tagName === 'VStack' &&
-          isReturnedRoot(node) &&
-          (!isNotFoundPageSource(sourcePath) ||
-            attributeValue(jsxAttribute(node, 'data-layout')) ===
-              'full-width'));
+        (tagName === 'main' ||
+          attributeValue(jsxAttribute(node, 'as')) === 'main') &&
+        isReturnedRoot(node) &&
+        (!isNotFoundPageSource(sourcePath) ||
+          attributeValue(jsxAttribute(node, 'data-layout')) === 'full-width');
+
+      if (tagName === 'LayoutContent') {
+        pageOwnedLayoutContents += 1;
+      }
 
       if (isPageRoot) {
         recognizedRoots += 1;
@@ -401,11 +393,41 @@ export function auditPageRoots(sourcePath) {
 
   visit(sourceFile);
 
+  if (pageOwnedLayoutContents > 0) {
+    throw new Error(`${sourcePath} must not render LayoutContent.`);
+  }
+
   if (recognizedRoots === 0) {
-    throw new Error(`${sourcePath} has no recognized page root.`);
+    throw new Error(`${sourcePath} has no semantic main landmark.`);
+  }
+
+  if (recognizedRoots !== 1) {
+    throw new Error(
+      `${sourcePath} has ${recognizedRoots} semantic main landmarks, expected one.`,
+    );
   }
 
   return recognizedRoots;
+}
+
+function jsxElementContainsTag(node, tagName) {
+  let isPresent = false;
+
+  function visit(child) {
+    if (isPresent) {
+      return;
+    }
+
+    if (isOpeningElement(child) && jsxTagName(child) === tagName) {
+      isPresent = true;
+      return;
+    }
+
+    ts.forEachChild(child, visit);
+  }
+
+  ts.forEachChild(node, visit);
+  return isPresent;
 }
 
 export function auditGlobalLayout(sourcePath) {
@@ -417,22 +439,55 @@ export function auditGlobalLayout(sourcePath) {
     true,
     ts.ScriptKind.TSX,
   );
+  const layoutContents = [];
 
   function visit(node) {
-    if (
-      isOpeningElement(node) &&
-      jsxTagName(node) === 'Layout' &&
-      jsxAttribute(node, 'contentWidth')
-    ) {
-      throw new Error(
-        `${sourcePath} constrains the global Layout through contentWidth.`,
-      );
+    if (isOpeningElement(node)) {
+      if (jsxTagName(node) === 'Layout' && jsxAttribute(node, 'contentWidth')) {
+        throw new Error(
+          `${sourcePath} constrains the global Layout through contentWidth.`,
+        );
+      }
+
+      if (jsxTagName(node) === 'LayoutContent') {
+        layoutContents.push(node);
+      }
     }
 
     ts.forEachChild(node, visit);
   }
 
   visit(sourceFile);
+
+  if (layoutContents.length !== 1) {
+    throw new Error(
+      `${sourcePath} must render exactly one LayoutContent shell owner, found ${layoutContents.length}.`,
+    );
+  }
+
+  const [layoutContent] = layoutContents;
+
+  if (
+    layoutContent.attributes.properties.some((attribute) =>
+      ts.isJsxSpreadAttribute(attribute),
+    )
+  ) {
+    throw new Error(
+      `${sourcePath} must not spread props into the LayoutContent shell owner.`,
+    );
+  }
+
+  if (attributeValue(jsxAttribute(layoutContent, 'padding')) !== '0') {
+    throw new Error(
+      `${sourcePath} LayoutContent shell owner must use padding={0}.`,
+    );
+  }
+
+  if (!jsxElementContainsTag(layoutContent.parent, 'Outlet')) {
+    throw new Error(
+      `${sourcePath} LayoutContent shell owner must contain the routed Outlet.`,
+    );
+  }
 }
 
 function assertRejects(failures, label, operation, messagePattern) {
@@ -469,16 +524,16 @@ function runSelfTests() {
     const recognizedRoots = auditPageRoots(
       fixture(
         'recognized-roots.tsx',
-        `import { LayoutContent, VStack } from '@astryxdesign/core/Layout';\nexport function Page() { return <LayoutContent className="w-full"><VStack /></LayoutContent>; }`,
+        `import { VStack } from '@astryxdesign/core/Layout';\nexport function Page() { return <VStack as="main" aria-label="Page" className="w-full">Page</VStack>; }`,
       ),
     );
 
-    if (recognizedRoots !== 2) {
+    if (recognizedRoots !== 1) {
       failures.push(
-        `recognized page roots returned ${recognizedRoots}, expected 2.`,
+        `recognized page roots returned ${recognizedRoots}, expected 1.`,
       );
     } else {
-      console.log('PASS recognized page-root count: 2');
+      console.log('PASS recognized page-root count: 1');
     }
 
     const notFoundRoots = auditPageRoots('src/app/not-found-page.tsx');
@@ -493,15 +548,15 @@ function runSelfTests() {
 
     assertRejects(
       failures,
-      'aliased page root',
+      'page root without a semantic main landmark',
       () =>
         auditPageRoots(
           fixture(
             'aliased-root.tsx',
-            `import { LayoutContent as PageRoot } from '@astryxdesign/core/Layout';\nexport function Page() { return <PageRoot />; }`,
+            `import { VStack } from '@astryxdesign/core/Layout';\nexport function Page() { return <VStack aria-label="Page">Page</VStack>; }`,
           ),
         ),
-      /no recognized page root/,
+      /semantic main landmark/,
     );
     assertRejects(
       failures,
@@ -510,7 +565,7 @@ function runSelfTests() {
         auditPageRoots(
           fixture(
             'constrained-class.tsx',
-            `import { LayoutContent } from '@astryxdesign/core/Layout';\nexport function Page() { return <LayoutContent className="max-w-md mx-auto" />; }`,
+            `import { VStack } from '@astryxdesign/core/Layout';\nexport function Page() { return <VStack as="main" className="max-w-md mx-auto">Page</VStack>; }`,
           ),
         ),
       /constrained className/,
@@ -522,7 +577,7 @@ function runSelfTests() {
         auditPageRoots(
           fixture(
             'dynamic-class.tsx',
-            `import { LayoutContent } from '@astryxdesign/core/Layout';\nexport function Page({ rootClass }) { return <LayoutContent className={rootClass} />; }`,
+            `import { VStack } from '@astryxdesign/core/Layout';\nexport function Page({ rootClass }) { return <VStack as="main" className={rootClass}>Page</VStack>; }`,
           ),
         ),
       /unverifiable className/,
@@ -535,7 +590,7 @@ function runSelfTests() {
           auditPageRoots(
             fixture(
               `constrained-class-${constrainedClassName.replaceAll(/[^a-z0-9]/g, '-')}.tsx`,
-              `import { LayoutContent } from '@astryxdesign/core/Layout';\nexport function Page() { return <LayoutContent className="${constrainedClassName}" />; }`,
+              `import { VStack } from '@astryxdesign/core/Layout';\nexport function Page() { return <VStack as="main" className="${constrainedClassName}">Page</VStack>; }`,
             ),
           ),
         /constrained className/,
@@ -549,7 +604,7 @@ function runSelfTests() {
           auditPageRoots(
             fixture(
               `constrained-width-class-${widthClassName.replaceAll(/[^a-z0-9]/g, '-')}.tsx`,
-              `import { LayoutContent } from '@astryxdesign/core/Layout';\nexport function Page() { return <LayoutContent className="${widthClassName}" />; }`,
+              `import { VStack } from '@astryxdesign/core/Layout';\nexport function Page() { return <VStack as="main" className="${widthClassName}">Page</VStack>; }`,
             ),
           ),
         /constrained className/,
@@ -562,7 +617,7 @@ function runSelfTests() {
         auditPageRoots(
           fixture(
             'spread-attributes.tsx',
-            `import { LayoutContent } from '@astryxdesign/core/Layout';\nexport function Page({ rootProps }) { return <LayoutContent {...rootProps} />; }`,
+            `import { VStack } from '@astryxdesign/core/Layout';\nexport function Page({ rootProps }) { return <VStack as="main" {...rootProps}>Page</VStack>; }`,
           ),
         ),
       /unverifiable spread attributes/,
@@ -581,12 +636,72 @@ function runSelfTests() {
     );
     assertRejects(
       failures,
+      'global shell without a LayoutContent owner',
+      () =>
+        auditGlobalLayout(
+          fixture(
+            'missing-shell-owner.tsx',
+            `import { Layout } from '@astryxdesign/core/Layout';\nexport function GlobalLayout() { return <Layout />; }`,
+          ),
+        ),
+      /exactly one LayoutContent/,
+    );
+    assertRejects(
+      failures,
+      'malformed global shell owner',
+      () =>
+        auditGlobalLayout(
+          fixture(
+            'malformed-shell-owner.tsx',
+            `import { Layout, LayoutContent } from '@astryxdesign/core/Layout';\nimport { Outlet } from 'react-router-dom';\nexport function GlobalLayout() { return <Layout content={<LayoutContent padding={4}><Outlet /></LayoutContent>} />; }`,
+          ),
+        ),
+      /padding=\{0\}/,
+    );
+    assertRejects(
+      failures,
+      'global shell owner without the routed Outlet',
+      () =>
+        auditGlobalLayout(
+          fixture(
+            'shell-owner-without-outlet.tsx',
+            `import { Layout, LayoutContent } from '@astryxdesign/core/Layout';\nexport function GlobalLayout() { return <Layout content={<LayoutContent padding={0}>Content</LayoutContent>} />; }`,
+          ),
+        ),
+      /contain the routed Outlet/,
+    );
+    assertRejects(
+      failures,
+      'page-owned LayoutContent',
+      () =>
+        auditPageRoots(
+          fixture(
+            'page-owned-layout-content.tsx',
+            `import { LayoutContent, VStack } from '@astryxdesign/core/Layout';\nexport function Page() { return <VStack as="main" aria-label="Page" padding={4}><LayoutContent /></VStack>; }`,
+          ),
+        ),
+      /must not render LayoutContent/,
+    );
+    assertRejects(
+      failures,
+      'Roadmap root without a semantic main landmark',
+      () =>
+        auditPageRoots(
+          fixture(
+            'roadmap-root-contract.tsx',
+            `import { VStack } from '@astryxdesign/core/Layout';\nexport function RoadmapPage() { return <VStack aria-label="Roadmap" padding={4}>Roadmap</VStack>; }`,
+          ),
+        ),
+      /semantic main landmark/,
+    );
+    assertRejects(
+      failures,
       'page-root maxWidth',
       () =>
         auditPageRoots(
           fixture(
             'constrained-prop.tsx',
-            `import { LayoutContent } from '@astryxdesign/core/Layout';\nexport function Page() { return <LayoutContent maxWidth={448} />; }`,
+            `import { VStack } from '@astryxdesign/core/Layout';\nexport function Page() { return <VStack as="main" maxWidth={448}>Page</VStack>; }`,
           ),
         ),
       /constrained maxWidth/,
@@ -628,6 +743,7 @@ function verifyBuiltLayout() {
     'src/app/skills/home-page.tsx',
     'src/app/skills/skills-page.tsx',
     'src/app/skills/skill-detail-page.tsx',
+    'src/app/devops-roadmap/roadmap-page.tsx',
     'src/app/not-found-page.tsx',
   ]) {
     auditPageRoots(sourcePath);

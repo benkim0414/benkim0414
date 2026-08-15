@@ -1066,6 +1066,100 @@ async function tapSkillRowBottomEdge(bidi, context, row, signal) {
   return navigation;
 }
 
+function assertTopNavScrollReset(viewport, destinationPath, transition) {
+  const label = `${viewport.width}x${viewport.height} top-nav transition to ${destinationPath}`;
+
+  assert(
+    transition.path === destinationPath,
+    `${label} reached ${transition.path}, expected ${destinationPath}.`,
+  );
+  assert(
+    typeof transition.scrollTop === 'number',
+    `${label} did not expose the shell scroll position.`,
+  );
+  assert(
+    isWithinTolerance(transition.scrollTop, 0),
+    `${label} did not reset shell scroll: ${transition.scrollTop}.`,
+  );
+}
+
+async function verifyTopNavScrollReset(
+  bidi,
+  context,
+  viewport,
+  destinationPath,
+  destinationReadySelector,
+  signal,
+) {
+  const setup = await evaluateJson(
+    bidi,
+    context,
+    `
+      const owner = document.querySelector(${JSON.stringify(shellScrollOwnerSelector)});
+      const link = [...document.querySelectorAll('nav a')].find(
+        (candidate) => candidate.getAttribute('href') === ${JSON.stringify(destinationPath)},
+      );
+      const maxScrollTop = Math.max(0, (owner?.scrollHeight ?? 0) - (owner?.clientHeight ?? 0));
+      const targetScrollTop = Math.min(160, maxScrollTop);
+      if (owner) owner.scrollTop = targetScrollTop;
+      const rectangle = link?.getBoundingClientRect();
+      return {
+        link: rectangle
+          ? { left: rectangle.left, top: rectangle.top, width: rectangle.width, height: rectangle.height }
+          : null,
+        scrollTop: owner?.scrollTop ?? null,
+      };
+    `,
+  );
+
+  assert(
+    typeof setup.scrollTop === 'number' && setup.scrollTop > SUBPIXEL_TOLERANCE,
+    `${viewport.width}x${viewport.height} top-nav transition could not set a nonzero shell scroll position: ${JSON.stringify(setup)}.`,
+  );
+  assert(
+    setup.link != null && setup.link.width > 0 && setup.link.height > 0,
+    `${viewport.width}x${viewport.height} has no visible top-nav link for ${destinationPath}.`,
+  );
+
+  const x = Math.round(setup.link.left + setup.link.width / 2);
+  const y = Math.round(setup.link.top + setup.link.height / 2);
+  await bidi.command('input.performActions', {
+    actions: [
+      {
+        actions: [
+          { duration: 0, origin: 'viewport', type: 'pointerMove', x, y },
+          { button: 0, type: 'pointerDown' },
+          { button: 0, type: 'pointerUp' },
+        ],
+        id: 'top-nav-scroll-reset-pointer',
+        parameters: { pointerType: 'mouse' },
+        type: 'pointer',
+      },
+    ],
+    context,
+  });
+
+  try {
+    await waitForSelector(bidi, context, destinationReadySelector, signal);
+  } finally {
+    await bidi.command('input.releaseActions', { context });
+  }
+
+  const transition = await evaluateJson(
+    bidi,
+    context,
+    `
+      const owner = document.querySelector(${JSON.stringify(shellScrollOwnerSelector)});
+      return { path: location.pathname, scrollTop: owner?.scrollTop ?? null };
+    `,
+  );
+
+  assertTopNavScrollReset(viewport, destinationPath, transition);
+  console.log(
+    `PASS ${viewport.width}x${viewport.height} top-nav transition pathname=${transition.path} shell-scroll=${transition.scrollTop.toFixed(2)}px`,
+  );
+}
+
 async function verifyRoutes(bidi, context, baseUrl, signal) {
   for (const viewport of viewports) {
     throwIfCancelled(signal);
@@ -1100,6 +1194,17 @@ async function verifyRoutes(bidi, context, baseUrl, signal) {
       }
 
       assertRouteMetrics(route, viewport, metrics, navigationPath);
+
+      if (route.path === '/') {
+        await verifyTopNavScrollReset(
+          bidi,
+          context,
+          viewport,
+          '/roadmap',
+          'main h1',
+          signal,
+        );
+      }
 
       if (route.path === '/skills') {
         const rows = await inspectSkillRows(bidi, context);
@@ -1356,6 +1461,15 @@ async function runSelfTests() {
         '/skills',
       ),
     /evaluated pathname/i,
+  );
+  await expectFailure(
+    'a top-nav transition retaining shell scroll is rejected',
+    () =>
+      assertTopNavScrollReset({ width: 375, height: 667 }, '/roadmap', {
+        path: '/roadmap',
+        scrollTop: 160,
+      }),
+    /did not reset shell scroll/i,
   );
 
   await test('a resource acquired during cancellation is registered before unwind', async () => {

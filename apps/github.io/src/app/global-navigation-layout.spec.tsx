@@ -1,6 +1,7 @@
 import type { ComponentProps, ReactNode } from 'react';
 import { fireEvent, render } from '@testing-library/react';
 import { Theme } from '@astryxdesign/core';
+import { LinkProvider } from '@astryxdesign/core/Link';
 import { TopNavItem } from '@astryxdesign/core/TopNav';
 import {
   colorVars,
@@ -12,6 +13,7 @@ import { vi } from 'vitest';
 import * as stylex from '@stylexjs/stylex';
 
 import { GlobalNavigationLayout } from './global-navigation-layout';
+import { RouterLink } from './router-link';
 
 const styles = stylex.create({
   selectedNavigationItem: {
@@ -114,17 +116,19 @@ function Location() {
 function renderGlobalLayout(initialEntry = '/') {
   const view = render(
     <Theme theme={neutralTheme}>
-      <MemoryRouter initialEntries={[initialEntry]}>
-        <Location />
-        <Routes>
-          <Route element={<GlobalNavigationLayout />}>
-            <Route index element={<RouteContent />} />
-            <Route path="roadmap" element={<RouteContent />} />
-            <Route path="skills" element={<RouteContent />} />
-            <Route path="skills/:skillId" element={<RouteContent />} />
-          </Route>
-        </Routes>
-      </MemoryRouter>
+      <LinkProvider component={RouterLink}>
+        <MemoryRouter initialEntries={[initialEntry]}>
+          <Location />
+          <Routes>
+            <Route element={<GlobalNavigationLayout />}>
+              <Route index element={<RouteContent />} />
+              <Route path="roadmap" element={<RouteContent />} />
+              <Route path="skills" element={<RouteContent />} />
+              <Route path="skills/:skillId" element={<RouteContent />} />
+            </Route>
+          </Routes>
+        </MemoryRouter>
+      </LinkProvider>
     </Theme>,
   );
 
@@ -157,7 +161,9 @@ describe('GlobalNavigationLayout', () => {
     expect(container.querySelectorAll('.astryx-layout-content')).toHaveLength(
       1,
     );
-    expect(getByText('Route content').closest('.astryx-layout-content')).toBeTruthy();
+    expect(
+      getByText('Route content').closest('.astryx-layout-content'),
+    ).toBeTruthy();
   });
 
   it('renders primary page links with their route destinations', () => {
@@ -172,20 +178,42 @@ describe('GlobalNavigationLayout', () => {
     );
   });
 
+  it('resets the shell scroll owner when a top-nav link changes routes', () => {
+    const { getByRole, getByTestId, getByText } = renderGlobalLayout();
+    const shellScrollOwner = getByText('Route content').closest(
+      '.astryx-layout-content',
+    );
+
+    if (!(shellScrollOwner instanceof HTMLElement)) {
+      throw new Error('Expected the shell scroll owner.');
+    }
+
+    shellScrollOwner.scrollTop = 160;
+    expect(shellScrollOwner.scrollTop).toBe(160);
+
+    fireEvent.click(getByRole('link', { name: 'Roadmap' }));
+
+    expect(getByTestId('location').textContent).toBe('/roadmap');
+    expect(shellScrollOwner.scrollTop).toBe(0);
+  });
+
   it.each([
     ['/', 'Home'],
     ['/roadmap', 'Roadmap'],
     ['/skills', 'Skills'],
     ['/skills/kubernetes', 'Skills'],
-  ])('marks only %s primary navigation item as current', (path, currentLink) => {
-    const { getByRole } = renderGlobalLayout(path);
+  ])(
+    'marks only %s primary navigation item as current',
+    (path, currentLink) => {
+      const { getByRole } = renderGlobalLayout(path);
 
-    for (const label of ['Home', 'Roadmap', 'Skills']) {
-      expect(getByRole('link', { name: label }).getAttribute('aria-current')).toBe(
-        label === currentLink ? 'page' : null,
-      );
-    }
-  });
+      for (const label of ['Home', 'Roadmap', 'Skills']) {
+        expect(
+          getByRole('link', { name: label }).getAttribute('aria-current'),
+        ).toBe(label === currentLink ? 'page' : null);
+      }
+    },
+  );
 
   it('keeps the selected navigation item text-only', () => {
     const { getByRole } = render(
