@@ -139,6 +139,23 @@ function renderGlobalLayout(initialEntry = '/') {
   return view;
 }
 
+function expectTooltipFor(control: HTMLElement, text: string) {
+  const describedBy = control.getAttribute('aria-describedby');
+
+  expect(describedBy).toBeTruthy();
+
+  const matchingTooltip = describedBy
+    ?.split(' ')
+    .map((id) => control.ownerDocument.getElementById(id))
+    .find(
+      (element) =>
+        element?.getAttribute('role') === 'tooltip' &&
+        element.textContent?.trim() === text,
+    );
+
+  expect(matchingTooltip).toBeTruthy();
+}
+
 describe('GlobalNavigationLayout', () => {
   it('renders one heading-free global nav above routed content', () => {
     const { container, getByRole, getByText, queryByRole } =
@@ -185,7 +202,10 @@ describe('GlobalNavigationLayout', () => {
       within(navigation).getAllByRole('link').map(
         (link) => link.getAttribute('aria-label') ?? link.textContent?.trim(),
       ),
-    ).toEqual(['Home', 'Skills', 'Roadmap']);
+    ).toEqual(['Home', 'Skills', 'Roadmap', 'GitHub']);
+    expect(getByRole('link', { name: 'GitHub' }).getAttribute('href')).toBe(
+      'https://github.com/benkim0414',
+    );
   });
 
   it('renders Home as an icon-only link at the start of the global nav', () => {
@@ -196,6 +216,29 @@ describe('GlobalNavigationLayout', () => {
     expect(navigation.firstElementChild?.contains(homeLink)).toBe(true);
     expect(homeLink.textContent?.trim()).toBe('');
     expect(homeLink.querySelector('svg')).toBeTruthy();
+  });
+
+  it('renders the GitHub profile icon link next to the search button', () => {
+    const { getByRole } = renderGlobalLayout();
+    const navigation = getByRole('navigation', { name: 'Global navigation' });
+    const searchButton = getByRole('button', { name: 'Search skills' });
+    const githubLink = getByRole('link', { name: 'GitHub' });
+
+    expect(navigation.contains(searchButton)).toBe(true);
+    expect(navigation.contains(githubLink)).toBe(true);
+    expect(searchButton.compareDocumentPosition(githubLink)).toBe(
+      Node.DOCUMENT_POSITION_FOLLOWING,
+    );
+    expect(githubLink.textContent?.trim()).toBe('');
+    expect(githubLink.querySelector('svg')).toBeTruthy();
+  });
+
+  it('provides tooltips for global nav icon controls', () => {
+    const { getByRole } = renderGlobalLayout();
+
+    expectTooltipFor(getByRole('link', { name: 'Home' }), 'Home');
+    expectTooltipFor(getByRole('button', { name: 'Search skills' }), 'Search');
+    expectTooltipFor(getByRole('link', { name: 'GitHub' }), 'GitHub');
   });
 
   it('colors the Home icon link with the blue icon color', () => {
