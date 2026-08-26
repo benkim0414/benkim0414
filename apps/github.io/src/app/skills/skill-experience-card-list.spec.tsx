@@ -37,8 +37,12 @@ describe('SkillExperienceCardList', () => {
       }),
     ).toBeInTheDocument();
     expect(within(item).getByText(ciCdExperience.summary)).toBeInTheDocument();
-    expect(within(item).getByText(ciCdExperience.narrative[0])).toBeInTheDocument();
-    expect(within(item).getByText(ciCdExperience.narrative[1])).toBeInTheDocument();
+    expect(
+      within(item).getByText(ciCdExperience.narrative[0]),
+    ).toBeInTheDocument();
+    expect(
+      within(item).getByText(ciCdExperience.narrative[1]),
+    ).toBeInTheDocument();
   });
 
   it('renders metadata and technology tokens without nested cards', () => {

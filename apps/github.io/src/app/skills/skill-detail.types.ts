@@ -1,4 +1,6 @@
-import type { CapabilityEvidenceItem } from '../devops-capability-evidence/devops-capability-evidence.types';
+import type {
+  CapabilityEvidenceItem,
+} from '../devops-capability-evidence/devops-capability-evidence.types';
 import type { Experience } from '../experience/experience.types';
 import type { Project } from '../projects/project-list.types';
 import type { Skill } from './skill-list.types';
