@@ -16,6 +16,10 @@ export interface SkillExperienceCardListProps {
   readonly experiences: readonly Experience[];
 }
 
+export interface SkillExperienceCardProps {
+  readonly experience: Experience;
+}
+
 const styles = stylex.create({
   list: {
     margin: 0,
@@ -45,48 +49,48 @@ export function SkillExperienceCardList({
       {experiences.map((experience) => (
         <li key={experience.id} {...stylex.props(styles.item)}>
           <VStack paddingBlock={2}>
-            <Card width="100%">
-              <VStack gap={3}>
-                <VStack gap={1}>
-                  <Heading level={3}>{experience.title}</Heading>
-                  <Text as="p" type="body">
-                    {experience.summary}
-                  </Text>
-                </VStack>
-
-                <VStack gap={2}>
-                  {experience.narrative.map((paragraph) => (
-                    <Text key={paragraph} as="p" type="body" color="secondary">
-                      {paragraph}
-                    </Text>
-                  ))}
-                </VStack>
-
-                <ExperienceMetadata experience={experience} />
-
-                {experience.technologies.length > 0 ? (
-                  <HStack
-                    as="ul"
-                    gap={1}
-                    wrap="wrap"
-                    xstyle={styles.tokenList}
-                  >
-                    {experience.technologies.map((technology) => (
-                      <li
-                        key={technology}
-                        {...stylex.props(styles.tokenItem)}
-                      >
-                        <Token label={technology} size="sm" />
-                      </li>
-                    ))}
-                  </HStack>
-                ) : null}
-              </VStack>
-            </Card>
+            <SkillExperienceCard experience={experience} />
           </VStack>
         </li>
       ))}
     </ul>
+  );
+}
+
+export function SkillExperienceCard({
+  experience,
+}: SkillExperienceCardProps): ReactElement {
+  return (
+    <Card width="100%">
+      <VStack gap={3}>
+        <VStack gap={1}>
+          <Heading level={3}>{experience.title}</Heading>
+          <Text as="p" type="body">
+            {experience.summary}
+          </Text>
+        </VStack>
+
+        <VStack gap={2}>
+          {experience.narrative.map((paragraph) => (
+            <Text key={paragraph} as="p" type="body" color="secondary">
+              {paragraph}
+            </Text>
+          ))}
+        </VStack>
+
+        <ExperienceMetadata experience={experience} />
+
+        {experience.technologies.length > 0 ? (
+          <HStack as="ul" gap={1} wrap="wrap" xstyle={styles.tokenList}>
+            {experience.technologies.map((technology) => (
+              <li key={technology} {...stylex.props(styles.tokenItem)}>
+                <Token label={technology} size="sm" />
+              </li>
+            ))}
+          </HStack>
+        ) : null}
+      </VStack>
+    </Card>
   );
 }
 
@@ -102,16 +106,15 @@ function ExperienceMetadata({
   return (
     <MetadataList>
       {experience.role ? (
-        <MetadataListItem label="Role">{experience.role}</MetadataListItem>
+        <MetadataListItem label="Role">
+          <Text as="span" type="body">
+            {experience.role}
+          </Text>
+        </MetadataListItem>
       ) : null}
       {environments.length > 0 ? (
         <MetadataListItem label="Environments">
-          <HStack
-            as="ul"
-            gap={1}
-            wrap="wrap"
-            xstyle={styles.tokenList}
-          >
+          <HStack as="ul" gap={1} wrap="wrap" xstyle={styles.tokenList}>
             {environments.map(({ label }) => (
               <li key={label} {...stylex.props(styles.tokenItem)}>
                 <Token label={label} size="sm" color="gray" />

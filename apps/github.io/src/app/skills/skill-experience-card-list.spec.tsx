@@ -1,7 +1,10 @@
 import { render, screen, within } from '@testing-library/react';
 
 import type { Experience } from '../experience/experience.types';
-import { SkillExperienceCardList } from './skill-experience-card-list';
+import {
+  SkillExperienceCard,
+  SkillExperienceCardList,
+} from './skill-experience-card-list';
 
 const ciCdExperience: Experience = {
   id: 'aws-codepipeline-codebuild-multistage-delivery',
@@ -21,12 +24,31 @@ const ciCdExperience: Experience = {
   isPublic: true,
 };
 
+describe('SkillExperienceCard', () => {
+  it('renders experience text through Astryx typography components', () => {
+    render(<SkillExperienceCard experience={ciCdExperience} />);
+
+    const card = screen
+      .getByRole('heading', {
+        level: 3,
+        name: 'Multi-stage AWS CI/CD delivery pipeline',
+      })
+      .closest('.astryx-card');
+
+    expect(card).not.toBeNull();
+    expect(card?.querySelectorAll('.astryx-text')).toHaveLength(4);
+    expect(
+      within(card as HTMLElement).getByText('Platform engineer').className,
+    ).toContain('astryx-text');
+  });
+});
+
 describe('SkillExperienceCardList', () => {
   it('renders each experience as a titled Astryx Card narrative', () => {
     render(<SkillExperienceCardList experiences={[ciCdExperience]} />);
 
     const list = screen.getByRole('list', { name: 'Skill experience' });
-    const item = within(list).getByRole('listitem');
+    const item = list.firstElementChild as HTMLElement;
     const card = item.querySelector('.astryx-card');
 
     expect(card).not.toBeNull();
@@ -35,28 +57,25 @@ describe('SkillExperienceCardList', () => {
         level: 3,
         name: 'Multi-stage AWS CI/CD delivery pipeline',
       }),
-    ).toBeInTheDocument();
-    expect(within(item).getByText(ciCdExperience.summary)).toBeInTheDocument();
-    expect(
-      within(item).getByText(ciCdExperience.narrative[0]),
-    ).toBeInTheDocument();
-    expect(
-      within(item).getByText(ciCdExperience.narrative[1]),
-    ).toBeInTheDocument();
+    ).toBeTruthy();
+    expect(within(item).getByText(ciCdExperience.summary)).toBeTruthy();
+    expect(within(item).getByText(ciCdExperience.narrative[0])).toBeTruthy();
+    expect(within(item).getByText(ciCdExperience.narrative[1])).toBeTruthy();
   });
 
   it('renders metadata and technology tokens without nested cards', () => {
     render(<SkillExperienceCardList experiences={[ciCdExperience]} />);
 
-    const item = screen.getByRole('listitem');
+    const list = screen.getByRole('list', { name: 'Skill experience' });
+    const item = list.firstElementChild as HTMLElement;
 
-    expect(within(item).getByText('Role')).toBeInTheDocument();
-    expect(within(item).getByText('Platform engineer')).toBeInTheDocument();
-    expect(within(item).getByText('Environments')).toBeInTheDocument();
-    expect(within(item).getByText('Staging')).toBeInTheDocument();
-    expect(within(item).getByText('Production')).toBeInTheDocument();
-    expect(within(item).getByText('AWS CodePipeline')).toBeInTheDocument();
-    expect(within(item).getByText('AWS CodeBuild')).toBeInTheDocument();
+    expect(within(item).getByText('Role')).toBeTruthy();
+    expect(within(item).getByText('Platform engineer')).toBeTruthy();
+    expect(within(item).getByText('Environments')).toBeTruthy();
+    expect(within(item).getByText('Staging')).toBeTruthy();
+    expect(within(item).getByText('Production')).toBeTruthy();
+    expect(within(item).getByText('AWS CodePipeline')).toBeTruthy();
+    expect(within(item).getByText('AWS CodeBuild')).toBeTruthy();
     expect(item.querySelectorAll('.astryx-card')).toHaveLength(1);
   });
 });
