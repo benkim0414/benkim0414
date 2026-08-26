@@ -32,7 +32,7 @@ interface GlobalSearchCommandItem extends GlobalSearchResult {
   };
 }
 
-const HOME_NAVIGATION_ICON_COLOR = '#0064E0';
+const HOME_NAVIGATION_ICON_COLOR = 'var(--color-icon-blue)';
 
 const styles = stylex.create({
   frame: {
@@ -172,8 +172,8 @@ export function GlobalNavigationLayout(): ReactElement {
                   icon={
                     <HomeModernIcon
                       aria-hidden
+                      color={HOME_NAVIGATION_ICON_COLOR}
                       height={16}
-                      style={{ color: HOME_NAVIGATION_ICON_COLOR }}
                       width={16}
                     />
                   }

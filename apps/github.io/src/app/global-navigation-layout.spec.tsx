@@ -253,12 +253,12 @@ describe('GlobalNavigationLayout', () => {
     expect(homeLink.className).toBe(blueIconControl.className);
   });
 
-  it('applies visible blue directly to the Home heroicon', () => {
+  it('applies the Astryx blue token directly to the Home heroicon', () => {
     const { getByRole } = renderGlobalLayout();
     const icon = getByRole('link', { name: 'Home' }).querySelector('svg');
 
     expect(icon).toBeTruthy();
-    expect(icon?.getAttribute('style')).toContain('color: rgb(0, 100, 224)');
+    expect(icon?.getAttribute('color')).toBe('var(--color-icon-blue)');
   });
 
   it('resets the shell scroll owner when a top-nav link changes routes', () => {
