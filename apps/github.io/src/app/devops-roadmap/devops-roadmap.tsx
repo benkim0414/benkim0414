@@ -2,7 +2,7 @@ import { useCallback, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import * as stylex from '@stylexjs/stylex';
 import { ReactFlow, type Edge, type Node } from '@xyflow/react';
 
-import { devOpsRoadmapItems } from './devops-roadmap.data';
+import { devOpsRoadmapSkillInventoryNodes } from './devops-roadmap-skill-inventory.data';
 import {
   DEVOPS_ROADMAP_NODE_WIDTH,
   DevOpsRoadmapNode,
@@ -16,7 +16,9 @@ const BASE_NODE_HEIGHT = 148;
 const NODE_GAP = 48;
 const EXTRA_SKILL_ROW_HEIGHT = 50;
 const CERTIFICATION_SECTION_HEIGHT = 50;
+const CONCEPT_SECTION_ROW_HEIGHT = 42;
 const SKILLS_PER_ROW = 2;
+const CONCEPTS_PER_ROW = 2;
 const TIMELINE_X = 0;
 type RoadmapNode = Node<{ item: DevOpsRoadmapItem }>;
 interface TimelineElements {
@@ -40,16 +42,23 @@ const styles = stylex.create({
 });
 
 function getEstimatedNodeHeight(item: DevOpsRoadmapItem) {
-  const skillRows = Math.ceil(item.skills.length / SKILLS_PER_ROW);
+  const evidenceSkillTokens = item.evidenceSkillTokens ?? item.skills ?? [];
+  const coveredRoadmapConcepts = item.coveredRoadmapConcepts ?? [];
+  const skillRows = Math.ceil(evidenceSkillTokens.length / SKILLS_PER_ROW);
+  const conceptRows = Math.ceil(
+    coveredRoadmapConcepts.length / CONCEPTS_PER_ROW,
+  );
   const extraRows = Math.max(0, skillRows - 1);
   const certificationSectionHeight = item.certifications?.length
     ? CERTIFICATION_SECTION_HEIGHT
     : 0;
+  const conceptSectionHeight = conceptRows * CONCEPT_SECTION_ROW_HEIGHT;
 
   return (
     BASE_NODE_HEIGHT +
     extraRows * EXTRA_SKILL_ROW_HEIGHT +
-    certificationSectionHeight
+    certificationSectionHeight +
+    conceptSectionHeight
   );
 }
 
@@ -118,7 +127,7 @@ function areTimelineElementsEqual(
 
 export function DevOpsRoadmap({
   ariaLabel = 'DevOps roadmap diagram',
-  items = devOpsRoadmapItems,
+  items = devOpsRoadmapSkillInventoryNodes,
   isReversed = false,
 }: DevOpsRoadmapProps) {
   const flowRef = useRef<HTMLDivElement>(null);
