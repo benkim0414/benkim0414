@@ -3,13 +3,114 @@ import type { Skill } from './skill-list.types';
 
 export const skills: readonly Skill[] = [
   {
-    id: 'argo',
-    name: 'Argo',
-    description: 'GitOps and workflow tooling for Kubernetes delivery.',
+    id: 'alertmanager',
+    name: 'Alertmanager',
+    description:
+      'Prometheus alert routing and notification management for operational response.',
+    categories: ['Observability'],
+    level: 2,
+    iconSlug: 'alertmanager',
+    keywords: ['alerts', 'prometheus', 'observability', 'incident response'],
+  },
+  {
+    id: 'alloy',
+    name: 'Alloy',
+    description:
+      'Grafana telemetry collection for metrics, logs, and observability pipelines.',
+    categories: ['Observability'],
+    level: 2,
+    iconSlug: 'alloy',
+    keywords: ['grafana', 'telemetry', 'observability', 'collector'],
+  },
+  {
+    id: 'amazon-ecr',
+    name: 'Amazon ECR',
+    description:
+      'AWS container registry for immutable image publishing and deployment traceability.',
+    categories: ['Cloud', 'Container'],
+    level: 3,
+    iconSlug: 'amazon-ecr',
+    keywords: ['aws', 'container registry', 'ecr', 'image'],
+  },
+  {
+    id: 'amazon-eks',
+    name: 'Amazon EKS',
+    description:
+      'Managed Kubernetes platform for cloud-native workload delivery on AWS.',
+    categories: ['Cloud', 'Container'],
+    level: 3,
+    iconSlug: 'amazon-eks',
+    keywords: ['aws', 'eks', 'kubernetes', 'managed cluster'],
+  },
+  {
+    id: 'argo-cd',
+    name: 'Argo CD',
+    description:
+      'GitOps continuous delivery controller for Kubernetes application reconciliation.',
     categories: ['CI/CD', 'Cloud'],
     level: 3,
     iconSlug: 'argo',
     keywords: ['gitops', 'argocd', 'kubernetes', 'delivery'],
+  },
+  {
+    id: 'aws-codebuild',
+    name: 'AWS CodeBuild',
+    description:
+      'Managed build service for CI validation, tests, and container workflows.',
+    categories: ['CI/CD', 'Cloud'],
+    level: 3,
+    iconSlug: 'aws-codebuild',
+    keywords: ['aws', 'codebuild', 'ci', 'builds', 'tests'],
+  },
+  {
+    id: 'aws-codepipeline',
+    name: 'AWS CodePipeline',
+    description:
+      'AWS delivery pipeline automation for approval-gated and environment-aware releases.',
+    categories: ['CI/CD', 'Cloud'],
+    level: 3,
+    iconSlug: 'aws-codepipeline',
+    keywords: ['aws', 'codepipeline', 'delivery', 'deployment'],
+  },
+  {
+    id: 'aws-eventbridge',
+    name: 'AWS EventBridge',
+    description:
+      'Event-driven AWS integration for automation, alerting, and operational workflows.',
+    categories: ['Cloud', 'Tooling'],
+    level: 2,
+    iconSlug: 'aws-eventbridge',
+    keywords: ['aws', 'eventbridge', 'events', 'automation'],
+  },
+  {
+    id: 'aws-iam',
+    name: 'AWS IAM',
+    description:
+      'AWS identity and access management for scoped permissions and security controls.',
+    categories: ['Cloud'],
+    level: 3,
+    iconSlug: 'aws-iam',
+    keywords: ['aws', 'iam', 'identity', 'permissions', 'security'],
+  },
+  {
+    id: 'aws-lambda',
+    name: 'AWS Lambda',
+    description:
+      'Serverless compute for event-driven automation and cloud integrations.',
+    categories: ['Cloud', 'Runtime'],
+    level: 2,
+    iconSlug: 'aws-lambda',
+    keywords: ['aws', 'lambda', 'serverless', 'automation'],
+  },
+  {
+    id: 'aws-systems-manager-parameter-store',
+    name: 'AWS Systems Manager Parameter Store',
+    description:
+      'AWS configuration and secret parameter storage for automated delivery workflows.',
+    categories: ['Cloud', 'Tooling'],
+    level: 2,
+    iconSlug: 'aws-systems-manager-parameter-store',
+    keywords: ['aws', 'systems manager', 'parameter store', 'configuration'],
   },
   {
     id: 'claude-code',
@@ -48,6 +149,26 @@ export const skills: readonly Skill[] = [
     keywords: ['react native', 'mobile', 'ios', 'android'],
   },
   {
+    id: 'git',
+    name: 'Git',
+    description:
+      'Distributed version control for delivery workflows and infrastructure changes.',
+    categories: ['Tooling'],
+    level: 4,
+    iconSlug: 'git',
+    keywords: ['version control', 'repository', 'branching', 'history'],
+  },
+  {
+    id: 'github',
+    name: 'GitHub',
+    description:
+      'Repository hosting and collaboration platform for CI/CD and code review workflows.',
+    categories: ['Tooling', 'CI/CD'],
+    level: 4,
+    iconSlug: 'github',
+    keywords: ['repository', 'pull requests', 'collaboration', 'automation'],
+  },
+  {
     id: 'github-actions',
     name: 'GitHub Actions',
     description:
@@ -70,11 +191,32 @@ export const skills: readonly Skill[] = [
   {
     id: 'grafana',
     name: 'Grafana',
-    description: 'Observability dashboards for metrics and operational signals.',
+    description:
+      'Observability dashboards for metrics and operational signals.',
     categories: ['Observability'],
     level: 3,
     iconSlug: 'grafana',
     keywords: ['observability', 'metrics', 'dashboards', 'monitoring'],
+  },
+  {
+    id: 'helm',
+    name: 'Helm',
+    description:
+      'Kubernetes package management for reusable workload deployment templates.',
+    categories: ['Container', 'CI/CD'],
+    level: 3,
+    iconSlug: 'helm',
+    keywords: ['kubernetes', 'charts', 'templates', 'deployment'],
+  },
+  {
+    id: 'jest',
+    name: 'Jest',
+    description:
+      'JavaScript and TypeScript test runner for unit and regression coverage.',
+    categories: ['Testing'],
+    level: 3,
+    iconSlug: 'jest',
+    keywords: ['testing', 'unit tests', 'javascript', 'typescript'],
   },
   {
     id: 'kubernetes',
@@ -98,6 +240,36 @@ export const skills: readonly Skill[] = [
       kubernetesCertifications.ckad,
       kubernetesCertifications.cka,
     ],
+  },
+  {
+    id: 'kustomize',
+    name: 'Kustomize',
+    description:
+      'Kubernetes configuration overlays for deterministic environment-specific manifests.',
+    categories: ['Container', 'IaC'],
+    level: 3,
+    iconSlug: 'kustomize',
+    keywords: ['kubernetes', 'manifests', 'overlays', 'configuration'],
+  },
+  {
+    id: 'loki',
+    name: 'Loki',
+    description:
+      'Grafana log aggregation for operational troubleshooting and observability.',
+    categories: ['Observability'],
+    level: 2,
+    iconSlug: 'loki',
+    keywords: ['logs', 'grafana', 'observability', 'troubleshooting'],
+  },
+  {
+    id: 'markdown',
+    name: 'Markdown',
+    description:
+      'Plain-text documentation format for durable project and workflow knowledge.',
+    categories: ['Tooling'],
+    level: 4,
+    iconSlug: 'markdown',
+    keywords: ['documentation', 'writing', 'docs', 'knowledge'],
   },
   {
     id: 'neovim',
@@ -125,6 +297,26 @@ export const skills: readonly Skill[] = [
     ],
   },
   {
+    id: 'postgresql',
+    name: 'PostgreSQL',
+    description:
+      'Relational database used in application services, tests, and delivery validation.',
+    categories: ['Database'],
+    level: 3,
+    iconSlug: 'postgresql',
+    keywords: ['database', 'sql', 'postgres', 'testcontainers'],
+  },
+  {
+    id: 'prometheus',
+    name: 'Prometheus',
+    description:
+      'Metrics collection and alerting system for service and infrastructure observability.',
+    categories: ['Observability'],
+    level: 3,
+    iconSlug: 'prometheus',
+    keywords: ['metrics', 'monitoring', 'alerts', 'observability'],
+  },
+  {
     id: 'react',
     name: 'React',
     description: 'Component-based UI library for interactive web interfaces.',
@@ -132,6 +324,16 @@ export const skills: readonly Skill[] = [
     level: 3,
     iconSlug: 'react',
     keywords: ['frontend', 'ui', 'components'],
+  },
+  {
+    id: 'sealed-secrets',
+    name: 'Sealed Secrets',
+    description:
+      'Kubernetes encrypted secret delivery for storing safe manifests in version control.',
+    categories: ['Container', 'CI/CD'],
+    level: 3,
+    iconSlug: 'sealed-secrets',
+    keywords: ['kubernetes', 'secrets', 'gitops', 'encryption'],
   },
   {
     id: 'storybook',
@@ -169,6 +371,16 @@ export const skills: readonly Skill[] = [
     ],
   },
   {
+    id: 'testcontainers',
+    name: 'Testcontainers',
+    description:
+      'Container-backed integration testing for realistic service dependencies.',
+    categories: ['Testing', 'Container'],
+    level: 3,
+    iconSlug: 'testcontainers',
+    keywords: ['testing', 'containers', 'integration tests', 'postgresql'],
+  },
+  {
     id: 'tmux',
     name: 'Tmux',
     description: 'Terminal multiplexer for persistent development sessions.',
@@ -185,6 +397,16 @@ export const skills: readonly Skill[] = [
     level: 4,
     iconSlug: 'typescript',
     keywords: ['javascript', 'typed', 'frontend', 'node'],
+  },
+  {
+    id: 'yaml',
+    name: 'YAML',
+    description:
+      'Configuration language for infrastructure, Kubernetes, and CI/CD workflows.',
+    categories: ['Tooling'],
+    level: 3,
+    iconSlug: 'yaml',
+    keywords: ['configuration', 'kubernetes', 'ci', 'infrastructure'],
   },
   {
     id: 'zsh',

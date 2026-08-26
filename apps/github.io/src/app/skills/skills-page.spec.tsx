@@ -31,6 +31,7 @@ describe('SkillsPage', () => {
     const main = getByRole('main', { name: 'Skills' });
 
     expect(getByRole('heading', { level: 1, name: 'Skills' })).toBeTruthy();
+    expect(getByRole('heading', { level: 2, name: 'Skills' })).toBeTruthy();
     expect(main.getAttribute('aria-labelledby')).toBe('skills-page-title');
     expect(queryByRole('navigation')).toBeNull();
     expect(main.className).toContain('astryx-stack');
@@ -39,8 +40,8 @@ describe('SkillsPage', () => {
     );
   });
 
-  it('sorts a copy of supplied skills and links every row to its detail route', () => {
-    const suppliedSkills = ['typescript', 'argo', 'docker'].map((id) => {
+  it('sorts a copy of supplied skills and links every card to its detail route', () => {
+    const suppliedSkills = ['typescript', 'argo-cd', 'docker'].map((id) => {
       const skill = skills.find((candidate) => candidate.id === id);
 
       if (!skill) {
@@ -54,8 +55,9 @@ describe('SkillsPage', () => {
     const main = getByRole('main', { name: 'Skills' });
     const links = within(main).getAllByRole('link');
 
+    expect(within(main).getAllByTestId('skill-card')).toHaveLength(3);
     expect(links.map((link) => link.getAttribute('href'))).toEqual([
-      '/skills/argo',
+      '/skills/argo-cd',
       '/skills/docker',
       '/skills/typescript',
     ]);
