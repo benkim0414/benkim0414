@@ -4,7 +4,6 @@ import { ReactFlow, type Edge, type Node } from '@xyflow/react';
 
 import { devOpsRoadmapItems } from './devops-roadmap.data';
 import {
-  DEVOPS_ROADMAP_NODE_MOBILE_WIDTH,
   DEVOPS_ROADMAP_NODE_WIDTH,
   DevOpsRoadmapNode,
 } from './devops-roadmap-node';
@@ -36,10 +35,7 @@ const styles = stylex.create({
   flow: (height: number) => ({
     height,
     marginInline: 'auto',
-    width: {
-      default: DEVOPS_ROADMAP_NODE_WIDTH,
-      '@media (max-width: 640px)': DEVOPS_ROADMAP_NODE_MOBILE_WIDTH,
-    },
+    width: DEVOPS_ROADMAP_NODE_WIDTH,
   }),
 });
 
