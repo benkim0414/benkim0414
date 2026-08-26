@@ -1,7 +1,7 @@
 import { Banner } from '@astryxdesign/core/Banner';
 import { Button } from '@astryxdesign/core/Button';
-import { Heading } from '@astryxdesign/core/Heading';
 import { VStack } from '@astryxdesign/core/Layout';
+import { Text } from '@astryxdesign/core/Text';
 import type { ReactElement } from 'react';
 
 import { DevOpsRoadmap } from './devops-roadmap';
@@ -19,7 +19,9 @@ export function RoadmapPage(): ReactElement {
       paddingInline={4}
       width="100%"
     >
-      <Heading level={1}>DevOps roadmap</Heading>
+      <Text as="h2" type="body" weight="bold">
+        DevOps roadmap
+      </Text>
       <Banner
         description={ROADMAP_DESCRIPTION}
         endContent={
