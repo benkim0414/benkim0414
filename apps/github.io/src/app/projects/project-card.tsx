@@ -19,13 +19,6 @@ export interface ProjectCardProps {
 const styles = stylex.create({
   root: {
     display: 'block',
-    width: {
-      default: `calc(${spacingVars['--spacing-12']} * 7)`,
-      '@media (max-width: 640px)': `calc(${spacingVars['--spacing-12']} * 5)`,
-    },
-  },
-  fullWidth: {
-    width: '100%',
   },
   skillList: {
     display: 'flex',
@@ -42,7 +35,6 @@ const styles = stylex.create({
 });
 
 export function ProjectCard({
-  isFullWidth = false,
   project,
 }: ProjectCardProps): ReactElement {
   const titleId = useId();
@@ -56,7 +48,8 @@ export function ProjectCard({
   return (
     <Card
       padding={4}
-      xstyle={[styles.root, isFullWidth && styles.fullWidth]}
+      width="100%"
+      xstyle={styles.root}
     >
       <article aria-labelledby={titleId} data-testid="project-card">
         <VStack gap={4}>

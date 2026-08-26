@@ -99,6 +99,17 @@ describe('project data', () => {
 describe('ProjectCard', () => {
   const project = sampleProjects[0];
 
+  it('uses a full-width card surface by default', () => {
+    const { container } = render(<ProjectCard project={project} />);
+
+    const cardSurface = container.querySelector('.astryx-card');
+
+    expect(cardSurface).toBeInstanceOf(HTMLElement);
+    expect((cardSurface as HTMLElement).style.getPropertyValue('--x-width')).toBe(
+      '100%',
+    );
+  });
+
   it('renders the project title, description, skills, and GitHub source', () => {
     render(<ProjectCard project={project} />);
 
