@@ -155,7 +155,7 @@ describe('SkillDetailPage', () => {
       metadataQueries.getByText('Categories', { selector: 'dt' }),
     ).toBeTruthy();
     expect(
-      metadataQueries.getByText('Rating', { selector: 'dt' }),
+      metadataQueries.getByText('Confidence', { selector: 'dt' }),
     ).toBeTruthy();
     expect(
       metadataQueries.getByText('Certifications', { selector: 'dt' }),
@@ -164,10 +164,10 @@ describe('SkillDetailPage', () => {
       [...metadata.querySelectorAll(':scope > dl > dt')].map(
         ({ textContent }) => textContent,
       ),
-    ).toEqual(['Categories', 'Rating', 'Certifications']);
+    ).toEqual(['Categories', 'Confidence', 'Certifications']);
     expect(getAllByText('Container')).toHaveLength(1);
     expect(getAllByText('Cloud')).toHaveLength(1);
-    expect(getAllByText('4 out of 5')).toHaveLength(1);
+    expect(getAllByText('Confident')).toHaveLength(1);
     expect(getAllByTestId('certification-citation')).toHaveLength(
       detail.skill.certifications?.length ?? 0,
     );
@@ -211,12 +211,12 @@ describe('SkillDetailPage', () => {
     expect(getByRole('heading', { level: 1, name: 'React' })).toBeTruthy();
     expect(getByText(detail.skill.description)).toBeTruthy();
     expect(getByText('Framework')).toBeTruthy();
-    expect(getByText('3 out of 5')).toBeTruthy();
+    expect(getByText('Working')).toBeTruthy();
     expect(
       metadataQueries.getByText('Categories', { selector: 'dt' }),
     ).toBeTruthy();
     expect(
-      metadataQueries.getByText('Rating', { selector: 'dt' }),
+      metadataQueries.getByText('Confidence', { selector: 'dt' }),
     ).toBeTruthy();
     expect(
       metadataQueries.queryByText('Certifications', { selector: 'dt' }),

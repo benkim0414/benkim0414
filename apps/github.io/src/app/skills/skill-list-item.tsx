@@ -6,7 +6,7 @@ import * as stylex from '@stylexjs/stylex';
 
 import { SkillAvatar } from './skill-avatar';
 import { SkillCategory } from './skill-category';
-import { SkillRating } from './skill-rating';
+import { SkillConfidence } from './skill-confidence';
 import type { Skill, SkillSurfaceVariant } from './skill-list.types';
 
 interface SkillListItemProps {
@@ -35,7 +35,7 @@ export function SkillListItem({
             <SkillCategory key={category} name={category} />
           ))
         : null}
-      <SkillRating level={skill.level} />
+      <SkillConfidence confidence={skill.confidence} />
     </HStack>
   );
 

@@ -5,7 +5,7 @@ import { sampleSkills } from './skill-list.data';
 import { SkillList } from './skill-list';
 
 describe('SkillList', () => {
-  it('renders skill rows with category and rating content', () => {
+  it('renders skill rows with category and confidence content', () => {
     const { getAllByText, getByRole, getByText } = render(
       <SkillList skills={sampleSkills} />,
     );
@@ -14,7 +14,7 @@ describe('SkillList', () => {
     expect(getByRole('list')).toBeTruthy();
     expect(getByText('TypeScript')).toBeTruthy();
     expect(getAllByText('Language')).not.toHaveLength(0);
-    expect(getAllByText('4 out of 5')).not.toHaveLength(0);
+    expect(getAllByText('Confident')).not.toHaveLength(0);
   });
 
   it('does not render search controls', () => {

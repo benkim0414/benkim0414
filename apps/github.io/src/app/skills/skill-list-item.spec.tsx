@@ -6,7 +6,7 @@ import { sampleSkills } from './skill-list.data';
 import { SkillListItem } from './skill-list-item';
 
 describe('SkillListItem', () => {
-  it('renders a skill row with avatar, category, and rating', () => {
+  it('renders a skill row with avatar, category, and confidence', () => {
     const typeScript = sampleSkills.find((skill) => skill.id === 'typescript');
 
     expect(typeScript).toBeTruthy();
@@ -23,7 +23,7 @@ describe('SkillListItem', () => {
     expect(content.style.getPropertyValue('--x-height')).toBe('24px');
     expect(getByText('TypeScript')).toBeTruthy();
     expect(getByText('Language')).toBeTruthy();
-    expect(getByText('4 out of 5')).toBeTruthy();
+    expect(getByText('Confident')).toBeTruthy();
   });
 
   it('renders compact rows without category badges', () => {
@@ -37,7 +37,7 @@ describe('SkillListItem', () => {
 
     expect(getByText('TypeScript')).toBeTruthy();
     expect(queryByText('Language')).toBeNull();
-    expect(getByText('4 out of 5')).toBeTruthy();
+    expect(getByText('Confident')).toBeTruthy();
   });
 
   it('uses the Astryx row link contract when href is supplied', () => {
@@ -65,12 +65,12 @@ describe('SkillListItem', () => {
         </>,
       );
     const link = getByRole('link', {
-      name: 'TypeScript Language 4 out of 5',
+      name: 'TypeScript Language Self-rated confidence: Confident',
     });
     const row = link.closest('li');
     const linkContent = link.firstElementChild?.firstElementChild;
     const category = getByText('Language');
-    const rating = getByText('4 out of 5');
+    const confidence = getByText('Confident');
 
     expect(link.getAttribute('href')).toBe('/skills/typescript');
     expect(row).not.toBeNull();
@@ -86,7 +86,7 @@ describe('SkillListItem', () => {
       container.querySelector('[data-size="xsmall"][aria-hidden="true"]'),
     ).toBeTruthy();
     expect(link.contains(category)).toBe(true);
-    expect(link.contains(rating)).toBe(true);
+    expect(link.contains(confidence)).toBe(true);
     expect(link.querySelectorAll('a, button')).toHaveLength(0);
   });
 
