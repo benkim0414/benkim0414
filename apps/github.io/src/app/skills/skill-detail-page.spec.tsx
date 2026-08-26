@@ -3,9 +3,7 @@ import { resolve } from 'node:path';
 import { render, within } from '@testing-library/react';
 import { VStack } from '@astryxdesign/core/Layout';
 
-import {
-  devOpsCapabilityEvidenceItems,
-} from '../devops-capability-evidence/devops-capability-evidence.data';
+import { devOpsCapabilityEvidenceItems } from '../devops-capability-evidence/devops-capability-evidence.data';
 import { experiences } from '../experience/experience.data';
 import { sampleProjects } from '../projects/project-list.data';
 import { skillDetailRecords } from './skill-detail.data';
@@ -69,26 +67,23 @@ describe('SkillDetailPage', () => {
     ).toBeTruthy();
   });
 
-  it(
-    'does not apply a local maximum-width or centering margin to detail content',
-    () => {
-      const { getByTestId } = render(
-        <SkillDetailPage detail={getResolvedDetail('kubernetes')} />,
-      );
-      const { getByTestId: getControlByTestId } = render(
-        <VStack
-          data-testid="detail-content-without-local-style"
-          gap={6}
-          paddingBlock={6}
-          paddingInline={4}
-        />,
-      );
-      const detailContent = getByTestId('skill-detail-content');
-      const control = getControlByTestId('detail-content-without-local-style');
+  it('does not apply a local maximum-width or centering margin to detail content', () => {
+    const { getByTestId } = render(
+      <SkillDetailPage detail={getResolvedDetail('kubernetes')} />,
+    );
+    const { getByTestId: getControlByTestId } = render(
+      <VStack
+        data-testid="detail-content-without-local-style"
+        gap={6}
+        paddingBlock={6}
+        paddingInline={4}
+      />,
+    );
+    const detailContent = getByTestId('skill-detail-content');
+    const control = getControlByTestId('detail-content-without-local-style');
 
-      expect(detailContent.className).toBe(control.className);
-    },
-  );
+    expect(detailContent.className).toBe(control.className);
+  });
 
   it('returns to the dedicated skills collection', () => {
     const { getByRole } = render(
@@ -99,15 +94,12 @@ describe('SkillDetailPage', () => {
     expect(skillsLink.getAttribute('href')).toBe('/skills');
   });
 
-  it(
-    'does not globally override Astryx link colors outside cascade layers',
-    () => {
-      const styles = readAppSource('src/styles.css');
-      const unscopedAnchorRule = styles.match(/(?:^|\n)a\s*\{[^}]*\}/)?.[0];
+  it('does not globally override Astryx link colors outside cascade layers', () => {
+    const styles = readAppSource('src/styles.css');
+    const unscopedAnchorRule = styles.match(/(?:^|\n)a\s*\{[^}]*\}/)?.[0];
 
-      expect(unscopedAnchorRule).toBeUndefined();
-    },
-  );
+    expect(unscopedAnchorRule).toBeUndefined();
+  });
 
   it('uses the Astryx Basic Metadata defaults without layout overrides', () => {
     const source = readAppSource('src/app/skills/skill-detail-page.tsx');
@@ -119,33 +111,30 @@ describe('SkillDetailPage', () => {
     expect(metadataOpeningTag).not.toMatch(/\borientation=/);
   });
 
-  it(
-    'places skill metadata in a full-width muted Card with a scoped Astryx surface',
-    () => {
-      const source = readAppSource('src/app/skills/skill-detail-page.tsx');
-      const metadataCardStyle = source.match(
-        /metadataCard:\s*\{[\s\S]*?\n\s*\},/,
-      )?.[0];
-      const metadataCardOpeningTag = source.match(/<Card[\s\S]*?>/)?.[0];
-      const detail = getResolvedDetail('kubernetes');
-      const { getByTestId } = render(<SkillDetailPage detail={detail} />);
-      const metadata = getByTestId('skill-metadata');
-      const card = metadata.closest('.astryx-card');
+  it('places skill metadata in a full-width muted Card with a scoped Astryx surface', () => {
+    const source = readAppSource('src/app/skills/skill-detail-page.tsx');
+    const metadataCardStyle = source.match(
+      /metadataCard:\s*\{[\s\S]*?\n\s*\},/,
+    )?.[0];
+    const metadataCardOpeningTag = source.match(/<Card[\s\S]*?>/)?.[0];
+    const detail = getResolvedDetail('kubernetes');
+    const { getByTestId } = render(<SkillDetailPage detail={detail} />);
+    const metadata = getByTestId('skill-metadata');
+    const card = metadata.closest('.astryx-card');
 
-      expect(metadataCardStyle).toContain(
-        "backgroundColor: colorVars['--color-background-surface']",
-      );
-      expect(metadataCardOpeningTag).toContain('variant="muted"');
-      expect(metadataCardOpeningTag).toContain('width="100%"');
-      expect(metadataCardOpeningTag).toContain('xstyle={styles.metadataCard}');
-      expect(card).not.toBeNull();
-      expect(card?.getAttribute('data-variant')).toBe('muted');
-      expect((card as HTMLElement).style.getPropertyValue('--x-width')).toBe(
-        '100%',
-      );
-      expect(card?.firstElementChild).toBe(metadata);
-    },
-  );
+    expect(metadataCardStyle).toContain(
+      "backgroundColor: colorVars['--color-background-surface']",
+    );
+    expect(metadataCardOpeningTag).toContain('variant="muted"');
+    expect(metadataCardOpeningTag).toContain('width="100%"');
+    expect(metadataCardOpeningTag).toContain('xstyle={styles.metadataCard}');
+    expect(card).not.toBeNull();
+    expect(card?.getAttribute('data-variant')).toBe('muted');
+    expect((card as HTMLElement).style.getPropertyValue('--x-width')).toBe(
+      '100%',
+    );
+    expect(card?.firstElementChild).toBe(metadata);
+  });
 
   it('renders the enriched Kubernetes detail surface', () => {
     const detail = getResolvedDetail('kubernetes');
@@ -188,20 +177,23 @@ describe('SkillDetailPage', () => {
     expect(
       getByRole('heading', { level: 2, name: 'In practice' }),
     ).toBeTruthy();
-    expect(
-      getByRole('heading', { level: 2, name: 'Experience' }),
-    ).toBeInTheDocument();
+    expect(getByRole('heading', { level: 2, name: 'Experience' })).toBeTruthy();
     expect(
       getByRole('heading', {
         level: 3,
         name: 'Multi-stage AWS CI/CD delivery pipeline',
       }),
-    ).toBeInTheDocument();
+    ).toBeTruthy();
     expect(
       getByText(
         'Built AWS CodePipeline and CodeBuild automation for staging and production delivery with build validation, artifact handoff, and controlled promotion.',
       ),
-    ).toBeInTheDocument();
+    ).toBeTruthy();
+    const relevantSkills = getByRole('list', { name: 'Relevant skills' });
+
+    expect(within(relevantSkills).getByText('AWS CodePipeline')).toBeTruthy();
+    expect(within(relevantSkills).getByText('Kubernetes')).toBeTruthy();
+
     const evidenceBlockquotes = [...container.querySelectorAll('blockquote')];
 
     expect(evidenceBlockquotes).toHaveLength(detail.experienceEvidence.length);
@@ -255,48 +247,43 @@ describe('SkillDetailPage', () => {
     expect(
       queryByRole('heading', { level: 2, name: 'In practice' }),
     ).toBeNull();
-    expect(
-      queryByRole('heading', { level: 2, name: 'Experience' }),
-    ).not.toBeInTheDocument();
+    expect(queryByRole('heading', { level: 2, name: 'Experience' })).toBeNull();
     expect(queryByRole('heading', { level: 2, name: 'Projects' })).toBeNull();
     expect(
       queryByRole('heading', { level: 2, name: 'Certifications' }),
     ).toBeNull();
   });
 
-  it(
-    'focuses the heading on initial detail mount and skill changes only',
-    () => {
-      const reactDetail = getResolvedDetail('react');
-      const kubernetesDetail = getResolvedDetail('kubernetes');
-      const { getByRole, rerender } = render(
-        <SkillDetailPage detail={reactDetail} />,
-      );
-      const reactHeading = getByRole('heading', { level: 1, name: 'React' });
-      const skillsLink = getByRole('link', { name: 'Skills' });
+  it('focuses the heading on initial detail mount and skill changes only', () => {
+    const reactDetail = getResolvedDetail('react');
+    const kubernetesDetail = getResolvedDetail('kubernetes');
+    const { getByRole, rerender } = render(
+      <SkillDetailPage detail={reactDetail} />,
+    );
+    const reactHeading = getByRole('heading', { level: 1, name: 'React' });
+    const skillsLink = getByRole('link', { name: 'Skills' });
 
-      expect(document.activeElement).toBe(reactHeading);
+    expect(document.activeElement).toBe(reactHeading);
 
-      skillsLink.focus();
-      rerender(
-        <SkillDetailPage
-          detail={{
-            ...reactDetail,
-            skill: {
-              ...reactDetail.skill,
-              description: `${reactDetail.skill.description} Updated`,
-            },
-          }}
-        />,
-      );
+    skillsLink.focus();
+    rerender(
+      <SkillDetailPage
+        detail={{
+          ...reactDetail,
+          skill: {
+            ...reactDetail.skill,
+            description: `${reactDetail.skill.description} Updated`,
+          },
+        }}
+      />,
+    );
 
-      expect(document.activeElement).toBe(skillsLink);
+    expect(document.activeElement).toBe(skillsLink);
 
-      rerender(<SkillDetailPage detail={kubernetesDetail} />);
+    rerender(<SkillDetailPage detail={kubernetesDetail} />);
 
-      expect(getByRole('heading', { level: 1, name: 'Kubernetes' })).toBe(
-        document.activeElement,
-      );
-    },
-  );
+    expect(getByRole('heading', { level: 1, name: 'Kubernetes' })).toBe(
+      document.activeElement,
+    );
+  });
 });
