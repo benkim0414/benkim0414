@@ -3,6 +3,7 @@ import { Heading } from '@astryxdesign/core/Heading';
 import { HStack, VStack } from '@astryxdesign/core/Layout';
 import { Text } from '@astryxdesign/core/Text';
 import { Token } from '@astryxdesign/core/Token';
+import { spacingVars } from '@astryxdesign/core/theme/tokens.stylex';
 import * as stylex from '@stylexjs/stylex';
 import type { ReactElement } from 'react';
 
@@ -29,6 +30,9 @@ const styles = stylex.create({
     listStyle: 'none',
   },
   tokenList: {
+    display: 'flex',
+    flexWrap: 'wrap',
+    gap: spacingVars['--spacing-2'],
     margin: 0,
     padding: 0,
     listStyle: 'none',
@@ -65,7 +69,7 @@ export function SkillExperienceCard({
   relevantSkillLabels = [],
 }: SkillExperienceCardProps): ReactElement {
   return (
-    <Card width="100%">
+    <Card padding={4} width="100%">
       <VStack gap={3}>
         <VStack gap={1}>
           <Heading level={3}>{experience.title}</Heading>
@@ -84,15 +88,15 @@ export function SkillExperienceCard({
 
         {relevantSkillLabels.length > 0 ? (
           <VStack gap={1}>
-            <Text as="p" type="body" color="secondary">
+            <Text type="supporting" color="secondary">
               Relevant skills
             </Text>
             <HStack
               aria-label="Relevant skills"
               as="ul"
-              gap={1}
               wrap="wrap"
               xstyle={styles.tokenList}
+              data-wrap="true"
             >
               {relevantSkillLabels.map((skillLabel) => (
                 <li key={skillLabel} {...stylex.props(styles.tokenItem)}>
