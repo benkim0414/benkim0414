@@ -1,16 +1,16 @@
+import { EmptyState } from '@astryxdesign/core/EmptyState';
 import { VStack } from '@astryxdesign/core/Layout';
+import { Text } from '@astryxdesign/core/Text';
 import { VisuallyHidden } from '@astryxdesign/core/VisuallyHidden';
 import type { ReactElement } from 'react';
 
-import { SkillList } from './skill-list';
+import { SkillCard } from './skill-card';
 import { skills as defaultSkills } from './skill-list.data';
 import type { Skill } from './skill-list.types';
 
 export interface SkillsPageProps {
   skills?: readonly Skill[];
 }
-
-const getSkillHref = (skill: Skill) => `/skills/${skill.id}`;
 
 export function SkillsPage({
   skills = defaultSkills,
@@ -24,11 +24,24 @@ export function SkillsPage({
       <VisuallyHidden as="h1" id="skills-page-title">
         Skills
       </VisuallyHidden>
-      <SkillList
-        getSkillHref={getSkillHref}
-        heading="All skills"
-        skills={sortedSkills}
-      />
+      <Text as="h2" type="body" weight="bold">
+        Skills
+      </Text>
+      <section aria-label="All skills">
+        {sortedSkills.length === 0 ? (
+          <EmptyState
+            headingLevel={3}
+            isCompact
+            title="No skills have been supplied."
+          />
+        ) : (
+          <VStack gap={3}>
+            {sortedSkills.map((skill) => (
+              <SkillCard isFullWidth key={skill.id} skill={skill} />
+            ))}
+          </VStack>
+        )}
+      </section>
     </VStack>
   );
 }
