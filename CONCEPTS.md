@@ -136,6 +136,10 @@ Certification Badge Fixtures are distinct from fallback stories: badge fixtures 
 
 A reusable card presentation for one skill, showing the skill name, rating, supporting description, and optional certification evidence as one independently comparable item.
 
+### Project Card
+
+A reusable card presentation for one public portfolio project, showing the project title, supporting description, skill evidence, and source citation as one independently comparable item.
+
 ### Skill Carousel
 
 A horizontal skills presentation where each Skill Card remains content-driven on its own, while carousel layout equalizes sibling card heights for visual comparison.
