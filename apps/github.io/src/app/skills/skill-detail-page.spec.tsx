@@ -176,6 +176,20 @@ describe('SkillDetailPage', () => {
     expect(
       getByRole('heading', { level: 2, name: 'In practice' }),
     ).toBeTruthy();
+    expect(
+      getByRole('heading', { level: 2, name: 'Experience' }),
+    ).toBeInTheDocument();
+    expect(
+      getByRole('heading', {
+        level: 3,
+        name: 'Multi-stage AWS CI/CD delivery pipeline',
+      }),
+    ).toBeInTheDocument();
+    expect(
+      getByText(
+        'Built AWS CodePipeline and CodeBuild automation for staging and production delivery with build validation, artifact handoff, and controlled promotion.',
+      ),
+    ).toBeInTheDocument();
     const evidenceBlockquotes = [...container.querySelectorAll('blockquote')];
 
     expect(evidenceBlockquotes).toHaveLength(detail.experienceEvidence.length);
@@ -229,6 +243,9 @@ describe('SkillDetailPage', () => {
     expect(
       queryByRole('heading', { level: 2, name: 'In practice' }),
     ).toBeNull();
+    expect(
+      queryByRole('heading', { level: 2, name: 'Experience' }),
+    ).not.toBeInTheDocument();
     expect(queryByRole('heading', { level: 2, name: 'Projects' })).toBeNull();
     expect(
       queryByRole('heading', { level: 2, name: 'Certifications' }),
