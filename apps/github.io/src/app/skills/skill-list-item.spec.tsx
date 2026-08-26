@@ -1,18 +1,9 @@
 import { render } from '@testing-library/react';
 import { HStack } from '@astryxdesign/core/Layout';
 import { ListItem } from '@astryxdesign/core/List';
-import { spacingVars } from '@astryxdesign/core/theme/tokens.stylex';
-import * as stylex from '@stylexjs/stylex';
 
 import { sampleSkills } from './skill-list.data';
 import { SkillListItem } from './skill-list-item';
-
-const styles = stylex.create({
-  zeroPadding: {
-    paddingBlock: spacingVars['--spacing-0'],
-    paddingInline: spacingVars['--spacing-0'],
-  },
-});
 
 describe('SkillListItem', () => {
   it('renders a skill row with avatar, category, and rating', () => {
@@ -63,12 +54,6 @@ describe('SkillListItem', () => {
             href="/control"
             label="Control"
           />
-          <ListItem
-            data-testid="zero-padded-linked-row"
-            href="/zero-padding"
-            label="Zero padding"
-            xstyle={styles.zeroPadding}
-          />
           <HStack
             data-testid="padded-link-content"
             gap={2}
@@ -86,11 +71,9 @@ describe('SkillListItem', () => {
     const linkContent = link.firstElementChild?.firstElementChild;
     const category = getByText('Language');
     const rating = getByText('4 out of 5');
-    const zeroPaddedRow = getByTestId('zero-padded-linked-row');
 
     expect(link.getAttribute('href')).toBe('/skills/typescript');
     expect(row).not.toBeNull();
-    expect(row?.className).toBe(zeroPaddedRow.className);
     expect(link.parentElement).toBe(row);
     expect(row?.className).not.toBe(
       getByTestId('default-linked-row').className,

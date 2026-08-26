@@ -138,16 +138,6 @@ export function GlobalNavigationLayout(): ReactElement {
               centerContent={
                 <>
                   <TopNavItem
-                    href="/roadmap"
-                    isSelected={location.pathname === '/roadmap'}
-                    label="Roadmap"
-                    xstyle={
-                      location.pathname === '/roadmap'
-                        ? styles.selectedNavigationItem
-                        : undefined
-                    }
-                  />
-                  <TopNavItem
                     href="/skills"
                     isSelected={
                       location.pathname === '/skills' ||
@@ -157,6 +147,16 @@ export function GlobalNavigationLayout(): ReactElement {
                     xstyle={
                       location.pathname === '/skills' ||
                       location.pathname.startsWith('/skills/')
+                        ? styles.selectedNavigationItem
+                        : undefined
+                    }
+                  />
+                  <TopNavItem
+                    href="/roadmap"
+                    isSelected={location.pathname === '/roadmap'}
+                    label="Roadmap"
+                    xstyle={
+                      location.pathname === '/roadmap'
                         ? styles.selectedNavigationItem
                         : undefined
                     }
