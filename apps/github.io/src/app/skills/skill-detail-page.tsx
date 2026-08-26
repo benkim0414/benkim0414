@@ -16,7 +16,7 @@ import { ProjectCard } from '../projects/project-card';
 import { SkillCategory } from './skill-category';
 import type { ResolvedSkillDetail } from './skill-detail.types';
 import { SkillExperienceList } from './skill-experience-list';
-import { SkillRating } from './skill-rating';
+import { SkillConfidence } from './skill-confidence';
 
 export interface SkillDetailPageProps {
   detail: ResolvedSkillDetail;
@@ -88,8 +88,8 @@ export function SkillDetailPage({
             </HStack>
           </MetadataListItem>
 
-          <MetadataListItem label="Rating">
-            <SkillRating level={detail.skill.level} />
+          <MetadataListItem label="Confidence">
+            <SkillConfidence confidence={detail.skill.confidence} />
           </MetadataListItem>
 
           {certifications.length > 0 ? (

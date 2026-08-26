@@ -13,7 +13,7 @@ const baseSkill: Skill = {
   description:
     'Container orchestration for deploying, scaling, and operating cloud-native workloads.',
   categories: ['Container', 'Cloud'],
-  level: 4,
+  confidence: 4,
   iconSlug: 'kubernetes',
   keywords: ['containers', 'orchestration'],
 };
@@ -67,34 +67,34 @@ describe('SkillCard', () => {
     );
   });
 
-  it('renders title, rating, and description in order without a card header', () => {
+  it('renders title, confidence, and description in order without a card header', () => {
     const { getByRole, getByTestId, getByText, queryByTestId } = renderSkillCard(
       <SkillCard skill={baseSkill} />,
     );
 
     const title = getByRole('heading', { name: 'Kubernetes' });
-    const rating = getByText('4 out of 5');
+    const confidence = getByText('Confident');
     const description = getByText(
       'Container orchestration for deploying, scaling, and operating cloud-native workloads.',
     );
-    const titleRatingGroup = getByTestId('skill-card-title-rating');
+    const titleConfidenceGroup = getByTestId('skill-card-title-confidence');
 
     expect(queryByTestId('skill-card-header')).toBeNull();
-    expect(title.compareDocumentPosition(rating)).toBe(
+    expect(title.compareDocumentPosition(confidence)).toBe(
       Node.DOCUMENT_POSITION_FOLLOWING,
     );
-    expect(rating.compareDocumentPosition(description)).toBe(
+    expect(confidence.compareDocumentPosition(description)).toBe(
       Node.DOCUMENT_POSITION_FOLLOWING,
     );
-    expect(titleRatingGroup.contains(title)).toBe(true);
-    expect(titleRatingGroup.contains(rating)).toBe(true);
-    expect(titleRatingGroup.contains(description)).toBe(false);
+    expect(titleConfidenceGroup.contains(title)).toBe(true);
+    expect(titleConfidenceGroup.contains(confidence)).toBe(true);
+    expect(titleConfidenceGroup.contains(description)).toBe(false);
   });
 
-  it('renders the skill rating as accessible star metadata', () => {
+  it('renders the skill confidence as accessible text metadata', () => {
     const { getByText } = renderSkillCard(<SkillCard skill={baseSkill} />);
 
-    expect(getByText('4 out of 5')).toBeTruthy();
+    expect(getByText('Self-rated confidence: Confident')).toBeTruthy();
   });
 
   it('renders every skill category before the skill title', () => {

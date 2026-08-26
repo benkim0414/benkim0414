@@ -25,7 +25,7 @@ export interface Skill {
   name: string;
   description: string;
   categories: readonly SkillCategory[];
-  level: 1 | 2 | 3 | 4 | 5;
+  confidence: 1 | 2 | 3 | 4 | 5;
   iconSlug: string;
   keywords: readonly string[];
   certifications?: readonly SkillCertification[];

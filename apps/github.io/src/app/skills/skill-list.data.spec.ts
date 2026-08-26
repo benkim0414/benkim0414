@@ -137,9 +137,9 @@ describe('skill-list data', () => {
     );
   });
 
-  it('stores the requested skill scores as levels', () => {
+  it('stores the requested self-rated skill confidence values', () => {
     expect(
-      Object.fromEntries(skills.map((skill) => [skill.id, skill.level])),
+      Object.fromEntries(skills.map((skill) => [skill.id, skill.confidence])),
     ).toMatchObject({
       typescript: 4,
       react: 3,

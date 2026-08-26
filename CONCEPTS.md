@@ -94,6 +94,12 @@ The visible all-skills projection that renders canonical, public skill records a
 
 A Skills Page Catalog Projection accepts products, services, tools, libraries, frameworks, and languages as standalone cards; concepts, subfeatures, protocols, CLI aliases, and broad umbrellas remain searchable evidence or map to a more specific canonical skill.
 
+### Skill Confidence
+
+A self-rated, qualitative confidence signal attached to a public skill record, presented as supporting metadata rather than an externally verified rating, status, or category.
+
+Skill Confidence keeps the portfolio claim modest: it can help readers compare the author's comfort across skills, but it does not replace separate evidence such as projects, certifications, or capability records.
+
 ## Design System
 
 ### Astryx Foundation
@@ -134,7 +140,7 @@ Certification Badge Fixtures are distinct from fallback stories: badge fixtures 
 
 ### Skill Card
 
-A reusable card presentation for one skill, showing the skill name, rating, supporting description, and optional certification evidence as one independently comparable item.
+A reusable card presentation for one skill, showing the skill name, self-rated confidence, supporting description, and optional certification evidence as one independently comparable item.
 
 ### Project Card
 

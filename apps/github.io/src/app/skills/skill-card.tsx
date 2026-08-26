@@ -9,7 +9,7 @@ import { useId, type ReactElement } from 'react';
 import { CertificationCitation } from '../certifications/certification-citation';
 import { SkillCategory } from './skill-category';
 import { getSkillDetailPath } from './skill-route';
-import { SkillRating } from './skill-rating';
+import { SkillConfidence } from './skill-confidence';
 import type { Skill, SkillSurfaceVariant } from './skill-list.types';
 
 export interface SkillCardProps {
@@ -76,12 +76,12 @@ export function SkillCard({
               <VStack
                 gap={0.5}
                 hAlign="start"
-                data-testid="skill-card-title-rating"
+                data-testid="skill-card-title-confidence"
               >
                 <Heading id={titleId} level={3}>
                   {skill.name}
                 </Heading>
-                <SkillRating level={skill.level} />
+                <SkillConfidence confidence={skill.confidence} />
               </VStack>
               <Text type="body" color="secondary" as="p">
                 {skill.description}
