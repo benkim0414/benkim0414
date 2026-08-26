@@ -145,33 +145,38 @@ describe('AppRoutes', () => {
   });
 
   it.each([
-    ['/', 'Home'],
-    ['/roadmap', 'DevOps roadmap'],
-    ['/skills', 'Skills'],
-    ['/skills/kubernetes', 'Kubernetes'],
-  ])('renders one shell-owned scroll region at %s', (path, pageHeading) => {
-    const { getAllByRole, getByRole } = renderAppRoutes(path);
-    const shell = getByRole('navigation', {
-      name: 'Global navigation',
-    }).closest('[data-height="fill"]');
+    ['/', 'Home', 1],
+    ['/roadmap', 'DevOps roadmap', 2],
+    ['/skills', 'Skills', 1],
+    ['/skills/kubernetes', 'Kubernetes', 1],
+  ])(
+    'renders one shell-owned scroll region at %s',
+    (path, pageHeading, headingLevel) => {
+      const { getAllByRole, getByRole } = renderAppRoutes(path);
+      const shell = getByRole('navigation', {
+        name: 'Global navigation',
+      }).closest('[data-height="fill"]');
 
-    if (!(shell instanceof HTMLElement)) {
-      throw new Error('Expected the global navigation layout shell.');
-    }
+      if (!(shell instanceof HTMLElement)) {
+        throw new Error('Expected the global navigation layout shell.');
+      }
 
-    expect(
-      getAllByRole('navigation', { name: 'Global navigation' }),
-    ).toHaveLength(1);
-    expect(getAllByRole('button', { name: 'Search skills' })).toHaveLength(1);
-    expect(shell.querySelectorAll('.astryx-layout-content')).toHaveLength(1);
-    expect(getByRole('heading', { level: 1, name: pageHeading })).toBeTruthy();
-  });
+      expect(
+        getAllByRole('navigation', { name: 'Global navigation' }),
+      ).toHaveLength(1);
+      expect(getAllByRole('button', { name: 'Search skills' })).toHaveLength(1);
+      expect(shell.querySelectorAll('.astryx-layout-content')).toHaveLength(1);
+      expect(
+        getByRole('heading', { level: headingLevel, name: pageHeading }),
+      ).toBeTruthy();
+    },
+  );
 
   it('renders the DevOps roadmap page for its clean route', () => {
     const { getByRole, getByText } = renderAppRoutes('/roadmap');
 
     expect(
-      getByRole('heading', { level: 1, name: 'DevOps roadmap' }),
+      getByRole('heading', { level: 2, name: 'DevOps roadmap' }),
     ).toBeTruthy();
     expect(getByText('About this roadmap')).toBeTruthy();
     expect(getByRole('group', { name: 'DevOps roadmap diagram' })).toBeTruthy();

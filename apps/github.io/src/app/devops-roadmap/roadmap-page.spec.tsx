@@ -51,7 +51,7 @@ describe('RoadmapPage', () => {
     const learnMore = getByRole('link', { name: 'Learn more' });
 
     expect(
-      getByRole('heading', { level: 1, name: 'DevOps roadmap' }),
+      getByRole('heading', { level: 2, name: 'DevOps roadmap' }),
     ).toBeTruthy();
     expect(getByText('About this roadmap')).toBeTruthy();
     expect(
