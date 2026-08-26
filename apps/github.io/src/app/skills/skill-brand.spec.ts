@@ -1,10 +1,20 @@
 import {
+  siAlpinelinux,
+  siAnsible,
+  siDebian,
+  siElasticstack,
+  siFedora,
+  siGooglecloud,
+  siGnubash,
   siK3s,
+  siLinuxcontainers,
   siLonghorn,
+  siMacos,
   siRedis,
   siRenovate,
   siTailscale,
   siTraefikproxy,
+  siUbuntu,
 } from 'simple-icons';
 
 import { getSkillBrand, hasSkillBrandIcon } from './skill-brand';
@@ -43,9 +53,12 @@ const cdSkillNames = [
 ] as const;
 
 describe('getSkillBrand', () => {
-  it('marks Simple Icons metadata as an official brand surface', () => {
-    expect(getSkillBrand('Docker')?.surface).toBe('brand');
-  });
+  it.each(['Docker', 'Ansible'])(
+    'marks Simple Icons metadata for %s as an official brand surface',
+    (skill) => {
+      expect(getSkillBrand(skill)?.surface).toBe('brand');
+    },
+  );
 
   it.each([
     'Amazon S3',
@@ -63,6 +76,16 @@ describe('getSkillBrand', () => {
   });
 
   it.each([
+    ['Bash', siGnubash],
+    ['Ansible', siAnsible],
+    ['macOS', siMacos],
+    ['Alpine Linux', siAlpinelinux],
+    ['Ubuntu', siUbuntu],
+    ['Fedora', siFedora],
+    ['Debian', siDebian],
+    ['LXC', siLinuxcontainers],
+    ['Google Cloud', siGooglecloud],
+    ['Elastic Stack', siElasticstack],
     ['K3s', siK3s],
     ['Tailscale', siTailscale],
     ['Traefik', siTraefikproxy],
@@ -134,6 +157,7 @@ describe('getSkillBrand', () => {
 
   it.each([
     'Git',
+    'GitLab',
     'GitHub Actions',
     'Docker',
     'Grafana',
@@ -180,6 +204,7 @@ describe('getSkillBrand', () => {
     'AWS EventBridge',
     'AWS Lambda',
     'Amazon ECR',
+    'EKS',
     'AWS Systems Manager Parameter Store',
   ])('uses a local full-color AWS asset for %s', (skill) => {
     const brand = getSkillBrand(skill);
@@ -217,6 +242,9 @@ describe('getSkillBrand', () => {
   it('uses documented family icon fallbacks for deployment infrastructure skills', () => {
     expect(getSkillBrand('GitHub API')?.iconPath).toBe(
       getSkillBrand('GitHub')?.iconPath,
+    );
+    expect(getSkillBrand('GCP Functions')?.iconPath).toBe(
+      getSkillBrand('Google Cloud')?.iconPath,
     );
     expect(getSkillBrand('kubectl')?.iconPath).toBe(
       getSkillBrand('Kubernetes')?.iconPath,

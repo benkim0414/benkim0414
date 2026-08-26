@@ -1,6 +1,7 @@
 import * as stylex from '@stylexjs/stylex';
 import { Handle, Position } from '@xyflow/react';
 import { Heading } from '@astryxdesign/core/Heading';
+import { Token } from '@astryxdesign/core/Token';
 import {
   borderVars,
   colorVars,
@@ -38,6 +39,13 @@ const styles = stylex.create({
     borderRadius: radiusVars['--radius-element'],
     boxShadow: shadowVars['--shadow-low'],
   },
+  disabled: {
+    color: colorVars['--color-text-tertiary'],
+    backgroundColor: colorVars['--color-background-muted'],
+    borderColor: colorVars['--color-border-muted'],
+    boxShadow: 'none',
+    opacity: 0.72,
+  },
   list: {
     display: 'flex',
     flexWrap: 'wrap',
@@ -53,8 +61,20 @@ const styles = stylex.create({
 });
 
 export function DevOpsRoadmapNode({ item }: DevOpsRoadmapNodeProps) {
+  const evidenceSkillTokens = item.evidenceSkillTokens ?? item.skills ?? [];
+  const coveredRoadmapConcepts = item.coveredRoadmapConcepts ?? [];
+  const isDisabled =
+    !item.certifications?.length &&
+    evidenceSkillTokens.length === 0 &&
+    coveredRoadmapConcepts.length === 0;
+
   return (
-    <article {...stylex.props(styles.root)} aria-label={item.title}>
+    <article
+      {...stylex.props(styles.root, isDisabled && styles.disabled)}
+      aria-disabled={isDisabled ? 'true' : undefined}
+      aria-label={item.title}
+      data-roadmap-node-disabled={isDisabled ? 'true' : undefined}
+    >
       <Handle
         aria-hidden="true"
         className="devops-roadmap-node__handle"
@@ -63,19 +83,6 @@ export function DevOpsRoadmapNode({ item }: DevOpsRoadmapNodeProps) {
         type="target"
       />
       <Heading level={3}>{item.title}</Heading>
-      {item.skills.length > 0 ? (
-        <ul
-          {...stylex.props(styles.list)}
-          aria-label={`${item.title} skills`}
-          data-roadmap-node-skills
-        >
-          {item.skills.map((skill) => (
-            <li {...stylex.props(styles.listItem)} key={skill}>
-              <SkillToken label={skill} />
-            </li>
-          ))}
-        </ul>
-      ) : null}
       {item.certifications?.length ? (
         <ul
           {...stylex.props(styles.list)}
@@ -85,6 +92,32 @@ export function DevOpsRoadmapNode({ item }: DevOpsRoadmapNodeProps) {
           {item.certifications.map((certification, index) => (
             <li {...stylex.props(styles.listItem)} key={certification.title}>
               <CertificationCitation {...certification} number={index + 1} />
+            </li>
+          ))}
+        </ul>
+      ) : null}
+      {evidenceSkillTokens.length > 0 ? (
+        <ul
+          {...stylex.props(styles.list)}
+          aria-label={`${item.title} evidence skills`}
+          data-roadmap-node-skills
+        >
+          {evidenceSkillTokens.map((skill) => (
+            <li {...stylex.props(styles.listItem)} key={skill}>
+              <SkillToken label={skill} />
+            </li>
+          ))}
+        </ul>
+      ) : null}
+      {coveredRoadmapConcepts.length > 0 ? (
+        <ul
+          {...stylex.props(styles.list)}
+          aria-label={`${item.title} covered concepts`}
+          data-roadmap-node-concepts
+        >
+          {coveredRoadmapConcepts.map((concept) => (
+            <li {...stylex.props(styles.listItem)} key={concept}>
+              <Token color="gray" label={concept} size="sm" />
             </li>
           ))}
         </ul>

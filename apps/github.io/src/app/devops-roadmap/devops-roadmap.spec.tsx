@@ -5,6 +5,7 @@ import type { ReactNode } from 'react';
 import { vi } from 'vitest';
 
 import { devOpsRoadmapItems } from './devops-roadmap.data';
+import { devOpsRoadmapSkillInventoryNodes } from './devops-roadmap-skill-inventory.data';
 import { kubernetesCertifications } from '../certifications/kubernetes-certifications.data';
 import {
   DEVOPS_ROADMAP_NODE_WIDTH,
@@ -38,6 +39,16 @@ vi.mock('../certifications/certification-citation', () => ({
     </a>
   ),
 }));
+
+interface MockRoadmapItem {
+  id: string;
+  title: string;
+  skills?: readonly string[];
+  certifications?: readonly unknown[];
+  evidenceSkillTokens?: readonly string[];
+  coveredRoadmapConcepts?: readonly string[];
+  measuredHeight?: number;
+}
 
 vi.mock('@xyflow/react', () => ({
   Background: () => <div data-testid="react-flow-background" />,
@@ -79,7 +90,7 @@ vi.mock('@xyflow/react', () => ({
   }: {
     nodes: Array<{
       id: string;
-      data: { item: { title: string } };
+      data: { item: MockRoadmapItem };
       position: { y: number };
     }>;
     edges: Array<{ id: string }>;
@@ -87,13 +98,7 @@ vi.mock('@xyflow/react', () => ({
       string,
       (props: {
         data: {
-          item: {
-            id: string;
-            title: string;
-            skills: readonly string[];
-            certifications?: readonly unknown[];
-            measuredHeight?: number;
-          };
+          item: MockRoadmapItem;
         };
       }) => ReactNode
     >;
@@ -234,7 +239,9 @@ describe('DevOpsRoadmapNode', () => {
     expect(styles).toContain(
       `.devops-roadmap__flow .react-flow__node {\n  width: ${DEVOPS_ROADMAP_NODE_WIDTH};\n}`,
     );
-    expect(styles).not.toContain('@media (max-width: 640px) {\n  .devops-roadmap__flow .react-flow__node');
+    expect(styles).not.toContain(
+      '@media (max-width: 640px) {\n  .devops-roadmap__flow .react-flow__node',
+    );
   });
 
   it('renders the core node title and purple-ticked skill tokens', () => {
@@ -268,7 +275,31 @@ describe('DevOpsRoadmapNode', () => {
     expect(container.querySelector('[data-roadmap-node-skills]')).toBeNull();
   });
 
-  it('renders certification citations below skill tokens', () => {
+  it('marks nodes without any visible skill evidence as disabled', () => {
+    const { container, getByRole } = render(
+      <DevOpsRoadmapNode
+        item={{
+          id: 'artifact-management',
+          title: 'Artifact Management',
+          skills: [],
+          evidenceSkillTokens: [],
+          coveredRoadmapConcepts: [],
+        }}
+      />,
+    );
+
+    const node = getByRole('article', { name: 'Artifact Management' });
+
+    expect(node.getAttribute('aria-disabled')).toBe('true');
+    expect(node.getAttribute('data-roadmap-node-disabled')).toBe('true');
+    expect(container.querySelector('[data-roadmap-node-skills]')).toBeNull();
+    expect(container.querySelector('[data-roadmap-node-concepts]')).toBeNull();
+    expect(
+      container.querySelector('[data-roadmap-node-certifications]'),
+    ).toBeNull();
+  });
+
+  it('renders certification citations above skill tokens', () => {
     const { container, getByTestId } = render(
       <DevOpsRoadmapNode
         item={{
@@ -291,7 +322,62 @@ describe('DevOpsRoadmapNode', () => {
     expect(getByTestId('certification-citation-CKA')).toBeTruthy();
     expect(
       container.querySelector(
-        '[data-roadmap-node-skills] + [data-roadmap-node-certifications]',
+        '[data-roadmap-node-certifications] + [data-roadmap-node-skills]',
+      ),
+    ).toBeTruthy();
+  });
+
+  it('renders inventory rows with certifications before skills and concepts', () => {
+    const { container, getByRole, getByTestId, getByText, queryByText } =
+      render(
+        <DevOpsRoadmapNode
+          item={{
+            id: 'container-orchestration',
+            title: 'Container Orchestration',
+            skills: [],
+            certifications: [
+              {
+                title: 'CKA',
+                skills: ['Kubernetes'],
+                expiresAt: '2027-04-20T10:00:00+10:00',
+                url: 'https://example.com/cka.pdf',
+              },
+            ],
+            evidenceSkillTokens: ['Kubernetes'],
+            coveredRoadmapConcepts: ['Pods', 'Deployments', 'Services'],
+          }}
+        />,
+      );
+
+    expect(
+      getByRole('list', {
+        name: 'Container Orchestration certifications',
+      }),
+    ).toBeTruthy();
+    expect(
+      getByRole('list', {
+        name: 'Container Orchestration evidence skills',
+      }),
+    ).toBeTruthy();
+    expect(
+      getByRole('list', {
+        name: 'Container Orchestration covered concepts',
+      }),
+    ).toBeTruthy();
+    expect(getByTestId('certification-citation-CKA')).toBeTruthy();
+    expect(getByTestId('skill-token-Kubernetes')).toBeTruthy();
+    expect(getByText('Pods')).toBeTruthy();
+    expect(getByText('Pods').closest('.astryx-token')).toBeTruthy();
+    expect(
+      container.querySelector('[data-roadmap-node-concepts] svg'),
+    ).toBeNull();
+    expect(
+      container.querySelector('[data-roadmap-node-concepts] img'),
+    ).toBeNull();
+    expect(queryByText('Istio')).toBeNull();
+    expect(
+      container.querySelector(
+        '[data-roadmap-node-certifications] + [data-roadmap-node-skills] + [data-roadmap-node-concepts]',
       ),
     ).toBeTruthy();
   });
@@ -507,7 +593,7 @@ describe('DevOpsRoadmap', () => {
   it('places each node after the previous actual height plus a fixed gap', async () => {
     const rectSpy = vi
       .spyOn(HTMLElement.prototype, 'getBoundingClientRect')
-      .mockImplementation(function getBoundingClientRect() {
+      .mockImplementation(function getBoundingClientRect(this: HTMLElement) {
         const measuredHeight = Number(
           this.getAttribute('data-measured-height') ?? 0,
         );
@@ -569,18 +655,22 @@ describe('DevOpsRoadmap', () => {
       getAllByRole('heading', { level: 3 }).map(
         (heading) => heading.textContent,
       ),
-    ).toEqual(devOpsRoadmapItems.map((item) => item.title));
+    ).toEqual(devOpsRoadmapSkillInventoryNodes.map((item) => item.title));
   });
 
   it('can render the roadmap in reverse order without mutating source data', () => {
-    const originalOrder = devOpsRoadmapItems.map((item) => item.title);
+    const originalOrder = devOpsRoadmapSkillInventoryNodes.map(
+      (item) => item.title,
+    );
     const { getAllByRole } = render(<DevOpsRoadmap isReversed />);
 
     expect(
       getAllByRole('heading', { level: 3 }).map(
         (heading) => heading.textContent,
       ),
-    ).toEqual(originalOrder.toReversed());
-    expect(devOpsRoadmapItems.map((item) => item.title)).toEqual(originalOrder);
+    ).toEqual([...originalOrder].reverse());
+    expect(devOpsRoadmapSkillInventoryNodes.map((item) => item.title)).toEqual(
+      originalOrder,
+    );
   });
 });
