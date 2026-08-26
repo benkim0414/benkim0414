@@ -95,6 +95,26 @@ describe('SkillExperienceCard', () => {
       screen.queryByText('AWS CodePipeline', { selector: 'dt' }),
     ).toBeNull();
   });
+
+  it('matches the DORA capability card label and row spacing pattern', () => {
+    render(
+      <SkillExperienceCard
+        experience={ciCdExperience}
+        relevantSkillLabels={['AWS CodePipeline', 'AWS CodeBuild']}
+      />,
+    );
+
+    const label = screen.getByText('Relevant skills');
+    const row = screen.getByRole('list', { name: 'Relevant skills' });
+    const card = label.closest('.astryx-card');
+
+    expect(card).not.toBeNull();
+    expect(label.className).toContain('supporting');
+    expect(label.getAttribute('data-type')).toBe('supporting');
+    expect(label.getAttribute('data-color')).toBe('secondary');
+    expect(row.getAttribute('data-wrap')).toBe('true');
+    expect(row.className).not.toContain('gap-1');
+  });
 });
 
 describe('SkillExperienceCardList', () => {
