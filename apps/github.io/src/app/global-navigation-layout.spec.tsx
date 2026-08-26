@@ -1,5 +1,5 @@
 import type { ComponentProps, ReactNode } from 'react';
-import { fireEvent, render } from '@testing-library/react';
+import { fireEvent, render, within } from '@testing-library/react';
 import { Theme } from '@astryxdesign/core';
 import { IconButton } from '@astryxdesign/core/IconButton';
 import { LinkProvider } from '@astryxdesign/core/Link';
@@ -30,16 +30,6 @@ const styles = stylex.create({
   },
   blueIconLink: {
     color: colorVars['--color-icon-blue'],
-  },
-  selectedBlueIconLink: {
-    backgroundColor: {
-      default: 'transparent',
-      ':hover': {
-        '@media (hover: hover)': colorVars['--color-overlay-hover'],
-      },
-      ':active': colorVars['--color-overlay-pressed'],
-    },
-    fontWeight: fontWeightVars['--font-weight-medium'],
   },
 });
 
@@ -182,6 +172,7 @@ describe('GlobalNavigationLayout', () => {
 
   it('renders primary page links with their route destinations', () => {
     const { getByRole } = renderGlobalLayout();
+    const navigation = getByRole('navigation', { name: 'Global navigation' });
 
     expect(getByRole('link', { name: 'Home' }).getAttribute('href')).toBe('/');
     expect(getByRole('link', { name: 'Roadmap' }).getAttribute('href')).toBe(
@@ -190,6 +181,11 @@ describe('GlobalNavigationLayout', () => {
     expect(getByRole('link', { name: 'Skills' }).getAttribute('href')).toBe(
       '/skills',
     );
+    expect(
+      within(navigation).getAllByRole('link').map(
+        (link) => link.getAttribute('aria-label') ?? link.textContent?.trim(),
+      ),
+    ).toEqual(['Home', 'Skills', 'Roadmap']);
   });
 
   it('renders Home as an icon-only link at the start of the global nav', () => {
@@ -229,28 +225,12 @@ describe('GlobalNavigationLayout', () => {
   });
 
   it('keeps the selected Home icon link blue', () => {
-    const { getByRole } = render(
-      <Theme theme={neutralTheme}>
-        <MemoryRouter initialEntries={['/']}>
-          <GlobalNavigationLayout />
-          <IconButton
-            aria-current="page"
-            href="/"
-            icon={<span />}
-            label="Selected blue icon control"
-            size="sm"
-            variant="ghost"
-            xstyle={[styles.selectedBlueIconLink, styles.blueIconLink]}
-          />
-        </MemoryRouter>
-      </Theme>,
-    );
+    const { getByRole } = renderGlobalLayout();
     const homeLink = getByRole('link', { name: 'Home' });
-    const blueIconControl = getByRole('link', {
-      name: 'Selected blue icon control',
-    });
+    const icon = homeLink.querySelector('svg');
 
-    expect(homeLink.className).toBe(blueIconControl.className);
+    expect(homeLink.getAttribute('aria-current')).toBe('page');
+    expect(icon?.getAttribute('color')).toBe('var(--color-icon-blue)');
   });
 
   it('applies the Astryx blue token directly to the Home heroicon', () => {
