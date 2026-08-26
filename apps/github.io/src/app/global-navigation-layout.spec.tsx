@@ -28,8 +28,18 @@ const styles = stylex.create({
     color: colorVars['--color-text-primary'],
     fontWeight: fontWeightVars['--font-weight-medium'],
   },
-  primaryIconLink: {
-    color: colorVars['--color-accent'],
+  blueIconLink: {
+    color: colorVars['--color-icon-blue'],
+  },
+  selectedBlueIconLink: {
+    backgroundColor: {
+      default: 'transparent',
+      ':hover': {
+        '@media (hover: hover)': colorVars['--color-overlay-hover'],
+      },
+      ':active': colorVars['--color-overlay-pressed'],
+    },
+    fontWeight: fontWeightVars['--font-weight-medium'],
   },
 });
 
@@ -192,7 +202,7 @@ describe('GlobalNavigationLayout', () => {
     expect(homeLink.querySelector('svg')).toBeTruthy();
   });
 
-  it('colors the Home icon link with the primary accent color', () => {
+  it('colors the Home icon link with the blue icon color', () => {
     const { getByRole } = render(
       <Theme theme={neutralTheme}>
         <MemoryRouter initialEntries={['/roadmap']}>
@@ -200,20 +210,47 @@ describe('GlobalNavigationLayout', () => {
           <IconButton
             href="/"
             icon={<span />}
-            label="Primary icon control"
+            label="Blue icon control"
             size="sm"
             variant="ghost"
-            xstyle={styles.primaryIconLink}
+            xstyle={styles.blueIconLink}
           />
         </MemoryRouter>
       </Theme>,
     );
     const homeLink = getByRole('link', { name: 'Home' });
-    const primaryIconControl = getByRole('link', {
-      name: 'Primary icon control',
+    const blueIconControl = getByRole('link', {
+      name: 'Blue icon control',
     });
 
-    expect(homeLink.className).toBe(primaryIconControl.className);
+    expect(getComputedStyle(homeLink).color).toBe(
+      getComputedStyle(blueIconControl).color,
+    );
+  });
+
+  it('keeps the selected Home icon link blue', () => {
+    const { getByRole } = render(
+      <Theme theme={neutralTheme}>
+        <MemoryRouter initialEntries={['/']}>
+          <GlobalNavigationLayout />
+          <IconButton
+            aria-current="page"
+            href="/"
+            icon={<span />}
+            label="Selected blue icon control"
+            size="sm"
+            variant="ghost"
+            xstyle={[styles.selectedBlueIconLink, styles.blueIconLink]}
+          />
+        </MemoryRouter>
+      </Theme>,
+    );
+    const homeLink = getByRole('link', { name: 'Home' });
+    const blueIconControl = getByRole('link', {
+      name: 'Selected blue icon control',
+    });
+
+    expect(homeLink.className).toBe(blueIconControl.className);
   });
 
   it('resets the shell scroll owner when a top-nav link changes routes', () => {

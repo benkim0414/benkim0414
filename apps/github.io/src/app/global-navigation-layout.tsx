@@ -50,7 +50,17 @@ const styles = stylex.create({
     fontWeight: fontWeightVars['--font-weight-medium'],
   },
   homeNavigationLink: {
-    color: colorVars['--color-accent'],
+    color: colorVars['--color-icon-blue'],
+  },
+  selectedHomeNavigationLink: {
+    backgroundColor: {
+      default: 'transparent',
+      ':hover': {
+        '@media (hover: hover)': colorVars['--color-overlay-hover'],
+      },
+      ':active': colorVars['--color-overlay-pressed'],
+    },
+    fontWeight: fontWeightVars['--font-weight-medium'],
   },
 });
 
@@ -163,7 +173,7 @@ export function GlobalNavigationLayout(): ReactElement {
                   variant="ghost"
                   xstyle={[
                     location.pathname === '/'
-                      ? styles.selectedNavigationItem
+                      ? styles.selectedHomeNavigationLink
                       : undefined,
                     styles.homeNavigationLink,
                   ]}
