@@ -40,6 +40,7 @@ export function resolveSkillDetail(
       value: {
         skill,
         experiences: [],
+        relatedSkills: [],
         experienceEvidence: [],
         projects: [],
       },
@@ -49,10 +50,7 @@ export function resolveSkillDetail(
   const evidenceById = new Map(
     sources.evidenceItems.map((item) => [item.id, item]),
   );
-  const projectById = new Map<
-    string,
-    (typeof sources.projects)[number]
-  >();
+  const projectById = new Map<string, (typeof sources.projects)[number]>();
 
   for (const project of sources.projects) {
     if (projectById.has(project.id)) {
@@ -115,12 +113,35 @@ export function resolveSkillDetail(
 
     return project;
   });
+  const skillById = new Map(
+    sources.skills.map((candidate) => [candidate.id, candidate]),
+  );
+  const relatedSkillIds = new Set<string>();
+
+  for (const experience of experiences) {
+    for (const relatedSkillId of experience.skillIds) {
+      relatedSkillIds.add(relatedSkillId);
+    }
+  }
+
+  const relatedSkills = [...relatedSkillIds].map((relatedSkillId) => {
+    const relatedSkill = skillById.get(relatedSkillId);
+
+    if (!relatedSkill) {
+      throw new Error(
+        `Skill detail "${skillId}" references experience skill "${relatedSkillId}" that is missing from skills.`,
+      );
+    }
+
+    return relatedSkill;
+  });
 
   return {
     status: 'found',
     value: {
       skill,
       experiences,
+      relatedSkills,
       experienceEvidence,
       projects,
     },

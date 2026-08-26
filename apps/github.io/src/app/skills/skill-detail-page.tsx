@@ -11,9 +11,7 @@ import { colorVars } from '@astryxdesign/core/theme/tokens.stylex';
 import * as stylex from '@stylexjs/stylex';
 import { useEffect, useRef, type ReactElement } from 'react';
 
-import {
-  CertificationCitation,
-} from '../certifications/certification-citation';
+import { CertificationCitation } from '../certifications/certification-citation';
 import { ProjectCard } from '../projects/project-card';
 import { SkillCategory } from './skill-category';
 import type { ResolvedSkillDetail } from './skill-detail.types';
@@ -126,7 +124,10 @@ export function SkillDetailPage({
             <Heading id="skill-experience-narrative-heading" level={2}>
               Experience
             </Heading>
-            <SkillExperienceCardList experiences={detail.experiences} />
+            <SkillExperienceCardList
+              experiences={detail.experiences}
+              skills={detail.relatedSkills}
+            />
           </VStack>
         </section>
       ) : null}

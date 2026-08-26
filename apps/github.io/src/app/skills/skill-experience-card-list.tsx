@@ -7,13 +7,16 @@ import * as stylex from '@stylexjs/stylex';
 import type { ReactElement } from 'react';
 
 import type { Experience } from '../experience/experience.types';
+import type { Skill } from './skill-list.types';
 
 export interface SkillExperienceCardListProps {
   readonly experiences: readonly Experience[];
+  readonly skills?: readonly Skill[];
 }
 
 export interface SkillExperienceCardProps {
   readonly experience: Experience;
+  readonly relevantSkillLabels?: readonly string[];
 }
 
 const styles = stylex.create({
@@ -39,13 +42,17 @@ const styles = stylex.create({
 
 export function SkillExperienceCardList({
   experiences,
+  skills = [],
 }: SkillExperienceCardListProps): ReactElement {
   return (
     <ul aria-label="Skill experience" {...stylex.props(styles.list)}>
       {experiences.map((experience) => (
         <li key={experience.id} {...stylex.props(styles.item)}>
           <VStack paddingBlock={2}>
-            <SkillExperienceCard experience={experience} />
+            <SkillExperienceCard
+              experience={experience}
+              relevantSkillLabels={getRelevantSkillLabels(experience, skills)}
+            />
           </VStack>
         </li>
       ))}
@@ -55,6 +62,7 @@ export function SkillExperienceCardList({
 
 export function SkillExperienceCard({
   experience,
+  relevantSkillLabels = [],
 }: SkillExperienceCardProps): ReactElement {
   return (
     <Card width="100%">
@@ -74,16 +82,38 @@ export function SkillExperienceCard({
           ))}
         </VStack>
 
-        {experience.technologies.length > 0 ? (
-          <HStack as="ul" gap={1} wrap="wrap" xstyle={styles.tokenList}>
-            {experience.technologies.map((technology) => (
-              <li key={technology} {...stylex.props(styles.tokenItem)}>
-                <Token label={technology} size="sm" />
-              </li>
-            ))}
-          </HStack>
+        {relevantSkillLabels.length > 0 ? (
+          <VStack gap={1}>
+            <Text as="p" type="body" color="secondary">
+              Relevant skills
+            </Text>
+            <HStack
+              aria-label="Relevant skills"
+              as="ul"
+              gap={1}
+              wrap="wrap"
+              xstyle={styles.tokenList}
+            >
+              {relevantSkillLabels.map((skillLabel) => (
+                <li key={skillLabel} {...stylex.props(styles.tokenItem)}>
+                  <Token label={skillLabel} size="sm" />
+                </li>
+              ))}
+            </HStack>
+          </VStack>
         ) : null}
       </VStack>
     </Card>
   );
+}
+
+function getRelevantSkillLabels(
+  experience: Experience,
+  skills: readonly Skill[],
+): readonly string[] {
+  const skillById = new Map(skills.map((skill) => [skill.id, skill.name]));
+
+  return experience.skillIds
+    .map((skillId) => skillById.get(skillId))
+    .filter((skillLabel): skillLabel is string => Boolean(skillLabel));
 }

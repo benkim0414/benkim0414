@@ -1,6 +1,4 @@
-import {
-  devOpsCapabilityEvidenceItems,
-} from '../devops-capability-evidence/devops-capability-evidence.data';
+import { devOpsCapabilityEvidenceItems } from '../devops-capability-evidence/devops-capability-evidence.data';
 import { experiences } from '../experience/experience.data';
 import { sampleProjects } from '../projects/project-list.data';
 import { skillDetailRecords } from './skill-detail.data';
@@ -26,6 +24,14 @@ describe('resolveSkillDetail', () => {
     expect(result.value.experiences.map(({ id }) => id)).toEqual([
       'aws-codepipeline-codebuild-multistage-delivery',
     ]);
+    expect(result.value.relatedSkills.map(({ id }) => id)).toEqual([
+      'aws-codepipeline',
+      'aws-codebuild',
+      'terraform',
+      'amazon-ecr',
+      'amazon-eks',
+      'kubernetes',
+    ]);
     expect(result.value.experienceEvidence.map(({ id }) => id)).toEqual([
       'argocd-environment-state-from-version-control',
       'deterministic-kubernetes-overlays',
@@ -41,34 +47,31 @@ describe('resolveSkillDetail', () => {
     expect(result.value).not.toHaveProperty('experienceSummary');
   });
 
-  it(
-    'preserves authored experience order independently of source order',
-    () => {
-      const followUpExperience = {
-        ...experiences[0],
-        id: 'kubernetes-delivery-follow-up',
-        title: 'Kubernetes delivery follow-up',
-      };
-      const result = resolveSkillDetail('kubernetes', {
-        ...productionSources,
-        detailRecords: [
-          {
-            ...skillDetailRecords[0],
-            experienceIds: [followUpExperience.id, experiences[0].id],
-          },
-        ],
-        experiences: [...experiences, followUpExperience],
-      });
+  it('preserves authored experience order independently of source order', () => {
+    const followUpExperience = {
+      ...experiences[0],
+      id: 'kubernetes-delivery-follow-up',
+      title: 'Kubernetes delivery follow-up',
+    };
+    const result = resolveSkillDetail('kubernetes', {
+      ...productionSources,
+      detailRecords: [
+        {
+          ...skillDetailRecords[0],
+          experienceIds: [followUpExperience.id, experiences[0].id],
+        },
+      ],
+      experiences: [...experiences, followUpExperience],
+    });
 
-      expect(result).toMatchObject({ status: 'found' });
-      if (result.status !== 'found') return;
+    expect(result).toMatchObject({ status: 'found' });
+    if (result.status !== 'found') return;
 
-      expect(result.value.experiences.map(({ id }) => id)).toEqual([
-        followUpExperience.id,
-        experiences[0].id,
-      ]);
-    },
-  );
+    expect(result.value.experiences.map(({ id }) => id)).toEqual([
+      followUpExperience.id,
+      experiences[0].id,
+    ]);
+  });
 
   it('resolves a known skill without invented enrichment', () => {
     const result = resolveSkillDetail('react', productionSources);
@@ -77,6 +80,7 @@ describe('resolveSkillDetail', () => {
     if (result.status !== 'found') return;
 
     expect(result.value.experiences).toEqual([]);
+    expect(result.value.relatedSkills).toEqual([]);
     expect(result.value.experienceEvidence).toEqual([]);
     expect(result.value.projects).toEqual([]);
     expect(result.value).not.toHaveProperty('experienceSummary');
@@ -121,33 +125,30 @@ describe('resolveSkillDetail', () => {
     }
   });
 
-  it(
-    'rejects a public, non-sensitive non-experience evidence reference',
-    () => {
-      const projectEvidence = {
-        ...devOpsCapabilityEvidenceItems[0],
-        id: 'project-evidence',
-        type: 'project' as const,
-        isPublic: true,
-        isSensitive: false,
-      };
+  it('rejects a public, non-sensitive non-experience evidence reference', () => {
+    const projectEvidence = {
+      ...devOpsCapabilityEvidenceItems[0],
+      id: 'project-evidence',
+      type: 'project' as const,
+      isPublic: true,
+      isSensitive: false,
+    };
 
-      expect(() =>
-        resolveSkillDetail('kubernetes', {
-          ...productionSources,
-          detailRecords: [
-            {
-              ...skillDetailRecords[0],
-              experienceEvidenceIds: [projectEvidence.id],
-            },
-          ],
-          evidenceItems: [...devOpsCapabilityEvidenceItems, projectEvidence],
-        }),
-      ).toThrow(
-        'must reference experience evidence; received "project-evidence"',
-      );
-    },
-  );
+    expect(() =>
+      resolveSkillDetail('kubernetes', {
+        ...productionSources,
+        detailRecords: [
+          {
+            ...skillDetailRecords[0],
+            experienceEvidenceIds: [projectEvidence.id],
+          },
+        ],
+        evidenceItems: [...devOpsCapabilityEvidenceItems, projectEvidence],
+      }),
+    ).toThrow(
+      'must reference experience evidence; received "project-evidence"',
+    );
+  });
 
   it('rejects missing, private, and sensitive experience references', () => {
     const kubernetesDetail = skillDetailRecords[0];
