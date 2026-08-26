@@ -15,6 +15,7 @@ import { Icon } from '@astryxdesign/core/Icon';
 import { IconButton } from '@astryxdesign/core/IconButton';
 import { Layout, LayoutContent, LayoutHeader } from '@astryxdesign/core/Layout';
 import { TopNav, TopNavItem } from '@astryxdesign/core/TopNav';
+import { siGithub } from 'simple-icons';
 import {
   colorVars,
   fontWeightVars,
@@ -33,6 +34,22 @@ interface GlobalSearchCommandItem extends GlobalSearchResult {
 }
 
 const HOME_NAVIGATION_ICON_COLOR = 'var(--color-icon-blue)';
+const GITHUB_PROFILE_URL = 'https://github.com/benkim0414';
+
+function GitHubIcon(): ReactElement {
+  return (
+    <svg
+      aria-hidden
+      fill="currentColor"
+      height={16}
+      viewBox="0 0 24 24"
+      width={16}
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path d={siGithub.path} />
+    </svg>
+  );
+}
 
 const styles = stylex.create({
   frame: {
@@ -179,6 +196,7 @@ export function GlobalNavigationLayout(): ReactElement {
                   }
                   label="Home"
                   size="sm"
+                  tooltip="Home"
                   variant="ghost"
                   xstyle={[
                     location.pathname === '/'
@@ -189,13 +207,25 @@ export function GlobalNavigationLayout(): ReactElement {
                 />
               }
               endContent={
-                <IconButton
-                  icon={<Icon color="inherit" icon="search" size="sm" />}
-                  label="Search skills"
-                  size="sm"
-                  variant="ghost"
-                  onClick={() => setIsSearchOpen(true)}
-                />
+                <>
+                  <IconButton
+                    icon={<Icon color="inherit" icon="search" size="sm" />}
+                    label="Search skills"
+                    size="sm"
+                    tooltip="Search"
+                    variant="ghost"
+                    onClick={() => setIsSearchOpen(true)}
+                  />
+                  <IconButton
+                    as="a"
+                    href={GITHUB_PROFILE_URL}
+                    icon={<GitHubIcon />}
+                    label="GitHub"
+                    size="sm"
+                    tooltip="GitHub"
+                    variant="ghost"
+                  />
+                </>
               }
               label="Global navigation"
             />
