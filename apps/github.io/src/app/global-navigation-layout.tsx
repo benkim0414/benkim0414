@@ -10,6 +10,7 @@ import {
   CommandPalette,
   CommandPaletteInput,
 } from '@astryxdesign/core/CommandPalette';
+import { HomeModernIcon } from '@heroicons/react/24/outline';
 import { Icon } from '@astryxdesign/core/Icon';
 import { IconButton } from '@astryxdesign/core/IconButton';
 import { Layout, LayoutContent, LayoutHeader } from '@astryxdesign/core/Layout';
@@ -47,6 +48,9 @@ const styles = stylex.create({
     },
     color: colorVars['--color-text-primary'],
     fontWeight: fontWeightVars['--font-weight-medium'],
+  },
+  homeNavigationLink: {
+    color: colorVars['--color-accent'],
   },
 });
 
@@ -122,16 +126,6 @@ export function GlobalNavigationLayout(): ReactElement {
               centerContent={
                 <>
                   <TopNavItem
-                    href="/"
-                    isSelected={location.pathname === '/'}
-                    label="Home"
-                    xstyle={
-                      location.pathname === '/'
-                        ? styles.selectedNavigationItem
-                        : undefined
-                    }
-                  />
-                  <TopNavItem
                     href="/roadmap"
                     isSelected={location.pathname === '/roadmap'}
                     label="Roadmap"
@@ -156,6 +150,24 @@ export function GlobalNavigationLayout(): ReactElement {
                     }
                   />
                 </>
+              }
+              startContent={
+                <IconButton
+                  aria-current={
+                    location.pathname === '/' ? 'page' : undefined
+                  }
+                  href="/"
+                  icon={<HomeModernIcon aria-hidden height={16} width={16} />}
+                  label="Home"
+                  size="sm"
+                  variant="ghost"
+                  xstyle={[
+                    location.pathname === '/'
+                      ? styles.selectedNavigationItem
+                      : undefined,
+                    styles.homeNavigationLink,
+                  ]}
+                />
               }
               endContent={
                 <IconButton
