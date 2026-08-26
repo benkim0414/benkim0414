@@ -17,18 +17,14 @@ interface DevOpsRoadmapNodeProps {
   item: DevOpsRoadmapItem;
 }
 
-export const DEVOPS_ROADMAP_NODE_WIDTH = 'min(100%, 320px)';
-export const DEVOPS_ROADMAP_NODE_MOBILE_WIDTH = 'min(100%, 280px)';
+export const DEVOPS_ROADMAP_NODE_WIDTH = '100%';
 
 const styles = stylex.create({
   root: {
     display: 'grid',
     alignContent: 'start',
     gap: spacingVars['--spacing-3'],
-    width: {
-      default: DEVOPS_ROADMAP_NODE_WIDTH,
-      '@media (max-width: 640px)': DEVOPS_ROADMAP_NODE_MOBILE_WIDTH,
-    },
+    width: DEVOPS_ROADMAP_NODE_WIDTH,
     minHeight: `calc(${spacingVars['--spacing-12']} * 3 + ${spacingVars['--spacing-1']})`,
     padding: {
       default: spacingVars['--spacing-4'],

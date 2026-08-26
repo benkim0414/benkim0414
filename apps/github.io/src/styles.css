@@ -27,7 +27,7 @@ body {
 }
 
 .devops-roadmap__flow .react-flow__node {
-  width: min(100%, 320px);
+  width: 100%;
 }
 
 .devops-roadmap__flow .react-flow__edge-path {
@@ -50,10 +50,4 @@ body {
 
 .skill-carousel > div > div > .astryx-card {
   height: 100%;
-}
-
-@media (max-width: 640px) {
-  .devops-roadmap__flow .react-flow__node {
-    width: min(100%, 280px);
-  }
 }

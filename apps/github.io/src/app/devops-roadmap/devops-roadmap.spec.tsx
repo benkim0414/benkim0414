@@ -7,7 +7,6 @@ import { vi } from 'vitest';
 import { devOpsRoadmapItems } from './devops-roadmap.data';
 import { kubernetesCertifications } from '../certifications/kubernetes-certifications.data';
 import {
-  DEVOPS_ROADMAP_NODE_MOBILE_WIDTH,
   DEVOPS_ROADMAP_NODE_WIDTH,
   DevOpsRoadmapNode,
 } from './devops-roadmap-node';
@@ -222,9 +221,8 @@ describe('devOpsRoadmapItems', () => {
 });
 
 describe('DevOpsRoadmapNode', () => {
-  it('preserves the previous responsive node width contract', () => {
-    expect(DEVOPS_ROADMAP_NODE_WIDTH).toBe('min(100%, 320px)');
-    expect(DEVOPS_ROADMAP_NODE_MOBILE_WIDTH).toBe('min(100%, 280px)');
+  it('uses a full-width node contract across every viewport', () => {
+    expect(DEVOPS_ROADMAP_NODE_WIDTH).toBe('100%');
   });
 
   it('keeps the React Flow node wrapper aligned to the visible node width', () => {
@@ -236,9 +234,7 @@ describe('DevOpsRoadmapNode', () => {
     expect(styles).toContain(
       `.devops-roadmap__flow .react-flow__node {\n  width: ${DEVOPS_ROADMAP_NODE_WIDTH};\n}`,
     );
-    expect(styles).toContain(
-      `@media (max-width: 640px) {\n  .devops-roadmap__flow .react-flow__node {\n    width: ${DEVOPS_ROADMAP_NODE_MOBILE_WIDTH};\n  }\n}`,
-    );
+    expect(styles).not.toContain('@media (max-width: 640px) {\n  .devops-roadmap__flow .react-flow__node');
   });
 
   it('renders the core node title and purple-ticked skill tokens', () => {
@@ -422,9 +418,6 @@ describe('DevOpsRoadmap', () => {
 
     expect(flowWrapper?.style.cssText).toContain('--x-height: 344px;');
     expect(flowWrapper?.style.cssText).toContain(DEVOPS_ROADMAP_NODE_WIDTH);
-    expect(flowWrapper?.style.cssText).toContain(
-      DEVOPS_ROADMAP_NODE_MOBILE_WIDTH,
-    );
     expect(
       container
         .querySelector('[data-testid="react-flow"]')
