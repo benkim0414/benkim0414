@@ -1,7 +1,10 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 
 import { experiences } from '../experience/experience.data';
-import { SkillExperienceCardList } from './skill-experience-card-list';
+import {
+  SkillExperienceCard,
+  SkillExperienceCardList,
+} from './skill-experience-card-list';
 
 const meta: Meta<typeof SkillExperienceCardList> = {
   title: 'github.io/skills/SkillExperienceCardList',
@@ -33,5 +36,12 @@ export const LongWrappingNarrative: Story = {
         ],
       },
     ],
+  },
+};
+
+export const ExperienceCard: StoryObj<typeof SkillExperienceCard> = {
+  render: (args) => <SkillExperienceCard {...args} />,
+  args: {
+    experience: experiences[0],
   },
 };
