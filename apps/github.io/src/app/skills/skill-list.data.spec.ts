@@ -4,9 +4,25 @@ import {
   sampleSkills,
   skills,
 } from './skill-list.data';
+import { devOpsCapabilityEvidenceItems } from '../devops-capability-evidence/devops-capability-evidence.data';
 import { kubernetesCertifications } from '../certifications/kubernetes-certifications.data';
 
 describe('skill-list data', () => {
+  const doraSkillCatalogCoverage = {
+    AWS: 'AWS IAM',
+    'Conventional Commits': 'Git',
+    'GitHub API': 'GitHub',
+    GitOps: 'Argo CD',
+    Husky: 'Git',
+    IRSA: 'AWS IAM',
+    'Kubernetes RBAC': 'Kubernetes',
+    'OpenID Connect': 'AWS IAM',
+    kubectl: 'Kubernetes',
+    promtool: 'Prometheus',
+  } as const satisfies Record<string, string>;
+
+  const hiddenDoraSkillNames = new Set(Object.keys(doraSkillCatalogCoverage));
+
   it('keeps sampleSkills as a compatibility alias for the local catalog', () => {
     expect(sampleSkills).toBe(skills);
   });
@@ -36,33 +52,88 @@ describe('skill-list data', () => {
     expect(new Set(highlightedSkillIds).size).toBe(highlightedSkillIds.length);
   });
 
-  it('stores the requested local skill catalog without AWS', () => {
+  it('stores the requested local skill catalog', () => {
     expect(skills.map((skill) => skill.id)).toEqual([
-      'argo',
+      'alertmanager',
+      'alloy',
+      'amazon-ecr',
+      'amazon-eks',
+      'argo-cd',
+      'aws-codebuild',
+      'aws-codepipeline',
+      'aws-eventbridge',
+      'aws-iam',
+      'aws-lambda',
+      'aws-systems-manager-parameter-store',
       'claude-code',
       'docker',
       'expo',
+      'git',
+      'github',
       'github-actions',
       'go',
       'grafana',
+      'helm',
+      'jest',
       'kubernetes',
+      'kustomize',
+      'loki',
+      'markdown',
       'neovim',
       'nx',
+      'postgresql',
+      'prometheus',
       'react',
+      'sealed-secrets',
       'storybook',
       'swift',
       'terraform',
+      'testcontainers',
       'tmux',
       'typescript',
+      'yaml',
       'zsh',
     ]);
   });
 
+  it('uses the official Argo CD product title without the generic Argo duplicate', () => {
+    expect(skills.map((skill) => skill.name)).toContain('Argo CD');
+    expect(skills.map((skill) => skill.name)).not.toContain('Argo');
+  });
+
+  it('includes product-level DORA capability skill evidence in the local catalog', () => {
+    const catalogNames = new Set(skills.map((skill) => skill.name));
+    const doraSkillNames = Array.from(
+      new Set(
+        devOpsCapabilityEvidenceItems
+          .filter((item) => item.type === 'skill')
+          .map((item) => item.title),
+      ),
+    ).sort((left, right) => left.localeCompare(right));
+
+    expect(
+      doraSkillNames.filter(
+        (name) => !catalogNames.has(name) && !hiddenDoraSkillNames.has(name),
+      ),
+    ).toEqual([]);
+  });
+
+  it('covers DORA sub-features and command-line tools with broader product cards', () => {
+    const catalogNames = new Set(skills.map((skill) => skill.name));
+
+    for (const [hiddenDoraSkillName, coveringCatalogName] of Object.entries(
+      doraSkillCatalogCoverage,
+    )) {
+      expect(catalogNames.has(hiddenDoraSkillName)).toBe(false);
+      expect(catalogNames.has(coveringCatalogName)).toBe(true);
+    }
+  });
+
   it('stores skills alphabetically by display name', () => {
     expect(skills.map((skill) => skill.name)).toEqual(
-      [...skills].map((skill) => skill.name).sort((left, right) =>
-        left.localeCompare(right),
-      ),
+      [...skills]
+        .map((skill) => skill.name)
+        .sort((left, right) => left.localeCompare(right)),
     );
   });
 
@@ -82,7 +153,7 @@ describe('skill-list data', () => {
       tmux: 4,
       grafana: 3,
       go: 3,
-      argo: 3,
+      'argo-cd': 3,
       swift: 2,
       expo: 2,
     });
@@ -124,9 +195,7 @@ describe('skill-list data', () => {
   });
 
   it('stores CNCF certifications on the Kubernetes carousel skill', () => {
-    const kubernetesSkill = skills.find(
-      (skill) => skill.id === 'kubernetes',
-    );
+    const kubernetesSkill = skills.find((skill) => skill.id === 'kubernetes');
     const certifications = kubernetesSkill?.certifications;
 
     expect(certifications?.map((certification) => certification.title)).toEqual(
@@ -141,8 +210,9 @@ describe('skill-list data', () => {
     expect(certifications?.[1]).toBe(kubernetesCertifications.ckad);
     expect(certifications?.[2]).toBe(kubernetesCertifications.cka);
     expect(
-      new Set(certifications?.map((certification) => certification.citationIcon))
-        .size,
+      new Set(
+        certifications?.map((certification) => certification.citationIcon),
+      ).size,
     ).toBe(3);
   });
 });
