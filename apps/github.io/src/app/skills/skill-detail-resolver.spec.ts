@@ -1,4 +1,5 @@
 import { devOpsCapabilityEvidenceItems } from '../devops-capability-evidence/devops-capability-evidence.data';
+import { experiences } from '../experience/experience.data';
 import { sampleProjects } from '../projects/project-list.data';
 import { skillDetailRecords } from './skill-detail.data';
 import { resolveSkillDetail } from './skill-detail-resolver';
@@ -9,6 +10,7 @@ const productionSources = {
   detailRecords: skillDetailRecords,
   evidenceItems: devOpsCapabilityEvidenceItems,
   projects: sampleProjects,
+  experiences,
 };
 
 describe('resolveSkillDetail', () => {
@@ -19,6 +21,9 @@ describe('resolveSkillDetail', () => {
     if (result.status !== 'found') return;
 
     expect(result.value.skill.name).toBe('Kubernetes');
+    expect(result.value.experiences.map(({ id }) => id)).toEqual([
+      'aws-codepipeline-codebuild-multistage-delivery',
+    ]);
     expect(result.value.experienceEvidence.map(({ id }) => id)).toEqual([
       'argocd-environment-state-from-version-control',
       'deterministic-kubernetes-overlays',
@@ -38,6 +43,7 @@ describe('resolveSkillDetail', () => {
     expect(result.status).toBe('found');
     if (result.status !== 'found') return;
 
+    expect(result.value.experiences).toEqual([]);
     expect(result.value.experienceEvidence).toEqual([]);
     expect(result.value.projects).toEqual([]);
     expect(result.value).not.toHaveProperty('experienceSummary');
@@ -103,6 +109,76 @@ describe('resolveSkillDetail', () => {
         evidenceItems: [...devOpsCapabilityEvidenceItems, projectEvidence],
       }),
     ).toThrow('must reference experience evidence; received "project-evidence"');
+  });
+
+  it('rejects missing, private, and sensitive experience references', () => {
+    const kubernetesDetail = skillDetailRecords[0];
+
+    expect(() =>
+      resolveSkillDetail('kubernetes', {
+        ...productionSources,
+        detailRecords: [
+          { ...kubernetesDetail, experienceIds: ['missing-experience'] },
+        ],
+      }),
+    ).toThrow('missing experience "missing-experience"');
+
+    for (const experience of [
+      { ...experiences[0], id: 'private-experience', isPublic: false },
+      {
+        ...experiences[0],
+        id: 'sensitive-experience',
+        isPublic: true,
+        isSensitive: true,
+      },
+    ]) {
+      expect(() =>
+        resolveSkillDetail('kubernetes', {
+          ...productionSources,
+          detailRecords: [
+            { ...kubernetesDetail, experienceIds: [experience.id] },
+          ],
+          experiences: [...experiences, experience],
+        }),
+      ).toThrow(/public, non-sensitive experience/);
+    }
+  });
+
+  it('rejects experience references that are not linked back to the skill', () => {
+    const crossSkillExperience = {
+      ...experiences[0],
+      id: 'cross-skill-experience',
+      skillIds: ['react'],
+    };
+
+    expect(() =>
+      resolveSkillDetail('kubernetes', {
+        ...productionSources,
+        detailRecords: [
+          {
+            ...skillDetailRecords[0],
+            experienceIds: [crossSkillExperience.id],
+          },
+        ],
+        experiences: [...experiences, crossSkillExperience],
+      }),
+    ).toThrow(
+      'Skill detail "kubernetes" references experience "cross-skill-experience" that is not linked to the skill.',
+    );
+  });
+
+  it('rejects duplicate experience source IDs before resolving references', () => {
+    expect(() =>
+      resolveSkillDetail('kubernetes', {
+        ...productionSources,
+        experiences: [
+          ...experiences,
+          { ...experiences[0], title: 'Unexpected duplicate experience' },
+        ],
+      }),
+    ).toThrow(
+      'Duplicate experience source ID "aws-codepipeline-codebuild-multistage-delivery".',
+    );
   });
 
   it('rejects duplicate detail records before a later record can bypass validation', () => {
