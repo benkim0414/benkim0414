@@ -2,9 +2,10 @@ import type { Meta, StoryObj } from '@storybook/react-vite';
 
 import { experiences } from '../experience/experience.data';
 import { SkillExperienceCardList } from './skill-experience-card-list';
+import { skills } from './skill-list.data';
 
 const meta: Meta<typeof SkillExperienceCardList> = {
-  title: 'github.io/skills/SkillExperienceCardList',
+  title: 'GitHub.io/Skills/Skill Experience Card List',
   component: SkillExperienceCardList,
 };
 
@@ -15,6 +16,7 @@ type Story = StoryObj<typeof SkillExperienceCardList>;
 export const AwsCiCdPipeline: Story = {
   args: {
     experiences,
+    skills,
   },
 };
 
@@ -25,13 +27,8 @@ export const LongWrappingNarrative: Story = {
         ...experiences[0],
         title:
           'Multi-stage AWS CI/CD delivery pipeline with intentionally long wrapping title',
-        technologies: [
-          ...experiences[0].technologies,
-          'Environment promotion',
-          'Build validation',
-          'Release automation',
-        ],
       },
     ],
+    skills,
   },
 };

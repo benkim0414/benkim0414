@@ -1,6 +1,7 @@
 import { render, screen, within } from '@testing-library/react';
 
 import type { Experience } from '../experience/experience.types';
+import type { Skill } from './skill-list.types';
 import {
   SkillExperienceCard,
   SkillExperienceCardList,
@@ -24,9 +25,35 @@ const ciCdExperience: Experience = {
   isPublic: true,
 };
 
+const ciCdSkills: readonly Skill[] = [
+  {
+    id: 'aws-codepipeline',
+    name: 'AWS CodePipeline',
+    description: 'Pipeline orchestration.',
+    categories: ['CI/CD'],
+    level: 4,
+    iconSlug: 'aws-codepipeline',
+    keywords: [],
+  },
+  {
+    id: 'aws-codebuild',
+    name: 'AWS CodeBuild',
+    description: 'Build automation.',
+    categories: ['CI/CD'],
+    level: 4,
+    iconSlug: 'aws-codebuild',
+    keywords: [],
+  },
+];
+
 describe('SkillExperienceCard', () => {
   it('renders experience text through Astryx typography components', () => {
-    render(<SkillExperienceCard experience={ciCdExperience} />);
+    render(
+      <SkillExperienceCard
+        experience={ciCdExperience}
+        relevantSkillLabels={['AWS CodePipeline']}
+      />,
+    );
 
     const card = screen
       .getByRole('heading', {
@@ -36,7 +63,7 @@ describe('SkillExperienceCard', () => {
       .closest('.astryx-card');
 
     expect(card).not.toBeNull();
-    expect(card?.querySelectorAll('.astryx-text')).toHaveLength(3);
+    expect(card?.querySelectorAll('.astryx-text')).toHaveLength(4);
   });
 
   it('keeps role and environment metadata out of the card surface', () => {
@@ -48,11 +75,36 @@ describe('SkillExperienceCard', () => {
     expect(screen.queryByText('Staging')).toBeNull();
     expect(screen.queryByText('Production')).toBeNull();
   });
+
+  it('labels relevant skill tokens without metadata chrome', () => {
+    render(
+      <SkillExperienceCard
+        experience={ciCdExperience}
+        relevantSkillLabels={['AWS CodePipeline', 'AWS CodeBuild']}
+      />,
+    );
+
+    const relevantSkills = screen.getByRole('list', {
+      name: 'Relevant skills',
+    });
+
+    expect(screen.getByText('Relevant skills')).toBeTruthy();
+    expect(within(relevantSkills).getByText('AWS CodePipeline')).toBeTruthy();
+    expect(within(relevantSkills).getByText('AWS CodeBuild')).toBeTruthy();
+    expect(
+      screen.queryByText('AWS CodePipeline', { selector: 'dt' }),
+    ).toBeNull();
+  });
 });
 
 describe('SkillExperienceCardList', () => {
   it('renders each experience as a titled Astryx Card narrative', () => {
-    render(<SkillExperienceCardList experiences={[ciCdExperience]} />);
+    render(
+      <SkillExperienceCardList
+        experiences={[ciCdExperience]}
+        skills={ciCdSkills}
+      />,
+    );
 
     const list = screen.getByRole('list', { name: 'Skill experience' });
     const item = list.firstElementChild as HTMLElement;
@@ -70,14 +122,29 @@ describe('SkillExperienceCardList', () => {
     expect(within(item).getByText(ciCdExperience.narrative[1])).toBeTruthy();
   });
 
-  it('renders technology tokens without nested cards', () => {
-    render(<SkillExperienceCardList experiences={[ciCdExperience]} />);
+  it('resolves relevant skill tokens without nested cards', () => {
+    render(
+      <SkillExperienceCardList
+        experiences={[
+          {
+            ...ciCdExperience,
+            skillIds: ['aws-codepipeline', 'missing-skill'],
+          },
+        ]}
+        skills={ciCdSkills}
+      />,
+    );
 
     const list = screen.getByRole('list', { name: 'Skill experience' });
     const item = list.firstElementChild as HTMLElement;
+    const relevantSkills = within(item).getByRole('list', {
+      name: 'Relevant skills',
+    });
 
-    expect(within(item).getByText('AWS CodePipeline')).toBeTruthy();
-    expect(within(item).getByText('AWS CodeBuild')).toBeTruthy();
+    expect(within(item).getByText('Relevant skills')).toBeTruthy();
+    expect(within(relevantSkills).getByText('AWS CodePipeline')).toBeTruthy();
+    expect(within(relevantSkills).queryByText('AWS CodeBuild')).toBeNull();
+    expect(within(item).queryByText('Terraform')).toBeNull();
     expect(item.querySelectorAll('.astryx-card')).toHaveLength(1);
   });
 });
