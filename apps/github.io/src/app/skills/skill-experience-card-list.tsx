@@ -1,10 +1,6 @@
 import { Card } from '@astryxdesign/core/Card';
 import { Heading } from '@astryxdesign/core/Heading';
 import { HStack, VStack } from '@astryxdesign/core/Layout';
-import {
-  MetadataList,
-  MetadataListItem,
-} from '@astryxdesign/core/MetadataList';
 import { Text } from '@astryxdesign/core/Text';
 import { Token } from '@astryxdesign/core/Token';
 import * as stylex from '@stylexjs/stylex';
@@ -78,8 +74,6 @@ export function SkillExperienceCard({
           ))}
         </VStack>
 
-        <ExperienceMetadata experience={experience} />
-
         {experience.technologies.length > 0 ? (
           <HStack as="ul" gap={1} wrap="wrap" xstyle={styles.tokenList}>
             {experience.technologies.map((technology) => (
@@ -91,38 +85,5 @@ export function SkillExperienceCard({
         ) : null}
       </VStack>
     </Card>
-  );
-}
-
-function ExperienceMetadata({
-  experience,
-}: {
-  readonly experience: Experience;
-}): ReactElement | null {
-  const environments = experience.environments ?? [];
-
-  if (!experience.role && environments.length === 0) return null;
-
-  return (
-    <MetadataList>
-      {experience.role ? (
-        <MetadataListItem label="Role">
-          <Text as="span" type="body">
-            {experience.role}
-          </Text>
-        </MetadataListItem>
-      ) : null}
-      {environments.length > 0 ? (
-        <MetadataListItem label="Environments">
-          <HStack as="ul" gap={1} wrap="wrap" xstyle={styles.tokenList}>
-            {environments.map(({ label }) => (
-              <li key={label} {...stylex.props(styles.tokenItem)}>
-                <Token label={label} size="sm" color="gray" />
-              </li>
-            ))}
-          </HStack>
-        </MetadataListItem>
-      ) : null}
-    </MetadataList>
   );
 }
