@@ -1,7 +1,10 @@
-import { devOpsCapabilityEvidenceItems } from '../devops-capability-evidence/devops-capability-evidence.data';
+import {
+  devOpsCapabilityEvidenceItems,
+} from '../devops-capability-evidence/devops-capability-evidence.data';
 import { sampleProjects } from '../projects/project-list.data';
 import { skills } from '../skills/skill-list.data';
 import { experiences } from './experience.data';
+import type { Experience } from './experience.types';
 
 describe('experiences', () => {
   it('contains stable unique experience IDs', () => {
@@ -12,9 +15,11 @@ describe('experiences', () => {
   });
 
   it('keeps every production experience public and non-sensitive', () => {
+    const productionExperiences: readonly Experience[] = experiences;
+
     expect(experiences).not.toHaveLength(0);
     expect(
-      experiences.every(
+      productionExperiences.every(
         ({ isPublic, isSensitive }) => isPublic && isSensitive !== true,
       ),
     ).toBe(true);
