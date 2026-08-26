@@ -10,6 +10,7 @@ import {
   CommandPalette,
   CommandPaletteInput,
 } from '@astryxdesign/core/CommandPalette';
+import { HomeModernIcon } from '@heroicons/react/24/outline';
 import { Icon } from '@astryxdesign/core/Icon';
 import { IconButton } from '@astryxdesign/core/IconButton';
 import { Layout, LayoutContent, LayoutHeader } from '@astryxdesign/core/Layout';
@@ -31,6 +32,8 @@ interface GlobalSearchCommandItem extends GlobalSearchResult {
   };
 }
 
+const HOME_NAVIGATION_ICON_COLOR = 'var(--color-icon-blue)';
+
 const styles = stylex.create({
   frame: {
     width: '100%',
@@ -46,6 +49,19 @@ const styles = stylex.create({
       ':active': colorVars['--color-overlay-pressed'],
     },
     color: colorVars['--color-text-primary'],
+    fontWeight: fontWeightVars['--font-weight-medium'],
+  },
+  homeNavigationLink: {
+    color: colorVars['--color-icon-blue'],
+  },
+  selectedHomeNavigationLink: {
+    backgroundColor: {
+      default: 'transparent',
+      ':hover': {
+        '@media (hover: hover)': colorVars['--color-overlay-hover'],
+      },
+      ':active': colorVars['--color-overlay-pressed'],
+    },
     fontWeight: fontWeightVars['--font-weight-medium'],
   },
 });
@@ -122,16 +138,6 @@ export function GlobalNavigationLayout(): ReactElement {
               centerContent={
                 <>
                   <TopNavItem
-                    href="/"
-                    isSelected={location.pathname === '/'}
-                    label="Home"
-                    xstyle={
-                      location.pathname === '/'
-                        ? styles.selectedNavigationItem
-                        : undefined
-                    }
-                  />
-                  <TopNavItem
                     href="/roadmap"
                     isSelected={location.pathname === '/roadmap'}
                     label="Roadmap"
@@ -156,6 +162,31 @@ export function GlobalNavigationLayout(): ReactElement {
                     }
                   />
                 </>
+              }
+              startContent={
+                <IconButton
+                  aria-current={
+                    location.pathname === '/' ? 'page' : undefined
+                  }
+                  href="/"
+                  icon={
+                    <HomeModernIcon
+                      aria-hidden
+                      color={HOME_NAVIGATION_ICON_COLOR}
+                      height={16}
+                      width={16}
+                    />
+                  }
+                  label="Home"
+                  size="sm"
+                  variant="ghost"
+                  xstyle={[
+                    location.pathname === '/'
+                      ? styles.selectedHomeNavigationLink
+                      : undefined,
+                    styles.homeNavigationLink,
+                  ]}
+                />
               }
               endContent={
                 <IconButton
