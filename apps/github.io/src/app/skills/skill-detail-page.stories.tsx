@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 
 import { devOpsCapabilityEvidenceItems } from '../devops-capability-evidence/devops-capability-evidence.data';
+import { experiences } from '../experience/experience.data';
 import { sampleProjects } from '../projects/project-list.data';
 import { skillDetailRecords } from './skill-detail.data';
 import { SkillDetailPage } from './skill-detail-page';
@@ -12,6 +13,7 @@ const productionSources = {
   detailRecords: skillDetailRecords,
   evidenceItems: devOpsCapabilityEvidenceItems,
   projects: sampleProjects,
+  experiences,
 };
 const kubernetesResolution = resolveSkillDetail('kubernetes', productionSources);
 const reactResolution = resolveSkillDetail('react', productionSources);
