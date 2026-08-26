@@ -1,7 +1,7 @@
 ---
 title: Use Astryx Typography For Component-Owned Text
 date: 2026-07-31
-last_updated: 2026-08-11
+last_updated: 2026-08-26
 category: best-practices
 module: github.io Astryx typography
 problem_type: best_practice
@@ -44,6 +44,9 @@ typography styles.
   labeling relationships.
 - Use `Text` for component-owned prose, preserving the semantic element with
   `as` when needed.
+- When matching a page-section label to another label, copy both the Astryx
+  typography props and the intended heading level. A label that looks like body
+  text can still be a semantic section heading.
 - Keep StyleX for structural styling such as width, padding, list reset,
   wrapping, borders, shadows, and third-party node geometry.
 - Leave accessibility-only wrappers and third-party generated internals in
@@ -98,6 +101,16 @@ list layout (`apps/github.io/src/app/devops-roadmap/devops-roadmap-node.tsx:3`,
 `apps/github.io/src/app/devops-roadmap/devops-roadmap-node.tsx:23`,
 `apps/github.io/src/app/devops-roadmap/devops-roadmap-node.tsx:69`).
 
+Page-level labels can use Astryx `Text` when their visual role is a compact
+section label rather than a large page title. The home page `Top skills` label
+renders as `Text as="h2" type="body" weight="bold"` at
+`apps/github.io/src/app/skills/home-page.tsx:33`, while the page `h1` is kept
+separate as a visually hidden `Home` heading at
+`apps/github.io/src/app/skills/home-page.tsx:28`. To make the DevOps roadmap
+label match that contract, `RoadmapPage` uses the same `Text as="h2"` body-bold
+pattern instead of `Heading level={1}` at
+`apps/github.io/src/app/devops-roadmap/roadmap-page.tsx:22`.
+
 ## Why This Matters
 
 Typography is part of component semantics, not only visual styling. Moving
@@ -128,6 +141,8 @@ and prose nodes.
   title/body text is still hand-styled.
 - Accessibility semantics such as heading level or `aria-labelledby` must be
   preserved while moving typography ownership to Astryx.
+- A user asks for one visible page-section label to match another, and the
+  source label's semantic heading level is part of the desired match.
 - A compact card pairs generic explanatory context with an authored summary,
   and neither passage is a quotation, testimonial, callout, or second heading.
 - A visually distinctive Astryx component is being considered mainly for its
@@ -189,6 +204,16 @@ same visible node title (`apps/github.io/src/app/devops-roadmap/devops-roadmap.s
 ```tsx
 expect(getByRole('article', { name: 'Containers' })).toBeTruthy();
 expect(getByRole('heading', { name: 'Containers' })).toBeTruthy();
+```
+
+When a page label intentionally mirrors another page label, make the test assert
+the semantic level, not only that text appears. The roadmap page test protects
+the `h2` contract at `apps/github.io/src/app/devops-roadmap/roadmap-page.spec.tsx:54`:
+
+```tsx
+expect(
+  getByRole('heading', { level: 2, name: 'DevOps roadmap' }),
+).toBeTruthy();
 ```
 
 ## Related
