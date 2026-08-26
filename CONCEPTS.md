@@ -38,6 +38,12 @@ The `github.io` App visualization that adapts roadmap.sh DevOps topics into a st
 
 DevOps Roadmap items carry a topic title, the owner's matching skills, and optional certification evidence; it is a presentation of portfolio coverage, not a full roadmap.sh clone.
 
+### DevOps Roadmap Skill Inventory
+
+The DevOps Roadmap projection that shows only selected roadmap.sh nodes with visible evidence rows for certifications, concrete skill tokens, and covered concepts.
+
+Recommended-but-uncovered roadmap items stay outside the visible node rows as gaps; empty nodes remain visible but disabled rather than converting gaps into evidence.
+
 ### DevOps Capability Evidence
 
 The public portfolio model that connects LinkedIn-style proof, such as skills, learning, experience, education, certifications, and projects, to DevOps capability dimensions.
