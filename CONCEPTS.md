@@ -88,6 +88,12 @@ An Evidence-Calibrated Capability Score remains stable when unrelated catalog ev
 
 A public skill record retained only when at least one separate public non-skill evidence record supports a shared capability.
 
+### Skills Page Catalog Projection
+
+The visible all-skills projection that renders canonical, public skill records as comparable cards while leaving lower-level evidence labels covered by broader skills.
+
+A Skills Page Catalog Projection accepts products, services, tools, libraries, frameworks, and languages as standalone cards; concepts, subfeatures, protocols, CLI aliases, and broad umbrellas remain searchable evidence or map to a more specific canonical skill.
+
 ## Design System
 
 ### Astryx Foundation
