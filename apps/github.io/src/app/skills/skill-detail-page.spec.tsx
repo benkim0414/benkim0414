@@ -4,6 +4,7 @@ import { render, within } from '@testing-library/react';
 import { VStack } from '@astryxdesign/core/Layout';
 
 import { devOpsCapabilityEvidenceItems } from '../devops-capability-evidence/devops-capability-evidence.data';
+import { experiences } from '../experience/experience.data';
 import { sampleProjects } from '../projects/project-list.data';
 import { skillDetailRecords } from './skill-detail.data';
 import { SkillDetailPage } from './skill-detail-page';
@@ -15,6 +16,7 @@ const productionSources = {
   detailRecords: skillDetailRecords,
   evidenceItems: devOpsCapabilityEvidenceItems,
   projects: sampleProjects,
+  experiences,
 };
 
 function getResolvedDetail(skillId: string) {
