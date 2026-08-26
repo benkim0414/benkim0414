@@ -1,6 +1,7 @@
 import type { ComponentProps, ReactNode } from 'react';
 import { fireEvent, render } from '@testing-library/react';
 import { Theme } from '@astryxdesign/core';
+import { IconButton } from '@astryxdesign/core/IconButton';
 import { LinkProvider } from '@astryxdesign/core/Link';
 import { TopNavItem } from '@astryxdesign/core/TopNav';
 import {
@@ -26,6 +27,9 @@ const styles = stylex.create({
     },
     color: colorVars['--color-text-primary'],
     fontWeight: fontWeightVars['--font-weight-medium'],
+  },
+  primaryIconLink: {
+    color: colorVars['--color-accent'],
   },
 });
 
@@ -176,6 +180,40 @@ describe('GlobalNavigationLayout', () => {
     expect(getByRole('link', { name: 'Skills' }).getAttribute('href')).toBe(
       '/skills',
     );
+  });
+
+  it('renders Home as an icon-only link at the start of the global nav', () => {
+    const { getByRole } = renderGlobalLayout();
+    const navigation = getByRole('navigation', { name: 'Global navigation' });
+    const homeLink = getByRole('link', { name: 'Home' });
+
+    expect(navigation.firstElementChild?.contains(homeLink)).toBe(true);
+    expect(homeLink.textContent?.trim()).toBe('');
+    expect(homeLink.querySelector('svg')).toBeTruthy();
+  });
+
+  it('colors the Home icon link with the primary accent color', () => {
+    const { getByRole } = render(
+      <Theme theme={neutralTheme}>
+        <MemoryRouter initialEntries={['/roadmap']}>
+          <GlobalNavigationLayout />
+          <IconButton
+            href="/"
+            icon={<span />}
+            label="Primary icon control"
+            size="sm"
+            variant="ghost"
+            xstyle={styles.primaryIconLink}
+          />
+        </MemoryRouter>
+      </Theme>,
+    );
+    const homeLink = getByRole('link', { name: 'Home' });
+    const primaryIconControl = getByRole('link', {
+      name: 'Primary icon control',
+    });
+
+    expect(homeLink.className).toBe(primaryIconControl.className);
   });
 
   it('resets the shell scroll owner when a top-nav link changes routes', () => {
