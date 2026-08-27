@@ -21,11 +21,26 @@ export function resolveSkillDetail(
 
   const record = detailRecords[0];
 
+  const experienceById = new Map<
+    string,
+    (typeof sources.experiences)[number]
+  >();
+
+  for (const experience of sources.experiences) {
+    if (experienceById.has(experience.id)) {
+      throw new Error(`Duplicate experience source ID "${experience.id}".`);
+    }
+
+    experienceById.set(experience.id, experience);
+  }
+
   if (!record) {
     return {
       status: 'found',
       value: {
         skill,
+        experiences: [],
+        relatedSkills: [],
         experienceEvidence: [],
         projects: [],
       },
@@ -35,10 +50,7 @@ export function resolveSkillDetail(
   const evidenceById = new Map(
     sources.evidenceItems.map((item) => [item.id, item]),
   );
-  const projectById = new Map<
-    string,
-    (typeof sources.projects)[number]
-  >();
+  const projectById = new Map<string, (typeof sources.projects)[number]>();
 
   for (const project of sources.projects) {
     if (projectById.has(project.id)) {
@@ -48,6 +60,27 @@ export function resolveSkillDetail(
     projectById.set(project.id, project);
   }
 
+  const experiences = record.experienceIds.map((experienceId) => {
+    const experience = experienceById.get(experienceId);
+
+    if (!experience) {
+      throw new Error(
+        `Skill detail "${skillId}" references missing experience "${experienceId}".`,
+      );
+    }
+    if (!experience.isPublic || experience.isSensitive) {
+      throw new Error(
+        `Skill detail "${skillId}" must reference public, non-sensitive experience; received "${experienceId}".`,
+      );
+    }
+    if (!experience.skillIds.includes(skillId)) {
+      throw new Error(
+        `Skill detail "${skillId}" references experience "${experienceId}" that is not linked to the skill.`,
+      );
+    }
+
+    return experience;
+  });
   const experienceEvidence = record.experienceEvidenceIds.map((evidenceId) => {
     const evidence = evidenceById.get(evidenceId);
 
@@ -80,11 +113,35 @@ export function resolveSkillDetail(
 
     return project;
   });
+  const skillById = new Map(
+    sources.skills.map((candidate) => [candidate.id, candidate]),
+  );
+  const relatedSkillIds = new Set<string>();
+
+  for (const experience of experiences) {
+    for (const relatedSkillId of experience.skillIds) {
+      relatedSkillIds.add(relatedSkillId);
+    }
+  }
+
+  const relatedSkills = [...relatedSkillIds].map((relatedSkillId) => {
+    const relatedSkill = skillById.get(relatedSkillId);
+
+    if (!relatedSkill) {
+      throw new Error(
+        `Skill detail "${skillId}" references experience skill "${relatedSkillId}" that is missing from skills.`,
+      );
+    }
+
+    return relatedSkill;
+  });
 
   return {
     status: 'found',
     value: {
       skill,
+      experiences,
+      relatedSkills,
       experienceEvidence,
       projects,
     },

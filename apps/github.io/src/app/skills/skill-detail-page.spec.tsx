@@ -4,6 +4,7 @@ import { render, within } from '@testing-library/react';
 import { VStack } from '@astryxdesign/core/Layout';
 
 import { devOpsCapabilityEvidenceItems } from '../devops-capability-evidence/devops-capability-evidence.data';
+import { experiences } from '../experience/experience.data';
 import { sampleProjects } from '../projects/project-list.data';
 import { skillDetailRecords } from './skill-detail.data';
 import { SkillDetailPage } from './skill-detail-page';
@@ -15,6 +16,7 @@ const productionSources = {
   detailRecords: skillDetailRecords,
   evidenceItems: devOpsCapabilityEvidenceItems,
   projects: sampleProjects,
+  experiences,
 };
 
 function getResolvedDetail(skillId: string) {
@@ -142,6 +144,7 @@ describe('SkillDetailPage', () => {
       getAllByText,
       getByRole,
       getByTestId,
+      getByText,
       queryByRole,
     } = render(<SkillDetailPage detail={detail} />);
     const metadata = getByTestId('skill-metadata');
@@ -174,6 +177,23 @@ describe('SkillDetailPage', () => {
     expect(
       getByRole('heading', { level: 2, name: 'In practice' }),
     ).toBeTruthy();
+    expect(getByRole('heading', { level: 2, name: 'Experience' })).toBeTruthy();
+    expect(
+      getByRole('heading', {
+        level: 3,
+        name: 'Multi-stage AWS CI/CD delivery pipeline',
+      }),
+    ).toBeTruthy();
+    expect(
+      getByText(
+        'Built AWS CodePipeline and CodeBuild automation for staging and production delivery with build validation, artifact handoff, and controlled promotion.',
+      ),
+    ).toBeTruthy();
+    const relevantSkills = getByRole('list', { name: 'Relevant skills' });
+
+    expect(within(relevantSkills).getByText('AWS CodePipeline')).toBeTruthy();
+    expect(within(relevantSkills).getByText('Kubernetes')).toBeTruthy();
+
     const evidenceBlockquotes = [...container.querySelectorAll('blockquote')];
 
     expect(evidenceBlockquotes).toHaveLength(detail.experienceEvidence.length);
@@ -227,6 +247,7 @@ describe('SkillDetailPage', () => {
     expect(
       queryByRole('heading', { level: 2, name: 'In practice' }),
     ).toBeNull();
+    expect(queryByRole('heading', { level: 2, name: 'Experience' })).toBeNull();
     expect(queryByRole('heading', { level: 2, name: 'Projects' })).toBeNull();
     expect(
       queryByRole('heading', { level: 2, name: 'Certifications' }),
