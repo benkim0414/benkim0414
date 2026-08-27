@@ -3,6 +3,7 @@ import type { SkillDetailRecord } from './skill-detail.types';
 export const skillDetailRecords = [
   {
     skillId: 'kubernetes',
+    experienceIds: ['aws-codepipeline-codebuild-multistage-delivery'],
     experienceEvidenceIds: [
       'argocd-environment-state-from-version-control',
       'deterministic-kubernetes-overlays',

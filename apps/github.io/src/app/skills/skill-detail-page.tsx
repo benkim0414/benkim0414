@@ -15,6 +15,7 @@ import { CertificationCitation } from '../certifications/certification-citation'
 import { ProjectCard } from '../projects/project-card';
 import { SkillCategory } from './skill-category';
 import type { ResolvedSkillDetail } from './skill-detail.types';
+import { SkillExperienceCardList } from './skill-experience-card-list';
 import { SkillExperienceList } from './skill-experience-list';
 import { SkillConfidence } from './skill-confidence';
 
@@ -116,6 +117,20 @@ export function SkillDetailPage({
           ) : null}
         </MetadataList>
       </Card>
+
+      {detail.experiences.length > 0 ? (
+        <section aria-labelledby="skill-experience-narrative-heading">
+          <VStack gap={3}>
+            <Heading id="skill-experience-narrative-heading" level={2}>
+              Experience
+            </Heading>
+            <SkillExperienceCardList
+              experiences={detail.experiences}
+              skills={detail.relatedSkills}
+            />
+          </VStack>
+        </section>
+      ) : null}
 
       {detail.experienceEvidence.length > 0 ? (
         <section aria-labelledby="skill-experience-heading">

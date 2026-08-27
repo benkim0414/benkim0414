@@ -1,7 +1,10 @@
 import type { ReactElement } from 'react';
 import { useParams } from 'react-router-dom';
 
-import { devOpsCapabilityEvidenceItems } from '../devops-capability-evidence/devops-capability-evidence.data';
+import {
+  devOpsCapabilityEvidenceItems,
+} from '../devops-capability-evidence/devops-capability-evidence.data';
+import { experiences } from '../experience/experience.data';
 import { NotFoundPage } from '../not-found-page';
 import { sampleProjects } from '../projects/project-list.data';
 import { SkillDetailPage } from './skill-detail-page';
@@ -16,6 +19,7 @@ export function SkillDetailRoute(): ReactElement {
     detailRecords: skillDetailRecords,
     evidenceItems: devOpsCapabilityEvidenceItems,
     projects: sampleProjects,
+    experiences,
   });
 
   if (resolution.status === 'not-found') {
