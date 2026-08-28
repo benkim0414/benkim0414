@@ -5,6 +5,8 @@ import { spacingVars } from '@astryxdesign/core/theme/tokens.stylex';
 import type { ReactElement } from 'react';
 
 import { CertificationCitation } from '../certifications/certification-citation';
+import { skills } from '../skills/skill-list.data';
+import { getSkillDetailPathForSkillName } from '../skills/skill-route';
 import { SkillToken } from '../skills/skill-token';
 import {
   getCapabilityEvidenceCitationIcon,
@@ -50,11 +52,34 @@ export function SkillEvidenceToken({
         brandLabel={
           iconData?.kind === 'brand' ? iconData.brand.name : undefined
         }
+        href={getSkillEvidenceDetailPath(evidence, label, iconData)}
         label={label}
         variant="neutral"
       />
     </span>
   );
+}
+
+function getSkillEvidenceDetailPath(
+  evidence: CapabilityEvidenceItem,
+  label: string,
+  iconData: ReturnType<typeof getCapabilityEvidenceIconData>,
+): string | undefined {
+  const detailPathCandidates = [
+    label,
+    iconData?.kind === 'brand' ? iconData.brand.name : undefined,
+    ...(evidence.technologies ?? []),
+  ];
+
+  for (const candidate of detailPathCandidates) {
+    if (!candidate) continue;
+
+    const detailPath = getSkillDetailPathForSkillName(candidate, skills);
+
+    if (detailPath) return detailPath;
+  }
+
+  return undefined;
 }
 
 function EvidenceToken({ evidence }: EvidenceLeafProps): ReactElement {
