@@ -28,4 +28,19 @@ describe('SkillConfidence', () => {
     expect(screen.queryByTestId('skill-rating-star')).toBeNull();
     expect(screen.queryByTestId('skill-rating-compact-star')).toBeNull();
   });
+
+  it('renders confidence as an Astryx token when requested', () => {
+    render(<SkillConfidence confidence={2} variant="token" />);
+
+    const confidence = screen.getByTestId('skill-confidence');
+    const token = confidence.querySelector('.astryx-token');
+
+    expect(screen.getByText('Confidence: Familiar')).toBeTruthy();
+    expect(
+      screen.queryByText('Familiar', { selector: '.astryx-text' }),
+    ).toBeNull();
+    expect(token).not.toBeNull();
+    expect(token?.getAttribute('data-size')).toBe('sm');
+    expect(token?.getAttribute('data-color')).toBe('gray');
+  });
 });

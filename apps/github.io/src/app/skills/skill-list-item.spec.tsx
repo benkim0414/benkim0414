@@ -23,7 +23,7 @@ describe('SkillListItem', () => {
     expect(content.style.getPropertyValue('--x-height')).toBe('24px');
     expect(getByText('TypeScript')).toBeTruthy();
     expect(getByText('Language')).toBeTruthy();
-    expect(getByText('Confident')).toBeTruthy();
+    expect(getByText('Confidence: Confident')).toBeTruthy();
   });
 
   it('renders compact rows without category badges', () => {
@@ -37,7 +37,7 @@ describe('SkillListItem', () => {
 
     expect(getByText('TypeScript')).toBeTruthy();
     expect(queryByText('Language')).toBeNull();
-    expect(getByText('Confident')).toBeTruthy();
+    expect(getByText('Confidence: Confident')).toBeTruthy();
   });
 
   it('uses the Astryx row link contract when href is supplied', () => {
@@ -70,7 +70,7 @@ describe('SkillListItem', () => {
     const row = link.closest('li');
     const linkContent = link.firstElementChild?.firstElementChild;
     const category = getByText('Language');
-    const confidence = getByText('Confident');
+    const confidence = getByText('Confidence: Confident');
 
     expect(link.getAttribute('href')).toBe('/skills/typescript');
     expect(row).not.toBeNull();

@@ -1,11 +1,15 @@
 import * as stylex from '@stylexjs/stylex';
 import { Text } from '@astryxdesign/core/Text';
+import { Token } from '@astryxdesign/core/Token';
 import { VisuallyHidden } from '@astryxdesign/core/VisuallyHidden';
 
 import type { Skill } from './skill-list.types';
 
+type SkillConfidenceVariant = 'text' | 'token';
+
 interface SkillConfidenceProps {
   confidence: Skill['confidence'];
+  variant?: SkillConfidenceVariant;
 }
 
 const styles = stylex.create({
@@ -26,15 +30,24 @@ const confidenceLabels = {
   5: 'Proven',
 } as const satisfies Record<Skill['confidence'], string>;
 
-export function SkillConfidence({ confidence }: SkillConfidenceProps) {
+export function SkillConfidence({
+  confidence,
+  variant = 'text',
+}: SkillConfidenceProps) {
   const label = confidenceLabels[confidence];
 
   return (
     <span {...stylex.props(styles.root)} data-testid="skill-confidence">
       <VisuallyHidden>{`Self-rated confidence: ${label}`}</VisuallyHidden>
-      <Text aria-hidden="true" type="supporting">
-        {label}
-      </Text>
+      {variant === 'token' ? (
+        <span aria-hidden="true">
+          <Token color="gray" label={`Confidence: ${label}`} size="sm" />
+        </span>
+      ) : (
+        <Text aria-hidden="true" type="supporting">
+          {label}
+        </Text>
+      )}
     </span>
   );
 }
