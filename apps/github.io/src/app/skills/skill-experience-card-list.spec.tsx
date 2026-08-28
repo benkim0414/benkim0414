@@ -169,4 +169,33 @@ describe('SkillExperienceCardList', () => {
     expect(within(item).queryByText('Terraform')).toBeNull();
     expect(item.querySelectorAll('.astryx-card')).toHaveLength(1);
   });
+
+  it('links resolved relevant skill tokens to their detail pages', () => {
+    render(
+      <SkillExperienceCardList
+        experiences={[
+          {
+            ...ciCdExperience,
+            skillIds: ['aws-codepipeline', 'aws-codebuild'],
+          },
+        ]}
+        skills={ciCdSkills}
+      />,
+    );
+
+    const relevantSkills = screen.getByRole('list', {
+      name: 'Relevant skills',
+    });
+    const tokens = within(relevantSkills).getAllByTestId('skill-token');
+    const links = within(relevantSkills).getAllByRole('link');
+
+    expect(tokens).toHaveLength(2);
+    expect(tokens.every((token) => token.getAttribute('style') === null)).toBe(
+      true,
+    );
+    expect(links.map((link) => link.getAttribute('href'))).toEqual([
+      '/skills/aws-codepipeline',
+      '/skills/aws-codebuild',
+    ]);
+  });
 });
