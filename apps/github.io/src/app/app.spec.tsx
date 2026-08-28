@@ -95,7 +95,7 @@ describe('App', () => {
     expect(getByRole('link', { name: 'Skills' })).toBeTruthy();
     expect(queryByRole('search', { name: 'Skill search' })).toBeNull();
     expect(queryByRole('combobox', { name: 'Search skills' })).toBeNull();
-    expect(getByRole('button', { name: 'Search skills' })).toBeTruthy();
+    expect(getByRole('button', { name: 'Search' })).toBeTruthy();
     expect(getByRole('heading', { level: 1, name: 'Home' })).toBeTruthy();
     expect(getByRole('heading', { level: 2, name: 'Top skills' })).toBeTruthy();
     expect(getByLabelText('Highlighted skills')).toBeTruthy();
@@ -111,8 +111,8 @@ describe('App', () => {
   it('navigates from home search to the selected skill page', async () => {
     const { getByRole, queryByRole } = render(<App />);
 
-    fireEvent.click(getByRole('button', { name: 'Search skills' }));
-    fireEvent.change(getByRole('combobox', { name: 'Search skills' }), {
+    fireEvent.click(getByRole('button', { name: 'Search' }));
+    fireEvent.change(getByRole('combobox', { name: 'Search' }), {
       target: { value: 'terraform' },
     });
     const terraformOption = await waitFor(() =>
@@ -164,7 +164,7 @@ describe('AppRoutes', () => {
       expect(
         getAllByRole('navigation', { name: 'Global navigation' }),
       ).toHaveLength(1);
-      expect(getAllByRole('button', { name: 'Search skills' })).toHaveLength(1);
+      expect(getAllByRole('button', { name: 'Search' })).toHaveLength(1);
       expect(shell.querySelectorAll('.astryx-layout-content')).toHaveLength(1);
       expect(
         getByRole('heading', { level: headingLevel, name: pageHeading }),
@@ -188,8 +188,8 @@ describe('AppRoutes', () => {
       true,
     );
 
-    fireEvent.click(getByRole('button', { name: 'Search skills' }));
-    fireEvent.change(getByRole('combobox', { name: 'Search skills' }), {
+    fireEvent.click(getByRole('button', { name: 'Search' }));
+    fireEvent.change(getByRole('combobox', { name: 'Search' }), {
       target: { value: 'terraform' },
     });
     fireEvent.click(
@@ -209,8 +209,8 @@ describe('AppRoutes', () => {
     async (_matchKind, query) => {
       const { getByRole, getByTestId } = renderAppRoutes('/skills', true);
 
-      fireEvent.click(getByRole('button', { name: 'Search skills' }));
-      fireEvent.change(getByRole('combobox', { name: 'Search skills' }), {
+      fireEvent.click(getByRole('button', { name: 'Search' }));
+      fireEvent.change(getByRole('combobox', { name: 'Search' }), {
         target: { value: query },
       });
       fireEvent.click(
@@ -270,7 +270,7 @@ describe('AppRoutes', () => {
     expect(
       getByRole('heading', { level: 1, name: 'Skill not found' }),
     ).toBeTruthy();
-    expect(getByRole('button', { name: 'Search skills' })).toBeTruthy();
+    expect(getByRole('button', { name: 'Search' })).toBeTruthy();
     expect(main.dataset.layout).toBe('full-width');
     expect(main.className).toContain('astryx-stack');
     const layoutContents = shell.querySelectorAll('.astryx-layout-content');
@@ -289,7 +289,7 @@ describe('AppRoutes', () => {
     expect(
       getByRole('heading', { level: 1, name: 'Skill not found' }),
     ).toBeTruthy();
-    expect(queryByRole('button', { name: 'Search skills' })).toBeNull();
+    expect(queryByRole('button', { name: 'Search' })).toBeNull();
     expect(main.dataset.layout).toBe('standalone');
     expect(getByRole('link', { name: 'Back home' }).getAttribute('href')).toBe(
       '/',

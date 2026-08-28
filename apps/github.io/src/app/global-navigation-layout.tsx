@@ -24,7 +24,9 @@ import { createStaticSource } from '@astryxdesign/core/Typeahead';
 import * as stylex from '@stylexjs/stylex';
 
 import type { GlobalSearchResult } from './global-search/global-search.types';
-import { createSkillSearchResults } from './global-search/skill-search-results';
+import { createGlobalSearchResults } from './global-search/global-search-results';
+import { kubernetesCertifications } from './certifications/kubernetes-certifications.data';
+import { sampleProjects } from './projects/project-list.data';
 import { skills } from './skills/skill-list.data';
 
 interface GlobalSearchCommandItem extends GlobalSearchResult {
@@ -35,6 +37,7 @@ interface GlobalSearchCommandItem extends GlobalSearchResult {
 
 const HOME_NAVIGATION_ICON_COLOR = 'var(--color-icon-blue)';
 const GITHUB_PROFILE_URL = 'https://github.com/benkim0414';
+const SEARCH_LABEL = 'Search';
 
 function GitHubIcon(): ReactElement {
   return (
@@ -89,7 +92,15 @@ export function GlobalNavigationLayout(): ReactElement {
   const contentRef = useRef<HTMLDivElement>(null);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [selectedResultId, setSelectedResultId] = useState<string>();
-  const results = useMemo(() => createSkillSearchResults(skills), []);
+  const results = useMemo(
+    () =>
+      createGlobalSearchResults({
+        certifications: Object.values(kubernetesCertifications),
+        projects: sampleProjects,
+        skills,
+      }),
+    [],
+  );
   const resultById = useMemo(
     () => new Map(results.map((result) => [result.id, result])),
     [results],
@@ -119,16 +130,16 @@ export function GlobalNavigationLayout(): ReactElement {
   return (
     <>
       <CommandPalette
-        emptyBootstrapText="No skills"
-        emptySearchText="No skills"
+        emptyBootstrapText="No results"
+        emptySearchText="No results"
         input={
           <CommandPaletteInput
-            aria-label="Search skills"
-            placeholder="Search skills"
+            aria-label={SEARCH_LABEL}
+            placeholder="Search..."
           />
         }
         isOpen={isSearchOpen}
-        label="Search skills"
+        label={SEARCH_LABEL}
         maxHeight="min(80vh, 480px)"
         searchSource={searchSource}
         value={selectedResultId}
@@ -139,7 +150,11 @@ export function GlobalNavigationLayout(): ReactElement {
           const result = resultById.get(resultId);
 
           if (result) {
-            navigate(result.href);
+            if (isExternalHref(result.href)) {
+              window.open(result.href, '_blank', 'noopener,noreferrer');
+            } else {
+              navigate(result.href);
+            }
           }
         }}
       />
@@ -210,7 +225,7 @@ export function GlobalNavigationLayout(): ReactElement {
                 <>
                   <IconButton
                     icon={<Icon color="inherit" icon="search" size="sm" />}
-                    label="Search skills"
+                    label={SEARCH_LABEL}
                     size="sm"
                     tooltip="Search"
                     variant="ghost"
@@ -236,4 +251,8 @@ export function GlobalNavigationLayout(): ReactElement {
       />
     </>
   );
+}
+
+function isExternalHref(href: string): boolean {
+  return /^https?:\/\//.test(href);
 }
