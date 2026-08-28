@@ -75,7 +75,12 @@ describe('SkillToken', () => {
       );
       const token = getByTestId('skill-token');
 
-      expect(token.className).toBe(getByTestId('gray-reference').className);
+      expect(token.getAttribute('data-color')).toBe(
+        getByTestId('gray-reference').getAttribute('data-color'),
+      );
+      expect(token.getAttribute('data-size')).toBe(
+        getByTestId('gray-reference').getAttribute('data-size'),
+      );
       expect(token.getAttribute('style')).toBeNull();
       expect(
         container.querySelector('[data-testid="skill-token"] svg'),
@@ -114,7 +119,12 @@ describe('SkillToken', () => {
       const token = getByTestId('skill-token');
       const image = container.querySelector('[data-testid="skill-token"] img');
 
-      expect(token.className).toBe(getByTestId('gray-reference').className);
+      expect(token.getAttribute('data-color')).toBe(
+        getByTestId('gray-reference').getAttribute('data-color'),
+      );
+      expect(token.getAttribute('data-size')).toBe(
+        getByTestId('gray-reference').getAttribute('data-size'),
+      );
       expect(token.getAttribute('style')).toBeNull();
       expect(image?.getAttribute('aria-hidden')).toBe('true');
       expect(image?.getAttribute('alt')).toBe('');
@@ -138,7 +148,12 @@ describe('SkillToken', () => {
     const grayReference = getByTestId('gray-reference');
     const path = container.querySelector('[data-testid="skill-token"] path');
 
-    expect(token.className).toBe(grayReference.className);
+    expect(token.getAttribute('data-color')).toBe(
+      grayReference.getAttribute('data-color'),
+    );
+    expect(token.getAttribute('data-size')).toBe(
+      grayReference.getAttribute('data-size'),
+    );
     expect(token.getAttribute('style')).toBeNull();
     expect(path?.getAttribute('fill')).toBe('#2496ED');
   });
@@ -172,7 +187,12 @@ describe('SkillToken', () => {
     const token = getByTestId('skill-token');
     const path = container.querySelector('[data-testid="skill-token"] path');
 
-    expect(token.className).toBe(getByTestId('gray-reference').className);
+    expect(token.getAttribute('data-color')).toBe(
+      getByTestId('gray-reference').getAttribute('data-color'),
+    );
+    expect(token.getAttribute('data-size')).toBe(
+      getByTestId('gray-reference').getAttribute('data-size'),
+    );
     expect(token.getAttribute('style')).toBeNull();
     expect(path?.getAttribute('fill')).toBe('#FE5196');
   });
@@ -192,7 +212,12 @@ describe('SkillToken', () => {
     const token = getByTestId('skill-token');
     const image = container.querySelector('[data-testid="skill-token"] img');
 
-    expect(token.className).toBe(getByTestId('gray-reference').className);
+    expect(token.getAttribute('data-color')).toBe(
+      getByTestId('gray-reference').getAttribute('data-color'),
+    );
+    expect(token.getAttribute('data-size')).toBe(
+      getByTestId('gray-reference').getAttribute('data-size'),
+    );
     expect(token.getAttribute('style')).toBeNull();
     expect(image?.getAttribute('aria-hidden')).toBe('true');
     expect(image?.getAttribute('alt')).toBe('');
@@ -215,7 +240,12 @@ describe('SkillToken', () => {
       );
       const token = getByTestId('skill-token');
 
-      expect(token.className).toBe(getByTestId('gray-reference').className);
+      expect(token.getAttribute('data-color')).toBe(
+        getByTestId('gray-reference').getAttribute('data-color'),
+      );
+      expect(token.getAttribute('data-size')).toBe(
+        getByTestId('gray-reference').getAttribute('data-size'),
+      );
       expect(token.getAttribute('style')).toBeNull();
       expect(
         container.querySelector('[data-testid="skill-token"] svg'),
@@ -238,6 +268,28 @@ describe('SkillToken', () => {
     const { getByText } = render(<SkillToken label="GitHub Actions" />);
 
     expect(getByText('GitHub Actions').textContent).toBe('GitHub Actions');
+  });
+
+  it('links a known skill label to its canonical detail page by default', () => {
+    render(<SkillToken label="Docker" />);
+
+    const link = screen.getByRole('link', { name: 'Docker' });
+
+    expect(link.getAttribute('href')).toBe('/skills/docker');
+  });
+
+  it('falls back to the visible label when brand label does not resolve', () => {
+    render(<SkillToken brandLabel="Unknown Brand" label="Docker" />);
+
+    const link = screen.getByRole('link', { name: 'Docker' });
+
+    expect(link.getAttribute('href')).toBe('/skills/docker');
+  });
+
+  it('keeps unknown skill labels display-only by default', () => {
+    render(<SkillToken label="Forward Proxy" />);
+
+    expect(screen.queryByRole('link', { name: 'Forward Proxy' })).toBeNull();
   });
 
   it('passes skill detail links through to the token surface', () => {

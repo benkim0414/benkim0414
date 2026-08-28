@@ -43,8 +43,11 @@ describe('CapabilityEvidence', () => {
 
     const skillToken = screen.getByTestId('skill-token');
 
-    expect(skillToken.className).toBe(
-      screen.getByTestId('gray-reference').className,
+    expect(skillToken.getAttribute('data-color')).toBe(
+      screen.getByTestId('gray-reference').getAttribute('data-color'),
+    );
+    expect(skillToken.getAttribute('data-size')).toBe(
+      screen.getByTestId('gray-reference').getAttribute('data-size'),
     );
     expect(skillToken.getAttribute('style')).toBeNull();
     expect(
@@ -56,6 +59,22 @@ describe('CapabilityEvidence', () => {
     expect(
       screen.getByRole('group', { name: 'Skill evidence: Kubernetes' }),
     ).toBeTruthy();
+  });
+
+  it('links skill evidence tokens to the matching skill detail page', () => {
+    render(
+      <CapabilityEvidence
+        evidence={evidence({
+          label: undefined,
+          title: 'Kubernetes',
+          type: 'skill',
+        })}
+      />,
+    );
+
+    const skillLink = screen.getByRole('link', { name: 'Kubernetes' });
+
+    expect(skillLink.getAttribute('href')).toBe('/skills/kubernetes');
   });
 
   it('renders AWS skill evidence with its decorative local asset', () => {
