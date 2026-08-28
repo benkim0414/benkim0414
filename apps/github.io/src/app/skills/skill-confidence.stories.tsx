@@ -21,3 +21,25 @@ export const Working: Story = {
     confidence: 3,
   },
 };
+
+export const TextTooltipOpen: Story = {
+  args: {
+    confidence: 4,
+    isTooltipOpen: true,
+  },
+};
+
+export const Token: Story = {
+  args: {
+    confidence: 4,
+    variant: 'token',
+  },
+};
+
+export const TokenTooltipOpen: Story = {
+  args: {
+    confidence: 4,
+    isTooltipOpen: true,
+    variant: 'token',
+  },
+};

@@ -180,6 +180,9 @@ describe('SkillDetailPage', () => {
     expect(getAllByText('Container')).toHaveLength(1);
     expect(getAllByText('Cloud')).toHaveLength(1);
     expect(getAllByText('Confident')).toHaveLength(1);
+    expect(
+      metadataQueries.queryByText('Confidence: Confident'),
+    ).toBeNull();
     expect(getAllByTestId('certification-citation')).toHaveLength(
       detail.skill.certifications?.length ?? 0,
     );
