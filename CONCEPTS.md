@@ -106,6 +106,10 @@ A self-rated, qualitative confidence signal attached to a public skill record, p
 
 Skill Confidence keeps the portfolio claim modest: it can help readers compare the author's comfort across skills, but it does not replace separate evidence such as projects, certifications, or capability records.
 
+### Skill Primary Use
+
+A concise, recruiter-facing purpose label on a public skill record that states the work context the skill is meant to signal, separate from category, confidence, and proof evidence.
+
 ## Design System
 
 ### Astryx Foundation
