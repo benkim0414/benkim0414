@@ -8,6 +8,8 @@ import {
   hasSkillBrandIcon,
   type SkillBrand,
 } from './skill-brand';
+import { skills } from './skill-list.data';
+import { getSkillDetailPathForSkillName } from './skill-route';
 
 export type SkillTokenVariant = 'brand' | 'neutral';
 
@@ -54,6 +56,12 @@ export function SkillToken({
   const effectiveVariant = variant ?? brand?.surface ?? 'neutral';
   const hasIcon = hasSkillBrandIcon(brand);
   const usesBrandSurface = effectiveVariant === 'brand' && hasIcon;
+  const tokenHref =
+    href ??
+    [brandLabel, label]
+      .filter((candidate): candidate is string => Boolean(candidate))
+      .map((candidate) => getSkillDetailPathForSkillName(candidate, skills))
+      .find((candidate): candidate is string => Boolean(candidate));
   const icon = brand?.iconPath ? (
     <svg
       aria-hidden="true"
@@ -79,7 +87,7 @@ export function SkillToken({
     <Token
       color={effectiveVariant === 'neutral' ? 'gray' : 'purple'}
       data-testid="skill-token"
-      href={href}
+      href={tokenHref}
       icon={icon}
       label={label}
       size="sm"

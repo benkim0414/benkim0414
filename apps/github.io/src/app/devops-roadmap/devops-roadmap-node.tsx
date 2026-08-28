@@ -11,6 +11,8 @@ import {
 } from '@astryxdesign/core/theme/tokens.stylex';
 
 import { CertificationCitation } from '../certifications/certification-citation';
+import { skills } from '../skills/skill-list.data';
+import { getSkillDetailPathForSkillName } from '../skills/skill-route';
 import { SkillToken } from '../skills/skill-token';
 import type { DevOpsRoadmapItem } from './devops-roadmap.types';
 
@@ -104,7 +106,10 @@ export function DevOpsRoadmapNode({ item }: DevOpsRoadmapNodeProps) {
         >
           {evidenceSkillTokens.map((skill) => (
             <li {...stylex.props(styles.listItem)} key={skill}>
-              <SkillToken label={skill} />
+              <SkillToken
+                href={getSkillDetailPathForSkillName(skill, skills)}
+                label={skill}
+              />
             </li>
           ))}
         </ul>
