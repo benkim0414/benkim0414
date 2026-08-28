@@ -10,6 +10,9 @@ import {
 import { vi } from 'vitest';
 
 import { GlobalNavigationLayout } from '../src/app/global-navigation-layout';
+import footerMeta, {
+  Default as FooterStory,
+} from '../src/app/global-navigation-footer.stories';
 import globalNavigationMeta, {
   Roadmap as RoadmapStory,
 } from '../src/app/global-navigation-layout.stories';
@@ -85,6 +88,37 @@ function decorateStory(
 }
 
 describe('Storybook preview routing', () => {
+  it('renders the dedicated footer story inside the preview router', () => {
+    const StoryComponent = footerMeta.component as ComponentType<
+      Record<string, unknown>
+    >;
+    const args = (FooterStory.args ?? {}) as Record<string, unknown>;
+
+    render(
+      decorateStory(
+        () => createElement(StoryComponent, args),
+        'github-io-navigation-footer--default',
+        {
+          args,
+          parameters: {
+            ...footerMeta.parameters,
+            ...FooterStory.parameters,
+          },
+        },
+      ),
+    );
+
+    expect(screen.getByRole('separator').className).toContain(
+      'astryx-divider',
+    );
+    expect(screen.getByRole('contentinfo')).toBeTruthy();
+    expect(
+      screen
+        .getByRole('link', { name: /@benkim0414/i })
+        .getAttribute('href'),
+    ).toBe('https://github.com/benkim0414');
+  });
+
   it('renders the routed global-navigation story inside the preview router', async () => {
     const StoryComponent = globalNavigationMeta.component as ComponentType<
       Record<string, unknown>

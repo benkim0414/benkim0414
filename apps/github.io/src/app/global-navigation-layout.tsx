@@ -28,6 +28,7 @@ import { createGlobalSearchResults } from './global-search/global-search-results
 import { kubernetesCertifications } from './certifications/kubernetes-certifications.data';
 import { sampleProjects } from './projects/project-list.data';
 import { skills } from './skills/skill-list.data';
+import { GlobalNavigationFooter } from './global-navigation-footer';
 
 interface GlobalSearchCommandItem extends GlobalSearchResult {
   readonly auxiliaryData: {
@@ -162,6 +163,7 @@ export function GlobalNavigationLayout(): ReactElement {
         content={
           <LayoutContent ref={contentRef} padding={0}>
             <Outlet />
+            <GlobalNavigationFooter />
           </LayoutContent>
         }
         header={
