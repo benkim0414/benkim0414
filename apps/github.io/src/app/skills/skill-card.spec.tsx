@@ -74,7 +74,7 @@ describe('SkillCard', () => {
     );
 
     const title = getByRole('heading', { name: 'Kubernetes' });
-    const confidence = getByText('Confident');
+    const confidence = getByText('Confidence: Confident');
     const description = getByText(
       'Container orchestration for deploying, scaling, and operating cloud-native workloads.',
     );
@@ -96,6 +96,7 @@ describe('SkillCard', () => {
     const { getByText } = renderSkillCard(<SkillCard skill={baseSkill} />);
 
     expect(getByText('Self-rated confidence: Confident')).toBeTruthy();
+    expect(getByText('Confidence: Confident')).toBeTruthy();
   });
 
   it('renders every skill category before the skill title', () => {
