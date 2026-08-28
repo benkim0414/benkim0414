@@ -310,6 +310,11 @@ describe('SkillDetailPage', () => {
       metadataQueries.getByText('Confidence', { selector: 'dt' }),
     ).toBeTruthy();
     expect(
+      Array.from(metadata.querySelectorAll(':scope > dl > dt')).map(
+        ({ textContent }) => textContent,
+      ),
+    ).toEqual(['Primary use', 'Categories', 'Confidence']);
+    expect(
       metadataQueries.queryByText('Certifications', { selector: 'dt' }),
     ).toBeNull();
     expect(
