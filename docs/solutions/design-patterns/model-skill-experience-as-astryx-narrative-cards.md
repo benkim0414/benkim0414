@@ -1,6 +1,7 @@
 ---
 title: Model Skill Experience As Astryx Narrative Cards
 date: 2026-08-26
+last_updated: 2026-08-28
 category: design-patterns
 module: apps/github.io skills
 problem_type: design_pattern
@@ -8,11 +9,14 @@ component: frontend
 severity: medium
 applies_when:
   - Adding reusable public Experience records to skill detail pages
-  - Rendering skill-linked experience as focused text-heavy portfolio narrative
-  - Choosing how much DORA-style evidence vocabulary should appear on skill detail surfaces
+  - Rendering capability-derived experience evidence on skill detail pages
+  - Combining authored experience records with public DevOps capability evidence
+  - Deriving relevant skill tokens from evidence without exposing non-canonical labels
   - Keeping Storybook examples representative for both single-card and list variants
 related_components:
   - github.io DevOps capability evidence
+  - Skill detail page
+  - Skill experience cards
   - Astryx typography
   - Storybook
 tags:
@@ -21,10 +25,13 @@ tags:
     skills-page,
     skill-detail,
     experience,
+    capability-evidence,
+    skill-tokens,
     astryx,
     dora,
     storybook,
     portfolio,
+    privacy,
   ]
 ---
 
@@ -32,111 +39,113 @@ tags:
 
 ## Context
 
-Skill detail pages needed a way to show experience such as building an AWS
-CodePipeline and CodeBuild deployment pipeline for staging and production.
-That content is naturally text heavy: it needs a concise summary, a few
-paragraphs of narrative, and links back to relevant skills. It should be
-usable on a skill detail page now and reusable by future portfolio surfaces
-when more experience records are added.
+Skill detail pages need to show professional experience in two related forms.
+Authored `Experience` records own broad public-safe narratives such as building
+AWS CodePipeline and CodeBuild delivery automation. DevOps capability evidence
+owns shorter public-safe accomplishments, facts, technologies, and support
+links that can also prove skill fluency.
 
-The reusable model and the visible card have different jobs. The `Experience`
-record owns the broad public-safe story and relationships (`skillIds`,
-`projectIds`, `capabilityKeys`, `supportingEvidenceIds`, `technologies`) in
-`apps/github.io/src/app/experience/experience.types.ts:15`, while the skill
-detail card renders a focused projection of that record for one skill context.
-That distinction keeps future consumers flexible without making the current
-skill detail UI look like a metadata dump.
+The reusable models and the visible cards have different jobs. An `Experience`
+record can carry broad relationships such as skills, projects, capability keys,
+supporting evidence, and technologies, while the skill detail card renders the
+reader-facing narrative for one skill context. A `CapabilityEvidenceItem` can
+carry atomic public proof, structured facts, visibility flags, sensitivity
+flags, technologies, and supporting evidence links, while the skill detail page
+renders only the safe experience-shaped projection.
+
+Keep those source distinctions in the resolver and data model, not in the
+reader-facing section taxonomy. The skill detail surface should present both
+authored narrative cards and capability-derived evidence cards under one
+`Experience` section.
 
 ## Guidance
 
-Author experience as reusable data first, then choose a narrow presentation for
-the skill detail surface. The production fixture keeps the AWS CI/CD story in
-`apps/github.io/src/app/experience/experience.data.ts:3-35`, including a
-summary, paragraphs, environment labels, related skills, technologies, and
-supporting portfolio relationships. This is the right place to add future
-experience records; consumers should receive selected records rather than
-embedding one-off prose inside page components.
+Author broad professional stories as reusable `Experience` data. This remains
+the right place for narrative copy, paragraph structure, project relationships,
+capability relationships, and explicit skill IDs. Resolve those records
+explicitly from the skill detail record, and reject any experience that does not
+link back to the current skill before rendering it.
 
-Resolve skill detail experience explicitly. `skill-detail-resolver` maps the
-detail record's authored `experienceIds`, validates that each experience exists,
-and verifies that the experience links back to the current skill before it can
-render (`apps/github.io/src/app/skills/skill-detail-resolver.ts:63-76`). It
-also derives related skills from `experience.skillIds`, and the card list
-renders relevant skill labels by resolving those IDs against the supplied skill
-records instead of trusting display-only technology strings
-(`apps/github.io/src/app/skills/skill-detail-resolver.ts:121-143` and
-`apps/github.io/src/app/skills/skill-experience-card-list.tsx:114-122`).
+Derive capability evidence in the resolver, not in React components. A skill
+detail page can add evidence cards from public, non-sensitive capability skill
+evidence that supports the current skill and points at public, non-sensitive
+supporting records of type `experience`. The resolver should merge explicit
+experience evidence IDs with derived capability evidence and deduplicate by
+stable evidence ID.
 
-Render the card with Astryx surface, typography, and layout components.
-`SkillExperienceCardList` maps records into list items/cards, and
-`SkillExperienceCard` uses Astryx `Card`, `Heading`, `Text`, `VStack`, `HStack`,
-and `Token` for the component-owned text and labels
-(`apps/github.io/src/app/skills/skill-experience-card-list.tsx:47-120`). Keep
-local styling structural: list reset, wrapping, and label alignment can be
-local; heading, paragraph, token, and surface semantics should come from
-Astryx components.
+Match skill relevance through the canonical skill catalog. Capability evidence
+may contain technology strings, labels, and titles, but those strings are not
+all public skill records. Build related skill rows by matching evidence
+technologies against canonical skill names, resolving those matches to skill
+records, and deduplicating by skill ID. The card renderer may repeat that
+canonical-name match per card so each capability-derived card shows only the
+skills its own evidence mentions.
 
-Keep the visible metadata minimal. The card should show the narrative and a
-labeled `Relevant skills` row, not separate role, environment, or raw
-technology lists. Technologies can remain on the reusable record for future
-surfaces, but the skill detail projection should avoid implying that every
-technology string is an evidence-backed skill. The component tests lock that
-contract by requiring the labeled relevant-skills list and by confirming an
-unresolved technology such as Terraform does not appear as a relevant skill
-(`apps/github.io/src/app/skills/skill-experience-card-list.spec.tsx:147-166`).
+Render both forms as Astryx cards. Authored experience cards should use Astryx
+`Card`, `Heading`, `Text`, layout primitives, and `Token` to show the narrative
+and a labeled `Relevant skills` row. Capability-derived cards should use the
+same card language for title, summary, and secondary detail text instead of
+blockquotes or separator-heavy citation treatment.
 
-Compose it as a normal skill detail section. The page renders
-`SkillExperienceCardList` only when resolved experience records exist, below
-the page's `Experience` heading and separate from the older `In practice`
-evidence section (`apps/github.io/src/app/skills/skill-detail-page.tsx:121-128`).
-The page-level test asserts that the enriched Kubernetes detail surface shows
-the experience card plus the resolved `AWS CodePipeline` and `Kubernetes`
-skills (`apps/github.io/src/app/skills/skill-detail-page.spec.tsx:180-195`).
+Show structured facts when they add detail. Capability evidence often carries
+`details.facts`; render distinct facts as secondary body text beneath the
+summary. Filter facts that equal the summary, and deduplicate repeated facts,
+so a card does not repeat the same sentence or produce duplicate React keys.
 
-Keep Storybook variants distinct. The single-card story should demonstrate one
-AWS CI/CD narrative, while the list story should include multiple records with
-different summaries and skill relationships. The current list story adds a
-Kubernetes GitOps example beside the production AWS record so the list variant
-exercises repeated card spacing and content diversity
-(`apps/github.io/src/app/skills/skill-experience-card-list.stories.tsx:18-52`).
+Keep visible metadata minimal. The skill detail projection should not expose
+every capability key, raw technology, project relationship, or internal source
+distinction. The visible contract is an experience card with a title, readable
+proof text, and canonical relevant skill tokens.
+
+Compose the page as one normal detail section. Render the section when either
+authored experiences or capability-derived experience evidence exists. Show
+authored narrative cards first, then capability-derived evidence cards. Do not
+add a peer `In practice` heading for the derived cards; it reads as a synonym
+for `Experience` rather than a distinct reader need.
+
+Keep Storybook examples rich enough to exercise the contract. Single-card and
+list stories should cover narrative text, multiple cards, distinct summaries,
+and relevant skill relationships. Enriched skill detail page stories should
+include capability-derived facts and skill-token rows so visual review catches
+sparse cards before the production page does.
 
 ## Why This Matters
 
-This pattern keeps the portfolio evidence model reusable without overloading
-the first UI. A future page can use `projectIds`, `capabilityKeys`,
-`supportingEvidenceIds`, environments, or technologies from the same
-`Experience` record, while the skill detail page can stay readable and strongly
-tied to the current skill.
+This pattern keeps portfolio evidence reusable without duplicating copy.
+Authored experience records can serve future portfolio surfaces, while
+capability evidence catalogs can continue to feed DORA capability cards,
+skill-detail experience cards, and other public projections from the same
+curated proof.
 
-It also preserves the DORA evidence boundary. DORA capability cards already
-separate reusable evidence records from compact projections and show dense
-skill rows with readable labels; skill detail experience should follow the same
-ownership split without copying all DORA metadata into the card. The related
-guidance in
-`docs/solutions/conventions/tokenize-dora-capability-evidence.md` remains the
-broader evidence-model rule, while this learning is the skill-detail narrative
-projection of that rule.
+It also preserves the privacy and correctness boundary. Public/non-sensitive
+filtering belongs at the resolver boundary where data enters the page model.
+React components should receive already-safe records and focus on presentation.
 
-Astryx ownership matters because this component is prose heavy. If typography
-or spacing is recreated locally, future cards will drift from the rest of the
-site. The existing typography guidance in
-`docs/solutions/best-practices/astryx-component-owned-typography.md` applies
-directly: component-owned headings and paragraphs should use Astryx `Heading`
-and `Text`; local styles should not become a parallel typography system.
+Canonical skill matching prevents evidence technologies from overstating the
+portfolio. A technology string can be specific and useful without being a
+standalone skill card; relevant skill tokens should appear only when the same
+name exists in the canonical skill catalog.
+
+Astryx ownership matters because these cards are prose heavy. Heading,
+paragraph, token, layout, and surface semantics should come from Astryx
+components, with local styles limited to structural list reset, wrapping, and
+spacing glue.
 
 ## When to Apply
 
 - Adding another professional experience story that should appear on one or
   more skill detail pages.
-- Connecting a single experience to multiple portfolio concepts without
-  duplicating prose across components.
-- Replacing a metadata-heavy skill detail section with narrative evidence.
-- Deciding whether a technology string should render as a skill label.
-- Adding or reviewing Storybook coverage for single-card and list-card states.
+- Showing capability-derived experience on a skill detail page without adding
+  one-off component copy.
+- Combining authored `Experience` records and capability evidence under one
+  reader-facing `Experience` section.
+- Deciding whether a technology string should render as a relevant skill token.
+- Adding or reviewing Storybook coverage for skill detail experience cards.
+- Replacing quote-styled evidence with richer portfolio cards.
 
 ## Examples
 
-Keep broad relationships in the data record:
+Keep broad relationships in authored experience data:
 
 ```ts
 {
@@ -155,7 +164,7 @@ Keep broad relationships in the data record:
 }
 ```
 
-Render only the skill-detail projection:
+Render the authored skill-detail projection:
 
 ```tsx
 <SkillExperienceCardList
@@ -164,12 +173,31 @@ Render only the skill-detail projection:
 />
 ```
 
-The visible card should read as a narrative achievement with a labeled
-`Relevant skills` row. It should not expose every reusable relationship the
-data model carries.
+Render the capability-derived projection beside it:
+
+```tsx
+<SkillExperienceList
+  evidence={detail.experienceEvidence}
+  skills={detail.relatedSkills}
+/>
+```
+
+For a derived-only skill such as GitHub Actions, capability skill evidence can
+point at supporting experience records. The resolver follows those support IDs,
+keeps only public, non-sensitive experience records, and derives related skills
+from the supporting evidence technologies. The resulting cards can show
+specific facts and canonical tokens such as GitHub Actions, Nx, Docker, Amazon
+ECR, Kustomize, and Argo CD when those names exist in the skill catalog.
+
+For a mixed skill such as Kubernetes, keep the authored narrative card and add
+capability-derived cards after it. This preserves the richer curated story
+while making the broader capability evidence visible on the same skill detail
+surface.
 
 ## Related
 
 - `docs/solutions/conventions/tokenize-dora-capability-evidence.md`
+- `docs/solutions/design-patterns/skill-detail-experience-section-labeling.md`
+- `docs/solutions/conventions/constrain-skills-page-to-evidence-backed-skill-cards.md`
 - `docs/solutions/best-practices/astryx-component-owned-typography.md`
 - `docs/solutions/design-patterns/astryx-layout-gap-token-spacing.md`
