@@ -15,10 +15,14 @@ import { DevOpsRoadmap } from './devops-roadmap';
 import type { Certification, DevOpsRoadmapItem } from './devops-roadmap.types';
 
 vi.mock('../skills/skill-token', () => ({
-  SkillToken: ({ label }: { label: string }) => (
-    <span className="skill-token" data-testid={`skill-token-${label}`}>
+  SkillToken: ({ href, label }: { href?: string; label: string }) => (
+    <a
+      className="skill-token"
+      data-testid={`skill-token-${label}`}
+      href={href}
+    >
       {label}
-    </span>
+    </a>
   ),
 }));
 
@@ -258,6 +262,22 @@ describe('DevOpsRoadmapNode', () => {
     expect(getByRole('article', { name: 'Containers' })).toBeTruthy();
     expect(getByRole('heading', { name: 'Containers' })).toBeTruthy();
     expect(getByTestId('skill-token-Docker')).toBeTruthy();
+  });
+
+  it('links roadmap evidence skill tokens to their skill detail pages', () => {
+    const { getByTestId } = render(
+      <DevOpsRoadmapNode
+        item={{
+          id: 'gitops',
+          title: 'GitOps',
+          evidenceSkillTokens: ['ArgoCD'],
+        }}
+      />,
+    );
+
+    expect(getByTestId('skill-token-ArgoCD').getAttribute('href')).toBe(
+      '/skills/argo-cd',
+    );
   });
 
   it('does not render an empty chip list when a node has no purple-ticked skills', () => {
