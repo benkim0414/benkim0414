@@ -234,6 +234,29 @@ describe('GlobalNavigationLayout', () => {
     expect(githubLink.querySelector('svg')).toBeTruthy();
   });
 
+  it('renders an Astryx attribution footer with an external profile link', () => {
+    const { container, getByRole, getByText } = renderGlobalLayout();
+    const footer = getByRole('contentinfo');
+    const profileLink = within(footer).getByRole('link', {
+      name: /@benkim0414/i,
+    });
+
+    expect(getByText('Route content').compareDocumentPosition(footer)).toBe(
+      Node.DOCUMENT_POSITION_FOLLOWING,
+    );
+    expect(within(footer).getByRole('img', { name: 'Astryx' })).toBeTruthy();
+    expect(footer.textContent).toContain('Built with');
+    expect(footer.textContent).toContain('by');
+    expect(footer.textContent).toContain('@benkim0414');
+    expect(footer.textContent).not.toContain('Astryx');
+    expect(profileLink.getAttribute('href')).toBe(
+      'https://github.com/benkim0414',
+    );
+    expect(profileLink.getAttribute('target')).toBe('_blank');
+    expect(profileLink.getAttribute('rel')).toBe('noopener noreferrer');
+    expect(container.querySelectorAll('footer')).toHaveLength(1);
+  });
+
   it('provides tooltips for global nav icon controls', () => {
     const { getByRole } = renderGlobalLayout();
 
