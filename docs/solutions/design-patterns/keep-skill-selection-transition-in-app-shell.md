@@ -1,7 +1,7 @@
 ---
 title: Keep Skill Navigation Route-Authoritative
 date: 2026-08-12
-last_updated: 2026-08-13
+last_updated: 2026-08-28
 category: design-patterns
 module: github.io skill navigation
 problem_type: design_pattern
@@ -44,10 +44,11 @@ could switch pages without changing the URL. Browser history, refresh, and
 direct entry are now deliberate parts of the behavior, so the current route is
 the authority for which page is rendered.
 
-`HomePage` still owns page-local command-palette mechanics such as whether the
-dialog is open and which result is selected. Those values control the
-interaction, not the active application page. Choosing a resolved command item
-navigates to its canonical detail URL (`apps/github.io/src/app/skills/home-page.tsx:112`).
+`GlobalNavigationLayout` owns the command-palette mechanics that persist across
+routes, such as whether the dialog is open, which result is selected, and how a
+selected result is dispatched. Those values control the interaction, not the
+active application page. Choosing a resolved internal skill result navigates to
+its canonical detail URL (`apps/github.io/src/app/global-navigation-layout.tsx:148`).
 
 ## Guidance
 
@@ -61,29 +62,34 @@ export function getSkillDetailPath(skillId: string): string {
 ```
 
 The helper is the single place that defines outbound skill URLs
-(`apps/github.io/src/app/skills/skill-route.ts:1`). `SkillCard` supplies its
+(`apps/github.io/src/app/skills/skill-route.ts:3`). `SkillCard` supplies its
 result directly as the `ClickableCard` `href`
-(`apps/github.io/src/app/skills/skill-card.tsx:55`), while the command palette
-resolves the selected item and navigates to the same path:
+(`apps/github.io/src/app/skills/skill-card.tsx:56`), while the global command
+palette resolves the selected result and keeps relative skill paths on React
+Router navigation:
 
 ```tsx
-onValueChange={(skillId) => {
-  setSelectedSkillId(skillId);
-  const selectedSkill = skillCommandItems.find(
-    (item) => item.id === skillId,
-  )?.auxiliaryData.skill;
+onValueChange={(resultId) => {
+  setSelectedResultId(resultId);
+  const result = resultById.get(resultId);
 
-  if (selectedSkill) {
-    navigate(getSkillDetailPath(selectedSkill.id));
+  if (result) {
+    if (isExternalHref(result.href)) {
+      window.open(result.href, '_blank', 'noopener,noreferrer');
+    } else {
+      navigate(result.href);
+    }
   }
 }}
 ```
 
 This is the current palette handoff
-(`apps/github.io/src/app/skills/home-page.tsx:112`). Sharing the helper prevents
-cards and search results from drifting into different URL shapes or handling
-special characters differently. It also lets links retain native link
-semantics while imperative selection uses React Router navigation.
+(`apps/github.io/src/app/global-navigation-layout.tsx:148`). Sharing the helper
+prevents cards and search results from drifting into different URL shapes or
+handling special characters differently. It also lets links retain native link
+semantics while imperative internal selection uses React Router navigation.
+Absolute certification and project results intentionally leave this internal
+route contract and open as external browser destinations.
 
 Keep inbound URL interpretation at the route boundary. `SkillDetailRoute`
 reads `skillId`, resolves it against production skill, detail, evidence, and
@@ -137,8 +143,8 @@ and the production `SkillDetailRoute` to `/skills/:skillId`
 `MemoryRouter` together with the production Astryx link and theme providers, so
 navigation works within a story and resets when the story ID changes
 (`apps/github.io/.storybook/preview.ts:15`). The preview tests cover card
-navigation, palette navigation, and route reset on story change
-(`apps/github.io/.storybook/story-routes.spec.ts:79`).
+navigation, internal palette navigation, external project-result dispatch, and
+route reset on story change (`apps/github.io/.storybook/story-routes.spec.ts:79`).
 
 ## When to Apply
 
@@ -202,3 +208,4 @@ and not-found behavior that the application contract requires.
 - [Mirror Route Ownership in Mobile Storybook Pages](mirror-app-shell-ownership-in-mobile-storybook-pages.md)
 - [Verify Astryx Component API Contracts Before Styling](../best-practices/astryx-component-api-contracts.md)
 - [Verify Storybook From Linked Worktrees](../workflow-issues/verify-storybook-from-linked-worktree.md)
+- [Open External Command Palette Results Outside Storybook Iframes](../ui-bugs/external-command-palette-results-storybook-iframe.md)

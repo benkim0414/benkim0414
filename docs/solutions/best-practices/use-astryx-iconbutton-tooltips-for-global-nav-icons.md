@@ -1,6 +1,7 @@
 ---
 module: github.io global navigation
 date: 2026-08-26
+last_updated: 2026-08-28
 problem_type: best_practice
 component: tooling
 severity: low
@@ -40,7 +41,7 @@ For icon-only controls in `apps/github.io/src/app/global-navigation-layout.tsx`,
 ```tsx
 <IconButton
   icon={<Icon color="inherit" icon="search" size="sm" />}
-  label="Search skills"
+  label="Search"
   size="sm"
   tooltip="Search"
   variant="ghost"
@@ -100,6 +101,8 @@ Keep the test focused on user-observable outcomes:
 Using the built-in `tooltip` prop keeps tooltip behavior inside the Astryx component contract and avoids adding wrapper markup around controls that `TopNav` already lays out. The same assertion strategy works for both native button controls, like Search, and link controls, like Home and GitHub.
 
 Using `as="a"` for the external GitHub control is the key exception to the app shell's default routing integration. It keeps internal links routed through `RouterLink` while preventing an absolute external profile URL from being treated like an internal route.
+
+Command-palette results need the same internal/external split, but at selection time rather than render time. Relative skill routes should stay in React Router; absolute certification and project URLs should open with `_blank` and `noopener,noreferrer` so embedded Storybook review does not trap an external destination inside the preview canvas. See [Open External Command Palette Results Outside Storybook Iframes](../ui-bugs/external-command-palette-results-storybook-iframe.md) for the regression details.
 
 ## Related References
 

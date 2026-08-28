@@ -1,7 +1,7 @@
 ---
 title: Mirror Route Ownership in Mobile Storybook Pages
 date: 2026-08-01
-last_updated: 2026-08-15
+last_updated: 2026-08-28
 category: design-patterns
 module: apps/github.io navigation and Storybook
 problem_type: design_pattern
@@ -147,10 +147,14 @@ protects both routing branches:
   (`apps/github.io/.storybook/story-routes.spec.ts:135`).
 - A command-palette selection renders the Terraform detail heading
   (`apps/github.io/.storybook/story-routes.spec.ts:145`).
+- An external project result opens through `window.open` with `_blank` and
+  `noopener,noreferrer`, so the Storybook preview canvas does not become the
+  external-page target (`apps/github.io/.storybook/story-routes.spec.ts:161`).
 
 Keep focused URL and component tests alongside this integration coverage. They
 protect useful narrower contracts, but they do not substitute for asserting
-that the Storybook canvas renders the destination page.
+that the Storybook canvas renders an internal destination page or that external
+destinations leave the preview frame.
 
 ## Why This Matters
 
@@ -229,3 +233,4 @@ the linked-worktree verification learning below.
 - [Verify Astryx Component API Contracts Before Styling](../best-practices/astryx-component-api-contracts.md)
 - [Keep Astryx StyleX Tailwind Boundaries Explicit](../best-practices/astryx-stylex-tailwind-boundaries.md)
 - [Treat Astryx Layout Gaps As Spacing Tokens](astryx-layout-gap-token-spacing.md)
+- [Open External Command Palette Results Outside Storybook Iframes](../ui-bugs/external-command-palette-results-storybook-iframe.md)

@@ -1,6 +1,7 @@
 ---
 title: Assert Global Navigation Order By Accessible Label
 date: 2026-08-26
+last_updated: 2026-08-28
 category: best-practices
 module: github.io global navigation
 problem_type: best_practice
@@ -19,18 +20,18 @@ tags: [github-io, global-navigation, top-nav, accessibility, testing, regression
 
 The `github.io` global navigation renders its primary links through an Astryx
 `TopNav` labelled `Global navigation` in
-`apps/github.io/src/app/global-navigation-layout.tsx:137` and
-`apps/github.io/src/app/global-navigation-layout.tsx:200`. Home is an
+`apps/github.io/src/app/global-navigation-layout.tsx:169` and
+`apps/github.io/src/app/global-navigation-layout.tsx:245`. Home is an
 icon-only `IconButton` with `href="/"` and label `Home` at
-`apps/github.io/src/app/global-navigation-layout.tsx:167`,
-`apps/github.io/src/app/global-navigation-layout.tsx:171`, and
-`apps/github.io/src/app/global-navigation-layout.tsx:180`.
+`apps/github.io/src/app/global-navigation-layout.tsx:199`,
+`apps/github.io/src/app/global-navigation-layout.tsx:203`, and
+`apps/github.io/src/app/global-navigation-layout.tsx:212`.
 
 When the product decision is to keep the `Roadmap` label but reorder the top
 nav to Home, Skills, Roadmap, the regression test belongs at behavior level.
 The current implementation renders `Skills` before `Roadmap` while preserving
 their hrefs and labels in
-`apps/github.io/src/app/global-navigation-layout.tsx:140-157`.
+`apps/github.io/src/app/global-navigation-layout.tsx:172-195`.
 
 ## Guidance
 
@@ -41,21 +42,25 @@ user, browser, or assistive technology observes inside `Global navigation`.
 
 Keep route destinations and selected-state behavior as separate assertions. The
 current spec verifies `Home`, `Roadmap`, and `Skills` hrefs independently in
-`apps/github.io/src/app/global-navigation-layout.spec.tsx:187-193`, while
+`apps/github.io/src/app/global-navigation-layout.spec.tsx:191-201`, while
 selected-state behavior stays in the parameterized `aria-current` test at
-`apps/github.io/src/app/global-navigation-layout.spec.tsx:289-303`.
+`apps/github.io/src/app/global-navigation-layout.spec.tsx:315-326`.
 
 For icon-only links, use the accessible label as the test-visible name. For
 text links, visible text is acceptable. The order assertion maps each link to
 `aria-label` first and falls back to trimmed `textContent`, which covers the
 icon-only Home link and the text-only Skills and Roadmap links
-(`apps/github.io/src/app/global-navigation-layout.spec.tsx:195-198`).
+(`apps/github.io/src/app/global-navigation-layout.spec.tsx:202-206`).
+The same test also asserts that the GitHub profile icon remains outside the
+primary route-link sequence by expecting the full navigation link order to be
+Home, Skills, Roadmap, GitHub
+(`apps/github.io/src/app/global-navigation-layout.spec.tsx:206`).
 
 Always scope the order query with `within(navigation)`. The layout renders
 routed page content through `Outlet` inside `LayoutContent`
 (`apps/github.io/src/app/global-navigation-layout.tsx:130-132`), and the test
 fixture mounts additional route content
-(`apps/github.io/src/app/global-navigation-layout.spec.tsx:120-141`). A
+(`apps/github.io/src/app/global-navigation-layout.spec.tsx:114-137`). A
 whole-document `getAllByRole('link')` would include any future links rendered
 by routed page content and could break a top-nav order test for the wrong
 reason.
