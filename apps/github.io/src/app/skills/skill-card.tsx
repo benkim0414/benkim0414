@@ -81,7 +81,7 @@ export function SkillCard({
                 <Heading id={titleId} level={3}>
                   {skill.name}
                 </Heading>
-                <SkillConfidence confidence={skill.confidence} />
+                <SkillConfidence confidence={skill.confidence} variant="token" />
               </VStack>
               <Text type="body" color="secondary" as="p">
                 {skill.description}
