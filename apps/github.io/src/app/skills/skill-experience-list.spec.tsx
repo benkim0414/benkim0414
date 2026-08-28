@@ -76,16 +76,31 @@ describe('SkillExperienceList', () => {
     ).toBeTruthy();
 
     const relevantSkills = getByRole('list', { name: 'Relevant skills' });
+    const tokens = within(relevantSkills).getAllByTestId('skill-token');
+    const links = within(relevantSkills).getAllByRole('link');
 
     expect(within(relevantSkills).getByText('GitHub Actions')).toBeTruthy();
     expect(within(relevantSkills).getByText('Argo CD')).toBeTruthy();
+    expect(tokens).toHaveLength(6);
+    expect(tokens.every((token) => token.getAttribute('style') === null)).toBe(
+      true,
+    );
+    expect(links.map((link) => link.getAttribute('href'))).toEqual([
+      '/skills/github',
+      '/skills/github-actions',
+      '/skills/nx',
+      '/skills/amazon-ecr',
+      '/skills/kustomize',
+      '/skills/argo-cd',
+    ]);
   });
 
   it('does not repeat duplicate evidence facts inside the same card', () => {
     const [evidence] = devOpsCapabilityEvidenceItems.filter(
       (item) => item.id === 'github-actions-gitops-handoff',
     );
-    const duplicateFact = 'Argo CD reconciles the version-controlled manifests.';
+    const duplicateFact =
+      'Argo CD reconciles the version-controlled manifests.';
 
     expect(evidence).toBeDefined();
     if (!evidence?.details) {
