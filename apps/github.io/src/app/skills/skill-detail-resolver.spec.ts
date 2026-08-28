@@ -24,20 +24,33 @@ describe('resolveSkillDetail', () => {
     expect(result.value.experiences.map(({ id }) => id)).toEqual([
       'aws-codepipeline-codebuild-multistage-delivery',
     ]);
-    expect(result.value.relatedSkills.map(({ id }) => id)).toEqual([
-      'aws-codepipeline',
-      'aws-codebuild',
-      'terraform',
-      'amazon-ecr',
-      'amazon-eks',
-      'kubernetes',
-    ]);
+    expect(result.value.relatedSkills.map(({ id }) => id).slice(0, 6)).toEqual(
+      [
+        'aws-codepipeline',
+        'aws-codebuild',
+        'terraform',
+        'amazon-ecr',
+        'amazon-eks',
+        'kubernetes',
+      ],
+    );
+    expect(result.value.relatedSkills.map(({ id }) => id)).toEqual(
+      expect.arrayContaining(['argo-cd', 'kustomize', 'helm', 'docker']),
+    );
     expect(result.value.experienceEvidence.map(({ id }) => id)).toEqual([
       'argocd-environment-state-from-version-control',
       'deterministic-kubernetes-overlays',
       'reusable-kubernetes-deployment-foundations',
+      'codepipeline-approval-gated-deployment',
+      'argocd-automated-database-migrations',
+      'deployment-health-checks',
+      'environment-neutral-deployment-mechanism',
+      'automated-sealed-secret-delivery',
+      'irsa-service-accounts',
+      'version-controlled-observability-stack',
+      'kubernetes-rbac-governance',
     ]);
-    expect(result.value.experienceEvidence).toHaveLength(3);
+    expect(result.value.experienceEvidence).toHaveLength(11);
     expect(
       result.value.experienceEvidence.every(
         ({ type }) => type === 'experience',
@@ -84,6 +97,115 @@ describe('resolveSkillDetail', () => {
     expect(result.value.experienceEvidence).toEqual([]);
     expect(result.value.projects).toEqual([]);
     expect(result.value).not.toHaveProperty('experienceSummary');
+  });
+
+  it('derives public experience evidence from capability skill support', () => {
+    const result = resolveSkillDetail('github-actions', productionSources);
+
+    expect(result.status).toBe('found');
+    if (result.status !== 'found') return;
+
+    expect(result.value.experiences).toEqual([]);
+    expect(result.value.relatedSkills.map(({ name }) => name)).toEqual(
+      expect.arrayContaining([
+        'GitHub Actions',
+        'Nx',
+        'Amazon ECR',
+        'Docker',
+        'Kustomize',
+        'Argo CD',
+      ]),
+    );
+    expect(result.value.projects).toEqual([]);
+    expect(result.value.experienceEvidence.map(({ id }) => id)).toEqual([
+      'nx-affected-quality-gates',
+      'github-actions-oidc-ecr-publishing',
+      'github-actions-gitops-handoff',
+      'serialized-deployment-process',
+      'deployment-failure-notification',
+      'merge-triggered-deployment-path',
+      'container-health-smoke-tests',
+    ]);
+    expect(
+      result.value.experienceEvidence.every(
+        ({ type, isPublic, isSensitive }) =>
+          type === 'experience' && isPublic && isSensitive !== true,
+      ),
+    ).toBe(true);
+  });
+
+  it('matches derived skill evidence by title when a label differs from the skill name', () => {
+    const supportedEvidence = devOpsCapabilityEvidenceItems.find(
+      (item) => item.id === 'github-actions-gitops-handoff',
+    );
+
+    expect(supportedEvidence).toBeDefined();
+    if (!supportedEvidence) {
+      throw new Error('Expected GitHub Actions support evidence fixture.');
+    }
+
+    const result = resolveSkillDetail('github-actions', {
+      ...productionSources,
+      evidenceItems: [
+        {
+          id: 'synthetic-github-actions-skill',
+          title: 'GitHub Actions',
+          label: 'Actions',
+          type: 'skill',
+          capabilityKeys: ['continuous-delivery'],
+          summary: 'Short alias skill record.',
+          technologies: ['Actions'],
+          supportingEvidenceIds: ['github-actions-gitops-handoff'],
+          isPublic: true,
+          strength: 'supporting',
+        },
+        supportedEvidence,
+      ],
+    });
+
+    expect(result.status).toBe('found');
+    if (result.status !== 'found') return;
+
+    expect(result.value.experienceEvidence.map(({ id }) => id)).toContain(
+      'github-actions-gitops-handoff',
+    );
+  });
+
+  it('matches derived skill evidence by technology when title and label differ', () => {
+    const supportedEvidence = devOpsCapabilityEvidenceItems.find(
+      (item) => item.id === 'github-actions-gitops-handoff',
+    );
+
+    expect(supportedEvidence).toBeDefined();
+    if (!supportedEvidence) {
+      throw new Error('Expected GitHub Actions support evidence fixture.');
+    }
+
+    const result = resolveSkillDetail('github-actions', {
+      ...productionSources,
+      evidenceItems: [
+        {
+          id: 'synthetic-actions-technology-skill',
+          title: 'Workflow automation',
+          label: 'Actions',
+          type: 'skill',
+          capabilityKeys: ['continuous-delivery'],
+          summary: 'Technology-linked skill record.',
+          technologies: ['GitHub Actions'],
+          supportingEvidenceIds: ['github-actions-gitops-handoff'],
+          isPublic: true,
+          strength: 'supporting',
+        },
+        supportedEvidence,
+      ],
+    });
+
+    expect(result.status).toBe('found');
+    if (result.status !== 'found') return;
+
+    expect(result.value.experienceEvidence.map(({ id }) => id)).toContain(
+      'github-actions-gitops-handoff',
+    );
   });
 
   it('distinguishes an unknown skill from a basic known skill', () => {
