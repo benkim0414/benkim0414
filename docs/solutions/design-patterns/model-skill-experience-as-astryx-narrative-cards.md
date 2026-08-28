@@ -12,11 +12,13 @@ applies_when:
   - Rendering capability-derived experience evidence on skill detail pages
   - Combining authored experience records with public DevOps capability evidence
   - Deriving relevant skill tokens from evidence without exposing non-canonical labels
+  - Linking relevant skill tokens from experience cards to skill detail pages
   - Keeping Storybook examples representative for both single-card and list variants
 related_components:
   - github.io DevOps capability evidence
   - Skill detail page
   - Skill experience cards
+  - Skill detail navigation
   - Astryx typography
   - Storybook
 tags:
@@ -27,6 +29,7 @@ tags:
     experience,
     capability-evidence,
     skill-tokens,
+    linked-skill-tokens,
     astryx,
     dora,
     storybook,
@@ -97,6 +100,21 @@ every capability key, raw technology, project relationship, or internal source
 distinction. The visible contract is an experience card with a title, readable
 proof text, and canonical relevant skill tokens.
 
+When relevant skill tokens are routeable, link them at the shared token
+boundary. `SkillToken` should accept the skill detail destination and keep the
+neutral evidence treatment, while callers resolve records before rendering.
+Authored experience cards can resolve `Experience.skillIds` by skill ID.
+Capability-derived cards start from evidence technology strings, so their list
+renderer should match those strings to canonical skill names, deduplicate by
+skill ID, then render the same linked neutral `SkillToken` rows. Do not leave
+one renderer on plain label tokens while another uses linked icon tokens.
+
+Keep link targets backed by public detail records. If an experience skill is
+public and non-sensitive enough to render as a skill-detail token link, it
+needs a corresponding skill detail record. Add resolver coverage that fails
+when a public experience skill ID has no detail record, so new links do not
+silently land on missing pages.
+
 Compose the page as one normal detail section. Render the section when either
 authored experiences or capability-derived experience evidence exists. Show
 authored narrative cards first, then capability-derived evidence cards. Do not
@@ -126,6 +144,11 @@ portfolio. A technology string can be specific and useful without being a
 standalone skill card; relevant skill tokens should appear only when the same
 name exists in the canonical skill catalog.
 
+Linked relevant skill tokens make the experience section navigable without
+changing its evidence hierarchy. The token label remains the canonical skill
+name, the route uses the stable skill ID, and the neutral variant keeps the row
+looking like supporting evidence rather than brand-forward marketing chrome.
+
 Astryx ownership matters because these cards are prose heavy. Heading,
 paragraph, token, layout, and surface semantics should come from Astryx
 components, with local styles limited to structural list reset, wrapping, and
@@ -140,6 +163,8 @@ spacing glue.
 - Combining authored `Experience` records and capability evidence under one
   reader-facing `Experience` section.
 - Deciding whether a technology string should render as a relevant skill token.
+- Linking relevant skill tokens from authored or capability-derived cards to
+  skill detail pages.
 - Adding or reviewing Storybook coverage for skill detail experience cards.
 - Replacing quote-styled evidence with richer portfolio cards.
 
@@ -156,11 +181,26 @@ Keep broad relationships in authored experience data:
     'Built a delivery pipeline around AWS CodePipeline and AWS CodeBuild...',
     'Modeled staging and production as separate promotion targets...',
   ],
-  skillIds: ['aws-codepipeline', 'aws-codebuild', 'kubernetes'],
+  skillIds: [
+    'aws-codepipeline',
+    'aws-codebuild',
+    'terraform',
+    'amazon-ecr',
+    'amazon-eks',
+    'kubernetes',
+  ],
   projectIds: ['homelab'],
-  capabilityKeys: ['continuous-delivery', 'deployment-automation'],
-  supportingEvidenceIds: ['terraform-codepipeline-platform'],
-  technologies: ['AWS CodePipeline', 'AWS CodeBuild', 'Kubernetes', 'Terraform'],
+  capabilityKeys: [
+    'continuous-integration',
+    'continuous-delivery',
+    'deployment-automation',
+  ],
+  supportingEvidenceIds: [
+    'terraform-codepipeline-platform',
+    'codebuild-pr-gates',
+    'codepipeline-approval-gated-deployment',
+  ],
+  technologies: ['AWS CodePipeline', 'AWS CodeBuild', 'Terraform', 'CI/CD'],
 }
 ```
 
@@ -181,6 +221,13 @@ Render the capability-derived projection beside it:
   skills={detail.relatedSkills}
 />
 ```
+
+Both renderers should convert their local evidence shape into canonical skill
+records before rendering tokens. The authored renderer starts with stable
+`skillIds`; the capability-derived renderer starts with technology labels and
+must match those labels to canonical skill names. After resolution, both should
+render `SkillToken` with `variant="neutral"` and `href` set from the skill
+detail route.
 
 For a derived-only skill such as GitHub Actions, capability skill evidence can
 point at supporting experience records. The resolver follows those support IDs,

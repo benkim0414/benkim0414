@@ -2,13 +2,14 @@ import { Card } from '@astryxdesign/core/Card';
 import { Heading } from '@astryxdesign/core/Heading';
 import { HStack, VStack } from '@astryxdesign/core/Layout';
 import { Text } from '@astryxdesign/core/Text';
-import { Token } from '@astryxdesign/core/Token';
 import { spacingVars } from '@astryxdesign/core/theme/tokens.stylex';
 import * as stylex from '@stylexjs/stylex';
 import type { ReactElement } from 'react';
 
 import type { CapabilityEvidenceItem } from '../devops-capability-evidence/devops-capability-evidence.types';
+import { getSkillDetailPath } from './skill-route';
 import type { Skill } from './skill-list.types';
+import { SkillToken } from './skill-token';
 
 export interface SkillExperienceListProps {
   evidence: readonly CapabilityEvidenceItem[];
@@ -46,7 +47,7 @@ export function SkillExperienceList({
   return (
     <ul aria-label="Supporting experience" {...stylex.props(styles.list)}>
       {evidence.map((item) => {
-        const relevantSkillLabels = getRelevantSkillLabels(item, skills);
+        const relevantSkills = getRelevantSkills(item, skills);
         const facts = [...new Set(item.details?.facts ?? [])].filter(
           (fact) => fact !== item.summary,
         );
@@ -73,7 +74,7 @@ export function SkillExperienceList({
                     </VStack>
                   ) : null}
 
-                  {relevantSkillLabels.length > 0 ? (
+                  {relevantSkills.length > 0 ? (
                     <VStack gap={1}>
                       <Text type="supporting" color="secondary">
                         Relevant skills
@@ -85,12 +86,16 @@ export function SkillExperienceList({
                         xstyle={styles.tokenList}
                         data-wrap="true"
                       >
-                        {relevantSkillLabels.map((skillLabel) => (
+                        {relevantSkills.map((skill) => (
                           <li
-                            key={skillLabel}
+                            key={skill.id}
                             {...stylex.props(styles.tokenItem)}
                           >
-                            <Token label={skillLabel} size="sm" />
+                            <SkillToken
+                              href={getSkillDetailPath(skill.id)}
+                              label={skill.name}
+                              variant="neutral"
+                            />
                           </li>
                         ))}
                       </HStack>
@@ -106,21 +111,21 @@ export function SkillExperienceList({
   );
 }
 
-function getRelevantSkillLabels(
+function getRelevantSkills(
   evidence: CapabilityEvidenceItem,
   skills: readonly Skill[],
-): readonly string[] {
-  const skillByName = new Map(skills.map((skill) => [skill.name, skill.name]));
+): readonly Skill[] {
+  const skillByName = new Map(skills.map((skill) => [skill.name, skill]));
   const seen = new Set<string>();
 
   return (evidence.technologies ?? []).flatMap((technology) => {
-    const skillLabel = skillByName.get(technology);
+    const skill = skillByName.get(technology);
 
-    if (!skillLabel || seen.has(skillLabel)) {
+    if (!skill || seen.has(skill.id)) {
       return [];
     }
 
-    seen.add(skillLabel);
-    return [skillLabel];
+    seen.add(skill.id);
+    return [skill];
   });
 }
