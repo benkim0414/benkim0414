@@ -239,12 +239,15 @@ describe('AppRoutes', () => {
   });
 
   it('renders Kubernetes skill detail for its clean route', () => {
-    const { getByRole } = renderAppRoutes('/skills/kubernetes');
+    const { getByRole, queryByRole } = renderAppRoutes('/skills/kubernetes');
 
     expect(getByRole('heading', { level: 1, name: 'Kubernetes' })).toBeTruthy();
     expect(
-      getByRole('heading', { level: 2, name: 'In practice' }),
+      getByRole('heading', { level: 2, name: 'Experience' }),
     ).toBeTruthy();
+    expect(
+      queryByRole('heading', { level: 2, name: 'In practice' }),
+    ).toBeNull();
   });
 
   it('renders React skill detail for its clean route', () => {

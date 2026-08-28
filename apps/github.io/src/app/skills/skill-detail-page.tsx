@@ -44,6 +44,8 @@ export function SkillDetailPage({
 }: SkillDetailPageProps): ReactElement {
   const headingRef = useRef<HTMLHeadingElement>(null);
   const certifications = detail.skill.certifications ?? [];
+  const hasExperience =
+    detail.experiences.length > 0 || detail.experienceEvidence.length > 0;
 
   useEffect(() => {
     headingRef.current?.focus();
@@ -118,27 +120,26 @@ export function SkillDetailPage({
         </MetadataList>
       </Card>
 
-      {detail.experiences.length > 0 ? (
+      {hasExperience ? (
         <section aria-labelledby="skill-experience-narrative-heading">
           <VStack gap={3}>
             <Heading id="skill-experience-narrative-heading" level={2}>
               Experience
             </Heading>
-            <SkillExperienceCardList
-              experiences={detail.experiences}
-              skills={detail.relatedSkills}
-            />
-          </VStack>
-        </section>
-      ) : null}
 
-      {detail.experienceEvidence.length > 0 ? (
-        <section aria-labelledby="skill-experience-heading">
-          <VStack gap={3}>
-            <Heading id="skill-experience-heading" level={2}>
-              In practice
-            </Heading>
-            <SkillExperienceList evidence={detail.experienceEvidence} />
+            {detail.experiences.length > 0 ? (
+              <SkillExperienceCardList
+                experiences={detail.experiences}
+                skills={detail.relatedSkills}
+              />
+            ) : null}
+
+            {detail.experienceEvidence.length > 0 ? (
+              <SkillExperienceList
+                evidence={detail.experienceEvidence}
+                skills={detail.relatedSkills}
+              />
+            ) : null}
           </VStack>
         </section>
       ) : null}

@@ -164,7 +164,7 @@ describe('SkillDetailPage', () => {
       metadataQueries.getByText('Certifications', { selector: 'dt' }),
     ).toBeTruthy();
     expect(
-      [...metadata.querySelectorAll(':scope > dl > dt')].map(
+      Array.from(metadata.querySelectorAll(':scope > dl > dt')).map(
         ({ textContent }) => textContent,
       ),
     ).toEqual(['Categories', 'Confidence', 'Certifications']);
@@ -174,10 +174,10 @@ describe('SkillDetailPage', () => {
     expect(getAllByTestId('certification-citation')).toHaveLength(
       detail.skill.certifications?.length ?? 0,
     );
-    expect(
-      getByRole('heading', { level: 2, name: 'In practice' }),
-    ).toBeTruthy();
     expect(getByRole('heading', { level: 2, name: 'Experience' })).toBeTruthy();
+    expect(
+      queryByRole('heading', { level: 2, name: 'In practice' }),
+    ).toBeNull();
     expect(
       getByRole('heading', {
         level: 3,
@@ -189,26 +189,42 @@ describe('SkillDetailPage', () => {
         'Built AWS CodePipeline and CodeBuild automation for staging and production delivery with build validation, artifact handoff, and controlled promotion.',
       ),
     ).toBeTruthy();
-    const relevantSkills = getByRole('list', { name: 'Relevant skills' });
+    const skillExperience = getByRole('list', { name: 'Skill experience' });
+    const firstSkillExperienceCard =
+      skillExperience.querySelector('.astryx-card');
+    const relevantSkills = within(
+      firstSkillExperienceCard as HTMLElement,
+    ).getByRole('list', { name: 'Relevant skills' });
 
     expect(within(relevantSkills).getByText('AWS CodePipeline')).toBeTruthy();
     expect(within(relevantSkills).getByText('Kubernetes')).toBeTruthy();
 
-    const evidenceBlockquotes = [...container.querySelectorAll('blockquote')];
+    expect(container.querySelectorAll('blockquote')).toHaveLength(0);
 
-    expect(evidenceBlockquotes).toHaveLength(detail.experienceEvidence.length);
-    evidenceBlockquotes.forEach((blockquote, index) => {
+    const experienceSection = getByRole('heading', {
+      level: 2,
+      name: 'Experience',
+    }).closest('section');
+    const supportingExperienceList = within(
+      experienceSection as HTMLElement,
+    ).getByRole('list', { name: 'Supporting experience' });
+    const evidenceCards = Array.from(
+      supportingExperienceList.querySelectorAll('.astryx-card'),
+    );
+
+    expect(evidenceCards).toHaveLength(detail.experienceEvidence.length);
+    evidenceCards.forEach((card, index) => {
       const evidence = detail.experienceEvidence[index];
-      const blockquoteQueries = within(blockquote);
+      const cardQueries = within(card as HTMLElement);
 
       expect(
-        blockquoteQueries.getByRole('heading', {
+        cardQueries.getByRole('heading', {
           level: 3,
           name: evidence.title,
         }),
       ).toBeTruthy();
       expect(
-        blockquoteQueries.getByText(evidence.summary, { selector: 'p' }),
+        cardQueries.getByText(evidence.summary, { selector: 'p' }),
       ).toBeTruthy();
     });
     expect(getByRole('heading', { level: 2, name: 'Projects' })).toBeTruthy();
@@ -218,6 +234,48 @@ describe('SkillDetailPage', () => {
     expect(
       queryByRole('heading', { level: 2, name: 'Certifications' }),
     ).toBeNull();
+  });
+
+  it('renders derived capability experiences for supported skills', () => {
+    const detail = getResolvedDetail('github-actions');
+    const { container, getByRole, queryByRole } = render(
+      <SkillDetailPage detail={detail} />,
+    );
+
+    expect(
+      getByRole('heading', { level: 1, name: 'GitHub Actions' }),
+    ).toBeTruthy();
+    expect(
+      getByRole('heading', { level: 2, name: 'Experience' }),
+    ).toBeTruthy();
+    expect(
+      queryByRole('heading', { level: 2, name: 'In practice' }),
+    ).toBeNull();
+    expect(
+      getByRole('heading', {
+        level: 3,
+        name: 'Nx affected quality gates',
+      }),
+    ).toBeTruthy();
+    const supportingExperience = getByRole('list', {
+      name: 'Supporting experience',
+    });
+    const firstEvidenceCard = supportingExperience.querySelector('.astryx-card');
+    const firstEvidenceCardQueries = within(firstEvidenceCard as HTMLElement);
+
+    expect(
+      firstEvidenceCardQueries.getByText(
+        'Configured pull-request and main-branch CI to run affected lint, unit, integration, and build targets from the last successful main-branch baseline.',
+        { selector: 'p' },
+      ),
+    ).toBeTruthy();
+    const relevantSkills = firstEvidenceCardQueries.getByRole('list', {
+      name: 'Relevant skills',
+    });
+
+    expect(within(relevantSkills).getByText('GitHub Actions')).toBeTruthy();
+    expect(within(relevantSkills).getByText('Nx')).toBeTruthy();
+    expect(container.querySelectorAll('blockquote')).toHaveLength(0);
   });
 
   it('renders a basic skill without empty enrichment sections', () => {
