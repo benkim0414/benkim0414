@@ -76,6 +76,10 @@ export function SkillDetailPage({
 
       <Card variant="muted" width="100%" xstyle={styles.metadataCard}>
         <MetadataList data-testid="skill-metadata">
+          <MetadataListItem label="Primary use">
+            <Text type="supporting">{detail.skill.primaryUse}</Text>
+          </MetadataListItem>
+
           <MetadataListItem label="Categories">
             <HStack
               as="ul"

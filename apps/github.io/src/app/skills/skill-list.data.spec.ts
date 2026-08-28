@@ -159,6 +159,21 @@ describe('skill-list data', () => {
     });
   });
 
+  it('stores recruiter-readable primary use labels for every skill', () => {
+    expect(skills.every((skill) => skill.primaryUse.trim().length > 0)).toBe(
+      true,
+    );
+    expect(
+      Object.fromEntries(skills.map((skill) => [skill.id, skill.primaryUse])),
+    ).toMatchObject({
+      kubernetes: 'Cloud-native platform operations',
+      react: 'Interactive web interfaces',
+      terraform: 'Infrastructure provisioning',
+      'github-actions': 'Repository automation and CI/CD',
+      nx: 'Monorepo quality gates',
+    });
+  });
+
   it('uses a Kubernetes logo slug for Kubernetes', () => {
     expect(skills.find((skill) => skill.id === 'kubernetes')?.iconSlug).toBe(
       'kubernetes',
