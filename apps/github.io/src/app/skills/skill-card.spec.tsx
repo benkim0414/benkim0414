@@ -13,6 +13,7 @@ const baseSkill: Skill = {
   description:
     'Container orchestration for deploying, scaling, and operating cloud-native workloads.',
   categories: ['Container', 'Cloud'],
+  primaryUse: 'Cloud-native platform operations',
   confidence: 4,
   iconSlug: 'kubernetes',
   keywords: ['containers', 'orchestration'],
