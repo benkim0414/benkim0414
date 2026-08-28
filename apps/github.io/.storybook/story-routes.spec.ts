@@ -150,11 +150,33 @@ describe('Storybook preview routing', () => {
       ),
     );
 
-    fireEvent.click(screen.getByRole('button', { name: 'Search skills' }));
+    fireEvent.click(screen.getByRole('button', { name: 'Search' }));
     fireEvent.click(screen.getByRole('button', { name: 'Terraform' }));
 
     expect(
       await screen.findByRole('heading', { level: 1, name: 'Terraform' }),
     ).toBeTruthy();
+  });
+
+  it('opens external command-palette project results outside the preview frame', async () => {
+    const open = vi.spyOn(window, 'open').mockReturnValue(null);
+
+    render(
+      decorateStory(
+        () => createElement(GlobalNavigationLayout),
+        'github-io-navigation-global-navigation--home',
+      ),
+    );
+
+    fireEvent.click(screen.getByRole('button', { name: 'Search' }));
+    fireEvent.click(screen.getByRole('button', { name: 'benkim0414/dotfiles' }));
+
+    expect(open).toHaveBeenCalledWith(
+      'https://github.com/benkim0414/dotfiles',
+      '_blank',
+      'noopener,noreferrer',
+    );
+
+    open.mockRestore();
   });
 });

@@ -50,6 +50,7 @@ vi.mock('@astryxdesign/core/CommandPalette', () => ({
     searchSource: {
       bootstrap: () => Array<{
         auxiliaryData: { group: string };
+        href: string;
         id: string;
         label: string;
       }>;
@@ -167,7 +168,7 @@ describe('GlobalNavigationLayout', () => {
       throw new Error('Expected the global navigation layout shell.');
     }
 
-    expect(getByRole('button', { name: 'Search skills' })).toBeTruthy();
+    expect(getByRole('button', { name: 'Search' })).toBeTruthy();
     expect(queryByRole('heading', { name: /skills/i })).toBeNull();
     expect(getByText('Route content')).toBeTruthy();
     expect(shell.className).toContain('astryx-layout');
@@ -221,7 +222,7 @@ describe('GlobalNavigationLayout', () => {
   it('renders the GitHub profile icon link next to the search button', () => {
     const { getByRole } = renderGlobalLayout();
     const navigation = getByRole('navigation', { name: 'Global navigation' });
-    const searchButton = getByRole('button', { name: 'Search skills' });
+    const searchButton = getByRole('button', { name: 'Search' });
     const githubLink = getByRole('link', { name: 'GitHub' });
 
     expect(navigation.contains(searchButton)).toBe(true);
@@ -237,7 +238,10 @@ describe('GlobalNavigationLayout', () => {
     const { getByRole } = renderGlobalLayout();
 
     expectTooltipFor(getByRole('link', { name: 'Home' }), 'Home');
-    expectTooltipFor(getByRole('button', { name: 'Search skills' }), 'Search');
+    expectTooltipFor(
+      getByRole('button', { name: 'Search' }),
+      'Search',
+    );
     expectTooltipFor(getByRole('link', { name: 'GitHub' }), 'GitHub');
   });
 
@@ -349,10 +353,50 @@ describe('GlobalNavigationLayout', () => {
   it('opens search and navigates a selected skill result', () => {
     const { getByRole, getByTestId } = renderGlobalLayout();
 
-    fireEvent.click(getByRole('button', { name: 'Search skills' }));
-    expect(getByRole('dialog', { name: 'Search skills' })).toBeTruthy();
+    fireEvent.click(getByRole('button', { name: 'Search' }));
+    expect(getByRole('dialog', { name: 'Search' })).toBeTruthy();
+    expect(
+      getByRole('combobox', { name: 'Search' }).getAttribute('placeholder'),
+    ).toBe('Search...');
 
     fireEvent.click(getByRole('option', { name: 'Terraform' }));
     expect(getByTestId('location').textContent).toBe('/skills/terraform');
+  });
+
+  it('labels search list items by certifications, skills, and projects', () => {
+    const { getByRole, getAllByRole } = renderGlobalLayout();
+
+    fireEvent.click(getByRole('button', { name: 'Search' }));
+
+    expect(getAllByRole('option').map((option) => option.textContent)).toEqual(
+      expect.arrayContaining(['CKA', 'Terraform', 'benkim0414/dotfiles']),
+    );
+    expect(
+      Array.from(getByRole('listbox').children).map(
+        (group) => group.firstElementChild?.textContent,
+      ),
+    ).toEqual(['Certifications', 'Skills', 'Projects']);
+  });
+
+  it('opens selected certification and project results externally', () => {
+    const open = vi.spyOn(window, 'open').mockReturnValue(null);
+    const { getByRole } = renderGlobalLayout();
+
+    fireEvent.click(getByRole('button', { name: 'Search' }));
+    fireEvent.click(getByRole('option', { name: 'CKA' }));
+    fireEvent.click(getByRole('option', { name: 'benkim0414/dotfiles' }));
+
+    expect(open).toHaveBeenNthCalledWith(
+      1,
+      'https://ti-user-certificates.s3.amazonaws.com/e0df7fbf-a057-42af-8a1f-590912be5460/10cf307b-dcb8-5917-a301-c854a583ed97-gunwoo-kim-02c68021-40fe-473f-8087-6309221395ca-certificate.pdf',
+      '_blank',
+      'noopener,noreferrer',
+    );
+    expect(open).toHaveBeenNthCalledWith(
+      2,
+      'https://github.com/benkim0414/dotfiles',
+      '_blank',
+      'noopener,noreferrer',
+    );
   });
 });
