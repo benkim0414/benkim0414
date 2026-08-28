@@ -14,7 +14,7 @@ describe('SkillList', () => {
     expect(getByRole('list')).toBeTruthy();
     expect(getByText('TypeScript')).toBeTruthy();
     expect(getAllByText('Language')).not.toHaveLength(0);
-    expect(getAllByText('Confident')).not.toHaveLength(0);
+    expect(getAllByText('Confidence: Confident')).not.toHaveLength(0);
   });
 
   it('does not render search controls', () => {
