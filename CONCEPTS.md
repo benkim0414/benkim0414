@@ -156,7 +156,7 @@ A reusable card presentation for one skill, showing the skill name, self-rated c
 
 A compact presentation of a canonical skill record for dense evidence rows, using the skill name as the label and the skill identity when the token can navigate to detail.
 
-Skill Tokens may use brand metadata or stay neutral depending on the surface. Evidence-heavy rows keep neutral chrome even when the same skill has brand metadata elsewhere.
+Skill Tokens derive detail navigation from canonical skill identity when the label resolves unambiguously, but stay display-only for unknown or ambiguous labels. They may use brand metadata or stay neutral depending on the surface. Evidence-heavy rows keep neutral chrome even when the same skill has brand metadata elsewhere.
 
 ### Project Card
 
