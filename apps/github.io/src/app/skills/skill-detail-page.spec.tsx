@@ -155,6 +155,9 @@ describe('SkillDetailPage', () => {
     expect(getByRole('heading', { level: 1, name: 'Kubernetes' })).toBeTruthy();
     expect(metadata.querySelector('dl')).toBeTruthy();
     expect(
+      metadataQueries.getByText('Primary use', { selector: 'dt' }),
+    ).toBeTruthy();
+    expect(
       metadataQueries.getByText('Categories', { selector: 'dt' }),
     ).toBeTruthy();
     expect(
@@ -167,7 +170,13 @@ describe('SkillDetailPage', () => {
       Array.from(metadata.querySelectorAll(':scope > dl > dt')).map(
         ({ textContent }) => textContent,
       ),
-    ).toEqual(['Categories', 'Confidence', 'Certifications']);
+    ).toEqual([
+      'Primary use',
+      'Categories',
+      'Confidence',
+      'Certifications',
+    ]);
+    expect(getByText('Cloud-native platform operations')).toBeTruthy();
     expect(getAllByText('Container')).toHaveLength(1);
     expect(getAllByText('Cloud')).toHaveLength(1);
     expect(getAllByText('Confident')).toHaveLength(1);
@@ -288,8 +297,12 @@ describe('SkillDetailPage', () => {
 
     expect(getByRole('heading', { level: 1, name: 'React' })).toBeTruthy();
     expect(getByText(detail.skill.description)).toBeTruthy();
+    expect(getByText('Interactive web interfaces')).toBeTruthy();
     expect(getByText('Framework')).toBeTruthy();
     expect(getByText('Working')).toBeTruthy();
+    expect(
+      metadataQueries.getByText('Primary use', { selector: 'dt' }),
+    ).toBeTruthy();
     expect(
       metadataQueries.getByText('Categories', { selector: 'dt' }),
     ).toBeTruthy();

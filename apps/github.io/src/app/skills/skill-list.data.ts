@@ -8,6 +8,7 @@ export const skills: readonly Skill[] = [
     description:
       'Prometheus alert routing and notification management for operational response.',
     categories: ['Observability'],
+    primaryUse: 'Alert routing and response',
     confidence: 2,
     iconSlug: 'alertmanager',
     keywords: ['alerts', 'prometheus', 'observability', 'incident response'],
@@ -18,6 +19,7 @@ export const skills: readonly Skill[] = [
     description:
       'Grafana telemetry collection for metrics, logs, and observability pipelines.',
     categories: ['Observability'],
+    primaryUse: 'Telemetry collection',
     confidence: 2,
     iconSlug: 'alloy',
     keywords: ['grafana', 'telemetry', 'observability', 'collector'],
@@ -28,6 +30,7 @@ export const skills: readonly Skill[] = [
     description:
       'AWS container registry for immutable image publishing and deployment traceability.',
     categories: ['Cloud', 'Container'],
+    primaryUse: 'Container image publishing',
     confidence: 3,
     iconSlug: 'amazon-ecr',
     keywords: ['aws', 'container registry', 'ecr', 'image'],
@@ -38,6 +41,7 @@ export const skills: readonly Skill[] = [
     description:
       'Managed Kubernetes platform for cloud-native workload delivery on AWS.',
     categories: ['Cloud', 'Container'],
+    primaryUse: 'Managed Kubernetes delivery',
     confidence: 3,
     iconSlug: 'amazon-eks',
     keywords: ['aws', 'eks', 'kubernetes', 'managed cluster'],
@@ -48,6 +52,7 @@ export const skills: readonly Skill[] = [
     description:
       'GitOps continuous delivery controller for Kubernetes application reconciliation.',
     categories: ['CI/CD', 'Cloud'],
+    primaryUse: 'Kubernetes GitOps delivery',
     confidence: 3,
     iconSlug: 'argo',
     keywords: ['gitops', 'argocd', 'kubernetes', 'delivery'],
@@ -58,6 +63,7 @@ export const skills: readonly Skill[] = [
     description:
       'Managed build service for CI validation, tests, and container workflows.',
     categories: ['CI/CD', 'Cloud'],
+    primaryUse: 'Managed CI validation',
     confidence: 3,
     iconSlug: 'aws-codebuild',
     keywords: ['aws', 'codebuild', 'ci', 'builds', 'tests'],
@@ -68,6 +74,7 @@ export const skills: readonly Skill[] = [
     description:
       'AWS delivery pipeline automation for approval-gated and environment-aware releases.',
     categories: ['CI/CD', 'Cloud'],
+    primaryUse: 'Approval-gated delivery',
     confidence: 3,
     iconSlug: 'aws-codepipeline',
     keywords: ['aws', 'codepipeline', 'delivery', 'deployment'],
@@ -78,6 +85,7 @@ export const skills: readonly Skill[] = [
     description:
       'Event-driven AWS integration for automation, alerting, and operational workflows.',
     categories: ['Cloud', 'Tooling'],
+    primaryUse: 'Event-driven automation',
     confidence: 2,
     iconSlug: 'aws-eventbridge',
     keywords: ['aws', 'eventbridge', 'events', 'automation'],
@@ -88,6 +96,7 @@ export const skills: readonly Skill[] = [
     description:
       'AWS identity and access management for scoped permissions and security controls.',
     categories: ['Cloud'],
+    primaryUse: 'Cloud identity governance',
     confidence: 3,
     iconSlug: 'aws-iam',
     keywords: ['aws', 'iam', 'identity', 'permissions', 'security'],
@@ -98,6 +107,7 @@ export const skills: readonly Skill[] = [
     description:
       'Serverless compute for event-driven automation and cloud integrations.',
     categories: ['Cloud', 'Runtime'],
+    primaryUse: 'Serverless automation',
     confidence: 2,
     iconSlug: 'aws-lambda',
     keywords: ['aws', 'lambda', 'serverless', 'automation'],
@@ -108,6 +118,7 @@ export const skills: readonly Skill[] = [
     description:
       'AWS configuration and secret parameter storage for automated delivery workflows.',
     categories: ['Cloud', 'Tooling'],
+    primaryUse: 'Delivery configuration storage',
     confidence: 2,
     iconSlug: 'aws-systems-manager-parameter-store',
     keywords: ['aws', 'systems manager', 'parameter store', 'configuration'],
@@ -118,6 +129,7 @@ export const skills: readonly Skill[] = [
     description:
       'Agentic coding assistant for repository-aware development workflows.',
     categories: ['Tooling'],
+    primaryUse: 'Repository-aware coding assistance',
     confidence: 4,
     iconSlug: 'claudecode',
     keywords: ['ai', 'agentic coding', 'code assistant', 'development'],
@@ -128,6 +140,7 @@ export const skills: readonly Skill[] = [
     description:
       'Container packaging, delivery workflow support, and immutable image deployment practice.',
     categories: ['Container', 'Runtime'],
+    primaryUse: 'Containerized application delivery',
     confidence: 3,
     iconSlug: 'docker',
     keywords: [
@@ -144,6 +157,7 @@ export const skills: readonly Skill[] = [
     name: 'Expo',
     description: 'React Native framework for shipping mobile applications.',
     categories: ['Framework'],
+    primaryUse: 'Cross-platform mobile delivery',
     confidence: 2,
     iconSlug: 'expo',
     keywords: ['react native', 'mobile', 'ios', 'android'],
@@ -154,6 +168,7 @@ export const skills: readonly Skill[] = [
     description:
       'Distributed version control for delivery workflows and infrastructure changes.',
     categories: ['Tooling'],
+    primaryUse: 'Version-controlled collaboration',
     confidence: 4,
     iconSlug: 'git',
     keywords: ['version control', 'repository', 'branching', 'history'],
@@ -164,6 +179,7 @@ export const skills: readonly Skill[] = [
     description:
       'Repository hosting and collaboration platform for CI/CD and code review workflows.',
     categories: ['Tooling', 'CI/CD'],
+    primaryUse: 'Repository collaboration',
     confidence: 4,
     iconSlug: 'github',
     keywords: ['repository', 'pull requests', 'collaboration', 'automation'],
@@ -174,6 +190,7 @@ export const skills: readonly Skill[] = [
     description:
       'CI/CD workflow ownership across integration, delivery, and deployment automation.',
     categories: ['CI/CD'],
+    primaryUse: 'Repository automation and CI/CD',
     confidence: 3,
     iconSlug: 'githubactions',
     keywords: ['ci', 'cd', 'automation', 'workflow', 'delivery', 'deployment'],
@@ -184,6 +201,7 @@ export const skills: readonly Skill[] = [
     description:
       'Compiled language for services, tooling, and cloud infrastructure.',
     categories: ['Language'],
+    primaryUse: 'Backend services and tooling',
     confidence: 3,
     iconSlug: 'go',
     keywords: ['golang', 'backend', 'services', 'tooling'],
@@ -194,6 +212,7 @@ export const skills: readonly Skill[] = [
     description:
       'Observability dashboards for metrics and operational signals.',
     categories: ['Observability'],
+    primaryUse: 'Operational dashboards',
     confidence: 3,
     iconSlug: 'grafana',
     keywords: ['observability', 'metrics', 'dashboards', 'monitoring'],
@@ -204,6 +223,7 @@ export const skills: readonly Skill[] = [
     description:
       'Kubernetes package management for reusable workload deployment templates.',
     categories: ['Container', 'CI/CD'],
+    primaryUse: 'Reusable workload packaging',
     confidence: 3,
     iconSlug: 'helm',
     keywords: ['kubernetes', 'charts', 'templates', 'deployment'],
@@ -214,6 +234,7 @@ export const skills: readonly Skill[] = [
     description:
       'JavaScript and TypeScript test runner for unit and regression coverage.',
     categories: ['Testing'],
+    primaryUse: 'Unit and regression testing',
     confidence: 3,
     iconSlug: 'jest',
     keywords: ['testing', 'unit tests', 'javascript', 'typescript'],
@@ -224,6 +245,7 @@ export const skills: readonly Skill[] = [
     description:
       'Cloud-native workload operations, troubleshooting, and infrastructure practice backed by Kubernetes certification evidence.',
     categories: ['Container', 'Cloud'],
+    primaryUse: 'Cloud-native platform operations',
     confidence: 4,
     iconSlug: 'kubernetes',
     keywords: [
@@ -247,6 +269,7 @@ export const skills: readonly Skill[] = [
     description:
       'Kubernetes configuration overlays for deterministic environment-specific manifests.',
     categories: ['Container', 'IaC'],
+    primaryUse: 'Environment-specific manifests',
     confidence: 3,
     iconSlug: 'kustomize',
     keywords: ['kubernetes', 'manifests', 'overlays', 'configuration'],
@@ -257,6 +280,7 @@ export const skills: readonly Skill[] = [
     description:
       'Grafana log aggregation for operational troubleshooting and observability.',
     categories: ['Observability'],
+    primaryUse: 'Operational log aggregation',
     confidence: 2,
     iconSlug: 'loki',
     keywords: ['logs', 'grafana', 'observability', 'troubleshooting'],
@@ -267,6 +291,7 @@ export const skills: readonly Skill[] = [
     description:
       'Plain-text documentation format for durable project and workflow knowledge.',
     categories: ['Tooling'],
+    primaryUse: 'Durable technical documentation',
     confidence: 4,
     iconSlug: 'markdown',
     keywords: ['documentation', 'writing', 'docs', 'knowledge'],
@@ -276,6 +301,7 @@ export const skills: readonly Skill[] = [
     name: 'Neovim',
     description: 'Extensible editor for keyboard-driven development workflows.',
     categories: ['Tooling'],
+    primaryUse: 'Keyboard-driven development',
     confidence: 4,
     iconSlug: 'neovim',
     keywords: ['editor', 'vim', 'terminal', 'developer tooling'],
@@ -286,6 +312,7 @@ export const skills: readonly Skill[] = [
     description:
       'Monorepo quality gates for lint, build, test, and type-check workflows.',
     categories: ['Build', 'Tooling'],
+    primaryUse: 'Monorepo quality gates',
     confidence: 4,
     iconSlug: 'nx',
     keywords: [
@@ -302,6 +329,7 @@ export const skills: readonly Skill[] = [
     description:
       'Relational database used in application services, tests, and delivery validation.',
     categories: ['Database'],
+    primaryUse: 'Relational data storage',
     confidence: 3,
     iconSlug: 'postgresql',
     keywords: ['database', 'sql', 'postgres', 'testcontainers'],
@@ -312,6 +340,7 @@ export const skills: readonly Skill[] = [
     description:
       'Metrics collection and alerting system for service and infrastructure observability.',
     categories: ['Observability'],
+    primaryUse: 'Metrics and alerting',
     confidence: 3,
     iconSlug: 'prometheus',
     keywords: ['metrics', 'monitoring', 'alerts', 'observability'],
@@ -321,6 +350,7 @@ export const skills: readonly Skill[] = [
     name: 'React',
     description: 'Component-based UI library for interactive web interfaces.',
     categories: ['Framework'],
+    primaryUse: 'Interactive web interfaces',
     confidence: 3,
     iconSlug: 'react',
     keywords: ['frontend', 'ui', 'components'],
@@ -331,6 +361,7 @@ export const skills: readonly Skill[] = [
     description:
       'Kubernetes encrypted secret delivery for storing safe manifests in version control.',
     categories: ['Container', 'CI/CD'],
+    primaryUse: 'Version-controlled secret delivery',
     confidence: 3,
     iconSlug: 'sealed-secrets',
     keywords: ['kubernetes', 'secrets', 'gitops', 'encryption'],
@@ -341,6 +372,7 @@ export const skills: readonly Skill[] = [
     description:
       'Development environment for building and testing UI components.',
     categories: ['Design System', 'Testing'],
+    primaryUse: 'Component development and review',
     confidence: 2,
     iconSlug: 'storybook',
     keywords: ['components', 'ui', 'visual testing'],
@@ -350,6 +382,7 @@ export const skills: readonly Skill[] = [
     name: 'Swift',
     description: 'Apple platform language for native application development.',
     categories: ['Language'],
+    primaryUse: 'Native Apple applications',
     confidence: 2,
     iconSlug: 'swift',
     keywords: ['ios', 'apple', 'native', 'mobile'],
@@ -360,6 +393,7 @@ export const skills: readonly Skill[] = [
     description:
       'Reproducible infrastructure and scoped IAM policy management with Terraform.',
     categories: ['IaC', 'Cloud'],
+    primaryUse: 'Infrastructure provisioning',
     confidence: 3,
     iconSlug: 'terraform',
     keywords: [
@@ -376,6 +410,7 @@ export const skills: readonly Skill[] = [
     description:
       'Container-backed integration testing for realistic service dependencies.',
     categories: ['Testing', 'Container'],
+    primaryUse: 'Containerized integration testing',
     confidence: 3,
     iconSlug: 'testcontainers',
     keywords: ['testing', 'containers', 'integration tests', 'postgresql'],
@@ -385,6 +420,7 @@ export const skills: readonly Skill[] = [
     name: 'Tmux',
     description: 'Terminal multiplexer for persistent development sessions.',
     categories: ['Tooling'],
+    primaryUse: 'Persistent terminal workspaces',
     confidence: 4,
     iconSlug: 'tmux',
     keywords: ['terminal', 'multiplexer', 'sessions', 'cli'],
@@ -394,6 +430,7 @@ export const skills: readonly Skill[] = [
     name: 'TypeScript',
     description: 'Typed JavaScript for building reliable applications.',
     categories: ['Language'],
+    primaryUse: 'Type-safe application development',
     confidence: 4,
     iconSlug: 'typescript',
     keywords: ['javascript', 'typed', 'frontend', 'node'],
@@ -404,6 +441,7 @@ export const skills: readonly Skill[] = [
     description:
       'Configuration language for infrastructure, Kubernetes, and CI/CD workflows.',
     categories: ['Tooling'],
+    primaryUse: 'Infrastructure configuration',
     confidence: 3,
     iconSlug: 'yaml',
     keywords: ['configuration', 'kubernetes', 'ci', 'infrastructure'],
@@ -413,6 +451,7 @@ export const skills: readonly Skill[] = [
     name: 'Zsh',
     description: 'Interactive shell for productive terminal workflows.',
     categories: ['Tooling'],
+    primaryUse: 'Productive terminal workflows',
     confidence: 3,
     iconSlug: 'zsh',
     keywords: ['shell', 'terminal', 'cli', 'automation'],
