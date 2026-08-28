@@ -35,7 +35,11 @@ export function SkillListItem({
             <SkillCategory key={category} name={category} />
           ))
         : null}
-      <SkillConfidence confidence={skill.confidence} variant="token" />
+      <SkillConfidence
+        confidence={skill.confidence}
+        hasTooltip={!href}
+        variant="token"
+      />
     </HStack>
   );
 

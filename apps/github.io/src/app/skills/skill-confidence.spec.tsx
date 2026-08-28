@@ -2,6 +2,26 @@ import { render, screen } from '@testing-library/react';
 
 import { SkillConfidence } from './skill-confidence';
 
+const confidenceTooltip =
+  'Self-rated comfort; evidence appears in experience, projects, and certifications.';
+
+function expectTooltipFor(control: HTMLElement, text: string) {
+  const describedBy = control.getAttribute('aria-describedby');
+
+  expect(describedBy).toBeTruthy();
+
+  const matchingTooltip = describedBy
+    ?.split(' ')
+    .map((id) => control.ownerDocument.getElementById(id))
+    .find(
+      (element) =>
+        element?.getAttribute('role') === 'tooltip' &&
+        element.textContent?.trim() === text,
+    );
+
+  expect(matchingTooltip).toBeTruthy();
+}
+
 describe('SkillConfidence', () => {
   it.each([
     [1, 'Exploring'],
@@ -29,6 +49,46 @@ describe('SkillConfidence', () => {
     expect(screen.queryByTestId('skill-rating-compact-star')).toBeNull();
   });
 
+  it('describes text confidence with a concise tooltip', () => {
+    render(<SkillConfidence confidence={4} />);
+
+    expectTooltipFor(
+      screen.getByTestId('skill-confidence-tooltip-trigger'),
+      confidenceTooltip,
+    );
+  });
+
+  it('uses the confidence text as the inline tooltip trigger', () => {
+    render(<SkillConfidence confidence={4} />);
+
+    const confidence = screen.getByTestId('skill-confidence');
+    const trigger = screen.getByTestId('skill-confidence-tooltip-trigger');
+
+    expect(confidence.contains(trigger)).toBe(true);
+    expect(trigger.textContent).toBe('Confident');
+    expect(trigger.getAttribute('aria-describedby')).toBeTruthy();
+    expect(trigger.getAttribute('tabindex')).toBe('0');
+  });
+
+  it('can render the confidence tooltip open for visual review', () => {
+    render(<SkillConfidence confidence={4} isTooltipOpen />);
+
+    expect(
+      screen.getByRole('tooltip', { name: confidenceTooltip }),
+    ).toBeTruthy();
+  });
+
+  it('renders tooltip copy with a dedicated wrapping hook', () => {
+    render(<SkillConfidence confidence={4} isTooltipOpen />);
+
+    const tooltip = screen.getByRole('tooltip', { name: confidenceTooltip });
+    const tooltipContent = screen.getByTestId('skill-confidence-tooltip-copy');
+
+    expect(tooltip.contains(tooltipContent)).toBe(true);
+    expect(tooltipContent.getAttribute('style')).toBeNull();
+    expect(tooltipContent.className).not.toBe('');
+  });
+
   it('renders confidence as an Astryx token when requested', () => {
     render(<SkillConfidence confidence={2} variant="token" />);
 
@@ -42,5 +102,7 @@ describe('SkillConfidence', () => {
     expect(token).not.toBeNull();
     expect(token?.getAttribute('data-size')).toBe('sm');
     expect(token?.getAttribute('data-color')).toBe('gray');
+    expect(confidence.getAttribute('tabindex')).toBe('0');
+    expectTooltipFor(confidence, confidenceTooltip);
   });
 });
