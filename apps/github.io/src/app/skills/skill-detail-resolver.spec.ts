@@ -13,6 +13,18 @@ const productionSources = {
   experiences,
 };
 
+function getKubernetesDetailRecord() {
+  const record = skillDetailRecords.find(
+    ({ skillId }) => skillId === 'kubernetes',
+  );
+
+  if (!record) {
+    throw new Error('Expected Kubernetes detail record fixture.');
+  }
+
+  return record;
+}
+
 describe('resolveSkillDetail', () => {
   it('resolves Kubernetes enrichment in its authored order', () => {
     const result = resolveSkillDetail('kubernetes', productionSources);
@@ -24,16 +36,14 @@ describe('resolveSkillDetail', () => {
     expect(result.value.experiences.map(({ id }) => id)).toEqual([
       'aws-codepipeline-codebuild-multistage-delivery',
     ]);
-    expect(result.value.relatedSkills.map(({ id }) => id).slice(0, 6)).toEqual(
-      [
-        'aws-codepipeline',
-        'aws-codebuild',
-        'terraform',
-        'amazon-ecr',
-        'amazon-eks',
-        'kubernetes',
-      ],
-    );
+    expect(result.value.relatedSkills.map(({ id }) => id).slice(0, 6)).toEqual([
+      'aws-codepipeline',
+      'aws-codebuild',
+      'terraform',
+      'amazon-ecr',
+      'amazon-eks',
+      'kubernetes',
+    ]);
     expect(result.value.relatedSkills.map(({ id }) => id)).toEqual(
       expect.arrayContaining(['argo-cd', 'kustomize', 'helm', 'docker']),
     );
@@ -60,6 +70,28 @@ describe('resolveSkillDetail', () => {
     expect(result.value).not.toHaveProperty('experienceSummary');
   });
 
+  it('authors detail records for every public experience skill', () => {
+    const detailRecordSkillIds = new Set(
+      skillDetailRecords.map((record) => record.skillId),
+    );
+    const publicExperienceSkillIds = [
+      ...new Set(
+        experiences
+          .filter(
+            (experience) =>
+              experience.isPublic && experience.isSensitive !== true,
+          )
+          .flatMap((experience) => experience.skillIds),
+      ),
+    ];
+
+    expect(
+      publicExperienceSkillIds.filter(
+        (skillId) => !detailRecordSkillIds.has(skillId),
+      ),
+    ).toEqual([]);
+  });
+
   it('preserves authored experience order independently of source order', () => {
     const followUpExperience = {
       ...experiences[0],
@@ -70,7 +102,7 @@ describe('resolveSkillDetail', () => {
       ...productionSources,
       detailRecords: [
         {
-          ...skillDetailRecords[0],
+          ...getKubernetesDetailRecord(),
           experienceIds: [followUpExperience.id, experiences[0].id],
         },
       ],
@@ -215,7 +247,7 @@ describe('resolveSkillDetail', () => {
   });
 
   it('rejects missing, private, and sensitive evidence references', () => {
-    const kubernetesDetail = skillDetailRecords[0];
+    const kubernetesDetail = getKubernetesDetailRecord();
 
     expect(() =>
       resolveSkillDetail('kubernetes', {
@@ -261,7 +293,7 @@ describe('resolveSkillDetail', () => {
         ...productionSources,
         detailRecords: [
           {
-            ...skillDetailRecords[0],
+            ...getKubernetesDetailRecord(),
             experienceEvidenceIds: [projectEvidence.id],
           },
         ],
@@ -273,7 +305,7 @@ describe('resolveSkillDetail', () => {
   });
 
   it('rejects missing, private, and sensitive experience references', () => {
-    const kubernetesDetail = skillDetailRecords[0];
+    const kubernetesDetail = getKubernetesDetailRecord();
 
     expect(() =>
       resolveSkillDetail('kubernetes', {
@@ -317,7 +349,7 @@ describe('resolveSkillDetail', () => {
         ...productionSources,
         detailRecords: [
           {
-            ...skillDetailRecords[0],
+            ...getKubernetesDetailRecord(),
             experienceIds: [crossSkillExperience.id],
           },
         ],
@@ -353,9 +385,9 @@ describe('resolveSkillDetail', () => {
       resolveSkillDetail('kubernetes', {
         ...productionSources,
         detailRecords: [
-          skillDetailRecords[0],
+          getKubernetesDetailRecord(),
           {
-            ...skillDetailRecords[0],
+            ...getKubernetesDetailRecord(),
             experienceEvidenceIds: [privateEvidence.id],
           },
         ],
@@ -369,7 +401,10 @@ describe('resolveSkillDetail', () => {
       resolveSkillDetail('kubernetes', {
         ...productionSources,
         detailRecords: [
-          { ...skillDetailRecords[0], projectIds: ['missing-project'] },
+          {
+            ...getKubernetesDetailRecord(),
+            projectIds: ['missing-project'],
+          },
         ],
       }),
     ).toThrow('missing project "missing-project"');

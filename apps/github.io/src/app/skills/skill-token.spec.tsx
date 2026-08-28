@@ -1,4 +1,4 @@
-import { render } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import { Token } from '@astryxdesign/core/Token';
 
 import { SkillToken } from './skill-token';
@@ -238,5 +238,15 @@ describe('SkillToken', () => {
     const { getByText } = render(<SkillToken label="GitHub Actions" />);
 
     expect(getByText('GitHub Actions').textContent).toBe('GitHub Actions');
+  });
+
+  it('passes skill detail links through to the token surface', () => {
+    render(
+      <SkillToken href="/skills/aws-codepipeline" label="AWS CodePipeline" />,
+    );
+
+    const link = screen.getByRole('link', { name: 'AWS CodePipeline' });
+
+    expect(link.getAttribute('href')).toBe('/skills/aws-codepipeline');
   });
 });

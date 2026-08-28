@@ -152,6 +152,12 @@ Certification Badge Fixtures are distinct from fallback stories: badge fixtures 
 
 A reusable card presentation for one skill, showing the skill name, self-rated confidence, supporting description, and optional certification evidence as one independently comparable item.
 
+### Skill Token
+
+A compact presentation of a canonical skill record for dense evidence rows, using the skill name as the label and the skill identity when the token can navigate to detail.
+
+Skill Tokens may use brand metadata or stay neutral depending on the surface. Evidence-heavy rows keep neutral chrome even when the same skill has brand metadata elsewhere.
+
 ### Project Card
 
 A reusable card presentation for one public portfolio project, showing the project title, supporting description, skill evidence, and source citation as one independently comparable item.

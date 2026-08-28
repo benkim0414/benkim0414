@@ -14,6 +14,7 @@ export type SkillTokenVariant = 'brand' | 'neutral';
 export interface SkillTokenProps {
   label: string;
   brandLabel?: string;
+  href?: string;
   variant?: SkillTokenVariant;
 }
 
@@ -46,6 +47,7 @@ function tokenStyle(
 export function SkillToken({
   label,
   brandLabel,
+  href,
   variant,
 }: SkillTokenProps): ReactElement {
   const brand = getSkillBrand(brandLabel ?? label);
@@ -77,6 +79,7 @@ export function SkillToken({
     <Token
       color={effectiveVariant === 'neutral' ? 'gray' : 'purple'}
       data-testid="skill-token"
+      href={href}
       icon={icon}
       label={label}
       size="sm"

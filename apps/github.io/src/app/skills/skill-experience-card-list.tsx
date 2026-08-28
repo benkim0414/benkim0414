@@ -2,13 +2,14 @@ import { Card } from '@astryxdesign/core/Card';
 import { Heading } from '@astryxdesign/core/Heading';
 import { HStack, VStack } from '@astryxdesign/core/Layout';
 import { Text } from '@astryxdesign/core/Text';
-import { Token } from '@astryxdesign/core/Token';
 import { spacingVars } from '@astryxdesign/core/theme/tokens.stylex';
 import * as stylex from '@stylexjs/stylex';
 import type { ReactElement } from 'react';
 
 import type { Experience } from '../experience/experience.types';
+import { getSkillDetailPath } from './skill-route';
 import type { Skill } from './skill-list.types';
+import { SkillToken } from './skill-token';
 
 export interface SkillExperienceCardListProps {
   readonly experiences: readonly Experience[];
@@ -18,6 +19,12 @@ export interface SkillExperienceCardListProps {
 export interface SkillExperienceCardProps {
   readonly experience: Experience;
   readonly relevantSkillLabels?: readonly string[];
+  readonly relevantSkills?: readonly RelevantSkill[];
+}
+
+interface RelevantSkill {
+  readonly id: string;
+  readonly name: string;
 }
 
 const styles = stylex.create({
@@ -55,7 +62,7 @@ export function SkillExperienceCardList({
           <VStack paddingBlock={2}>
             <SkillExperienceCard
               experience={experience}
-              relevantSkillLabels={getRelevantSkillLabels(experience, skills)}
+              relevantSkills={getRelevantSkills(experience, skills)}
             />
           </VStack>
         </li>
@@ -67,7 +74,15 @@ export function SkillExperienceCardList({
 export function SkillExperienceCard({
   experience,
   relevantSkillLabels = [],
+  relevantSkills,
 }: SkillExperienceCardProps): ReactElement {
+  const resolvedRelevantSkills =
+    relevantSkills ??
+    relevantSkillLabels.map((label) => ({
+      id: label,
+      name: label,
+    }));
+
   return (
     <Card padding={4} width="100%">
       <VStack gap={3}>
@@ -86,7 +101,7 @@ export function SkillExperienceCard({
           ))}
         </VStack>
 
-        {relevantSkillLabels.length > 0 ? (
+        {resolvedRelevantSkills.length > 0 ? (
           <VStack gap={1}>
             <Text type="supporting" color="secondary">
               Relevant skills
@@ -98,9 +113,15 @@ export function SkillExperienceCard({
               xstyle={styles.tokenList}
               data-wrap="true"
             >
-              {relevantSkillLabels.map((skillLabel) => (
-                <li key={skillLabel} {...stylex.props(styles.tokenItem)}>
-                  <Token label={skillLabel} size="sm" />
+              {resolvedRelevantSkills.map((skill) => (
+                <li key={skill.id} {...stylex.props(styles.tokenItem)}>
+                  <SkillToken
+                    href={
+                      relevantSkills ? getSkillDetailPath(skill.id) : undefined
+                    }
+                    label={skill.name}
+                    variant="neutral"
+                  />
                 </li>
               ))}
             </HStack>
@@ -111,13 +132,14 @@ export function SkillExperienceCard({
   );
 }
 
-function getRelevantSkillLabels(
+function getRelevantSkills(
   experience: Experience,
   skills: readonly Skill[],
-): readonly string[] {
-  const skillById = new Map(skills.map((skill) => [skill.id, skill.name]));
+): readonly RelevantSkill[] {
+  const skillById = new Map(skills.map((skill) => [skill.id, skill]));
 
   return experience.skillIds
     .map((skillId) => skillById.get(skillId))
-    .filter((skillLabel): skillLabel is string => Boolean(skillLabel));
+    .filter((skill): skill is Skill => Boolean(skill))
+    .map(({ id, name }) => ({ id, name }));
 }
