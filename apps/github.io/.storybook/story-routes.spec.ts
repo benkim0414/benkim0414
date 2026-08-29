@@ -1,5 +1,5 @@
 import type { Decorator, StoryContext } from '@storybook/react-vite';
-import { fireEvent, render, screen, within } from '@testing-library/react';
+import { act, fireEvent, render, screen, within } from '@testing-library/react';
 import {
   type ComponentType,
   createElement,
@@ -7,7 +7,7 @@ import {
   type ReactElement,
   type ReactNode,
 } from 'react';
-import { vi } from 'vitest';
+import { afterEach, vi } from 'vitest';
 
 import { GlobalNavigationLayout } from '../src/app/global-navigation-layout';
 import footerMeta, {
@@ -16,6 +16,9 @@ import footerMeta, {
 import globalNavigationMeta, {
   Roadmap as RoadmapStory,
 } from '../src/app/global-navigation-layout.stories';
+import homeGreetingMeta, {
+  Default as HomeGreetingStory,
+} from '../src/app/skills/home-greeting.stories';
 import { SkillCard } from '../src/app/skills/skill-card';
 import { skills } from '../src/app/skills/skill-list.data';
 import preview from './preview';
@@ -81,6 +84,22 @@ HTMLDialogElement.prototype.close = vi.fn(function close(
   this: HTMLDialogElement,
 ) {
   this.open = false;
+});
+
+vi.stubGlobal('matchMedia', (query: string) => ({
+  addEventListener: vi.fn(),
+  addListener: vi.fn(),
+  dispatchEvent: vi.fn(),
+  matches: false,
+  media: query,
+  onchange: null,
+  removeEventListener: vi.fn(),
+  removeListener: vi.fn(),
+}));
+
+afterEach(() => {
+  sessionStorage.clear();
+  vi.useRealTimers();
 });
 
 function decorateStory(
@@ -188,6 +207,40 @@ describe('Storybook preview routing', () => {
     );
 
     expect(await screen.findByText('Another story')).toBeTruthy();
+  });
+
+  it('renders only the greeting story and replays its message sequence', () => {
+    vi.useFakeTimers();
+    sessionStorage.setItem('home-greeting-seen', 'true');
+    const StoryComponent = homeGreetingMeta.component as ComponentType<
+      Record<string, unknown>
+    >;
+    const args = (HomeGreetingStory.args ?? {}) as Record<string, unknown>;
+    const renderStory =
+      HomeGreetingStory.render ??
+      (() => createElement(StoryComponent, args));
+
+    render(
+      decorateStory(
+        () => renderStory(args, {} as StoryContext) as ReactElement,
+        'github-io-home-home-greeting--default',
+        {
+          args,
+          parameters: {
+            ...homeGreetingMeta.parameters,
+            ...HomeGreetingStory.parameters,
+          },
+        },
+      ),
+    );
+
+    expect(screen.queryByRole('main')).toBeNull();
+    expect(screen.queryByText("G'day, mate 👋")).toBeNull();
+
+    act(() => vi.advanceTimersByTime(1_050));
+
+    expect(screen.getByRole('link', { name: 'Explore skills' })).toBeTruthy();
+    vi.useRealTimers();
   });
 
   it('renders a skill detail page after command-palette selection', async () => {
