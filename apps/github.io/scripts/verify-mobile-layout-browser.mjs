@@ -1028,11 +1028,12 @@ async function inspectSkillRows(bidi, context) {
       };
       const rows = [...document.querySelectorAll('main a[href^="/skills/"]')]
         .map((link) => {
+        const row = link.closest('.astryx-clickable-card');
         return {
-          directLinkCount: 1,
+          directLinkCount: row?.querySelectorAll('a[href^="/skills/"]').length ?? 0,
           href: link.getAttribute('href'),
           link: rectangle(link),
-          row: rectangle(link),
+          row: row ? rectangle(row) : null,
         };
         });
       return rows;
@@ -1042,21 +1043,14 @@ async function inspectSkillRows(bidi, context) {
 
 function assertSkillRowGeometry(rows, viewport) {
   const label = `${viewport.width}x${viewport.height} /skills`;
-  const linkInsetTolerance = 2;
   assert(rows.length > 1, `${label} needs at least two skill rows.`);
 
   for (const [index, row] of rows.entries()) {
     assert(
-      row.directLinkCount === 1 && row.link != null,
+      row.directLinkCount === 1 && row.link != null && row.row != null,
       `${label} row ${index} has ${row.directLinkCount} native links.`,
     );
 
-    for (const edge of ['left', 'right', 'top', 'bottom']) {
-      assert(
-        Math.abs(row.link[edge] - row.row[edge]) <= linkInsetTolerance,
-        `${label} row ${index} ${edge} differs: link=${row.link[edge]}, li=${row.row[edge]}.`,
-      );
-    }
   }
 
   const nonFinalRow = rows[0];
@@ -1065,8 +1059,8 @@ function assertSkillRowGeometry(rows, viewport) {
     `${label} non-final row has no local skill href.`,
   );
   assert(
-    isWithinTolerance(nonFinalRow.link.bottom, nonFinalRow.row.bottom),
-    `${label} non-final row bottom edge does not match.`,
+    nonFinalRow.row.width > 0 && nonFinalRow.row.height > 0,
+    `${label} non-final clickable card has no geometry.`,
   );
 
   return nonFinalRow;
@@ -1074,10 +1068,10 @@ function assertSkillRowGeometry(rows, viewport) {
 
 async function tapSkillRowBottomEdge(bidi, context, row, signal) {
   throwIfCancelled(signal);
-  const x = Math.round(row.link.left + row.link.width / 2);
+  const x = Math.round(row.row.left + row.row.width / 2);
   // BiDi pointer coordinates are dispatched at integer CSS pixels in Firefox.
   // This is the closest representable point inside the row's bottom edge.
-  const y = Math.ceil(row.link.bottom) - 1;
+  const y = Math.ceil(row.row.bottom) - 1;
   const hitTest = await evaluateJson(
     bidi,
     context,
