@@ -20,3 +20,17 @@ export const Empty: Story = {
     skills: [],
   },
 };
+
+export const FilterControlsOpen: Story = {
+  play: async ({ canvasElement }) => {
+    const filterButton = canvasElement.querySelector<HTMLButtonElement>(
+      'button[aria-label="Filter skills"]',
+    );
+
+    if (!filterButton) {
+      throw new Error('Expected the Skills filter button to render.');
+    }
+
+    filterButton.click();
+  },
+};

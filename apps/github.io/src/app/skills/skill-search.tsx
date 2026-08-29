@@ -73,9 +73,12 @@ export function skillMatchesQuery(skill: Skill, query: string) {
     return true;
   }
 
-  return [skill.name, ...skill.categories, ...skill.keywords].some((value) =>
-    value.toLowerCase().includes(normalizedQuery),
-  );
+  return [
+    skill.name,
+    skill.description,
+    ...skill.categories,
+    ...skill.keywords,
+  ].some((value) => value.toLowerCase().includes(normalizedQuery));
 }
 
 function isQueryFilter(filter: PowerSearchFilter): filter is SkillSearchStringFilter {

@@ -1,4 +1,4 @@
-import { render, within } from '@testing-library/react';
+import { fireEvent, render, within } from '@testing-library/react';
 import { Theme } from '@astryxdesign/core';
 import { neutralTheme } from '@astryxdesign/theme-neutral/built';
 import { vi } from 'vitest';
@@ -64,10 +64,75 @@ describe('SkillsPage', () => {
     expect(suppliedSkills.map((skill) => skill.id)).toEqual(originalOrder);
   });
 
-  it('uses the existing Astryx empty state for an empty catalog', () => {
-    const { getByRole, getByText } = renderSkillsPage([]);
+  it('filters the catalog by text found only in a skill description', () => {
+    const suppliedSkills = ['typescript', 'argo-cd', 'docker'].map((id) => {
+      const skill = skills.find((candidate) => candidate.id === id);
 
-    expect(getByRole('status')).toBeTruthy();
-    expect(getByText('No skills have been supplied.')).toBeTruthy();
+      if (!skill) {
+        throw new Error(`Expected ${id} in the canonical skill catalog.`);
+      }
+
+      return skill;
+    });
+    const { getByRole, queryByText } = renderSkillsPage(suppliedSkills);
+
+    fireEvent.change(getByRole('textbox', { name: 'Search skills' }), {
+      target: { value: 'reconciliation' },
+    });
+
+    expect(getByRole('heading', { level: 3, name: 'Argo CD' })).toBeTruthy();
+    expect(queryByText('Docker')).toBeNull();
+    expect(queryByText('TypeScript')).toBeNull();
+  });
+
+  it('combines search with OR category filters and clears active filters', () => {
+    const suppliedSkills = ['typescript', 'argo-cd', 'docker'].map((id) => {
+      const skill = skills.find((candidate) => candidate.id === id);
+
+      if (!skill) {
+        throw new Error(`Expected ${id} in the canonical skill catalog.`);
+      }
+
+      return skill;
+    });
+    const { getByRole, queryByText } = renderSkillsPage(suppliedSkills);
+
+    fireEvent.change(getByRole('textbox', { name: 'Search skills' }), {
+      target: { value: 'delivery' },
+    });
+    fireEvent.click(getByRole('button', { name: 'Filter skills' }));
+    fireEvent.click(getByRole('checkbox', { name: 'CI/CD' }));
+
+    expect(getByRole('heading', { level: 3, name: 'Argo CD' })).toBeTruthy();
+    expect(queryByText('Docker')).toBeNull();
+
+    fireEvent.click(getByRole('button', { name: 'Clear Search skills' }));
+    fireEvent.click(getByRole('checkbox', { name: 'Container' }));
+
+    expect(getByRole('heading', { level: 3, name: 'Argo CD' })).toBeTruthy();
+    expect(getByRole('heading', { level: 3, name: 'Docker' })).toBeTruthy();
+    expect(queryByText('TypeScript')).toBeNull();
+
+    fireEvent.click(getByRole('button', { name: 'Clear filters' }));
+
+    expect(getByRole('heading', { level: 3, name: 'TypeScript' })).toBeTruthy();
+
+    fireEvent.change(getByRole('textbox', { name: 'Search skills' }), {
+      target: { value: 'no matching skill' },
+    });
+
+    expect(
+      getByRole('heading', {
+        level: 3,
+        name: 'No skills match your search or filters.',
+      }),
+    ).toBeTruthy();
+  });
+
+  it('uses the existing Astryx empty state for an empty catalog', () => {
+    const { getByText } = renderSkillsPage([]);
+    const message = getByText('No skills have been supplied.');
+
+    expect(message.closest('[role="status"]')).toBeTruthy();
   });
 });
