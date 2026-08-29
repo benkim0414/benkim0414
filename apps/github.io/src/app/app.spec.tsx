@@ -92,7 +92,12 @@ describe('App', () => {
     expect(shell.querySelectorAll('.astryx-layout-content')).toHaveLength(1);
     expect(queryByText('Ben Kim')).toBeNull();
     expect(queryByLabelText('Skill breadcrumb')).toBeNull();
-    expect(getByRole('link', { name: 'Skills' })).toBeTruthy();
+    fireEvent.click(getByRole('button', { name: 'Navigation' }));
+    expect(
+      within(getByRole('dialog', { name: 'Navigation' })).getByRole('link', {
+        name: 'Skills',
+      }),
+    ).toBeTruthy();
     expect(queryByRole('search', { name: 'Skill search' })).toBeNull();
     expect(queryByRole('combobox', { name: 'Search skills' })).toBeNull();
     expect(getByRole('button', { name: 'Search' })).toBeTruthy();
