@@ -14,6 +14,7 @@ import {
 } from '../devops-capability-evidence/devops-capability-evidence.data';
 import { highlightedSkills as defaultHighlightedSkills } from './skill-list.data';
 import { SkillCarousel } from './skill-carousel';
+import { HomeGreeting } from './home-greeting';
 import type { Skill } from './skill-list.types';
 
 export interface HomePageProps {
@@ -28,6 +29,7 @@ export function HomePage({
       <VisuallyHidden as="h1" id="home-page-title">
         Home
       </VisuallyHidden>
+      <HomeGreeting />
       <VStack gap={3} paddingBlock={4}>
         <VStack paddingInline={4}>
           <Text as="h2" id="top-skills-title" type="body" weight="bold">
