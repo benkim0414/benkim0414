@@ -211,14 +211,6 @@ export function GlobalNavigationLayout(): ReactElement {
               endContent={
                 <>
                   <IconButton
-                    icon={<Icon color="inherit" icon="menu" size="sm" />}
-                    label="Navigation"
-                    size="sm"
-                    tooltip="Navigation"
-                    variant="ghost"
-                    onClick={() => setIsNavigationOpen(true)}
-                  />
-                  <IconButton
                     icon={<Icon color="inherit" icon="search" size="sm" />}
                     label={SEARCH_LABEL}
                     size="sm"
@@ -234,6 +226,14 @@ export function GlobalNavigationLayout(): ReactElement {
                     size="sm"
                     tooltip="GitHub"
                     variant="ghost"
+                  />
+                  <IconButton
+                    icon={<Icon color="inherit" icon="menu" size="sm" />}
+                    label="Navigation"
+                    size="sm"
+                    tooltip="Navigation"
+                    variant="ghost"
+                    onClick={() => setIsNavigationOpen(true)}
                   />
                 </>
               }

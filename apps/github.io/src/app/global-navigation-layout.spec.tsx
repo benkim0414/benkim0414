@@ -243,15 +243,19 @@ describe('GlobalNavigationLayout', () => {
     expect(homeLink.querySelector('svg')).toBeTruthy();
   });
 
-  it('renders the GitHub profile icon link next to the search button', () => {
+  it('renders the navigation trigger after the GitHub profile icon link', () => {
     const { getByRole } = renderGlobalLayout();
     const navigation = getByRole('navigation', { name: 'Global navigation' });
     const searchButton = getByRole('button', { name: 'Search' });
     const githubLink = getByRole('link', { name: 'GitHub' });
+    const navigationButton = getByRole('button', { name: 'Navigation' });
 
     expect(navigation.contains(searchButton)).toBe(true);
     expect(navigation.contains(githubLink)).toBe(true);
     expect(searchButton.compareDocumentPosition(githubLink)).toBe(
+      Node.DOCUMENT_POSITION_FOLLOWING,
+    );
+    expect(githubLink.compareDocumentPosition(navigationButton)).toBe(
       Node.DOCUMENT_POSITION_FOLLOWING,
     );
     expect(githubLink.textContent?.trim()).toBe('');
