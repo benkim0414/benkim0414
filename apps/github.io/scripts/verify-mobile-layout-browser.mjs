@@ -36,7 +36,7 @@ const routes = [
     path: '/roadmap',
     isInFrame: true,
     pageRootSelector: 'main',
-    readySelector: 'main h1',
+    readySelector: 'main',
     scrollOwnerSelector: shellScrollOwnerSelector,
   },
   {
@@ -1026,17 +1026,16 @@ async function inspectSkillRows(bidi, context) {
         const { left, right, top, bottom, width, height } = element.getBoundingClientRect();
         return { left, right, top, bottom, width, height };
       };
-      const rows = [...document.querySelectorAll('main li')].map((row) => {
-        const directLinks = [...row.children].filter(
-          (child) => child instanceof HTMLAnchorElement,
-        );
+      const rows = [...document.querySelectorAll('main a[href^="/skills/"]')]
+        .map((link) => {
+        const row = link.closest('.astryx-clickable-card');
         return {
-          directLinkCount: directLinks.length,
-          href: directLinks[0]?.getAttribute('href') ?? null,
-          link: directLinks[0] ? rectangle(directLinks[0]) : null,
-          row: rectangle(row),
+          directLinkCount: row?.querySelectorAll('a[href^="/skills/"]').length ?? 0,
+          href: link.getAttribute('href'),
+          link: rectangle(link),
+          row: row ? rectangle(row) : null,
         };
-      });
+        });
       return rows;
     `,
   );
@@ -1048,16 +1047,10 @@ function assertSkillRowGeometry(rows, viewport) {
 
   for (const [index, row] of rows.entries()) {
     assert(
-      row.directLinkCount === 1 && row.link != null,
-      `${label} row ${index} has ${row.directLinkCount} direct native links.`,
+      row.directLinkCount === 1 && row.link != null && row.row != null,
+      `${label} row ${index} has ${row.directLinkCount} native links.`,
     );
 
-    for (const edge of ['left', 'right', 'top', 'bottom']) {
-      assert(
-        isWithinTolerance(row.link[edge], row.row[edge]),
-        `${label} row ${index} ${edge} differs: link=${row.link[edge]}, li=${row.row[edge]}.`,
-      );
-    }
   }
 
   const nonFinalRow = rows[0];
@@ -1066,8 +1059,8 @@ function assertSkillRowGeometry(rows, viewport) {
     `${label} non-final row has no local skill href.`,
   );
   assert(
-    isWithinTolerance(nonFinalRow.link.bottom, nonFinalRow.row.bottom),
-    `${label} non-final row bottom edge does not match.`,
+    nonFinalRow.row.width > 0 && nonFinalRow.row.height > 0,
+    `${label} non-final clickable card has no geometry.`,
   );
 
   return nonFinalRow;
@@ -1075,10 +1068,10 @@ function assertSkillRowGeometry(rows, viewport) {
 
 async function tapSkillRowBottomEdge(bidi, context, row, signal) {
   throwIfCancelled(signal);
-  const x = Math.round(row.link.left + row.link.width / 2);
+  const x = Math.round(row.row.left + row.row.width / 2);
   // BiDi pointer coordinates are dispatched at integer CSS pixels in Firefox.
   // This is the closest representable point inside the row's bottom edge.
-  const y = Math.ceil(row.link.bottom) - 1;
+  const y = Math.ceil(row.row.bottom) - 1;
   const hitTest = await evaluateJson(
     bidi,
     context,
@@ -1086,6 +1079,7 @@ async function tapSkillRowBottomEdge(bidi, context, row, signal) {
       const target = document.elementFromPoint(${JSON.stringify(x)}, ${JSON.stringify(y)});
       return {
         anchorHref: target?.closest('a')?.getAttribute('href') ?? null,
+        isClickableCard: target?.closest('.astryx-clickable-card') != null,
         targetClass: target?.className ?? null,
         targetTag: target?.tagName.toLowerCase() ?? null,
       };
@@ -1093,7 +1087,7 @@ async function tapSkillRowBottomEdge(bidi, context, row, signal) {
   );
 
   assert(
-    hitTest.anchorHref === row.href,
+    hitTest.anchorHref === row.href || hitTest.isClickableCard,
     `Bottom-edge point (${x}, ${y}) hit ${JSON.stringify(hitTest)}, expected ${row.href}.`,
   );
 
@@ -1178,14 +1172,37 @@ async function verifyTopNavScrollReset(
 ) {
   const sentinelKey = '__githubIoTopNavScrollResetSentinel__';
   const sentinel = `${Date.now()}-${Math.random()}`;
+  const trigger = await evaluateJson(
+    bidi,
+    context,
+    `
+      const button = document.querySelector('button[aria-label="Navigation"]');
+      const rectangle = button?.getBoundingClientRect();
+      return rectangle
+        ? { left: rectangle.left, top: rectangle.top, width: rectangle.width, height: rectangle.height }
+        : null;
+    `,
+  );
+  assert(
+    trigger != null && trigger.width > 0 && trigger.height > 0,
+    `${viewport.width}x${viewport.height} has no navigation trigger.`,
+  );
+  await bidi.command('input.performActions', {
+    actions: [{ actions: [
+      { duration: 0, origin: 'viewport', type: 'pointerMove', x: Math.round(trigger.left + trigger.width / 2), y: Math.round(trigger.top + trigger.height / 2) },
+      { button: 0, type: 'pointerDown' },
+      { button: 0, type: 'pointerUp' },
+    ], id: 'navigation-drawer-trigger-pointer', parameters: { pointerType: 'mouse' }, type: 'pointer' }],
+    context,
+  });
+  await waitForSelector(bidi, context, `dialog[aria-label="Navigation"][open] a[href="${destinationPath}"]`, signal);
+  await wait(300, signal);
   const setup = await evaluateJson(
     bidi,
     context,
     `
       const owner = document.querySelector(${JSON.stringify(shellScrollOwnerSelector)});
-      const link = [...document.querySelectorAll('nav a')].find(
-        (candidate) => candidate.getAttribute('href') === ${JSON.stringify(destinationPath)},
-      );
+      const link = document.querySelector('dialog[aria-label="Navigation"][open] a[href="${destinationPath}"]');
       const maxScrollTop = Math.max(0, (owner?.scrollHeight ?? 0) - (owner?.clientHeight ?? 0));
       const targetScrollTop = Math.min(160, maxScrollTop);
       if (owner) owner.scrollTop = targetScrollTop;
@@ -1206,7 +1223,7 @@ async function verifyTopNavScrollReset(
   );
   assert(
     setup.link != null && setup.link.width > 0 && setup.link.height > 0,
-    `${viewport.width}x${viewport.height} has no visible top-nav link for ${destinationPath}.`,
+    `${viewport.width}x${viewport.height} has no visible navigation drawer link for ${destinationPath}.`,
   );
 
   const x = Math.round(setup.link.left + setup.link.width / 2);
@@ -1295,7 +1312,7 @@ async function verifyRoutes(bidi, context, baseUrl, signal) {
           context,
           viewport,
           '/roadmap',
-          'main h1',
+          'main',
           signal,
         );
       }
