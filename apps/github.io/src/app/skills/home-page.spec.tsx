@@ -10,6 +10,17 @@ import { HomePage } from './home-page';
 import { doraCapabilityDescriptions } from '../devops-capability-evidence/dora-capability-card.evidence';
 import { doraCapabilityDefinitions } from '../devops-capability-evidence/devops-capability-evidence.data';
 
+vi.stubGlobal('matchMedia', (query: string) => ({
+  addEventListener: vi.fn(),
+  addListener: vi.fn(),
+  dispatchEvent: vi.fn(),
+  matches: false,
+  media: query,
+  onchange: null,
+  removeEventListener: vi.fn(),
+  removeListener: vi.fn(),
+}));
+
 vi.stubGlobal(
   'ResizeObserver',
   class ResizeObserverMock {
@@ -46,6 +57,34 @@ const renderHomePage = (props: ComponentProps<typeof HomePage> = {}) =>
   );
 
 describe('HomePage', () => {
+  it('places the welcome conversation before the top skills section', () => {
+    const { getByRole } = renderHomePage();
+    const { getByTestId } = render(
+      <Theme theme={neutralTheme}>
+        <VStack
+          data-testid="home-section-spacing-control"
+          paddingBlock={4}
+          paddingInline={4}
+        />
+      </Theme>,
+    );
+    const main = getByRole('main', { name: 'Home' });
+    const greeting = getByRole('region', { name: 'Welcome message' });
+    const topSkillsHeading = getByRole('heading', {
+      level: 2,
+      name: 'Top skills',
+    });
+
+    expect(
+      greeting.compareDocumentPosition(topSkillsHeading) &
+        Node.DOCUMENT_POSITION_FOLLOWING,
+    ).toBe(Node.DOCUMENT_POSITION_FOLLOWING);
+    expect(main.contains(greeting)).toBe(true);
+    expect(greeting.className).toBe(
+      getByTestId('home-section-spacing-control').className,
+    );
+  });
+
   it('renders content without page-local navigation or palette ownership', () => {
     const { container, getByRole, queryByRole } = renderHomePage();
     const main = getByRole('main', { name: 'Home' });
