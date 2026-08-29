@@ -14,7 +14,9 @@ import { HomeModernIcon } from '@heroicons/react/24/outline';
 import { Icon } from '@astryxdesign/core/Icon';
 import { IconButton } from '@astryxdesign/core/IconButton';
 import { Layout, LayoutContent, LayoutHeader } from '@astryxdesign/core/Layout';
-import { TopNav, TopNavItem } from '@astryxdesign/core/TopNav';
+import { MobileNav } from '@astryxdesign/core/MobileNav';
+import { SideNavItem } from '@astryxdesign/core/SideNav';
+import { TopNav } from '@astryxdesign/core/TopNav';
 import { siGithub } from 'simple-icons';
 import {
   colorVars,
@@ -61,17 +63,6 @@ const styles = stylex.create({
     height: '100dvh',
     overflow: 'hidden',
   },
-  selectedNavigationItem: {
-    backgroundColor: {
-      default: 'transparent',
-      ':hover': {
-        '@media (hover: hover)': colorVars['--color-overlay-hover'],
-      },
-      ':active': colorVars['--color-overlay-pressed'],
-    },
-    color: colorVars['--color-text-primary'],
-    fontWeight: fontWeightVars['--font-weight-medium'],
-  },
   homeNavigationLink: {
     color: colorVars['--color-icon-blue'],
   },
@@ -92,6 +83,7 @@ export function GlobalNavigationLayout(): ReactElement {
   const navigate = useNavigate();
   const contentRef = useRef<HTMLDivElement>(null);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
+  const [isNavigationOpen, setIsNavigationOpen] = useState(false);
   const [selectedResultId, setSelectedResultId] = useState<string>();
   const results = useMemo(
     () =>
@@ -130,6 +122,27 @@ export function GlobalNavigationLayout(): ReactElement {
 
   return (
     <>
+      <MobileNav
+        isOpen={isNavigationOpen}
+        label="Navigation"
+        side="end"
+        onOpenChange={setIsNavigationOpen}>
+        <SideNavItem
+          href="/skills"
+          isSelected={
+            location.pathname === '/skills' ||
+            location.pathname.startsWith('/skills/')
+          }
+          label="Skills"
+          onClick={() => setIsNavigationOpen(false)}
+        />
+        <SideNavItem
+          href="/roadmap"
+          isSelected={location.pathname === '/roadmap'}
+          label="Roadmap"
+          onClick={() => setIsNavigationOpen(false)}
+        />
+      </MobileNav>
       <CommandPalette
         emptyBootstrapText="No results"
         emptySearchText="No results"
@@ -169,34 +182,6 @@ export function GlobalNavigationLayout(): ReactElement {
         header={
           <LayoutHeader padding={0}>
             <TopNav
-              centerContent={
-                <>
-                  <TopNavItem
-                    href="/skills"
-                    isSelected={
-                      location.pathname === '/skills' ||
-                      location.pathname.startsWith('/skills/')
-                    }
-                    label="Skills"
-                    xstyle={
-                      location.pathname === '/skills' ||
-                      location.pathname.startsWith('/skills/')
-                        ? styles.selectedNavigationItem
-                        : undefined
-                    }
-                  />
-                  <TopNavItem
-                    href="/roadmap"
-                    isSelected={location.pathname === '/roadmap'}
-                    label="Roadmap"
-                    xstyle={
-                      location.pathname === '/roadmap'
-                        ? styles.selectedNavigationItem
-                        : undefined
-                    }
-                  />
-                </>
-              }
               startContent={
                 <IconButton
                   aria-current={
@@ -225,6 +210,14 @@ export function GlobalNavigationLayout(): ReactElement {
               }
               endContent={
                 <>
+                  <IconButton
+                    icon={<Icon color="inherit" icon="menu" size="sm" />}
+                    label="Navigation"
+                    size="sm"
+                    tooltip="Navigation"
+                    variant="ghost"
+                    onClick={() => setIsNavigationOpen(true)}
+                  />
                   <IconButton
                     icon={<Icon color="inherit" icon="search" size="sm" />}
                     label={SEARCH_LABEL}

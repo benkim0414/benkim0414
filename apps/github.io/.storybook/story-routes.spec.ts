@@ -1,5 +1,5 @@
 import type { Decorator, StoryContext } from '@storybook/react-vite';
-import { fireEvent, render, screen } from '@testing-library/react';
+import { fireEvent, render, screen, within } from '@testing-library/react';
 import {
   type ComponentType,
   createElement,
@@ -72,6 +72,17 @@ vi.stubGlobal(
   },
 );
 
+HTMLDialogElement.prototype.showModal = vi.fn(function showModal(
+  this: HTMLDialogElement,
+) {
+  this.open = true;
+});
+HTMLDialogElement.prototype.close = vi.fn(function close(
+  this: HTMLDialogElement,
+) {
+  this.open = false;
+});
+
 function decorateStory(
   Story: () => ReactElement,
   id: string,
@@ -139,8 +150,11 @@ describe('Storybook preview routing', () => {
       ),
     );
 
+    fireEvent.click(await screen.findByRole('button', { name: 'Navigation' }));
+
+    const drawer = screen.getByRole('dialog', { name: 'Navigation' });
     expect(
-      (await screen.findByRole('link', { name: 'Roadmap' })).getAttribute(
+      within(drawer).getByRole('link', { name: 'Roadmap' }).getAttribute(
         'aria-current',
       ),
     ).toBe('page');

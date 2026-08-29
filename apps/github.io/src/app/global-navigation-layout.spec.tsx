@@ -1,12 +1,10 @@
 import type { ComponentProps, ReactNode } from 'react';
-import { fireEvent, render, within } from '@testing-library/react';
+import { fireEvent, render, waitFor, within } from '@testing-library/react';
 import { Theme } from '@astryxdesign/core';
 import { IconButton } from '@astryxdesign/core/IconButton';
 import { LinkProvider } from '@astryxdesign/core/Link';
-import { TopNavItem } from '@astryxdesign/core/TopNav';
 import {
   colorVars,
-  fontWeightVars,
 } from '@astryxdesign/core/theme/tokens.stylex';
 import { neutralTheme } from '@astryxdesign/theme-neutral/built';
 import { MemoryRouter, Route, Routes, useLocation } from 'react-router-dom';
@@ -16,18 +14,29 @@ import * as stylex from '@stylexjs/stylex';
 import { GlobalNavigationLayout } from './global-navigation-layout';
 import { RouterLink } from './router-link';
 
+vi.stubGlobal('matchMedia', (query: string) => ({
+  addEventListener: vi.fn(),
+  addListener: vi.fn(),
+  dispatchEvent: vi.fn(),
+  matches: false,
+  media: query,
+  onchange: null,
+  removeEventListener: vi.fn(),
+  removeListener: vi.fn(),
+}));
+
+HTMLDialogElement.prototype.showModal = vi.fn(function showModal(
+  this: HTMLDialogElement,
+) {
+  this.open = true;
+});
+HTMLDialogElement.prototype.close = vi.fn(function close(
+  this: HTMLDialogElement,
+) {
+  this.open = false;
+});
+
 const styles = stylex.create({
-  selectedNavigationItem: {
-    backgroundColor: {
-      default: 'transparent',
-      ':hover': {
-        '@media (hover: hover)': colorVars['--color-overlay-hover'],
-      },
-      ':active': colorVars['--color-overlay-pressed'],
-    },
-    color: colorVars['--color-text-primary'],
-    fontWeight: fontWeightVars['--font-weight-medium'],
-  },
   blueIconLink: {
     color: colorVars['--color-icon-blue'],
   },
@@ -188,25 +197,40 @@ describe('GlobalNavigationLayout', () => {
     ).toBeTruthy();
   });
 
-  it('renders primary page links with their route destinations', () => {
-    const { getByRole } = renderGlobalLayout();
+  it('keeps primary page links out of the top navigation', () => {
+    const { getByRole, queryByRole } = renderGlobalLayout();
     const navigation = getByRole('navigation', { name: 'Global navigation' });
 
     expect(getByRole('link', { name: 'Home' }).getAttribute('href')).toBe('/');
-    expect(getByRole('link', { name: 'Roadmap' }).getAttribute('href')).toBe(
-      '/roadmap',
-    );
-    expect(getByRole('link', { name: 'Skills' }).getAttribute('href')).toBe(
-      '/skills',
-    );
+    expect(queryByRole('link', { name: 'Roadmap' })).toBeNull();
+    expect(queryByRole('link', { name: 'Skills' })).toBeNull();
     expect(
       within(navigation).getAllByRole('link').map(
         (link) => link.getAttribute('aria-label') ?? link.textContent?.trim(),
       ),
-    ).toEqual(['Home', 'Skills', 'Roadmap', 'GitHub']);
+    ).toEqual(['Home', 'GitHub']);
     expect(getByRole('link', { name: 'GitHub' }).getAttribute('href')).toBe(
       'https://github.com/benkim0414',
     );
+  });
+
+  it('opens an end-side navigation drawer with the primary route links', async () => {
+    const { getByRole } = renderGlobalLayout();
+
+    fireEvent.click(getByRole('button', { name: 'Navigation' }));
+
+    const drawer = getByRole('dialog', { name: 'Navigation' });
+    expect(drawer.getAttribute('data-side')).toBe('end');
+    expect(drawer.hasAttribute('open')).toBe(true);
+    expect(
+      within(drawer).getByRole('link', { name: 'Skills' }).getAttribute('href'),
+    ).toBe('/skills');
+    expect(
+      within(drawer).getByRole('link', { name: 'Roadmap' }).getAttribute('href'),
+    ).toBe('/roadmap');
+
+    fireEvent.click(within(drawer).getByRole('button', { name: 'Close navigation' }));
+    await waitFor(() => expect(drawer.hasAttribute('open')).toBe(false));
   });
 
   it('renders Home as an icon-only link at the start of the global nav', () => {
@@ -265,6 +289,10 @@ describe('GlobalNavigationLayout', () => {
       getByRole('button', { name: 'Search' }),
       'Search',
     );
+    expectTooltipFor(
+      getByRole('button', { name: 'Navigation' }),
+      'Navigation',
+    );
     expectTooltipFor(getByRole('link', { name: 'GitHub' }), 'GitHub');
   });
 
@@ -311,24 +339,33 @@ describe('GlobalNavigationLayout', () => {
     expect(icon?.getAttribute('color')).toBe('var(--color-icon-blue)');
   });
 
-  it('resets the shell scroll owner when a top-nav link changes routes', () => {
-    const { getByRole, getByTestId, getByText } = renderGlobalLayout();
-    const shellScrollOwner = getByText('Route content').closest(
-      '.astryx-layout-content',
-    );
+  it.each([
+    ['Skills', '/skills'],
+    ['Roadmap', '/roadmap'],
+  ])(
+    'navigates to %s and dismisses the drawer',
+    async (label, path) => {
+      const { getByRole, getByTestId, getByText } = renderGlobalLayout();
+      const shellScrollOwner = getByText('Route content').closest(
+        '.astryx-layout-content',
+      );
 
-    if (!(shellScrollOwner instanceof HTMLElement)) {
-      throw new Error('Expected the shell scroll owner.');
-    }
+      if (!(shellScrollOwner instanceof HTMLElement)) {
+        throw new Error('Expected the shell scroll owner.');
+      }
 
-    shellScrollOwner.scrollTop = 160;
-    expect(shellScrollOwner.scrollTop).toBe(160);
+      shellScrollOwner.scrollTop = 160;
+      expect(shellScrollOwner.scrollTop).toBe(160);
 
-    fireEvent.click(getByRole('link', { name: 'Roadmap' }));
+      fireEvent.click(getByRole('button', { name: 'Navigation' }));
+      const drawer = getByRole('dialog', { name: 'Navigation' });
+      fireEvent.click(within(drawer).getByRole('link', { name: label }));
 
-    expect(getByTestId('location').textContent).toBe('/roadmap');
-    expect(shellScrollOwner.scrollTop).toBe(0);
-  });
+      expect(getByTestId('location').textContent).toBe(path);
+      expect(shellScrollOwner.scrollTop).toBe(0);
+      await waitFor(() => expect(drawer.hasAttribute('open')).toBe(false));
+    },
+  );
 
   it.each([
     ['/', 'Home'],
@@ -336,42 +373,19 @@ describe('GlobalNavigationLayout', () => {
     ['/skills', 'Skills'],
     ['/skills/kubernetes', 'Skills'],
   ])(
-    'marks only %s primary navigation item as current',
+    'marks only %s primary drawer navigation item as current',
     (path, currentLink) => {
       const { getByRole } = renderGlobalLayout(path);
+      fireEvent.click(getByRole('button', { name: 'Navigation' }));
+      const drawer = getByRole('dialog', { name: 'Navigation' });
 
-      for (const label of ['Home', 'Roadmap', 'Skills']) {
+      for (const label of ['Roadmap', 'Skills']) {
         expect(
-          getByRole('link', { name: label }).getAttribute('aria-current'),
+          within(drawer).getByRole('link', { name: label }).getAttribute('aria-current'),
         ).toBe(label === currentLink ? 'page' : null);
       }
     },
   );
-
-  it('keeps the selected navigation item text-only', () => {
-    const { getByRole } = render(
-      <Theme theme={neutralTheme}>
-        <MemoryRouter initialEntries={['/roadmap']}>
-          <GlobalNavigationLayout />
-          <TopNavItem
-            href="/control"
-            isSelected
-            label="Text-only selected control"
-            xstyle={styles.selectedNavigationItem}
-          />
-          <TopNavItem href="/control" isSelected label="Selected control" />
-        </MemoryRouter>
-      </Theme>,
-    );
-    const selectedLink = getByRole('link', { name: 'Roadmap' });
-    const textOnlySelectedControl = getByRole('link', {
-      name: 'Text-only selected control',
-    });
-    const selectedControl = getByRole('link', { name: 'Selected control' });
-
-    expect(selectedLink.className).toBe(textOnlySelectedControl.className);
-    expect(selectedLink.className).not.toBe(selectedControl.className);
-  });
 
   it('opens search and navigates a selected skill result', () => {
     const { getByRole, getByTestId } = renderGlobalLayout();
