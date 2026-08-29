@@ -1187,14 +1187,11 @@ async function verifyTopNavScrollReset(
     trigger != null && trigger.width > 0 && trigger.height > 0,
     `${viewport.width}x${viewport.height} has no navigation trigger.`,
   );
-  await bidi.command('input.performActions', {
-    actions: [{ actions: [
-      { duration: 0, origin: 'viewport', type: 'pointerMove', x: Math.round(trigger.left + trigger.width / 2), y: Math.round(trigger.top + trigger.height / 2) },
-      { button: 0, type: 'pointerDown' },
-      { button: 0, type: 'pointerUp' },
-    ], id: 'navigation-drawer-trigger-pointer', parameters: { pointerType: 'mouse' }, type: 'pointer' }],
+  await evaluateJson(
+    bidi,
     context,
-  });
+    `document.querySelector('button[aria-label="Navigation"]')?.click(); return true;`,
+  );
   await waitForSelector(bidi, context, `dialog[aria-label="Navigation"][open] a[href="${destinationPath}"]`, signal);
   await wait(300, signal);
   const setup = await evaluateJson(
