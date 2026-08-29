@@ -4,10 +4,30 @@ import { Link } from '@astryxdesign/core/Link';
 import { Text } from '@astryxdesign/core/Text';
 import { colorVars, spacingVars } from '@astryxdesign/core/theme/tokens.stylex';
 import * as stylex from '@stylexjs/stylex';
+import { siReact } from 'simple-icons';
 
 const GITHUB_PROFILE_URL = 'https://github.com/benkim0414';
+const REACT_URL = 'https://react.dev';
 const ASTRYX_URL = 'https://astryx.atmeta.com';
 const ASTRYX_LOGO_COLOR = '#225BFF';
+const REACT_LOGO_COLOR = '#61DAFB';
+
+function ReactLogo(): ReactElement {
+  return (
+    <svg
+      aria-label="React"
+      fill="currentColor"
+      height="1em"
+      role="img"
+      style={{ color: REACT_LOGO_COLOR, transform: 'scale(1.1)' }}
+      viewBox="0 0 24 24"
+      width="1em"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path d={siReact.path} />
+    </svg>
+  );
+}
 
 function AstryxLogo(): ReactElement {
   return (
@@ -49,6 +69,18 @@ export function GlobalNavigationFooter(): ReactElement {
       <Divider />
       <footer {...stylex.props(styles.footer)}>
         <Text type="supporting">Built with</Text>
+        <span {...stylex.props(styles.footerLogo)}>
+          <Link
+            color="inherit"
+            href={REACT_URL}
+            isStandalone
+            label="React"
+            target="_blank"
+          >
+            <ReactLogo />
+          </Link>
+        </span>
+        <Text type="supporting">and</Text>
         <span {...stylex.props(styles.footerLogo)}>
           <Link
             color="inherit"

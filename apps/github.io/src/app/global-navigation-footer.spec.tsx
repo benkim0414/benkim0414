@@ -53,6 +53,33 @@ describe('GlobalNavigationFooter', () => {
     expect(container.querySelectorAll('footer')).toHaveLength(1);
   });
 
+  it('renders the React logo link before the Astryx attribution', () => {
+    const { getByRole } = renderFooter();
+    const footer = getByRole('contentinfo');
+    const reactLink = within(footer).getByRole('link', { name: /react/i });
+    const astryxLink = within(footer).getByRole('link', { name: /astryx/i });
+
+    expect(
+      within(reactLink).getByRole('img', { name: 'React' }),
+    ).toBeTruthy();
+    expect(reactLink.getAttribute('href')).toBe('https://react.dev');
+    expect(reactLink.getAttribute('target')).toBe('_blank');
+    expect(reactLink.getAttribute('rel')).toBe('noopener noreferrer');
+    expect(footer.textContent).toContain('and');
+    expect(reactLink.compareDocumentPosition(astryxLink)).toBe(
+      Node.DOCUMENT_POSITION_FOLLOWING,
+    );
+
+    const logo = within(reactLink).getByRole('img', { name: 'React' });
+
+    if (!(logo instanceof SVGElement)) {
+      throw new Error('Expected a React logo SVG element.');
+    }
+
+    expect(getComputedStyle(logo).color).toBe('rgb(97, 218, 251)');
+    expect(logo.style.transform).toBe('scale(1.1)');
+  });
+
   it('matches the profile link typography to the footer copy', () => {
     const { getByText } = renderFooter();
     const builtWith = getByText('Built with').closest('.astryx-text');
