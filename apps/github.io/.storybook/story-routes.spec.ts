@@ -20,7 +20,11 @@ import homeGreetingMeta, {
   Default as HomeGreetingStory,
 } from '../src/app/skills/home-greeting.stories';
 import pageMeta, {
+  Home as HomeStory,
   NotFound as NotFoundStory,
+  Roadmap as RoadmapPageStory,
+  SkillDetail as SkillDetailStory,
+  Skills as SkillsPageStory,
 } from '../src/app/app-routes.stories';
 import { SkillCard } from '../src/app/skills/skill-card';
 import { skills } from '../src/app/skills/skill-list.data';
@@ -262,32 +266,77 @@ describe('Storybook preview routing', () => {
     ).toBeTruthy();
   });
 
-  it('renders the route-story fallback page through AppRoutes', () => {
+  it('renders every canonical route story through AppRoutes', () => {
     const StoryComponent = pageMeta.component as ComponentType<
       Record<string, unknown>
     >;
-    const args = (NotFoundStory.args ?? {}) as Record<string, unknown>;
-
-    render(
-      decorateStory(
-        () => createElement(StoryComponent, args),
-        'github-io-pages--not-found',
-        {
-          args,
-          parameters: {
-            ...pageMeta.parameters,
-            ...NotFoundStory.parameters,
-          },
+    const routeStories = [
+      {
+        assert: () =>
+          expect(screen.getByRole('main', { name: 'Home' })).toBeTruthy(),
+        id: 'github-io-pages--home',
+        story: HomeStory,
+      },
+      {
+        assert: () =>
+          expect(
+            screen.getByRole('heading', { level: 1, name: 'Skills' }),
+          ).toBeTruthy(),
+        id: 'github-io-pages--skills',
+        story: SkillsPageStory,
+      },
+      {
+        assert: () =>
+          expect(
+            screen.getByRole('heading', { level: 1, name: 'Kubernetes' }),
+          ).toBeTruthy(),
+        id: 'github-io-pages--skill-detail',
+        story: SkillDetailStory,
+      },
+      {
+        assert: () =>
+          expect(
+            screen.getByRole('heading', {
+              level: 2,
+              name: 'DevOps roadmap',
+            }),
+          ).toBeTruthy(),
+        id: 'github-io-pages--roadmap',
+        story: RoadmapPageStory,
+      },
+      {
+        assert: () => {
+          expect(
+            screen.getByRole('heading', { level: 1, name: 'Skill not found' }),
+          ).toBeTruthy();
+          expect(
+            screen.getByRole('link', { name: 'Back home' }).getAttribute('href'),
+          ).toBe('/');
         },
-      ),
-    );
+        id: 'github-io-pages--not-found',
+        story: NotFoundStory,
+      },
+    ];
 
-    expect(
-      screen.getByRole('heading', { level: 1, name: 'Skill not found' }),
-    ).toBeTruthy();
-    expect(
-      screen.getByRole('link', { name: 'Back home' }).getAttribute('href'),
-    ).toBe('/');
+    for (const { assert, id, story } of routeStories) {
+      const args = (story.args ?? {}) as Record<string, unknown>;
+      const rendered = render(
+        decorateStory(
+          () => createElement(StoryComponent, args),
+          id,
+          {
+            args,
+            parameters: {
+              ...pageMeta.parameters,
+              ...story.parameters,
+            },
+          },
+        ),
+      );
+
+      assert();
+      rendered.unmount();
+    }
   });
 
   it('opens external command-palette project results outside the preview frame', async () => {

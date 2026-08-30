@@ -35,7 +35,7 @@ Commands were run in the required order:
 3. `pnpm nx build github.io` — passed.
 4. `pnpm nx build-storybook github.io` — passed; generated `apps/github.io/storybook-static`.
 
-The generated `storybook-static/index.json` begins with the five `Pages` stories, followed by `Navigation/Footer` and `Navigation/Global Navigation`, then `Components/...`, confirming the generated story manifest follows the intended root grouping. The route taxonomy test confirms the five route stories use `/`, `/skills`, `/skills/kubernetes`, `/roadmap`, and `/missing`.
+The generated `storybook-static/index.json` includes the five `Pages` stories, the two `Navigation` stories, and the `Components` stories. This was an automated manifest inspection only; a manual browser/sidebar inspection was not performed. The route taxonomy test confirms the five route stories use `/`, `/skills`, `/skills/kubernetes`, `/roadmap`, and `/missing`.
 
 ## Warnings and concerns
 
@@ -48,9 +48,10 @@ Observed warnings (not introduced by this task):
 - App build emitted Lightning CSS warnings: `[lightningcss minify] Unknown at rule: @theme` (three occurrences) and `Unknown at rule: @tailwind` (one occurrence).
 - App build and Storybook build emitted the existing large-chunk warning: `Some chunks are larger than 500 kB after minification.`
 - Storybook build displayed its standard anonymous usage telemetry notice.
+- Manual Storybook sidebar verification was skipped; this report does not treat the manifest inspection as a substitute for a browser check.
 
 No production routes, UI, data, dependencies, or physical `pages/` directory were changed.
 
 ## Self-review
 
-The diff is limited to the two requested files, preserves the decorator and controls configuration, implements the approved root order exactly, and adds direct regression coverage. No unresolved TODOs or deferred validation remain.
+The diff is limited to the two requested files, preserves the decorator and controls configuration, implements the approved root order exactly, and adds direct regression coverage. The only deferred validation is the skipped manual browser/sidebar inspection noted above.

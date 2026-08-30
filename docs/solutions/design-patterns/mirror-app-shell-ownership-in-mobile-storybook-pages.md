@@ -196,7 +196,7 @@ tree and select the initial route through story metadata:
 const meta: Meta<typeof AppRoutes> = {
   component: AppRoutes,
   parameters: { layout: 'fullscreen' },
-  title: 'GitHub.io/Navigation/Global Navigation',
+  title: 'Navigation/Global Navigation',
 };
 
 export const Roadmap = { parameters: { appRoute: '/roadmap' } };

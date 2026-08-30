@@ -31,6 +31,8 @@ import skillSearchMeta from '../src/app/skills/skill-search.stories';
 import skillSectionMeta from '../src/app/skills/skill-section.stories';
 import skillsPageMeta from '../src/app/skills/skills-page.stories';
 import skillTokenMeta from '../src/app/skills/skill-token.stories';
+import { sortStoriesV7 } from 'storybook/preview-api';
+
 import preview from './preview';
 
 describe('route-page story taxonomy', () => {
@@ -101,9 +103,95 @@ describe('route-page story taxonomy', () => {
     });
   });
 
-  it('orders the Storybook root groups deterministically', () => {
-    expect(preview.parameters?.options?.storySort).toEqual({
-      order: ['Pages', 'Navigation', 'Components'],
-    });
+  it('sorts root groups and nested stories for the review journey', () => {
+    const storySort = preview.parameters?.options?.storySort;
+    const stories = [
+      {
+        id: 'components-skills-skill-list--empty',
+        importPath: './skill-list.stories.tsx',
+        name: 'Empty',
+        title: 'Components/Skills/Skill List',
+      },
+      {
+        id: 'navigation-global-navigation--default',
+        importPath: './global-navigation-layout.stories.tsx',
+        name: 'Default',
+        title: 'Navigation/Global Navigation',
+      },
+      {
+        id: 'pages--skills',
+        importPath: './app-routes.stories.tsx',
+        name: 'Skills',
+        title: 'Pages',
+      },
+      {
+        id: 'components-certifications-certification-citation--default',
+        importPath: './certification-citation.stories.tsx',
+        name: 'Default',
+        title: 'Components/Certifications/Certification Citation',
+      },
+      {
+        id: 'pages--roadmap',
+        importPath: './app-routes.stories.tsx',
+        name: 'Roadmap',
+        title: 'Pages',
+      },
+      {
+        id: 'navigation-footer--default',
+        importPath: './global-navigation-footer.stories.tsx',
+        name: 'Default',
+        title: 'Navigation/Footer',
+      },
+      {
+        id: 'pages--not-found',
+        importPath: './app-routes.stories.tsx',
+        name: 'Not Found',
+        title: 'Pages',
+      },
+      {
+        id: 'components-skills-skill-list--default',
+        importPath: './skill-list.stories.tsx',
+        name: 'Default',
+        title: 'Components/Skills/Skill List',
+      },
+      {
+        id: 'pages--skill-detail',
+        importPath: './app-routes.stories.tsx',
+        name: 'Skill Detail',
+        title: 'Pages',
+      },
+      {
+        id: 'components-skills-skill-card--default',
+        importPath: './skill-card.stories.tsx',
+        name: 'Default',
+        title: 'Components/Skills/Skill Card',
+      },
+      {
+        id: 'pages--home',
+        importPath: './app-routes.stories.tsx',
+        name: 'Home',
+        title: 'Pages',
+      },
+    ] as Parameters<typeof sortStoriesV7>[0];
+
+    const sortedTitles = sortStoriesV7(
+      stories,
+      storySort as Parameters<typeof sortStoriesV7>[1],
+      [],
+    ).map(({ name, title }) => `${title}/${name}`);
+
+    expect(sortedTitles).toEqual([
+      'Pages/Home',
+      'Pages/Not Found',
+      'Pages/Roadmap',
+      'Pages/Skill Detail',
+      'Pages/Skills',
+      'Navigation/Footer/Default',
+      'Navigation/Global Navigation/Default',
+      'Components/Certifications/Certification Citation/Default',
+      'Components/Skills/Skill Card/Default',
+      'Components/Skills/Skill List/Default',
+      'Components/Skills/Skill List/Empty',
+    ]);
   });
 });
