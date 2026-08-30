@@ -1268,6 +1268,63 @@ async function verifyTopNavScrollReset(
   );
 }
 
+async function verifyMobileDrawerSkillSearchSpacing(
+  bidi,
+  context,
+  viewport,
+  signal,
+) {
+  await evaluateJson(
+    bidi,
+    context,
+    `document.querySelector('button[aria-label="Navigation"]')?.click(); return true;`,
+  );
+  await waitForSelector(
+    bidi,
+    context,
+    'dialog[aria-label="Navigation"][open] input[placeholder="Search skills..."]',
+    signal,
+  );
+
+  const metrics = await evaluateJson(
+    bidi,
+    context,
+    `
+      const drawer = document.querySelector('dialog[aria-label="Navigation"][open]');
+      const divider = drawer?.querySelector('[role="separator"]');
+      const search = drawer?.querySelector('input[placeholder="Search skills..."]');
+      const firstSkill = drawer?.querySelector('a[href^="/skills/"]');
+      const dividerRect = divider?.getBoundingClientRect();
+      const searchRect = search?.getBoundingClientRect();
+      const firstSkillRect = firstSkill?.getBoundingClientRect();
+      return {
+        dividerBottom: dividerRect?.bottom ?? null,
+        dividerMarginBottom: Number.parseFloat(getComputedStyle(divider).marginBottom),
+        firstSkillTop: firstSkillRect?.top ?? null,
+        searchBottom: searchRect?.bottom ?? null,
+        searchTop: searchRect?.top ?? null,
+      };
+    `,
+  );
+
+  assert(
+    isWithinTolerance(metrics.dividerMarginBottom, 8),
+    `${viewport.width}x${viewport.height} mobile drawer divider needs 8px bottom spacing before the skill search: ${JSON.stringify(metrics)}.`,
+  );
+  assert(
+    metrics.searchTop > metrics.dividerBottom,
+    `${viewport.width}x${viewport.height} mobile drawer skill search overlaps its divider: ${JSON.stringify(metrics)}.`,
+  );
+  assert(
+    metrics.firstSkillTop - metrics.searchBottom >= 8 - SUBPIXEL_TOLERANCE,
+    `${viewport.width}x${viewport.height} mobile drawer needs at least 8px between the skill search and first skill: ${JSON.stringify(metrics)}.`,
+  );
+
+  console.log(
+    `PASS ${viewport.width}x${viewport.height} mobile drawer divider-to-search spacing=${metrics.dividerMarginBottom.toFixed(2)}px`,
+  );
+}
+
 async function verifyRoutes(bidi, context, baseUrl, signal) {
   for (const viewport of viewports) {
     throwIfCancelled(signal);
@@ -1325,6 +1382,12 @@ async function verifyRoutes(bidi, context, baseUrl, signal) {
         );
         console.log(
           `PASS ${viewport.width}x${viewport.height} /skills rows=${rows.length} four-edge-geometry=yes bottom-edge-navigation=${navigation.path} focus=detail-heading`,
+        );
+        await verifyMobileDrawerSkillSearchSpacing(
+          bidi,
+          context,
+          viewport,
+          signal,
         );
       }
     }

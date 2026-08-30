@@ -10,17 +10,20 @@ import {
   CommandPalette,
   CommandPaletteInput,
 } from '@astryxdesign/core/CommandPalette';
+import { Divider } from '@astryxdesign/core/Divider';
 import { HomeModernIcon } from '@heroicons/react/24/outline';
 import { Icon } from '@astryxdesign/core/Icon';
 import { IconButton } from '@astryxdesign/core/IconButton';
 import { Layout, LayoutContent, LayoutHeader } from '@astryxdesign/core/Layout';
 import { MobileNav } from '@astryxdesign/core/MobileNav';
 import { SideNavItem } from '@astryxdesign/core/SideNav';
+import { TextInput } from '@astryxdesign/core/TextInput';
 import { TopNav } from '@astryxdesign/core/TopNav';
 import { siGithub } from 'simple-icons';
 import {
   colorVars,
   fontWeightVars,
+  spacingVars,
 } from '@astryxdesign/core/theme/tokens.stylex';
 import { createStaticSource } from '@astryxdesign/core/Typeahead';
 import * as stylex from '@stylexjs/stylex';
@@ -30,6 +33,7 @@ import { createGlobalSearchResults } from './global-search/global-search-results
 import { kubernetesCertifications } from './certifications/kubernetes-certifications.data';
 import { sampleProjects } from './projects/project-list.data';
 import { skills } from './skills/skill-list.data';
+import { skillMatchesQuery } from './skills/skill-search';
 import { GlobalNavigationFooter } from './global-navigation-footer';
 
 interface GlobalSearchCommandItem extends GlobalSearchResult {
@@ -76,6 +80,12 @@ const styles = stylex.create({
     },
     fontWeight: fontWeightVars['--font-weight-medium'],
   },
+  mobileNavigationDivider: {
+    marginBlock: spacingVars['--spacing-2'],
+  },
+  mobileNavigationSearch: {
+    marginBlockEnd: spacingVars['--spacing-2'],
+  },
 });
 
 export function GlobalNavigationLayout(): ReactElement {
@@ -84,6 +94,7 @@ export function GlobalNavigationLayout(): ReactElement {
   const contentRef = useRef<HTMLDivElement>(null);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [isNavigationOpen, setIsNavigationOpen] = useState(false);
+  const [mobileSkillSearch, setMobileSkillSearch] = useState('');
   const [selectedResultId, setSelectedResultId] = useState<string>();
   const results = useMemo(
     () =>
@@ -113,6 +124,9 @@ export function GlobalNavigationLayout(): ReactElement {
       }),
     [searchItems],
   );
+  const mobileSkillLinks = skills.filter((skill) =>
+    skillMatchesQuery(skill, mobileSkillSearch),
+  );
 
   useLayoutEffect(() => {
     if (contentRef.current) {
@@ -120,13 +134,24 @@ export function GlobalNavigationLayout(): ReactElement {
     }
   }, [location.pathname]);
 
+  const closeMobileNavigation = () => {
+    setIsNavigationOpen(false);
+    setMobileSkillSearch('');
+  };
+
   return (
     <>
       <MobileNav
         isOpen={isNavigationOpen}
         label="Navigation"
         side="end"
-        onOpenChange={setIsNavigationOpen}>
+        onOpenChange={(isOpen) => {
+          if (isOpen) {
+            setIsNavigationOpen(true);
+          } else {
+            closeMobileNavigation();
+          }
+        }}>
         <SideNavItem
           href="/skills"
           isSelected={
@@ -134,14 +159,34 @@ export function GlobalNavigationLayout(): ReactElement {
             location.pathname.startsWith('/skills/')
           }
           label="Skills"
-          onClick={() => setIsNavigationOpen(false)}
+          onClick={closeMobileNavigation}
         />
         <SideNavItem
           href="/roadmap"
           isSelected={location.pathname === '/roadmap'}
           label="Roadmap"
-          onClick={() => setIsNavigationOpen(false)}
+          onClick={closeMobileNavigation}
         />
+        <Divider xstyle={styles.mobileNavigationDivider} />
+        <TextInput
+          hasClear
+          isLabelHidden
+          label="Search skills"
+          placeholder="Search skills..."
+          startIcon="search"
+          value={mobileSkillSearch}
+          width="100%"
+          xstyle={styles.mobileNavigationSearch}
+          onChange={setMobileSkillSearch}
+        />
+        {mobileSkillLinks.map((skill) => (
+          <SideNavItem
+            href={`/skills/${skill.id}`}
+            key={skill.id}
+            label={skill.name}
+            onClick={closeMobileNavigation}
+          />
+        ))}
       </MobileNav>
       <CommandPalette
         emptyBootstrapText="No results"
