@@ -14,7 +14,7 @@ import footerMeta, {
   Default as FooterStory,
 } from '../src/app/global-navigation-footer.stories';
 import globalNavigationMeta, {
-  Roadmap as RoadmapStory,
+  Default as GlobalNavigationStory,
 } from '../src/app/global-navigation-layout.stories';
 import homeGreetingMeta, {
   Default as HomeGreetingStory,
@@ -156,21 +156,25 @@ describe('Storybook preview routing', () => {
     ).toBe('https://github.com/benkim0414');
   });
 
-  it('renders the routed global-navigation story inside the preview router', async () => {
+  it('renders the focused global-navigation story inside the preview router', async () => {
+    const warn = vi.spyOn(console, 'warn').mockImplementation(() => undefined);
     const StoryComponent = globalNavigationMeta.component as ComponentType<
       Record<string, unknown>
     >;
-    const args = (RoadmapStory.args ?? {}) as Record<string, unknown>;
+    const args = (GlobalNavigationStory.args ?? {}) as Record<string, unknown>;
+    const renderStory =
+      GlobalNavigationStory.render ??
+      (() => createElement(StoryComponent, args));
 
     render(
       decorateStory(
-        () => createElement(StoryComponent, args),
-        'github-io-navigation-global-navigation--roadmap',
+        () => renderStory(args, {} as StoryContext) as ReactElement,
+        'github-io-navigation-global-navigation--default',
         {
           args,
           parameters: {
             ...globalNavigationMeta.parameters,
-            ...RoadmapStory.parameters,
+            ...GlobalNavigationStory.parameters,
           },
         },
       ),
@@ -180,10 +184,12 @@ describe('Storybook preview routing', () => {
 
     const drawer = screen.getByRole('dialog', { name: 'Navigation' });
     expect(
-      within(drawer).getByRole('link', { name: 'Roadmap' }).getAttribute(
+      within(drawer).getByRole('link', { name: 'Skills' }).getAttribute(
         'aria-current',
       ),
-    ).toBe('page');
+    ).toBeNull();
+    expect(warn).not.toHaveBeenCalled();
+    warn.mockRestore();
   });
 
   it('renders a skill detail page after a card navigates, then resets for another story', async () => {
