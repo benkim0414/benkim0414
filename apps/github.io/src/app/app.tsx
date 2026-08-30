@@ -8,7 +8,7 @@ import { GlobalNavigationLayout } from './global-navigation-layout';
 import { RoadmapPage } from './devops-roadmap/roadmap-page';
 import { NotFoundPage } from './not-found-page';
 import { RouterLink } from './router-link';
-import { HomePage } from './skills/home-page';
+import { HomePage } from './home/home-page';
 import { SkillDetailRoute } from './skills/skill-detail-route';
 import { SkillsPage } from './skills/skills-page';
 

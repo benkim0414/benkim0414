@@ -18,7 +18,7 @@ import globalNavigationMeta, {
 } from '../src/app/global-navigation-layout.stories';
 import homeGreetingMeta, {
   Default as HomeGreetingStory,
-} from '../src/app/skills/home-greeting.stories';
+} from '../src/app/home/home-greeting.stories';
 import pageMeta, {
   Home as HomeStory,
   NotFound as NotFoundStory,
