@@ -262,6 +262,15 @@ describe('GlobalNavigationLayout', () => {
     expect(githubLink.querySelector('svg')).toBeTruthy();
   });
 
+  it('opens the global GitHub profile link in a separate browsing context', () => {
+    const { getByRole } = renderGlobalLayout();
+
+    const githubLink = getByRole('link', { name: 'GitHub' });
+
+    expect(githubLink.getAttribute('target')).toBe('_blank');
+    expect(githubLink.getAttribute('rel')).toBe('noopener noreferrer');
+  });
+
   it('renders an Astryx attribution footer with an external profile link', () => {
     const { container, getByRole, getByText } = renderGlobalLayout();
     const footer = getByRole('contentinfo');

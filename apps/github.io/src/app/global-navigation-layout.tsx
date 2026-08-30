@@ -223,7 +223,9 @@ export function GlobalNavigationLayout(): ReactElement {
                     href={GITHUB_PROFILE_URL}
                     icon={<GitHubIcon />}
                     label="GitHub"
+                    rel="noopener noreferrer"
                     size="sm"
+                    target="_blank"
                     tooltip="GitHub"
                     variant="ghost"
                   />
