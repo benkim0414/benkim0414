@@ -19,6 +19,9 @@ import globalNavigationMeta, {
 import homeGreetingMeta, {
   Default as HomeGreetingStory,
 } from '../src/app/skills/home-greeting.stories';
+import pageMeta, {
+  NotFound as NotFoundStory,
+} from '../src/app/app-routes.stories';
 import { SkillCard } from '../src/app/skills/skill-card';
 import { skills } from '../src/app/skills/skill-list.data';
 import preview from './preview';
@@ -257,6 +260,34 @@ describe('Storybook preview routing', () => {
     expect(
       await screen.findByRole('heading', { level: 1, name: 'Terraform' }),
     ).toBeTruthy();
+  });
+
+  it('renders the route-story fallback page through AppRoutes', () => {
+    const StoryComponent = pageMeta.component as ComponentType<
+      Record<string, unknown>
+    >;
+    const args = (NotFoundStory.args ?? {}) as Record<string, unknown>;
+
+    render(
+      decorateStory(
+        () => createElement(StoryComponent, args),
+        'github-io-pages--not-found',
+        {
+          args,
+          parameters: {
+            ...pageMeta.parameters,
+            ...NotFoundStory.parameters,
+          },
+        },
+      ),
+    );
+
+    expect(
+      screen.getByRole('heading', { level: 1, name: 'Skill not found' }),
+    ).toBeTruthy();
+    expect(
+      screen.getByRole('link', { name: 'Back home' }).getAttribute('href'),
+    ).toBe('/');
   });
 
   it('opens external command-palette project results outside the preview frame', async () => {
