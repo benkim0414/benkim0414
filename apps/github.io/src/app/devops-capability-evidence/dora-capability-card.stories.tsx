@@ -37,7 +37,7 @@ const trunkBasedDevelopment = capability('trunk-based-development');
 
 const meta = {
   component: DoraCapabilityCard,
-  title: 'GitHub.io/DevOps Capability Evidence/DORA Capability Card',
+  title: 'Components/DevOps Capability Evidence/DORA Capability Card',
   args: {
     capability: flexibleInfrastructure,
     description: doraCapabilityDescriptions['flexible-infrastructure'],

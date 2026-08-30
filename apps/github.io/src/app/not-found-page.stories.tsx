@@ -7,7 +7,7 @@ const meta: Meta<typeof NotFoundPage> = {
   parameters: {
     layout: 'fullscreen',
   },
-  title: 'GitHub.io/Pages/Not Found',
+  title: 'Components/Pages/Not Found Page',
 };
 
 export default meta;

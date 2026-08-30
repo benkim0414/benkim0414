@@ -14,7 +14,7 @@ const baseEvidence = {
 
 const meta = {
   component: CapabilityEvidence,
-  title: 'GitHub.io/DevOps Capability Evidence/Capability Evidence',
+  title: 'Components/DevOps Capability Evidence/Capability Evidence',
 } satisfies Meta<typeof CapabilityEvidence>;
 
 export default meta;

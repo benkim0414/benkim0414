@@ -4,7 +4,7 @@ import meta, {
 
 describe('SkillExperienceCardList stories', () => {
   it('uses a dedicated list example with multiple cards', () => {
-    expect(meta.title).toBe('GitHub.io/Skills/Skill Experience Card List');
+    expect(meta.title).toBe('Components/Skills/Skill Experience Card List');
     expect(MultipleExperiences.args?.experiences).toHaveLength(2);
     expect(
       MultipleExperiences.args?.experiences?.map((experience) => experience.id),

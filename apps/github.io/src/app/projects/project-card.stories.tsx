@@ -41,7 +41,7 @@ const longCopyProject: Project = {
 
 const meta: Meta<typeof ProjectCard> = {
   component: ProjectCard,
-  title: 'GitHub.io/Projects/Project Card',
+  title: 'Components/Projects/Project Card',
 };
 
 export default meta;
