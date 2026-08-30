@@ -4,7 +4,7 @@ import { SkillConfidence } from './skill-confidence';
 
 const meta: Meta<typeof SkillConfidence> = {
   component: SkillConfidence,
-  title: 'GitHub.io/Skills/Skill Confidence',
+  title: 'Components/Skills/Skill Confidence',
 };
 
 export default meta;

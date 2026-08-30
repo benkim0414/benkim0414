@@ -7,7 +7,7 @@ const meta: Meta<typeof RoadmapPage> = {
   parameters: {
     layout: 'fullscreen',
   },
-  title: 'GitHub.io/DevOps Roadmap/Roadmap Page',
+  title: 'Components/DevOps Roadmap/Roadmap Page',
 };
 
 export default meta;

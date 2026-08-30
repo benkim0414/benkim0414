@@ -5,7 +5,7 @@ import { AppRoutes } from './app';
 const meta = {
   component: AppRoutes,
   parameters: { layout: 'fullscreen' },
-  title: 'GitHub.io/Navigation/Global Navigation',
+  title: 'Navigation/Global Navigation',
 } satisfies Meta<typeof AppRoutes>;
 
 export default meta;

@@ -15,7 +15,7 @@ const compactItems: readonly DevOpsRoadmapItem[] = [
 
 const meta: Meta<typeof DevOpsRoadmap> = {
   component: DevOpsRoadmap,
-  title: 'GitHub.io/DevOps Roadmap/Timeline',
+  title: 'Components/DevOps Roadmap/Timeline',
 };
 
 export default meta;

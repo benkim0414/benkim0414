@@ -5,7 +5,7 @@ import { SkillCarousel } from './skill-carousel';
 
 const meta: Meta<typeof SkillCarousel> = {
   component: SkillCarousel,
-  title: 'GitHub.io/Skills/Skill Carousel',
+  title: 'Components/Skills/Skill Carousel',
 };
 
 export default meta;

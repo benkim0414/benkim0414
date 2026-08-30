@@ -7,7 +7,7 @@ const meta: Meta<typeof HomePage> = {
   parameters: {
     layout: 'fullscreen',
   },
-  title: 'GitHub.io/Home/Home Page',
+  title: 'Components/Skills/Home Page',
 };
 
 export default meta;

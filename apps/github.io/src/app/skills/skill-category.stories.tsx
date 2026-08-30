@@ -4,7 +4,7 @@ import { SkillCategory } from './skill-category';
 
 const meta: Meta<typeof SkillCategory> = {
   component: SkillCategory,
-  title: 'GitHub.io/Skills/Skill Category',
+  title: 'Components/Skills/Skill Category',
 };
 
 export default meta;
