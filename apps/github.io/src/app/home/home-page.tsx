@@ -12,10 +12,10 @@ import {
   devOpsCapabilityEvidenceItems,
   doraCapabilityDefinitions,
 } from '../devops-capability-evidence/devops-capability-evidence.data';
-import { highlightedSkills as defaultHighlightedSkills } from './skill-list.data';
-import { SkillCarousel } from './skill-carousel';
+import { highlightedSkills as defaultHighlightedSkills } from '../skills/skill-list.data';
+import { SkillCarousel } from '../skills/skill-carousel';
 import { HomeGreeting } from './home-greeting';
-import type { Skill } from './skill-list.types';
+import type { Skill } from '../skills/skill-list.types';
 
 export interface HomePageProps {
   highlightedSkills?: readonly Skill[];

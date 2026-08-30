@@ -5,7 +5,7 @@ import { SkillSection } from './skill-section';
 
 const meta: Meta<typeof SkillSection> = {
   component: SkillSection,
-  title: 'GitHub.io/Skills/Skill Section',
+  title: 'Components/Skills/Skill Section',
 };
 
 export default meta;

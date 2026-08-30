@@ -5,7 +5,7 @@ import { SkillAvatar } from './skill-avatar';
 
 const meta: Meta<typeof SkillAvatar> = {
   component: SkillAvatar,
-  title: 'GitHub.io/Skills/Skill Avatar',
+  title: 'Components/Skills/Skill Avatar',
 };
 
 export default meta;

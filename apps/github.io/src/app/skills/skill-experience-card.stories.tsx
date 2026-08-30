@@ -5,7 +5,7 @@ import { SkillExperienceCard } from './skill-experience-card-list';
 import { skills } from './skill-list.data';
 
 const meta: Meta<typeof SkillExperienceCard> = {
-  title: 'GitHub.io/Skills/Skill Experience Card',
+  title: 'Components/Skills/Skill Experience Card',
   component: SkillExperienceCard,
 };
 

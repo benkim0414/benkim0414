@@ -5,7 +5,7 @@ import { GlobalNavigationFooter } from './global-navigation-footer';
 const meta = {
   component: GlobalNavigationFooter,
   parameters: { layout: 'fullscreen' },
-  title: 'GitHub.io/Navigation/Footer',
+  title: 'Navigation/Footer',
 } satisfies Meta<typeof GlobalNavigationFooter>;
 
 export default meta;

@@ -5,7 +5,7 @@ import { CertificationCitation } from './certification-citation';
 
 const meta: Meta<typeof CertificationCitation> = {
   component: CertificationCitation,
-  title: 'GitHub.io/Certifications/Certification Citation',
+  title: 'Components/Certifications/Certification Citation',
 };
 
 export default meta;
