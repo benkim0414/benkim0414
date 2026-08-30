@@ -988,7 +988,7 @@ function verifyBuiltLayout() {
 
   auditGlobalLayout('src/app/global-navigation-layout.tsx');
   for (const sourcePath of [
-    'src/app/skills/home-page.tsx',
+    'src/app/home/home-page.tsx',
     'src/app/skills/skills-page.tsx',
     'src/app/skills/skill-detail-page.tsx',
     'src/app/devops-roadmap/roadmap-page.tsx',
