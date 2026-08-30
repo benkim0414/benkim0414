@@ -31,6 +31,7 @@ import skillSearchMeta from '../src/app/skills/skill-search.stories';
 import skillSectionMeta from '../src/app/skills/skill-section.stories';
 import skillsPageMeta from '../src/app/skills/skills-page.stories';
 import skillTokenMeta from '../src/app/skills/skill-token.stories';
+import preview from './preview';
 
 describe('route-page story taxonomy', () => {
   it('declares the canonical Pages routes', () => {
@@ -97,6 +98,12 @@ describe('route-page story taxonomy', () => {
       skillSection: 'Components/Skills/Skill Section',
       skillsPage: 'Components/Skills/Skills Page',
       skillToken: 'Components/Skills/Skill Token',
+    });
+  });
+
+  it('orders the Storybook root groups deterministically', () => {
+    expect(preview.parameters?.options?.storySort).toEqual({
+      order: ['Pages', 'Navigation', 'Components'],
     });
   });
 });
