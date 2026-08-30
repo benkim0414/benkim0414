@@ -83,7 +83,6 @@ export function SkillCard({
                 </Heading>
                 <SkillConfidence
                   confidence={skill.confidence}
-                  hasTooltip={false}
                   variant="token"
                 />
               </VStack>

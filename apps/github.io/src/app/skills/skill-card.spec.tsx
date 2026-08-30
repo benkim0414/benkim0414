@@ -99,6 +99,24 @@ describe('SkillCard', () => {
     expect(getByText('Confidence: Confident')).toBeTruthy();
   });
 
+  it('connects the confidence token to its explanatory tooltip', () => {
+    const { getByLabelText, getByRole } = renderSkillCard(
+      <SkillCard skill={baseSkill} />,
+    );
+
+    const confidence = getByLabelText('Self-rated confidence: Confident');
+    const describedBy = confidence.getAttribute('aria-describedby');
+
+    expect(confidence.getAttribute('tabindex')).toBe('0');
+    expect(describedBy).toBeTruthy();
+    expect(
+      describedBy
+        ?.split(' ')
+        .map((id) => confidence.ownerDocument.getElementById(id))
+        .find((element) => element?.getAttribute('role') === 'tooltip'),
+    ).toBe(getByRole('tooltip'));
+  });
+
   it('renders every skill category before the skill title', () => {
     const { getByText, getByRole } = renderSkillCard(<SkillCard skill={baseSkill} />);
 
