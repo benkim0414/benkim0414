@@ -26,3 +26,29 @@ export const Default: Story = {
     </Routes>
   ),
 };
+
+export const MobileNavigationSearch: Story = {
+  parameters: {
+    viewport: {
+      defaultViewport: 'mobile1',
+    },
+  },
+  play: async ({ canvasElement }) => {
+    const navigationButton = canvasElement.querySelector<HTMLButtonElement>(
+      'button[aria-label="Navigation"]',
+    );
+
+    if (!navigationButton) {
+      throw new Error('Expected the mobile navigation trigger to render.');
+    }
+
+    navigationButton.click();
+  },
+  render: () => (
+    <Routes>
+      <Route element={<GlobalNavigationLayout />}>
+        <Route index element={<NavigationPreviewContent />} />
+      </Route>
+    </Routes>
+  ),
+};

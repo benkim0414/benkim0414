@@ -233,6 +233,59 @@ describe('GlobalNavigationLayout', () => {
     await waitFor(() => expect(drawer.hasAttribute('open')).toBe(false));
   });
 
+  it('filters skill links in the mobile drawer and navigates to a selected skill', async () => {
+    const { getByRole, getByTestId } = renderGlobalLayout();
+
+    fireEvent.click(getByRole('button', { name: 'Navigation' }));
+
+    const drawer = getByRole('dialog', { name: 'Navigation' });
+    const search = within(drawer).getByRole('textbox', {
+      name: 'Search skills',
+    });
+
+    expect(search.getAttribute('placeholder')).toBe('Search skills...');
+    expect(
+      within(drawer).getByRole('link', { name: 'Alertmanager' }),
+    ).toBeTruthy();
+
+    fireEvent.change(search, { target: { value: 'terraform' } });
+
+    expect(
+      within(drawer).getByRole('link', { name: 'Terraform' }).getAttribute(
+        'href',
+      ),
+    ).toBe('/skills/terraform');
+    expect(
+      within(drawer).queryByRole('link', { name: 'Alertmanager' }),
+    ).toBeNull();
+
+    fireEvent.click(
+      within(drawer).getByRole('button', { name: 'Clear Search skills' }),
+    );
+
+    expect(search.getAttribute('value')).toBe('');
+    expect(
+      within(drawer).getByRole('link', { name: 'Alertmanager' }),
+    ).toBeTruthy();
+
+    fireEvent.change(search, { target: { value: 'terraform' } });
+    fireEvent.click(within(drawer).getByRole('link', { name: 'Terraform' }));
+
+    expect(getByTestId('location').textContent).toBe('/skills/terraform');
+    await waitFor(() => expect(drawer.hasAttribute('open')).toBe(false));
+
+    fireEvent.click(getByRole('button', { name: 'Navigation' }));
+
+    expect(
+      within(drawer)
+        .getByRole('textbox', { name: 'Search skills' })
+        .getAttribute('value'),
+    ).toBe('');
+    expect(
+      within(drawer).getByRole('link', { name: 'Alertmanager' }),
+    ).toBeTruthy();
+  });
+
   it('renders Home as an icon-only link at the start of the global nav', () => {
     const { getByRole } = renderGlobalLayout();
     const navigation = getByRole('navigation', { name: 'Global navigation' });
