@@ -5,7 +5,7 @@ import { SkillList } from './skill-list';
 
 const meta: Meta<typeof SkillList> = {
   component: SkillList,
-  title: 'GitHub.io/Skills/Skill List',
+  title: 'Components/Skills/Skill List',
 };
 
 export default meta;

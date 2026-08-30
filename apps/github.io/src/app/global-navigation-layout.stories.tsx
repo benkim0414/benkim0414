@@ -1,19 +1,28 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
+import type { ReactElement } from 'react';
+import { Route, Routes } from 'react-router-dom';
 
-import { AppRoutes } from './app';
+import { GlobalNavigationLayout } from './global-navigation-layout';
 
 const meta = {
-  component: AppRoutes,
+  component: GlobalNavigationLayout,
   parameters: { layout: 'fullscreen' },
-  title: 'GitHub.io/Navigation/Global Navigation',
-} satisfies Meta<typeof AppRoutes>;
+  title: 'Navigation/Global Navigation',
+} satisfies Meta<typeof GlobalNavigationLayout>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-export const Home: Story = { parameters: { appRoute: '/' } };
-export const Roadmap: Story = { parameters: { appRoute: '/roadmap' } };
-export const Skills: Story = { parameters: { appRoute: '/skills' } };
-export const SkillDetail: Story = {
-  parameters: { appRoute: '/skills/kubernetes' },
+function NavigationPreviewContent(): ReactElement {
+  return <main aria-label="Navigation preview" />;
+}
+
+export const Default: Story = {
+  render: () => (
+    <Routes>
+      <Route element={<GlobalNavigationLayout />}>
+        <Route index element={<NavigationPreviewContent />} />
+      </Route>
+    </Routes>
+  ),
 };

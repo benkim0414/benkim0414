@@ -4,7 +4,7 @@ import { curatedDevOpsCapabilityRadarScores } from './devops-capability-evidence
 import { DevOpsCapabilityEvidenceRadar } from './devops-capability-evidence-radar';
 
 const meta = {
-  title: 'GitHub.io/DevOps Capability Evidence/Radar',
+  title: 'Components/DevOps Capability Evidence/Radar',
   component: DevOpsCapabilityEvidenceRadar,
   args: {
     scores: curatedDevOpsCapabilityRadarScores,

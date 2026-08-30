@@ -14,11 +14,18 @@ import footerMeta, {
   Default as FooterStory,
 } from '../src/app/global-navigation-footer.stories';
 import globalNavigationMeta, {
-  Roadmap as RoadmapStory,
+  Default as GlobalNavigationStory,
 } from '../src/app/global-navigation-layout.stories';
 import homeGreetingMeta, {
   Default as HomeGreetingStory,
-} from '../src/app/skills/home-greeting.stories';
+} from '../src/app/home/home-greeting.stories';
+import pageMeta, {
+  Home as HomeStory,
+  NotFound as NotFoundStory,
+  Roadmap as RoadmapPageStory,
+  SkillDetail as SkillDetailStory,
+  Skills as SkillsPageStory,
+} from '../src/app/app-routes.stories';
 import { SkillCard } from '../src/app/skills/skill-card';
 import { skills } from '../src/app/skills/skill-list.data';
 import preview from './preview';
@@ -149,21 +156,25 @@ describe('Storybook preview routing', () => {
     ).toBe('https://github.com/benkim0414');
   });
 
-  it('renders the routed global-navigation story inside the preview router', async () => {
+  it('renders the focused global-navigation story inside the preview router', async () => {
+    const warn = vi.spyOn(console, 'warn').mockImplementation(() => undefined);
     const StoryComponent = globalNavigationMeta.component as ComponentType<
       Record<string, unknown>
     >;
-    const args = (RoadmapStory.args ?? {}) as Record<string, unknown>;
+    const args = (GlobalNavigationStory.args ?? {}) as Record<string, unknown>;
+    const renderStory =
+      GlobalNavigationStory.render ??
+      (() => createElement(StoryComponent, args));
 
     render(
       decorateStory(
-        () => createElement(StoryComponent, args),
-        'github-io-navigation-global-navigation--roadmap',
+        () => renderStory(args, {} as StoryContext) as ReactElement,
+        'github-io-navigation-global-navigation--default',
         {
           args,
           parameters: {
             ...globalNavigationMeta.parameters,
-            ...RoadmapStory.parameters,
+            ...GlobalNavigationStory.parameters,
           },
         },
       ),
@@ -173,10 +184,12 @@ describe('Storybook preview routing', () => {
 
     const drawer = screen.getByRole('dialog', { name: 'Navigation' });
     expect(
-      within(drawer).getByRole('link', { name: 'Roadmap' }).getAttribute(
+      within(drawer).getByRole('link', { name: 'Skills' }).getAttribute(
         'aria-current',
       ),
-    ).toBe('page');
+    ).toBeNull();
+    expect(warn).not.toHaveBeenCalled();
+    warn.mockRestore();
   });
 
   it('renders a skill detail page after a card navigates, then resets for another story', async () => {
@@ -257,6 +270,79 @@ describe('Storybook preview routing', () => {
     expect(
       await screen.findByRole('heading', { level: 1, name: 'Terraform' }),
     ).toBeTruthy();
+  });
+
+  it('renders every canonical route story through AppRoutes', () => {
+    const StoryComponent = pageMeta.component as ComponentType<
+      Record<string, unknown>
+    >;
+    const routeStories = [
+      {
+        assert: () =>
+          expect(screen.getByRole('main', { name: 'Home' })).toBeTruthy(),
+        id: 'github-io-pages--home',
+        story: HomeStory,
+      },
+      {
+        assert: () =>
+          expect(
+            screen.getByRole('heading', { level: 1, name: 'Skills' }),
+          ).toBeTruthy(),
+        id: 'github-io-pages--skills',
+        story: SkillsPageStory,
+      },
+      {
+        assert: () =>
+          expect(
+            screen.getByRole('heading', { level: 1, name: 'Kubernetes' }),
+          ).toBeTruthy(),
+        id: 'github-io-pages--skill-detail',
+        story: SkillDetailStory,
+      },
+      {
+        assert: () =>
+          expect(
+            screen.getByRole('heading', {
+              level: 2,
+              name: 'DevOps roadmap',
+            }),
+          ).toBeTruthy(),
+        id: 'github-io-pages--roadmap',
+        story: RoadmapPageStory,
+      },
+      {
+        assert: () => {
+          expect(
+            screen.getByRole('heading', { level: 1, name: 'Skill not found' }),
+          ).toBeTruthy();
+          expect(
+            screen.getByRole('link', { name: 'Back home' }).getAttribute('href'),
+          ).toBe('/');
+        },
+        id: 'github-io-pages--not-found',
+        story: NotFoundStory,
+      },
+    ];
+
+    for (const { assert, id, story } of routeStories) {
+      const args = (story.args ?? {}) as Record<string, unknown>;
+      const rendered = render(
+        decorateStory(
+          () => createElement(StoryComponent, args),
+          id,
+          {
+            args,
+            parameters: {
+              ...pageMeta.parameters,
+              ...story.parameters,
+            },
+          },
+        ),
+      );
+
+      assert();
+      rendered.unmount();
+    }
   });
 
   it('opens external command-palette project results outside the preview frame', async () => {

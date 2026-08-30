@@ -5,7 +5,7 @@ import { SkillToken } from './skill-token';
 
 const meta: Meta<typeof SkillToken> = {
   component: SkillToken,
-  title: 'GitHub.io/Skills/Skill Token',
+  title: 'Components/Skills/Skill Token',
 };
 
 export default meta;

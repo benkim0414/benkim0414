@@ -7,7 +7,7 @@ const meta: Meta<typeof SkillsPage> = {
   parameters: {
     layout: 'fullscreen',
   },
-  title: 'GitHub.io/Skills/Skills Page',
+  title: 'Components/Skills/Skills Page',
 };
 
 export default meta;

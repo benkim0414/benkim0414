@@ -6,7 +6,7 @@ import { SkillSearch } from './skill-search';
 
 const meta: Meta<typeof SkillSearch> = {
   component: SkillSearch,
-  title: 'GitHub.io/Skills/Skill Search',
+  title: 'Components/Skills/Skill Search',
 };
 
 export default meta;

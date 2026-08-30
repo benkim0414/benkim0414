@@ -10,7 +10,7 @@ const typeScript = sampleSkills.find((skill) => skill.id === 'typescript');
 
 const meta: Meta<typeof SkillListItem> = {
   component: SkillListItem,
-  title: 'GitHub.io/Skills/Skill List Item',
+  title: 'Components/Skills/Skill List Item',
 };
 
 export default meta;

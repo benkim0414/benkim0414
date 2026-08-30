@@ -10,7 +10,7 @@ const typeScript =
 
 const meta: Meta<typeof SkillCard> = {
   component: SkillCard,
-  title: 'GitHub.io/Skills/Skill Card',
+  title: 'Components/Skills/Skill Card',
 };
 
 export default meta;

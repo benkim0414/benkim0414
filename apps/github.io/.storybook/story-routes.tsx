@@ -10,7 +10,7 @@ interface StoryRoutesProps {
 export function StoryRoutes({ children }: StoryRoutesProps): ReactElement {
   return (
     <Routes>
-      <Route path="/" element={children} />
+      <Route path="/*" element={children} />
       <Route path="/skills/:skillId" element={<SkillDetailRoute />} />
     </Routes>
   );

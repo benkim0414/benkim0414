@@ -38,6 +38,13 @@ const preview: Preview = {
     },
   ],
   parameters: {
+    options: {
+      storySort: {
+        includeNames: true,
+        method: 'alphabetical',
+        order: ['Pages', 'Navigation', 'Components'],
+      },
+    },
     controls: {
       matchers: {
         color: /(background|color)$/i,
