@@ -1,7 +1,7 @@
 ---
 title: Mirror Route Ownership in Mobile Storybook Pages
 date: 2026-08-01
-last_updated: 2026-08-28
+last_updated: 2026-08-30
 category: design-patterns
 module: apps/github.io navigation and Storybook
 problem_type: design_pattern
@@ -11,6 +11,7 @@ applies_when:
   - 'Building responsive Storybook page stories for app routes'
   - 'Exercising React Router navigation from an isolated Storybook story'
   - 'Verifying persistent navigation across routed mobile pages'
+  - 'Separating canonical page stories from global-navigation component stories'
   - 'Resetting stateful preview providers when the selected story changes'
   - 'Testing preview decorators instead of reconstructing approximate wrappers'
 related_components:
@@ -99,28 +100,30 @@ component stories through `parameters.appRoute`:
 ```
 
 This is the global decorator's current ownership split
-(`apps/github.io/.storybook/preview.ts:13`). A story whose component is the
-production `AppRoutes` sets an initial entry such as `/roadmap` and renders
-directly inside the one preview router
-(`apps/github.io/src/app/global-navigation-layout.stories.tsx:5`,
-`apps/github.io/src/app/global-navigation-layout.stories.tsx:15`). It must not
-add another story-local Router. An isolated component story still uses
-`StoryRoutes`, which renders the selected component at `/` and the real detail
-route at `/skills/:skillId`:
+(`apps/github.io/.storybook/preview.ts:13`). The canonical `Pages` story's
+component is production `AppRoutes`; each page variant sets an initial entry
+such as `/roadmap` and renders directly inside the one preview router
+(`apps/github.io/src/app/app-routes.stories.tsx:3`,
+`apps/github.io/src/app/app-routes.stories.tsx:14`). It must not add another
+story-local Router. An isolated component story still uses `StoryRoutes`,
+which renders the selected component at `/` and the real detail route at
+`/skills/:skillId`:
 
 ```tsx
 export function StoryRoutes({ children }: StoryRoutesProps): ReactElement {
   return (
     <Routes>
-      <Route path="/" element={children} />
+      <Route path="/*" element={children} />
       <Route path="/skills/:skillId" element={<SkillDetailRoute />} />
     </Routes>
   );
 }
 ```
 
-The route harness delegates resolution, not-found handling, and detail
-rendering to the production route component
+The wildcard permits a focused component story to supply nested routes without
+React Router warning that its parent cannot match deeper paths. The route
+harness delegates resolution, not-found handling, and detail rendering to the
+production route component
 (`apps/github.io/.storybook/story-routes.tsx:10`,
 `apps/github.io/src/app/skills/skill-detail-route.tsx:12`). Keep this harness
 small: it should mirror only the app destinations an isolated story must reach.
@@ -135,21 +138,21 @@ a different story creates fresh router state
 Test the exported preview decorator itself. Reconstructing the expected
 providers in a test can pass even when `preview.ts` omits a provider, route
 switch, provider order, or lifecycle key. The preview-routing test obtains the
-actual decorator (`apps/github.io/.storybook/story-routes.spec.ts:72`) and
+actual decorator (`apps/github.io/.storybook/story-routes.spec.ts:112`) and
 protects both routing branches:
 
-- A routed application story starts at Roadmap inside the preview-owned router
-  and marks Roadmap current
-  (`apps/github.io/.storybook/story-routes.spec.ts:87`).
+- The focused global-navigation story opens its drawer with no page item
+  selected and emits no nested-route warning
+  (`apps/github.io/.storybook/story-routes.spec.ts:159`).
 - A SkillCard click renders the Kubernetes detail heading
-  (`apps/github.io/.storybook/story-routes.spec.ts:115`).
+  (`apps/github.io/.storybook/story-routes.spec.ts:195`).
 - A new Storybook context ID resets the route and renders the next story
-  (`apps/github.io/.storybook/story-routes.spec.ts:135`).
+  (`apps/github.io/.storybook/story-routes.spec.ts:195`).
 - A command-palette selection renders the Terraform detail heading
-  (`apps/github.io/.storybook/story-routes.spec.ts:145`).
+  (`apps/github.io/.storybook/story-routes.spec.ts:259`).
 - An external project result opens through `window.open` with `_blank` and
   `noopener,noreferrer`, so the Storybook preview canvas does not become the
-  external-page target (`apps/github.io/.storybook/story-routes.spec.ts:161`).
+  external-page target (`apps/github.io/.storybook/story-routes.spec.ts:348`).
 
 Keep focused URL and component tests alongside this integration coverage. They
 protect useful narrower contracts, but they do not substitute for asserting
@@ -189,17 +192,32 @@ Storybook-aware production components.
 
 ## Examples
 
-For shell, navigation, or route-scroll behavior, render the production route
-tree and select the initial route through story metadata:
+Use the production route tree for canonical page coverage; keep all real route
+variants under `Pages`:
 
 ```tsx
 const meta: Meta<typeof AppRoutes> = {
   component: AppRoutes,
   parameters: { layout: 'fullscreen' },
-  title: 'Navigation/Global Navigation',
+  title: 'Pages',
 };
 
 export const Roadmap = { parameters: { appRoute: '/roadmap' } };
+```
+
+For navigation-component review, render `GlobalNavigationLayout` with a
+neutral nested outlet rather than duplicating the page catalogue:
+
+```tsx
+export const Default = {
+  render: () => (
+    <Routes>
+      <Route element={<GlobalNavigationLayout />}>
+        <Route index element={<main aria-label="Navigation preview" />} />
+      </Route>
+    </Routes>
+  ),
+};
 ```
 
 Avoid treating router context as a complete navigation harness:
