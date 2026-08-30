@@ -15,8 +15,8 @@ import globalNavigationFooterMeta from '../src/app/global-navigation-footer.stor
 import globalNavigationLayoutMeta from '../src/app/global-navigation-layout.stories';
 import notFoundPageMeta from '../src/app/not-found-page.stories';
 import projectCardMeta from '../src/app/projects/project-card.stories';
-import homeGreetingMeta from '../src/app/skills/home-greeting.stories';
-import homePageMeta from '../src/app/skills/home-page.stories';
+import homeGreetingMeta from '../src/app/home/home-greeting.stories';
+import homePageMeta from '../src/app/home/home-page.stories';
 import skillAvatarMeta from '../src/app/skills/skill-avatar.stories';
 import skillCardMeta from '../src/app/skills/skill-card.stories';
 import skillCarouselMeta from '../src/app/skills/skill-carousel.stories';
@@ -81,8 +81,8 @@ describe('route-page story taxonomy', () => {
       doraCapabilityCard: 'Components/DevOps Capability Evidence/DORA Capability Card',
       footer: 'Navigation/Footer',
       globalNavigation: 'Navigation/Global Navigation',
-      homeGreeting: 'Components/Skills/Home Greeting',
-      homePage: 'Components/Skills/Home Page',
+      homeGreeting: 'Components/Home/Home Greeting',
+      homePage: 'Components/Home/Home Page',
       notFoundPage: 'Components/Pages/Not Found Page',
       projectCard: 'Components/Projects/Project Card',
       roadmapPage: 'Components/DevOps Roadmap/Roadmap Page',

@@ -7,7 +7,7 @@ const meta: Meta<typeof HomeGreeting> = {
   parameters: {
     layout: 'fullscreen',
   },
-  title: 'Components/Skills/Home Greeting',
+  title: 'Components/Home/Home Greeting',
 };
 
 export default meta;
