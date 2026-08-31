@@ -1,0 +1,31 @@
+name: Maintain github.io version PR
+
+on:
+  push:
+    branches: [main]
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  version:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          persist-credentials: false
+      - uses: pnpm/action-setup@008330803749db0355799c700092d9a85fd074e9 # v6.0.9
+        with:
+          version: 11.16.0
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7
+        with:
+          node-version: 24
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - uses: changesets/action@fdf536a68c4154480c89b42547f8102cf0d8bc47 # v2.1.1
+        with:
+          version: pnpm changeset version
+          commit: 'chore(release): version github.io'
+          title: 'chore(release): version github.io'
+          github-token: ${{ secrets.GITHUB_TOKEN }}

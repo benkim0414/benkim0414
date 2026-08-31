@@ -1,0 +1,60 @@
+name: Release github.io
+
+on:
+  pull_request:
+    types: [closed]
+
+concurrency:
+  group: github-io-release-${{ github.event.pull_request.number }}
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    if: >
+      github.event.pull_request.merged == true &&
+      github.event.pull_request.base.ref == 'main' &&
+      github.event.pull_request.title == 'chore(release): version github.io' &&
+      github.event.pull_request.user.login == 'github-actions[bot]' &&
+      github.event.pull_request.head.repo.full_name == github.repository &&
+      github.event.pull_request.head.ref == 'changeset-release/main'
+    runs-on: ubuntu-latest
+    env:
+      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          ref: ${{ github.event.pull_request.merge_commit_sha }}
+          fetch-depth: 0
+      - name: Read release metadata
+        id: release
+        run: |
+          version="$(node -p "require('./apps/github.io/package.json').version")"
+          tag="github.io@$version"
+          merge_sha="${{ github.event.pull_request.merge_commit_sha }}"
+          echo "tag=$tag" >> "$GITHUB_OUTPUT"
+          echo "merge_sha=$merge_sha" >> "$GITHUB_OUTPUT"
+      - name: Create tag and GitHub Release
+        run: |
+          tag="${{ steps.release.outputs.tag }}"
+          merge_sha="${{ steps.release.outputs.merge_sha }}"
+
+          if git ls-remote --exit-code --tags origin "refs/tags/$tag" >/dev/null 2>&1; then
+            echo "Tag $tag already exists."
+          else
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git tag -a "$tag" "$merge_sha" -m "$tag"
+            git push origin "refs/tags/$tag"
+          fi
+
+          if gh release view "$tag" >/dev/null 2>&1; then
+            echo "GitHub Release $tag already exists."
+          else
+            gh release create "$tag" \
+              --target "$merge_sha" \
+              --generate-notes \
+              --title "$tag"
+          fi
