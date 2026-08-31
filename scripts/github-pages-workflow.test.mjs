@@ -9,6 +9,10 @@ const readWorkflow = () => readFile(workflowPath, 'utf8');
 test('publishes verified github.io artifacts to the Pages repository', async () => {
   const workflow = await readWorkflow();
 
+  assert.match(
+    workflow,
+    /steps:\s*\n\s+- uses: actions\/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7\s*\n\s+with:\s*\n\s+persist-credentials: false/,
+  );
   assert.match(workflow, /push:\s*\n\s+branches:\s*\[main\]/);
   assert.match(workflow, /workflow_dispatch:/);
   assert.match(workflow, /group:\s*github-pages-artifact-sync/);
