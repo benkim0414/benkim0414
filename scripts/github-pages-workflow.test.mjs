@@ -25,6 +25,10 @@ test('publishes verified github.io artifacts to the Pages repository', async () 
   assert.match(workflow, /secrets\.GITHUB_PAGES_DEPLOY_KEY/);
   assert.match(
     workflow,
+    /repository:\s*benkim0414\/benkim0414\.github\.io[\s\S]*?ref:\s*main[\s\S]*?ssh-key:\s*\$\{\{ secrets\.GITHUB_PAGES_DEPLOY_KEY \}\}[\s\S]*?persist-credentials:\s*true/,
+  );
+  assert.match(
+    workflow,
     /node scripts\/sync-github-pages-artifact\.mjs dist\/apps\/github\.io \.pages-site/,
   );
   assert.match(workflow, /git push origin main(?!\s+--force)/);

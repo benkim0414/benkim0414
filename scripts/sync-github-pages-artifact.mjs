@@ -22,7 +22,7 @@ export function syncArtifact(buildDirectory, targetDirectory) {
     }
   }
   for (const entry of readdirSync(buildDirectory)) {
-    if (entry === '.git') continue;
+    if (entry === '.git' || entry === 'package.json') continue;
     cpSync(join(buildDirectory, entry), join(targetDirectory, entry), {
       recursive: true,
     });

@@ -25,7 +25,7 @@ jobs:
       - run: pnpm install --frozen-lockfile
       - uses: changesets/action@fdf536a68c4154480c89b42547f8102cf0d8bc47 # v2.1.1
         with:
-          version: pnpm changeset version
-          commit: 'chore(release): version github.io'
-          title: 'chore(release): version github.io'
+          version-script: pnpm changeset version
+          commit-message: 'chore(release): version github.io'
+          pr-title: 'chore(release): version github.io'
           github-token: ${{ secrets.GITHUB_TOKEN }}

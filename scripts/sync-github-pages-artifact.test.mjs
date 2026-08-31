@@ -29,6 +29,10 @@ test('syncArtifact replaces stale artifacts while preserving Git metadata', (t) 
   mkdirSync(join(targetDirectory, '.git'), { recursive: true });
   writeFileSync(join(buildDirectory, 'index.html'), '<h1>Pages</h1>');
   writeFileSync(
+    join(buildDirectory, 'package.json'),
+    '{"name":"@benkim0414/github-io","private":true}',
+  );
+  writeFileSync(
     join(buildDirectory, 'assets', 'app.js'),
     'console.log("Pages");',
   );
@@ -54,6 +58,7 @@ test('syncArtifact replaces stale artifacts while preserving Git metadata', (t) 
   );
   assert.equal(readFileSync(join(targetDirectory, '.nojekyll'), 'utf8'), '');
   assert.equal(existsSync(join(targetDirectory, 'obsolete.txt')), false);
+  assert.equal(existsSync(join(targetDirectory, 'package.json')), false);
   assert.equal(
     readFileSync(join(targetDirectory, '.git', 'HEAD'), 'utf8'),
     'ref: refs/heads/main\n',

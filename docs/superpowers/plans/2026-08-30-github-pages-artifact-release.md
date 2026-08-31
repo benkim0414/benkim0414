@@ -22,22 +22,24 @@
 
 ## File structure
 
-| File | Responsibility |
-| --- | --- |
-| `package.json`, `pnpm-lock.yaml` | Root Changesets CLI and pnpm version declaration. |
-| `apps/github.io/package.json` | Private semantic-version identity for the application. |
-| `.changeset/config.json` | Private application version/tag policy on `main`. |
-| `apps/github.io/vite.config.ts`, `index.html`, `404.html`, `src/app/app.tsx` | Explicit root-base production and SPA routing contract. |
-| `apps/github.io/src/app/app.spec.tsx` | Root-base route regression coverage. |
-| `scripts/sync-github-pages-artifact.mjs` | Pure artifact-to-git-checkout synchronizer. |
-| `scripts/sync-github-pages-artifact.test.mjs` | Filesystem safety tests for the synchronizer. |
-| `.github/workflows/deploy-github-pages-artifact.yml` | Build, verify, and non-force artifact promotion. |
-| `.github/workflows/changesets-version.yml` | Version-PR automation. |
-| `.github/workflows/release-github-io.yml` | Tag and GitHub Release automation. |
+| File                                                                         | Responsibility                                               |
+| ---------------------------------------------------------------------------- | ------------------------------------------------------------ |
+| `package.json`, `pnpm-lock.yaml`                                             | Root Changesets CLI and pnpm version declaration.            |
+| `apps/github.io/package.json`                                                | Private semantic-version identity for the application.       |
+| `.changeset/config.json`                                                     | Private application version/tag policy on `main`.            |
+| `apps/github.io/vite.config.ts`, `index.html`, `404.html`, `src/app/app.tsx` | Explicit root-base production and SPA routing contract.      |
+| `apps/github.io/src/app/app.spec.tsx`                                        | Root-base route regression coverage.                         |
+| `scripts/sync-github-pages-artifact.mjs`                                     | Pure artifact-to-git-checkout synchronizer.                  |
+| `scripts/sync-github-pages-artifact.test.mjs`                                | Filesystem safety tests for the synchronizer.                |
+| `.github/workflows/deploy-github-pages-artifact.yml`                         | Build, verify, and non-force artifact promotion.             |
+| `.github/workflows/changesets-version.yml`                                   | Version-PR automation.                                       |
+| `.github/workflows/release-github-io.yml`                                    | Tag and GitHub Release automation.                           |
+| `docs/runbooks/github-pages-artifact-release.md`                             | Executable target-repository bootstrap and deploy-key setup. |
 
 ### Task 1: Add private application versioning
 
 **Files:**
+
 - Modify: `package.json`, `pnpm-lock.yaml`
 - Create: `apps/github.io/package.json`, `.changeset/config.json`, `scripts/github-io-release-config.test.mjs`
 
@@ -98,6 +100,7 @@ Expected: configuration test passes and Changesets reports no pending changesets
 ### Task 2: Make root-site routing explicit
 
 **Files:**
+
 - Modify: `apps/github.io/vite.config.ts`, `apps/github.io/index.html`, `apps/github.io/404.html`, `apps/github.io/src/app/app.tsx`
 - Create: `apps/github.io/src/app/app.spec.tsx`
 
@@ -146,6 +149,7 @@ Expected: no source stylesheet or project-path reference remains in output; `/`,
 ### Task 3: Build a tested artifact synchronizer
 
 **Files:**
+
 - Create: `scripts/sync-github-pages-artifact.mjs`, `scripts/sync-github-pages-artifact.test.mjs`
 
 **Interfaces:** Exports `syncArtifact(buildDirectory, targetDirectory)` and accepts those two paths as its first and second CLI arguments.
@@ -156,7 +160,10 @@ Use `mkdtempSync` fixtures. Give the source `index.html` and `assets/app.js`; gi
 
 ```js
 assert.equal(existsSync(join(targetDir, 'obsolete.txt')), false);
-assert.equal(readFileSync(join(targetDir, '.git', 'HEAD'), 'utf8'), 'ref: refs/heads/main\n');
+assert.equal(
+  readFileSync(join(targetDir, '.git', 'HEAD'), 'utf8'),
+  'ref: refs/heads/main\n',
+);
 ```
 
 - [ ] **Step 2: Verify the missing implementation fails**
@@ -167,14 +174,18 @@ Expected: FAIL with module-not-found.
 
 - [ ] **Step 3: Implement synchronization**
 
-Resolve arguments; throw if the build directory is absent or target lacks `.git`. Delete every root target entry except `.git`, recursively copy every build-root entry with `cpSync`, then write an empty `.nojekyll`. Export the function and invoke it only when the module is the main script.
+Resolve arguments; throw if the build directory is absent or target lacks `.git`. Delete every root target entry except `.git`, recursively copy every build-root entry except `.git` and the private application `package.json` with `cpSync`, then write an empty `.nojekyll`. Export the function and invoke it only when the module is the main script.
 
 ```js
 for (const entry of readdirSync(targetDirectory)) {
-  if (entry !== '.git') rmSync(join(targetDirectory, entry), { recursive: true, force: true });
+  if (entry !== '.git')
+    rmSync(join(targetDirectory, entry), { recursive: true, force: true });
 }
 for (const entry of readdirSync(buildDirectory)) {
-  cpSync(join(buildDirectory, entry), join(targetDirectory, entry), { recursive: true });
+  if (entry === '.git' || entry === 'package.json') continue;
+  cpSync(join(buildDirectory, entry), join(targetDirectory, entry), {
+    recursive: true,
+  });
 }
 writeFileSync(join(targetDirectory, '.nojekyll'), '');
 ```
@@ -199,13 +210,14 @@ Expected: tests pass and the temporary repository contains only generated assets
 ### Task 4: Add verified artifact promotion
 
 **Files:**
+
 - Create: `.github/workflows/deploy-github-pages-artifact.yml`, `scripts/github-pages-workflow.test.mjs`
 
 **Interfaces:** Consumes `secrets.GITHUB_PAGES_DEPLOY_KEY`; promotes `dist/apps/github.io` only after focused checks pass.
 
 - [ ] **Step 1: Write a failing workflow contract test**
 
-Read the workflow as text and assert: `push` to `main`, `workflow_dispatch`, concurrency group `github-pages-artifact-sync`, `cancel-in-progress: true`, frozen pnpm install, `nx lint/test/build github.io`, target repo name, deploy-key secret name, synchronizer command, and `git push origin main` without `--force`.
+Read the workflow as text and assert: `push` to `main`, `workflow_dispatch`, concurrency group `github-pages-artifact-sync`, `cancel-in-progress: true`, frozen pnpm install, `nx lint/test/build github.io`, source credentials disabled, target deploy-key credentials retained, target repo name and seeded `main` ref, synchronizer command, and `git push origin main` without `--force`.
 
 - [ ] **Step 2: Confirm it fails**
 
@@ -228,7 +240,7 @@ Use `contents: read` only. Pin these actions:
     cache: pnpm
 ```
 
-Check out `benkim0414/benkim0414.github.io` at `main` into `.pages-site` using `ssh-key: ${{ secrets.GITHUB_PAGES_DEPLOY_KEY }}` and `persist-credentials: false`. Run the synchronizer. In `.pages-site`, configure `github-actions[bot]`; if `git diff --quiet`, print `No artifact changes to publish.` and exit zero. Otherwise commit `deploy: github.io $GITHUB_SHA` and run `git push origin main`.
+Keep `persist-credentials: false` on the source checkout. Check out the already-seeded `main` branch of `benkim0414/benkim0414.github.io` into `.pages-site` using `ssh-key: ${{ secrets.GITHUB_PAGES_DEPLOY_KEY }}` and `persist-credentials: true`, so that deploy-key authentication remains configured for the later push. Run the synchronizer. In `.pages-site`, configure `github-actions[bot]`; if `git diff --quiet`, print `No artifact changes to publish.` and exit zero. Otherwise commit `deploy: github.io $GITHUB_SHA` and run `git push origin main`.
 
 - [ ] **Step 4: Verify and commit**
 
@@ -246,13 +258,14 @@ git commit -m "ci(github.io): deploy verified Pages artifacts"
 ### Task 5: Automate version PRs, tags, and releases
 
 **Files:**
+
 - Create: `.github/workflows/changesets-version.yml`, `.github/workflows/release-github-io.yml`, `scripts/github-io-release-workflows.test.mjs`
 
 **Interfaces:** Reads `apps/github.io/package.json` after a merged PR titled `chore(release): version github.io`; emits tag and release `github.io@X.Y.Z`.
 
 - [ ] **Step 1: Write failing workflow contract tests**
 
-Assert the version workflow has `contents: write` plus `pull-requests: write`, uses the exact version-PR title, and pins `changesets/action` v2.1.1. Assert the release workflow listens to closed PRs, requires merged `main` PRs with that title, reads the app version, performs an existing tag/release check, and invokes `gh release create` against the merge commit.
+Assert the version workflow has `contents: write` plus `pull-requests: write`, pins `changesets/action` v2.1.1, and uses its `version-script`, `commit-message`, and `pr-title` inputs with the exact version-PR title. Assert the release workflow listens to closed PRs, requires merged `main` PRs with that title, reads the app version, rejects an existing tag that resolves to any other commit, and invokes `gh release create` against the merge commit.
 
 - [ ] **Step 2: Confirm the contract fails**
 
@@ -267,9 +280,9 @@ Trigger on main pushes, set `contents: write` and `pull-requests: write`, then i
 ```yaml
 - uses: changesets/action@fdf536a68c4154480c89b42547f8102cf0d8bc47 # v2.1.1
   with:
-    version: pnpm changeset version
-    commit: "chore(release): version github.io"
-    title: "chore(release): version github.io"
+    version-script: pnpm changeset version
+    commit-message: 'chore(release): version github.io'
+    pr-title: 'chore(release): version github.io'
     github-token: ${{ secrets.GITHUB_TOKEN }}
 ```
 
@@ -277,7 +290,7 @@ Do not set a `publish` command.
 
 - [ ] **Step 4: Implement merged-version-PR release workflow**
 
-Trigger on `pull_request` closed events. Gate on `merged == true`, base ref `main`, and title `chore(release): version github.io`. With `contents: write`, check out the merge commit, read `apps/github.io/package.json` with Node, form `github.io@$version`, then create and push an annotated tag only if absent. With `GH_TOKEN` set to the workflow token, call `gh release view` first and otherwise call `gh release create` with `--target` set to that merge SHA, `--generate-notes`, and title equal to the tag. Use a concurrency group derived from the pull-request number.
+Trigger on `pull_request` closed events. Gate on `merged == true`, base ref `main`, and title `chore(release): version github.io`. With `contents: write`, check out the merge commit, read `apps/github.io/package.json` with Node, and form `github.io@$version`. If the tag exists, resolve its commit and fail unless it equals the version-PR merge SHA; otherwise create and push an annotated tag at that SHA. With `GH_TOKEN` set to the workflow token, call `gh release view` first and otherwise call `gh release create` with `--target` set to that merge SHA, `--generate-notes`, and title equal to the tag. Use a concurrency group derived from the pull-request number.
 
 - [ ] **Step 5: Verify and commit**
 
@@ -291,13 +304,13 @@ git commit -m "ci(github.io): automate semantic releases"
 
 ### Task 6: Configure GitHub and verify production
 
-**Files:** No tracked source files. Create external repository `benkim0414/benkim0414.github.io`.
+**Files:** Create `docs/runbooks/github-pages-artifact-release.md` and the external repository `benkim0414/benkim0414.github.io`.
 
 **Interfaces:** Consumes completed source workflows and a dedicated Ed25519 deploy-key pair; produces Pages served from the root account URL.
 
 - [ ] **Step 1: Create the artifact repository and Pages source**
 
-Create public repository `benkim0414.github.io`. In Settings → Pages choose Deploy from a branch, `main`, `/(root)`.
+Follow `docs/runbooks/github-pages-artifact-release.md` to create the public repository with an initial commit on `main`; the deployment workflow requires that branch to exist before checkout. In Settings → Pages choose Deploy from a branch, `main`, `/(root)`.
 
 - [ ] **Step 2: Install the narrowly scoped deploy key**
 

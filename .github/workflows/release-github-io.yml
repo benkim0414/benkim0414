@@ -38,11 +38,21 @@ jobs:
           echo "merge_sha=$merge_sha" >> "$GITHUB_OUTPUT"
       - name: Create tag and GitHub Release
         run: |
+          set -euo pipefail
           tag="${{ steps.release.outputs.tag }}"
           merge_sha="${{ steps.release.outputs.merge_sha }}"
 
-          if git ls-remote --exit-code --tags origin "refs/tags/$tag" >/dev/null 2>&1; then
-            echo "Tag $tag already exists."
+          existing_tag_sha="$(git ls-remote --tags origin "refs/tags/$tag^{}" | cut -f1)"
+          if [[ -z "$existing_tag_sha" ]]; then
+            existing_tag_sha="$(git ls-remote --tags origin "refs/tags/$tag" | cut -f1)"
+          fi
+
+          if [[ -n "$existing_tag_sha" ]]; then
+            if [[ "$existing_tag_sha" != "$merge_sha" ]]; then
+              echo "Tag $tag resolves to $existing_tag_sha, not merge commit $merge_sha." >&2
+              exit 1
+            fi
+            echo "Tag $tag already resolves to merge commit $merge_sha."
           else
             git config user.name "github-actions[bot]"
             git config user.email "41898282+github-actions[bot]@users.noreply.github.com"

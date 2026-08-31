@@ -66,9 +66,11 @@ test, and build targets. It uses the built directory
 `dist/apps/github.io` as the sole artifact input.
 
 After validation, the workflow checks out `benkim0414.github.io` into a separate
-directory using the deploy key. It synchronizes the build output into the target
-repository root, excludes `.git`, writes `.nojekyll`, and commits only when the
-artifact differs. It uses a deployment concurrency group so a later `main`
+directory using the deploy key and retains that checkout's SSH credentials for
+the later push. The source checkout does not persist credentials. It synchronizes
+the build output into the target repository root, excludes `.git` and the private
+application `package.json`, writes `.nojekyll`, and commits only when the artifact
+differs. It uses a deployment concurrency group so a later `main`
 commit supersedes an in-progress older deployment. Pushes are normal
 fast-forward pushes; a conflict or failed push fails visibly and must be retried
 instead of being overwritten.
@@ -117,11 +119,12 @@ the static fallback document, but React must render the requested route.
 
 ## Required GitHub configuration
 
-Before enabling workflows, create the `benkim0414.github.io` repository and
-configure its Pages source as `main` / root. Register the generated public SSH
-key as a write-enabled deploy key there, and store the private key as an Actions
-secret in this source repository. In the source repository, allow GitHub Actions
-to create pull requests so Changesets can maintain the version PR.
+Before enabling workflows, create the `benkim0414.github.io` repository, seed
+its `main` branch with an initial commit, and configure its Pages source as
+`main` / root. Register the generated public SSH key as a write-enabled deploy
+key there, and store the private key as an Actions secret in this source
+repository. In the source repository, allow GitHub Actions to create pull
+requests so Changesets can maintain the version PR.
 
 ## Sources
 
