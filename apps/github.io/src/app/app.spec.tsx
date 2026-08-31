@@ -1,3 +1,4 @@
+import { readFileSync } from 'node:fs';
 import { fireEvent, render, waitFor, within } from '@testing-library/react';
 import { MemoryRouter, useLocation } from 'react-router-dom';
 import { beforeEach, vi } from 'vitest';
@@ -55,6 +56,16 @@ function renderAppRoutes(path: string, includeLocation = false) {
     <MemoryRouter initialEntries={[path]}>
       <AppProviders>
         {includeLocation ? <LocationProbe /> : null}
+        <AppRoutes />
+      </AppProviders>
+    </MemoryRouter>,
+  );
+}
+
+function renderRootAppRoutes(path: string) {
+  return render(
+    <MemoryRouter basename="/" initialEntries={[path]}>
+      <AppProviders>
         <AppRoutes />
       </AppProviders>
     </MemoryRouter>,
@@ -147,6 +158,29 @@ describe('App', () => {
 describe('AppRoutes', () => {
   beforeEach(() => {
     window.history.replaceState({}, '', '/');
+  });
+
+  it.each([
+    ['/skills', 'Skills'],
+    ['/skills/kubernetes', 'Kubernetes'],
+  ])(
+    'renders %s from the root deployment path without the recovery page',
+    (path, pageHeading) => {
+      const { getByRole, queryByRole } = renderRootAppRoutes(path);
+
+      expect(getByRole('heading', { level: 1, name: pageHeading })).toBeTruthy();
+      expect(
+        queryByRole('heading', { level: 1, name: 'Skill not found' }),
+      ).toBeNull();
+    },
+  );
+
+  it('configures BrowserRouter with Vite base URL', () => {
+    const appSource = readFileSync('src/app/app.tsx', 'utf8');
+
+    expect(appSource).toContain(
+      '<BrowserRouter basename={import.meta.env.BASE_URL}>',
+    );
   });
 
   it.each([
