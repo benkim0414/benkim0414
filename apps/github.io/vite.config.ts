@@ -30,6 +30,7 @@ function getStylexPlugin(mode: string) {
 
 export default defineConfig(({ mode }) => ({
   root: __dirname,
+  base: '/',
   cacheDir: '../../node_modules/.vite/apps/github.io',
 
   server: {

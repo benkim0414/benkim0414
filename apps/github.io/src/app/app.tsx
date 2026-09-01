@@ -40,7 +40,7 @@ export function AppRoutes(): ReactElement {
 
 export function App(): ReactElement {
   return (
-    <BrowserRouter>
+    <BrowserRouter basename={import.meta.env.BASE_URL}>
       <AppProviders>
         <AppRoutes />
       </AppProviders>

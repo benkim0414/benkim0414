@@ -1,0 +1,35 @@
+import assert from 'node:assert/strict';
+import { readFile } from 'node:fs/promises';
+import { test } from 'node:test';
+
+const workflowPath = '.github/workflows/deploy-github-pages-artifact.yml';
+
+const readWorkflow = () => readFile(workflowPath, 'utf8');
+
+test('publishes verified github.io artifacts to the Pages repository', async () => {
+  const workflow = await readWorkflow();
+
+  assert.match(
+    workflow,
+    /steps:\s*\n\s+- uses: actions\/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7\s*\n\s+with:\s*\n\s+persist-credentials: false/,
+  );
+  assert.match(workflow, /push:\s*\n\s+branches:\s*\[main\]/);
+  assert.match(workflow, /workflow_dispatch:/);
+  assert.match(workflow, /group:\s*github-pages-artifact-sync/);
+  assert.match(workflow, /cancel-in-progress:\s*true/);
+  assert.match(workflow, /pnpm install --frozen-lockfile/);
+  assert.match(workflow, /pnpm nx lint github\.io/);
+  assert.match(workflow, /pnpm nx test github\.io --run/);
+  assert.match(workflow, /pnpm nx build github\.io/);
+  assert.match(workflow, /repository:\s*benkim0414\/benkim0414\.github\.io/);
+  assert.match(workflow, /secrets\.PAGES_DEPLOY_KEY/);
+  assert.match(
+    workflow,
+    /repository:\s*benkim0414\/benkim0414\.github\.io[\s\S]*?ref:\s*main[\s\S]*?ssh-key:\s*\$\{\{ secrets\.PAGES_DEPLOY_KEY \}\}[\s\S]*?persist-credentials:\s*true/,
+  );
+  assert.match(
+    workflow,
+    /node scripts\/sync-github-pages-artifact\.mjs dist\/apps\/github\.io \.pages-site/,
+  );
+  assert.match(workflow, /git push origin main(?!\s+--force)/);
+});

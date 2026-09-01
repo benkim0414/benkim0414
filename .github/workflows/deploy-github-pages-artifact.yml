@@ -1,0 +1,53 @@
+name: Deploy GitHub Pages artifact
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+concurrency:
+  group: github-pages-artifact-sync
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          persist-credentials: false
+      - uses: pnpm/action-setup@008330803749db0355799c700092d9a85fd074e9 # v6.0.9
+        with:
+          version: 11.16.0
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7
+        with:
+          node-version: 24
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm nx lint github.io
+      - run: pnpm nx test github.io --run
+      - run: pnpm nx build github.io
+      - name: Check out the seeded Pages main branch
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          repository: benkim0414/benkim0414.github.io
+          ref: main
+          path: .pages-site
+          ssh-key: ${{ secrets.PAGES_DEPLOY_KEY }}
+          persist-credentials: true
+      - run: node scripts/sync-github-pages-artifact.mjs dist/apps/github.io .pages-site
+      - name: Commit and publish changed artifacts
+        working-directory: .pages-site
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add --all
+          if git diff --cached --quiet; then
+            echo "No artifact changes to publish."
+            exit 0
+          fi
+          git commit -m "deploy: github.io $GITHUB_SHA"
+          git push origin main
