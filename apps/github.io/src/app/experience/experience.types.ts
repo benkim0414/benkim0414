@@ -14,6 +14,7 @@ export interface ExperienceEnvironment {
 
 export interface Experience {
   readonly id: string;
+  readonly kind: 'professional' | 'personal';
   readonly title: string;
   readonly summary: string;
   readonly narrative: readonly string[];

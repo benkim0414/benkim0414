@@ -18,6 +18,7 @@ const listExperiences: readonly Experience[] = [
   experiences[0],
   {
     id: 'kubernetes-gitops-runtime-operations',
+    kind: 'personal',
     title: 'Kubernetes GitOps runtime operations',
     summary:
       'Maintained Kubernetes runtime changes through GitOps workflows with reviewed manifests, rollout visibility, and repeatable cluster reconciliation.',

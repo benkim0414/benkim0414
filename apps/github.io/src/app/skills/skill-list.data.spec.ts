@@ -85,6 +85,7 @@ describe('skill-list data', () => {
       'prometheus',
       'react',
       'sealed-secrets',
+      'sentry',
       'storybook',
       'swift',
       'terraform',

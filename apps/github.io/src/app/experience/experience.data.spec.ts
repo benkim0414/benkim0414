@@ -83,4 +83,55 @@ describe('experiences', () => {
       'Production',
     ]);
   });
+
+  it('declares a kind on every entry', () => {
+    for (const experience of experiences) {
+      expect(['professional', 'personal']).toContain(experience.kind);
+    }
+  });
+
+  const professionalExperienceIds = [
+    'nx-monorepo-service-consolidation',
+    'eks-platform-operations',
+    'production-observability-stack',
+    'production-reliability-engineering',
+    'gitops-deployment-reliability',
+    'identity-access-hardening',
+  ] as const;
+
+  it('contains the six professional experience entries', () => {
+    const ids = experiences.map(({ id }) => id);
+
+    for (const professionalId of professionalExperienceIds) {
+      expect(ids).toContain(professionalId);
+    }
+  });
+
+  it('authors professional entries as public-safe capability narratives', () => {
+    const professionalExperiences = experiences.filter(
+      ({ kind }) => kind === 'professional',
+    );
+
+    expect(professionalExperiences.map(({ id }) => id).sort()).toEqual(
+      [...professionalExperienceIds].sort(),
+    );
+
+    for (const experience of professionalExperiences) {
+      expect(experience.narrative).toHaveLength(3);
+      expect(experience.role).toBe('Platform engineer');
+      expect(experience.organization).toBeUndefined();
+      expect(experience.projectIds).toEqual([]);
+      expect(experience.supportingEvidenceIds).toBeUndefined();
+      expect(experience.period?.startedAt).toMatch(/^\d{4}-\d{2}$/);
+      expect(experience.period?.endedAt).toBeUndefined();
+    }
+  });
+
+  it('contains no issue-tracker ticket references in any entry', () => {
+    const ticketKeyPattern = /\b[A-Z][A-Z0-9]+-\d+\b/;
+
+    for (const experience of experiences) {
+      expect(JSON.stringify(experience)).not.toMatch(ticketKeyPattern);
+    }
+  });
 });
