@@ -1162,6 +1162,89 @@ function assertTopNavScrollReset(viewport, destinationPath, transition) {
   );
 }
 
+function assertThemeToggle(viewport, result) {
+  const label = `${viewport.width}x${viewport.height} theme toggle`;
+
+  assert(
+    result.initialMode === 'dark',
+    `${label} started in ${result.initialMode}, expected dark.`,
+  );
+  assert(
+    result.lightMode === 'light' && result.lightColorScheme === 'light',
+    `${label} did not apply light mode to the root canvas: ${JSON.stringify(result)}.`,
+  );
+  assert(
+    result.lightLabel === 'Switch to dark mode',
+    `${label} did not expose the dark-mode action after selecting light mode.`,
+  );
+  assert(
+    result.darkMode === 'dark' && result.darkColorScheme === 'dark',
+    `${label} did not restore dark mode to the root canvas.`,
+  );
+  assert(
+    result.darkLabel === 'Switch to light mode',
+    `${label} did not expose the light-mode action after selecting dark mode.`,
+  );
+}
+
+async function verifyThemeToggle(bidi, context, viewport) {
+  const initialMode = await evaluateJson(
+    bidi,
+    context,
+    `
+      return document.documentElement.getAttribute('data-theme');
+    `,
+  );
+  await evaluateJson(
+    bidi,
+    context,
+    `document.querySelector('button[aria-label="Switch to light mode"]')?.click(); return true;`,
+  );
+  await wait(50);
+  const lightState = await evaluateJson(
+    bidi,
+    context,
+    `
+      return {
+        colorScheme: getComputedStyle(document.documentElement).colorScheme,
+        label: document.querySelector('button[aria-label^="Switch to "]')?.getAttribute('aria-label'),
+        mode: document.documentElement.getAttribute('data-theme'),
+      };
+    `,
+  );
+  await evaluateJson(
+    bidi,
+    context,
+    `document.querySelector('button[aria-label="Switch to dark mode"]')?.click(); return true;`,
+  );
+  await wait(50);
+  const darkState = await evaluateJson(
+    bidi,
+    context,
+    `
+      return {
+        colorScheme: getComputedStyle(document.documentElement).colorScheme,
+        label: document.querySelector('button[aria-label^="Switch to "]')?.getAttribute('aria-label'),
+        mode: document.documentElement.getAttribute('data-theme'),
+      };
+    `,
+  );
+  const result = {
+    darkColorScheme: darkState.colorScheme,
+    darkLabel: darkState.label,
+    darkMode: darkState.mode,
+    initialMode,
+    lightColorScheme: lightState.colorScheme,
+    lightLabel: lightState.label,
+    lightMode: lightState.mode,
+  };
+
+  assertThemeToggle(viewport, result);
+  console.log(
+    `PASS ${viewport.width}x${viewport.height} theme toggle dark-to-light-to-dark root canvas`,
+  );
+}
+
 async function verifyTopNavScrollReset(
   bidi,
   context,
@@ -1361,6 +1444,7 @@ async function verifyRoutes(bidi, context, baseUrl, signal) {
       assertRouteMetrics(route, viewport, metrics, navigationPath);
 
       if (route.path === '/') {
+        await verifyThemeToggle(bidi, context, viewport);
         await verifyTopNavScrollReset(
           bidi,
           context,

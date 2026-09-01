@@ -11,6 +11,13 @@ import { RouterLink } from './router-link';
 import { HomePage } from './home/home-page';
 import { SkillDetailRoute } from './skills/skill-detail-route';
 import { SkillsPage } from './skills/skills-page';
+import { ThemeModeProvider, useThemeMode } from './theme-mode';
+
+function AppTheme({ children }: { children: ReactNode }): ReactElement {
+  const { mode } = useThemeMode();
+
+  return <Theme mode={mode} theme={neutralTheme}>{children}</Theme>;
+}
 
 export function AppProviders({
   children,
@@ -18,9 +25,11 @@ export function AppProviders({
   children: ReactNode;
 }): ReactElement {
   return (
-    <LinkProvider component={RouterLink}>
-      <Theme theme={neutralTheme}>{children}</Theme>
-    </LinkProvider>
+    <ThemeModeProvider>
+      <AppTheme>
+        <LinkProvider component={RouterLink}>{children}</LinkProvider>
+      </AppTheme>
+    </ThemeModeProvider>
   );
 }
 

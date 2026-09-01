@@ -11,7 +11,11 @@ import {
   CommandPaletteInput,
 } from '@astryxdesign/core/CommandPalette';
 import { Divider } from '@astryxdesign/core/Divider';
-import { HomeModernIcon } from '@heroicons/react/24/outline';
+import {
+  HomeModernIcon,
+  MoonIcon,
+  SunIcon,
+} from '@heroicons/react/24/outline';
 import { Icon } from '@astryxdesign/core/Icon';
 import { IconButton } from '@astryxdesign/core/IconButton';
 import { Layout, LayoutContent, LayoutHeader } from '@astryxdesign/core/Layout';
@@ -35,6 +39,7 @@ import { sampleProjects } from './projects/project-list.data';
 import { skills } from './skills/skill-list.data';
 import { skillMatchesQuery } from './skills/skill-search';
 import { GlobalNavigationFooter } from './global-navigation-footer';
+import { useThemeMode } from './theme-mode';
 
 interface GlobalSearchCommandItem extends GlobalSearchResult {
   readonly auxiliaryData: {
@@ -96,6 +101,9 @@ export function GlobalNavigationLayout(): ReactElement {
   const [isNavigationOpen, setIsNavigationOpen] = useState(false);
   const [mobileSkillSearch, setMobileSkillSearch] = useState('');
   const [selectedResultId, setSelectedResultId] = useState<string>();
+  const { mode, setMode } = useThemeMode();
+  const themeToggleLabel =
+    mode === 'dark' ? 'Switch to light mode' : 'Switch to dark mode';
   const results = useMemo(
     () =>
       createGlobalSearchResults({
@@ -262,6 +270,20 @@ export function GlobalNavigationLayout(): ReactElement {
                     tooltip="Search"
                     variant="ghost"
                     onClick={() => setIsSearchOpen(true)}
+                  />
+                  <IconButton
+                    icon={
+                      mode === 'dark' ? (
+                        <Icon color="inherit" icon={SunIcon} size="sm" />
+                      ) : (
+                        <Icon color="inherit" icon={MoonIcon} size="sm" />
+                      )
+                    }
+                    label={themeToggleLabel}
+                    size="sm"
+                    tooltip={themeToggleLabel}
+                    variant="ghost"
+                    onClick={() => setMode(mode === 'dark' ? 'light' : 'dark')}
                   />
                   <IconButton
                     as="a"
