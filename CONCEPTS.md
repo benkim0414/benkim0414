@@ -8,6 +8,14 @@ Shared domain vocabulary for this project -- entities, named processes, and stat
 
 The static React application that will become the root GitHub Pages user site for this repository owner.
 
+### Artifact-Only User-Site Repository
+
+The Git repository that serves the GitHub Pages user site while retaining only generated static output, separate from the source application's history and build tooling.
+
+### GitHub Pages Artifact Sync
+
+The release process that replaces the Artifact-Only User-Site Repository's published files with a verified build while preserving its repository metadata.
+
 ### App Shell
 
 The application-level composition boundary for the `github.io` App, owning shared context, persistent global navigation, the route table, and the shared vertical scroll region without absorbing page-specific content composition.
