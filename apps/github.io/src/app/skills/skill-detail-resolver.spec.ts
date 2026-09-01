@@ -35,6 +35,9 @@ describe('resolveSkillDetail', () => {
     expect(result.value.skill.name).toBe('Kubernetes');
     expect(result.value.experiences.map(({ id }) => id)).toEqual([
       'aws-codepipeline-codebuild-multistage-delivery',
+      'eks-platform-operations',
+      'production-reliability-engineering',
+      'identity-access-hardening',
     ]);
     expect(result.value.relatedSkills.map(({ id }) => id).slice(0, 6)).toEqual([
       'aws-codepipeline',
@@ -137,7 +140,9 @@ describe('resolveSkillDetail', () => {
     expect(result.status).toBe('found');
     if (result.status !== 'found') return;
 
-    expect(result.value.experiences).toEqual([]);
+    expect(result.value.experiences.map(({ id }) => id)).toEqual([
+      'gitops-deployment-reliability',
+    ]);
     expect(result.value.relatedSkills.map(({ name }) => name)).toEqual(
       expect.arrayContaining([
         'GitHub Actions',
