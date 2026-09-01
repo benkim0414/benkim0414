@@ -78,11 +78,17 @@ The explicit, ordered subset of Canonical Evidence Records selected to demonstra
 
 A Skill Detail Evidence Projection accepts only public, non-sensitive experience evidence; projects remain a separate portfolio presentation even when they demonstrate the same skill.
 
+### Skill Detail Record
+
+The explicit linkage that selects which Experience Narratives, experience evidence, and projects appear on one skill's detail page.
+
+Skill Detail Records are the only path by which an Experience Narrative reaches a rendered surface: a narrative referenced by no record is valid data that renders nowhere. A record may only link narratives that themselves declare the record's skill, and only public, non-sensitive ones.
+
 ### Experience Narrative
 
 A reusable public-safe account of professional experience that can link one achievement story to skills, projects, capability evidence, and future portfolio surfaces without duplicating prose.
 
-An Experience Narrative may carry more relationships than a specific UI renders; each consumer chooses its projection, such as a skill detail card that shows narrative prose and relevant skills while omitting broader metadata.
+An Experience Narrative may carry more relationships than a specific UI renders; each consumer chooses its projection, such as a skill detail card that shows narrative prose and relevant skills while omitting broader metadata. Every Experience Narrative is either professional — employment work abstracted so no employer, internal system, or ticket identifier is named — or personal, drawn from the author's own projects.
 
 ### Evidence-Calibrated Capability Score
 
