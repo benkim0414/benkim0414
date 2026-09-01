@@ -213,7 +213,7 @@ Expected: tests pass and the temporary repository contains only generated assets
 
 - Create: `.github/workflows/deploy-github-pages-artifact.yml`, `scripts/github-pages-workflow.test.mjs`
 
-**Interfaces:** Consumes `secrets.GITHUB_PAGES_DEPLOY_KEY`; promotes `dist/apps/github.io` only after focused checks pass.
+**Interfaces:** Consumes `secrets.PAGES_DEPLOY_KEY`; promotes `dist/apps/github.io` only after focused checks pass.
 
 - [ ] **Step 1: Write a failing workflow contract test**
 
@@ -240,7 +240,7 @@ Use `contents: read` only. Pin these actions:
     cache: pnpm
 ```
 
-Keep `persist-credentials: false` on the source checkout. Check out the already-seeded `main` branch of `benkim0414/benkim0414.github.io` into `.pages-site` using `ssh-key: ${{ secrets.GITHUB_PAGES_DEPLOY_KEY }}` and `persist-credentials: true`, so that deploy-key authentication remains configured for the later push. Run the synchronizer. In `.pages-site`, configure `github-actions[bot]`; if `git diff --quiet`, print `No artifact changes to publish.` and exit zero. Otherwise commit `deploy: github.io $GITHUB_SHA` and run `git push origin main`.
+Keep `persist-credentials: false` on the source checkout. Check out the already-seeded `main` branch of `benkim0414/benkim0414.github.io` into `.pages-site` using `ssh-key: ${{ secrets.PAGES_DEPLOY_KEY }}` and `persist-credentials: true`, so that deploy-key authentication remains configured for the later push. Run the synchronizer. In `.pages-site`, configure `github-actions[bot]`; if `git diff --quiet`, print `No artifact changes to publish.` and exit zero. Otherwise commit `deploy: github.io $GITHUB_SHA` and run `git push origin main`.
 
 - [ ] **Step 4: Verify and commit**
 
@@ -314,7 +314,7 @@ Follow `docs/runbooks/github-pages-artifact-release.md` to create the public rep
 
 - [ ] **Step 2: Install the narrowly scoped deploy key**
 
-Generate a new dedicated Ed25519 key pair. Add the public half in the target repo’s Settings → Deploy keys with Allow write access. Add the private half to this source repository’s Actions secrets as `GITHUB_PAGES_DEPLOY_KEY`. Never reuse a personal SSH key.
+Generate a new dedicated Ed25519 key pair. Add the public half in the target repo’s Settings → Deploy keys with Allow write access. Add the private half to this source repository’s Actions secrets as `PAGES_DEPLOY_KEY`. Never reuse a personal SSH key.
 
 - [ ] **Step 3: Permit Changesets PR creation**
 

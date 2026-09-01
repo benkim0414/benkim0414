@@ -40,7 +40,7 @@ gh repo deploy-key add ./github-pages-deploy-key.pub \
   --repo benkim0414/benkim0414.github.io \
   --title "benkim0414 artifact deployment" \
   --allow-write
-gh secret set GITHUB_PAGES_DEPLOY_KEY \
+gh secret set PAGES_DEPLOY_KEY \
   --repo benkim0414/benkim0414 \
   < ./github-pages-deploy-key
 ```

@@ -36,7 +36,7 @@ jobs:
           repository: benkim0414/benkim0414.github.io
           ref: main
           path: .pages-site
-          ssh-key: ${{ secrets.GITHUB_PAGES_DEPLOY_KEY }}
+          ssh-key: ${{ secrets.PAGES_DEPLOY_KEY }}
           persist-credentials: true
       - run: node scripts/sync-github-pages-artifact.mjs dist/apps/github.io .pages-site
       - name: Commit and publish changed artifacts

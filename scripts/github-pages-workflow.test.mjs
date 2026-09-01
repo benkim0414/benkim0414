@@ -22,10 +22,10 @@ test('publishes verified github.io artifacts to the Pages repository', async () 
   assert.match(workflow, /pnpm nx test github\.io --run/);
   assert.match(workflow, /pnpm nx build github\.io/);
   assert.match(workflow, /repository:\s*benkim0414\/benkim0414\.github\.io/);
-  assert.match(workflow, /secrets\.GITHUB_PAGES_DEPLOY_KEY/);
+  assert.match(workflow, /secrets\.PAGES_DEPLOY_KEY/);
   assert.match(
     workflow,
-    /repository:\s*benkim0414\/benkim0414\.github\.io[\s\S]*?ref:\s*main[\s\S]*?ssh-key:\s*\$\{\{ secrets\.GITHUB_PAGES_DEPLOY_KEY \}\}[\s\S]*?persist-credentials:\s*true/,
+    /repository:\s*benkim0414\/benkim0414\.github\.io[\s\S]*?ref:\s*main[\s\S]*?ssh-key:\s*\$\{\{ secrets\.PAGES_DEPLOY_KEY \}\}[\s\S]*?persist-credentials:\s*true/,
   );
   assert.match(
     workflow,
