@@ -64,6 +64,33 @@ function renderAppRoutes(path: string, includeLocation = false) {
 describe('App', () => {
   beforeEach(() => {
     window.history.replaceState({}, '', '/');
+    window.localStorage.clear();
+  });
+
+  it('uses dark mode by default', () => {
+    render(<App />);
+
+    expect(document.documentElement.getAttribute('data-theme')).toBe('dark');
+  });
+
+  it('restores a saved light mode preference', () => {
+    window.localStorage.setItem('theme-mode', 'light');
+
+    render(<App />);
+
+    expect(document.documentElement.getAttribute('data-theme')).toBe('light');
+  });
+
+  it('switches to light mode and saves the selection', () => {
+    const { getByRole } = render(<App />);
+
+    fireEvent.click(getByRole('button', { name: 'Switch to light mode' }));
+
+    expect(document.documentElement.getAttribute('data-theme')).toBe('light');
+    expect(window.localStorage.getItem('theme-mode')).toBe('light');
+    expect(
+      getByRole('button', { name: 'Switch to dark mode' }),
+    ).toBeTruthy();
   });
 
   it('renders the home route inside the global navigation frame', () => {

@@ -8,11 +8,12 @@ import {
 } from '@astryxdesign/core/theme/tokens.stylex';
 import { neutralTheme } from '@astryxdesign/theme-neutral/built';
 import { MemoryRouter, Route, Routes, useLocation } from 'react-router-dom';
-import { vi } from 'vitest';
+import { beforeEach, vi } from 'vitest';
 import * as stylex from '@stylexjs/stylex';
 
 import { GlobalNavigationLayout } from './global-navigation-layout';
 import { RouterLink } from './router-link';
+import { ThemeModeProvider, useThemeMode } from './theme-mode';
 
 vi.stubGlobal('matchMedia', (query: string) => ({
   addEventListener: vi.fn(),
@@ -127,23 +128,31 @@ function Location() {
   return <output data-testid="location">{location.pathname}</output>;
 }
 
+function TestTheme({ children }: { children: ReactNode }) {
+  const { mode } = useThemeMode();
+
+  return <Theme mode={mode} theme={neutralTheme}>{children}</Theme>;
+}
+
 function renderGlobalLayout(initialEntry = '/') {
   const view = render(
-    <Theme theme={neutralTheme}>
-      <LinkProvider component={RouterLink}>
-        <MemoryRouter initialEntries={[initialEntry]}>
-          <Location />
-          <Routes>
-            <Route element={<GlobalNavigationLayout />}>
-              <Route index element={<RouteContent />} />
-              <Route path="roadmap" element={<RouteContent />} />
-              <Route path="skills" element={<RouteContent />} />
-              <Route path="skills/:skillId" element={<RouteContent />} />
-            </Route>
-          </Routes>
-        </MemoryRouter>
-      </LinkProvider>
-    </Theme>,
+    <ThemeModeProvider>
+      <TestTheme>
+        <LinkProvider component={RouterLink}>
+          <MemoryRouter initialEntries={[initialEntry]}>
+            <Location />
+            <Routes>
+              <Route element={<GlobalNavigationLayout />}>
+                <Route index element={<RouteContent />} />
+                <Route path="roadmap" element={<RouteContent />} />
+                <Route path="skills" element={<RouteContent />} />
+                <Route path="skills/:skillId" element={<RouteContent />} />
+              </Route>
+            </Routes>
+          </MemoryRouter>
+        </LinkProvider>
+      </TestTheme>
+    </ThemeModeProvider>,
   );
 
   return view;
@@ -167,6 +176,10 @@ function expectTooltipFor(control: HTMLElement, text: string) {
 }
 
 describe('GlobalNavigationLayout', () => {
+  beforeEach(() => {
+    window.localStorage.clear();
+  });
+
   it('renders one heading-free global nav above routed content', () => {
     const { container, getByRole, getByText, queryByRole } =
       renderGlobalLayout();
@@ -243,16 +256,23 @@ describe('GlobalNavigationLayout', () => {
     expect(homeLink.querySelector('svg')).toBeTruthy();
   });
 
-  it('renders the navigation trigger after the GitHub profile icon link', () => {
+  it('renders the theme toggle between Search and the GitHub profile icon link', () => {
     const { getByRole } = renderGlobalLayout();
     const navigation = getByRole('navigation', { name: 'Global navigation' });
     const searchButton = getByRole('button', { name: 'Search' });
+    const themeButton = getByRole('button', {
+      name: 'Switch to light mode',
+    });
     const githubLink = getByRole('link', { name: 'GitHub' });
     const navigationButton = getByRole('button', { name: 'Navigation' });
 
     expect(navigation.contains(searchButton)).toBe(true);
+    expect(navigation.contains(themeButton)).toBe(true);
     expect(navigation.contains(githubLink)).toBe(true);
-    expect(searchButton.compareDocumentPosition(githubLink)).toBe(
+    expect(searchButton.compareDocumentPosition(themeButton)).toBe(
+      Node.DOCUMENT_POSITION_FOLLOWING,
+    );
+    expect(themeButton.compareDocumentPosition(githubLink)).toBe(
       Node.DOCUMENT_POSITION_FOLLOWING,
     );
     expect(githubLink.compareDocumentPosition(navigationButton)).toBe(
@@ -260,6 +280,20 @@ describe('GlobalNavigationLayout', () => {
     );
     expect(githubLink.textContent?.trim()).toBe('');
     expect(githubLink.querySelector('svg')).toBeTruthy();
+  });
+
+  it('applies and persists the mode selected from global navigation', () => {
+    const { getByRole } = renderGlobalLayout();
+
+    fireEvent.click(
+      getByRole('button', { name: 'Switch to light mode' }),
+    );
+
+    expect(document.documentElement.getAttribute('data-theme')).toBe('light');
+    expect(window.localStorage.getItem('theme-mode')).toBe('light');
+    expect(
+      getByRole('button', { name: 'Switch to dark mode' }),
+    ).toBeTruthy();
   });
 
   it('opens the global GitHub profile link in a separate browsing context', () => {
@@ -303,6 +337,10 @@ describe('GlobalNavigationLayout', () => {
       'Search',
     );
     expectTooltipFor(
+      getByRole('button', { name: 'Switch to light mode' }),
+      'Switch to light mode',
+    );
+    expectTooltipFor(
       getByRole('button', { name: 'Navigation' }),
       'Navigation',
     );
@@ -312,17 +350,19 @@ describe('GlobalNavigationLayout', () => {
   it('colors the Home icon link with the blue icon color', () => {
     const { getByRole } = render(
       <Theme theme={neutralTheme}>
-        <MemoryRouter initialEntries={['/roadmap']}>
-          <GlobalNavigationLayout />
-          <IconButton
-            href="/"
-            icon={<span />}
-            label="Blue icon control"
-            size="sm"
-            variant="ghost"
-            xstyle={styles.blueIconLink}
-          />
-        </MemoryRouter>
+        <ThemeModeProvider>
+          <MemoryRouter initialEntries={['/roadmap']}>
+            <GlobalNavigationLayout />
+            <IconButton
+              href="/"
+              icon={<span />}
+              label="Blue icon control"
+              size="sm"
+              variant="ghost"
+              xstyle={styles.blueIconLink}
+            />
+          </MemoryRouter>
+        </ThemeModeProvider>
       </Theme>,
     );
     const homeLink = getByRole('link', { name: 'Home' });
