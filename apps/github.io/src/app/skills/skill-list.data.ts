@@ -367,6 +367,17 @@ export const skills: readonly Skill[] = [
     keywords: ['kubernetes', 'secrets', 'gitops', 'encryption'],
   },
   {
+    id: 'sentry',
+    name: 'Sentry',
+    description:
+      'Error tracking and session replay for application monitoring and release health.',
+    categories: ['Observability'],
+    primaryUse: 'Error tracking and release health',
+    confidence: 3,
+    iconSlug: 'sentry',
+    keywords: ['errors', 'session replay', 'monitoring', 'observability'],
+  },
+  {
     id: 'storybook',
     name: 'Storybook',
     description:
