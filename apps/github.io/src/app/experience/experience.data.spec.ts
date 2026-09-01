@@ -83,4 +83,10 @@ describe('experiences', () => {
       'Production',
     ]);
   });
+
+  it('declares a kind on every entry', () => {
+    for (const experience of experiences) {
+      expect(['professional', 'personal']).toContain(experience.kind);
+    }
+  });
 });

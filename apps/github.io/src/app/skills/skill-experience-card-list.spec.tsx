@@ -9,6 +9,7 @@ import {
 
 const ciCdExperience: Experience = {
   id: 'aws-codepipeline-codebuild-multistage-delivery',
+  kind: 'professional',
   title: 'Multi-stage AWS CI/CD delivery pipeline',
   summary:
     'Built AWS CodePipeline and CodeBuild automation for staging and production delivery with build validation, artifact handoff, and controlled promotion.',
