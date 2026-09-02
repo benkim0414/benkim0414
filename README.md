@@ -9,6 +9,6 @@
     <img src="https://shieldcn.dev/badge/gunwoobenkim0414.svg?size=xs&font=jetbrains-mono&logo=ri%3AFaLinkedin&logoColor=0a66c2" alt="LinkedIn" />
   </a>
   <a href="https://benkim0414.github.io/">
-    <img src="https://shieldcn.dev/badge/benkim0414.github.io-222222.svg?font=jetbrains-mono&logo=github&logoColor=fff&variant=secondary" alt="benkim0414.github.io" />
+    <img src="https://shieldcn.dev/badge/benkim0414.github.io-222222.svg?size=xs&font=jetbrains-mono&logo=github&logoColor=fff&variant=secondary" alt="benkim0414.github.io" />
   </a>
 </p>
