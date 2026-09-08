@@ -1,9 +1,9 @@
 import type { ReactElement } from 'react';
 import { Banner } from '@astryxdesign/core/Banner';
 import { Button } from '@astryxdesign/core/Button';
+import { Heading } from '@astryxdesign/core/Heading';
 import { HStack, VStack } from '@astryxdesign/core/Layout';
 import { Text } from '@astryxdesign/core/Text';
-import { VisuallyHidden } from '@astryxdesign/core/VisuallyHidden';
 
 import { DoraCapabilityCard } from '../devops-capability-evidence/dora-capability-card';
 import { doraCapabilityDescriptions } from '../devops-capability-evidence/dora-capability-card.evidence';
@@ -26,9 +26,11 @@ export function HomePage({
 }: HomePageProps): ReactElement {
   return (
     <VStack aria-label="Home" as="main">
-      <VisuallyHidden as="h1" id="home-page-title">
-        Home
-      </VisuallyHidden>
+      <VStack paddingBlock={4} paddingInline={4}>
+        <Heading id="home-page-title" level={1}>
+          DevOps engineering practice
+        </Heading>
+      </VStack>
       <HomeGreeting />
       <VStack gap={3} paddingBlock={4}>
         <VStack paddingInline={4}>

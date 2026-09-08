@@ -57,6 +57,18 @@ const renderHomePage = (props: ComponentProps<typeof HomePage> = {}) =>
   );
 
 describe('HomePage', () => {
+  it('shows the DevOps engineering practice heading before the greeting', () => {
+    const { getByRole } = renderHomePage();
+    const heading = getByRole('heading', {
+      level: 1,
+      name: 'DevOps engineering practice',
+    });
+    const greeting = getByRole('region', { name: 'Welcome message' });
+
+    expect(heading.className).toContain('astryx-heading');
+    expect(heading.parentElement?.nextElementSibling).toBe(greeting);
+  });
+
   it('places the welcome conversation before the top skills section', () => {
     const { getByRole } = renderHomePage();
     const { getByTestId } = render(

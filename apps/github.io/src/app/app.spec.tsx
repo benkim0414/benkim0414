@@ -139,7 +139,12 @@ describe('App', () => {
     expect(queryByRole('search', { name: 'Skill search' })).toBeNull();
     expect(queryByRole('combobox', { name: 'Search skills' })).toBeNull();
     expect(getByRole('button', { name: 'Search' })).toBeTruthy();
-    expect(getByRole('heading', { level: 1, name: 'Home' })).toBeTruthy();
+    expect(
+      getByRole('heading', {
+        level: 1,
+        name: 'DevOps engineering practice',
+      }),
+    ).toBeTruthy();
     expect(getByRole('heading', { level: 2, name: 'Top skills' })).toBeTruthy();
     expect(getByLabelText('Highlighted skills')).toBeTruthy();
     const showAll = getByRole('link', { name: 'Show all' });
@@ -211,7 +216,7 @@ describe('AppRoutes', () => {
   });
 
   it.each([
-    ['/', 'Home', 1],
+    ['/', 'DevOps engineering practice', 1],
     ['/roadmap', 'DevOps roadmap', 2],
     ['/skills', 'Skills', 1],
     ['/skills/kubernetes', 'Kubernetes', 1],
