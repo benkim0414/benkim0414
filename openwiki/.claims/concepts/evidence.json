@@ -1,0 +1,64 @@
+{
+  "schemaVersion": 1,
+  "pageVersion": "sha256:8e65e5a99e0bd88d589776867758de7156058e1d9ecd4e74f5c0354b4bbfb5c5",
+  "claims": [
+    {
+      "id": "claim_41253c1ed05946c38b803e4b8b5d55dc",
+      "statement": "Public capability skill evidence requires a distinct public non-skill supporting record sharing a capability.",
+      "evidence": [
+        {
+          "resource": "repo://apps/github.io/src/app/devops-capability-evidence/devops-capability-evidence.scoring.ts#L41-L65",
+          "version": "repo-lines-v1:sha256:0cf11428be20fa7cfdb6b10a9965c187174dba4797459b9e7ed1cfcd95e04378:eyJzZWxlY3RlZExpbmVDb3VudCI6MjUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijc0MTFiYjVlMzZjOThhNzFlZDNlN2MyZDhiYTBlNzM5NmVjZmNiNmE2MGIyZmY5NWQyMTViY2Y0NWI0MTMzNzkiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImM4ZjhlN2M3ZWM4MjRiNDQ1ZGYyMWQ1YzBlNjZkNjliYTdjZTg1ODJlNzM4ZjJmNWQ1ZmM4YTc2MDMzMGM2NzEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjRmYzFhY2JmNmZmZTIzYzI3YWU5ZTg0MjliZWEwZjYyNzVmNTc3MmMxODA0YjU2ZTE4ODUwNDkyMDJhN2QxYmIifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_714cbd7ebe9c43ab8d06a9d0aad8b5a7",
+      "statement": "Capability scoring rejects duplicate, missing, private, sensitive, and wrong-capability projection references.",
+      "evidence": [
+        {
+          "resource": "repo://apps/github.io/src/app/devops-capability-evidence/devops-capability-evidence.scoring.ts#L82-L128",
+          "version": "repo-lines-v1:sha256:6a858efbb5a31e4624382314122040dce015534ff56a6847c9aa354616d19549:eyJzZWxlY3RlZExpbmVDb3VudCI6NDcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImNiYzdlNzVmZDg0NDM1OWUxNmRhZGQwOGNkOTg2ZTI1ZDk2NWUyYjhiMmQ4YmQwYjEyOThlYWRhM2NkOGQwNDEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjBjZGE0OGUwZjZkNmYwZWJhOGNiMzNhMDQ4YTI1NTNhMzI3NmU0MTA3ZjExODI1MzVkNWEzZTM3ZTNhMzBlYmUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjI0NGFjYjQxNzdkZmMwM2MxYzU2ODlhNWE1Nzg5YTQyZmIzOTQ3N2NiZTcyNmJiOTc0ZDNiY2I0ODcyNjEyYTgiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjVlODI1ZWVkNzdjOGU4MTdjMWQ2Y2M4YWNkZTRlYzBmMDlkYjIxNTMwMjk0YTdjOGY5YTc1M2E1YmEyM2Y1OWQifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_8abdeeb089394f6391e44d1ccb52631b",
+      "statement": "Ordinary scores combine bounded applied strength, breadth, and corroboration, calibrate by 0.8, round to halves and cap at 4; 4.5 requires three primary records, three initiatives and corroboration.",
+      "evidence": [
+        {
+          "resource": "repo://apps/github.io/src/app/devops-capability-evidence/devops-capability-evidence.scoring.ts#L129-L178",
+          "version": "repo-lines-v1:sha256:d4a10b0d229ae5d2f2219f70efdf0fc0e9c9169c94018a87ed58918fd8e3b4f6:eyJzZWxlY3RlZExpbmVDb3VudCI6NTAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImE3NWM3NTAyOWE0NmZjOWUzN2Y2ZmRmZGZlOGE2OWI3ZjFlNzQ2MGE5MzY3Y2Q4YTQ1N2UyNWMzZjI1MjIyYjEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImI2YWQ3ZTBhNmNkMGQ2NzkxM2VhMWEzMGRiNmMwMjlhOWExZTRmMzQ4ZTU3NGZmMWMxMmZmZGYxMTdmOThhZjgiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImU5OGNmMjI4MzA4NTBlZmYxZGIyNmRmYmMwZmFkNjIzMWY5ZmFhZmQ4MGNkMmE2MGQ3ZDFmZjZjNmVlMTJhNjEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjY0NTcyYmE5YzBmZDY3YzEzMWZlZTE4ZmI4YTQyZWM3ZWFmNmNkNTVmNjkyMTg4M2I2MTc0ZmU2Y2YyOTc3YTAifQ"
+        },
+        {
+          "resource": "repo://apps/github.io/src/app/devops-capability-evidence/devops-capability-evidence.scoring.ts#L20-L39",
+          "version": "repo-lines-v1:sha256:e881c065722cc66b33580ba5731815940c5a08781b9b2c0730a5c96f762dc349:eyJzZWxlY3RlZExpbmVDb3VudCI6MjAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjFlYWU1NWE1Mzg5NTI1NzRiMjMzNjI4MzQ1ZTgyZDMxMTg4OWM3OWRiMjk1YmE5NWQ2ZDI3NzcxNzg0OTAxODgiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjZmNmIwNzYyYjZkOThjNDk2ZWM3ZmUyNTNkMGRmYzliYWI4N2VjZDBjNDkzMzY2YjYwOWVkNDUxZjVmOTVlNDQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjViZjBiZjhhNDcxYzlkZjA2MWQxZDZlNTMzM2JkY2E4OTk5NWJiMjQ0OTRlNjc5MjFmZGM1NzQ2ZWViYWJmZWIifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_935d8518e93a4984a463a80aad3dd9e1",
+      "statement": "Skill detail without a curated record derives experience evidence and related skills but returns empty narrative and project lists.",
+      "evidence": [
+        {
+          "resource": "repo://apps/github.io/src/app/skills/skill-detail-resolver.ts#L40-L58",
+          "version": "repo-lines-v1:sha256:baff70c5164e8dba161cd7c1f82fa81f421a08abf8b14cb029dc45dd58aa0c29:eyJzZWxlY3RlZExpbmVDb3VudCI6MTksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjllZTQ1NjBiNTNhNGVjOGQ0M2YyN2M0NmZlM2I1YWY3ZWI5ODQ2NzEwOGJlNzk3MmNlMjdjNDkzOTc5N2NiZGEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImI5NzhlMjUwM2I4Y2YzN2EwNmY3ZDZmMGEzYTZiNmZlMzU2OTFmYmNhYjUwYjg3NzVjYWI2ZmFiYzcxYzU5MmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjExZDMxOWRmYWQ5MGFkMDcxN2NjODlmOTY5MjViYTZlNDk5NTFlNGVjZjk1YmMyMjJjNGMyYWY2Zjk5ZjUxNjEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImJlZWVmZGQ1MTEzZDk5MDU2ZjFlMTlkZTFiN2Q1YmVkZTZlMGEzMDFmOWU4ZjdiZTRlYWQzZjhmOGRhODY2YzgifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_29ea2755e9eb4e5d8c8b0ae3d5a9c32b",
+      "statement": "Curated skill detail validates narrative visibility and skill linkage, experience-evidence type and visibility, and project existence.",
+      "evidence": [
+        {
+          "resource": "repo://apps/github.io/src/app/skills/skill-detail-resolver.ts#L71-L123",
+          "version": "repo-lines-v1:sha256:3c6022578c5681c9ab1cf2c91300d8ed37d87929acec4c78f3cea3518522e0b9:eyJzZWxlY3RlZExpbmVDb3VudCI6NTMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijk1ZWYwMWJjMDhkYmMzYjYzZTRlNzVlYTNkMjZhNWI5NDE4OTE4NzdlMjdhZDg5MTMyOWM4NDExZDdkOGRjNGQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImRiMmI5ZjgxYzAzZmY3ZjdlZjkxYTI4MTI5OGI1YTkzZjI3NDRlMjVhY2YxMzEzMWNmMmU0OGQ0ZDUwYTFhZGMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjY1ZGI4NjdiZDIzNTgzOWM4NDU1YWM5Yjk1MGM5YTI0MDE2ZWY0ZWFjNWZhODc3MTA1NDZiY2I0OTJhYzY3ZTIifQ"
+        }
+      ]
+    }
+  ],
+  "verification": {
+    "by": "openwiki/0.5.0",
+    "at": "2026-09-08T02:06:28.031Z"
+  }
+}

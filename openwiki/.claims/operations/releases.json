@@ -1,0 +1,54 @@
+{
+  "schemaVersion": 1,
+  "pageVersion": "sha256:1556664ac1fc142d7e981e0ff417a6af6a3b1d47e4b7297870d5d4324d7777a7",
+  "claims": [
+    {
+      "id": "claim_b593730597b24100b01c569e7096d299",
+      "statement": "The artifact workflow runs on main pushes or dispatch, verifies lint/test/build, and pushes changed build output to the separate user-site repository.",
+      "evidence": [
+        {
+          "resource": "repo://.github/workflows/deploy-github-pages-artifact.yml",
+          "version": "repo-file-v1:sha256:3c2364784fde30c9b840536c21927c839e7e6491ab32150a719938bc9abb999d"
+        }
+      ]
+    },
+    {
+      "id": "claim_a586a73411ad4a5c9dc02ce7479633eb",
+      "statement": "Changesets maintains the version PR on main pushes; release creation is gated on the exact merged bot-authored same-repository version branch PR.",
+      "evidence": [
+        {
+          "resource": "repo://.github/workflows/changesets-version.yml",
+          "version": "repo-file-v1:sha256:4d77147bb8d69fab54346255d115aa1026411f9ab6255d070b4899788c6135d2"
+        },
+        {
+          "resource": "repo://.github/workflows/release-github-io.yml#L15-L22",
+          "version": "repo-lines-v1:sha256:0e864c789a63dc15bb327270034aa31f2df7db9d843bebdf579cee545d267edd:eyJzZWxlY3RlZExpbmVDb3VudCI6OCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNjMyZTI1NGUwMDNkZGIzNjhmNTFhYzc1ODQxNzdiN2FjZGJiZmNhNDNhNzIwYmZlYjJhNjUxZjFlMWM0MGM0NSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiZTg3ZGQ4YTZjMDIyZTkwZmVhY2E1NjU5NjM1YzE5OWUzZDUxOTdlYWYzYWJmNGMzYmQ1ODAxY2YxZjhjNmNmYyIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiN2Y3ZTg1M2FkYjBjMTdhOTQxMWFmMmFiNzcyOWFiNzFjNWEwYWQyYzExYTFhMmQ4YWQzMzcyM2Y4NmZhNGRjYSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiYjFiODIxM2Y3OTE5NDMxYjk4OTQ5ZjBmMjc1MDllZmU4NmQ5MDljNTI3NmFjOGQyZTkwMjRhODE5ZjU3N2M0NiJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_81743fb597b04014ad386f36b841e56d",
+      "statement": "The release workflow rejects conflicting tag targets and skips an existing GitHub Release.",
+      "evidence": [
+        {
+          "resource": "repo://.github/workflows/release-github-io.yml#L38-L65",
+          "version": "repo-lines-v1:sha256:924a9cd4f2d06c2c4af1ebd2b536952047c39c324cf87f39155b427648265696:eyJzZWxlY3RlZExpbmVDb3VudCI6MjgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjhjOGIyZmM1MzMyYWI0NjQ3NWUxNDU4NDI3NjlhN2UzZDM5OWZmOTkxNGQ5YmI2MWVmMjdjZjUyNWZhN2Q5OGMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImMwOWQ0NjE4NTQ2NDRmNjI2NGQ3ZjViMjE2NGQ3N2NhNjA5ZmIwNzBiNjY5MDcyNzgzYTA3NGVhNWJlYjcyZjkiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjYyM2Y2ZTFiMDEwZTA0MWJiMGM4MTQ3NTk3ZDIwNmNmMzMyNTgwYTY4NGU3NTZjZDY0MjcyNjI4MDFmYmM0MDciLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImEyMzkzZGIxYTllZTA0M2ZjYTNkMDhlNDEyYzljZjQwMjUwZGU4ZjM1OGQ4MjJlZDIzNDkxYzRlOGE3YWJkZDUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_60ead053c1e74811a25b4d65b2af502c",
+      "statement": "Repository OpenWiki maintenance uses the active host session and update mode, with no provider credential fallback or implicit shipping authority.",
+      "evidence": [
+        {
+          "resource": "repo://docs/agents/openwiki.md",
+          "version": "repo-file-v1:sha256:a26d89e630947c3fe26147350ca0461573fedd96cbc9fbe0eec3556cc59839a9"
+        }
+      ]
+    }
+  ],
+  "verification": {
+    "by": "openwiki/0.5.0",
+    "at": "2026-09-08T02:12:24.965Z"
+  }
+}

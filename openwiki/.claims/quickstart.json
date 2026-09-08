@@ -1,0 +1,76 @@
+{
+  "schemaVersion": 1,
+  "pageVersion": "sha256:eff9b27f4ccf7c1f217f5065113f3cdd06c1961d4bd8a0337844ff4eaa560216",
+  "claims": [
+    {
+      "id": "claim_a1aaa09a8bdc4247ba862841aa6d008f",
+      "statement": "The root is a private pnpm workspace pinned to pnpm 11.16.0 with apps/* and packages/* package globs.",
+      "evidence": [
+        {
+          "resource": "repo://package.json#L1-L18",
+          "version": "repo-lines-v1:sha256:787af17571a932b2ff8f0062fd240a0c927a64855529bb1c0a794a3603ec7f39:eyJzZWxlY3RlZExpbmVDb3VudCI6MTgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImE2ZmIwOGZkYTFhY2I5NTdiNjExNmJkMzc4MTFhMWZlNDFhMDE2MTFjMDYzMWVkYmY3ODZkNjg4OWEyN2E1NWMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjgyYzExMjEyZDIzNTI3YmFiNTY0M2Y1YzI2OWRjZjAyZDMwNmRiMzY1M2JhNTllZGUxZDNhYTZmZDFmYzNiNTAiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjI3M2UxMDZmODdiNmZmMzdhMmY2MGE4MmFmYjJiMDc4OWIwODk0OTFhNzU0MmIwOTdhMmViMGU4NmIxOTAzYjgifQ"
+        },
+        {
+          "resource": "repo://package.json#L23-L24",
+          "version": "repo-lines-v1:sha256:515b63c0334548122e627ffbcc5cf1e94bb8842a014876744d8ccffb6dacddc8:eyJzZWxlY3RlZExpbmVDb3VudCI6MiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMDBmYTZiN2M3YWRjMTFjZTA5OGE0YTljZjc1MmViZDg1ZGQzZTU4YWMwZjhlODA0ZDkzMjljYWY5YjRhYmZlNSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiOWRjNGRlN2VkMzVhMjMzNjQ1Mzk4NjRkYWRiOTM4Yjg3MjMzMzc5MTc5ZDYyOTJiOWZmNWY2MTlhNmMxMzE2NCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZGE4MGI3ZmZiYTg5MGI2ZTkwYjFlMTlkNzk4MTgyZTEzODk3YzViOTZjNzgzYWQ4Yjc1NTBkZDdjZGVkZTJkNSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiOTU5OGMyYjcxMTQ3NmVjZWU0NTA5NmZjZGIzOTgzNGIzMTZmY2I0YWFkYjRkNGJhOTQ2YTI1NTdjYzBjNTgyMCJ9"
+        },
+        {
+          "resource": "repo://pnpm-workspace.yaml#L1-L3",
+          "version": "repo-lines-v1:sha256:60ce4d1dbf137701a4683d171391c51662700c2f3e32a7caab8b2efc22540e65:eyJzZWxlY3RlZExpbmVDb3VudCI6MywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZWRiMDc2ZWI4MGFkZTE5ZmVhM2UwYTQzMTk4NmI2NTVmNWZhNTllZDYyNjdlMTA3ZDY4OGI2MWMzZjQyMTc5NiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMWE0YWY4OTc0ZWRiMzRhMzg5MWE1ZGE3MWNlYzAyZDJiNzRjYjk2YWRiNWY0ZThkMjU2YmZhZjRkN2YzOGYwYSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjAsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNzZkZDcxZDU1NjNhNGRiZjE2ZGIzZGQyYzg3YzlhZGJkYjc0N2IxZmRlZWY0NjE1MWNmMWViOWMwNTY0M2IxNCJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_ab882a95781b46adb21708efdce79cf8",
+      "statement": "The app package is @benkim0414/github-io and its Nx project name is github.io.",
+      "evidence": [
+        {
+          "resource": "repo://apps/github.io/package.json",
+          "version": "repo-file-v1:sha256:e16a5fd14e4e69ab156a3044bf1c3a04ab1ef0a3d23eb228e13ae85e15d8855f"
+        },
+        {
+          "resource": "repo://apps/github.io/project.json#L1-L7",
+          "version": "repo-lines-v1:sha256:f2228309e661c12b807ebb7ec9e79f78761728f249ab156a7b3b97b9f1fd9523:eyJzZWxlY3RlZExpbmVDb3VudCI6NywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiYTZmYjA4ZmRhMWFjYjk1N2I2MTE2YmQzNzgxMWExZmU0MWEwMTYxMWMwNjMxZWRiZjc4NmQ2ODg5YTI3YTU1YyIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNDcyNTQ3ODQzOWQ5Y2I2NWI2MmFjMzRlOGIyYTM1Y2UwMDMwOWY5YzczZTU3NTMzYmRhNWNiNTNlMDUxZjE0NyIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjAsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMDUxM2NlYWIyYTY4ZDAyZWNlZmNiZmUzODRmYmI0N2E2OTRmNjRjZjY2OTJlMDRjNGViNTExMjU5NDkyYzMwYSJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_9bf034252dd3411b963bf26fb94c1507",
+      "statement": "Vite uses localhost ports 4200 and 4300 for serve and preview and builds main plus 404 entries to dist/apps/github.io.",
+      "evidence": [
+        {
+          "resource": "repo://apps/github.io/vite.config.ts#L31-L66",
+          "version": "repo-lines-v1:sha256:13160ae19aaea0a4885a6b63b72e18229f8961fa2cb53862bdc9574f45d55c31:eyJzZWxlY3RlZExpbmVDb3VudCI6MzYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImZmMWE1MDM2NzUzMDMxOTIwMDliZmFiMDVmYWM2OGRiYmQ3M2RmZjRmYTg1NjQ2MTBjM2NmOTdkYTRkYTA0MmYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjRkNWNkMmZiNGYzZGY4ODQ1MTUyNTViMzk1MjNmMmY4YjU0NzJiZWVhOWY1NjZmZmNhMjA0ZGI4MDI1NjEwNDEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjkyMDQwZTA5NWE5NGUyYWRhNzRlNDIxZjM3MTg3NTFhOTFhODEwYmZkNjZmNDhmNGU5MzljN2I3NDgwZWI2NzAiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjVhNTA5ZTM3OTI4ZWNlYjQ5N2M0YjlkZDcxMWZmMjlhZGVjMThkNzlmZTY4ZDAzNjE5NzRhYThhY2Q0NGU4MTUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_16fb1a0877074a13ad4d505f3052d45b",
+      "statement": "The repository exposes OpenWiki setup, status and visualization scripts with openwiki pinned at 0.5.0.",
+      "evidence": [
+        {
+          "resource": "repo://package.json#L14-L16",
+          "version": "repo-lines-v1:sha256:f20a8d57a566ff08d6af009c8753d757574e8ea96231cc26dc1a4309e580d431:eyJzZWxlY3RlZExpbmVDb3VudCI6MywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMjc3YTA2MTc3MTgzZmEwMmM1ZGJjZDVjMDVkZDc5OTZjZTZmZTk0YzM3NGU4ZTIzYmE2ODY3MGUwMmU3YWUxMiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiYTk0YTA1MzNhNjI4OThjNjZmY2VhZTRjNjNlODM0ZTY5NTZiNjhlMDkyNzRmYzllM2E5MDlmZjJlYmNhZDY1YiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMTJmNGUwMWIwNWZmZDA2YzNlNzcxZWQ3OGEyMTUyMDZkODI5Mzc4NWQyZGMwMWNlYWU2MjQ0NjY1ZmM0NGQ3YSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNGFhNmI4YmFmNGZiYWM1ZDAxYTYyYzYxOTZmMmFjNGIxZDgzYmQ3ZjIxMzI4ZTJmZTJjNzAyMzQ5OTE3NGIwNyJ9"
+        },
+        {
+          "resource": "repo://package.json#L64-L64",
+          "version": "repo-lines-v1:sha256:febad2d8429ae904d61efc8a77736ee6c6c1e8408561e821f353377a45106c94:eyJzZWxlY3RlZExpbmVDb3VudCI6MSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZmViYWQyZDg0MjlhZTkwNGQ2MWVmYzhhNzc3MzZlZTZjNmMxZTg0MDg1NjFlODIxZjM1MzM3N2E0NTEwNmM5NCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiZmViYWQyZDg0MjlhZTkwNGQ2MWVmYzhhNzc3MzZlZTZjNmMxZTg0MDg1NjFlODIxZjM1MzM3N2E0NTEwNmM5NCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNDUzNDNmOTNiM2Y0NTFkZDg4N2VhNWM3Zjg2ZjM0ZThjNzI5NWM5MDhlYTM1NWU0MWY0NGVhMWI4ZDZjNzEzOSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiYzk3YjQ4NDEzZDcwYTM2NzQ0YjJmOGVmMzE1MDJhMWJmMDAwMjhkNDg4ZGRkNGU0NzQ1MTFiYTA5NWY4ODkxMCJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_b18d055b93184b4ca4df76010098549c",
+      "statement": "Local OpenWiki maintenance requires update mode and host lifecycle completion, without implicit shipping authority.",
+      "evidence": [
+        {
+          "resource": "repo://docs/agents/openwiki.md",
+          "version": "repo-file-v1:sha256:a26d89e630947c3fe26147350ca0461573fedd96cbc9fbe0eec3556cc59839a9"
+        }
+      ]
+    }
+  ],
+  "verification": {
+    "by": "openwiki/0.5.0",
+    "at": "2026-09-08T02:12:24.965Z"
+  }
+}

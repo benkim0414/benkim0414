@@ -1,0 +1,54 @@
+{
+  "schemaVersion": 1,
+  "pageVersion": "sha256:699fe86a5d0b89a1a6899694cc62944fd746f5360b50f07c4768c702c234f6c7",
+  "claims": [
+    {
+      "id": "claim_6cbb6dd0080f4763aaf4dec964f7f76e",
+      "statement": "Nx plugins infer Vite, ESLint, Vitest, and Storybook targets alongside explicit project targets.",
+      "evidence": [
+        {
+          "resource": "repo://apps/github.io/project.json",
+          "version": "repo-file-v1:sha256:74099e32c92df7b6305ad5ff7c683120177ab802e416034b64382bafe543e951"
+        },
+        {
+          "resource": "repo://nx.json#L4-L39",
+          "version": "repo-lines-v1:sha256:b05c87f228f2a65d95708a05831af1d13fa8d1e0f07fbb2cf8fbd5bb591cd228:eyJzZWxlY3RlZExpbmVDb3VudCI6MzYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijc5NDY5YzkxZTViNjgyZjYxZWJiNjgzM2FmZjdhZmE2Y2JlNTdiZTZiOWNhNzQ2NWU4MmZlNmYzOWFmOWVjYTgiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjFmNDMyZjBiNWI4YzRkMzE3OWI0ZjQzZjY3OTJkZDgwZThlYTNjMTkzYzNhNWIxN2VlZGQwNjMwNGIwMDg0MDMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImQ2ZjA4OTcwZDU2NDQ0MzRiY2Q0OGUzZmFkZGQ1NDBjNmY1NTczMmI4MzBjYWQzYzg0NzRjNzg0ZTMxMzhhZmIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImVlODAzMjM2YmQwY2ZlODk2MTQxODU5NWY1NmU5NzgxYjRmMmQwZTNiNDliZTY4NzU1OTI1YzExNzA5OGY1M2IifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_1c72e6e0b2084302a4639fc1c1a935b0",
+      "statement": "Vitest runs without watch using jsdom, includes source and Storybook specs, and writes V8 coverage under coverage/apps/github.io.",
+      "evidence": [
+        {
+          "resource": "repo://apps/github.io/vite.config.ts#L68-L83",
+          "version": "repo-lines-v1:sha256:39372a4f603eb11dcc522d7c62c3190d31103fda8bb9dff255db794cda211292:eyJzZWxlY3RlZExpbmVDb3VudCI6MTYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjU5MzZkZjdhNWEzYWFmMTgwY2ZmZDFkNjVjNjQ2ZWY2YWVhMzUyY2MyNzc3NDY4NjE5OWNkOGZiM2U4OTljN2IiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjViNzQxZDJjMDhlNmY1MTBiN2U5YTI2NGYzNzhmOWNlMDA0OWE1MDRlMGU3ZWY1ZDY3Y2QzZWE4MTNmODU0NzQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjM0ZjgxYTFjMWE1N2EzNjdmZDcwMzBkZGE3ZGIzNzMxYTMwMGE1ZjkwMDJlNmZkZTQ5MjJjNDg1NzllMTY4ZDgiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_e9440bd320194bafa444fdfcd3e55363",
+      "statement": "Deployment verifies github.io lint, tests, and build before publishing artifacts.",
+      "evidence": [
+        {
+          "resource": "repo://.github/workflows/deploy-github-pages-artifact.yml#L30-L34",
+          "version": "repo-lines-v1:sha256:84d3fff3fe62dbbcbb3468dde39c020f5f325949b0594510eb57f0ec4ac3eaaf:eyJzZWxlY3RlZExpbmVDb3VudCI6NSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNmFiMzViMzhmMDkxY2Y3YWFmMzdiZmM2OWRkZTQ5Y2UxNjgyYmIwNGM2NTUxMTU2ZmJmMDQyMTY1YWI0ZDA4ZSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiZjFjNzcxM2M3Zjc2ODcyOThhNDc0NjZhMTdkZmQ2ZjA1NGMyMzc1ZDIwN2M0Yjk5ZGE5YTM1YzdhZDRhYzhjNCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMjY4YjQ1ZDM5M2M4MWQ5OTk1NjFhMTBiNTc4Mzg3NzA2YTk2MWJkMWUzY2YxMjllNjk4NmQ3NGE2NjEwMmFlZSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZDhmYmVhYzkzNDhlODBjMTg0YjlkMDQwODJiNWJmODcyNTJhOWExZTQyN2U3M2FjYmM4YmI4ZGRiMzNjODMwMCJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_bc620fc87dbd472bbe2511a308b9c2ab",
+      "statement": "The OpenWiki setup test checks two installs for idempotency, preservation of existing Codex TOML, and local pnpm command configuration.",
+      "evidence": [
+        {
+          "resource": "repo://scripts/setup-openwiki.test.mjs",
+          "version": "repo-file-v1:sha256:0d02a6825fa27d08db6a500752e3ce0d79fd53731c64216c8d3e6d39f6bfe877"
+        }
+      ]
+    }
+  ],
+  "verification": {
+    "by": "openwiki/0.5.0",
+    "at": "2026-09-08T02:06:28.031Z"
+  }
+}

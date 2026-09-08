@@ -1,0 +1,54 @@
+{
+  "schemaVersion": 1,
+  "pageVersion": "sha256:42d8a512319f2a3a9eec8e0367c24f19c169222b2fba1258ddf0ef26e4912963",
+  "claims": [
+    {
+      "id": "claim_da9ac46eb2204e9b9a555848aea5550d",
+      "statement": "App uses BrowserRouter with Vite BASE_URL and composes theme-mode, Astryx neutral theme, and link providers.",
+      "evidence": [
+        {
+          "resource": "repo://apps/github.io/src/app/app.tsx#L16-L34",
+          "version": "repo-lines-v1:sha256:0cb953082fc52a7b5f8d44c8e81fbf9405b4811989bde9644169998a64ef751a:eyJzZWxlY3RlZExpbmVDb3VudCI6MTksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImY2ODNkMGVjZDVlNzFkZGM0MjZiYmQxYzQ1ODNmNmJlZmE2MTZmYzUxZjNlY2NiMjBiYTZhMDA1MTUzYzQ0NDciLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjQxNDc3NzA3NmE5ZTdlMjMwZWVmOTYwMjY1NDAyNWZjMDRiYWM5ODQ0ZTcyNmM4ZjgzYjExYmI1NTBmN2Q2NjYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImRlNjI5MTQwOGZkZWI4MjU2Nzc2YzkzMTQzYmI3ZWJmZDU4YTY0YzJmMThhZmEyYzhmNDZhMjdkYmYzNDY5MDYifQ"
+        },
+        {
+          "resource": "repo://apps/github.io/src/app/app.tsx#L50-L59",
+          "version": "repo-lines-v1:sha256:8fc5ba679aecc57851a3c34d3e14de2c2956011ea94cd0a98e7ebbdbf9ffed92:eyJzZWxlY3RlZExpbmVDb3VudCI6MTAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjM0MGJmZDA4NWI4YjZhZjdmNjE0NDY2Y2E2OWZiYWNhZWIwNDIwYjc4MjE0MzRlYmVlNDdiZWIzZmM4MjY4MzUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjA5NGZjMGMxNzNkMWVjM2ZjNTAxZDdkZmE5Mjg1NTAxYzUyN2NmYjQ3MTI1ODNkYTNjYzM2MTgwNTY2YjRiZTMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjoxLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImM5YWE5NTFhNjI5ZjJmNDlhOGQ2MzNhZWVhZTg5OTRjYzU1M2YwYTU5MzFmYzU0NjBhYjM4YjEwMDVkZjdlNjEifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_0d9424818a3548ae9ade8646e173b28f",
+      "statement": "Home, roadmap, skills, and skill-detail routes share GlobalNavigationLayout, while the wildcard not-found route is outside it.",
+      "evidence": [
+        {
+          "resource": "repo://apps/github.io/src/app/app.tsx#L36-L48",
+          "version": "repo-lines-v1:sha256:34deca4c700bcebbfc82823cd83bd26d1d504d70f2891b436aba7f82518a6c2c:eyJzZWxlY3RlZExpbmVDb3VudCI6MTMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjczNDNlNzI4OGYwMTY4MmVjMTc3ZWQ0ZmY1MTYwYWNhMjlhYjFiNDE2NTY0MWJjMzhhZTNhOTliNjMzNDY1YmUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjA5NGZjMGMxNzNkMWVjM2ZjNTAxZDdkZmE5Mjg1NTAxYzUyN2NmYjQ3MTI1ODNkYTNjYzM2MTgwNTY2YjRiZTMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjlkYzM0OTI4YmI4NzI5MmI0ZmNkNTEwYjZhOGY4N2RhNDhiOGEwODY2NTIzMGM0NTZmMzFhODRjMTRmMjUxMGUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_ad7e625f193347f6888f9696ed7171b0",
+      "statement": "SkillDetailRoute passes authored source collections to resolveSkillDetail and chooses a full-width not-found component or SkillDetailPage based on the resolution.",
+      "evidence": [
+        {
+          "resource": "repo://apps/github.io/src/app/skills/skill-detail-route.tsx",
+          "version": "repo-file-v1:sha256:d59af87a188308f8157b20483104b0d4fbc597e8e619d2ce00588d3aa132cf26"
+        }
+      ]
+    },
+    {
+      "id": "claim_2e0a7824a42548b18b0e73c15b05dc6f",
+      "statement": "RouterLink adapts href to React Router to while forwarding the anchor ref.",
+      "evidence": [
+        {
+          "resource": "repo://apps/github.io/src/app/router-link.tsx",
+          "version": "repo-file-v1:sha256:512eec7e8e35895a2a58bbd4829960f769147da5b319263e0f542e8206d982c3"
+        }
+      ]
+    }
+  ],
+  "verification": {
+    "by": "openwiki/0.5.0",
+    "at": "2026-09-08T02:06:28.031Z"
+  }
+}

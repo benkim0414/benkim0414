@@ -1,0 +1,64 @@
+{
+  "schemaVersion": 1,
+  "pageVersion": "sha256:6050da8dc7e2f09bf35e948dd3303f8dfb5f298b55439015113e0390f5994ead",
+  "claims": [
+    {
+      "id": "claim_67f0a6341495404e8eefce3e45fd6173",
+      "statement": "StyleX uses css-only mode without development-server hooks in tests, and full mode otherwise.",
+      "evidence": [
+        {
+          "resource": "repo://apps/github.io/vite.config.ts#L8-L29",
+          "version": "repo-lines-v1:sha256:c8c1b13bf0d7a8793fffdfbc3e26b52753af103aac4dce2b435c4e745518bf6f:eyJzZWxlY3RlZExpbmVDb3VudCI6MjIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjA4NmMwNDgwMmIyZWM5Y2EyZDdiM2M3Yjk0YmY3ZjYzNTMxOWUyMGE4YWFlODk2OGFhNDdhNmYxZDc1Mzk1NTIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjI5MjI1ZmEzZWUwYWU5MmYyZTNjMTRmMDBjNTQ4NjA0ZWJkZDc4NDUxNzQwNzM5ZmU5MWU2ZmJiMDgwMTRlNGUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjJkNjI2YWFkZDk1ZDgyNmY0NTE1MjY0NDVjMGY2NjI0NGMyZWEzMTdjMjU0MzFkOWJiZmJiNmEyNGJjZTRlNTcifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_4288a28281694f44be2203b1150fbd1b",
+      "statement": "Theme state defaults to dark unless storage explicitly contains light, and preference write failures do not prevent React state changes.",
+      "evidence": [
+        {
+          "resource": "repo://apps/github.io/src/app/theme-mode.tsx#L17-L51",
+          "version": "repo-lines-v1:sha256:1d29c0fa553a74a6f89297ba026d9c2665041b5294bca3104a7a756d049e053d:eyJzZWxlY3RlZExpbmVDb3VudCI6MzUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjZiZjU4M2I1MWNkYjkzN2Q5M2RmZTJlODI5ZjVjM2M3NDEzMmM1NGJkMTg3NjNlYzFiMDhmMzFhMTZiMTAxMzkiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjgzMzVhMzRlMDE0NGE1NGU0OTcyZGViZjBiNzMxMzcxNTgxYzI4ZTJmNmVhZTRiZWZkOTljNGMyNWQyMzNhZGUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImM4NzkwM2UyYTg4NmE0NGJhYmNhYmY4NDJlZDQzZmVlMzZiMjU2NGE2NzZhM2MyMTQ4MjRiNDI1MzdkN2NmNWIifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_5314db49b2574efa88e1e858c6b88d6d",
+      "statement": "The navigation frame is viewport-height with hidden overflow and resets content scroll when the pathname changes.",
+      "evidence": [
+        {
+          "resource": "repo://apps/github.io/src/app/global-navigation-layout.tsx#L135-L145",
+          "version": "repo-lines-v1:sha256:4213d4f91d35412340572bc46b55604e1119ce1a0844f8e4f60de0bf998bad66:eyJzZWxlY3RlZExpbmVDb3VudCI6MTEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjFmYzZlMDdjYzc3MDc3MWNjMGVjOTVmODQyMjczODFiYTE0YTdkMGQwYzdhYTI4ODExYzAwOWNkNTQ4ZmJmODYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjFjMzA3ZmQ0ZjcyYjg1N2Q2ZWNjMDBjZDdhMjc5ZmQ4NzViODAwOTJjM2U4ZmQ0NWI5YWZiYzNjYzBjNzE4YzAiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6Ijk4MTM3MjMzY2NhYWEzNzkxNGM3OGYwZjI0MGVjMjJmZmUzNGRkNmExYjAzNWQ3NzExOTVjYjY5MjVhN2UxNWMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjdhMzRjZGI0NzQ3NjBiZjU4Y2RhYWQ3NmU5OTQ3ZGZiMmI3ZjRmMjU3YzRlMDVkOWRkMmM0ODIyNzY1ZmM0ZTMifQ"
+        },
+        {
+          "resource": "repo://apps/github.io/src/app/global-navigation-layout.tsx#L77-L82",
+          "version": "repo-lines-v1:sha256:0f9a37ef965b9c25322eb1527e551f74e52c504795e7ff323e1b356cfeff7469:eyJzZWxlY3RlZExpbmVDb3VudCI6NiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNGQ1Y2QyZmI0ZjNkZjg4NDUxNTI1NWIzOTUyM2YyZjhiNTQ3MmJlZWE5ZjU2NmZmY2EyMDRkYjgwMjU2MTA0MSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNGNlMGRmMGMwMzlmNTg1M2U4MjEwMGJlMDRjY2NmYWZjMmY0MzRmMmIxYTBhYjlmZmFkMDBiZDBhMmZmMWU0ZCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiOGYzZDAyMTYwYTc1ZTg5YTZiNDE3MTY4M2FhOTkyNmU0ZDhmY2Y2MDJkYWVjMmE5MTk0YmIxOGVhYWVmYTlmNiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNTA4MDkwZjFmYmM0MzQzMjQ2YjA3MzkwMDUxYWRjZGRlZWE5ODM3NzExMGJlODczYmNkOGIxNGM0N2UzNDViNyJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_581df7030f3b4e0cbf7ec2e2a2c02491",
+      "statement": "Global CSS layers place utilities after StyleX and import Astryx reset, components, and neutral theme.",
+      "evidence": [
+        {
+          "resource": "repo://apps/github.io/src/styles.css#L1-L9",
+          "version": "repo-lines-v1:sha256:956a007bc3b91477ebc6f57b849ab2b11a475c1c20240734cb8333c9f3fc1e3c:eyJzZWxlY3RlZExpbmVDb3VudCI6OSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNDEyZTkwZWE2ODgwYTUyMDJiMjYzMmJjZDdkYmIyMThhZjUxOTliYmQ0NzczMTMxMjk4MjI3YmQ4ZWI4YzYyNSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMGNmMzVhNjA5MjM4YzYwYTk4OTcwN2Y1ODg3MzBhMTJkZTQ1NDFlZDNkZWY2NmJhNzU3ZWJmYjIyZTdkMjgyMiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjAsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZGYyMjBhOGZlOTAwNWRjYTFiZmMyYThlYWE2NzlhZGM4ZWZmZjg4OTk0NzFlMjNhNTY2OTM1NmJhOTFmM2MyMCJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_2f351ee6fac54271a2a8e3ccae80ae8f",
+      "statement": "Both custom layout verification targets depend on build.",
+      "evidence": [
+        {
+          "resource": "repo://apps/github.io/project.json",
+          "version": "repo-file-v1:sha256:74099e32c92df7b6305ad5ff7c683120177ab802e416034b64382bafe543e951"
+        }
+      ]
+    }
+  ],
+  "verification": {
+    "by": "openwiki/0.5.0",
+    "at": "2026-09-08T02:06:28.031Z"
+  }
+}
