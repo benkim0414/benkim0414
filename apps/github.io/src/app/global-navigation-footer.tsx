@@ -1,10 +1,13 @@
 import type { ReactElement } from 'react';
+import { Code } from '@astryxdesign/core/Code';
 import { Divider } from '@astryxdesign/core/Divider';
 import { Link } from '@astryxdesign/core/Link';
 import { Text } from '@astryxdesign/core/Text';
 import { colorVars, spacingVars } from '@astryxdesign/core/theme/tokens.stylex';
 import * as stylex from '@stylexjs/stylex';
 import { siReact } from 'simple-icons';
+
+import { version } from '../../package.json';
 
 const GITHUB_PROFILE_URL = 'https://github.com/benkim0414';
 const REACT_URL = 'https://react.dev';
@@ -53,9 +56,16 @@ const styles = stylex.create({
     display: 'flex',
     flexWrap: 'wrap',
     gap: spacingVars['--spacing-1-5'],
-    justifyContent: 'center',
+    justifyContent: 'space-between',
     paddingBlock: spacingVars['--spacing-4'],
     paddingInline: spacingVars['--spacing-6'],
+  },
+  attribution: {
+    alignItems: 'center',
+    display: 'flex',
+    flexWrap: 'wrap',
+    gap: spacingVars['--spacing-1-5'],
+    marginInlineStart: 'auto',
   },
   footerLogo: {
     display: 'inline-flex',
@@ -68,40 +78,47 @@ export function GlobalNavigationFooter(): ReactElement {
     <>
       <Divider />
       <footer {...stylex.props(styles.footer)}>
-        <Text type="supporting">Built with</Text>
-        <span {...stylex.props(styles.footerLogo)}>
+        <Text type="supporting">
+          <Code color="inherit" size="inherit">
+            {`v${version}`}
+          </Code>
+        </Text>
+        <span {...stylex.props(styles.attribution)}>
+          <Text type="supporting">Built with</Text>
+          <span {...stylex.props(styles.footerLogo)}>
+            <Link
+              color="inherit"
+              href={REACT_URL}
+              isStandalone
+              label="React"
+              target="_blank"
+            >
+              <ReactLogo />
+            </Link>
+          </span>
+          <Text type="supporting">and</Text>
+          <span {...stylex.props(styles.footerLogo)}>
+            <Link
+              color="inherit"
+              href={ASTRYX_URL}
+              isStandalone
+              label="Astryx"
+              target="_blank"
+            >
+              <AstryxLogo />
+            </Link>
+          </span>
+          <Text type="supporting">by</Text>
           <Link
-            color="inherit"
-            href={REACT_URL}
+            href={GITHUB_PROFILE_URL}
+            isExternalLink
             isStandalone
-            label="React"
-            target="_blank"
+            type="supporting"
+            weight="normal"
           >
-            <ReactLogo />
+            @benkim0414
           </Link>
         </span>
-        <Text type="supporting">and</Text>
-        <span {...stylex.props(styles.footerLogo)}>
-          <Link
-            color="inherit"
-            href={ASTRYX_URL}
-            isStandalone
-            label="Astryx"
-            target="_blank"
-          >
-            <AstryxLogo />
-          </Link>
-        </span>
-        <Text type="supporting">by</Text>
-        <Link
-          href={GITHUB_PROFILE_URL}
-          isExternalLink
-          isStandalone
-          type="supporting"
-          weight="normal"
-        >
-          @benkim0414
-        </Link>
       </footer>
     </>
   );
