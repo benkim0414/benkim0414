@@ -3,18 +3,19 @@ type: workflow
 title: Validation workflow
 description: Select checks for application behavior, compiled layout, agent documentation, and the local OpenWiki installer.
 tags: [testing, nx, vitest, validation]
-verified:
-  - by: openwiki/0.5.0
-    at: 2026-09-08T04:38:24.757Z
 sources:
   - id: openwiki-source-6bbddd28d28fab914230cb02
     resource: repo://.github/workflows/deploy-github-pages-artifact.yml
+  - id: openwiki-source-45b1d77b308bd57403f55ff9
+    resource: repo://apps/github.io/.storybook/story-taxonomy.spec.ts
   - id: openwiki-source-a099837b8e8614c677082a9d
     resource: repo://apps/github.io/project.json
-  - id: openwiki-source-86703ec7546e0affe17e65c6
-    resource: repo://apps/github.io/src/app/skills/count-badge.spec.tsx
-  - id: openwiki-source-cca4d0d8b458e2cb6f9bf4b5
-    resource: repo://apps/github.io/src/app/skills/count-badge.stories.spec.ts
+  - id: openwiki-source-2bfcdfa6f69acb4ddbe6f2af
+    resource: repo://apps/github.io/scripts/verify-mobile-layout-browser.mjs
+  - id: openwiki-source-47aa440893a5a291d1ad1984
+    resource: repo://apps/github.io/src/app/count-badge.spec.tsx
+  - id: openwiki-source-7710c13ca861e757d9eac20c
+    resource: repo://apps/github.io/src/app/count-badge.stories.spec.ts
   - id: openwiki-source-d97b9e088d941d15580a0bd7
     resource: repo://apps/github.io/src/app/skills/skill-detail-page.spec.tsx
   - id: openwiki-source-fcfa3ced1d03143bb27d5018
@@ -23,7 +24,10 @@ sources:
     resource: repo://nx.json
   - id: openwiki-source-871ac2bb60a2ea411c19a76e
     resource: repo://scripts/setup-openwiki.test.mjs
-generated: { by: "codex", at: "2026-09-08T04:38:24.757Z" }
+generated: { by: "codex", at: "2026-09-08T05:02:46.510Z" }
+verified:
+  - by: openwiki/0.5.0
+    at: 2026-09-08T05:02:46.510Z
 ---
 
 # Validation workflow
@@ -65,7 +69,11 @@ pnpm nx run github.io:verify-mobile-layout-browser
 Both targets depend on build. They complement DOM tests with compiled-CSS and
 browser-level checks; a jsdom pass alone does not establish mobile scroll or
 visual correctness. Browser prerequisites and failures must be reported, not
-converted into an assumed pass.
+converted into an assumed pass. The mobile browser verifier also checks the
+skill-detail Experience heading and its neutral count badge as rendered
+geometry: both must exist, fit within the main surface without overlap, align
+vertically, retain the native `Experience` heading name, and show the expected
+primary-experience count.
 
 For agent-document or OpenWiki setup changes:
 

@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:ad38f98b1f6c766611714c6880b2b12ecf3a091bcdaf96c5b18a883cf8100fa9",
+  "pageVersion": "sha256:9aef4b8b21eb74fc689c84bf3340a05fed0068300c169e87ce12e36e04181b2a",
   "claims": [
     {
       "id": "claim_da9ac46eb2204e9b9a555848aea5550d",
@@ -59,10 +59,28 @@
           "version": "repo-lines-v1:sha256:05c84983199a2823e753b654e631b0b701099493ed1cce45836f70868d59e5ae:eyJzZWxlY3RlZExpbmVDb3VudCI6MjMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjA3NWExY2U1OGMxMTBlYzA3NWUzMmE3YWJjZmNlZTlkYTQzMzY3YWMwMzRiNWU2MjAxYjg5OGRhMzI1ODM4Y2YiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjNmYzRlZTA1NjRmOTRjNDYzNzE3ODhkZDUxMDk5YmM2ZTE4Y2Q0YWE1ZGZiYTA2YzVkYTExNGJiMzJmOTg0NWUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6Ijg2NTYzZGUyNzgxZTk2YTFhNGNkNTlmYTEyZmVkYmM3MWZmNjhkNzNhNTZkZjQ3MjVmNzhiZDBlZjc1OGRkYTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImNlZWEwNWFiZTU0MmVmYzgyMTRhZWU2NDJlYmEwNGRiMzE2YmM1MjFmNTk2ZWVkZTk2MjQ5NTdlOTE3ZDhkNjAifQ"
         }
       ]
+    },
+    {
+      "id": "claim_2f5872dd70294613a8a5d94a687b74b5",
+      "statement": "`SkillDetailPage` imports the app-level `CountBadge` and renders it immediately after the Experience heading, keeping the indicator reusable while preserving the heading's own accessible name.",
+      "evidence": [
+        {
+          "resource": "repo://apps/github.io/src/app/skills/skill-detail-page.spec.tsx#L320-L350",
+          "version": "repo-lines-v1:sha256:af58bb7da4d7f81b9cd60de7b5e8431164ff9f5cb2c2854bc8d430b641971d83:eyJzZWxlY3RlZExpbmVDb3VudCI6MzEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImQzNzJiZDYyYzlkZDMxY2QwMjU5MTJiYTM2Y2E3ODE0YjNlYWJhZTQ3ZTc3Yjc3ODMyYTJkYTJmODVhMmU5NDMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImJhNDI0YjE0YjBkZDFiYTJjYTVmYjMzOGM3MDliZWY4N2Y3MGI0NzUyOTExMTZiYzYwMzYyYWEzMzFjMzE3YjMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjVjNjVkM2U4NjM2Y2RlZmQ4Njk0M2UwMTM5YmFmNGNjODgxMjc5NmRlODliMzE2ZjVmNGNiNmRmNzE1MzE5OTciLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjY5YjdjNzA4MzA3YjdkMjJiNDNmY2UxMDU3NDcxNjIxYjZjNjRlYTQxZGE5ZDYxMDhmNTY1Mjg3Y2M5NmJjN2MifQ"
+        },
+        {
+          "resource": "repo://apps/github.io/src/app/skills/skill-detail-page.tsx#L12-L17",
+          "version": "repo-lines-v1:sha256:4bcd08d96b1dab5c1ea584e990b9917c8e00dbb81cbab175fab0476ca4149adb:eyJzZWxlY3RlZExpbmVDb3VudCI6NiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZDU3NmZiN2M5ZmU5MjQyNzQ2OTE5Mjg0NjgxOWZhYTQ5MjRlMjM2MzhlODQ5MDU2MmE0YTgzZDk2Y2M3OWU5ZSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiOWIxNjBhZjBjMTY4ZmM4ZjBmMWZkYTM3MDkwNGIyZTk2NjgxNTM0MGFlMDBhZmM0Yzk4YWEyYTY3NzBiNGM3MSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiYmFjMmUxM2MwMjVkNDg2YjZlYTRiNjA1MmUzNGZkOGY4OTEzMzg2MDhkZTU1YzIwZjNlOTFjZGM4MDVkNzJmNCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNTYxYTI0ODBkY2Y1MDUwNWE3Njc0YTJkYTMzM2M4MGQ3ODNjYzI3ZTlmN2M5ZGYyNWExODI2ODQzYjdjNGFmZCJ9"
+        },
+        {
+          "resource": "repo://apps/github.io/src/app/skills/skill-detail-page.tsx#L93-L111",
+          "version": "repo-lines-v1:sha256:260a12c1dd326dc6bdc1430058de668832413e1465bfbc835505a08cf6d818c2:eyJzZWxlY3RlZExpbmVDb3VudCI6MTksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijk2ZDI1NDNjYjk5YTBlOTFmZjU2YjI3Y2YwYWU4NGFiZjBjMTE0MTZjMzJiNGMxNDRmNTM2MDMzMTNkOTFiOTAiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImQyOWY2MmM2MGFmZmUwNzFmMWYxNmI4MjZhMDE2M2JjYWIxZDY4MzYzNjI5NWE1Njc1MGI2MmVlZTc2NmU1MjUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImYzNjliNjM3M2ViM2E1MThkNWE4ZDM4MjNiMjcwNGQ2YjY4NDk5YjdkNzkxOTVmMjYwNjc0M2NjMWI2ZWFiNzkiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjRhYmFhNzI1ZjRiNjcwYmYwODNkNTExZWJkMWZlMTA4ODg3ODkyNWU0NTUxOWIyM2QwOGRkN2YxODcwZDY0ZTkifQ"
+        }
+      ]
     }
   ],
   "verification": {
     "by": "openwiki/0.5.0",
-    "at": "2026-09-08T04:38:24.757Z"
+    "at": "2026-09-08T05:02:46.510Z"
   }
 }

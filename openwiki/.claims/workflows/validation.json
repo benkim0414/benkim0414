@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:6c184ffbd645ab516161f8f8e04020278309bc5652f9f77ee070d350671cd290",
+  "pageVersion": "sha256:667850332db4def87c889b7217d27bb2c5c52a779a2684702ca15cd82fa710d7",
   "claims": [
     {
       "id": "claim_6cbb6dd0080f4763aaf4dec964f7f76e",
@@ -48,25 +48,47 @@
     },
     {
       "id": "claim_d4e4d19066de4c75b1176d3f918bb857",
-      "statement": "Reusable UI changes use colocated component tests for displayed values, Storybook-module tests for taxonomy and representative arguments, and page tests for the data-derived accessible integration.",
+      "statement": "Reusable UI changes use colocated component tests for displayed values, Storybook-module tests for representative arguments, canonical Storybook taxonomy coverage, and page tests for data-derived accessible integration.",
       "evidence": [
         {
-          "resource": "repo://apps/github.io/src/app/skills/count-badge.spec.tsx#L5-L22",
+          "resource": "repo://apps/github.io/.storybook/story-taxonomy.spec.ts#L49-L84",
+          "version": "repo-lines-v1:sha256:b86d76e78cf3df168d7f1331853ecd33f0f164396279e70353d10eafab8625a8:eyJzZWxlY3RlZExpbmVDb3VudCI6MzYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImM5ZGYyYzFkZDQ5YzBhNWYxY2Y2NmM3MzI3MmI1MmE4NzkyMjY1YTFhMmI3N2JlN2Y5YzU1NzA0ZjdlODcyOGMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjE0YWNjODY5ODE1MTBjMWFiMzMwNTliZTQ0NjU2ZWNjZmJiNjE5ZTBiY2FhZTBjMDYzMTYxMjY3Y2Y3YjdmMGMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjEwZmIyN2ZhOTQ3MTNiOGQ4ZjYyMTM3YzFjZDEzODQ4OTlhZWI3OWE3OGIzM2Y5MTc2NGVhMTI1NmZlNjM5NTIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImNiNzg3YjQ3NjM2MDFjYjAwMmU2NWRjZjAzNGM5NDA2YzdhNDUxZTQ0NTMzZTgzMjlhM2E5YjVjZTAwZGVjZWQifQ"
+        },
+        {
+          "resource": "repo://apps/github.io/src/app/count-badge.spec.tsx#L5-L22",
           "version": "repo-lines-v1:sha256:5bee0c573652e4797553e16f8c5068ed2554c51ede667b424c417b44c8fbae16:eyJzZWxlY3RlZExpbmVDb3VudCI6MTgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImE0MDJmZGU4NjY1OGZhZTJlZTI2NjE1MWE0MmJkOTQxMzVhOWJhNjBjZjI2N2E5MjVhM2JlNDdlOWVhZmI2MTIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjNhM2U0NmY5NDI3NmI2ZjZmNGVkMWYwMmFmNzhiZWY2YTJlZTFjNDM5ZGQ1NTg0Yjk3Mzk0ODMxMzIxNGQyYjciLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjU4ODc1MGYyMDE4NmJmNTAzNjU1MmJkOWVjZGRkYWJlZmY3MjkxYTM1OWMzZTg1OGJhYjMxNjBmMjQ5M2M0N2YiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjoxLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImY2ZjViNDBiMTU4NDU3ZDE3ODY0ZjIxNzkwNzg2ZGQ1YTJlY2RiNjRiNjZhNjUxZjc4OGQ0ZTI1Y2QzMzAzZDIifQ"
         },
         {
-          "resource": "repo://apps/github.io/src/app/skills/count-badge.stories.spec.ts#L1-L8",
-          "version": "repo-lines-v1:sha256:53e505d503a08d2b6db99ba9cc61ad857b1584b415fa71a17f2e1e88a4eeed83:eyJzZWxlY3RlZExpbmVDb3VudCI6OCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNTJmODk0OWI3ZDNiNmY3ZThiMTFmY2ZlMDQyODdlMzM0ODg5ZjcyM2RmODZhMDY2ODFiMzQyMDA4NmQ0N2ZjMSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiM2EzZTQ2Zjk0Mjc2YjZmNmY0ZWQxZjAyYWY3OGJlZjZhMmVlMWM0MzlkZDU1ODRiOTczOTQ4MzEzMjE0ZDJiNyIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjAsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjEsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZjZmNWI0MGIxNTg0NTdkMTc4NjRmMjE3OTA3ODZkZDVhMmVjZGI2NGI2NmE2NTFmNzg4ZDRlMjVjZDMzMDNkMiJ9"
+          "resource": "repo://apps/github.io/src/app/count-badge.stories.spec.ts#L1-L8",
+          "version": "repo-lines-v1:sha256:f39575c641767172ed27e501ad5a87ac2db7773d0f7e14c2db046203d916c2a3:eyJzZWxlY3RlZExpbmVDb3VudCI6OCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZGVjZjRjNTU2YWYyNmQ2Y2U4NGJkMjhjZTdlNDllYjUxNWFmYTE2ZjBiNTRlMTIwZWU0ZmU3YTg0NTllN2RmZiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiZjZmNWI0MGIxNTg0NTdkMTc4NjRmMjE3OTA3ODZkZDVhMmVjZGI2NGI2NmE2NTFmNzg4ZDRlMjVjZDMzMDNkMiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjAsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjAsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSJ9"
         },
         {
           "resource": "repo://apps/github.io/src/app/skills/skill-detail-page.spec.tsx#L336-L358",
           "version": "repo-lines-v1:sha256:8e63c370cf463909edf2403dc2c86854e19d75007885428afca128467633d029:eyJzZWxlY3RlZExpbmVDb3VudCI6MjMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImJlMWEyNDgwODdiNjkwOWJjNjFjMDc3MTgyNzRkZThlYmU0Y2RjODBjMjM1MzE4N2RiNDBiYzFkMjgzMzAzZDQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjNhM2U0NmY5NDI3NmI2ZjZmNGVkMWYwMmFmNzhiZWY2YTJlZTFjNDM5ZGQ1NTg0Yjk3Mzk0ODMxMzIxNGQyYjciLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImM1YmQ5ZDdkYTJkOGI1ODllZDlhZGQyNmMyNTNmNzFjNzUyNzgxZTA2YzA5N2M1NGQ1NjgwZTkyYmU5MWE2ZWEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjZhMDg0NGM1YzA3OWYyZmFjZjhmZDNlMTU3NmJjYzc5YzIwODRmYjhiN2Y1Yjg5Yzk2YTA5OWVmYWE2ZTdjYjgifQ"
         }
       ]
+    },
+    {
+      "id": "claim_14189418ccfe4618bf632dce6a440539",
+      "statement": "The production mobile-layout browser verifier checks that the Kubernetes skill's Experience heading and neutral count badge are rendered, non-overlapping, within the main bounds, vertically aligned, and retain the expected heading text and primary-experience count.",
+      "evidence": [
+        {
+          "resource": "repo://apps/github.io/scripts/verify-mobile-layout-browser.mjs#L49-L63",
+          "version": "repo-lines-v1:sha256:493d62a9339a5e4319a4cd2b6c630088364320cd7140b5c353f06738c3a4e04d:eyJzZWxlY3RlZExpbmVDb3VudCI6MTUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjIxMTFmMjM5YWM2NWM5ZmVjZDRmNzk3NWQ0ZWUwYzY3N2I1OGE4ZWE2Nzg1MmVhMjVkMjc5MjM5MjUxOGQyZjgiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjRkNWNkMmZiNGYzZGY4ODQ1MTUyNTViMzk1MjNmMmY4YjU0NzJiZWVhOWY1NjZmZmNhMjA0ZGI4MDI1NjEwNDEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUyNWQxMWM4MGUwOTJjMWRmOTMyYjg5ZDRlMTM3MDMzNjU3NDUyNWYwOTk1NzQ2MGNlOWY5ZWUzNjU3YzI4ZTYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjFkNjRmNWI1OGIxMDM5MmQ3NWU2NzBkMmEyYmEwZTE3NGYwNjgzNzRiY2U0YWUzYWFhZTBjNDQ0OTYwNjdhOWMifQ"
+        },
+        {
+          "resource": "repo://apps/github.io/scripts/verify-mobile-layout-browser.mjs#L786-L795",
+          "version": "repo-lines-v1:sha256:7fc61111dc80e59331d7d17a21a5dda12eb2e4a44f14527d278abc4a8a07a5ae:eyJzZWxlY3RlZExpbmVDb3VudCI6MTAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg3NTljZmZiNWIxMTgwMDMzMjYzM2E1ODdmMTY4MGRjYzFlMWU3NzJiZWYzMjFkY2RmNmRmYzYwNjNlNjMxMTAiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImNmMzFiMzNhNTJlYTI1NTU1N2YyODdiODZmZmI1Mzg2OThiYzFkZGViZTdmOTkyZTBjYjBmYzQ0OTUyNDkxNWMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjNiMjExZmM2MmE4MmZkZTdjNTU3ZmY0NjExNjA3YjZhZjNlMjFlZjliYjJkNDUyZjRjOGRhMjgwZDIyOGNjNWYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjdkMTlkMzdkZDM2MzFmYzEzMGZlZjFhMzIxYTAwZjJlNzkxZDE2YWEyMjA4NzE1NzJlMzY4ZjNkODEzZGQ4MmYifQ"
+        },
+        {
+          "resource": "repo://apps/github.io/scripts/verify-mobile-layout-browser.mjs#L913-L984",
+          "version": "repo-lines-v1:sha256:b18b52c7513f2634cb622cbcc7c16cacfe665799fa30921cd79d73cc5db0404e:eyJzZWxlY3RlZExpbmVDb3VudCI6NzIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjhjYWExYzk4Y2QxN2RmNzI0YWU2MzZhZjhhY2Q3OTlmMzFkM2YxNjRhODVjMmE5NDAyYmE0N2FiMjcyYmQ5MTIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijk1ZWYwMWJjMDhkYmMzYjYzZTRlNzVlYTNkMjZhNWI5NDE4OTE4NzdlMjdhZDg5MTMyOWM4NDExZDdkOGRjNGQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjFkYjNlN2NkMGMzYTYyMzA0NzY2ODE2MWQxMDRlOTlkODYyMDljYTNlNzc1NGEyNWIxMTlhNDkwNzg3ODA0MjYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjJjNGQ3ODg0NTMzZmZhN2JmODlkNjA2OTBlZDExOWE5ODM1ZjQwZjgyZjQ1OWI5MzM2NTYwZGI2OWNjNTE3MWIifQ"
+        }
+      ]
     }
   ],
   "verification": {
     "by": "openwiki/0.5.0",
-    "at": "2026-09-08T04:38:24.757Z"
+    "at": "2026-09-08T05:02:46.510Z"
   }
 }

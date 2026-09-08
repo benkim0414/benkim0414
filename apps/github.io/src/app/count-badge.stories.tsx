@@ -4,7 +4,7 @@ import { CountBadge } from './count-badge';
 
 const meta: Meta<typeof CountBadge> = {
   component: CountBadge,
-  title: 'Components/Skills/Count Badge',
+  title: 'Components/Count Badge',
 };
 
 export default meta;

@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:e86d8240ac54de182d4aa3a6795132aa020c0726daecd7d9869b64b2dca41a39",
+  "pageVersion": "sha256:be2944c29932827119d15e4188bffcd6e3b8f7ac59d84ce4b3e090ce0231a6b2",
   "claims": [
     {
       "id": "claim_67f0a6341495404e8eefce3e45fd6173",
@@ -58,14 +58,18 @@
     },
     {
       "id": "claim_8509b58a1a9f414fa631bfcaeaf7f276",
-      "statement": "`CountBadge` accepts a numeric count and renders it through Astryx's neutral `Badge`; its colocated stories provide populated and zero examples.",
+      "statement": "The app-level `CountBadge` accepts a numeric count and renders it through Astryx's neutral `Badge`; its colocated populated and zero stories are cataloged as `Components/Count Badge`.",
       "evidence": [
         {
-          "resource": "repo://apps/github.io/src/app/skills/count-badge.stories.tsx#L5-L23",
-          "version": "repo-lines-v1:sha256:f9381c99c8aa8ca6e5971e2fe18c29631f960fc0c66c9af4447afd72dec83af3:eyJzZWxlY3RlZExpbmVDb3VudCI6MTksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjE5NWFiOTk5NjMwMTU5ZTUzN2UyNjZkYTllZTdlYWU2ZTM5ZGRiNDMwMjY0M2U0ZmE2ZmQxYTA3NzU1ZmEzYjkiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImFhMWQxYTYzMzkwMjI5Yzc5ODM0N2U4M2EwNDA1NDQxYzk0MDAwMzUyODRhZDE2OGMxYmY2Y2RmMWQ3MGEzNzAiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjU4ODc1MGYyMDE4NmJmNTAzNjU1MmJkOWVjZGRkYWJlZmY3MjkxYTM1OWMzZTg1OGJhYjMxNjBmMjQ5M2M0N2YiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+          "resource": "repo://apps/github.io/.storybook/story-taxonomy.spec.ts#L49-L84",
+          "version": "repo-lines-v1:sha256:b86d76e78cf3df168d7f1331853ecd33f0f164396279e70353d10eafab8625a8:eyJzZWxlY3RlZExpbmVDb3VudCI6MzYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImM5ZGYyYzFkZDQ5YzBhNWYxY2Y2NmM3MzI3MmI1MmE4NzkyMjY1YTFhMmI3N2JlN2Y5YzU1NzA0ZjdlODcyOGMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjE0YWNjODY5ODE1MTBjMWFiMzMwNTliZTQ0NjU2ZWNjZmJiNjE5ZTBiY2FhZTBjMDYzMTYxMjY3Y2Y3YjdmMGMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjEwZmIyN2ZhOTQ3MTNiOGQ4ZjYyMTM3YzFjZDEzODQ4OTlhZWI3OWE3OGIzM2Y5MTc2NGVhMTI1NmZlNjM5NTIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImNiNzg3YjQ3NjM2MDFjYjAwMmU2NWRjZjAzNGM5NDA2YzdhNDUxZTQ0NTMzZTgzMjlhM2E5YjVjZTAwZGVjZWQifQ"
         },
         {
-          "resource": "repo://apps/github.io/src/app/skills/count-badge.tsx#L3-L8",
+          "resource": "repo://apps/github.io/src/app/count-badge.stories.tsx#L5-L23",
+          "version": "repo-lines-v1:sha256:784d740b4a1cb3f9c56fb8b924d97787f8940695708b5ad1c7a20a55ae7a1d17:eyJzZWxlY3RlZExpbmVDb3VudCI6MTksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjE5NWFiOTk5NjMwMTU5ZTUzN2UyNjZkYTllZTdlYWU2ZTM5ZGRiNDMwMjY0M2U0ZmE2ZmQxYTA3NzU1ZmEzYjkiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImFhMWQxYTYzMzkwMjI5Yzc5ODM0N2U4M2EwNDA1NDQxYzk0MDAwMzUyODRhZDE2OGMxYmY2Y2RmMWQ3MGEzNzAiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjU4ODc1MGYyMDE4NmJmNTAzNjU1MmJkOWVjZGRkYWJlZmY3MjkxYTM1OWMzZTg1OGJhYjMxNjBmMjQ5M2M0N2YiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        },
+        {
+          "resource": "repo://apps/github.io/src/app/count-badge.tsx#L3-L8",
           "version": "repo-lines-v1:sha256:676848f6c6ee28badd84068d5b017342274ed0d6ae336f4217c6fca7b79ae81c:eyJzZWxlY3RlZExpbmVDb3VudCI6NiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiOTI3YWNmZWUzNmVmOWEzMDA3ZGQ0M2I5NzA3YTg0ODk0ZTIwNTNjZWQ3MjVjMGRiMmE3MDM2NmExYmY5NDAzMSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiM2U5ZWY1NTE2OTg4MDQ3ZDNjZmQ5MTdkMzZhODY1NWFmZmMxNWFkNmVhMWRiMzQ1NWVmY2ZkZGYzMGIzYjRkMSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjIsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNDJkOWY3MjA3NzViMDhiMGY0Mzg4ZDg4MzkyNjQwZGM1MTcwMjk1OGEzN2I0ODA0YjNlN2U0MDgwOGZhNTZmOCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjEsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNDEyY2EzNDVjY2Y3NWJmOWMwODA2YmNlNjk1YmU4ZGU4MDhiNzk5ODQyNTFhN2E1NGQyMDJjZjYxMDFkZDQ1MSJ9"
         }
       ]
@@ -73,6 +77,6 @@
   ],
   "verification": {
     "by": "openwiki/0.5.0",
-    "at": "2026-09-08T04:38:24.757Z"
+    "at": "2026-09-08T05:02:46.510Z"
   }
 }

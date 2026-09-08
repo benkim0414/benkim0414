@@ -5,6 +5,7 @@ import pageMeta, {
   SkillDetail,
   Skills,
 } from '../src/app/app-routes.stories';
+import countBadgeMeta from '../src/app/count-badge.stories';
 import certificationCitationMeta from '../src/app/certifications/certification-citation.stories';
 import capabilityEvidenceMeta from '../src/app/devops-capability-evidence/capability-evidence.stories';
 import devopsCapabilityEvidenceRadarMeta from '../src/app/devops-capability-evidence/devops-capability-evidence-radar.stories';
@@ -49,6 +50,7 @@ describe('route-page story taxonomy', () => {
     expect({
       capabilityEvidence: capabilityEvidenceMeta.title,
       certificationCitation: certificationCitationMeta.title,
+      countBadge: countBadgeMeta.title,
       devopsCapabilityEvidenceRadar: devopsCapabilityEvidenceRadarMeta.title,
       devopsRoadmap: devopsRoadmapMeta.title,
       doraCapabilityCard: doraCapabilityCardMeta.title,
@@ -76,6 +78,7 @@ describe('route-page story taxonomy', () => {
     }).toEqual({
       capabilityEvidence: 'Components/DevOps Capability Evidence/Capability Evidence',
       certificationCitation: 'Components/Certifications/Certification Citation',
+      countBadge: 'Components/Count Badge',
       devopsCapabilityEvidenceRadar: 'Components/DevOps Capability Evidence/Radar',
       devopsRoadmap: 'Components/DevOps Roadmap/Timeline',
       doraCapabilityCard: 'Components/DevOps Capability Evidence/DORA Capability Card',

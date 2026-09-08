@@ -48,6 +48,13 @@ const routes = [
   },
   {
     path: '/skills/kubernetes',
+    experience: {
+      badgeSelector:
+        '#skill-experience-narrative-heading + .astryx-badge[data-variant="neutral"]',
+      expectedBadgeText: '4',
+      expectedHeadingName: 'Experience',
+      headingSelector: '#skill-experience-narrative-heading',
+    },
     isInFrame: true,
     pageRootSelector: 'main[aria-label="Skill detail"]',
     readySelector: 'main[aria-label="Skill detail"] h1',
@@ -697,6 +704,14 @@ async function inspectRoute(bidi, context, route) {
       });
       const pageRootSelector = ${JSON.stringify(route.pageRootSelector)};
       const main = document.querySelector(pageRootSelector);
+      const experienceHeadingSelector = ${JSON.stringify(route.experience?.headingSelector ?? null)};
+      const experienceBadgeSelector = ${JSON.stringify(route.experience?.badgeSelector ?? null)};
+      const experienceHeading = experienceHeadingSelector
+        ? document.querySelector(experienceHeadingSelector)
+        : null;
+      const experienceBadge = experienceBadgeSelector
+        ? document.querySelector(experienceBadgeSelector)
+        : null;
       const pageRootMatches = document.querySelectorAll(pageRootSelector).length;
       const expectedScrollOwnerSelector = ${JSON.stringify(route.scrollOwnerSelector ?? null)};
       const expectedScrollOwner = expectedScrollOwnerSelector
@@ -768,6 +783,16 @@ async function inspectRoute(bidi, context, route) {
         horizontalOverflow: Math.max(0, documentWidth - innerWidth),
         scrollOwners: scrollOwners.map(describe),
         expectedScrollOwnerMatches,
+        experience: experienceHeadingSelector
+          ? {
+              badge: rectangle(experienceBadge),
+              badgeText: experienceBadge?.textContent?.trim() ?? null,
+              heading: rectangle(experienceHeading),
+              headingAriaLabel: experienceHeading?.getAttribute('aria-label') ?? null,
+              headingTag: experienceHeading?.tagName.toLowerCase() ?? null,
+              headingText: experienceHeading?.textContent?.trim() ?? null,
+            }
+          : null,
         layoutMode: document.querySelector('[data-testid="not-found-page"]')?.getAttribute('data-layout') ?? null,
         focus: activeElement ? describe(activeElement) : null,
         focusMatches: ${route.focusSelector ? `activeElement?.matches(${JSON.stringify(route.focusSelector)}) ?? false` : 'true'},
@@ -884,6 +909,53 @@ function assertRouteMetrics(route, viewport, metrics, navigationPath) {
       `${label} DORA surfaces do not fill the padded Home content bounds: ${JSON.stringify({ expected: expectedContentBounds, banner: metrics.fullWidthReference, cards: metrics.fullWidthCardSurfaces })}`,
     );
   }
+
+  if (route.experience) {
+    const experience = metrics.experience;
+
+    assert(experience != null, `${label} has no experience heading metrics.`);
+    assert(
+      experience.heading != null,
+      `${label} is missing the Experience heading ${route.experience.headingSelector}.`,
+    );
+    assert(
+      experience.badge != null,
+      `${label} is missing the experience count badge ${route.experience.badgeSelector}.`,
+    );
+    assert(
+      experience.headingTag === 'h2' &&
+        experience.headingAriaLabel == null &&
+        experience.headingText === route.experience.expectedHeadingName,
+      `${label} Experience heading accessible name changed: ${JSON.stringify(experience)}.`,
+    );
+    assert(
+      experience.badgeText === route.experience.expectedBadgeText,
+      `${label} experience badge text is ${JSON.stringify(experience.badgeText)}, expected ${JSON.stringify(route.experience.expectedBadgeText)}.`,
+    );
+    assert(
+      experience.heading.width > 0 &&
+        experience.heading.height > 0 &&
+        experience.badge.width > 0 &&
+        experience.badge.height > 0,
+      `${label} Experience heading or badge has no rendered size: ${JSON.stringify(experience)}.`,
+    );
+    assert(
+      experience.heading.left >= metrics.main.left - SUBPIXEL_TOLERANCE &&
+        experience.badge.right <= metrics.main.right + SUBPIXEL_TOLERANCE,
+      `${label} Experience heading or badge clips beyond the page main: ${JSON.stringify({ experience, main: metrics.main })}.`,
+    );
+    assert(
+      experience.badge.left >= experience.heading.right - SUBPIXEL_TOLERANCE,
+      `${label} Experience badge overlaps its heading: ${JSON.stringify(experience)}.`,
+    );
+    assert(
+      isWithinTolerance(
+        experience.heading.top + experience.heading.height / 2,
+        experience.badge.top + experience.badge.height / 2,
+      ),
+      `${label} Experience badge is not vertically aligned with its heading: ${JSON.stringify(experience)}.`,
+    );
+  }
   assert(
     metrics.expectedScrollOwnerMatches === 1,
     `${label} expected scroll owner selector ${route.scrollOwnerSelector} matched ${metrics.expectedScrollOwnerMatches} elements.`,
@@ -908,7 +980,7 @@ function assertRouteMetrics(route, viewport, metrics, navigationPath) {
   }
 
   console.log(
-    `PASS ${label} pathname=${metrics.path} frame=${metrics.frame.width.toFixed(2)}px main=${metrics.main.width.toFixed(2)}px horizontal-overflow=${metrics.horizontalOverflow.toFixed(2)}px scroll-owner=${route.scrollOwnerSelector}${route.focusSelector ? ' focus=detail-heading' : ''}`,
+    `PASS ${label} pathname=${metrics.path} frame=${metrics.frame.width.toFixed(2)}px main=${metrics.main.width.toFixed(2)}px horizontal-overflow=${metrics.horizontalOverflow.toFixed(2)}px scroll-owner=${route.scrollOwnerSelector}${route.focusSelector ? ' focus=detail-heading' : ''}${route.experience ? ` experience-heading=${metrics.experience.headingText} badge=${metrics.experience.badgeText} aligned=yes` : ''}`,
   );
 }
 
@@ -1732,6 +1804,30 @@ async function runSelfTests() {
       }),
       '/skills',
     ));
+  await test('a configured experience badge is required by route metrics', () => {
+    let actualError;
+
+    try {
+      assertRouteMetrics(
+        selfTestRoute({
+          experience: {
+            expectedBadgeText: '4',
+            expectedHeadingName: 'Experience',
+          },
+        }),
+        { width: 375, height: 667 },
+        selfTestMetrics(),
+        '/skills',
+      );
+    } catch (error) {
+      actualError = error;
+    }
+
+    assert(
+      actualError instanceof Error && /experience heading/i.test(actualError.message),
+      'Missing experience badge metrics did not reject the route.',
+    );
+  });
   await expectFailure(
     'a navigation-result pathname mismatch is rejected before PASS',
     () =>
