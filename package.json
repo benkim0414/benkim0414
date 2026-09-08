@@ -11,7 +11,7 @@
     "prepare": "husky",
     "commitlint": "commitlint --edit",
     "commit": "git-cz",
-    "openwiki:setup": "openwiki integrations install codex --project .",
+    "openwiki:setup": "node scripts/setup-openwiki.mjs",
     "openwiki:status": "openwiki integrations list --project .",
     "openwiki:visualize": "openwiki visualize openwiki"
   },

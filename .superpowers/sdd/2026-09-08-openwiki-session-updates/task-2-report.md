@@ -17,13 +17,10 @@ task.
 - Published default MCP command is global: `openwiki mcp --host codex`. The
   installer API was therefore used with `pnpm exec openwiki mcp --host codex`;
   the same portable command is recorded in config and receipt.
-- The public setup CLI cannot accept a custom MCP command. Consequently,
-  `pnpm openwiki:setup` is idempotent for upstream output but will restore the
-  global command. To restore the local command after repair, run from repo root:
-
-  ```sh
-  node --input-type=module -e 'import { HostIntegrationInstaller } from "./node_modules/openwiki/dist/integrations/install/installer.js"; import { getHostTarget } from "./node_modules/openwiki/dist/integrations/install/registry.js"; await new HostIntegrationInstaller().install(getHostTarget("codex"), { scope: "project", root: ".", mcpServerCommand: { command: "pnpm", args: ["exec", "openwiki", "mcp", "--host", "codex"] } });'
-  ```
+- The public setup CLI cannot accept a custom MCP command. The repository's
+  `scripts/setup-openwiki.mjs` therefore calls the published installer API with
+  the portable override. `pnpm openwiki:setup` is idempotent and preserves
+  unrelated Codex TOML while repairing the managed skill/config pair.
 
 ## Runtime and lifecycle findings
 
@@ -54,6 +51,9 @@ task.
 - Two installs into `/tmp/openwiki-install-probe` produced `install` then
   `unchanged`; status returned `codex installed` and only the expected skill,
   receipt, and TOML paths were written.
+- `node --test scripts/setup-openwiki.test.mjs` independently verifies that the
+  repository setup command produces `installed` then `unchanged`, preserves an
+  existing TOML setting, and records only the local pnpm MCP command.
 - Source snapshot/changed-path probes used a temporary Git fixture. A clean
   initial commit returned no changed paths. An uncommitted tracked edit changed
   the fingerprint and returned `source.txt`. A later relevant commit returned

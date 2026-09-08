@@ -58,10 +58,9 @@ The installer writes the skill under `.agents/skills/openwiki` and a managed MCP
 block under `.codex/config.toml`. Its published default is a global `openwiki`
 command, so this repository narrows the managed command and install receipt to
 `pnpm exec openwiki mcp --host codex`. This keeps resolution local and portable
-across linked worktrees and fresh installs. Running `pnpm openwiki:setup` repairs
-the published files but restores that global command; after a repair, reinstall
-the project integration with the local command recorded in the setup report, or
-review and restore both the managed block and receipt together before restart.
+across linked worktrees and fresh installs. The repository setup script calls the
+published installer API with that override, preserves unrelated Codex TOML, and
+is safe to rerun when installing or repairing the integration.
 
 Codex must restart after installation or repair before native tools appear. A
 single MCP process must remain connected for the complete begin, plan, page, and
