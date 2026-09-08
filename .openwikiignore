@@ -1,0 +1,10 @@
+.git/
+.worktrees/
+**/node_modules/
+**/dist/
+**/coverage/
+.nx/
+.superpowers/
+**/.env
+**/.env.*
+**/*.tsbuildinfo

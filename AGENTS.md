@@ -91,6 +91,13 @@ Do not assume a project name. Verify it from Nx/project files.
 - `implement` may create local commits if useful, but must not push.
 - `handoff` is the only profile allowed to push/open PR/deploy, and only after explicit user approval.
 
+## OpenWiki maintenance
+
+After relevant implementation and verification, follow
+[`docs/agents/openwiki.md`](docs/agents/openwiki.md) before the final handoff
+message. Report the wiki as updated, unchanged, or blocked. Read-only sessions do
+not trigger wiki writes.
+
 ## Herdr usage
 
 Use Herdr as the live terminal/workspace multiplexer, not as the durable source of truth. The durable source of truth is Kanban plus repo files.
