@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:9e9756416bc6158352c965d806859bd1f7902daab1b781286b039cb488e0b388",
+  "pageVersion": "sha256:cff2c7ffae8d5e8bf3a5ec039ce48119ef6e5d1ef958b351fc0241f2a258b949",
   "claims": [
     {
       "id": "claim_67f0a6341495404e8eefce3e45fd6173",
@@ -103,10 +103,32 @@
           "version": "repo-lines-v1:sha256:6982df625c94e766a184b9825b2c2202ff21a756164a7a161d1ba75f1a916ced:eyJzZWxlY3RlZExpbmVDb3VudCI6MTQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImU3MjE2ZThlOWMwYTFhNjhkMDZjMmZiYWE1ZmQyMTM5NDgyYjhlZmQwYTE5MzE1YjkxNWU2Y2NlODQ5ZDg5ZGMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImJiNmI5Y2NiMjBiZjM4MWRmNTk2N2QxZWFmYWUxZDY2OTEwZjEyOGNjMDRhY2E2NDFmMWJjMThlOTk3MjZlYmQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjRkY2U1MGZmOTU4NWI5ZTY0OTY5MzA0NmIwZjVhNzI4OTc2OGNhNDA2ZDM2ZjE3YjU2Y2RlYWJmNzQ2ODRkYzIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImJkYjYzODZjNjk2MjY4ZjZkNmVmYjMyNjZjM2MzMDU5NjRmMGY0ZThlYWVhNTQxMzBiZTJkMDJlMWNlMGEyM2YifQ"
         }
       ]
+    },
+    {
+      "id": "claim_f8e95311e76f400b8189c3b605818f6e",
+      "statement": "The global footer derives its displayed semantic version from the github.io package manifest, renders it as Astryx Code inheriting supporting-text size and color in the leading region, and keeps the existing attribution in an end-aligned wrapping region.",
+      "evidence": [
+        {
+          "resource": "repo://apps/github.io/src/app/global-navigation-footer.spec.tsx#L15-L32",
+          "version": "repo-lines-v1:sha256:27e484b0197bde8cebb3f5356c66b4030967306d6e3e0980656e9fcf0dcaf582:eyJzZWxlY3RlZExpbmVDb3VudCI6MTgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImJkN2NhM2I4NjQyMDVjYTFlMTUzYmMxYjVkZjI0OTk3NTkxY2FjZmVmZjI4MTQ2YjUyNjI1ZTVhYjc4ODAyODciLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjNhM2U0NmY5NDI3NmI2ZjZmNGVkMWYwMmFmNzhiZWY2YTJlZTFjNDM5ZGQ1NTg0Yjk3Mzk0ODMxMzIxNGQyYjciLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjA5NGZjMGMxNzNkMWVjM2ZjNTAxZDdkZmE5Mjg1NTAxYzUyN2NmYjQ3MTI1ODNkYTNjYzM2MTgwNTY2YjRiZTMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjMzNmVkOWQzMmYyMjcwMGEwMjIzNzc0OTM2YjY4MDE1MDI1OGFiZTE0MTI4OTUyZWFjZDVmYmMzYzY0MGY5NjEifQ"
+        },
+        {
+          "resource": "repo://apps/github.io/src/app/global-navigation-footer.tsx#L1-L10",
+          "version": "repo-lines-v1:sha256:b78c09c9f3e06e0b48c223174ed6200d8a601e82e62324a267ceb18807805a76:eyJzZWxlY3RlZExpbmVDb3VudCI6MTAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijc0MTE1MzcwYmZjNjk5NTE4ZTZkZDhlODQ4ZTVmODY3ODA1NTg5OTJiMGIzOTRmMmIyOTg3OTU4YTIxYWI4ZGYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjY5N2U5MzcwMzI4ZjhjYTFmNDhjNGM2NDhkOTcwMzM3NGFlNzRlN2M4NzIyZDU3MDlhNDc5MWI2NTk5OTRmMmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjI1MTA2MmEyOWEwODBjOGU1NTAyYTM2OWE1OGEwYTgxNmU2NDU3NGRmMWJiMWE3ZjJhOGFmZjMxYzhiMjMxYWEifQ"
+        },
+        {
+          "resource": "repo://apps/github.io/src/app/global-navigation-footer.tsx#L52-L68",
+          "version": "repo-lines-v1:sha256:b4b0a5acced5b188d1a3660af1ca35afac4266854759a1906e221e266761d65c:eyJzZWxlY3RlZExpbmVDb3VudCI6MTcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjU5ZGRlNTVmNzgxMWZjNDUyZjllZjQzNzk4MjkxOGVkMjE5NmQ3YTkyMWRlNDMzMmM0MTYzNDQ1ODZiZDU3MGUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjhhZDc2YTZjY2ZiMTAzNDRlZGVmZmI3ZDczMzBkYjk3NGNjYmY2NGY1ODIzZmYyOTUxYTAwNWJjZjFhOTY1NDgiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjA5NGZjMGMxNzNkMWVjM2ZjNTAxZDdkZmE5Mjg1NTAxYzUyN2NmYjQ3MTI1ODNkYTNjYzM2MTgwNTY2YjRiZTMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjJhZWE0NmU1NTUwZWIzZTlmMjlhMjA1ZTQ4OTI2MmIxZTNjODYzOGQ1YzZiOGViNGJlNDg5YWM0ZGZjYmMxMTgifQ"
+        },
+        {
+          "resource": "repo://apps/github.io/src/app/global-navigation-footer.tsx#L76-L122",
+          "version": "repo-lines-v1:sha256:740ca450520fc97d31e50e4d498ebf6137267bf9f5a455c0b18465dc38224d3e:eyJzZWxlY3RlZExpbmVDb3VudCI6NDcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImZjOWFjM2U0MWQ1YjA4YTBjZWUzYTRlMjVmZWZhMTdhNjg1M2U2MTBkOGZhZGJjZDBkMGYwMjI0ZDNjZjVhMWYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImFkODc5NzJmZDY3ODgxZWJhNzZmNDhhN2JiODVmMjdjZTIwNjdhZDBhYjFjN2UwYWEyNjllNDZhYzgyMjM2ZGQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjEzODNhYzE5OThhZDg4Mjg4NDVjNzBlZGZmOWQyNWZjYzc4OTU3ZjU1MzBhNzk4MzhkNTE4NGExZTE3MGZlNDIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjYzMzI5Njc4NjBhYjgyMjdkZWQzNjk4Yjk2ODMxZDJiNTIzZjgwODMzMmExOTIxYTExYzdiNjcyZDBmODgyNmIifQ"
+        }
+      ]
     }
   ],
   "verification": {
     "by": "openwiki/0.5.0",
-    "at": "2026-09-08T06:19:52.201Z"
+    "at": "2026-09-08T06:48:21.757Z"
   }
 }
