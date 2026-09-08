@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:42d8a512319f2a3a9eec8e0367c24f19c169222b2fba1258ddf0ef26e4912963",
+  "pageVersion": "sha256:ad38f98b1f6c766611714c6880b2b12ecf3a091bcdaf96c5b18a883cf8100fa9",
   "claims": [
     {
       "id": "claim_da9ac46eb2204e9b9a555848aea5550d",
@@ -45,10 +45,24 @@
           "version": "repo-file-v1:sha256:512eec7e8e35895a2a58bbd4829960f769147da5b319263e0f542e8206d982c3"
         }
       ]
+    },
+    {
+      "id": "claim_466cbd14839941c58399743b6191d5b5",
+      "statement": "The SkillDetailPage renders the Experience section when primary experiences or supporting evidence exist, but passes only the primary experience length to a sibling count badge so the level-two heading remains named `Experience`.",
+      "evidence": [
+        {
+          "resource": "repo://apps/github.io/src/app/skills/skill-detail-page.spec.tsx#L336-L358",
+          "version": "repo-lines-v1:sha256:8e63c370cf463909edf2403dc2c86854e19d75007885428afca128467633d029:eyJzZWxlY3RlZExpbmVDb3VudCI6MjMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImJlMWEyNDgwODdiNjkwOWJjNjFjMDc3MTgyNzRkZThlYmU0Y2RjODBjMjM1MzE4N2RiNDBiYzFkMjgzMzAzZDQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjNhM2U0NmY5NDI3NmI2ZjZmNGVkMWYwMmFmNzhiZWY2YTJlZTFjNDM5ZGQ1NTg0Yjk3Mzk0ODMxMzIxNGQyYjciLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImM1YmQ5ZDdkYTJkOGI1ODllZDlhZGQyNmMyNTNmNzFjNzUyNzgxZTA2YzA5N2M1NGQ1NjgwZTkyYmU5MWE2ZWEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjZhMDg0NGM1YzA3OWYyZmFjZjhmZDNlMTU3NmJjYzc5YzIwODRmYjhiN2Y1Yjg5Yzk2YTA5OWVmYWE2ZTdjYjgifQ"
+        },
+        {
+          "resource": "repo://apps/github.io/src/app/skills/skill-detail-page.tsx#L128-L150",
+          "version": "repo-lines-v1:sha256:05c84983199a2823e753b654e631b0b701099493ed1cce45836f70868d59e5ae:eyJzZWxlY3RlZExpbmVDb3VudCI6MjMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjA3NWExY2U1OGMxMTBlYzA3NWUzMmE3YWJjZmNlZTlkYTQzMzY3YWMwMzRiNWU2MjAxYjg5OGRhMzI1ODM4Y2YiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjNmYzRlZTA1NjRmOTRjNDYzNzE3ODhkZDUxMDk5YmM2ZTE4Y2Q0YWE1ZGZiYTA2YzVkYTExNGJiMzJmOTg0NWUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6Ijg2NTYzZGUyNzgxZTk2YTFhNGNkNTlmYTEyZmVkYmM3MWZmNjhkNzNhNTZkZjQ3MjVmNzhiZDBlZjc1OGRkYTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImNlZWEwNWFiZTU0MmVmYzgyMTRhZWU2NDJlYmEwNGRiMzE2YmM1MjFmNTk2ZWVkZTk2MjQ5NTdlOTE3ZDhkNjAifQ"
+        }
+      ]
     }
   ],
   "verification": {
     "by": "openwiki/0.5.0",
-    "at": "2026-09-08T02:06:28.031Z"
+    "at": "2026-09-08T04:38:24.757Z"
   }
 }

@@ -5,19 +5,25 @@ description: Select checks for application behavior, compiled layout, agent docu
 tags: [testing, nx, vitest, validation]
 verified:
   - by: openwiki/0.5.0
-    at: 2026-09-08T02:06:28.031Z
+    at: 2026-09-08T04:38:24.757Z
 sources:
   - id: openwiki-source-6bbddd28d28fab914230cb02
     resource: repo://.github/workflows/deploy-github-pages-artifact.yml
   - id: openwiki-source-a099837b8e8614c677082a9d
     resource: repo://apps/github.io/project.json
+  - id: openwiki-source-86703ec7546e0affe17e65c6
+    resource: repo://apps/github.io/src/app/skills/count-badge.spec.tsx
+  - id: openwiki-source-cca4d0d8b458e2cb6f9bf4b5
+    resource: repo://apps/github.io/src/app/skills/count-badge.stories.spec.ts
+  - id: openwiki-source-d97b9e088d941d15580a0bd7
+    resource: repo://apps/github.io/src/app/skills/skill-detail-page.spec.tsx
   - id: openwiki-source-fcfa3ced1d03143bb27d5018
     resource: repo://apps/github.io/vite.config.ts
   - id: openwiki-source-6ba748254f38112b13d529da
     resource: repo://nx.json
   - id: openwiki-source-871ac2bb60a2ea411c19a76e
     resource: repo://scripts/setup-openwiki.test.mjs
-generated: { by: "codex", at: "2026-09-08T02:06:28.031Z" }
+generated: { by: "codex", at: "2026-09-08T04:38:24.757Z" }
 ---
 
 # Validation workflow
@@ -41,6 +47,13 @@ and disables watch mode. Coverage uses V8 with reports under
 `skill-detail-resolver.spec.ts`, `devops-capability-evidence.scoring.spec.ts`,
 `theme-mode.spec.tsx`, and `global-navigation-layout.spec.tsx` beside their source.
 Choose the test closest to the changed behavior before running the broader suite.
+
+For reusable UI elements, keep a focused component test beside the component and
+exercise consumer-visible values, including zero where it changes the displayed
+state. Colocate Storybook stories and a small story-module test that fixes the
+established title taxonomy and representative args. Pair those tests with the
+page-level test that proves the component is wired into its actual accessible
+and data-derived context.
 
 For CSS/layout changes, also run:
 

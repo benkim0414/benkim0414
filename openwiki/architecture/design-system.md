@@ -5,19 +5,23 @@ description: How Astryx, StyleX, theme persistence, and browser layout checks fi
 tags: [astryx, stylex, theme, layout]
 verified:
   - by: openwiki/0.5.0
-    at: 2026-09-08T02:06:28.031Z
+    at: 2026-09-08T04:38:24.757Z
 sources:
   - id: openwiki-source-a099837b8e8614c677082a9d
     resource: repo://apps/github.io/project.json
   - id: openwiki-source-5dbaa213d52c3aac678d1838
     resource: repo://apps/github.io/src/app/global-navigation-layout.tsx
+  - id: openwiki-source-3bcf44f0b0fb19097fa0bc8c
+    resource: repo://apps/github.io/src/app/skills/count-badge.stories.tsx
+  - id: openwiki-source-fa3dbf8ee94cb99a0767508a
+    resource: repo://apps/github.io/src/app/skills/count-badge.tsx
   - id: openwiki-source-dec673c983d1738cf99fce82
     resource: repo://apps/github.io/src/app/theme-mode.tsx
   - id: openwiki-source-74580f69125800ca269fab95
     resource: repo://apps/github.io/src/styles.css
   - id: openwiki-source-fcfa3ced1d03143bb27d5018
     resource: repo://apps/github.io/vite.config.ts
-generated: { by: "codex", at: "2026-09-08T02:06:28.031Z" }
+generated: { by: "codex", at: "2026-09-08T04:38:24.757Z" }
 ---
 
 # Design system and layout
@@ -28,6 +32,12 @@ layers: reset and theme/base layers precede StyleX, with utilities last. It also
 imports Astryx's reset, component styles, and neutral theme. Keep third-party
 overrides scoped: the existing carousel adjustment targets `.skill-carousel`,
 not every card in the application.
+
+Small repeated presentation values belong in reusable app components. For
+example, `CountBadge` exposes a numeric `count` prop and delegates the rendered
+label and neutral styling to Astryx's `Badge`; its colocated Storybook stories
+cover a representative populated count and zero. This keeps pages from
+recreating the design-system contract for count indicators.
 
 Vite compiles StyleX before its React and Nx path plugins. Test mode uses
 `css-only` and removes the StyleX development-server hooks; production and local

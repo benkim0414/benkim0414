@@ -13,6 +13,7 @@ import { useEffect, useRef, type ReactElement } from 'react';
 
 import { CertificationCitation } from '../certifications/certification-citation';
 import { ProjectCard } from '../projects/project-card';
+import { CountBadge } from './count-badge';
 import { SkillCategory } from './skill-category';
 import type { ResolvedSkillDetail } from './skill-detail.types';
 import { SkillExperienceCardList } from './skill-experience-card-list';
@@ -127,9 +128,12 @@ export function SkillDetailPage({
       {hasExperience ? (
         <section aria-labelledby="skill-experience-narrative-heading">
           <VStack gap={3}>
-            <Heading id="skill-experience-narrative-heading" level={2}>
-              Experience
-            </Heading>
+            <HStack gap={2} vAlign="center">
+              <Heading id="skill-experience-narrative-heading" level={2}>
+                Experience
+              </Heading>
+              <CountBadge count={detail.experiences.length} />
+            </HStack>
 
             {detail.experiences.length > 0 ? (
               <SkillExperienceCardList

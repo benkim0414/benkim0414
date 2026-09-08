@@ -5,15 +5,19 @@ description: Runtime composition, route ownership, and the boundary between sour
 tags: [react, routing, github-io]
 verified:
   - by: openwiki/0.5.0
-    at: 2026-09-08T02:06:28.031Z
+    at: 2026-09-08T04:38:24.757Z
 sources:
   - id: openwiki-source-fad285841e7c8c748f5274d9
     resource: repo://apps/github.io/src/app/app.tsx
   - id: openwiki-source-27a9eeb6972479f50ad1d034
     resource: repo://apps/github.io/src/app/router-link.tsx
+  - id: openwiki-source-d97b9e088d941d15580a0bd7
+    resource: repo://apps/github.io/src/app/skills/skill-detail-page.spec.tsx
+  - id: openwiki-source-679e425aa4dc519b0748e74d
+    resource: repo://apps/github.io/src/app/skills/skill-detail-page.tsx
   - id: openwiki-source-2fe979393541d6de345e3a57
     resource: repo://apps/github.io/src/app/skills/skill-detail-route.tsx
-generated: { by: "codex", at: "2026-09-08T02:06:28.031Z" }
+generated: { by: "codex", at: "2026-09-08T04:38:24.757Z" }
 ---
 
 # Application architecture
@@ -45,6 +49,13 @@ passes authored skills, detail records, evidence, projects, and experiences to
 `resolveSkillDetail`. The resolver returns a typed resolution; the route selects
 error recovery or passes the resolved value to `SkillDetailPage`. Keep reference
 validation in the resolver rather than burying it in view components.
+
+Within the detail surface, the Experience section appears when either primary
+experience cards or supporting evidence exists, but its adjacent count badge
+reports only the primary-card array length. The badge is a sibling of the level
+two heading so the section's accessible heading name remains `Experience`; an
+evidence-only section therefore communicates a count of zero without hiding its
+supporting records.
 
 Continue with [evidence semantics](../concepts/evidence.md),
 [theme and layout](design-system.md), and [validation](../workflows/validation.md).

@@ -333,6 +333,30 @@ describe('SkillDetailPage', () => {
     ).toBeNull();
   });
 
+  it('shows the primary experience count without including supporting evidence', () => {
+    const detail = getResolvedDetail('kubernetes');
+    const { getByRole, getByText } = render(
+      <SkillDetailPage detail={detail} />,
+    );
+    const heading = getByRole('heading', { level: 2, name: 'Experience' });
+    const badge = getByText('4');
+
+    expect(badge.className).toContain('astryx-badge');
+    expect(heading.contains(badge)).toBe(false);
+  });
+
+  it('shows a zero count when supporting evidence is the only experience content', () => {
+    const detail = getResolvedDetail('kubernetes');
+    const { getByRole, getByText } = render(
+      <SkillDetailPage detail={{ ...detail, experiences: [] }} />,
+    );
+    const heading = getByRole('heading', { level: 2, name: 'Experience' });
+    const badge = getByText('0');
+
+    expect(badge.className).toContain('astryx-badge');
+    expect(heading.contains(badge)).toBe(false);
+  });
+
   it('focuses the heading on initial detail mount and skill changes only', () => {
     const reactDetail = getResolvedDetail('react');
     const kubernetesDetail = getResolvedDetail('kubernetes');

@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:699fe86a5d0b89a1a6899694cc62944fd746f5360b50f07c4768c702c234f6c7",
+  "pageVersion": "sha256:6c184ffbd645ab516161f8f8e04020278309bc5652f9f77ee070d350671cd290",
   "claims": [
     {
       "id": "claim_6cbb6dd0080f4763aaf4dec964f7f76e",
@@ -45,10 +45,28 @@
           "version": "repo-file-v1:sha256:0d02a6825fa27d08db6a500752e3ce0d79fd53731c64216c8d3e6d39f6bfe877"
         }
       ]
+    },
+    {
+      "id": "claim_d4e4d19066de4c75b1176d3f918bb857",
+      "statement": "Reusable UI changes use colocated component tests for displayed values, Storybook-module tests for taxonomy and representative arguments, and page tests for the data-derived accessible integration.",
+      "evidence": [
+        {
+          "resource": "repo://apps/github.io/src/app/skills/count-badge.spec.tsx#L5-L22",
+          "version": "repo-lines-v1:sha256:5bee0c573652e4797553e16f8c5068ed2554c51ede667b424c417b44c8fbae16:eyJzZWxlY3RlZExpbmVDb3VudCI6MTgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImE0MDJmZGU4NjY1OGZhZTJlZTI2NjE1MWE0MmJkOTQxMzVhOWJhNjBjZjI2N2E5MjVhM2JlNDdlOWVhZmI2MTIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjNhM2U0NmY5NDI3NmI2ZjZmNGVkMWYwMmFmNzhiZWY2YTJlZTFjNDM5ZGQ1NTg0Yjk3Mzk0ODMxMzIxNGQyYjciLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjU4ODc1MGYyMDE4NmJmNTAzNjU1MmJkOWVjZGRkYWJlZmY3MjkxYTM1OWMzZTg1OGJhYjMxNjBmMjQ5M2M0N2YiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjoxLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImY2ZjViNDBiMTU4NDU3ZDE3ODY0ZjIxNzkwNzg2ZGQ1YTJlY2RiNjRiNjZhNjUxZjc4OGQ0ZTI1Y2QzMzAzZDIifQ"
+        },
+        {
+          "resource": "repo://apps/github.io/src/app/skills/count-badge.stories.spec.ts#L1-L8",
+          "version": "repo-lines-v1:sha256:53e505d503a08d2b6db99ba9cc61ad857b1584b415fa71a17f2e1e88a4eeed83:eyJzZWxlY3RlZExpbmVDb3VudCI6OCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNTJmODk0OWI3ZDNiNmY3ZThiMTFmY2ZlMDQyODdlMzM0ODg5ZjcyM2RmODZhMDY2ODFiMzQyMDA4NmQ0N2ZjMSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiM2EzZTQ2Zjk0Mjc2YjZmNmY0ZWQxZjAyYWY3OGJlZjZhMmVlMWM0MzlkZDU1ODRiOTczOTQ4MzEzMjE0ZDJiNyIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjAsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjEsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZjZmNWI0MGIxNTg0NTdkMTc4NjRmMjE3OTA3ODZkZDVhMmVjZGI2NGI2NmE2NTFmNzg4ZDRlMjVjZDMzMDNkMiJ9"
+        },
+        {
+          "resource": "repo://apps/github.io/src/app/skills/skill-detail-page.spec.tsx#L336-L358",
+          "version": "repo-lines-v1:sha256:8e63c370cf463909edf2403dc2c86854e19d75007885428afca128467633d029:eyJzZWxlY3RlZExpbmVDb3VudCI6MjMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImJlMWEyNDgwODdiNjkwOWJjNjFjMDc3MTgyNzRkZThlYmU0Y2RjODBjMjM1MzE4N2RiNDBiYzFkMjgzMzAzZDQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjNhM2U0NmY5NDI3NmI2ZjZmNGVkMWYwMmFmNzhiZWY2YTJlZTFjNDM5ZGQ1NTg0Yjk3Mzk0ODMxMzIxNGQyYjciLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImM1YmQ5ZDdkYTJkOGI1ODllZDlhZGQyNmMyNTNmNzFjNzUyNzgxZTA2YzA5N2M1NGQ1NjgwZTkyYmU5MWE2ZWEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjZhMDg0NGM1YzA3OWYyZmFjZjhmZDNlMTU3NmJjYzc5YzIwODRmYjhiN2Y1Yjg5Yzk2YTA5OWVmYWE2ZTdjYjgifQ"
+        }
+      ]
     }
   ],
   "verification": {
     "by": "openwiki/0.5.0",
-    "at": "2026-09-08T02:06:28.031Z"
+    "at": "2026-09-08T04:38:24.757Z"
   }
 }
