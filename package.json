@@ -10,7 +10,10 @@
     "test:astryx-agents": "node --test scripts/check-astryx-agent-docs.test.mjs",
     "prepare": "husky",
     "commitlint": "commitlint --edit",
-    "commit": "git-cz"
+    "commit": "git-cz",
+    "openwiki:setup": "openwiki integrations install codex --project .",
+    "openwiki:status": "openwiki integrations list --project .",
+    "openwiki:visualize": "openwiki visualize openwiki"
   },
   "config": {
     "commitizen": {
@@ -58,6 +61,7 @@
     "husky": "^9.1.4",
     "jsdom": "~22.1.0",
     "nx": "23.0.2",
+    "openwiki": "0.5.0",
     "prettier": "^3.9.5",
     "storybook": "^10.1.0",
     "tailwindcss": "^4.3.3",

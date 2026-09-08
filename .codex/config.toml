@@ -1,0 +1,5 @@
+# OPENWIKI:MCP:START
+[mcp_servers.openwiki]
+command = "pnpm"
+args = ["exec", "openwiki", "mcp", "--host", "codex"]
+# OPENWIKI:MCP:END
