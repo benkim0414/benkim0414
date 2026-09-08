@@ -1,7 +1,7 @@
 ---
 title: GitHub.io React and Astryx Attribution Footer
 date: 2026-08-28
-last_updated: 2026-08-29
+last_updated: 2026-09-08
 category: design-patterns
 module: apps/github.io global navigation shell
 problem_type: design_pattern
@@ -13,6 +13,7 @@ applies_when:
   - Linking a personal GitHub profile from the portfolio footer
   - Reusing the Astryx docsite mark as a compact product attribution
   - Optically balancing inline brand marks without changing their layout slot
+  - Displaying the app package version beside the footer attribution
 related_components:
   - github.io GlobalNavigationLayout
   - React logo mark
@@ -38,7 +39,8 @@ The github.io app needs a compact site footer that says "Built with [React]
 and [Astryx] by @benkim0414", with `@benkim0414` linking to the public GitHub
 profile. Each logo links to the corresponding technology site. The app already
 uses Astryx, React Router, a persistent `GlobalNavigationLayout`, and an
-Astryx `LayoutContent` scroll owner.
+Astryx `LayoutContent` scroll owner. The footer also exposes the app package's
+semantic version as compact technical metadata.
 
 ## Primary Source Findings
 
@@ -90,12 +92,15 @@ components.
 
 Render one compact attribution footer in `GlobalNavigationLayout`, after the
 routed page content inside the shared app shell. Use a real `footer` element,
-small text, theme tokens, and a single-line flex layout that wraps cleanly on
-mobile.
+small text, theme tokens, and a two-region flex layout configured to wrap on
+narrow viewports. Put the package-derived version in the leading region and
+keep the attribution end-aligned.
 
 Prefer this accessible text model:
 
 - Visible text: `Built with [React logo] and [Astryx logo] by @benkim0414`
+- App version: `v${version}` from `apps/github.io/package.json`, rendered as
+  Astryx `Code` inside supporting `Text`
 - React logo accessible name: `React`, because the logo replaces the visible
   word "React"
 - React logo link target: `https://react.dev`
@@ -124,6 +129,15 @@ existing `LayoutContent` scroll-owner model: the footer should live in the same
 scrolling content flow as the routed page, without introducing a second vertical
 scroll container.
 
+Import `version` from the app's `package.json` so the manifest updated by
+Changesets remains the single source of the displayed value. Render it with
+Astryx `Code` inside `Text type="supporting"`; set `size="inherit"` and
+`color="inherit"` explicitly because `Code` otherwise uses its own code-size
+and primary-color defaults.
+Keep the outer footer wrapping with `justifyContent: 'space-between'`, and give
+the attribution group `marginInlineStart: 'auto'` so it stays end-aligned both
+beside the version and after wrapping.
+
 Implement the React mark as a local `ReactLogo` component using the installed
 `simple-icons` `siReact.path`. Keep `fill="currentColor"`, `height="1em"`, and
 `width="1em"` so its layout slot tracks footer typography. Apply
@@ -142,7 +156,9 @@ semantic footer, includes both accessible logo names, and links to
 `https://react.dev`, `https://astryx.atmeta.com`, and
 `https://github.com/benkim0414`. Assert that React precedes Astryx, that the
 visible conjunction is present, and that React retains its cyan color and
-`scale(1.1)` transform. Keep the GitHub handle typography aligned with the
-footer copy and do not add a second `LayoutContent`. Run the focused footer,
-Storybook route, and layout tests, then build the app and Storybook when the
-shell structure changes.
+`scale(1.1)` transform. Also assert that the package version is a semantic
+`code` element in the footer's leading region, precedes the attribution, and
+inherits a supporting-text boundary. Keep the GitHub handle typography aligned
+with the footer copy and do not add a second `LayoutContent`. Run the focused
+footer, Storybook route, and layout tests, then build the app and Storybook when
+the shell structure changes.

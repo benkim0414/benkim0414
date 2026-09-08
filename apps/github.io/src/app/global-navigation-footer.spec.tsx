@@ -13,6 +13,24 @@ function renderFooter() {
 }
 
 describe('GlobalNavigationFooter', () => {
+  it('places the semantic app version before the attribution', () => {
+    const { getByRole, getByText } = renderFooter();
+    const footer = getByRole('contentinfo');
+    const version = getByText('v0.1.0');
+    const attribution = getByText('Built with');
+
+    expect(version.tagName).toBe('CODE');
+    expect(footer.firstElementChild?.contains(version)).toBe(true);
+    expect(footer.lastElementChild?.contains(attribution)).toBe(true);
+    expect(version.compareDocumentPosition(attribution)).toBe(
+      Node.DOCUMENT_POSITION_FOLLOWING,
+    );
+    expect(version.closest('.astryx-text')?.getAttribute('data-type')).toBe(
+      'supporting',
+    );
+    expect(version.className).toContain('inherit');
+  });
+
   it('separates the attribution with the Astryx Divider component', () => {
     const { getByRole } = renderFooter();
     const divider = getByRole('separator');
