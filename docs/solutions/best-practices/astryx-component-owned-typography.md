@@ -1,7 +1,7 @@
 ---
 title: Use Astryx Typography For Component-Owned Text
 date: 2026-07-31
-last_updated: 2026-08-26
+last_updated: 2026-09-08
 category: best-practices
 module: github.io Astryx typography
 problem_type: best_practice
@@ -55,9 +55,9 @@ typography styles.
 
 `DoraCapabilityCard` now follows this split. The card imports Astryx `Heading`
 and `Text`, keeps StyleX only for card/list structure, and uses the heading id
-as the article label (`apps/github.io/src/app/devops-capability-evidence/dora-capability-card.tsx:1`,
-`apps/github.io/src/app/devops-capability-evidence/dora-capability-card.tsx:23`,
-`apps/github.io/src/app/devops-capability-evidence/dora-capability-card.tsx:103`):
+as the article label (`apps/github.io/src/app/devops-capability-evidence/dora-capability-card.tsx:1-6`,
+`apps/github.io/src/app/devops-capability-evidence/dora-capability-card.tsx:35-53`,
+`apps/github.io/src/app/devops-capability-evidence/dora-capability-card.tsx:105-123`):
 
 ```tsx
 <VStack gap={1}>
@@ -97,9 +97,9 @@ The shared DORA card applies this contract at
 
 `DevOpsRoadmapNode` uses the same rule for node titles: the visible title is an
 Astryx `Heading`, while StyleX still owns React Flow node structure and token
-list layout (`apps/github.io/src/app/devops-roadmap/devops-roadmap-node.tsx:3`,
-`apps/github.io/src/app/devops-roadmap/devops-roadmap-node.tsx:23`,
-`apps/github.io/src/app/devops-roadmap/devops-roadmap-node.tsx:69`).
+list layout (`apps/github.io/src/app/devops-roadmap/devops-roadmap-node.tsx:1-4`,
+`apps/github.io/src/app/devops-roadmap/devops-roadmap-node.tsx:23-63`,
+`apps/github.io/src/app/devops-roadmap/devops-roadmap-node.tsx:73-87`).
 
 Page-level section labels use Astryx `Heading` at their semantic level so the
 document outline and themed heading type scale stay aligned. The home page keeps
@@ -177,8 +177,8 @@ Lock the content contract rather than only taking a snapshot. The focused DORA
 card tests assert paragraph markup, matching `body`/`secondary` props,
 description-before-summary order, absence of `blockquote` and label text, and a
 single description paragraph when no summary resolves
-(`apps/github.io/src/app/devops-capability-evidence/dora-capability-card.spec.tsx:241-267`,
-`apps/github.io/src/app/devops-capability-evidence/dora-capability-card.spec.tsx:523-544`):
+(`apps/github.io/src/app/devops-capability-evidence/dora-capability-card.spec.tsx:251-290`,
+`apps/github.io/src/app/devops-capability-evidence/dora-capability-card.spec.tsx:545-566`):
 
 ```tsx
 expect(descriptionText.tagName).toBe('P');
@@ -196,8 +196,8 @@ absence of horizontal overflow
 
 For roadmap nodes, test the semantic contract rather than implementation
 markup. The roadmap node test now asserts the article and heading roles for the
-same visible node title (`apps/github.io/src/app/devops-roadmap/devops-roadmap.spec.tsx:261`,
-`apps/github.io/src/app/devops-roadmap/devops-roadmap.spec.tsx:262`):
+same visible node title (`apps/github.io/src/app/devops-roadmap/devops-roadmap.spec.tsx:262`,
+`apps/github.io/src/app/devops-roadmap/devops-roadmap.spec.tsx:263`):
 
 ```tsx
 expect(getByRole('article', { name: 'Containers' })).toBeTruthy();

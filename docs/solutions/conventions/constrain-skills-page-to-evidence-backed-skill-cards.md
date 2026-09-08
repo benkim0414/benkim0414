@@ -1,6 +1,7 @@
 ---
 title: Constrain Skills Page To Evidence-Backed Skill Cards
 date: 2026-08-26
+last_updated: 2026-09-08
 category: conventions
 module: apps/github.io skills
 problem_type: convention
@@ -119,11 +120,10 @@ actual services being evidenced.
 Separating page presentation from legacy list maintenance keeps the change
 small. The all-skills page can use the same reusable Skill Card presentation as
 other skill surfaces, while existing list components remain available for row
-or list contexts. The home page remains its own surface with a `Top skills` h2
-and `SkillCarousel`, giving the full Skills page matching typography without
-forcing the carousel interaction (`apps/github.io/src/app/skills/home-page.tsx:31`,
-`apps/github.io/src/app/skills/home-page.tsx:33`,
-`apps/github.io/src/app/skills/home-page.tsx:37`).
+or list contexts. The home page remains its own surface with a `Top skills`
+level-two `Heading` and `SkillCarousel`, giving the full Skills page matching
+semantic typography without forcing the carousel interaction
+(`apps/github.io/src/app/home/home-page.tsx`).
 
 ## When to Apply
 
@@ -163,11 +163,10 @@ in a vertical stack, and renders each card at full width
 `apps/github.io/src/app/skills/skills-page.tsx:18`,
 `apps/github.io/src/app/skills/skills-page.tsx:38`,
 `apps/github.io/src/app/skills/skills-page.tsx:40`). The page keeps a hidden h1
-for the main landmark and adds a visible h2 label using the compact typography
-used by the home page's `Top skills` heading
-(`apps/github.io/src/app/skills/skills-page.tsx:24`,
-`apps/github.io/src/app/skills/skills-page.tsx:27`,
-`apps/github.io/src/app/skills/home-page.tsx:33`).
+for the main landmark and adds a visible level-two `Heading`, matching the home
+page's `Top skills` heading through Astryx's documented type scale rather than
+local compact-text styling (`apps/github.io/src/app/skills/skills-page.tsx`,
+`apps/github.io/src/app/home/home-page.tsx`).
 
 Before, importing DORA skill evidence directly could invite separate cards for
 `AWS`, `GitOps`, `kubectl`, `promtool`, `OpenID Connect`, `IRSA`,
