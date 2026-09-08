@@ -2,16 +2,16 @@
 
 Use this repository-scoped workflow when verified implementation changes may
 affect documented behavior, architecture, configuration, workflows, or evidence.
-OpenWiki is not installed yet: the commands and native prompts below are the
-interface that the tooling task will provide and validate against a pinned
-release.
+The repository pins OpenWiki 0.5.0 as a development dependency. The Codex
+integration is project-scoped and uses the local package through `pnpm exec`;
+it does not require OpenWiki provider credentials.
 
 ## Commands and native prompts
 
 - `pnpm openwiki:status` checks whether the repository integration is available.
 - `pnpm openwiki:setup` installs or repairs the repository-scoped integration.
 - `pnpm openwiki:visualize` opens the generated wiki visualization.
-- Initialize through the host integration with: `Initialize this repository's OpenWiki from the current source and tests.`
+- Bootstrap through the host integration with: `Create this repository's first OpenWiki from the current source and tests, using update mode so no scheduled workflow is created.`
 - Update through the host integration with: `Update this repository's OpenWiki for changes since its last successful run.`
 
 Initialization and updates run through the host integration and its authenticated
@@ -25,18 +25,20 @@ credentials as a fallback.
    for changed source evidence and stale Claims even when page prose appears
    unchanged; record an irrelevant change as unchanged.
 2. Run `pnpm openwiki:status`. If the integration is unavailable, use
-   `pnpm openwiki:setup` once the tooling task supplies it. Stop and report the
-   exact blocker if setup, authentication, trust, or restart requirements prevent
-   native tool use.
+   `pnpm openwiki:setup`, then restart Codex in this repository so it reloads
+   `.codex/config.toml` and `.agents/skills/openwiki`. Stop and report the exact
+   blocker if setup, trust, or restart requirements prevent native tool use.
 3. Before any native OpenWiki tool reads repository content, review
    [`openwiki/INSTRUCTIONS.md`](../../openwiki/INSTRUCTIONS.md) and
    [`.openwikiignore`](../../.openwikiignore). Confirm the intended subjects and
    exclusions still match the current worktree. Keep credentials, local runtime
    state, dependencies, caches, build output, and sibling worktrees out of scope.
-4. Use the initialization prompt only when no usable generated wiki exists. For
-   an existing wiki, use the incremental update prompt. Allow only one writer for
-   this worktree at a time. Honor `.openwikiignore` during native reads, and leave
-   generated metadata and integration-managed setup blocks to OpenWiki's tools.
+4. Use update mode even when no generated wiki exists. Release 0.5.0 init mode
+   creates a scheduled GitHub workflow, which is outside this repository's local
+   workflow. For an existing wiki, use the incremental update prompt. Allow only
+   one writer for this worktree at a time. Honor `.openwikiignore` during native
+   reads, and leave generated metadata and integration-managed setup blocks to
+   OpenWiki's tools.
 5. Follow the native lifecycle: begin the run and accept a no-op result when
    returned; otherwise submit the plan, request each assigned page, write it,
    submit it, and explicitly finish the run. Treat an update as successful only
@@ -50,14 +52,41 @@ credentials as a fallback.
    generation and finalization succeeded, **unchanged** when evaluation found no
    relevant update, or **blocked** with the precise resume step.
 
-## Release checks still pending
+## Release 0.5.0 behavior and recovery
 
-The tooling task must verify the lifecycle above against pinned release `0.5.0`,
-establish its restart behavior, and determine how its incremental update baseline
-treats uncommitted changes. Until those checks are complete, do not promise that
-setup activates without a Codex restart or that uncommitted source is detected.
-Never create an implicit source commit to make change detection work; preserve
-the repository's normal commit approval and handoff rules.
+The installer writes the skill under `.agents/skills/openwiki` and a managed MCP
+block under `.codex/config.toml`. Its published default is a global `openwiki`
+command, so this repository narrows the managed command and install receipt to
+`pnpm exec openwiki mcp --host codex`. This keeps resolution local and portable
+across linked worktrees and fresh installs. Running `pnpm openwiki:setup` repairs
+the published files but restores that global command; after a repair, reinstall
+the project integration with the local command recorded in the setup report, or
+review and restore both the managed block and receipt together before restart.
+
+Codex must restart after installation or repair before native tools appear. A
+single MCP process must remain connected for the complete begin, plan, page, and
+finish sequence because active run state is process-local; durable run files let
+a later process resume only by calling `openwiki_begin` again.
+
+Release 0.5.0 fingerprints current tracked and untracked content as well as Git
+HEAD. Relevant uncommitted edits therefore invalidate a plan and force update
+evaluation; relevant commits are found from the stored per-page Git baseline.
+Ignored paths and generated `openwiki/` state are removed from changed-path
+windows. An unchanged clean checkout may return `status: "noop"`. Never create
+an implicit source commit to make detection work. If an update is interrupted,
+keep its files and resume with `openwiki_begin`; routine reinitialization can
+replace generated state.
+
+The release's generic managed agent-document snippet mentions scheduled GitHub
+Actions even when a run uses update mode. That sentence is not this repository's
+policy: no OpenWiki workflow is installed here, and maintenance remains a local
+pre-handoff step governed by this guide and the repository AGENTS.md.
+
+For a local stdio client, start `pnpm exec openwiki mcp --host codex` from the
+repository root, initialize MCP, and call the six tools in order:
+`openwiki_begin` with `mode: "update"`, `openwiki_submit_plan`, repeated `openwiki_next_page` and
+`openwiki_submit_page` calls (with `openwiki_inspect_page_claims` only when
+needed), then `openwiki_finish`. Keep the same connection open throughout.
 
 Wiki maintenance stays in the current feature worktree and branch. It does not
 authorize a source commit, push, merge, PR, release, deployment, or invocation of
