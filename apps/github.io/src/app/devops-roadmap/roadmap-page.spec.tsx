@@ -64,6 +64,17 @@ describe('RoadmapPage', () => {
     expect(learnMore.getAttribute('rel')).toBe('noopener noreferrer');
   });
 
+  it('uses the Astryx H2 type scale for the roadmap label', () => {
+    const { getByRole } = renderRoadmapPage();
+    const heading = getByRole('heading', {
+      level: 2,
+      name: 'DevOps roadmap',
+    });
+
+    expect(heading.className).toContain('astryx-heading');
+    expect(heading.getAttribute('data-level')).toBe('2');
+  });
+
   it('composes the existing roadmap without overriding its default data', () => {
     const { getByRole } = renderRoadmapPage();
 

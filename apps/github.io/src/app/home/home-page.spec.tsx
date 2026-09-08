@@ -85,6 +85,17 @@ describe('HomePage', () => {
     );
   });
 
+  it('uses the Astryx H2 type scale for section labels', () => {
+    const { getByRole } = renderHomePage();
+
+    for (const name of ['Top skills', 'DORA capabilities']) {
+      const heading = getByRole('heading', { level: 2, name });
+
+      expect(heading.className).toContain('astryx-heading');
+      expect(heading.getAttribute('data-level')).toBe('2');
+    }
+  });
+
   it('renders content without page-local navigation or palette ownership', () => {
     const { container, getByRole, queryByRole } = renderHomePage();
     const main = getByRole('main', { name: 'Home' });

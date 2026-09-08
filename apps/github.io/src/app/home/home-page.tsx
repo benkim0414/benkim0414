@@ -1,8 +1,8 @@
 import type { ReactElement } from 'react';
 import { Banner } from '@astryxdesign/core/Banner';
 import { Button } from '@astryxdesign/core/Button';
+import { Heading } from '@astryxdesign/core/Heading';
 import { HStack, VStack } from '@astryxdesign/core/Layout';
-import { Text } from '@astryxdesign/core/Text';
 import { VisuallyHidden } from '@astryxdesign/core/VisuallyHidden';
 
 import { DoraCapabilityCard } from '../devops-capability-evidence/dora-capability-card';
@@ -32,9 +32,9 @@ export function HomePage({
       <HomeGreeting />
       <VStack gap={3} paddingBlock={4}>
         <VStack paddingInline={4}>
-          <Text as="h2" id="top-skills-title" type="body" weight="bold">
+          <Heading id="top-skills-title" level={2}>
             Top skills
-          </Text>
+          </Heading>
         </VStack>
         <SkillCarousel
           ariaLabel="Highlighted skills"
@@ -48,9 +48,9 @@ export function HomePage({
         </HStack>
       </VStack>
       <VStack gap={3} paddingBlock={4} paddingInline={4}>
-        <Text as="h2" id="dora-capabilities-title" type="body" weight="bold">
+        <Heading id="dora-capabilities-title" level={2}>
           DORA capabilities
-        </Text>
+        </Heading>
         <Banner
           data-testid="dora-capabilities-banner"
           description="DORA capabilities are technical, process, and cultural practices associated with stronger software delivery and organizational performance. Each card connects a capability to supporting experience, certifications, and technical skills."

@@ -40,6 +40,24 @@ describe('SkillsPage', () => {
     );
   });
 
+  it('uses Astryx heading type scales for the page and filter labels', () => {
+    const { getByRole } = renderSkillsPage();
+    const skillsHeading = getByRole('heading', { level: 2, name: 'Skills' });
+
+    expect(skillsHeading.className).toContain('astryx-heading');
+    expect(skillsHeading.getAttribute('data-level')).toBe('2');
+
+    fireEvent.click(getByRole('button', { name: 'Filter skills' }));
+
+    const filterHeading = getByRole('heading', {
+      level: 3,
+      name: 'Filter skills',
+    });
+
+    expect(filterHeading.className).toContain('astryx-heading');
+    expect(filterHeading.getAttribute('data-level')).toBe('3');
+  });
+
   it('sorts a copy of supplied skills and links every card to its detail route', () => {
     const suppliedSkills = ['typescript', 'argo-cd', 'docker'].map((id) => {
       const skill = skills.find((candidate) => candidate.id === id);

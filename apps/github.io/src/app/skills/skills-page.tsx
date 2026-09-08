@@ -4,6 +4,7 @@ import {
   CheckboxListItem,
 } from '@astryxdesign/core/CheckboxList';
 import { EmptyState } from '@astryxdesign/core/EmptyState';
+import { Heading } from '@astryxdesign/core/Heading';
 import { Icon } from '@astryxdesign/core/Icon';
 import { IconButton } from '@astryxdesign/core/IconButton';
 import { VStack } from '@astryxdesign/core/Layout';
@@ -58,18 +59,14 @@ export function SkillsPage({
       <VisuallyHidden as="h1" id="skills-page-title">
         Skills
       </VisuallyHidden>
-      <Text as="h2" type="body" weight="bold">
-        Skills
-      </Text>
+      <Heading level={2}>Skills</Heading>
       <Toolbar
         endContent={
           <Popover
             alignment="end"
             content={
               <VStack gap={3}>
-                <Text as="h3" weight="bold">
-                  Filter skills
-                </Text>
+                <Heading level={3}>Filter skills</Heading>
                 <CheckboxList
                   density="compact"
                   isLabelHidden

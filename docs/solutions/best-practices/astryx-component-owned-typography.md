@@ -101,15 +101,13 @@ list layout (`apps/github.io/src/app/devops-roadmap/devops-roadmap-node.tsx:3`,
 `apps/github.io/src/app/devops-roadmap/devops-roadmap-node.tsx:23`,
 `apps/github.io/src/app/devops-roadmap/devops-roadmap-node.tsx:69`).
 
-Page-level labels can use Astryx `Text` when their visual role is a compact
-section label rather than a large page title. The home page `Top skills` label
-renders as `Text as="h2" type="body" weight="bold"` at
-`apps/github.io/src/app/skills/home-page.tsx:33`, while the page `h1` is kept
-separate as a visually hidden `Home` heading at
-`apps/github.io/src/app/skills/home-page.tsx:28`. To make the DevOps roadmap
-label match that contract, `RoadmapPage` uses the same `Text as="h2"` body-bold
-pattern instead of `Heading level={1}` at
-`apps/github.io/src/app/devops-roadmap/roadmap-page.tsx:22`.
+Page-level section labels use Astryx `Heading` at their semantic level so the
+document outline and themed heading type scale stay aligned. The home page keeps
+its page `h1` visually hidden while rendering `Top skills` and
+`DORA capabilities` as `Heading level={2}`. The visible Skills and DevOps
+roadmap labels follow the same H2 contract, while the filter popover uses
+`Heading level={3}` for its nested label. Focused tests assert both the
+accessible level and Astryx's stable `astryx-heading` and `data-level` surfaces.
 
 ## Why This Matters
 
