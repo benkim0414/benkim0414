@@ -43,7 +43,7 @@ const roadmapSuggestedConceptsByNodeId = {
   'secret-management': ['Vault', 'AWS Secrets Manager', 'Sealed Secrets'],
   'infrastructure-monitoring': ['Prometheus', 'Grafana', 'Datadog'],
   'logs-management': ['Loki', 'Elastic Stack'],
-  'container-orchestration': ['Kubernetes'],
+  'container-orchestration': ['Kubernetes', 'Amazon EKS'],
   'application-monitoring': ['Prometheus'],
   'artifact-management': ['Artifactory'],
   gitops: ['ArgoCD'],
@@ -235,7 +235,7 @@ describe('devOpsRoadmapSkillInventoryNodes', () => {
     ]);
     expect(
       nodesById.get('container-orchestration')?.evidenceSkillTokens,
-    ).toEqual(['Kubernetes']);
+    ).toEqual(['Kubernetes', 'Amazon EKS']);
     expect(
       nodesById.get('application-monitoring')?.evidenceSkillTokens,
     ).toEqual(['Prometheus']);

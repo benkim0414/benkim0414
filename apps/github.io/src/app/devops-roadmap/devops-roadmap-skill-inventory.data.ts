@@ -145,7 +145,7 @@ export const devOpsRoadmapSkillInventoryNodes = [
     title: 'Container Orchestration',
     description: devOpsRoadmapDescriptions['container-orchestration'],
     certifications: kubernetesCertificationRow,
-    evidenceSkillTokens: ['Kubernetes'],
+    evidenceSkillTokens: ['Kubernetes', 'Amazon EKS'],
     coveredRoadmapConcepts: [],
   },
   {
