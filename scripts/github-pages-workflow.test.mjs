@@ -11,7 +11,7 @@ const deploy = workflow.split('\n  deploy:\n')[1] ?? '';
 test('gates cross-repository credentials behind release and deployment environment', () => {
   for (const pattern of [
     /needs: release/,
-    /if: needs\.release\.outputs\.action != 'noop'/,
+    /if: needs\.release\.outputs\.action == 'prepare' \|\| needs\.release\.outputs\.action == 'recover'/,
     /environment: github-pages/,
     /repository: benkim0414\/benkim0414\.github\.io/,
     /ref: main/,

@@ -16,13 +16,21 @@ const PROJECT = 'github.io';
 const TAG_PREFIX = `${PROJECT}@`;
 const LOG_FORMAT = '%H%x00%s%x00%b%x00';
 
+export function isCompletedSandboxProcess(error) {
+  return (
+    error?.code === 'EPERM' &&
+    error.status === 0 &&
+    typeof error.stdout === 'string'
+  );
+}
+
 function git(args, cwd = process.cwd()) {
   try {
     return execFileSync('git', args, { cwd, encoding: 'utf8' });
   } catch (error) {
     // The Codex sandbox can attach EPERM to a completed nested process. Preserve
     // the real exit status so tests exercise the same Git behavior as CI.
-    if (error.code === 'EPERM' && error.status === 0) return error.stdout;
+    if (isCompletedSandboxProcess(error)) return error.stdout;
     throw error;
   }
 }
@@ -98,6 +106,49 @@ function firstParentCommits(range, cwd) {
   );
 }
 
+function isFirstParent(ancestor, descendant, cwd) {
+  return git(['rev-list', '--first-parent', descendant], cwd)
+    .split('\n')
+    .includes(ancestor);
+}
+
+export function verifyMainTarget({
+  target,
+  main = 'origin/main',
+  cwd = process.cwd(),
+}) {
+  const sourceSha = resolveCommit(target, cwd);
+  if (!isFirstParent(sourceSha, resolveCommit(main, cwd), cwd)) {
+    throw new Error(
+      `${sourceSha} must belong to ${main}'s first-parent history`,
+    );
+  }
+  return sourceSha;
+}
+
+export function verifyBootstrapApproval(decision, { sourceSha, version } = {}) {
+  if (
+    !/^[a-f0-9]{40}$/.test(sourceSha ?? '') ||
+    sourceSha !== decision.sourceSha
+  ) {
+    throw new Error(
+      'bootstrap requires the full reviewed source SHA matching the replay',
+    );
+  }
+  if (
+    !version ||
+    version !== decision.newVersion ||
+    decision.action !== 'prepare' ||
+    !decision.bootstrap
+  ) {
+    throw new Error(
+      'bootstrap requires the reviewed version matching the replay',
+    );
+  }
+  validateVersion(version);
+  return decision;
+}
+
 function introducedCommits(integration, cwd) {
   const parents = git(['show', '-s', '--format=%P', integration.sha], cwd)
     .trim()
@@ -167,12 +218,34 @@ function replay({ integrations, previousVersion, sourceSha, bootstrap }) {
   };
 }
 
-export function calculateRelease({ target, cwd = process.cwd() }) {
+export function calculateRelease({
+  target,
+  main = 'main',
+  cwd = process.cwd(),
+}) {
   const sourceSha = resolveCommit(target, cwd);
   const baseline = latestProjectTag(cwd);
   const baselineSha = resolveCommit(baseline.tag, cwd);
-  if (!isAncestor(baselineSha, sourceSha, cwd)) {
-    throw new Error(`${baseline.tag} is not an ancestor of ${sourceSha}`);
+  verifyMainTarget({ target: sourceSha, main, cwd });
+  if (!isFirstParent(baselineSha, resolveCommit(main, cwd), cwd)) {
+    throw new Error(
+      `${baseline.tag} is not an ancestor on ${main}'s first-parent history`,
+    );
+  }
+  if (!isFirstParent(baselineSha, sourceSha, cwd)) {
+    if (isFirstParent(sourceSha, baselineSha, cwd)) {
+      return {
+        action: 'superseded',
+        project: PROJECT,
+        sourceSha,
+        previousVersion: baseline.version,
+        bootstrap: false,
+        commits: [],
+      };
+    }
+    throw new Error(
+      `${baseline.tag} is not an ancestor on the first-parent history of ${sourceSha}`,
+    );
   }
   return replay({
     integrations: firstParentIntegrations(`${baselineSha}..${sourceSha}`, cwd),
@@ -265,6 +338,15 @@ export function serializeReleaseRecord(record) {
   return `${JSON.stringify(canonicalRecord(record))}\n`;
 }
 
+export function renderReleaseNotes(record) {
+  const saved = canonicalRecord(record);
+  return [
+    `## ${saved.tag}`,
+    '',
+    ...saved.commits.map((commit) => `- ${commit.subject} (\`${commit.sha}\`)`),
+  ].join('\n');
+}
+
 export function verifyReleaseRecord(
   record,
   { artifactPath, project = PROJECT, sourceSha, tag } = {},
@@ -347,12 +429,27 @@ function readRecord(path) {
 function runCli(argv) {
   const { command, options } = parseArguments(argv);
   if (command === 'calculate') {
-    return calculateRelease({ target: required(options, 'target') });
+    return calculateRelease({
+      target: required(options, 'target'),
+      main: options.main ?? 'origin/main',
+    });
   }
   if (command === 'bootstrap') {
     return bootstrapRelease({
       target: required(options, 'target'),
       start: options.start ?? '8acdd81',
+    });
+  }
+  if (command === 'verify-main-target') {
+    return {
+      action: 'verified',
+      sourceSha: verifyMainTarget({ target: required(options, 'target') }),
+    };
+  }
+  if (command === 'approve-bootstrap') {
+    return verifyBootstrapApproval(readRecord(required(options, 'decision')), {
+      sourceSha: required(options, 'source'),
+      version: required(options, 'version'),
     });
   }
   if (command === 'verify-record') {
@@ -367,6 +464,11 @@ function runCli(argv) {
     );
     return { action: 'verified', record: verified };
   }
+  if (command === 'notes') {
+    return {
+      notes: renderReleaseNotes(readRecord(required(options, 'record'))),
+    };
+  }
   if (command === 'verify-deployment') {
     const candidate = readRecord(required(options, 'candidate'));
     const deployed = options.deployed ? readRecord(options.deployed) : null;
@@ -377,7 +479,7 @@ function runCli(argv) {
     });
   }
   throw new Error(
-    'command must be calculate, bootstrap, verify-record, or verify-deployment',
+    'command must be calculate, bootstrap, approve-bootstrap, verify-main-target, notes, verify-record, or verify-deployment',
   );
 }
 

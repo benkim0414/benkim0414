@@ -15,7 +15,7 @@
     "openwiki:status": "openwiki integrations list --project .",
     "openwiki:visualize": "openwiki visualize openwiki",
     "release:github.io": "node scripts/github-io-release.mjs",
-    "test:release:github.io": "node --test scripts/github-io-release-core.test.mjs scripts/github-io-release.test.mjs"
+    "test:release:github.io": "node --test scripts/github-io-release-core.test.mjs scripts/github-io-release.test.mjs scripts/github-io-nx-release.test.mjs scripts/github-io-release-recovery.test.mjs scripts/github-io-build-version.test.mjs scripts/github-io-release-config.test.mjs scripts/github-io-release-workflows.test.mjs scripts/github-pages-workflow.test.mjs scripts/sync-github-pages-artifact.test.mjs"
   },
   "config": {
     "commitizen": {

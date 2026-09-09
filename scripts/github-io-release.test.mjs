@@ -13,6 +13,28 @@ import {
   verifyDeployment,
   verifyReleaseRecord,
 } from './github-io-release.mjs';
+import * as release from './github-io-release.mjs';
+const { isCompletedSandboxProcess, verifyMainTarget, verifyBootstrapApproval } =
+  release;
+
+test('release notes contain only the accepted ordered commit set, including on recovery', (t) => {
+  const cwd = repository(t);
+  commit(cwd, 'chore: seed');
+  git(cwd, 'tag', 'github.io@1.0.0');
+  const accepted = commit(cwd, 'fix(github.io): accepted change');
+  const target = commit(cwd, 'feat(other): ignored change');
+  const decision = calculateRelease({ cwd, target });
+  const saved = record(target, '1.0.1', {
+    previousVersion: '1.0.0',
+    commits: decision.commits,
+  });
+  const expected = `## github.io@1.0.1\n\n- fix(github.io): accepted change (\`${accepted}\`)`;
+  assert.equal(release.renderReleaseNotes(saved), expected);
+  assert.equal(
+    release.renderReleaseNotes(JSON.parse(serializeReleaseRecord(saved))),
+    expected,
+  );
+});
 
 function git(cwd, ...args) {
   const result = spawnSync('git', args, { cwd, encoding: 'utf8' });
@@ -89,6 +111,160 @@ test('calculate scans only the target first-parent range and replays bumps in or
       },
     ],
   });
+});
+
+test('rejects a second-parent release baseline and manual target', (t) => {
+  const cwd = repository(t);
+  commit(cwd, 'chore: seed');
+  git(cwd, 'switch', '-c', 'feature');
+  const side = commit(cwd, 'feat(github.io): side branch');
+  git(cwd, 'tag', 'github.io@1.0.0');
+  git(cwd, 'switch', 'main');
+  git(cwd, 'merge', '--no-ff', 'feature', '-m', 'chore: integration');
+  const target = git(cwd, 'rev-parse', 'HEAD');
+  git(cwd, 'update-ref', 'refs/remotes/origin/main', target);
+  assert.throws(() => calculateRelease({ cwd, target }), /first-parent/);
+  assert.throws(() => verifyMainTarget({ cwd, target: side }), /first-parent/);
+  assert.equal(verifyMainTarget({ cwd, target }), target);
+});
+
+test('an obsolete first-parent target is superseded while divergent history fails', (t) => {
+  const cwd = repository(t);
+  const target = commit(cwd, 'chore: seed');
+  commit(cwd, 'feat(github.io): current release');
+  git(cwd, 'tag', 'github.io@1.0.0');
+  assert.deepEqual(calculateRelease({ cwd, target }), {
+    action: 'superseded',
+    project: 'github.io',
+    sourceSha: target,
+    previousVersion: '1.0.0',
+    bootstrap: false,
+    commits: [],
+  });
+  git(cwd, 'switch', '-c', 'divergent', target);
+  const other = commit(cwd, 'fix(github.io): divergent');
+  assert.throws(() => calculateRelease({ cwd, target: other }), /first-parent/);
+});
+
+test('a tag on a branch descended from an old main target is divergent, not superseded', (t) => {
+  const cwd = repository(t);
+  const target = commit(cwd, 'chore: shared main integration');
+  commit(cwd, 'chore: current main');
+  git(cwd, 'switch', '-c', 'wrong-release-branch', target);
+  commit(cwd, 'feat(github.io): not integrated');
+  git(cwd, 'tag', 'github.io@2.0.0');
+  assert.throws(
+    () => calculateRelease({ cwd, target, main: 'main' }),
+    /first-parent/,
+  );
+});
+
+test('fresh calculation rejects a feature-branch target even with a valid baseline', (t) => {
+  const cwd = repository(t);
+  commit(cwd, 'chore: seed');
+  git(cwd, 'tag', 'github.io@1.0.0');
+  git(cwd, 'switch', '-c', 'unintegrated');
+  const target = commit(cwd, 'fix(github.io): branch target');
+  assert.throws(() => calculateRelease({ cwd, target }), /first-parent/);
+});
+
+test('bootstrap approval binds a full reviewed SHA and exact calculated version', () => {
+  const decision = {
+    action: 'prepare',
+    bootstrap: true,
+    sourceSha: 'a'.repeat(40),
+    newVersion: '0.1.1',
+  };
+  assert.deepEqual(
+    verifyBootstrapApproval(decision, {
+      sourceSha: decision.sourceSha,
+      version: '0.1.1',
+    }),
+    decision,
+  );
+  for (const approval of [
+    {},
+    { sourceSha: 'aaaaaaa', version: '0.1.1' },
+    { sourceSha: 'b'.repeat(40), version: '0.1.1' },
+    { sourceSha: decision.sourceSha, version: '0.1.2' },
+  ]) {
+    assert.throws(
+      () => verifyBootstrapApproval(decision, approval),
+      /reviewed/,
+    );
+  }
+});
+
+test('sandbox completion compatibility accepts only a successful EPERM with text stdout', () => {
+  assert.equal(
+    isCompletedSandboxProcess({ code: 'EPERM', status: 0, stdout: 'ok' }),
+    true,
+  );
+  for (const value of [
+    null,
+    {},
+    { code: 'EIO', status: 0, stdout: 'ok' },
+    { code: 'EPERM', status: 1, stdout: 'ok' },
+    { code: 'EPERM', status: 0 },
+    { code: 'EPERM', status: 0, stdout: Buffer.from('ok') },
+  ]) {
+    assert.equal(isCompletedSandboxProcess(value), false);
+  }
+});
+
+test('CLI emits exactly one JSON value on success and only diagnostics on failure', (t) => {
+  const cwd = repository(t);
+  commit(cwd, 'chore: seed');
+  git(cwd, 'tag', 'github.io@1.0.0');
+  const target = commit(cwd, 'fix(github.io): CLI fixture');
+  git(cwd, 'update-ref', 'refs/remotes/origin/main', target);
+  const cli = (args) =>
+    spawnSync(
+      process.execPath,
+      [new URL('./github-io-release.mjs', import.meta.url).pathname, ...args],
+      { cwd, encoding: 'utf8' },
+    );
+  const success = cli(['calculate', '--target', target]);
+  assert.equal(success.status, 0, success.stderr);
+  assert.equal(success.stderr, '');
+  assert.equal(success.stdout.trim().split('\n').length, 1);
+  assert.equal(JSON.parse(success.stdout).newVersion, '1.0.1');
+  const artifactPath = join(cwd, 'artifact.tgz');
+  writeFileSync(artifactPath, 'bytes');
+  const saved = record(target, '1.0.1', {
+    artifact: {
+      name: 'artifact.tgz',
+      sha256: createHash('sha256').update('bytes').digest('hex'),
+    },
+  });
+  const recordPath = join(cwd, 'record.json');
+  writeFileSync(recordPath, serializeReleaseRecord(saved));
+  const verified = cli([
+    'verify-record',
+    '--record',
+    recordPath,
+    '--artifact',
+    artifactPath,
+    '--target',
+    target,
+  ]);
+  assert.equal(verified.status, 0, verified.stderr);
+  assert.equal(verified.stderr, '');
+  assert.equal(JSON.parse(verified.stdout).action, 'verified');
+  writeFileSync(artifactPath, 'corruption');
+  for (const [args, diagnostic] of [
+    [['calculate'], /--target is required/],
+    [['calculate', '--target'], /requires a value/],
+    [
+      ['verify-record', '--record', recordPath, '--artifact', artifactPath],
+      /digest mismatch/,
+    ],
+  ]) {
+    const failure = cli(args);
+    assert.equal(failure.status, 1);
+    assert.equal(failure.stdout, '');
+    assert.match(failure.stderr, diagnostic);
+  }
 });
 
 test('calculate rejects the latest project tag when it is not target ancestry', (t) => {

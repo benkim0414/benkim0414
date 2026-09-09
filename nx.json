@@ -43,7 +43,7 @@
         "releaseTag": { "pattern": "github.io@{version}" },
         "version": {
           "currentVersionResolver": "git-tag",
-          "manifestRootsToUpdate": [],
+          "manifestRootsToUpdate": ["dist/release-manifests/{projectName}"],
           "updateDependents": "never"
         },
         "changelog": false

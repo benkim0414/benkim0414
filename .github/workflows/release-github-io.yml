@@ -6,13 +6,17 @@ on:
   workflow_dispatch:
     inputs:
       source_sha:
-        description: Full main commit SHA to recover (defaults to this run's SHA)
+        description: Full reviewed main SHA for bootstrap, or recovery SHA (normal releases default to this run)
         type: string
         required: false
       bootstrap:
         description: Explicitly approve the first release from reviewed history
         type: boolean
         default: false
+      reviewed_version:
+        description: Exact version from the approved bootstrap preview (required with bootstrap)
+        type: string
+        required: false
 
 concurrency:
   group: release
@@ -41,8 +45,13 @@ jobs:
         id: source
         env:
           REQUESTED_SHA: ${{ inputs.source_sha }}
+          BOOTSTRAP: ${{ github.event_name == 'workflow_dispatch' && inputs.bootstrap }}
+          REVIEWED_VERSION: ${{ inputs.reviewed_version }}
         run: |
           set -euo pipefail
+          if [[ "$BOOTSTRAP" == true ]]; then
+            [[ -n "$REQUESTED_SHA" && -n "$REVIEWED_VERSION" ]] || { echo 'Bootstrap requires the reviewed source_sha and reviewed_version.' >&2; exit 1; }
+          fi
           source_sha="${REQUESTED_SHA:-$GITHUB_SHA}"
           [[ "$source_sha" =~ ^[a-f0-9]{40}$ ]] || { echo 'Expected a full commit SHA.' >&2; exit 1; }
           echo "sha=$source_sha" >> "$GITHUB_OUTPUT"
@@ -58,7 +67,7 @@ jobs:
           SOURCE_SHA: ${{ steps.source.outputs.sha }}
         run: |
           git fetch origin --tags
-          git merge-base --is-ancestor "$SOURCE_SHA" origin/main
+          node scripts/github-io-release.mjs verify-main-target --target "$SOURCE_SHA"
       - name: Discover saved release
         id: saved
         env:
@@ -97,6 +106,7 @@ jobs:
           SOURCE_SHA: ${{ steps.source.outputs.sha }}
           SAVED: ${{ steps.saved.outputs.found }}
           BOOTSTRAP: ${{ github.event_name == 'workflow_dispatch' && inputs.bootstrap }}
+          REVIEWED_VERSION: ${{ inputs.reviewed_version }}
         run: |
           set -euo pipefail
           if [[ "$SAVED" == true ]]; then
@@ -112,9 +122,10 @@ jobs:
           if [[ -z "$(git tag --list 'github.io@*')" ]]; then
             [[ "$BOOTSTRAP" == true ]] || { echo 'No release baseline. Dispatch bootstrap after reviewing history.' >&2; exit 1; }
             node scripts/github-io-release.mjs bootstrap --target "$SOURCE_SHA" > decision.json
+            node scripts/github-io-release.mjs approve-bootstrap --decision decision.json --source "$SOURCE_SHA" --version "$REVIEWED_VERSION" > approved-bootstrap.json
           else
             [[ "$BOOTSTRAP" != true ]] || { echo 'Bootstrap is only allowed before the first release tag.' >&2; exit 1; }
-            node scripts/github-io-release.mjs calculate --target "$SOURCE_SHA" > decision.json
+            node scripts/github-io-release.mjs calculate --target "$SOURCE_SHA" --main origin/main > decision.json
           fi
           jq -r '"action=\(.action)", "version=\(.newVersion // "")", "tag=\(.tag // "")", "bootstrap=\(.bootstrap)"' decision.json >> "$GITHUB_OUTPUT"
       - uses: pnpm/action-setup@008330803749db0355799c700092d9a85fd074e9 # v6.0.9
@@ -128,6 +139,7 @@ jobs:
         run: |
           set -euo pipefail
           pnpm install --frozen-lockfile
+          pnpm exec node scripts/github-io-nx-release.mjs decision.json > nx-decision.json
           pnpm nx lint github.io
           pnpm nx test github.io --run
           APP_RELEASE=true APP_VERSION="$VERSION" pnpm nx build github.io --skip-nx-cache
@@ -158,7 +170,7 @@ jobs:
           writeFileSync('.release/release-record.json', serializeReleaseRecord({ schemaVersion: 1, project: decision.project, sourceSha: decision.sourceSha, previousVersion: decision.previousVersion, version: decision.newVersion, tag: decision.tag, bootstrap: decision.bootstrap, commits: decision.commits, artifact }));
           NODE
       - name: Verify release files
-        if: steps.release.outputs.action != 'noop'
+        if: steps.release.outputs.action == 'prepare' || steps.release.outputs.action == 'recover'
         env:
           SOURCE_SHA: ${{ steps.source.outputs.sha }}
           TAG: ${{ steps.release.outputs.tag }}
@@ -175,7 +187,7 @@ jobs:
           if-no-files-found: error
           include-hidden-files: true
       - name: Create or verify release tag
-        if: steps.release.outputs.action != 'noop'
+        if: steps.release.outputs.action == 'prepare' || steps.release.outputs.action == 'recover'
         env:
           SOURCE_SHA: ${{ steps.source.outputs.sha }}
           TAG: ${{ steps.release.outputs.tag }}
@@ -195,18 +207,21 @@ jobs:
             git push origin "refs/tags/$TAG"
           fi
       - name: Publish verified release
-        if: steps.release.outputs.action != 'noop'
+        if: steps.release.outputs.action == 'prepare' || steps.release.outputs.action == 'recover'
         env:
           SOURCE_SHA: ${{ steps.source.outputs.sha }}
           TAG: ${{ steps.release.outputs.tag }}
         run: |
           set -euo pipefail
+          node scripts/github-io-release.mjs notes --record .release/release-record.json | jq -j '.notes' > release-notes.md
           gh api --paginate "repos/$GITHUB_REPOSITORY/releases?per_page=100" --jq '.[]' \
             | jq -s --arg tag "$TAG" 'map(select(.tag_name == $tag))' > release-state.json
           if [[ "$(jq 'length' release-state.json)" == 0 ]]; then
-            gh release create "$TAG" --verify-tag --target "$SOURCE_SHA" --draft --generate-notes --title "$TAG"
+            gh release create "$TAG" --verify-tag --target "$SOURCE_SHA" --draft --notes-file release-notes.md --title "$TAG"
           fi
-          gh release view "$TAG" --json isDraft,assets > release-assets.json
+          gh release view "$TAG" --json isDraft,assets,body > release-assets.json
+          jq -j '.body' release-assets.json > published-notes.md
+          cmp release-notes.md published-notes.md
           mkdir -p .published
           for asset in github-io-pages.tgz release-record.json; do
             if jq -e --arg name "$asset" '.assets[] | select(.name == $name)' release-assets.json >/dev/null; then
@@ -226,7 +241,7 @@ jobs:
 
   deploy:
     needs: release
-    if: needs.release.outputs.action != 'noop'
+    if: needs.release.outputs.action == 'prepare' || needs.release.outputs.action == 'recover'
     runs-on: ubuntu-latest
     environment: github-pages
     permissions:
