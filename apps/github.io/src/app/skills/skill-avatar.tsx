@@ -1,4 +1,8 @@
-import { Avatar, type AvatarSize } from '@astryxdesign/core/Avatar';
+import {
+  Avatar,
+  type AvatarProps,
+  type AvatarSize,
+} from '@astryxdesign/core/Avatar';
 import {
   siArgo,
   siClaudecode,
@@ -66,12 +70,14 @@ export interface SkillAvatarProps {
   isDecorative?: boolean;
   skill: Skill;
   size?: AvatarSize;
+  tooltip?: AvatarProps['tooltip'];
 }
 
 export function SkillAvatar({
   isDecorative = false,
   skill,
-  size = 'medium',
+  size = 'lg',
+  tooltip,
 }: SkillAvatarProps) {
   return (
     <Avatar
@@ -82,6 +88,7 @@ export function SkillAvatar({
       role={isDecorative ? 'presentation' : 'img'}
       size={size}
       src={skillAvatarPresentation(skill.iconSlug)}
+      tooltip={tooltip}
     />
   );
 }

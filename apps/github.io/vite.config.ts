@@ -69,6 +69,7 @@ export default defineConfig(({ mode }) => ({
     watch: false,
     globals: true,
     environment: 'jsdom',
+    setupFiles: ['src/test-setup.ts'],
     include: [
       'src/**/*.{test,spec}.{js,mjs,cjs,ts,mts,cts,jsx,tsx}',
       '.storybook/**/*.spec.ts',

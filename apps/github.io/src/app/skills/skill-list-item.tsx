@@ -55,7 +55,12 @@ export function SkillListItem({
             vAlign="center"
             width="100%"
           >
-            <SkillAvatar isDecorative skill={skill} size="xsmall" />
+            <SkillAvatar
+              isDecorative
+              skill={skill}
+              size="sm"
+              tooltip={false}
+            />
             <StackItem size="fill">
               <Text display="block" maxLines={1}>
                 {skill.name}
@@ -73,7 +78,9 @@ export function SkillListItem({
     <ListItem
       endContent={metadata}
       label={skill.name}
-      startContent={<SkillAvatar skill={skill} size="xsmall" />}
+      startContent={
+        <SkillAvatar skill={skill} size="sm" tooltip={false} />
+      }
     />
   );
 }

@@ -1,4 +1,4 @@
-import { render } from '@testing-library/react';
+import { fireEvent, render } from '@testing-library/react';
 
 import { CertificationCitation } from './certification-citation';
 
@@ -29,8 +29,8 @@ describe('CertificationCitation', () => {
     expect(citation.getAttribute('target')).toBe('_blank');
   });
 
-  it('describes a concrete certification with semantic metadata', () => {
-    const { getByRole } = render(
+  it('describes a concrete certification with semantic metadata', async () => {
+    const { findByRole, getByRole } = render(
       <CertificationCitation
         currentDate={new Date('2026-07-23T00:00:00+10:00')}
         expiresAt="2027-04-20T10:00:00+10:00"
@@ -42,12 +42,16 @@ describe('CertificationCitation', () => {
     );
 
     const citation = getByRole('doc-noteref', { name: 'Citation 1: CKA' });
-    const hoverCard = getByRole('dialog', { hidden: true });
+    fireEvent.mouseEnter(citation);
+    const hoverCard = await findByRole('dialog', {
+      name: 'CKA certification details',
+    });
 
     expect(citation.getAttribute('href')).toBe(certificateUrl);
-    expect(citation.getAttribute('aria-describedby')?.split(' ')).toContain(
+    expect(citation.getAttribute('aria-controls')?.split(' ')).toContain(
       hoverCard.id,
     );
+    expect(citation.getAttribute('aria-haspopup')).toBe('dialog');
     const metadataList = hoverCard.querySelector('.astryx-metadata-list');
     const metadataTitle = Array.from(
       metadataList?.querySelectorAll('*') ?? [],
@@ -76,8 +80,8 @@ describe('CertificationCitation', () => {
     ]);
   });
 
-  it('shows expired metadata without changing the citation link', () => {
-    const { getByRole } = render(
+  it('shows expired metadata without changing the citation link', async () => {
+    const { findByRole, getByRole } = render(
       <CertificationCitation
         currentDate={new Date('2029-01-01T00:00:00+11:00')}
         expiresAt="2027-04-20T10:00:00+10:00"
@@ -89,7 +93,10 @@ describe('CertificationCitation', () => {
     );
 
     const citation = getByRole('doc-noteref', { name: 'Citation 1: CKA' });
-    const hoverCard = getByRole('dialog', { hidden: true });
+    fireEvent.mouseEnter(citation);
+    const hoverCard = await findByRole('dialog', {
+      name: 'CKA certification details',
+    });
     const statusBadge = hoverCard.querySelector(
       '.astryx-badge[data-variant="neutral"]',
     );
