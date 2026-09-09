@@ -118,7 +118,12 @@ function main(args) {
   } else {
     const base = option(args, '--base');
     const head = option(args, '--head');
-    const commits = rangeCommits(base, head, !args.includes('--pr-title'));
+    const requireAncestor = !args.includes('--pr-title');
+    if (args.includes('--validate-range')) {
+      assertRange(base, head, requireAncestor);
+      return;
+    }
+    const commits = rangeCommits(base, head, requireAncestor);
     const allPaths = [];
     for (const oid of commits) {
       const paths = commitPaths(oid);

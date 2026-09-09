@@ -35,9 +35,11 @@ jobs:
             const result = spawnSync(command, args, { stdio: 'inherit' });
             if (result.status !== 0) process.exitCode = result.status ?? 1;
           };
-          run('pnpm', ['exec', 'commitlint', '--from', base, '--to', head]);
           const args = ['scripts/check-commit-scopes.mjs'];
           if (isPr) args.push('--pr-title', event.pull_request.title);
           args.push('--base', base, '--head', head);
+          const preflight = spawnSync(process.execPath, [...args, '--validate-range'], { stdio: 'inherit' });
+          if (preflight.status !== 0) process.exit(preflight.status ?? 1);
+          run('pnpm', ['exec', 'commitlint', '--from', base, '--to', head]);
           run(process.execPath, args);
           NODE

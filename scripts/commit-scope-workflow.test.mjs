@@ -1,5 +1,16 @@
 import assert from 'node:assert/strict';
-import { readFileSync } from 'node:fs';
+import { execFileSync, spawnSync } from 'node:child_process';
+import {
+  chmodSync,
+  existsSync,
+  mkdirSync,
+  mkdtempSync,
+  readFileSync,
+  symlinkSync,
+  writeFileSync,
+} from 'node:fs';
+import { tmpdir } from 'node:os';
+import { dirname, join } from 'node:path';
 import test from 'node:test';
 
 const workflow = readFileSync(
@@ -36,4 +47,65 @@ test('workflow reads event JSON and passes arguments without expression interpol
   assert.match(workflow, /--base/);
   assert.match(workflow, /--head/);
   assert.match(workflow, /pnpm install --frozen-lockfile/);
+});
+
+test('a resolved divergent push base fails before commitlint is invoked', () => {
+  const cwd = mkdtempSync(join(tmpdir(), 'scope-workflow-'));
+  const git = (...args) =>
+    execFileSync('git', args, { cwd, encoding: 'utf8' }).trim();
+  git('init', '-q');
+  git('config', 'user.name', 'Test');
+  git('config', 'user.email', 'test@example.com');
+  git('config', 'core.hooksPath', '/dev/null');
+  writeFileSync(join(cwd, 'root'), 'root');
+  git('add', '--', 'root');
+  git('commit', '-q', '-m', 'chore: initialize repository');
+  const root = git('rev-parse', 'HEAD');
+  git('checkout', '-q', '-b', 'replacement');
+  writeFileSync(join(cwd, 'replacement'), 'replacement');
+  git('add', '--', 'replacement');
+  git('commit', '-q', '-m', 'chore: replacement history');
+  const head = git('rev-parse', 'HEAD');
+  git('checkout', '-q', '-b', 'old', root);
+  writeFileSync(join(cwd, 'old'), 'old');
+  git('add', '--', 'old');
+  git('commit', '-q', '-m', 'chore: old history');
+  const before = git('rev-parse', 'HEAD');
+
+  const sourceScripts = dirname(
+    new URL('./check-commit-scopes.mjs', import.meta.url).pathname,
+  );
+  symlinkSync(sourceScripts, join(cwd, 'scripts'), 'dir');
+  const bin = join(cwd, 'bin');
+  mkdirSync(bin);
+  const invocationLog = join(cwd, 'pnpm-invoked');
+  const fakePnpm = join(bin, 'pnpm');
+  writeFileSync(fakePnpm, '#!/bin/sh\nprintf invoked > "$INVOCATION_LOG"\n');
+  chmodSync(fakePnpm, 0o755);
+  const eventPath = join(cwd, 'event.json');
+  writeFileSync(eventPath, JSON.stringify({ before, after: head }));
+
+  const match = workflow.match(
+    /node --input-type=module <<'NODE'\n([\s\S]*?)\n          NODE/,
+  );
+  assert.ok(match, 'workflow must contain its event runner');
+  const program = match[1]
+    .split('\n')
+    .map((line) => line.replace(/^ {10}/, ''))
+    .join('\n');
+  const result = spawnSync(process.execPath, ['--input-type=module'], {
+    cwd,
+    input: program,
+    encoding: 'utf8',
+    env: {
+      ...process.env,
+      GITHUB_EVENT_NAME: 'push',
+      GITHUB_EVENT_PATH: eventPath,
+      INVOCATION_LOG: invocationLog,
+      PATH: `${bin}:${process.env.PATH}`,
+    },
+  });
+  assert.equal(result.status, 1);
+  assert.match(result.stderr, /explicit documented baseline/);
+  assert.equal(existsSync(invocationLog), false, 'commitlint must be skipped');
 });
