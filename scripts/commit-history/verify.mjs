@@ -35,17 +35,17 @@ function equalArrays(left, right) {
   );
 }
 
-function metadataEqual(source, destination) {
-  const sourceHeaders = source.headers.filter(({ name }) => name !== 'parent');
-  const destinationHeaders = destination.headers.filter(
-    ({ name }) => name !== 'parent',
-  );
+function headersEqualWithMappedParents(source, destination, byOld) {
   return (
-    sourceHeaders.length === destinationHeaders.length &&
-    sourceHeaders.every(
+    source.headers.length === destination.headers.length &&
+    source.headers.every(
       (header, index) =>
-        header.name === destinationHeaders[index].name &&
-        header.value.equals(destinationHeaders[index].value),
+        header.name === destination.headers[index].name &&
+        (header.name === 'parent'
+          ? destination.headers[index].value.equals(
+              Buffer.from(byOld.get(header.value.toString('ascii')), 'ascii'),
+            )
+          : header.value.equals(destination.headers[index].value)),
     )
   );
 }
@@ -150,6 +150,22 @@ export function verifyMapping({
     if (expectedParents.some((parent) => parent === undefined)) {
       fail(`source commit ${commit.oid} has an unmapped parent`);
     }
+    if (
+      sourceCommit.headers.some(
+        ({ name }) => name === 'gpgsig' || name === 'gpgsig-sha256',
+      ) &&
+      newOid !== commit.oid
+    ) {
+      fail(
+        `refusing changed identity for signature-bearing commit ${commit.oid}`,
+      );
+    }
+    if (
+      sourceCommit.headers.some(({ name }) => name === 'mergetag') &&
+      sourceParents.some((parent, index) => parent !== expectedParents[index])
+    ) {
+      fail(`refusing remapped parent for mergetag commit ${commit.oid}`);
+    }
     if (!equalArrays(parentsOf(newCommit), expectedParents)) {
       fail(`destination commit ${newOid} parents differ from mapped parents`);
     }
@@ -166,8 +182,10 @@ export function verifyMapping({
     if (!newCommit.message.equals(expectedMessage)) {
       fail(`destination commit ${newOid} message differs from ledger`);
     }
-    if (!metadataEqual(sourceCommit, newCommit)) {
-      fail(`destination commit ${newOid} metadata differs from source`);
+    if (!headersEqualWithMappedParents(sourceCommit, newCommit, byOld)) {
+      fail(
+        `destination commit ${newOid} header order or metadata differs from source`,
+      );
     }
   }
 

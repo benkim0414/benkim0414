@@ -111,6 +111,12 @@ export function transformCommit(
   const changed = parentsChanged || messageChanged;
 
   if (
+    parentsChanged &&
+    parsed.headers.some(({ name }) => name === 'mergetag')
+  ) {
+    fail('refusing to remap a parent bound by an embedded mergetag');
+  }
+  if (
     changed &&
     parsed.headers.some(({ name }) => SIGNATURE_HEADERS.has(name))
   ) {

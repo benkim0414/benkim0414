@@ -171,6 +171,30 @@ test('preserves an embedded mergetag byte-for-byte', () => {
   assert.deepEqual(after.value, before.value);
 });
 
+test('rejects remapping a real parent bound by an embedded mergetag', () => {
+  const oldParent = '1'.repeat(40);
+  const raw = commitBuffer({
+    parents: [oldParent],
+    headers: [
+      `mergetag object ${oldParent}`,
+      ' type commit',
+      ' tag fixture',
+      ' tagger José <j@example.test> 3 +0000',
+    ],
+    message: 'Merge fixture\n',
+  });
+
+  assert.throws(
+    () =>
+      transformCommit(raw, {
+        parentMap: new Map([[oldParent, '2'.repeat(40)]]),
+        replacementMessage: null,
+        signaturePolicy: 'reject',
+      }),
+    /mergetag/,
+  );
+});
+
 test('rejects a missing parent mapping', () => {
   const raw = commitBuffer({ parents: ['1'.repeat(40)] });
   assert.throws(
