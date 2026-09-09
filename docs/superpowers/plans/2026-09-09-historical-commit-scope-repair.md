@@ -96,6 +96,8 @@ Approval artifacts include exact executable, argv, source/destination directorie
 
 ### Task 1: Read-only inventory and validated decision ledger
 
+**Status:** Complete at `70587ac`; 28 focused tests passed and independent task/fix review approved. Detailed execution evidence is retained in the worktree-local SDD ledger.
+
 **Target:** repository history tooling. **Blockers:** none.
 **Files:** Create git.mjs, inventory.mjs, ledger.mjs, cli.mjs and corresponding inventory.test.mjs/ledger.test.mjs under scripts/commit-history/; create scripts/test-support/commit-history-fixture.mjs; modify package.json and .gitignore.
 
@@ -139,6 +141,8 @@ export function git(cwd, args, input) {
 **Acceptance/handoff:** Read-only snapshot and a fail-closed ledger checker work on synthetic histories. Unresolved real decisions remain visible; no source-history mutation.
 
 ### Task 2: Byte-preserving message transformation and independent verification
+
+**Status:** Complete at `5f2061f`; focused final tests passed and independent task/fix review approved. Signature binding and positional raw-header checks are covered by regressions.
 
 **Target:** repository history tooling. **Blocker:** Task 1.
 **Files:** Create scripts/commit-history/objects.mjs, rewrite.mjs, verify.mjs, objects.test.mjs, rewrite.test.mjs, verify.test.mjs.
@@ -187,6 +191,8 @@ const newOid = rewritten.equals(original) ? oldOid :
 
 ### Task 3: Recoverable backup and guarded rehearsal command
 
+**Status:** Complete at `7b67777`; combined initial tests and final focused regressions passed. Independent review approved the backup, approval binding, path safety, ref-state, and worktree-set checks. No real rehearsal has run.
+
 **Target:** repository history tooling. **Blockers:** Tasks 1–2.
 **Files:** Modify scripts/commit-history/cli.mjs; create scripts/commit-history/rehearsal.mjs and rehearsal.test.mjs; create docs/runbooks/historical-commit-scope-repair.md.
 
@@ -213,6 +219,8 @@ git(destination, ['update-ref', '--stdin'], Buffer.from(transaction));
 
 ### Task 4: Complete the repository-wide historical decision ledger
 
+**Status:** Preliminary audit complete at `e918bd2`; 1,645 unique commits reviewed, 99 scope-only corrections proposed, detailed decision and coverage tables independently approved. User acceptance of the correction set and signature disposition remains pending. The final inventory must include later operational commits.
+
 **Target:** every inventoried repository domain. **Blockers:** Tasks 1 and 3.
 **Files/artifacts:** Worktree-local .history-repair/preliminary/inventory.json, ledger.json, review.md; update docs/research/2026-09-09-commit-scope-audit.md with reviewed findings only. Generate artifacts through approved file-write tools; do not hand-edit generated OpenWiki.
 
@@ -229,6 +237,8 @@ git(destination, ['update-ref', '--stdin'], Buffer.from(transaction));
 **Acceptance/handoff:** Every preliminary object has a substantive disposition and all proposed changes are reviewable. Generated ledger files remain recovery artifacts; the final snapshot is frozen after Tasks 5–6 and their documentation commits.
 
 ### Task 5: Bootstrap discovery that survives rewritten ancestry
+
+**Status:** Complete at `a6c5e0f`; 69 release tests passed, post-format focused tests passed, and independent spec/quality review approved. Bootstrap no longer depends on the historical literal commit ID.
 
 **Target:** github.io release coordinator. **Blocker:** Task 1 contracts; independent of actual rewrite.
 **Files:** Modify scripts/github-io-release.mjs, scripts/github-io-release.test.mjs, scripts/github-io-release-config.test.mjs and affected workflow fixtures if they assert the literal bootstrap SHA; modify docs/runbooks/github-pages-artifact-release.md.
@@ -258,6 +268,8 @@ test('bootstrap discovers the introduction in a fresh unrelated history', (t) =>
 **Acceptance/handoff:** A fresh clone containing only rewritten reachable history can bootstrap without old objects. Prior prepared release identities are inspected later; they are not automatically migrated by this fix.
 
 ### Task 6: Scope validation shared by local hooks and CI
+
+**Status:** Complete at `d587c71`; 13 focused scope tests passed and independent review approved, including the fix that validates exceptional push boundaries before linting commits. The integrated pre-fix suite passed all 166 tests; final verification includes the added regression.
 
 **Target:** commit authoring/validation across the monorepo. **Blockers:** Task 4's scope decisions; no history rewrite required.
 **Files:** Create scripts/commit-scope-policy.mjs, scripts/check-commit-scopes.mjs, their tests, scripts/commit-scope-workflow.test.mjs, docs/agents/commit-scopes.md, .github/workflows/commit-scopes.yml. Modify commitlint.config.mjs, .husky/commit-msg, package.json, AGENTS.md.
