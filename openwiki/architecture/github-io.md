@@ -5,10 +5,16 @@ description: Runtime composition, route ownership, and the boundary between sour
 tags: [react, routing, github-io]
 verified:
   - by: openwiki/0.5.0
-    at: 2026-09-08T05:02:46.510Z
+    at: 2026-09-09T05:07:58.190Z
 sources:
+  - id: openwiki-source-a099837b8e8614c677082a9d
+    resource: repo://apps/github.io/project.json
   - id: openwiki-source-fad285841e7c8c748f5274d9
     resource: repo://apps/github.io/src/app/app.tsx
+  - id: openwiki-source-4885e601d28992a8b288dabf
+    resource: repo://apps/github.io/src/app/global-navigation-footer.tsx
+  - id: openwiki-source-167ebe2e87fa08117553fbbc
+    resource: repo://apps/github.io/src/app/release-version.ts
   - id: openwiki-source-27a9eeb6972479f50ad1d034
     resource: repo://apps/github.io/src/app/router-link.tsx
   - id: openwiki-source-d97b9e088d941d15580a0bd7
@@ -17,7 +23,11 @@ sources:
     resource: repo://apps/github.io/src/app/skills/skill-detail-page.tsx
   - id: openwiki-source-2fe979393541d6de345e3a57
     resource: repo://apps/github.io/src/app/skills/skill-detail-route.tsx
-generated: { by: "codex", at: "2026-09-08T05:02:46.510Z" }
+  - id: openwiki-source-fcfa3ced1d03143bb27d5018
+    resource: repo://apps/github.io/vite.config.ts
+  - id: openwiki-source-6ba748254f38112b13d529da
+    resource: repo://nx.json
+generated: { by: "codex", at: "2026-09-09T05:07:58.190Z" }
 ---
 
 # Application architecture
@@ -56,6 +66,15 @@ experience cards or supporting evidence exists, but its adjacent app-level
 of the level-two heading so the section's accessible heading name remains
 `Experience`; an evidence-only section therefore communicates a count of zero
 without hiding its supporting records.
+
+Application versioning is a build boundary rather than authored package data.
+Vite injects `__APP_RELEASE__` and `__APP_VERSION__`; ordinary development
+resolves that boundary to `dev`, while a release build fails unless
+`APP_VERSION` is a stable three-part SemVer. The footer consumes only the
+resulting `appVersion`. Nx marks `github.io` as a deployable project, gives its
+build cache explicit inputs for both environment values, and configures an
+independent `github.io@{version}` release stream without allowing Nx itself to
+commit, tag, or push.
 
 Continue with [evidence semantics](../concepts/evidence.md),
 [theme and layout](design-system.md), and [validation](../workflows/validation.md).

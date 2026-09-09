@@ -3,10 +3,11 @@ type: guide
 title: Workspace quickstart
 description: Set up the pnpm/Nx monorepo, run github.io, and find the right architecture or workflow guide.
 tags: [quickstart, workspace, pnpm, nx]
-verified:
-  - by: openwiki/0.5.0
-    at: 2026-09-08T02:12:24.965Z
 sources:
+  - id: openwiki-source-e0c4e21b9bfdc3be09ed876d
+    resource: repo://.github/workflows/release-github-io.yml
+  - id: openwiki-source-8037e2358a2c4f9b2c722a11
+    resource: repo://AGENTS.md
   - id: openwiki-source-7960267d064bb36aab7607cb
     resource: repo://apps/github.io/package.json
   - id: openwiki-source-a099837b8e8614c677082a9d
@@ -19,7 +20,10 @@ sources:
     resource: repo://package.json
   - id: openwiki-source-40275cb92c3610938f16ade3
     resource: repo://pnpm-workspace.yaml
-generated: { by: "codex", at: "2026-09-08T02:06:28.031Z" }
+generated: { by: "codex", at: "2026-09-09T05:07:58.190Z" }
+verified:
+  - by: openwiki/0.5.0
+    at: 2026-09-09T05:07:58.190Z
 ---
 
 # Workspace quickstart
@@ -45,6 +49,13 @@ goes to `dist/apps/github.io`, with both the main and 404 HTML entries built.
 Nx plugins provide inferred targets in addition to the explicit layout checks.
 See [validation](workflows/validation.md) before handing off changes.
 
+For release calculation and its focused tests, use `pnpm release:github.io`
+and `pnpm test:release:github.io`. These are inspection and validation entrypoints;
+do not substitute a local production build for the serialized GitHub release
+workflow, and do not invoke publishing or deployment without the explicit
+handoff gate. The complete state machine is in
+[release and session handoff](operations/releases.md).
+
 ## Find the right guide
 
 | Task | Start here |
@@ -53,7 +64,7 @@ See [validation](workflows/validation.md) before handing off changes.
 | Change skills, evidence, or scores | [Skills and capability evidence](concepts/evidence.md) |
 | Change themes, components, or scroll layout | [Design system and layout](architecture/design-system.md) |
 | Select tests and checks | [Validation workflow](workflows/validation.md) |
-| Understand deployment and handoff boundaries | [Release and session handoff](operations/releases.md) |
+| Calculate versions or understand release, recovery, deployment, and handoff boundaries | [Release and session handoff](operations/releases.md) |
 
 ## Maintain this wiki
 

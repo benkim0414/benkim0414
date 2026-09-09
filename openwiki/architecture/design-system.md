@@ -5,7 +5,7 @@ description: How Astryx, StyleX, theme persistence, and browser layout checks fi
 tags: [astryx, stylex, theme, layout]
 verified:
   - by: openwiki/0.5.0
-    at: 2026-09-08T06:48:21.757Z
+    at: 2026-09-09T05:07:58.190Z
 sources:
   - id: openwiki-source-45b1d77b308bd57403f55ff9
     resource: repo://apps/github.io/.storybook/story-taxonomy.spec.ts
@@ -29,6 +29,8 @@ sources:
     resource: repo://apps/github.io/src/app/home/home-page.spec.tsx
   - id: openwiki-source-0e3b0dfb231db070ffd8340f
     resource: repo://apps/github.io/src/app/home/home-page.tsx
+  - id: openwiki-source-167ebe2e87fa08117553fbbc
+    resource: repo://apps/github.io/src/app/release-version.ts
   - id: openwiki-source-4fbf5ecc6f0c1fc5eff98141
     resource: repo://apps/github.io/src/app/skills/skills-page.spec.tsx
   - id: openwiki-source-a845ec3d01c38967df3a4dad
@@ -39,7 +41,7 @@ sources:
     resource: repo://apps/github.io/src/styles.css
   - id: openwiki-source-fcfa3ced1d03143bb27d5018
     resource: repo://apps/github.io/vite.config.ts
-generated: { by: "codex", at: "2026-09-08T06:48:21.757Z" }
+generated: { by: "codex", at: "2026-09-09T05:07:58.190Z" }
 ---
 
 # Design system and layout
@@ -61,12 +63,14 @@ asserting the accessible heading level and the stable `astryx-heading` and
 `data-level` surfaces.
 
 Inline technical metadata follows the same ownership rule. The global footer
-reads the application package version, renders it with Astryx `Code` inside
-supporting `Text`, and explicitly inherits the surrounding size and color. Its
-flex layout keeps that version in the leading region and moves the existing
+reads `appVersion` from the compile-time release boundary, renders it with
+Astryx `Code` inside supporting `Text`, and explicitly inherits the surrounding
+size and color. Release builds inject a stable SemVer while normal development
+shows `dev`; the package manifest is not the version source. The footer's flex
+layout keeps that value in the leading region and moves the existing
 React/Astryx attribution to an end-aligned region that can wrap on narrower
 viewports. The focused footer test protects the semantic `code` element,
-package-version output, region order, and supporting-text boundary.
+injected fixture output, region order, and supporting-text boundary.
 
 Small repeated presentation values belong in reusable app components. For
 example, the app-level `CountBadge` exposes a numeric `count` prop and delegates

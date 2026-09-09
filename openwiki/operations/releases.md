@@ -3,37 +3,55 @@ type: operations
 title: Release and session handoff
 description: Existing artifact deployment and release automation versus local OpenWiki maintenance.
 tags: [release, github-actions, handoff, openwiki]
-verified:
-  - by: openwiki/0.5.0
-    at: 2026-09-08T02:12:24.965Z
 sources:
-  - id: openwiki-source-5e43930e59b5dcfc5caf9f90
-    resource: repo://.github/workflows/changesets-version.yml
-  - id: openwiki-source-6bbddd28d28fab914230cb02
-    resource: repo://.github/workflows/deploy-github-pages-artifact.yml
   - id: openwiki-source-e0c4e21b9bfdc3be09ed876d
     resource: repo://.github/workflows/release-github-io.yml
   - id: openwiki-source-e9bb13afb6b400d29b3f8512
     resource: repo://docs/agents/openwiki.md
-generated: { by: "codex", at: "2026-09-08T02:12:24.965Z" }
+  - id: openwiki-source-6077ffb7151edbd55ee9736a
+    resource: repo://scripts/github-io-release-core.mjs
+  - id: openwiki-source-2987102e69de21dc21c6b7d8
+    resource: repo://scripts/github-io-release.mjs
+  - id: openwiki-source-692e6bda673663422a5ce28b
+    resource: repo://scripts/sync-github-pages-artifact.mjs
+generated: { by: "codex", at: "2026-09-09T05:07:58.190Z" }
+verified:
+  - by: openwiki/0.5.0
+    at: 2026-09-09T05:07:58.190Z
 ---
 
 # Release and session handoff
 
-The source monorepo and the Artifact-Only User-Site Repository have different
-jobs. A push to `main` or manual dispatch starts the existing artifact workflow.
-It installs with the frozen lockfile on Node 24 and pnpm 11.16.0, then lints,
-tests, and builds `github.io`. Only after those checks does it check out
-`benkim0414/benkim0414.github.io`, synchronize `dist/apps/github.io`, and commit
-and push changed artifacts. Unchanged output exits without a deployment commit.
-Concurrency cancels a superseded artifact-sync run.
+One serialized workflow now owns the complete `github.io` release on pushes to
+`main`; manual dispatch supports an explicit first bootstrap or recovery for a
+specific full source SHA. Its non-cancelling `release` concurrency group covers
+calculation, publication, and deployment. With no baseline tag, an ordinary
+push fails and instructs an operator to dispatch the reviewed bootstrap. Later
+runs scan from the latest `github.io@<version>` tag and ignore histories without
+an exact-scope qualifying conventional commit.
 
-Versioning is separate. The Changesets workflow responds to pushes on `main`
-and maintains the `chore(release): version github.io` PR. The release workflow
-requires a merged PR into `main`, that exact title, the GitHub Actions bot
-author, and the same-repository `changeset-release/main` branch. It derives
-`github.io@<version>` from the app package, rejects an existing tag pointing to
-a different merge commit, and avoids recreating an existing release.
+The release coordinator classifies exact `github.io` scope only. Breaking
+changes win major, `feat` produces minor, and `fix` produces patch. Bootstrap
+replays first-parent integrations from `8acdd81` at `0.0.0`; the repository test
+locks the reviewed result at `0.142.1`. The app manifest is not a version source.
+
+A prepared release is built once. After lint and test, the workflow supplies
+the calculated version to an uncached production build, verifies that exact
+value in emitted JavaScript, creates a deterministic archive and SHA-256 release
+record, and uploads both as a 90-day Actions artifact named for the source SHA.
+Only after persistence succeeds does it create or verify the tag, attach the
+same bytes to a GitHub Release, and publish it. Recovery finds that saved
+artifact across runs, validates its workflow provenance, metadata, tag, source,
+and digest, and continues without rebuilding. Ambiguous, expired, corrupt, or
+tagged-but-unrecorded state fails explicitly.
+
+Deployment receives the verified archive instead of source build credentials.
+It checks out the separate user-site repository only in the environment-gated
+deployment job. Before mutation, the synchronizer compares the candidate with
+`.github-pages-release.json`: identical delivery is a no-op, an older ancestor
+is superseded, newer history must also increase version, and divergence or
+identity conflicts fail. Bootstrap alone may initialize a site without that
+metadata. A changed target is committed with both release tag and source SHA.
 
 These describe existing automation, not authorization to invoke it from a local
 coding session. [AGENTS.md](../../AGENTS.md) owns the explicit handoff/shipping

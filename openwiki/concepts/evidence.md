@@ -5,7 +5,7 @@ description: Public-safe evidence, curated projections, skill resolution, and ca
 tags: [skills, evidence, capabilities, domain]
 verified:
   - by: openwiki/0.5.0
-    at: 2026-09-08T02:06:28.031Z
+    at: 2026-09-09T03:17:16.871Z
 sources:
   - id: openwiki-source-d004d8237034180f25bca313
     resource: repo://apps/github.io/src/app/devops-capability-evidence/devops-capability-evidence.scoring.ts
