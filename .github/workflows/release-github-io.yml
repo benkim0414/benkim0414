@@ -1,70 +1,287 @@
 name: Release github.io
 
 on:
-  pull_request:
-    types: [closed]
+  push:
+    branches: [main]
+  workflow_dispatch:
+    inputs:
+      source_sha:
+        description: Full main commit SHA to recover (defaults to this run's SHA)
+        type: string
+        required: false
+      bootstrap:
+        description: Explicitly approve the first release from reviewed history
+        type: boolean
+        default: false
 
 concurrency:
-  group: github-io-release-${{ github.event.pull_request.number }}
+  group: release
   cancel-in-progress: false
 
 permissions:
-  contents: write
+  contents: read
 
 jobs:
   release:
-    if: >
-      github.event.pull_request.merged == true &&
-      github.event.pull_request.base.ref == 'main' &&
-      github.event.pull_request.title == 'chore(release): version github.io' &&
-      github.event.pull_request.user.login == 'github-actions[bot]' &&
-      github.event.pull_request.head.repo.full_name == github.repository &&
-      github.event.pull_request.head.ref == 'changeset-release/main'
+    if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      actions: read
+    outputs:
+      action: ${{ steps.release.outputs.action }}
+      source_sha: ${{ steps.source.outputs.sha }}
+      tag: ${{ steps.release.outputs.tag }}
+      bootstrap: ${{ steps.release.outputs.bootstrap }}
+      artifact_run_id: ${{ steps.saved.outputs.run_id || github.run_id }}
     env:
       GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     steps:
-      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
-        with:
-          ref: ${{ github.event.pull_request.merge_commit_sha }}
-          fetch-depth: 0
-      - name: Read release metadata
-        id: release
-        run: |
-          version="$(node -p "require('./apps/github.io/package.json').version")"
-          tag="github.io@$version"
-          merge_sha="${{ github.event.pull_request.merge_commit_sha }}"
-          echo "tag=$tag" >> "$GITHUB_OUTPUT"
-          echo "merge_sha=$merge_sha" >> "$GITHUB_OUTPUT"
-      - name: Create tag and GitHub Release
+      - name: Validate source input
+        id: source
+        env:
+          REQUESTED_SHA: ${{ inputs.source_sha }}
         run: |
           set -euo pipefail
-          tag="${{ steps.release.outputs.tag }}"
-          merge_sha="${{ steps.release.outputs.merge_sha }}"
-
-          existing_tag_sha="$(git ls-remote --tags origin "refs/tags/$tag^{}" | cut -f1)"
-          if [[ -z "$existing_tag_sha" ]]; then
-            existing_tag_sha="$(git ls-remote --tags origin "refs/tags/$tag" | cut -f1)"
+          source_sha="${REQUESTED_SHA:-$GITHUB_SHA}"
+          [[ "$source_sha" =~ ^[a-f0-9]{40}$ ]] || { echo 'Expected a full commit SHA.' >&2; exit 1; }
+          echo "sha=$source_sha" >> "$GITHUB_OUTPUT"
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          ref: ${{ steps.source.outputs.sha }}
+          fetch-depth: 0
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7
+        with:
+          node-version: 24
+      - name: Fetch release history
+        env:
+          SOURCE_SHA: ${{ steps.source.outputs.sha }}
+        run: |
+          git fetch origin --tags
+          git merge-base --is-ancestor "$SOURCE_SHA" origin/main
+      - name: Discover saved release
+        id: saved
+        env:
+          SOURCE_SHA: ${{ steps.source.outputs.sha }}
+        run: |
+          set -euo pipefail
+          artifact_name="github-io-$SOURCE_SHA"
+          workflow_id="$(gh api "repos/$GITHUB_REPOSITORY/actions/workflows/release-github-io.yml" --jq '.id')"
+          gh api --paginate "repos/$GITHUB_REPOSITORY/actions/artifacts?name=$artifact_name&per_page=100" \
+            --jq '.artifacts[]' | jq -s 'sort_by(.id)' > artifacts.json
+          count="$(jq 'length' artifacts.json)"
+          if [[ "$count" == 0 ]]; then
+            echo 'found=false' >> "$GITHUB_OUTPUT"
+            exit 0
           fi
-
-          if [[ -n "$existing_tag_sha" ]]; then
-            if [[ "$existing_tag_sha" != "$merge_sha" ]]; then
-              echo "Tag $tag resolves to $existing_tag_sha, not merge commit $merge_sha." >&2
+          # Ambiguous or expired persistence must never silently trigger a rebuild.
+          [[ "$count" == 1 ]] || { echo 'Multiple prepared artifacts require investigation.' >&2; exit 1; }
+          jq -e '.[] | .expired == false' artifacts.json >/dev/null
+          run_id="$(jq -r '.[0].workflow_run.id' artifacts.json)"
+          gh api "repos/$GITHUB_REPOSITORY/actions/runs/$run_id" > saved-run.json
+          jq -e --argjson workflow_id "$workflow_id" \
+            '.workflow_id == $workflow_id and .head_branch == "main" and (.event == "push" or .event == "workflow_dispatch")' saved-run.json >/dev/null
+          echo 'found=true' >> "$GITHUB_OUTPUT"
+          echo "run_id=$run_id" >> "$GITHUB_OUTPUT"
+      - name: Download saved release
+        if: steps.saved.outputs.found == 'true'
+        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4.3.0
+        with:
+          name: github-io-${{ steps.source.outputs.sha }}
+          path: .release
+          run-id: ${{ steps.saved.outputs.run_id }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Calculate or resume release
+        id: release
+        env:
+          SOURCE_SHA: ${{ steps.source.outputs.sha }}
+          SAVED: ${{ steps.saved.outputs.found }}
+          BOOTSTRAP: ${{ github.event_name == 'workflow_dispatch' && inputs.bootstrap }}
+        run: |
+          set -euo pipefail
+          if [[ "$SAVED" == true ]]; then
+            node scripts/github-io-release.mjs verify-record --record .release/release-record.json --artifact .release/github-io-pages.tgz --target "$SOURCE_SHA" > verified.json
+            jq -e '.record.artifact.name == "github-io-pages.tgz"' verified.json >/dev/null
+            jq -r '.record | "action=recover", "version=\(.version)", "tag=\(.tag)", "bootstrap=\(.bootstrap)"' verified.json >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          if [[ -n "$(git tag --points-at "$SOURCE_SHA" --list 'github.io@*')" ]]; then
+            echo 'Tagged source has no saved artifact; recovery requires the original files.' >&2
+            exit 1
+          fi
+          if [[ -z "$(git tag --list 'github.io@*')" ]]; then
+            [[ "$BOOTSTRAP" == true ]] || { echo 'No release baseline. Dispatch bootstrap after reviewing history.' >&2; exit 1; }
+            node scripts/github-io-release.mjs bootstrap --target "$SOURCE_SHA" > decision.json
+          else
+            [[ "$BOOTSTRAP" != true ]] || { echo 'Bootstrap is only allowed before the first release tag.' >&2; exit 1; }
+            node scripts/github-io-release.mjs calculate --target "$SOURCE_SHA" > decision.json
+          fi
+          jq -r '"action=\(.action)", "version=\(.newVersion // "")", "tag=\(.tag // "")", "bootstrap=\(.bootstrap)"' decision.json >> "$GITHUB_OUTPUT"
+      - uses: pnpm/action-setup@008330803749db0355799c700092d9a85fd074e9 # v6.0.9
+        if: steps.release.outputs.action == 'prepare'
+        with:
+          version: 11.16.0
+      - name: Validate and build release
+        if: steps.release.outputs.action == 'prepare'
+        env:
+          VERSION: ${{ steps.release.outputs.version }}
+        run: |
+          set -euo pipefail
+          pnpm install --frozen-lockfile
+          pnpm nx lint github.io
+          pnpm nx test github.io --run
+          APP_RELEASE=true APP_VERSION="$VERSION" pnpm nx build github.io --skip-nx-cache
+          node --input-type=module <<'VERIFY_VERSION'
+          import assert from 'node:assert/strict';
+          import { readFileSync, readdirSync } from 'node:fs';
+          const version = process.env.VERSION;
+          const literals = ['"', "'", '`'].map((quote) => `${quote}${version}${quote}`);
+          const bundles = readdirSync('dist/apps/github.io/assets').filter((name) => name.endsWith('.js'));
+          assert.ok(bundles.some((name) => {
+            const content = readFileSync(`dist/apps/github.io/assets/${name}`, 'utf8');
+            return literals.some((literal) => content.includes(literal));
+          }), 'Built JavaScript must contain the exact release version');
+          // The footer test verifies the v prefix; minifiers may keep it separate.
+          console.log(`Verified footer version v${version}: injected version and footer tests passed.`);
+          VERIFY_VERSION
+          mkdir -p .release
+          tar --sort=name --mtime=@0 --owner=0 --group=0 --numeric-owner -czf .release/github-io-pages.tgz -C dist/apps/github.io .
+      - name: Create release record
+        if: steps.release.outputs.action == 'prepare'
+        run: |
+          node --input-type=module <<'NODE'
+          import { createHash } from 'node:crypto';
+          import { readFileSync, writeFileSync } from 'node:fs';
+          import { serializeReleaseRecord } from './scripts/github-io-release.mjs';
+          const decision = JSON.parse(readFileSync('decision.json', 'utf8'));
+          const artifact = { name: 'github-io-pages.tgz', sha256: createHash('sha256').update(readFileSync('.release/github-io-pages.tgz')).digest('hex') };
+          writeFileSync('.release/release-record.json', serializeReleaseRecord({ schemaVersion: 1, project: decision.project, sourceSha: decision.sourceSha, previousVersion: decision.previousVersion, version: decision.newVersion, tag: decision.tag, bootstrap: decision.bootstrap, commits: decision.commits, artifact }));
+          NODE
+      - name: Verify release files
+        if: steps.release.outputs.action != 'noop'
+        env:
+          SOURCE_SHA: ${{ steps.source.outputs.sha }}
+          TAG: ${{ steps.release.outputs.tag }}
+        run: node scripts/github-io-release.mjs verify-record --record .release/release-record.json --artifact .release/github-io-pages.tgz --target "$SOURCE_SHA" --tag "$TAG"
+      - name: Persist prepared release
+        if: steps.release.outputs.action == 'prepare'
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        with:
+          name: github-io-${{ steps.source.outputs.sha }}
+          path: |
+            .release/github-io-pages.tgz
+            .release/release-record.json
+          retention-days: 90
+          if-no-files-found: error
+          include-hidden-files: true
+      - name: Create or verify release tag
+        if: steps.release.outputs.action != 'noop'
+        env:
+          SOURCE_SHA: ${{ steps.source.outputs.sha }}
+          TAG: ${{ steps.release.outputs.tag }}
+        run: |
+          set -euo pipefail
+          git fetch origin --tags
+          if git show-ref --verify --quiet "refs/tags/$TAG"; then
+            existing_tag_sha="$(git rev-parse "refs/tags/$TAG^{commit}")"
+            if [[ "$existing_tag_sha" != "$SOURCE_SHA" ]]; then
+              echo 'Release tag points to a different source commit.' >&2
               exit 1
             fi
-            echo "Tag $tag already resolves to merge commit $merge_sha."
           else
-            git config user.name "github-actions[bot]"
-            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-            git tag -a "$tag" "$merge_sha" -m "$tag"
-            git push origin "refs/tags/$tag"
+            git config user.name 'github-actions[bot]'
+            git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+            git tag -a "$TAG" "$SOURCE_SHA" -m "$TAG"
+            git push origin "refs/tags/$TAG"
+          fi
+      - name: Publish verified release
+        if: steps.release.outputs.action != 'noop'
+        env:
+          SOURCE_SHA: ${{ steps.source.outputs.sha }}
+          TAG: ${{ steps.release.outputs.tag }}
+        run: |
+          set -euo pipefail
+          gh api --paginate "repos/$GITHUB_REPOSITORY/releases?per_page=100" --jq '.[]' \
+            | jq -s --arg tag "$TAG" 'map(select(.tag_name == $tag))' > release-state.json
+          if [[ "$(jq 'length' release-state.json)" == 0 ]]; then
+            gh release create "$TAG" --verify-tag --target "$SOURCE_SHA" --draft --generate-notes --title "$TAG"
+          fi
+          gh release view "$TAG" --json isDraft,assets > release-assets.json
+          mkdir -p .published
+          for asset in github-io-pages.tgz release-record.json; do
+            if jq -e --arg name "$asset" '.assets[] | select(.name == $name)' release-assets.json >/dev/null; then
+              gh release download "$TAG" --pattern "$asset" --dir .published
+              cmp ".release/$asset" ".published/$asset"
+            else
+              jq -e '.isDraft == true' release-assets.json >/dev/null
+              gh release upload "$TAG" ".release/$asset"
+              gh release download "$TAG" --pattern "$asset" --dir .published
+            fi
+          done
+          cmp .release/release-record.json .published/release-record.json
+          cmp .release/github-io-pages.tgz .published/github-io-pages.tgz
+          if jq -e '.isDraft == true' release-assets.json >/dev/null; then
+            gh release edit "$TAG" --draft=false --title "$TAG"
           fi
 
-          if gh release view "$tag" >/dev/null 2>&1; then
-            echo "GitHub Release $tag already exists."
-          else
-            gh release create "$tag" \
-              --target "$merge_sha" \
-              --generate-notes \
-              --title "$tag"
-          fi
+  deploy:
+    needs: release
+    if: needs.release.outputs.action != 'noop'
+    runs-on: ubuntu-latest
+    environment: github-pages
+    permissions:
+      contents: read
+      actions: read
+    env:
+      SOURCE_SHA: ${{ needs.release.outputs.source_sha }}
+      TAG: ${{ needs.release.outputs.tag }}
+      BOOTSTRAP: ${{ needs.release.outputs.bootstrap }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          ref: ${{ needs.release.outputs.source_sha }}
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7
+        with:
+          node-version: 24
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4.3.0
+        with:
+          name: github-io-${{ needs.release.outputs.source_sha }}
+          path: .release
+          run-id: ${{ needs.release.outputs.artifact_run_id }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Verify and extract release
+        run: |
+          set -euo pipefail
+          node scripts/github-io-release.mjs verify-record --record .release/release-record.json --artifact .release/github-io-pages.tgz --target "$SOURCE_SHA" --tag "$TAG"
+          mkdir -p .release/site
+          tar -xzf .release/github-io-pages.tgz -C .release/site
+      - name: Check out the seeded Pages main branch
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          repository: benkim0414/benkim0414.github.io
+          ref: main
+          path: .pages-site
+          ssh-key: ${{ secrets.PAGES_DEPLOY_KEY }}
+          persist-credentials: true
+      - name: Synchronize without rollback
+        run: |
+          set -euo pipefail
+          options=()
+          if [[ "$BOOTSTRAP" == true ]]; then options+=(--bootstrap); fi
+          node scripts/sync-github-pages-artifact.mjs .release/site .pages-site --release-record .release/release-record.json "${options[@]}" > sync-result.json
+          # identical and superseded decisions leave the target untouched.
+          jq -e '.action == "deploy" or .action == "identical" or .action == "superseded"' sync-result.json >/dev/null
+      - name: Commit and publish changed artifacts
+        working-directory: .pages-site
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          mapfile -d '' paths < <(git ls-files -m -d -o --exclude-standard -z)
+          if (( ${#paths[@]} == 0 )); then exit 0; fi
+          git add -- "${paths[@]}"
+          if git diff --cached --quiet; then exit 0; fi
+          git commit -m "deploy(github.io): $TAG from $SOURCE_SHA"
+          git push origin main

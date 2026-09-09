@@ -4,13 +4,23 @@ import { test } from 'node:test';
 
 const readJson = async (path) => JSON.parse(await readFile(path, 'utf8'));
 
-test('github.io release configuration', async () => {
-  const packageManifest = await readJson('apps/github.io/package.json');
-  const changesetConfig = await readJson('.changeset/config.json');
-
-  assert.equal(packageManifest.name, '@benkim0414/github-io');
-  assert.equal(packageManifest.private, true);
-  assert.equal(packageManifest.version, '0.1.0');
-  assert.equal(changesetConfig.baseBranch, 'main');
-  assert.deepEqual(changesetConfig.privatePackages, { version: true, tag: true });
+test('Nx selects only github.io for independent tag-based deployable releases', async () => {
+  const nx = await readJson('nx.json');
+  const group = nx.release?.groups?.['github.io'];
+  assert.ok(group);
+  assert.deepEqual(group.projects, ['github.io']);
+  assert.equal(group.projectsRelationship, 'independent');
+  assert.equal(group.releaseTag.pattern, 'github.io@{version}');
+  assert.equal(group.version.currentVersionResolver, 'git-tag');
+  assert.deepEqual(group.version.manifestRootsToUpdate, []);
+  assert.equal(group.version.updateDependents, 'never');
+  const project = await readJson('apps/github.io/project.json');
+  assert.ok(project.tags.includes('release:deployable'));
+  assert.deepEqual(project.targets.build.inputs, [
+    '...',
+    { env: 'APP_RELEASE' },
+    { env: 'APP_VERSION' },
+  ]);
+  assert.equal(nx.targetDefaults?.build?.inputs, undefined);
+  assert.equal((await readJson('apps/github.io/package.json')).private, true);
 });

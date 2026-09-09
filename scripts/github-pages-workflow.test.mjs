@@ -2,34 +2,44 @@ import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
 import { test } from 'node:test';
 
-const workflowPath = '.github/workflows/deploy-github-pages-artifact.yml';
+const workflow = await readFile(
+  '.github/workflows/release-github-io.yml',
+  'utf8',
+);
+const deploy = workflow.split('\n  deploy:\n')[1] ?? '';
 
-const readWorkflow = () => readFile(workflowPath, 'utf8');
+test('gates cross-repository credentials behind release and deployment environment', () => {
+  for (const pattern of [
+    /needs: release/,
+    /if: needs\.release\.outputs\.action != 'noop'/,
+    /environment: github-pages/,
+    /repository: benkim0414\/benkim0414\.github\.io/,
+    /ref: main/,
+    /ssh-key: \$\{\{ secrets\.PAGES_DEPLOY_KEY \}\}/,
+    /persist-credentials: true/,
+  ])
+    assert.match(deploy, pattern);
+  assert.doesNotMatch(workflow.split('\n  deploy:\n')[0], /PAGES_DEPLOY_KEY/);
+  assert.doesNotMatch(deploy, /pnpm (?:install|nx build)/);
+});
 
-test('publishes verified github.io artifacts to the Pages repository', async () => {
-  const workflow = await readWorkflow();
-
+test('verifies persisted bytes before extraction and performs anti-rollback sync', () => {
+  assert.match(deploy, /actions\/download-artifact@/);
   assert.match(
-    workflow,
-    /steps:\s*\n\s+- uses: actions\/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7\s*\n\s+with:\s*\n\s+persist-credentials: false/,
-  );
-  assert.match(workflow, /push:\s*\n\s+branches:\s*\[main\]/);
-  assert.match(workflow, /workflow_dispatch:/);
-  assert.match(workflow, /group:\s*github-pages-artifact-sync/);
-  assert.match(workflow, /cancel-in-progress:\s*true/);
-  assert.match(workflow, /pnpm install --frozen-lockfile/);
-  assert.match(workflow, /pnpm nx lint github\.io/);
-  assert.match(workflow, /pnpm nx test github\.io --run/);
-  assert.match(workflow, /pnpm nx build github\.io/);
-  assert.match(workflow, /repository:\s*benkim0414\/benkim0414\.github\.io/);
-  assert.match(workflow, /secrets\.PAGES_DEPLOY_KEY/);
-  assert.match(
-    workflow,
-    /repository:\s*benkim0414\/benkim0414\.github\.io[\s\S]*?ref:\s*main[\s\S]*?ssh-key:\s*\$\{\{ secrets\.PAGES_DEPLOY_KEY \}\}[\s\S]*?persist-credentials:\s*true/,
+    deploy,
+    /run-id: \$\{\{ needs\.release\.outputs\.artifact_run_id \}\}/,
   );
   assert.match(
-    workflow,
-    /node scripts\/sync-github-pages-artifact\.mjs dist\/apps\/github\.io \.pages-site/,
+    deploy,
+    /verify-record[^\n]+--target "\$SOURCE_SHA"[^\n]+--tag "\$TAG"/,
   );
-  assert.match(workflow, /git push origin main(?!\s+--force)/);
+  assert.ok(deploy.indexOf('verify-record') < deploy.indexOf('tar -xzf'));
+  assert.match(
+    deploy,
+    /sync-github-pages-artifact\.mjs .* --release-record .*release-record\.json/,
+  );
+  assert.match(deploy, /--bootstrap/);
+  assert.match(deploy, /identical|superseded/);
+  assert.match(deploy, /git push origin main/);
+  assert.doesNotMatch(deploy, /--force|git add --all/);
 });

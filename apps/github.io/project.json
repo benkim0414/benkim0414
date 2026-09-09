@@ -3,9 +3,12 @@
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "apps/github.io/src",
   "projectType": "application",
-  "tags": [],
+  "tags": ["release:deployable"],
   "// targets": "to see all targets run: nx show project github.io --web",
   "targets": {
+    "build": {
+      "inputs": ["...", { "env": "APP_RELEASE" }, { "env": "APP_VERSION" }]
+    },
     "verify-global-layout-css": {
       "dependsOn": ["build"],
       "executor": "nx:run-commands",

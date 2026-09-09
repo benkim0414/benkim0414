@@ -35,18 +35,21 @@
       }
     }
   ],
-  "targetDefaults": {
-    "build": {
-      "inputs": [
-        "...",
-        {
-          "env": "APP_RELEASE"
+  "release": {
+    "groups": {
+      "github.io": {
+        "projects": ["github.io"],
+        "projectsRelationship": "independent",
+        "releaseTag": { "pattern": "github.io@{version}" },
+        "version": {
+          "currentVersionResolver": "git-tag",
+          "manifestRootsToUpdate": [],
+          "updateDependents": "never"
         },
-        {
-          "env": "APP_VERSION"
-        }
-      ]
-    }
+        "changelog": false
+      }
+    },
+    "git": { "commit": false, "tag": false, "push": false }
   },
   "generators": {
     "@nx/react": {

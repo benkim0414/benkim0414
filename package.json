@@ -28,7 +28,6 @@
     "@commitlint/cli": "^19.3.0",
     "@commitlint/config-conventional": "^19.2.2",
     "@commitlint/cz-commitlint": "^19.2.0",
-    "@changesets/cli": "^3.0.0",
     "@nx/eslint": "23.0.2",
     "@nx/eslint-plugin": "23.0.2",
     "@nx/js": "23.0.2",
