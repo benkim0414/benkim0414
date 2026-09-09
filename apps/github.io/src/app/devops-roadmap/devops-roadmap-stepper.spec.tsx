@@ -5,6 +5,7 @@ import { render, within } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
 
 import { RouterLink } from '../router-link';
+import { devOpsRoadmapSkillInventoryNodes } from './devops-roadmap-skill-inventory.data';
 import { DevOpsRoadmapStepper } from './devops-roadmap-stepper';
 import type { DevOpsRoadmapItem } from './devops-roadmap.types';
 
@@ -79,9 +80,12 @@ describe('DevOpsRoadmapStepper', () => {
     const stepper = getByRole('list', { name: 'DevOps Roadmap' });
     const steps = getDirectSteps(stepper);
 
-    expect(steps).toHaveLength(22);
-    expect(steps[0].textContent).toContain('Learn a Programming Language');
-    expect(steps[21].textContent).toContain('Cloud Design Patterns');
+    expect(steps).toHaveLength(devOpsRoadmapSkillInventoryNodes.length);
+    expect(
+      steps.map(
+        (step) => step.querySelector('.astryx-step-label')?.textContent,
+      ),
+    ).toEqual(devOpsRoadmapSkillInventoryNodes.map(({ title }) => title));
   });
 
   it('renders ordered numbered topics with descriptions', () => {
@@ -90,7 +94,11 @@ describe('DevOpsRoadmapStepper', () => {
     const steps = getDirectSteps(stepper);
 
     expect(steps).toHaveLength(3);
-    expect(steps[0].textContent).toContain('1');
+    expect(
+      steps.map(
+        (step) => step.querySelector('.astryx-step-indicator')?.textContent,
+      ),
+    ).toEqual(['1', '2', '3']);
     expect(steps[0].textContent).toContain('Containers');
     expect(getByText(items[0].description)).toBeTruthy();
     expect(getAllByRole('listitem')[0]).toBe(steps[0]);
@@ -108,11 +116,20 @@ describe('DevOpsRoadmapStepper', () => {
   });
 
   it('keeps unsupported topics readable and disabled', () => {
-    const { getByText } = renderStepper(items);
+    const { getByText, queryByRole } = renderStepper(items);
     const upcoming = getByText('Artifact Management').closest('li');
 
     expect(upcoming?.getAttribute('aria-disabled')).toBe('true');
     expect(upcoming?.textContent).toContain(items[1].description);
+    expect(
+      queryByRole('list', { name: 'Artifact Management certifications' }),
+    ).toBeNull();
+    expect(
+      queryByRole('list', { name: 'Artifact Management evidence skills' }),
+    ).toBeNull();
+    expect(
+      queryByRole('list', { name: 'Artifact Management covered concepts' }),
+    ).toBeNull();
   });
 
   it('renders linked neutral skill tokens and concept tokens', () => {

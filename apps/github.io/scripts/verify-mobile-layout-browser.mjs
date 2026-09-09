@@ -13,6 +13,7 @@ const appDirectory = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const viewports = [
   { width: 375, height: 667 },
   { width: 820, height: 1180 },
+  { width: 1280, height: 800 },
 ];
 const shellScrollOwnerSelector = '.astryx-layout-content:has(> main)';
 const routes = [
@@ -1624,6 +1625,8 @@ async function verifyRoutes(bidi, context, baseUrl, signal) {
           `document.documentElement.setAttribute('data-theme', 'dark'); return true;`,
         );
         await wait(200, signal);
+        const darkMetrics = await inspectRoute(bidi, context, route);
+        assertRouteMetrics(route, viewport, darkMetrics, navigationPath);
       }
 
       if (route.path === '/') {
@@ -1650,12 +1653,14 @@ async function verifyRoutes(bidi, context, baseUrl, signal) {
         console.log(
           `PASS ${viewport.width}x${viewport.height} /skills rows=${rows.length} four-edge-geometry=yes bottom-edge-navigation=${navigation.path} focus=detail-heading`,
         );
-        await verifyMobileDrawerSkillSearchSpacing(
-          bidi,
-          context,
-          viewport,
-          signal,
-        );
+        if (viewport.width <= 820) {
+          await verifyMobileDrawerSkillSearchSpacing(
+            bidi,
+            context,
+            viewport,
+            signal,
+          );
+        }
       }
     }
   }
