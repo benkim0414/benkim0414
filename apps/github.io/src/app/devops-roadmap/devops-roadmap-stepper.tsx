@@ -104,7 +104,7 @@ function StepEvidence({ item }: { readonly item: DevOpsRoadmapItem }) {
 }
 
 export function DevOpsRoadmapStepper({
-  label = 'DevOps roadmap',
+  label = 'DevOps Roadmap',
   items = devOpsRoadmapSkillInventoryNodes,
 }: DevOpsRoadmapStepperProps): ReactElement {
   return (

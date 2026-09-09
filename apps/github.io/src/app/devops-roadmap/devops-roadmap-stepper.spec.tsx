@@ -34,7 +34,28 @@ const items: readonly DevOpsRoadmapItem[] = [
   },
 ];
 
-function renderStepper(renderItems = items) {
+const certificationItems: readonly DevOpsRoadmapItem[] = [
+  {
+    id: 'container-orchestration',
+    title: 'Container Orchestration',
+    description:
+      'Deploy and operate containerized workloads across clustered infrastructure.',
+    certifications: [
+      {
+        title: 'CKA',
+        url: 'https://example.com/certifications/cka',
+      },
+      {
+        title: 'CKAD',
+        url: 'https://example.com/certifications/ckad',
+      },
+    ],
+    evidenceSkillTokens: [],
+    coveredRoadmapConcepts: [],
+  },
+];
+
+function renderStepper(renderItems?: readonly DevOpsRoadmapItem[]) {
   return render(
     <MemoryRouter>
       <LinkProvider component={RouterLink}>
@@ -46,13 +67,27 @@ function renderStepper(renderItems = items) {
   );
 }
 
+function getDirectSteps(stepper: HTMLElement) {
+  return within(stepper)
+    .getAllByRole('listitem')
+    .filter((step) => step.parentElement === stepper);
+}
+
 describe('DevOpsRoadmapStepper', () => {
+  it('renders all 22 default roadmap topics in source order', () => {
+    const { getByRole } = renderStepper();
+    const stepper = getByRole('list', { name: 'DevOps Roadmap' });
+    const steps = getDirectSteps(stepper);
+
+    expect(steps).toHaveLength(22);
+    expect(steps[0].textContent).toContain('Learn a Programming Language');
+    expect(steps[21].textContent).toContain('Cloud Design Patterns');
+  });
+
   it('renders ordered numbered topics with descriptions', () => {
-    const { getByRole, getAllByRole, getByText } = renderStepper();
-    const stepper = getByRole('list', { name: 'DevOps roadmap' });
-    const steps = within(stepper)
-      .getAllByRole('listitem')
-      .filter((step) => step.parentElement === stepper);
+    const { getByRole, getAllByRole, getByText } = renderStepper(items);
+    const stepper = getByRole('list', { name: 'DevOps Roadmap' });
+    const steps = getDirectSteps(stepper);
 
     expect(steps).toHaveLength(3);
     expect(steps[0].textContent).toContain('1');
@@ -62,11 +97,9 @@ describe('DevOpsRoadmapStepper', () => {
   });
 
   it('uses semantic success for evidence without a current step', () => {
-    const { container, getByRole } = renderStepper();
-    const stepper = getByRole('list', { name: 'DevOps roadmap' });
-    const steps = within(stepper)
-      .getAllByRole('listitem')
-      .filter((step) => step.parentElement === stepper);
+    const { container, getByRole } = renderStepper(items);
+    const stepper = getByRole('list', { name: 'DevOps Roadmap' });
+    const steps = getDirectSteps(stepper);
 
     expect(container.querySelector('[aria-current="step"]')).toBeNull();
     expect(within(steps[0]).getByText('completed')).toBeTruthy();
@@ -74,7 +107,7 @@ describe('DevOpsRoadmapStepper', () => {
   });
 
   it('keeps unsupported topics readable and disabled', () => {
-    const { getByText } = renderStepper();
+    const { getByText } = renderStepper(items);
     const upcoming = getByText('Artifact Management').closest('li');
 
     expect(upcoming?.getAttribute('aria-disabled')).toBe('true');
@@ -82,11 +115,24 @@ describe('DevOpsRoadmapStepper', () => {
   });
 
   it('renders linked neutral skill tokens and concept tokens', () => {
-    const { getByRole, getByText } = renderStepper();
+    const { getByRole, getByText } = renderStepper(items);
 
     expect(getByRole('link', { name: /Docker/i }).getAttribute('href')).toBe(
       '/skills/docker',
     );
     expect(getByText('Retry')).toBeTruthy();
+  });
+
+  it('renders certification citations with per-step numbering', () => {
+    const { getByRole } = renderStepper(certificationItems);
+    const cka = getByRole('doc-noteref', { name: 'Citation 1: CKA' });
+    const ckad = getByRole('doc-noteref', { name: 'Citation 2: CKAD' });
+
+    expect(cka.getAttribute('href')).toBe(
+      'https://example.com/certifications/cka',
+    );
+    expect(ckad.getAttribute('href')).toBe(
+      'https://example.com/certifications/ckad',
+    );
   });
 });
