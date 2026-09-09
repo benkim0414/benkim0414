@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:5c4f5f912a1c73204f2a2a82836c1e6f0023d3848778400a70b3c1c8b12d66e8",
+  "pageVersion": "sha256:4be5a2ecae227bd1d8024b0a9e0fa6dfde048e1b323962eae60fe481a35b4029",
   "claims": [
     {
       "id": "claim_41253c1ed05946c38b803e4b8b5d55dc",
@@ -76,21 +76,35 @@
       "evidence": [
         {
           "resource": "repo://apps/github.io/src/app/devops-roadmap/devops-roadmap-skill-inventory.data.ts#L145-L195",
-          "version": "repo-lines-v1:sha256:dbb75539dac95e2c26ba33e28a67972fe5d5282fa5c185300d93892ee048ecae:eyJzZWxlY3RlZExpbmVDb3VudCI6NTEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjhhOTYwNGEzZmY4NTZlMGJjYmJjYTA1YmM0OTIzMjg1NjBiYmQwNGVlY2ViOTkwYmJiYWQzMjAwZThmZTM1OGUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAwNGNjZDU0NWE0ZWYxZDg0MDA5NGM5NWQwYTI4N2I1MjE3MGI3ZmEwYjFlNjQyZGE0ODZlZmE2NDAzZGExZTAiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImU3MGNlMDE1ZTA5YTNiZGFlNjM5ZDBiMzU1MDBkNzZiNTRkYjdiZmMwZDQ0M2VkNTE3NDNkYjQ2NDU1NDQ3MWMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImM3OWY1YTk0NTVkZmI4N2I2NTZjYWY5NTQ3OWFmY2M1NjM0ZDhmMTAwNjNmNzFiODk1NTRlNTcwNzIxNGY3MjkifQ"
+          "version": "repo-lines-v1:sha256:557e9487361aa223807b0130e903c0912828c004f35262d3043d5f578fae38db:eyJzZWxlY3RlZExpbmVDb3VudCI6NTEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjhhOTYwNGEzZmY4NTZlMGJjYmJjYTA1YmM0OTIzMjg1NjBiYmQwNGVlY2ViOTkwYmJiYWQzMjAwZThmZTM1OGUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAwNGNjZDU0NWE0ZWYxZDg0MDA5NGM5NWQwYTI4N2I1MjE3MGI3ZmEwYjFlNjQyZGE0ODZlZmE2NDAzZGExZTAiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImU3MGNlMDE1ZTA5YTNiZGFlNjM5ZDBiMzU1MDBkNzZiNTRkYjdiZmMwZDQ0M2VkNTE3NDNkYjQ2NDU1NDQ3MWMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImM3OWY1YTk0NTVkZmI4N2I2NTZjYWY5NTQ3OWFmY2M1NjM0ZDhmMTAwNjNmNzFiODk1NTRlNTcwNzIxNGY3MjkifQ"
         },
         {
-          "resource": "repo://apps/github.io/src/app/devops-roadmap/devops-roadmap-stepper.tsx#L117-L132",
+          "resource": "repo://apps/github.io/src/app/devops-roadmap/devops-roadmap-stepper.tsx#L121-L136",
           "version": "repo-lines-v1:sha256:1b2d5438b82129b5888bb8e577fce931f799c4c01ac1d561e576735b5e3cb3a0:eyJzZWxlY3RlZExpbmVDb3VudCI6MTYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjhhNmViMTEyNDY1YWFhZWNkOGEwYzdhNzkxMzY1Y2EwOTlhNGY4YWE5ZDRjNzIxODI5MmUxMjhmNDY5ODIwZWUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjM5ZDA4ZThmMjhjZjQyMWU4OWY2NGQ3NTYwMjBlYjg5YzY0OGQ2MTYwNjUyOGFjNjIxYzMwOTYwNjU1MzgwZmEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjVlNjFhNDExMTI5YzEyNzAyNzdiOGFmYTFhNTk0ODFmMmJlMzM1ZjhlNGI0YjY3ODliOWUxYWVlYzBjZGZlNzciLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjhiYmM3NGU1YWI3NWM1NjgyNWZkNTlhYjg2OWQ2OGU4ZDY2YmFkNWU4OWQ4MjY5YjI4YWEwMTY5MDkxODNiYTAifQ"
         },
         {
-          "resource": "repo://apps/github.io/src/app/devops-roadmap/devops-roadmap-stepper.tsx#L38-L45",
+          "resource": "repo://apps/github.io/src/app/devops-roadmap/devops-roadmap-stepper.tsx#L41-L48",
           "version": "repo-lines-v1:sha256:1268280072eff1c8b326961abadbde992c75cb9340edfb97147f882d46301fd6:eyJzZWxlY3RlZExpbmVDb3VudCI6OCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNmI3MDViOTEzMDYyNGRlOTJlNjMzNzJiY2FlMDZhNWQwZDljNzI1NWJjNWM4Nzg0NzQ0ZjQyN2Q5OWJjNzM1YyIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiOTVlZjAxYmMwOGRiYzNiNjNlNGU3NWVhM2QyNmE1Yjk0MTg5MTg3N2UyN2FkODkxMzI5Yzg0MTFkN2Q4ZGM0ZCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMTM4M2FjMTk5OGFkODgyODg0NWM3MGVkZmY5ZDI1ZmNjNzg5NTdmNTUzMGE3OTgzOGQ1MTg0YTFlMTcwZmU0MiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNjQ3MDg0NzQ5ZjM5Yjc2NGM1YjU5MDg5ZTA5NzUwZjk3MTE1MTBlNzY3NWFiMjA2MjZlOTMxNjgzYzg2OWI0MiJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_be0872f931b745d39b81eb85d14d239e",
+      "statement": "Artifact Management is completed through explicit Amazon ECR and GitHub Packages evidence, GitHub Packages is modeled as an npm package registry skill, and Service Mesh remains the only roadmap topic without visible evidence.",
+      "evidence": [
+        {
+          "resource": "repo://apps/github.io/src/app/devops-roadmap/devops-roadmap-skill-inventory.data.ts#L159-L177",
+          "version": "repo-lines-v1:sha256:ffc3a6edf03f12b7198e960d3131ff6afce926dc7d348e30d0780183460fb44a:eyJzZWxlY3RlZExpbmVDb3VudCI6MTksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImRkYjcwNDYwNmUwNmJhOTY3N2FiZjk0MTgwNmE5NWNhMzk4OTBmOTAzMzM4OTNhMzdjNTVmMGVjMGEyMzYwMjAiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjExZGJkOTk3OWY1MmRjMmIzNjE4YTYyNTkzYjNhMWJlM2RiNDJlODU3ZjAyNDkzN2ZhMWJjNzAwZjQ3ZmZjMzciLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6Ijk3NWUzYTQyZWM5MmZmY2U2ZGM3NzNjNjhiZTk2YjRmZjJmNzRjNzI5YzAxMjdkZTZlNWI1YjYwMDM4MTk5MTAiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImNhYzk1YmZmYjAzZDJlNjcwYTAyYzE2NjI0ZjYxMThlODZkZTIzYmQxOTg3Mjk1NjAxMTRhMGI1NDQxODBhOGQifQ"
+        },
+        {
+          "resource": "repo://apps/github.io/src/app/skills/skill-list.data.ts#L199-L207",
+          "version": "repo-lines-v1:sha256:39e00089adf7bd7ab364dd48db073790068c5889e3b5d8e065cad6c333811da4:eyJzZWxlY3RlZExpbmVDb3VudCI6OSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZjQyZjgzMTc2YmZiYWFmZjY0Y2I1ZjAzODNiZmRjOTk1MDc3MDEwOTE2MjY3YzUxYzlmMWY5YmIxY2NlMjk2YyIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNDE2MGYxNjM2YjY0YWMwZjc5MTM2Njc5NzI0MGRlNGY1ZDNmODkzZWVlN2NiNjBmZjVjZDI5OWQ5NGM4NDE5ZCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMzhiMTgzYzZjMDJkZjVjNzg3MWI0NmIxNjQzOTk5ZDZlZTYzYWM0ZGJkZThmOWQxMDdkYzI0ZTgwZjMzZjRiYiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNDM1NzAyM2Q1YjNhNDcyNDk4MzUyZTVhMTVmNzk5ODVjNzliMjlmMjAwYzAyNWZiMzM4NjI1ZTQzMWRmNWY5MCJ9"
         }
       ]
     }
   ],
   "verification": {
     "by": "openwiki/0.5.0",
-    "at": "2026-09-09T09:42:47.264Z"
+    "at": "2026-09-09T10:30:13.793Z"
   }
 }

@@ -3,9 +3,6 @@ type: domain
 title: Skills and capability evidence
 description: Public-safe evidence, curated projections, skill resolution, and calibrated capability scores.
 tags: [skills, evidence, capabilities, domain]
-verified:
-  - by: openwiki/0.5.0
-    at: 2026-09-09T09:42:47.264Z
 sources:
   - id: openwiki-source-d004d8237034180f25bca313
     resource: repo://apps/github.io/src/app/devops-capability-evidence/devops-capability-evidence.scoring.ts
@@ -19,7 +16,12 @@ sources:
     resource: repo://apps/github.io/src/app/devops-roadmap/devops-roadmap.data.ts
   - id: openwiki-source-bcd58fc33f104c190f9326be
     resource: repo://apps/github.io/src/app/skills/skill-detail-resolver.ts
-generated: { by: "codex", at: "2026-09-09T04:57:16.606Z" }
+  - id: openwiki-source-b4039a7397de0bc8565df5e3
+    resource: repo://apps/github.io/src/app/skills/skill-list.data.ts
+generated: { by: "codex", at: "2026-09-09T10:30:13.793Z" }
+verified:
+  - by: openwiki/0.5.0
+    at: 2026-09-09T10:30:13.793Z
 ---
 
 # Skills and capability evidence
@@ -62,9 +64,10 @@ roadmap skill and concept tokens must not be interpreted as scored proof.
 
 Descriptions are shared between the canonical roadmap and its evidence
 inventory, and tests require both projections to have the same IDs, titles,
-descriptions, and order. At present Artifact Management and Service Mesh are
-the intentional unsupported gaps; additions should update the explicit
-inventory rather than inferring evidence from unrelated catalog entries.
+descriptions, and order. Artifact Management is completed by explicit Amazon
+ECR and GitHub Packages evidence, while Service Mesh remains the intentional
+unsupported gap. Additions should update the explicit inventory rather than
+inferring evidence from unrelated catalog entries.
 
 When extending data, change the catalog and its intended projections explicitly,
 then exercise resolver/scoring tests. Do not introduce private source material as
