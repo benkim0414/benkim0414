@@ -4,10 +4,6 @@ title: Workspace quickstart
 description: Set up the pnpm/Nx monorepo, run github.io, and find the right architecture or workflow guide.
 tags: [quickstart, workspace, pnpm, nx]
 sources:
-  - id: openwiki-source-e0c4e21b9bfdc3be09ed876d
-    resource: repo://.github/workflows/release-github-io.yml
-  - id: openwiki-source-8037e2358a2c4f9b2c722a11
-    resource: repo://AGENTS.md
   - id: openwiki-source-7960267d064bb36aab7607cb
     resource: repo://apps/github.io/package.json
   - id: openwiki-source-a099837b8e8614c677082a9d
@@ -16,16 +12,14 @@ sources:
     resource: repo://apps/github.io/vite.config.ts
   - id: openwiki-source-e9bb13afb6b400d29b3f8512
     resource: repo://docs/agents/openwiki.md
-  - id: openwiki-source-8b0ac8066b150cc5fe3fd0ff
-    resource: repo://docs/runbooks/github-pages-artifact-release.md
   - id: openwiki-source-5b54a58d1b51cd490b0e7162
     resource: repo://package.json
   - id: openwiki-source-40275cb92c3610938f16ade3
     resource: repo://pnpm-workspace.yaml
-generated: { by: "codex", at: "2026-09-09T05:56:49.829Z" }
+generated: { by: "codex", at: "2026-09-09T04:57:16.606Z" }
 verified:
   - by: openwiki/0.5.0
-    at: 2026-09-09T05:56:49.829Z
+    at: 2026-09-09T10:46:58.649Z
 ---
 
 # Workspace quickstart
@@ -51,25 +45,16 @@ goes to `dist/apps/github.io`, with both the main and 404 HTML entries built.
 Nx plugins provide inferred targets in addition to the explicit layout checks.
 See [validation](workflows/validation.md) before handing off changes.
 
-For release calculation and its focused tests, use `pnpm release:github.io`
-and `pnpm test:release:github.io`. These are inspection and validation entrypoints;
-do not substitute a local production build for the serialized GitHub release
-workflow, and do not invoke publishing or deployment without the explicit
-handoff gate. The complete state machine is in
-[release and session handoff](operations/releases.md). Operators preparing the
-first release or a recovery should also follow
-[`docs/runbooks/github-pages-artifact-release.md`](../docs/runbooks/github-pages-artifact-release.md)
-for the reviewed SHA/version inputs, target repository setup, and live checks.
-
 ## Find the right guide
 
 | Task | Start here |
 | --- | --- |
 | Add a route or understand shared providers | [Application architecture](architecture/github-io.md) |
 | Change skills, evidence, or scores | [Skills and capability evidence](concepts/evidence.md) |
+| Change roadmap topics, evidence states, or Stepper presentation | [Application architecture](architecture/github-io.md), [evidence semantics](concepts/evidence.md), then [design system and layout](architecture/design-system.md) |
 | Change themes, components, or scroll layout | [Design system and layout](architecture/design-system.md) |
 | Select tests and checks | [Validation workflow](workflows/validation.md) |
-| Calculate versions or understand release, recovery, deployment, and handoff boundaries | [Release and session handoff](operations/releases.md) |
+| Understand deployment and handoff boundaries | [Release and session handoff](operations/releases.md) |
 
 ## Maintain this wiki
 

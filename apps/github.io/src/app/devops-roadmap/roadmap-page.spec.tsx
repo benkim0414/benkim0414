@@ -8,15 +8,15 @@ import { vi } from 'vitest';
 import { RouterLink } from '../router-link';
 import { RoadmapPage } from './roadmap-page';
 
-const { devOpsRoadmapSpy } = vi.hoisted(() => ({
-  devOpsRoadmapSpy: vi.fn(),
+const { devOpsRoadmapStepperSpy } = vi.hoisted(() => ({
+  devOpsRoadmapStepperSpy: vi.fn(),
 }));
 
-vi.mock('./devops-roadmap', () => ({
-  DevOpsRoadmap: (props: Record<string, unknown>) => {
-    devOpsRoadmapSpy(props);
+vi.mock('./devops-roadmap-stepper', () => ({
+  DevOpsRoadmapStepper: (props: Record<string, unknown>) => {
+    devOpsRoadmapStepperSpy(props);
 
-    return <div aria-label="DevOps roadmap diagram" role="group" />;
+    return <ol aria-label="DevOps roadmap" />;
   },
 }));
 
@@ -34,7 +34,7 @@ function renderRoadmapPage() {
 
 describe('RoadmapPage', () => {
   beforeEach(() => {
-    devOpsRoadmapSpy.mockClear();
+    devOpsRoadmapStepperSpy.mockClear();
   });
 
   it('renders a full-width mobile page without a width cap', () => {
@@ -75,11 +75,11 @@ describe('RoadmapPage', () => {
     expect(heading.getAttribute('data-level')).toBe('2');
   });
 
-  it('composes the existing roadmap without overriding its default data', () => {
+  it('composes the roadmap Stepper without overriding its default data', () => {
     const { getByRole } = renderRoadmapPage();
 
-    expect(getByRole('group', { name: 'DevOps roadmap diagram' })).toBeTruthy();
-    expect(devOpsRoadmapSpy).toHaveBeenCalledTimes(1);
-    expect(devOpsRoadmapSpy).toHaveBeenCalledWith({});
+    expect(getByRole('list', { name: 'DevOps roadmap' })).toBeTruthy();
+    expect(devOpsRoadmapStepperSpy).toHaveBeenCalledTimes(1);
+    expect(devOpsRoadmapStepperSpy).toHaveBeenCalledWith({});
   });
 });

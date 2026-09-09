@@ -7,6 +7,7 @@ import type { Skill } from './skill-list.types';
 const routeSkills: readonly Pick<Skill, 'id' | 'name' | 'keywords'>[] = [
   { id: 'argo-cd', name: 'Argo CD', keywords: ['gitops', 'argocd'] },
   { id: 'amazon-ecr', name: 'Amazon ECR', keywords: ['aws'] },
+  { id: 'github-packages', name: 'GitHub Packages', keywords: ['npm'] },
   { id: 'aws-codepipeline', name: 'AWS CodePipeline', keywords: ['aws'] },
 ];
 
@@ -25,6 +26,12 @@ describe('getSkillDetailPathForSkillName', () => {
     expect(getSkillDetailPathForSkillName('ArgoCD', routeSkills)).toBe(
       '/skills/argo-cd',
     );
+  });
+
+  it('builds the canonical detail path for GitHub Packages', () => {
+    expect(
+      getSkillDetailPathForSkillName('GitHub Packages', routeSkills),
+    ).toBe('/skills/github-packages');
   });
 
   it('does not build a detail path for an ambiguous keyword alias', () => {

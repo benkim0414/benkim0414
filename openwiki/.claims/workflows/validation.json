@@ -1,18 +1,18 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:7bc1c39de935c1c40fda2a5808219bbe10b6f0073a1162e8cde0e9dbd779b389",
+  "pageVersion": "sha256:be4dd71c85ebdc67394156da353c126385a7f4094b24f16fab70ae5258db5b02",
   "claims": [
     {
       "id": "claim_6cbb6dd0080f4763aaf4dec964f7f76e",
       "statement": "Nx plugins infer Vite, ESLint, Vitest, and Storybook targets alongside explicit project targets.",
       "evidence": [
         {
-          "resource": "repo://apps/github.io/project.json",
-          "version": "repo-file-v1:sha256:e6cbb5bbf23ce5abe3170e2071691b4fb184891130c54ed454107d1035ebe88c"
+          "resource": "repo://apps/github.io/project.json#L1-L28",
+          "version": "repo-lines-v1:sha256:77a7545cb5db12f7caef94c8935e32e1c5ba6eec63b377c6c9f1fc124e05a6fb:eyJzZWxlY3RlZExpbmVDb3VudCI6MjgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImE2ZmIwOGZkYTFhY2I5NTdiNjExNmJkMzc4MTFhMWZlNDFhMDE2MTFjMDYzMWVkYmY3ODZkNjg4OWEyN2E1NWMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjI3ZTU3ODhkNWQ5ZDczZDI0YTgxZGJjMGE1YTc0YmZhODJjOWMzYjNhZjk5ZTUyYWY3OTZlOTBiNDY4YThhM2QiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjoxLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEifQ"
         },
         {
-          "resource": "repo://nx.json",
-          "version": "repo-file-v1:sha256:61909703b3a53b5e497c875abaef763cbd4c94fdc0507e86005852022a73bf59"
+          "resource": "repo://nx.json#L4-L36",
+          "version": "repo-lines-v1:sha256:c8b325c00bd238fc959e7e48a97008d49d401afb3f650901c82e2eea3021b637:eyJzZWxlY3RlZExpbmVDb3VudCI6MzMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijc5NDY5YzkxZTViNjgyZjYxZWJiNjgzM2FmZjdhZmE2Y2JlNTdiZTZiOWNhNzQ2NWU4MmZlNmYzOWFmOWVjYTgiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQ4OTNmNDBlMzc4MWViODk2YzgyZDA0NmEwODA2N2ExMWUzNWNkZjJmMWRmYWYyNmZlYTkwYjhkYjY2NzY0MTMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImQ2ZjA4OTcwZDU2NDQ0MzRiY2Q0OGUzZmFkZGQ1NDBjNmY1NTczMmI4MzBjYWQzYzg0NzRjNzg0ZTMxMzhhZmIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjEzOWZmMGQ5Njc4MWNlMWQ3YjU2MmVjODI4NjA0NzJiNjdmZGM0MDdiMzMyZDc0YmUyYzZiYTk5YWE1YWZmNzgifQ"
         }
       ]
     },
@@ -22,17 +22,7 @@
       "evidence": [
         {
           "resource": "repo://apps/github.io/vite.config.ts#L68-L83",
-          "version": "repo-lines-v1:sha256:39372a4f603eb11dcc522d7c62c3190d31103fda8bb9dff255db794cda211292:eyJzZWxlY3RlZExpbmVDb3VudCI6MTYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjU5MzZkZjdhNWEzYWFmMTgwY2ZmZDFkNjVjNjQ2ZWY2YWVhMzUyY2MyNzc3NDY4NjE5OWNkOGZiM2U4OTljN2IiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjViNzQxZDJjMDhlNmY1MTBiN2U5YTI2NGYzNzhmOWNlMDA0OWE1MDRlMGU3ZWY1ZDY3Y2QzZWE4MTNmODU0NzQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjM0ZjgxYTFjMWE1N2EzNjdmZDcwMzBkZGE3ZGIzNzMxYTMwMGE1ZjkwMDJlNmZkZTQ5MjJjNDg1NzllMTY4ZDgiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
-        }
-      ]
-    },
-    {
-      "id": "claim_e9440bd320194bafa444fdfcd3e55363",
-      "statement": "The release workflow validates its candidate through Nx Release, runs focused github.io lint and tests, requires a canonical injected SemVer for its single uncached build, and verifies the emitted version before persisting artifacts.",
-      "evidence": [
-        {
-          "resource": "repo://.github/workflows/release-github-io.yml#L135-L188",
-          "version": "repo-lines-v1:sha256:1f605af4a0532415228b85327599412a33787802717129ca9f21c7e3d27b24e1:eyJzZWxlY3RlZExpbmVDb3VudCI6NTQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImNiOGU1YzgzYjE1NDljMzk4ZmUwYzM1NjBjYWM1ODU0ZGRkODBkZGNkYmE1NzI1ZDM4OTlmYTg1MjBjYzIyM2MiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjU2MTA0NGFlYWUyOThlN2ZhNzNmODJjOTBiYjQzODg2MjI2ODg1Y2Q0OTg0YTAwOWZkN2I2YmE5ZDk5NDk4YmYiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImYyMjU2ZTVlYTQ3MmUwZGJiZDhlNGI3OGMwYzZkYjY0NTNhMjRjMjEzYWE0YjM5YWU0OGI2ZmJkNjZmNzY0NmUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImU2NGRhZTkxOGI1MjNiNTU3Y2ZjMTZjMzAwMmQ2Yzg5NjQyM2RmYmY4YzQ3ZGQ1MDFiZmRiZDRjNzMxZGJhNWEifQ"
+          "version": "repo-lines-v1:sha256:9d0e96cea8dced80bba00b5fa0eb4c43a3d133bd75c3f6f7d0f63199cdc7e0f7:eyJzZWxlY3RlZExpbmVDb3VudCI6MTcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjU5MzZkZjdhNWEzYWFmMTgwY2ZmZDFkNjVjNjQ2ZWY2YWVhMzUyY2MyNzc3NDY4NjE5OWNkOGZiM2U4OTljN2IiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjViNzQxZDJjMDhlNmY1MTBiN2U5YTI2NGYzNzhmOWNlMDA0OWE1MDRlMGU3ZWY1ZDY3Y2QzZWE4MTNmODU0NzQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjM0ZjgxYTFjMWE1N2EzNjdmZDcwMzBkZGE3ZGIzNzMxYTMwMGE1ZjkwMDJlNmZkZTQ5MjJjNDg1NzllMTY4ZDgiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
         }
       ]
     },
@@ -48,23 +38,23 @@
     },
     {
       "id": "claim_d4e4d19066de4c75b1176d3f918bb857",
-      "statement": "Reusable UI changes use colocated component tests for displayed values, Storybook-module tests for representative arguments, canonical Storybook taxonomy coverage, and page tests for data-derived accessible integration.",
+      "statement": "Reusable UI changes use colocated component tests for displayed behavior, Storybook-module tests for representative arguments, canonical Storybook taxonomy coverage, and route or page tests for data-derived accessible integration.",
       "evidence": [
         {
           "resource": "repo://apps/github.io/.storybook/story-taxonomy.spec.ts#L49-L84",
           "version": "repo-lines-v1:sha256:b86d76e78cf3df168d7f1331853ecd33f0f164396279e70353d10eafab8625a8:eyJzZWxlY3RlZExpbmVDb3VudCI6MzYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImM5ZGYyYzFkZDQ5YzBhNWYxY2Y2NmM3MzI3MmI1MmE4NzkyMjY1YTFhMmI3N2JlN2Y5YzU1NzA0ZjdlODcyOGMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjE0YWNjODY5ODE1MTBjMWFiMzMwNTliZTQ0NjU2ZWNjZmJiNjE5ZTBiY2FhZTBjMDYzMTYxMjY3Y2Y3YjdmMGMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjEwZmIyN2ZhOTQ3MTNiOGQ4ZjYyMTM3YzFjZDEzODQ4OTlhZWI3OWE3OGIzM2Y5MTc2NGVhMTI1NmZlNjM5NTIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImNiNzg3YjQ3NjM2MDFjYjAwMmU2NWRjZjAzNGM5NDA2YzdhNDUxZTQ0NTMzZTgzMjlhM2E5YjVjZTAwZGVjZWQifQ"
         },
         {
-          "resource": "repo://apps/github.io/src/app/count-badge.spec.tsx#L5-L22",
-          "version": "repo-lines-v1:sha256:5bee0c573652e4797553e16f8c5068ed2554c51ede667b424c417b44c8fbae16:eyJzZWxlY3RlZExpbmVDb3VudCI6MTgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImE0MDJmZGU4NjY1OGZhZTJlZTI2NjE1MWE0MmJkOTQxMzVhOWJhNjBjZjI2N2E5MjVhM2JlNDdlOWVhZmI2MTIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjNhM2U0NmY5NDI3NmI2ZjZmNGVkMWYwMmFmNzhiZWY2YTJlZTFjNDM5ZGQ1NTg0Yjk3Mzk0ODMxMzIxNGQyYjciLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjU4ODc1MGYyMDE4NmJmNTAzNjU1MmJkOWVjZGRkYWJlZmY3MjkxYTM1OWMzZTg1OGJhYjMxNjBmMjQ5M2M0N2YiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjoxLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImY2ZjViNDBiMTU4NDU3ZDE3ODY0ZjIxNzkwNzg2ZGQ1YTJlY2RiNjRiNjZhNjUxZjc4OGQ0ZTI1Y2QzMzAzZDIifQ"
+          "resource": "repo://apps/github.io/src/app/app.spec.tsx#L246-L332",
+          "version": "repo-lines-v1:sha256:fab0525a0334e657940a0481568519ca28625fd9f9e63f554edd8aff3034906f:eyJzZWxlY3RlZExpbmVDb3VudCI6ODcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImU3OGNmYmE1M2M2MGFkNzk5NjFiYjllZTAyNDM4OTQ4OTdiMGYxOGI3NjdjMWRmZDU1N2ViZDUzYzQwYmNhZWUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjkxN2M2OGIxNjUzNjQxM2U0NTUyNmUwOTUwZTlkNGM3NzBjMjk0OTgwMDAxOTQyMTRhM2JlMzc1ZjA2MTFjNzMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImEzMGM1OGE5MTcwNWFhODYzZTdmZDIzOTJkZGE0ZGNhYzM0YjQwODQ0ZjQ2NzgxZGNjOWI2M2VlYTM3ZmRjMmUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImEzNGFlYWYwZWE5MTI4NGZkNTQ3ZjhiOTg0OGU3NjZiNTJkN2ZlMWQ0ZmVkMzY3MGJkNjhlYjNiZWFhMjRkYjUifQ"
         },
         {
-          "resource": "repo://apps/github.io/src/app/count-badge.stories.spec.ts#L1-L8",
-          "version": "repo-lines-v1:sha256:f39575c641767172ed27e501ad5a87ac2db7773d0f7e14c2db046203d916c2a3:eyJzZWxlY3RlZExpbmVDb3VudCI6OCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZGVjZjRjNTU2YWYyNmQ2Y2U4NGJkMjhjZTdlNDllYjUxNWFmYTE2ZjBiNTRlMTIwZWU0ZmU3YTg0NTllN2RmZiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiZjZmNWI0MGIxNTg0NTdkMTc4NjRmMjE3OTA3ODZkZDVhMmVjZGI2NGI2NmE2NTFmNzg4ZDRlMjVjZDMzMDNkMiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjAsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjAsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSJ9"
+          "resource": "repo://apps/github.io/src/app/devops-roadmap/devops-roadmap-stepper.spec.tsx#L76-L138",
+          "version": "repo-lines-v1:sha256:9dfa4b2b37b8a41d69767af7ea5c5d3871c896276cb2aa3334bbdfdb3c60c1f0:eyJzZWxlY3RlZExpbmVDb3VudCI6NjMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImU3YmEzM2QwMTNkZjg5NjRjNjc5ZDBmOWQyMGUzYTc5NjliZjYzYjY0NmZhZDBhMmI2YTA3ZDk3YzM3NGVhMjgiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUxMDBiNjE2NjE1YmQ4YWRlZTFiYTg3NGZmMTVhZDQ2NmYzY2ZlZmMzZWM0NGEwNmFiYTIzNDE1M2NmNmQ4NTQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjU3YWZjYTVlYWNiZWZlNDdiMzBjMjNjZTBjODMxYTA0MGU4NDYxY2VlZjBkYTNkODNhNWE2MThkNDJiNzdmYzUifQ"
         },
         {
-          "resource": "repo://apps/github.io/src/app/skills/skill-detail-page.spec.tsx#L336-L358",
-          "version": "repo-lines-v1:sha256:8e63c370cf463909edf2403dc2c86854e19d75007885428afca128467633d029:eyJzZWxlY3RlZExpbmVDb3VudCI6MjMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImJlMWEyNDgwODdiNjkwOWJjNjFjMDc3MTgyNzRkZThlYmU0Y2RjODBjMjM1MzE4N2RiNDBiYzFkMjgzMzAzZDQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjNhM2U0NmY5NDI3NmI2ZjZmNGVkMWYwMmFmNzhiZWY2YTJlZTFjNDM5ZGQ1NTg0Yjk3Mzk0ODMxMzIxNGQyYjciLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImM1YmQ5ZDdkYTJkOGI1ODllZDlhZGQyNmMyNTNmNzFjNzUyNzgxZTA2YzA5N2M1NGQ1NjgwZTkyYmU5MWE2ZWEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjZhMDg0NGM1YzA3OWYyZmFjZjhmZDNlMTU3NmJjYzc5YzIwODRmYjhiN2Y1Yjg5Yzk2YTA5OWVmYWE2ZTdjYjgifQ"
+          "resource": "repo://apps/github.io/src/app/devops-roadmap/devops-roadmap-stepper.stories.spec.ts#L1-L12",
+          "version": "repo-lines-v1:sha256:f4e1d05036833124a0a1104a196da16c89d89fbbe24fee4210c0bc9561c95d12:eyJzZWxlY3RlZExpbmVDb3VudCI6MTIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjY1OTFkM2Y3ODljOGYzNDM5Y2M3MDcyNzU5M2FmYmVjMTJhMmZhOTI5ZDEyYmRkMDIzNzJmZTI0YmQ0NGJhMTciLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImY2ZjViNDBiMTU4NDU3ZDE3ODY0ZjIxNzkwNzg2ZGQ1YTJlY2RiNjRiNjZhNjUxZjc4OGQ0ZTI1Y2QzMzAzZDIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
         }
       ]
     },
@@ -87,38 +77,68 @@
       ]
     },
     {
-      "id": "claim_dcb3917b11684ebdb6766ad37d0320e8",
-      "statement": "Release tests cover classification, first-parent calculation, records, reviewed bootstrap, real Nx and Vite boundaries, CLI streams, workflow ordering, executable crash/retry recovery, and deployment anti-rollback behavior.",
+      "id": "claim_d448228d7bbc4d5187cc27d66316c3ca",
+      "statement": "Roadmap verification is layered across a focused Stepper component test, a Storybook module contract, and the real `/roadmap` route test, which together protect topic order, evidence states, accessible content, and exclusion of the legacy React Flow viewport.",
       "evidence": [
         {
-          "resource": "repo://package.json#L17-L18",
-          "version": "repo-lines-v1:sha256:44a354f86a60ff5d6e0ecaf19e2092848658d2cf8f000f15799a2f2ff8ce76b0:eyJzZWxlY3RlZExpbmVDb3VudCI6MiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZDBkMDdmMDdmYWExOTczYWZjZWE5NDczYzk1NGNmZWVjMzdiMWM4Mzg5NGU0MTBiNTNmZDZlZTMyMWE2OWY5MSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiOTk5ZjFiNjFlMjI1MWQ5ZDFkYmJkMDViOTM5OWMwODRjYjVhNGIyNDg2M2EwNjFlMTdjNjliMWVjNjVmOTJkMiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNzdjOTM0YThiMWY5MzNjMjBmZDg2YzE1YjkxMjZhZWQyZTc3YWVjMDIyZTc5M2EyM2RmZGM3YWY3NWE1ODkyMCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNGFhNmI4YmFmNGZiYWM1ZDAxYTYyYzYxOTZmMmFjNGIxZDgzYmQ3ZjIxMzI4ZTJmZTJjNzAyMzQ5OTE3NGIwNyJ9"
+          "resource": "repo://apps/github.io/src/app/app.spec.tsx#L246-L332",
+          "version": "repo-lines-v1:sha256:fab0525a0334e657940a0481568519ca28625fd9f9e63f554edd8aff3034906f:eyJzZWxlY3RlZExpbmVDb3VudCI6ODcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImU3OGNmYmE1M2M2MGFkNzk5NjFiYjllZTAyNDM4OTQ4OTdiMGYxOGI3NjdjMWRmZDU1N2ViZDUzYzQwYmNhZWUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjkxN2M2OGIxNjUzNjQxM2U0NTUyNmUwOTUwZTlkNGM3NzBjMjk0OTgwMDAxOTQyMTRhM2JlMzc1ZjA2MTFjNzMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImEzMGM1OGE5MTcwNWFhODYzZTdmZDIzOTJkZGE0ZGNhYzM0YjQwODQ0ZjQ2NzgxZGNjOWI2M2VlYTM3ZmRjMmUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImEzNGFlYWYwZWE5MTI4NGZkNTQ3ZjhiOTg0OGU3NjZiNTJkN2ZlMWQ0ZmVkMzY3MGJkNjhlYjNiZWFhMjRkYjUifQ"
         },
         {
-          "resource": "repo://scripts/github-io-bootstrap.test.mjs",
-          "version": "repo-file-v1:sha256:455f3b58c109e4b8fb143404510d5939bc37fefbd6d7b175893cb29cc374fa82"
+          "resource": "repo://apps/github.io/src/app/devops-roadmap/devops-roadmap-stepper.spec.tsx#L76-L138",
+          "version": "repo-lines-v1:sha256:9dfa4b2b37b8a41d69767af7ea5c5d3871c896276cb2aa3334bbdfdb3c60c1f0:eyJzZWxlY3RlZExpbmVDb3VudCI6NjMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImU3YmEzM2QwMTNkZjg5NjRjNjc5ZDBmOWQyMGUzYTc5NjliZjYzYjY0NmZhZDBhMmI2YTA3ZDk3YzM3NGVhMjgiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUxMDBiNjE2NjE1YmQ4YWRlZTFiYTg3NGZmMTVhZDQ2NmYzY2ZlZmMzZWM0NGEwNmFiYTIzNDE1M2NmNmQ4NTQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjU3YWZjYTVlYWNiZWZlNDdiMzBjMjNjZTBjODMxYTA0MGU4NDYxY2VlZjBkYTNkODNhNWE2MThkNDJiNzdmYzUifQ"
         },
         {
-          "resource": "repo://scripts/github-io-build-version.test.mjs",
-          "version": "repo-file-v1:sha256:efab0a4e9b6c971a8e93feb2ed8c3869bde12366c72870f78b2931c8f081a0a0"
+          "resource": "repo://apps/github.io/src/app/devops-roadmap/devops-roadmap-stepper.stories.spec.ts#L1-L12",
+          "version": "repo-lines-v1:sha256:f4e1d05036833124a0a1104a196da16c89d89fbbe24fee4210c0bc9561c95d12:eyJzZWxlY3RlZExpbmVDb3VudCI6MTIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjY1OTFkM2Y3ODljOGYzNDM5Y2M3MDcyNzU5M2FmYmVjMTJhMmZhOTI5ZDEyYmRkMDIzNzJmZTI0YmQ0NGJhMTciLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImY2ZjViNDBiMTU4NDU3ZDE3ODY0ZjIxNzkwNzg2ZGQ1YTJlY2RiNjRiNjZhNjUxZjc4OGQ0ZTI1Y2QzMzAzZDIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_3a55119d423d4c3cb7d8dff7d98413d3",
+      "statement": "The compiled layout verifier accepts duplicate emitted classes and both production and development StyleX markers while requiring every expected declaration to appear in the applied compiled style.",
+      "evidence": [
+        {
+          "resource": "repo://apps/github.io/scripts/verify-global-layout-css.mjs#L21-L94",
+          "version": "repo-lines-v1:sha256:ba41e3fae00784c1e118bdb8262cb2e92f4e7766fe0fd62c7e8eeb3dd435b738:eyJzZWxlY3RlZExpbmVDb3VudCI6NzQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQ1Yzc0MDQyOTMzYzdhNGJmMDY0ZjAyNTA3M2IxOGVmNzBhMzdlN2Y0NDliNzQ2YzhkNjdkYTBiMmNhM2M4M2QiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAyOGUwMDZjZDE0YjllNjMxOGVmNDEyYjEzMWQ5OTc2NTA3ZmE5Yzk0YzAwOGY4OTM5ZTZjMzdmOTdkYWYzODgiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjY1MTdiMjQ4MDA3YWY3ZDE5MjQ0M2JjMjQwMmMyMTM2YzkzNmQ3YzlhY2IzZGUxYTU0MDExZDlkODVhOWE5NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImMxNzZjNjgwODA2ZWFhMDM4MDBmZWE5OTYxZWM3OTQ0NjgxYjZlMmJhNDQxMjFmYTE1OTQxOGNlYTY4Y2ZiOWYifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_3ecd9cb7eae64aed95ac69e7f65432a7",
+      "statement": "The production Firefox layout verifier audits the `/roadmap` route at 375×667, 820×1180, and 1280×800 in both light and dark themes, checks completed descriptions, titles, bars, and upcoming labels against their component-scoped semantic colors, and requires the description-to-evidence gap to be smaller than the evidence-to-next-title gap.",
+      "evidence": [
+        {
+          "resource": "repo://apps/github.io/scripts/verify-mobile-layout-browser.mjs#L13-L42",
+          "version": "repo-lines-v1:sha256:7dfcc8693bd2a7ad14d22ace9cf679e6e316822261c94e4137772b66a9b72766:eyJzZWxlY3RlZExpbmVDb3VudCI6MzAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjA2MjQxNjUwN2ZkMDUxNzFkNWRlN2M0NWZkNWJjYTk1NmY0MzMxYmE4NTYwNjA5YjM3MmIxNjRhMzlhNzY4NTgiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjkzZDI3N2YyN2I0ZjU4YTI1NmFhMDYyMmQyN2UxYjUyYjVmNmRhYTEzY2M3YTBkOGJjNDQ4MGQ5Nzk2ZTYzNWYiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6Ijg3MDNmNmZhNjA4YjU1ZjQ2ZDI0Mjc5NTBlZmY2ZjQyYzRjMGNhYzUxNmM2YTI0NDhiOTlkMWU2ZmYwY2NhYzQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6Ijg0MDQ1YjIwM2EwMTBhMTY1YjM3YmM1MWVjZjk2MjMxZGQwMjU0OTA2Yzc2ZTliMzM2ZThiMjE3ZmQ2ZGU5MzQifQ"
         },
         {
-          "resource": "repo://scripts/github-io-nx-release.test.mjs",
-          "version": "repo-file-v1:sha256:72b86b83d340c625f0628fa5c42943007c0321c26e21083bc2ebaa6c46705651"
+          "resource": "repo://apps/github.io/scripts/verify-mobile-layout-browser.mjs#L1611-L1629",
+          "version": "repo-lines-v1:sha256:ec71fe2187a406323364b9d00b1306a6743c2f0f9b7401b1a13f8854eaa932fb:eyJzZWxlY3RlZExpbmVDb3VudCI6MTksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImE5MzllZWU1N2NmYjM4OWNmMGRjMmNjMmU5ZmE5ZjA5MzZjZGUwY2E5ODJkODgxNDczOTIzYmM4ODMwNzE1NGYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImZlNmUwZTAyMzlhZDhmMmI4NDBiYzQ3OTI4ODk5YjZlZDllZmE1YmQxNDI1NGRkNTgzMzE3ODNkN2M1YTgwYTMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImNmNmFjNzUwMzE0ZWEwODQwMTMzZDZmZGY5NWEzMmEyNjVkZGNmMGY0M2YzNmI2ZWMzMDhmMTQ2MWM4OTUxODIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjA0NzFmM2I3NjFiNjBhYmU3NDc3N2Y5MTQ1MDk3YTFjYjk4NmZiODAwOGZlOTk0OTc3YTU2OTAzOTM0Y2JjOTkifQ"
         },
         {
-          "resource": "repo://scripts/github-io-release-recovery.test.mjs",
-          "version": "repo-file-v1:sha256:bc0ccf2206f05ae28d23fba5de9a5135d87f3e1aa38dcbed02f5d9554fa8bd86"
+          "resource": "repo://apps/github.io/scripts/verify-mobile-layout-browser.mjs#L762-L844",
+          "version": "repo-lines-v1:sha256:dfe3f1e806012bda9d7efc24dc8514a3f3e7fe13b415c26d636e43863ec15fd9:eyJzZWxlY3RlZExpbmVDb3VudCI6ODMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQwNGJmZjMzY2FmYWY1NTA0MzZiNWExNjk5MDZjMDBjYTEyZTI5ZWJlODY2NjA5NWM3NGE0NWNlODk0MmUxYzgiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjU1MjJjNDJjZDE5YzZkMDNkODA4YzQ1MjcyMDU1MjgyNWI3ZWExYzViNDkxYjIxODUxMWNhYzc0MTVjZjlkOWIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImRhMDk5MjI3NGY2ZWM2MDk3YzNmYjVmNjFjMmUyNTE4Nzc0MDdiZTU5YzEwZDUxMjAyYWI5OGQ3NGNlYWU2ZTkiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImZkMzJkNDhiYzllN2UwMzEzNTdhNWNmNGZmYzE2MzVjOThlYjA3OWQyNTBjNjBmNzdhMTJlMjgwNjAzZDhhNjEifQ"
         },
         {
-          "resource": "repo://scripts/sync-github-pages-artifact.test.mjs",
-          "version": "repo-file-v1:sha256:d3f15a2d4505635f1ddec8cf5289bae016314b53a8b9e5f496e542cfa1339800"
+          "resource": "repo://apps/github.io/scripts/verify-mobile-layout-browser.mjs#L879-L920",
+          "version": "repo-lines-v1:sha256:b483a363ea15a0b9e6f7fec419e114030eb0d5975010776cd2cb1ea2ec92f5d0:eyJzZWxlY3RlZExpbmVDb3VudCI6NDIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImRkMmFjY2VmNGZhYzM1N2E4OTFmYWY4MjFkNjIzZGU2Y2FmOTcwMmNlZWExN2I0ODc5MmRlZGQyYzA2ODMxZGEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjgyZTA3N2ZjY2RkYTY2ODc1OTk3YzhmZDQ1YmFmYjAyMmMxOGI1YzE1ZTBlYzZmNTJhODFkZjFhNjVhODQ3MTkiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjQwZWY0OWRhODg1MDVkYjc1MWM3NzM1N2M5YzAxY2JlZTkwM2UzMWRhMzE1ZDI4NDU5YTQ3ZGYyYTFjNDg5ODUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjFkYjNlN2NkMGMzYTYyMzA0NzY2ODE2MWQxMDRlOTlkODYyMDljYTNlNzc1NGEyNWIxMTlhNDkwNzg3ODA0MjYifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_d10570fc50be40b09d7f15ce3bd19560",
+      "statement": "The github.io release workflow runs lint, tests, and a production build with the approved release version before packaging the Pages artifact.",
+      "evidence": [
+        {
+          "resource": "repo://.github/workflows/release-github-io.yml#L131-L160",
+          "version": "repo-lines-v1:sha256:719ddec5ecad71fd1045bfc8f4ca05bd0549c21998e7dd450d5c9157d105d7ef:eyJzZWxlY3RlZExpbmVDb3VudCI6MzAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjM2NWUwMzRhODVkNWRiODViZmRjYjliNzBkZDUwNWFlZGY5NWJhYmM1MjI0NTRmMDU2ZjhmYmYwYWZjMzI3MjQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjBkMDVhODUwNDdhYTgwNTgwZTJmZmIwMWIyZDRkYjI0ZjUyMzcwYzBmNjJjNDNmMmI2NGYyN2MyNDFjZWRkMjUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjM5OTYzYWQ0YjQ2YTQ4ZGI3ZTc3ZmMzMzgxYTI3ZTQ0MDUzNWMxZTMyMmEzNDI4ODRmMTg0YmU0ZjAwMjAwNWMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjYwODIyNTIxNjIxM2FiZDQyZThkZDQ2OWFmMzkyMThlNzUxYTE5Mjg0MGEwMTU4YzY2NjFmODhhYWIxMjlmODAifQ"
         }
       ]
     }
   ],
   "verification": {
     "by": "openwiki/0.5.0",
-    "at": "2026-09-09T05:56:49.829Z"
+    "at": "2026-09-09T10:46:58.649Z"
   }
 }

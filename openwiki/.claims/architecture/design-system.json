@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:610d36e89d16918e94a5060bb6e68fe30a577f217701733b22b4f0eefee767fb",
+  "pageVersion": "sha256:daee80c6f526265318c4124c2b1aa20aa2926a4f24c9b32d626cfee299360dbd",
   "claims": [
     {
       "id": "claim_67f0a6341495404e8eefce3e45fd6173",
@@ -51,8 +51,8 @@
       "statement": "Both custom layout verification targets depend on build.",
       "evidence": [
         {
-          "resource": "repo://apps/github.io/project.json",
-          "version": "repo-file-v1:sha256:e6cbb5bbf23ce5abe3170e2071691b4fb184891130c54ed454107d1035ebe88c"
+          "resource": "repo://apps/github.io/project.json#L8-L27",
+          "version": "repo-lines-v1:sha256:d400e7f2b7d0aaa20c5fd87d2f107dba9afc2feca62ad7175bc5289b57bb7e84:eyJzZWxlY3RlZExpbmVDb3VudCI6MjAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjE4NmMwYzgzYzMxYzgyZTM4YTQyZDEzYjQ4YmU0ZmEzYTI4YmI1ODkxNTlkYjBiNTc2ZTZmYmQ2NmRkNDgwMWEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQ4OTNmNDBlMzc4MWViODk2YzgyZDA0NmEwODA2N2ExMWUzNWNkZjJmMWRmYWYyNmZlYTkwYjhkYjY2NzY0MTMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjE4YmMwMTQxNTQ1OTAyZGFlZTNjMTVhMTEwYTA1NmY2YzMwMjgxZWVmNTc2MWJmOTIzOGMxNmE5NjI5MDBiZjQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjoyLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImRmNzM5YTA2YzFjYmIxMjQ0ZTMzNjNkMzhiY2Y5ZmE1MGNlODRmZWQzOTljMjE5M2EzYzdmMDhkNTk5MThiMmEifQ"
         }
       ]
     },
@@ -106,25 +106,43 @@
     },
     {
       "id": "claim_f8e95311e76f400b8189c3b605818f6e",
-      "statement": "The global footer derives its displayed version from the compile-time application release boundary, renders it as Astryx Code inheriting supporting-text size and color in the leading region, and keeps the existing attribution in an end-aligned wrapping region.",
+      "statement": "The global footer derives its displayed semantic version from the github.io package manifest, renders it as Astryx Code inheriting supporting-text size and color in the leading region, and keeps the existing attribution in an end-aligned wrapping region.",
       "evidence": [
         {
-          "resource": "repo://apps/github.io/src/app/global-navigation-footer.spec.tsx#L7-L40",
-          "version": "repo-lines-v1:sha256:e7cb3b091472284155ed5af185db188aa158db9b9c8311172ffeed5fa377ddbf:eyJzZWxlY3RlZExpbmVDb3VudCI6MzQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjgwNTBkNDhjMTA0ZmJjZTFmYzQ0ZTZjNjAzMTNiZmVkYjBkMmJlODNkZGNiZDQ4MDA1YTBlN2FlYzYwNmE0MzkiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjNhM2U0NmY5NDI3NmI2ZjZmNGVkMWYwMmFmNzhiZWY2YTJlZTFjNDM5ZGQ1NTg0Yjk3Mzk0ODMxMzIxNGQyYjciLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6Ijc2MTY1MWFjYjdkZTU1OTczZmZjMDQ3ZTI4YjU2MzIyYzljZGY4OGU5NTcwNTg4YjcxMDEwY2U3MWQzMjdkMjciLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjMzNmVkOWQzMmYyMjcwMGEwMjIzNzc0OTM2YjY4MDE1MDI1OGFiZTE0MTI4OTUyZWFjZDVmYmMzYzY0MGY5NjEifQ"
+          "resource": "repo://apps/github.io/src/app/global-navigation-footer.spec.tsx#L15-L40",
+          "version": "repo-lines-v1:sha256:41d6ab1bb97350b203ab62a57452f01726486a111a311847f8834e9d6a36d612:eyJzZWxlY3RlZExpbmVDb3VudCI6MjYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjA4YmI5ODdlN2ZhZTFiNDIxMzU4OTAwN2IxODU2MjdiZTY2NmY0MDNhY2ZiYTQ0MTJmNDFlNzM0NzdhNzc4NzUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjNhM2U0NmY5NDI3NmI2ZjZmNGVkMWYwMmFmNzhiZWY2YTJlZTFjNDM5ZGQ1NTg0Yjk3Mzk0ODMxMzIxNGQyYjciLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImE2MmY5YjU3MzRiNzZiMGNmM2Q5Njc0N2ViMTM4YWJhMDYwZTJmN2NhNmJiZWFjNmZhMzEzNjc5Njk0YWE5YWIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjMzNmVkOWQzMmYyMjcwMGEwMjIzNzc0OTM2YjY4MDE1MDI1OGFiZTE0MTI4OTUyZWFjZDVmYmMzYzY0MGY5NjEifQ"
         },
         {
-          "resource": "repo://apps/github.io/src/app/global-navigation-footer.tsx#L76-L122",
-          "version": "repo-lines-v1:sha256:ba955a4e6710973de5fb671bfb02552ba7a64ed898751a48ff100675f228300e:eyJzZWxlY3RlZExpbmVDb3VudCI6NDcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImZjOWFjM2U0MWQ1YjA4YTBjZWUzYTRlMjVmZWZhMTdhNjg1M2U2MTBkOGZhZGJjZDBkMGYwMjI0ZDNjZjVhMWYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImFkODc5NzJmZDY3ODgxZWJhNzZmNDhhN2JiODVmMjdjZTIwNjdhZDBhYjFjN2UwYWEyNjllNDZhYzgyMjM2ZGQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjEzODNhYzE5OThhZDg4Mjg4NDVjNzBlZGZmOWQyNWZjYzc4OTU3ZjU1MzBhNzk4MzhkNTE4NGExZTE3MGZlNDIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjYzMzI5Njc4NjBhYjgyMjdkZWQzNjk4Yjk2ODMxZDJiNTIzZjgwODMzMmExOTIxYTExYzdiNjcyZDBmODgyNmIifQ"
+          "resource": "repo://apps/github.io/src/app/global-navigation-footer.tsx#L1-L15",
+          "version": "repo-lines-v1:sha256:5c77c8e7828a37d8a372ca06a46827619e26596387b5bd630e8f989b765ae385:eyJzZWxlY3RlZExpbmVDb3VudCI6MTUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijc0MTE1MzcwYmZjNjk5NTE4ZTZkZDhlODQ4ZTVmODY3ODA1NTg5OTJiMGIzOTRmMmIyOTg3OTU4YTIxYWI4ZGYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjVhNjQ5YWYyYWI4NmE2YjJjOThmYzYwMWNiYzU4YjUwNzU1YWU0NmYyZDQzODE1NjBkMWE2OThlOWYwNTE0OTMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjZkMWU5YTBiOWIyNTNmNjMzNTIzM2MyZWQyYzEwNzRhZTMzMWI4OGUzNjM1Y2IwODk3MDljNDZlNGQ4ZTA5NWUifQ"
         },
         {
-          "resource": "repo://apps/github.io/src/app/release-version.ts#L1-L7",
-          "version": "repo-lines-v1:sha256:0b9da6d3b6551e0b9a269f9ce7f9a032801c1f46b49a0e1c8a82e8c3d0508f5c:eyJzZWxlY3RlZExpbmVDb3VudCI6NywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZjZjNzA3ZjRlZmIzYzczMzFmMzNjZWU1MTM2Mjc5ZDczZjQ4MDEwM2I2NTcyMzIzMzhmY2U0OGJhYzQzZTdiNyIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiYmM0YTcyODRiYjU5NTZlODA2NWEwM2I2NDk4MTYzZDQwMGE4OGM2MjkyZDYxYjg4MGRiOGI0NWZmMjgyMzc0OSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjAsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjAsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSJ9"
+          "resource": "repo://apps/github.io/src/app/global-navigation-footer.tsx#L52-L74",
+          "version": "repo-lines-v1:sha256:c3d5e73d0d6b95021b305716d988a88c5eff3fd621f70594ba58385f92b98334:eyJzZWxlY3RlZExpbmVDb3VudCI6MjMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjU5ZGRlNTVmNzgxMWZjNDUyZjllZjQzNzk4MjkxOGVkMjE5NmQ3YTkyMWRlNDMzMmM0MTYzNDQ1ODZiZDU3MGUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImY2ZjViNDBiMTU4NDU3ZDE3ODY0ZjIxNzkwNzg2ZGQ1YTJlY2RiNjRiNjZhNjUxZjc4OGQ0ZTI1Y2QzMzAzZDIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjA5NGZjMGMxNzNkMWVjM2ZjNTAxZDdkZmE5Mjg1NTAxYzUyN2NmYjQ3MTI1ODNkYTNjYzM2MTgwNTY2YjRiZTMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImVlNmExYTMzZTFlYTk2NmEyNGYwODc2MmU3YTA4N2FlZTQxZGUwODJjNDFmZGU3MzA0YTUxYzExNDU1NDFiMTYifQ"
+        },
+        {
+          "resource": "repo://apps/github.io/src/app/global-navigation-footer.tsx#L76-L124",
+          "version": "repo-lines-v1:sha256:c6651712c50fb2e321edf29702448beb54fe16fe8769865fb0131e2a019a0741:eyJzZWxlY3RlZExpbmVDb3VudCI6NDksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImZjOWFjM2U0MWQ1YjA4YTBjZWUzYTRlMjVmZWZhMTdhNjg1M2U2MTBkOGZhZGJjZDBkMGYwMjI0ZDNjZjVhMWYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijk1ZWYwMWJjMDhkYmMzYjYzZTRlNzVlYTNkMjZhNWI5NDE4OTE4NzdlMjdhZDg5MTMyOWM4NDExZDdkOGRjNGQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjEzODNhYzE5OThhZDg4Mjg4NDVjNzBlZGZmOWQyNWZjYzc4OTU3ZjU1MzBhNzk4MzhkNTE4NGExZTE3MGZlNDIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjoxLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_ec95ed4bd2d74defb6cb0ee200d1f990",
+      "statement": "DevOpsRoadmapStepper delegates vertical ordered progress semantics, numbered indicators, completed and disabled states to Astryx Stepper/Step; app-owned styling spaces evidence and uses roadmap-scoped selectors to brighten completed titles and vertical bars while descriptions retain Astryx secondary color and semantic status remains unchanged.",
+      "evidence": [
+        {
+          "resource": "repo://apps/github.io/src/app/devops-roadmap/devops-roadmap-stepper.tsx#L20-L137",
+          "version": "repo-lines-v1:sha256:ca87bbbd06a08b829c83d4600c2f0b3d885d59dacf7cf54b05cb8a2b3ec0391f:eyJzZWxlY3RlZExpbmVDb3VudCI6MTE4LCJmaXJzdFNlbGVjdGVkTGluZUhhc2giOiJkNWViMDMyNGM2ZGU2YTE2ZDY1M2YyNGJmNGVkNzI3MTgwNGZlMjVlMTMxNGM5ODMxOWM3ZDljZDdjNDhjYjk4IiwibGFzdFNlbGVjdGVkTGluZUhhc2giOiIxZTc1YzcwZDk0NjM2MjVlMTA3OWZkOGZjOGVlNjJhZDJlOTJjNDJiZWFhYmZkODViNzhkOGUwYTQ5NzliOTRhIiwicHJlY2VkaW5nQ29udGV4dExpbmVDb3VudCI6MywicHJlY2VkaW5nQ29udGV4dEhhc2giOiI2NWQ3OWM3NmJkOGNiZmQyMTk2MzYzYjJlYjk0ZGNhYTY1NWIzZDBjOWNhOGYwNGM2NTQ3OTUzOTRkYmMzNDcxIiwiZm9sbG93aW5nQ29udGV4dExpbmVDb3VudCI6MywiZm9sbG93aW5nQ29udGV4dEhhc2giOiIzZDdkZWRjY2U2NTc4NWY0ODFkNGVlZmNmMzc4MDZmNDIyZGYzN2JmMTM0ZjdlOTcwZjRiYzkyZDA4ZmU2NzhhIn0"
+        },
+        {
+          "resource": "repo://apps/github.io/src/styles.css#L51-L64",
+          "version": "repo-lines-v1:sha256:29ddd584203b3eecb698e91e8925cb61a8ac69d0f90dc4ce338a0f5f5eb0dd26:eyJzZWxlY3RlZExpbmVDb3VudCI6MTQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg3MzI3NzVlZWU3NzAwMThkYjdkNzlkMDM1YTAxNjMwMTVhMDE2ZGUxN2ViYmY4ODg0OTAyZWM2ZDFkOWZjZjIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg3MzI3NzVlZWU3NzAwMThkYjdkNzlkMDM1YTAxNjMwMTVhMDE2ZGUxN2ViYmY4ODg0OTAyZWM2ZDFkOWZjZjIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImIwNTQzNjYwODE0Y2RkYmEyZDc2NzUwZDE4ZGUwNmFjOGY5MjhjY2E0MDRlMjBlYjI5ZDY3ZDY0N2JlNjdmY2IiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjU1MWI4YTUyMTVhODMyZDZkNWIzNTc3MjZiNDAxZTYwMTU4YTIyZDdlYmNiODFlOGM1Y2I5YWZkNzFmYmFkZWMifQ"
         }
       ]
     }
   ],
   "verification": {
     "by": "openwiki/0.5.0",
-    "at": "2026-09-09T05:07:58.190Z"
+    "at": "2026-09-09T10:46:58.649Z"
   }
 }

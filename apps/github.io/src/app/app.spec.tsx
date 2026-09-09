@@ -244,13 +244,92 @@ describe('AppRoutes', () => {
   );
 
   it('renders the DevOps roadmap page for its clean route', () => {
-    const { getByRole, getByText } = renderAppRoutes('/roadmap');
+    const { container, getByRole, getByText, queryByRole } =
+      renderAppRoutes('/roadmap');
+    const stepper = getByRole('list', { name: 'DevOps Roadmap' });
+    const steps = within(stepper)
+      .getAllByRole('listitem')
+      .filter((step) => step.parentElement === stepper);
+    const expectedTitles = [
+      'Learn a Programming Language',
+      'Operating System',
+      'Terminal Knowledge',
+      'Version Control Systems',
+      'VCS Hosting',
+      'Containers',
+      'What is and how to setup X ?',
+      'Networking & Protocols',
+      'Cloud Providers',
+      'Serverless',
+      'Provisioning',
+      'Configuration Management',
+      'CI / CD Tools',
+      'Secret Management',
+      'Infrastructure Monitoring',
+      'Logs Management',
+      'Container Orchestration',
+      'Application Monitoring',
+      'Artifact Management',
+      'GitOps',
+      'Service Mesh',
+      'Cloud Design Patterns',
+    ];
 
     expect(
       getByRole('heading', { level: 2, name: 'DevOps roadmap' }),
     ).toBeTruthy();
     expect(getByText('About this roadmap')).toBeTruthy();
-    expect(getByRole('group', { name: 'DevOps roadmap diagram' })).toBeTruthy();
+    expect(steps).toHaveLength(22);
+
+    for (const [index, title] of expectedTitles.entries()) {
+      expect(within(steps[index]).getByText(title)).toBeTruthy();
+    }
+
+    expect(within(steps[5]).getByText('completed')).toBeTruthy();
+    expect(
+      within(steps[5]).getByText(
+        'Package applications with their dependencies to create portable, isolated, and repeatable runtime environments.',
+      ),
+    ).toBeTruthy();
+    expect(
+      within(steps[5]).getByRole('link', { name: /Docker/i }).getAttribute(
+        'href',
+      ),
+    ).toBe('/skills/docker');
+
+    expect(within(steps[18]).getByText('completed')).toBeTruthy();
+    expect(
+      within(steps[18]).getByText(
+        'Store, version, secure, and distribute build outputs through controlled artifact repositories.',
+      ),
+    ).toBeTruthy();
+    expect(
+      within(steps[18]).getByRole('link', { name: 'Amazon ECR' }).getAttribute(
+        'href',
+      ),
+    ).toBe('/skills/amazon-ecr');
+    expect(
+      within(steps[18])
+        .getByRole('link', { name: 'GitHub Packages' })
+        .getAttribute('href'),
+    ).toBe('/skills/github-packages');
+    expect(steps[20].getAttribute('aria-disabled')).toBe('true');
+
+    expect(within(steps[16]).getByText('completed')).toBeTruthy();
+    expect(
+      within(steps[16])
+        .getByRole('doc-noteref', { name: 'Citation 1: CKA' })
+        .getAttribute('href'),
+    ).toBe(
+      'https://ti-user-certificates.s3.amazonaws.com/e0df7fbf-a057-42af-8a1f-590912be5460/10cf307b-dcb8-5917-a301-c854a583ed97-gunwoo-kim-02c68021-40fe-473f-8087-6309221395ca-certificate.pdf',
+    );
+
+    expect(within(steps[21]).getByText('completed')).toBeTruthy();
+    expect(within(steps[21]).getByText('Retry')).toBeTruthy();
+    expect(
+      queryByRole('group', { name: 'DevOps roadmap diagram' }),
+    ).toBeNull();
+    expect(container.querySelector('.react-flow__viewport')).toBeNull();
   });
 
   it('navigates from detail search to the selected skill route', async () => {

@@ -71,6 +71,7 @@ describe('skill-list data', () => {
       'git',
       'github',
       'github-actions',
+      'github-packages',
       'go',
       'grafana',
       'helm',
@@ -100,6 +101,13 @@ describe('skill-list data', () => {
   it('uses the official Argo CD product title without the generic Argo duplicate', () => {
     expect(skills.map((skill) => skill.name)).toContain('Argo CD');
     expect(skills.map((skill) => skill.name)).not.toContain('Argo');
+  });
+
+  it('describes GitHub Packages as the npm package registry product', () => {
+    expect(skills.find((skill) => skill.id === 'github-packages')).toMatchObject({
+      name: 'GitHub Packages',
+      description: expect.stringContaining('npm'),
+    });
   });
 
   it('includes product-level DORA capability skill evidence in the local catalog', () => {

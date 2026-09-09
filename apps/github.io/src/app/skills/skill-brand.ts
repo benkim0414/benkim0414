@@ -124,6 +124,7 @@ const skillIcons: Readonly<Record<string, SimpleIcon>> = {
   Git: siGit,
   GitHub: siGithub,
   'GitHub API': siGithub,
+  'GitHub Packages': siGithub,
   'GitHub Actions': siGithubactions,
   GitLab: siGitlab,
   'GitLab CI': siGitlab,

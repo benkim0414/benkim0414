@@ -1,4 +1,4 @@
-import { render, screen, within } from '@testing-library/react';
+import { fireEvent, render, screen, within } from '@testing-library/react';
 import { Token } from '@astryxdesign/core/Token';
 
 import { cncfCertificationBadges } from '../certifications/cncf-certification-badges';
@@ -265,7 +265,7 @@ describe('CapabilityEvidence', () => {
     expect(screen.getByText('Active certification')).toBeTruthy();
   });
 
-  it('forwards complete certification metadata to the hover card', () => {
+  it('forwards complete certification metadata to the hover card', async () => {
     render(
       <CapabilityEvidence
         evidence={evidence({
@@ -283,7 +283,12 @@ describe('CapabilityEvidence', () => {
       />,
     );
 
-    const hoverCard = screen.getByRole('dialog', { hidden: true });
+    fireEvent.mouseEnter(
+      screen.getByRole('doc-noteref', { name: 'Citation 1: CKA' }),
+    );
+    const hoverCard = await screen.findByRole('dialog', {
+      name: 'CKA certification details',
+    });
     expect(
       within(hoverCard).getByText('Certified Kubernetes Administrator'),
     ).toBeTruthy();
