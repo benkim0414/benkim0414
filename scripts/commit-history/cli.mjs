@@ -1,13 +1,17 @@
 #!/usr/bin/env node
 
 import { readFileSync } from 'node:fs';
+import { resolve } from 'node:path';
 
 import { snapshot } from './inventory.mjs';
 import { validateLedger } from './ledger.mjs';
+import { prepareRehearsal, rehearse } from './rehearsal.mjs';
 
 const HELP = `Usage:
   commit-history inventory --source PATH
   commit-history check-ledger --inventory FILE --ledger FILE
+  commit-history prepare --source PATH --inventory FILE --ledger FILE --run-directory PATH --output FILE
+  commit-history rehearse --backup FILE --destination PATH --inventory FILE --ledger FILE --approval FILE --output FILE
 `;
 
 function options(args, names) {
@@ -58,6 +62,67 @@ function main(args) {
       requireResolved: true,
     });
     process.stdout.write(`ledger valid: ${validated.size} decisions\n`);
+    return;
+  }
+  if (command === 'prepare') {
+    const parsed = options(
+      rest,
+      new Set([
+        '--source',
+        '--inventory',
+        '--ledger',
+        '--run-directory',
+        '--output',
+      ]),
+    );
+    const inventory = readJson(parsed['--inventory'], 'inventory');
+    const ledger = readJson(parsed['--ledger'], 'ledger');
+    const approval = prepareRehearsal({
+      source: parsed['--source'],
+      runDirectory: parsed['--run-directory'],
+      inventory,
+      ledger,
+    });
+    if (resolve(parsed['--output']) !== approval.approvalPath) {
+      throw new Error(
+        `prepare output must be the protected approval path ${approval.approvalPath}`,
+      );
+    }
+    process.stdout.write(
+      `prepared verified backup and approval package at ${approval.approvalPath}\n`,
+    );
+    return;
+  }
+  if (command === 'rehearse') {
+    const parsed = options(
+      rest,
+      new Set([
+        '--backup',
+        '--destination',
+        '--inventory',
+        '--ledger',
+        '--approval',
+        '--output',
+      ]),
+    );
+    const inventory = readJson(parsed['--inventory'], 'inventory');
+    const ledger = readJson(parsed['--ledger'], 'ledger');
+    const approval = readJson(parsed['--approval'], 'approval');
+    if (resolve(parsed['--output']) !== approval.reportPath) {
+      throw new Error(
+        `rehearse output must be the approved report path ${approval.reportPath}`,
+      );
+    }
+    const report = rehearse({
+      backup: parsed['--backup'],
+      destination: parsed['--destination'],
+      inventory,
+      ledger,
+      approval,
+    });
+    process.stdout.write(
+      `rehearsal verified: ${report.mapping.length} decisions; report at ${approval.reportPath}\n`,
+    );
     return;
   }
   throw new Error(`unknown command ${command}`);

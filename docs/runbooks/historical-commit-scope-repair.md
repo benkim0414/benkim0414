@@ -1,0 +1,81 @@
+# Historical commit scope repair rehearsal
+
+This runbook prepares a recoverable local backup and, only after direct approval of an exact package, rehearses message-only history changes in an isolated repository. It never pushes, updates source refs, or authorizes publication.
+
+## Permission boundary
+
+The automated tests use disposable repositories under the system temporary directory. Their success does not authorize running `prepare` or `rehearse` against repository history. A real run belongs to the later freeze-and-approval task and requires direct approval of the generated executable, arguments, paths, frozen tips, input digests, backup digest, and signature policy.
+
+An approval boolean is not evidence. Populate `approvalEvidence` only from the user's explicit response to the exact generated package:
+
+```json
+{
+  "kind": "direct-user-approval",
+  "statement": "<the user's approval of this exact package>"
+}
+```
+
+Do not reuse approval after any source ref, worktree state, input, path, executable, argument, or backup changes.
+
+## Prepare a backup
+
+Start with a complete, resolved inventory and ledger. Choose a new empty protected run directory outside the source Git directory. The prepare command persists canonical input copies, `backup.bundle`, a restored bare repository, and `approval.json`:
+
+```text
+node scripts/commit-history/cli.mjs prepare \
+  --source <absolute-source-path> \
+  --inventory <inventory.json> \
+  --ledger <ledger.json> \
+  --run-directory <empty-run-directory> \
+  --output <run-directory>/approval.json
+```
+
+Preparation validates the ledger, freezes every inventoried target/tracking/preserve ref, verifies the bundle, fetches every direct ref explicitly into `restored.git`, recreates symbolic tracking refs, runs strict fsck, verifies every exact tip, and proves every inventoried commit can be read back. Recovery refs such as `refs/stash` and `refs/original/*` remain exact old OIDs.
+
+Detached worktree history with no containing ref is rejected before backup creation. The tool will not create a temporary source ref. Resolve that condition deliberately, then generate a new inventory and ledger.
+
+Git bundles exclude tracked and untracked worktree changes. The approval package records each worktree's porcelain state, but those files must be preserved separately before any later reconciliation. The tool never stashes, cleans, resets, or deletes them.
+
+## Inspect and approve
+
+Before requesting approval, inspect:
+
+```text
+git -C <absolute-source-path> bundle verify <run-directory>/backup.bundle
+git -C <run-directory>/restored.git fsck --full --strict
+git -C <run-directory>/restored.git for-each-ref --sort=refname
+```
+
+Compare `approval.json` with the final inventory and ledger. Confirm the fixed destination is empty and differs from both the source and its common Git directory. Annotated tags require a separate approved policy and are rejected by this default workflow. Direct commit signatures fail closed if a rewrite would change the signed commit identity; mergetag-bound parent remaps also fail closed.
+
+## Run an approved rehearsal
+
+After direct approval has been recorded without changing any other package field, run only the exact `executable` and `argv` from `approval.json`. Its rendered form is:
+
+```text
+node scripts/commit-history/cli.mjs rehearse \
+  --backup <run-directory>/backup.bundle \
+  --destination <run-directory>/rewritten.git \
+  --inventory <run-directory>/inventory.json \
+  --ledger <run-directory>/ledger.json \
+  --approval <run-directory>/approval.json \
+  --output <run-directory>/report.json
+```
+
+The rehearsal restores the verified bundle into a second bare repository, writes raw transformed commit objects, independently verifies the full mapping, and updates only inventoried target/tracking refs in one guarded local transaction. Preserve refs retain their old OIDs. Symbolic tracking refs retain their exact targets. The source's refs and worktree state are checked before and after.
+
+There is no remote or push option. Publication and source-history changes require later, separate gates.
+
+## Failure and restoration
+
+Do not delete or repair a failed real rehearsal automatically. Preserve the run directory and diagnostics for review. Never weaken a failed digest, tip, signature, tag, graph, or source-state check.
+
+The verified backup can be inspected or restored into another new empty bare repository without touching the source:
+
+```text
+git init --bare <new-restore-path>
+git -C <new-restore-path> fetch --no-tags <run-directory>/backup.bundle <exact-ref>:<exact-ref>
+git -C <new-restore-path> fsck --full --strict
+```
+
+Repeat the fetch once for each direct ref listed in `approval.json`, then recreate each recorded symbolic ref with `git symbolic-ref`. Verify every restored tip against the approval package before considering it a recovery copy.
