@@ -159,7 +159,7 @@ export const devOpsRoadmapSkillInventoryNodes = [
     id: 'artifact-management',
     title: 'Artifact Management',
     description: devOpsRoadmapDescriptions['artifact-management'],
-    evidenceSkillTokens: [],
+    evidenceSkillTokens: ['Amazon ECR', 'GitHub Packages'],
     coveredRoadmapConcepts: [],
   },
   {

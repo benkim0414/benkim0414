@@ -297,12 +297,22 @@ describe('AppRoutes', () => {
       ),
     ).toBe('/skills/docker');
 
-    expect(steps[18].getAttribute('aria-disabled')).toBe('true');
+    expect(within(steps[18]).getByText('completed')).toBeTruthy();
     expect(
       within(steps[18]).getByText(
         'Store, version, secure, and distribute build outputs through controlled artifact repositories.',
       ),
     ).toBeTruthy();
+    expect(
+      within(steps[18]).getByRole('link', { name: 'Amazon ECR' }).getAttribute(
+        'href',
+      ),
+    ).toBe('/skills/amazon-ecr');
+    expect(
+      within(steps[18])
+        .getByRole('link', { name: 'GitHub Packages' })
+        .getAttribute('href'),
+    ).toBe('/skills/github-packages');
     expect(steps[20].getAttribute('aria-disabled')).toBe('true');
 
     expect(within(steps[16]).getByText('completed')).toBeTruthy();

@@ -239,9 +239,10 @@ describe('devOpsRoadmapSkillInventoryNodes', () => {
     expect(
       nodesById.get('application-monitoring')?.evidenceSkillTokens,
     ).toEqual(['Prometheus']);
-    expect(nodesById.get('artifact-management')?.evidenceSkillTokens).toEqual(
-      [],
-    );
+    expect(nodesById.get('artifact-management')?.evidenceSkillTokens).toEqual([
+      'Amazon ECR',
+      'GitHub Packages',
+    ]);
     expect(nodesById.get('gitops')?.evidenceSkillTokens).toEqual(['ArgoCD']);
     expect(nodesById.get('service-mesh')?.evidenceSkillTokens).toEqual([]);
     expect(nodesById.get('service-mesh')?.evidenceSkillTokens).not.toContain(
