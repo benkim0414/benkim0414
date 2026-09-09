@@ -382,7 +382,7 @@ function assertSourceUnchanged(source, beforeRefs, beforeWorktrees, inventory) {
   if (!sourceRefState(source).equals(beforeRefs)) {
     fail('source refs changed during rehearsal operation');
   }
-  const afterWorktrees = currentWorktrees(inventory);
+  const afterWorktrees = assertFrozenWorktrees(inventory);
   if (JSON.stringify(afterWorktrees) !== JSON.stringify(beforeWorktrees)) {
     fail('source worktrees changed during rehearsal operation');
   }

@@ -422,6 +422,70 @@ exec "$REAL_GIT_UNDER_TEST" "$@"
   }
 });
 
+test('rehearse detects a detached worktree added during the operation', (t) => {
+  const state = prepareFixture(t);
+  const wrapperDirectory = scratchDirectory(t);
+  const lateWorktree = join(scratchDirectory(t), 'late-detached');
+  const wrapper = join(wrapperDirectory, 'git');
+  const realGit = process.env.PATH.split(delimiter)
+    .map((directory) => join(directory, 'git'))
+    .find((candidate) => existsSync(candidate));
+  assert.ok(realGit, 'real git executable not found');
+  writeFileSync(
+    wrapper,
+    `#!/bin/sh
+if [ "$1" = "update-ref" ] && [ "$2" = "--stdin" ] && [ ! -e "$WORKTREE_RACE_MARKER" ]; then
+  "$REAL_GIT_UNDER_TEST" "$@"
+  status=$?
+  if [ "$status" -eq 0 ]; then
+    : > "$WORKTREE_RACE_MARKER"
+    "$REAL_GIT_UNDER_TEST" -C "$WORKTREE_RACE_SOURCE" worktree add --quiet --detach "$WORKTREE_RACE_PATH" "$WORKTREE_RACE_OID"
+  fi
+  exit "$status"
+fi
+exec "$REAL_GIT_UNDER_TEST" "$@"
+`,
+    { mode: 0o755 },
+  );
+  const variableNames = [
+    'PATH',
+    'REAL_GIT_UNDER_TEST',
+    'WORKTREE_RACE_MARKER',
+    'WORKTREE_RACE_SOURCE',
+    'WORKTREE_RACE_PATH',
+    'WORKTREE_RACE_OID',
+  ];
+  const oldEnvironment = Object.fromEntries(
+    variableNames.map((name) => [name, process.env[name]]),
+  );
+  process.env.PATH = `${wrapperDirectory}${delimiter}${process.env.PATH}`;
+  process.env.REAL_GIT_UNDER_TEST = realGit;
+  process.env.WORKTREE_RACE_MARKER = join(wrapperDirectory, 'marker');
+  process.env.WORKTREE_RACE_SOURCE = state.fixture.cwd;
+  process.env.WORKTREE_RACE_PATH = lateWorktree;
+  process.env.WORKTREE_RACE_OID = state.root;
+
+  try {
+    assert.throws(
+      () =>
+        rehearse({
+          backup: state.approvalPackage.backupPath,
+          destination: state.approvalPackage.destination,
+          inventory: state.inventory,
+          ledger: state.ledger,
+          approval: approve(state.approvalPackage),
+          invocation: invocationFor(state.approvalPackage),
+        }),
+      /worktree set changed/,
+    );
+  } finally {
+    for (const [name, value] of Object.entries(oldEnvironment)) {
+      if (value === undefined) delete process.env[name];
+      else process.env[name] = value;
+    }
+  }
+});
+
 test('rehearse rejects a nonempty destination', (t) => {
   const state = prepareFixture(t);
   mkdirSync(state.approvalPackage.destination);
