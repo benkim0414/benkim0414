@@ -21,7 +21,7 @@ const NO_ACTIVE_STEP = -1;
 
 const styles = stylex.create({
   evidenceGroup: {
-    marginBlockStart: `calc(-1 * ${spacingVars['--spacing-1']})`,
+    marginBlockStart: spacingVars['--spacing-2'],
   },
   evidenceList: {
     display: 'flex',
@@ -52,7 +52,7 @@ function StepEvidence({ item }: { readonly item: DevOpsRoadmapItem }) {
   const evidenceSkillTokens = item.evidenceSkillTokens ?? item.skills ?? [];
 
   return (
-    <VStack gap={2} xstyle={styles.evidenceGroup}>
+    <VStack data-roadmap-evidence="" gap={2} xstyle={styles.evidenceGroup}>
       {item.certifications?.length ? (
         <HStack
           as="ul"
