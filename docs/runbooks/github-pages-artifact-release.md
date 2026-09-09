@@ -46,17 +46,62 @@ gh secret set PAGES_DEPLOY_KEY \
 ```
 
 Delete the local key files after the public key is registered and the private
-key secret is stored. In the source repository's **Settings → Actions →
-General**, enable **Allow GitHub Actions to create and approve pull requests**.
+key secret is stored. The deployment job uses the `github-pages` Environment;
+apply the intended Environment protection before the first release.
 
 ## Verify the first deployment
 
-Run **Deploy GitHub Pages artifact** with `workflow_dispatch`. The seeded
-README is replaced by the built site. Verify that the target root contains only
-static build output plus `.nojekyll` (no `package.json`), then open `/`,
-`/skills`, and a representative skill-detail deep link at
-`https://benkim0414.github.io/`.
+After the migration is integrated into `main`, select its full 40-character
+first-parent SHA. Preview that exact source with
+`pnpm release:github.io bootstrap --start 8acdd81 --target <reviewed-main-sha>`
+and obtain handoff approval for the resulting SHA/version pair. A new target
+requires a fresh preview and approval.
 
-For the first semantic release, merge a patch changeset and the generated PR
-titled `chore(release): version github.io`. Confirm exactly one
-`github.io@X.Y.Z` tag and GitHub Release point to that PR's merge commit.
+After that approval, dispatch **Release github.io** on `main` with
+`bootstrap: true`, `source_sha: <reviewed-main-sha>`, and
+`reviewed_version: <approved-version>`. Bootstrap requires both explicit inputs;
+the workflow checks first-parent membership and compares the replayed version
+before installing dependencies or building. If `main` advances before dispatch,
+the supplied SHA still selects the approved source. Changing the supplied
+version or omitting either input fails before publication.
+
+The seeded README is replaced by the built site. Verify the live footer,
+`.github-pages-release.json`, the `github.io@<approved-version>` tag, and GitHub
+Release all identify the approved source and version. The target root contains
+static build output, `.nojekyll`, and the release metadata, with no source
+`package.json`. Open `/`, `/skills`, and a representative skill-detail deep
+link at `https://benkim0414.github.io/`.
+
+## Normal releases and recovery
+
+Ordinary `main` pushes replay qualifying `github.io` integrations since the
+latest project tag. Ignored histories and obsolete first-parent targets stop
+successfully before building or publishing. A missing baseline requires the
+explicit bootstrap above.
+
+The coordinator supplies the candidate project/version to the pinned Nx 23
+Release API before building. Nx resolves the release graph, normal tag baseline,
+candidate version, and tag format; disagreement fails the build gate. Its dry
+run disables staging, commits, tags, pushes, and lockfile updates. Only the
+ignored `dist/release-manifests/github.io/package.json` is prepared for version
+actions. A small Nx version-action adapter reads that generated `0.0.0` baseline
+for bootstrap; source manifests never supply the production version.
+
+The workflow persists the archive and canonical release record as a 90-day
+Actions artifact before creating a tag. Release notes use only the accepted
+commits saved in that record. Existing Release notes and assets must match on
+retry; assets are never overwritten.
+
+For recovery, dispatch **Release github.io** with the original `source_sha` and
+leave `bootstrap` false. Saved state restores the original version and bootstrap
+flag, so recovery does not require a fresh version approval and never rebuilds.
+Missing, expired, ambiguous, or corrupt evidence fails explicitly. Completed
+delivery skips synchronization, and retrying an older release after a newer
+deployment leaves the newer deployment untouched.
+
+`pnpm test:release:github.io` includes temporary Git/filesystem workflow tests
+with controlled GitHub and build boundaries, plus separate real Nx and Vite
+boundary tests. These cover failure after persistence, tag creation, Release
+creation, each asset upload, publication, Pages synchronization, and delivery.
+They do not verify live Actions retention, Environment protection, GitHub API
+availability, or the deployed footer; those remain first-run handoff checks.
