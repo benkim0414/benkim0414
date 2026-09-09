@@ -11,15 +11,16 @@ An approval boolean is not evidence. Populate `approvalEvidence` only from the u
 ```json
 {
   "kind": "direct-user-approval",
-  "statement": "<the user's approval of this exact package>"
+  "statement": "<the user's approval of this exact package>",
+  "approvalDigest": "<the approvalDigest from this exact package>"
 }
 ```
 
-Do not reuse approval after any source ref, worktree state, input, path, executable, argument, or backup changes.
+The tool recomputes the canonical digest of every immutable package field and requires the evidence to identify that exact digest. This binding records which package was approved, but does not authenticate the human statement by itself; the controller must record the user's actual approval. Do not reuse approval after any source ref, worktree set or state, input, path, executable, argument, or backup changes.
 
 ## Prepare a backup
 
-Start with a complete, resolved inventory and ledger. Choose a new empty protected run directory outside the source Git directory. The prepare command persists canonical input copies, `backup.bundle`, a restored bare repository, and `approval.json`:
+Start with a complete, resolved inventory and ledger. Choose a new empty protected run directory outside Git storage. A source-local path is permitted only at `.history-repair/<run-id>`; canonical Git-directory descendants, symlink aliases, and unsafe ancestor paths are rejected before writes. The prepare command persists canonical input copies, `backup.bundle`, a restored bare repository, and `approval.json`:
 
 ```text
 node scripts/commit-history/cli.mjs prepare \
@@ -50,7 +51,7 @@ Compare `approval.json` with the final inventory and ledger. Confirm the fixed d
 
 ## Run an approved rehearsal
 
-After direct approval has been recorded without changing any other package field, run only the exact `executable` and `argv` from `approval.json`. Its rendered form is:
+After direct approval has been recorded without changing any other package field, run only the exact `executable` and `argv` from `approval.json`. Rehearsal compares the normalized actual invocation—including inventory, ledger, approval, backup, destination, and output paths—with those approved arguments. Its rendered form is:
 
 ```text
 node scripts/commit-history/cli.mjs rehearse \

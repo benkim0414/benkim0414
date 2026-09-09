@@ -2,10 +2,13 @@
 
 import { readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
+import { fileURLToPath } from 'node:url';
 
 import { snapshot } from './inventory.mjs';
 import { validateLedger } from './ledger.mjs';
 import { prepareRehearsal, rehearse } from './rehearsal.mjs';
+
+const CLI = fileURLToPath(import.meta.url);
 
 const HELP = `Usage:
   commit-history inventory --source PATH
@@ -119,6 +122,10 @@ function main(args) {
       inventory,
       ledger,
       approval,
+      invocation: {
+        executable: process.execPath,
+        argv: [CLI, command, ...rest],
+      },
     });
     process.stdout.write(
       `rehearsal verified: ${report.mapping.length} decisions; report at ${approval.reportPath}\n`,

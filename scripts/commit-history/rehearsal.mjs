@@ -8,7 +8,15 @@ import {
   statSync,
   writeFileSync,
 } from 'node:fs';
-import { join, resolve } from 'node:path';
+import {
+  basename,
+  dirname,
+  isAbsolute,
+  join,
+  relative,
+  resolve,
+  sep,
+} from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 import { git } from './git.mjs';
@@ -22,6 +30,7 @@ const APPROVAL_KEYS = [
   'executable',
   'argv',
   'source',
+  'sourceGitDirectory',
   'sourceCommonDirectory',
   'runDirectory',
   'destination',
@@ -40,6 +49,7 @@ const APPROVAL_KEYS = [
   'signaturePolicy',
   'backupVerified',
   'warnings',
+  'approvalDigest',
   'approvalEvidence',
 ];
 
@@ -103,6 +113,89 @@ function commonDirectory(source) {
   return realpathSync(resolve(source, output));
 }
 
+function gitDirectory(source) {
+  return realpathSync(
+    git(source, ['rev-parse', '--absolute-git-dir']).toString('utf8').trim(),
+  );
+}
+
+function canonicalPath(path) {
+  let existing = resolve(path);
+  const missing = [];
+  while (!existsSync(existing)) {
+    const parent = dirname(existing);
+    if (parent === existing) fail(`cannot resolve path ${path}`);
+    missing.unshift(basename(existing));
+    existing = parent;
+  }
+  return resolve(realpathSync(existing), ...missing);
+}
+
+function containsPath(parent, child) {
+  const difference = relative(parent, child);
+  return (
+    difference === '' ||
+    (!isAbsolute(difference) &&
+      difference !== '..' &&
+      !difference.startsWith(`..${sep}`))
+  );
+}
+
+function pathsOverlap(left, right) {
+  return containsPath(left, right) || containsPath(right, left);
+}
+
+function assertOutsideGitStorage(
+  path,
+  sourceGitDirectory,
+  sourceCommonDirectory,
+) {
+  if (
+    pathsOverlap(path, sourceGitDirectory) ||
+    pathsOverlap(path, sourceCommonDirectory)
+  ) {
+    fail(`protected path overlaps source Git storage: ${path}`);
+  }
+}
+
+function assertSafeRunDirectory(
+  runDirectory,
+  source,
+  sourceGitDirectory,
+  sourceCommonDirectory,
+) {
+  const runPath = canonicalPath(runDirectory);
+  assertOutsideGitStorage(runPath, sourceGitDirectory, sourceCommonDirectory);
+  if (containsPath(runPath, source)) {
+    fail('run directory cannot be source or an ancestor of source');
+  }
+  if (containsPath(source, runPath)) {
+    const parts = relative(source, runPath).split(sep);
+    if (
+      parts.length !== 2 ||
+      parts[0] !== '.history-repair' ||
+      parts[1] === ''
+    ) {
+      fail('source-local run directory must be .history-repair/<run-id>');
+    }
+  }
+  return runPath;
+}
+
+function listedWorktreePaths(source) {
+  const records = git(source, ['worktree', 'list', '--porcelain', '-z'])
+    .toString('utf8')
+    .split('\0\0')
+    .filter(Boolean);
+  return records.map((record) => {
+    const field = record
+      .split('\0')
+      .find((entry) => entry.startsWith('worktree '));
+    if (!field) fail('worktree listing omitted a path');
+    return realpathSync(field.slice('worktree '.length));
+  });
+}
+
 function currentWorktrees(inventory) {
   return inventory.worktrees.map((worktree) => {
     const head = git(worktree.path, ['rev-parse', '--verify', 'HEAD'])
@@ -129,6 +222,13 @@ function currentWorktrees(inventory) {
 }
 
 function assertFrozenWorktrees(inventory) {
+  const expectedPaths = inventory.worktrees
+    .map(({ path }) => realpathSync(path))
+    .sort();
+  const actualPaths = listedWorktreePaths(inventory.worktrees[0].path).sort();
+  if (JSON.stringify(actualPaths) !== JSON.stringify(expectedPaths)) {
+    fail('worktree set changed since inventory');
+  }
   const current = currentWorktrees(inventory);
   for (const [index, expected] of inventory.worktrees.entries()) {
     const actual = current[index];
@@ -293,11 +393,14 @@ export function prepareRehearsal({ source, runDirectory, inventory, ledger }) {
   assertNoDetachedOnlyCommits(inventory);
 
   const sourcePath = realpathSync(source);
-  const runPath = resolve(runDirectory);
+  const sourceGitDirectory = gitDirectory(sourcePath);
   const sourceCommonDirectory = commonDirectory(sourcePath);
-  if (runPath === sourcePath || runPath === sourceCommonDirectory) {
-    fail('run directory must differ from source and common Git directory');
-  }
+  const runPath = assertSafeRunDirectory(
+    runDirectory,
+    sourcePath,
+    sourceGitDirectory,
+    sourceCommonDirectory,
+  );
 
   const { raw: beforeRefs, refs } = frozenRefs(sourcePath, inventory);
   const beforeWorktrees = assertFrozenWorktrees(inventory);
@@ -330,11 +433,12 @@ export function prepareRehearsal({ source, runDirectory, inventory, ledger }) {
   const warnings = [
     'Git bundles exclude uncommitted files; preserve listed worktree changes separately before any later reconciliation.',
   ];
-  const approvalPackage = {
+  const immutablePackage = {
     schemaVersion: 1,
     executable: process.execPath,
     argv: rehearsalArgv(paths),
     source: sourcePath,
+    sourceGitDirectory,
     sourceCommonDirectory,
     runDirectory: runPath,
     ...paths,
@@ -347,6 +451,10 @@ export function prepareRehearsal({ source, runDirectory, inventory, ledger }) {
     signaturePolicy: 'reject',
     backupVerified: true,
     warnings,
+  };
+  const approvalPackage = {
+    ...immutablePackage,
+    approvalDigest: digestJson(immutablePackage),
     approvalEvidence: null,
   };
   writeJson(paths.approvalPath, approvalPackage);
@@ -364,11 +472,28 @@ function assertRecord(value, label, keys) {
   }
 }
 
+function immutableApprovalRecord(approval) {
+  const {
+    approvalDigest: _approvalDigest,
+    approvalEvidence: _approvalEvidence,
+    ...immutable
+  } = approval;
+  return immutable;
+}
+
 function validateApproval(approval) {
   assertRecord(approval, 'approval', APPROVAL_KEYS);
   if (approval.schemaVersion !== 1) fail('approval schemaVersion must be 1');
+  if (
+    typeof approval.approvalDigest !== 'string' ||
+    !/^[0-9a-f]{64}$/.test(approval.approvalDigest) ||
+    digestJson(immutableApprovalRecord(approval)) !== approval.approvalDigest
+  ) {
+    fail('approval package digest does not match immutable package fields');
+  }
   if (approval.approvalEvidence !== null) {
     assertRecord(approval.approvalEvidence, 'approval evidence', [
+      'approvalDigest',
       'kind',
       'statement',
     ]);
@@ -378,6 +503,7 @@ function validateApproval(approval) {
     typeof approval.approvalEvidence !== 'object' ||
     Array.isArray(approval.approvalEvidence) ||
     approval.approvalEvidence.kind !== 'direct-user-approval' ||
+    approval.approvalEvidence.approvalDigest !== approval.approvalDigest ||
     typeof approval.approvalEvidence.statement !== 'string' ||
     approval.approvalEvidence.statement.trim() === ''
   ) {
@@ -399,12 +525,26 @@ function validateApproval(approval) {
 }
 
 function assertSafeDestination(destination, approval) {
-  const destinationPath = resolve(destination);
-  if (
-    destinationPath === approval.source ||
-    destinationPath === approval.sourceCommonDirectory
-  ) {
-    fail('destination must differ from source and common Git directory');
+  const destinationPath = canonicalPath(destination);
+  const approvedRunDirectory = assertSafeRunDirectory(
+    approval.runDirectory,
+    approval.source,
+    approval.sourceGitDirectory,
+    approval.sourceCommonDirectory,
+  );
+  if (approvedRunDirectory !== approval.runDirectory) {
+    fail('approved run directory is not canonical');
+  }
+  assertOutsideGitStorage(
+    destinationPath,
+    approval.sourceGitDirectory,
+    approval.sourceCommonDirectory,
+  );
+  if (containsPath(destinationPath, approval.source)) {
+    fail('destination must differ from source and its ancestors');
+  }
+  if (!containsPath(approvedRunDirectory, destinationPath)) {
+    fail('destination must remain inside the approved run directory');
   }
   if (destinationPath !== approval.destination) {
     fail('destination differs from approved path');
@@ -419,8 +559,42 @@ function assertSafeDestination(destination, approval) {
   return destinationPath;
 }
 
-function assertApprovedInputs({ backup, inventory, ledger, approval }) {
-  if (resolve(backup) !== approval.backupPath) {
+function normalizeInvocation(invocation) {
+  assertRecord(invocation, 'invocation', ['argv', 'executable']);
+  if (!Array.isArray(invocation.argv)) fail('invocation argv must be an array');
+  const argv = invocation.argv.map((value) => {
+    if (typeof value !== 'string') fail('invocation argv must contain strings');
+    return value;
+  });
+  if (argv.length !== 14 || argv[1] !== 'rehearse') {
+    fail('actual invocation differs from approved arguments');
+  }
+  const normalizedArgv = [canonicalPath(argv[0]), argv[1]];
+  for (let index = 2; index < argv.length; index += 2) {
+    normalizedArgv.push(argv[index], canonicalPath(argv[index + 1]));
+  }
+  return {
+    executable: canonicalPath(invocation.executable),
+    argv: normalizedArgv,
+  };
+}
+
+function assertApprovedInputs({
+  backup,
+  inventory,
+  ledger,
+  approval,
+  invocation,
+}) {
+  const actualInvocation = normalizeInvocation(invocation);
+  const approvedInvocation = {
+    executable: canonicalPath(approval.executable),
+    argv: approval.argv,
+  };
+  if (JSON.stringify(actualInvocation) !== JSON.stringify(approvedInvocation)) {
+    fail('actual invocation differs from approved arguments');
+  }
+  if (canonicalPath(backup) !== approval.backupPath) {
     fail('backup differs from approved path');
   }
   if (digestJson(inventory) !== approval.inventoryDigest) {
@@ -449,6 +623,10 @@ function assertApprovedInputs({ backup, inventory, ledger, approval }) {
   if (commonDirectory(approval.source) !== approval.sourceCommonDirectory) {
     fail('source common Git directory differs from approval');
   }
+  if (gitDirectory(approval.source) !== approval.sourceGitDirectory) {
+    fail('source Git directory differs from approval');
+  }
+  return currentRefs;
 }
 
 function rejectAnnotatedTags(repository, refs) {
@@ -511,18 +689,29 @@ function verifyInstalledRefs(destination, refs, byOld) {
   });
 }
 
-export function rehearse({ backup, destination, inventory, ledger, approval }) {
+export function rehearse({
+  backup,
+  destination,
+  inventory,
+  ledger,
+  approval,
+  invocation,
+}) {
   validateApproval(approval);
   validateLedger(inventory, ledger, { requireResolved: true });
   assertNoDetachedOnlyCommits(inventory);
-  assertApprovedInputs({ backup, inventory, ledger, approval });
-  const beforeRefs = sourceRefState(approval.source);
+  const destinationPath = assertSafeDestination(destination, approval);
+  const beforeRefs = assertApprovedInputs({
+    backup,
+    inventory,
+    ledger,
+    approval,
+    invocation,
+  });
   const beforeWorktrees = assertFrozenWorktrees(inventory);
   if (JSON.stringify(beforeWorktrees) !== JSON.stringify(approval.worktrees)) {
     fail('approved worktrees differ from exact frozen worktrees');
   }
-  const destinationPath = assertSafeDestination(destination, approval);
-
   git(approval.source, ['bundle', 'verify', approval.backupPath]);
   assertBundleRefs(approval.source, approval.backupPath, approval.refs);
   initializeBare(destinationPath, inventory.objectFormat);

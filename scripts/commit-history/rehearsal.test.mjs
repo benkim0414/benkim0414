@@ -6,10 +6,11 @@ import {
   mkdtempSync,
   readFileSync,
   rmSync,
+  symlinkSync,
   writeFileSync,
 } from 'node:fs';
 import { tmpdir } from 'node:os';
-import { join, resolve } from 'node:path';
+import { delimiter, join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { spawnSync } from 'node:child_process';
 
@@ -110,10 +111,21 @@ function approve(packageRecord) {
   return {
     ...structuredClone(packageRecord),
     approvalEvidence: {
+      approvalDigest: packageRecord.approvalDigest,
       kind: 'direct-user-approval',
       statement: 'Approved exact synthetic fixture rehearsal package.',
     },
   };
+}
+
+function invocationFor(packageRecord, replacements = {}) {
+  const argv = [...packageRecord.argv];
+  for (const [flag, path] of Object.entries(replacements)) {
+    const index = argv.indexOf(flag);
+    assert.notEqual(index, -1, `missing invocation flag ${flag}`);
+    argv[index + 1] = resolve(path);
+  }
+  return { executable: packageRecord.executable, argv };
 }
 
 function prepareFixture(t, options = {}) {
@@ -138,6 +150,7 @@ test('prepare creates and verifies a complete recoverable bundle', (t) => {
   assert.ok(existsSync(approvalPackage.approvalPath));
   assert.equal(approvalPackage.backupVerified, true);
   assert.equal(approvalPackage.approvalEvidence, null);
+  assert.match(approvalPackage.approvalDigest, /^[0-9a-f]{64}$/);
   assert.equal(approvalPackage.signaturePolicy, 'reject');
   assert.match(approvalPackage.warnings.join('\n'), /uncommitted files/);
   assert.deepEqual(
@@ -169,6 +182,57 @@ test('prepare creates and verifies a complete recoverable bundle', (t) => {
         .trim(),
       'commit',
     );
+  }
+});
+
+test('prepare permits the approved source-local history repair directory', (t) => {
+  const state = graphFixture(t);
+  writeFileSync(
+    join(state.fixture.cwd, '.git', 'info', 'exclude'),
+    '.history-repair/\n',
+  );
+  state.inventory = snapshot(state.fixture.cwd);
+  state.ledger = ledgerFor(state.inventory, state.root);
+  const runDirectory = join(
+    state.fixture.cwd,
+    '.history-repair',
+    'synthetic-run',
+  );
+
+  const approval = prepareRehearsal({
+    source: state.fixture.cwd,
+    runDirectory,
+    inventory: state.inventory,
+    ledger: state.ledger,
+  });
+
+  assert.equal(approval.runDirectory, resolve(runDirectory));
+  assert.ok(existsSync(approval.backupPath));
+});
+
+test('prepare rejects Git-storage descendants and symlink aliases before writing', async (t) => {
+  for (const alias of [false, true]) {
+    await t.test(alias ? 'symlink alias' : '.git descendant', () => {
+      const state = graphFixture(t);
+      const runDirectory = alias
+        ? join(state.fixture.cwd, '.history-repair', 'synthetic-run')
+        : join(state.fixture.cwd, '.git', 'history-repair-run');
+      if (alias) {
+        symlinkSync('.git', join(state.fixture.cwd, '.history-repair'));
+      }
+
+      assert.throws(
+        () =>
+          prepareRehearsal({
+            source: state.fixture.cwd,
+            runDirectory,
+            inventory: state.inventory,
+            ledger: state.ledger,
+          }),
+        /Git storage|protected path/,
+      );
+      assert.equal(existsSync(runDirectory), false);
+    });
   }
 });
 
@@ -232,6 +296,7 @@ test('rehearse rewrites mapped refs, preserves recovery refs, and leaves source 
     inventory: state.inventory,
     ledger: state.ledger,
     approval,
+    invocation: invocationFor(state.approvalPackage),
   });
 
   assert.equal(report.schemaVersion, 1);
@@ -274,6 +339,7 @@ test('rehearse rejects a mismatched ledger digest', (t) => {
         inventory: state.inventory,
         ledger: changedLedger,
         approval: approve(state.approvalPackage),
+        invocation: invocationFor(state.approvalPackage),
       }),
     /ledger digest differs/,
   );
@@ -291,9 +357,69 @@ test('rehearse rejects moved source tips', (t) => {
         inventory: state.inventory,
         ledger: state.ledger,
         approval: approve(state.approvalPackage),
+        invocation: invocationFor(state.approvalPackage),
       }),
     /source refs changed|frozen tip/,
   );
+});
+
+test('rehearse retains the already-validated ref buffer as its race baseline', (t) => {
+  const state = prepareFixture(t);
+  const wrapperDirectory = scratchDirectory(t);
+  const wrapper = join(wrapperDirectory, 'git');
+  const realGit = process.env.PATH.split(delimiter)
+    .map((directory) => join(directory, 'git'))
+    .find((candidate) => existsSync(candidate));
+  assert.ok(realGit, 'real git executable not found');
+  writeFileSync(
+    wrapper,
+    `#!/bin/sh
+if [ "$1" = "for-each-ref" ] && [ ! -e "$RACE_MARKER" ]; then
+  "$REAL_GIT_UNDER_TEST" "$@" > "$RACE_OUTPUT"
+  status=$?
+  if [ "$status" -eq 0 ]; then
+    : > "$RACE_MARKER"
+    "$REAL_GIT_UNDER_TEST" update-ref refs/remotes/origin/main "$RACE_NEW_OID"
+  fi
+  cat "$RACE_OUTPUT"
+  exit "$status"
+fi
+exec "$REAL_GIT_UNDER_TEST" "$@"
+`,
+    { mode: 0o755 },
+  );
+  const oldEnvironment = {
+    PATH: process.env.PATH,
+    REAL_GIT_UNDER_TEST: process.env.REAL_GIT_UNDER_TEST,
+    RACE_MARKER: process.env.RACE_MARKER,
+    RACE_OUTPUT: process.env.RACE_OUTPUT,
+    RACE_NEW_OID: process.env.RACE_NEW_OID,
+  };
+  process.env.PATH = `${wrapperDirectory}${delimiter}${process.env.PATH}`;
+  process.env.REAL_GIT_UNDER_TEST = realGit;
+  process.env.RACE_MARKER = join(wrapperDirectory, 'marker');
+  process.env.RACE_OUTPUT = join(wrapperDirectory, 'refs');
+  process.env.RACE_NEW_OID = state.root;
+
+  try {
+    assert.throws(
+      () =>
+        rehearse({
+          backup: state.approvalPackage.backupPath,
+          destination: state.approvalPackage.destination,
+          inventory: state.inventory,
+          ledger: state.ledger,
+          approval: approve(state.approvalPackage),
+          invocation: invocationFor(state.approvalPackage),
+        }),
+      /source refs changed during rehearsal operation/,
+    );
+  } finally {
+    for (const [name, value] of Object.entries(oldEnvironment)) {
+      if (value === undefined) delete process.env[name];
+      else process.env[name] = value;
+    }
+  }
 });
 
 test('rehearse rejects a nonempty destination', (t) => {
@@ -309,6 +435,7 @@ test('rehearse rejects a nonempty destination', (t) => {
         inventory: state.inventory,
         ledger: state.ledger,
         approval: approve(state.approvalPackage),
+        invocation: invocationFor(state.approvalPackage),
       }),
     /destination must be empty/,
   );
@@ -325,8 +452,89 @@ test('rehearse rejects missing direct approval evidence', (t) => {
         inventory: state.inventory,
         ledger: state.ledger,
         approval: state.approvalPackage,
+        invocation: invocationFor(state.approvalPackage),
       }),
     /direct user approval evidence/,
+  );
+});
+
+test('rehearse binds direct approval evidence to the immutable package digest', (t) => {
+  const state = prepareFixture(t);
+  const approval = approve(state.approvalPackage);
+  approval.warnings.push('mutable field changed after direct approval');
+
+  assert.throws(
+    () =>
+      rehearse({
+        backup: state.approvalPackage.backupPath,
+        destination: state.approvalPackage.destination,
+        inventory: state.inventory,
+        ledger: state.ledger,
+        approval,
+        invocation: invocationFor(state.approvalPackage),
+      }),
+    /approval package digest/,
+  );
+});
+
+test('rehearse rejects alternate identical-content invocation paths', async (t) => {
+  for (const [flag, filename, value] of [
+    ['--inventory', 'alternate-inventory.json', 'inventory'],
+    ['--ledger', 'alternate-ledger.json', 'ledger'],
+    ['--approval', 'alternate-approval.json', 'approval'],
+  ]) {
+    await t.test(flag, () => {
+      const state = prepareFixture(t);
+      const alternatePath = join(state.runDirectory, filename);
+      const approval = approve(state.approvalPackage);
+      const contents =
+        value === 'inventory'
+          ? state.inventory
+          : value === 'ledger'
+            ? state.ledger
+            : approval;
+      writeFileSync(alternatePath, `${JSON.stringify(contents, null, 2)}\n`);
+      writeFileSync(
+        state.approvalPackage.approvalPath,
+        `${JSON.stringify(approval, null, 2)}\n`,
+      );
+      const invocation = invocationFor(state.approvalPackage, {
+        [flag]: alternatePath,
+      });
+      const result = spawnSync(invocation.executable, invocation.argv);
+
+      assert.notEqual(result.status, 0);
+      assert.match(
+        result.stderr.toString('utf8'),
+        /actual invocation differs from approved arguments/,
+      );
+    });
+  }
+});
+
+test('rehearse rejects a newly added detached worktree', (t) => {
+  const state = prepareFixture(t);
+  const detached = join(scratchDirectory(t), 'late-detached');
+  state.fixture.git(
+    'worktree',
+    'add',
+    '--quiet',
+    '--detach',
+    detached,
+    state.root,
+  );
+
+  assert.throws(
+    () =>
+      rehearse({
+        backup: state.approvalPackage.backupPath,
+        destination: state.approvalPackage.destination,
+        inventory: state.inventory,
+        ledger: state.ledger,
+        approval: approve(state.approvalPackage),
+        invocation: invocationFor(state.approvalPackage),
+      }),
+    /worktree set changed/,
   );
 });
 
@@ -343,8 +551,9 @@ test('rehearse rejects an approval whose exact ref set was altered', (t) => {
         inventory: state.inventory,
         ledger: state.ledger,
         approval,
+        invocation: invocationFor(state.approvalPackage),
       }),
-    /approved refs differ from exact frozen refs/,
+    /approval package digest/,
   );
 });
 
@@ -358,9 +567,6 @@ test('rehearse rejects a destination equal to the source or common Git directory
   for (const destination of [state.fixture.cwd, commonDirectory]) {
     await t.test(destination, () => {
       const approval = approve(state.approvalPackage);
-      approval.destination = destination;
-      const index = approval.argv.indexOf('--destination');
-      approval.argv[index + 1] = destination;
       assert.throws(
         () =>
           rehearse({
@@ -369,8 +575,11 @@ test('rehearse rejects a destination equal to the source or common Git directory
             inventory: state.inventory,
             ledger: state.ledger,
             approval,
+            invocation: invocationFor(state.approvalPackage, {
+              '--destination': destination,
+            }),
           }),
-        /destination must differ from source and common Git directory/,
+        /destination must differ|protected path/,
       );
     });
   }
@@ -387,6 +596,7 @@ test('rehearse rejects annotated tags under the default policy', (t) => {
         inventory: state.inventory,
         ledger: state.ledger,
         approval: approve(state.approvalPackage),
+        invocation: invocationFor(state.approvalPackage),
       }),
     /annotated tag/,
   );
