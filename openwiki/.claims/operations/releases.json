@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:840a9226b10c8d3f0771cc3d17b427ca0fabae55b51bc6515ddf941073ed3391",
+  "pageVersion": "sha256:4c22b4b4f76a087a072d3276adb3dcaad8a40c52e113c6bda0559f1dd8756113",
   "claims": [
     {
       "id": "claim_60ead053c1e74811a25b4d65b2af502c",
@@ -51,8 +51,8 @@
           "version": "repo-lines-v1:sha256:35aaa8cb86614c02e433c589a9c4251f099b12ef749d383fcc0adefe8b44a74c:eyJzZWxlY3RlZExpbmVDb3VudCI6NjYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImNhNTNiYTM1MDk2Njc2YzUyNDBjYzA4NDQ4M2ZlMDM1NjE3Zjk0ZjA5MGMyYTA5YTI4NjdjMDQwYWEzNjE5ZTgiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijk1ZWYwMWJjMDhkYmMzYjYzZTRlNzVlYTNkMjZhNWI5NDE4OTE4NzdlMjdhZDg5MTMyOWM4NDExZDdkOGRjNGQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImYzMzM0ZGZmMjk3YTE5NjdmY2ExZGM3ODQ3YzVmOGMxN2JkNzdiNDhkMTQxYjU4OGM3ZjQ4MDhkOTRjMDJjMWYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImMxNjNhOGQ4YTNjMDQzNDliZjk3OGI1OGYzMTI3MDEwZDFjYWFhNmI4YThmY2Q1ZmRiNTk2OTBlNGNiMzYyNzYifQ"
         },
         {
-          "resource": "repo://scripts/github-io-release.mjs#L320-L470",
-          "version": "repo-lines-v1:sha256:6cf3f8e3e7393116c695b440d003ba705e97e0bcdf096d0bcba490c9b2240793:eyJzZWxlY3RlZExpbmVDb3VudCI6MTUxLCJmaXJzdFNlbGVjdGVkTGluZUhhc2giOiIwMWJhNDcxOWM4MGI2ZmU5MTFiMDkxYTdjMDUxMjRiNjRlZWVjZTk2NGUwOWMwNThlZjhmOTgwNWRhY2E1NDZiIiwibGFzdFNlbGVjdGVkTGluZUhhc2giOiJhZDllMTI1NDY0MjU1NzZkM2RlYWU4YzliOWRiZjEyOGQ1ZDZkZGFmNWQ3ZmU4NTc5MzQ5MjdkZWZmYTNiOWRkIiwicHJlY2VkaW5nQ29udGV4dExpbmVDb3VudCI6MywicHJlY2VkaW5nQ29udGV4dEhhc2giOiJmOWRmN2Q2MmFhMzgxNTc1ZWRmZGI2NjcxOGE1OGUwMzcwMjFiNDFmOWQzOWRiNTIyOTc5OGYwZTM4ZjQ4NWY5IiwiZm9sbG93aW5nQ29udGV4dExpbmVDb3VudCI6MywiZm9sbG93aW5nQ29udGV4dEhhc2giOiI2NDkzNmMzOWFjMDVkYzcxZWM2MDhmNjU1NjBlNjIzNzYxMmRjNDFlZjE5OTI3N2EwOWIwYzhkNTg2OTFlMGI4In0"
+          "resource": "repo://scripts/github-io-release.mjs#L368-L454",
+          "version": "repo-lines-v1:sha256:3687c6eb6cec25391e1ee2c3cd6d4caf85aafcbae90a1df52f8dca28ffa83533:eyJzZWxlY3RlZExpbmVDb3VudCI6ODcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQ0MDY4M2VkM2EzMjZmZWQ3NDJhYWNiNTQxN2YwYWExMGE5MDhiYmZkYzY4MmUwN2RlNTNhODNlZGZmOTNhODYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjcxODg3MGE4MDQwOWY4YzRjOTk0ODA3YWY4MjU5Y2MwNGJkMGM1Y2EyZTlmMWMzYjEzZGVmMTBiMTYyNzg2ZDYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjQ2NjBhZmQxN2Q5MDg0ZWM4NDRkNzdlMjU1MzhlYzY1NjM1ZDE0OGUwYmExMDdhYWI1OTBkY2E4ZTZlYTE5NDgifQ"
         }
       ]
     },
@@ -65,8 +65,8 @@
           "version": "repo-lines-v1:sha256:a5a0ba7cf4a48eb71a7925791964f9be108d525be550b54029adc82f2d98a5d5:eyJzZWxlY3RlZExpbmVDb3VudCI6NjEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImI4ZTY2ZmQ1YzViOGJmNWRlNGUyOTEwYzE4NTZkNzQyNmQ5ZjAwMjA3ZjJiNDQ5ODRjODJjMDUzNWU3MTgxMTkiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImE5MzA1NDM4NjI4NWNjMmQ1MGFhMGJjMzgzYjE0NjBmYTM0MzVhMjcwMDYxNGZhZjNiZDBjNmI3OThkZThlMGEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6Ijk5MjQ3ODk3MmRmZWQ2ZWEyZmQ0MTQ0ZmM1Mzg5ZDgyNThiMmNmMjBiM2M0NGE3ZjIwODEzZGU5ZmUxZTQwNDUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
         },
         {
-          "resource": "repo://scripts/github-io-release.mjs#L365-L397",
-          "version": "repo-lines-v1:sha256:20db49805682e0990df7b74ff37694a060bb793cab73ffd1a574f6425fb6998d:eyJzZWxlY3RlZExpbmVDb3VudCI6MzMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijk0MTliMWQ5YzcyZmRjZjM1NThiZTI3NmIwOTMzMDQyNWQxNjNmYTNlZTI1NTI5YTkyMTY5Nzg0ZDRlOGJkZDAiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjExYWU2NmZiMjgzZmEwZTcyZWM0NmJjMzM1MjgwYzdkOTg4YjVjMjE1NDE1NDYyZDczNzU3MTI3NmFkNmI2NWIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImJhN2YxODE3ZGFkODA1YmFmNzVjYzRhYTFlNzU3MmU1YmYxYzE4YzRiY2FkYmUxYTc3OTA0YjQyZDA0MGIyOWUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjMyMjk2Yjk3NWFlYmU5N2FmNTU4Yzc0OWNjZTM0YWExMDE5MTVjNDBlYjBlYTExNTMxYzRiNWQzMDM0OWIwYTAifQ"
+          "resource": "repo://scripts/github-io-release.mjs#L456-L483",
+          "version": "repo-lines-v1:sha256:28ac9d82dc4b55de7b3f24f9ddabe953e5fc947a0a37f1550b30757db280494e:eyJzZWxlY3RlZExpbmVDb3VudCI6MjgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjM2ZjVkY2ZmYzJlZWU3OWRjOGVhMGY1MDFhYzkzZDkwYzE4MmZkZmE5NjQ5ZTUzYjZhY2RmOTNjNjI2MjdiN2MiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjFkMGRhNjQ2ZmMxOTFmZWY2MWRhNjQ0M2Q4NjBiYmFiM2EwZTVhOGRiZTI0NmY5YzQ1NzAwNDhjYzYwYjlhNTgiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImIxZWNhNGQ0NDg2NTc0NDVjM2VjMzRjMDIxYzc1NWYxOTA5MmM0ZTQ4ZDA2YjM4OTE1ZmJjZWJjMTRjYWEyYWEifQ"
         },
         {
           "resource": "repo://scripts/sync-github-pages-artifact.mjs#L23-L68",
@@ -80,13 +80,41 @@
       "evidence": [
         {
           "resource": "repo://docs/runbooks/github-pages-artifact-release.md",
-          "version": "repo-file-v1:sha256:654828527a9e10cb564d2a48895afdb8ff82cdf52b8460da85887711b68fb58b"
+          "version": "repo-file-v1:sha256:a7f9612de0c8e906a0dc95729e22057c39ae0970d787210ba9e576a7d73f2d89"
+        }
+      ]
+    },
+    {
+      "id": "claim_280d932535e1421f97082fb5f64cf06c",
+      "statement": "Bootstrap discovers the valid github.io project introduction on the requested target's first-parent history from Git blobs, includes root/direct/merge introductions in replay from 0.0.0, rejects ambiguous histories, and validates explicit starts on that same first-parent chain.",
+      "evidence": [
+        {
+          "resource": "repo://scripts/github-io-release.mjs#L110-L189",
+          "version": "repo-lines-v1:sha256:1ab17f1cf5e2e23596de5d1fba82cdd89b40d5158b8483611cc57df27f33bf88:eyJzZWxlY3RlZExpbmVDb3VudCI6ODAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxNjdjZjlkMWU4MTk2YTk5ZTM4Mzk3NmUwN2M3MGEwYzgxNzk1ODYzYzQyYjI0ZDFmNmM3Njg4YTEzZmJhZmMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjkzZDA1NjNiYjk0MjllMWJjOWMzOTRiMWMzMzk1OWUzMjJkN2Q5NGE1NThlZmQ3YWRiNWI2Yjk2YzdlZTIxNDAiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjA5NGZjMGMxNzNkMWVjM2ZjNTAxZDdkZmE5Mjg1NTAxYzUyN2NmYjQ3MTI1ODNkYTNjYzM2MTgwNTY2YjRiZTMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImM0MGJmZDRkY2VjYWNhMjFlNTVlOTI1MDkwOTEyOTU3ZDNjY2RhMzZlODUyOWY2N2U0NmVmM2E3ODRjYTllMzUifQ"
+        },
+        {
+          "resource": "repo://scripts/github-io-release.mjs#L335-L358",
+          "version": "repo-lines-v1:sha256:4d737c6ae1492162fc05aab43570a2fb4fec7b934037313fe011dcd902e2910e:eyJzZWxlY3RlZExpbmVDb3VudCI6MjQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImNmOWFkNDNiNmI3YWZiODhmMDA4MWRkMjY5YjQ1ODYzYzFhMGNjZmQ5N2ZmN2U4OTEyNjUxMzYyNzk1OWM5MWQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjNhM2U0NmY5NDI3NmI2ZjZmNGVkMWYwMmFmNzhiZWY2YTJlZTFjNDM5ZGQ1NTg0Yjk3Mzk0ODMxMzIxNGQyYjciLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImJkMGYyZDNhM2FhZGEyNzU4NjQ1NzhkMGE0MzkxNTYzOGQ1NDNmZWNhMmM5NDg1OGRiOTQxMjExZTg2Y2VmMmIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImM5NGUzNzljNDdhMDUyYjhiY2M3OTEyYWE5ODQwMGM1ZDIyNjUyY2I2MzUxNmQ0ZDkzODRjMTA4N2ZmOTgyMmUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_43da88c4280c44c2bef952493708d00c",
+      "statement": "Historical message repair and downstream release comparison require separately approved isolated rehearsal and publication gates; tooling availability is not execution permission.",
+      "evidence": [
+        {
+          "resource": "repo://docs/runbooks/historical-commit-scope-repair.md",
+          "version": "repo-file-v1:sha256:ce1cde0e6bff845182668e0889229b1f37b6cfe2ef365e1e2209062cdc4450f3"
+        },
+        {
+          "resource": "repo://docs/superpowers/plans/2026-09-09-historical-commit-scope-repair.md#L324-L347",
+          "version": "repo-lines-v1:sha256:f6a46bc21067dc94154afa3085b5d5dcba873ba4a6e51962cab80d9e4691ce95:eyJzZWxlY3RlZExpbmVDb3VudCI6MjQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImUxMmJmZTJkMDQ1ZTQ1ZTRkNWRiZjE1OWVkYmFjODBmZjE3YWY4NTAxMjVhMDFjNWQyYWRmZWJjOTZjOWViODIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAyZjA4YTYwZWEzZjY2OWI5ZTYwNzA4YzZmODFiMGM2NDdkZDk1ZDNkN2FhY2JkZmFmMmM0NGQzNzlhNzBkZDYiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjUyMzMzNGI2ZThkZDU0YzY2YTVhMGMzN2NiZjE5MDRkN2RkODY3YTU3NWVmNWQwYWQzMDY2NWVlN2IxNzVhOGMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImY0MjNmMWU1YmU1MDFmNTJiZDhlMzljNjIyNjdjM2Q5NjA4MTczNmFiMGIzZDBmNTUyNjY3NzhmNGY1ZmMzZWUifQ"
         }
       ]
     }
   ],
   "verification": {
     "by": "openwiki/0.5.0",
-    "at": "2026-09-09T05:56:49.829Z"
+    "at": "2026-09-09T15:24:02.550Z"
   }
 }

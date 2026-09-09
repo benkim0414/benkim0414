@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:cfb8032edd2542efcc7363ceac56395cfc62448c5dacaa45fb959c1052ff7816",
+  "pageVersion": "sha256:b9e132027447c7a714f1cc8cba16bf24b8899b9619b9f8ccd7dc3a5db6f4cd19",
   "claims": [
     {
       "id": "claim_a1aaa09a8bdc4247ba862841aa6d008f",
@@ -8,7 +8,7 @@
       "evidence": [
         {
           "resource": "repo://package.json",
-          "version": "repo-file-v1:sha256:bbcc5d421174276525084d3b4f29e96d7caccdf822e4417e50e9455df5054a50"
+          "version": "repo-file-v1:sha256:8e700cd24fce5c8ef64c77f589599797af8b5cdd216e971540cc72ac1642d8d1"
         },
         {
           "resource": "repo://pnpm-workspace.yaml#L1-L3",
@@ -46,7 +46,7 @@
       "evidence": [
         {
           "resource": "repo://package.json",
-          "version": "repo-file-v1:sha256:bbcc5d421174276525084d3b4f29e96d7caccdf822e4417e50e9455df5054a50"
+          "version": "repo-file-v1:sha256:8e700cd24fce5c8ef64c77f589599797af8b5cdd216e971540cc72ac1642d8d1"
         }
       ]
     },
@@ -70,10 +70,10 @@
         },
         {
           "resource": "repo://AGENTS.md",
-          "version": "repo-file-v1:sha256:2cb64c9009eb3cc49d1c81e4a84a5352a024e77a727b16736d7024a37486ecd3"
+          "version": "repo-file-v1:sha256:89539513ba23570216443c1ee9165b48491b9fe22a43a3affd2769a53aabd298"
         },
         {
-          "resource": "repo://package.json#L17-L18",
+          "resource": "repo://package.json#L20-L21",
           "version": "repo-lines-v1:sha256:44a354f86a60ff5d6e0ecaf19e2092848658d2cf8f000f15799a2f2ff8ce76b0:eyJzZWxlY3RlZExpbmVDb3VudCI6MiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZDBkMDdmMDdmYWExOTczYWZjZWE5NDczYzk1NGNmZWVjMzdiMWM4Mzg5NGU0MTBiNTNmZDZlZTMyMWE2OWY5MSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiOTk5ZjFiNjFlMjI1MWQ5ZDFkYmJkMDViOTM5OWMwODRjYjVhNGIyNDg2M2EwNjFlMTdjNjliMWVjNjVmOTJkMiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNzdjOTM0YThiMWY5MzNjMjBmZDg2YzE1YjkxMjZhZWQyZTc3YWVjMDIyZTc5M2EyM2RmZGM3YWY3NWE1ODkyMCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNGFhNmI4YmFmNGZiYWM1ZDAxYTYyYzYxOTZmMmFjNGIxZDgzYmQ3ZjIxMzI4ZTJmZTJjNzAyMzQ5OTE3NGIwNyJ9"
         }
       ]
@@ -84,13 +84,31 @@
       "evidence": [
         {
           "resource": "repo://docs/runbooks/github-pages-artifact-release.md",
-          "version": "repo-file-v1:sha256:654828527a9e10cb564d2a48895afdb8ff82cdf52b8460da85887711b68fb58b"
+          "version": "repo-file-v1:sha256:a7f9612de0c8e906a0dc95729e22057c39ae0970d787210ba9e576a7d73f2d89"
+        }
+      ]
+    },
+    {
+      "id": "claim_8e909af2d47547b3b288f87b6b554c93",
+      "statement": "The repository exposes focused scope and history test commands; documentation and mixed-root scopes require human judgment, and fixture tests do not approve a real history rewrite.",
+      "evidence": [
+        {
+          "resource": "repo://docs/agents/commit-scopes.md",
+          "version": "repo-file-v1:sha256:500384e3f9677690dfa36a566137c3ac1c9bd86b50733b54f7a25161996046c9"
+        },
+        {
+          "resource": "repo://docs/runbooks/historical-commit-scope-repair.md#L1-L19",
+          "version": "repo-lines-v1:sha256:3098f23efd4d6feafc1934c790dfa031266f914f55c099935364abcfc3d884c6:eyJzZWxlY3RlZExpbmVDb3VudCI6MTksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImEwYjA1NDg3OGZmMDZhM2FjNTJlNTYyMDM0ZjhmNDcwOTY0ZDRiZTE4NDE1NzlhNGQ5ZTdjYzY5N2JjNzM2ZjgiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjUwM2VlYjc1NDBlMzFmMTRhNWQ3ODU2ZTI5YWZiMGM0YjkwYjI5NmQ4ZTNjNzlmMjJlYzZiZTA1ZDg0NmIzMDEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImJjMTM3MDQ2YTM0NmUxZWY1NTgzNzQ3ZDkzNjUwZTVmYzM1ZWZhM2IzMWUwOWNhOWI5MjJiNTY5OWRmODdjMGMifQ"
+        },
+        {
+          "resource": "repo://package.json#L11-L13",
+          "version": "repo-lines-v1:sha256:4fbc704cd7bd110e114c3e6bfc1ebc34545cf534e20708249997b9b30ff2c89a:eyJzZWxlY3RlZExpbmVDb3VudCI6MywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMDYyZTI1NzBmNTQ5ZDM4MjcyMzY3MjZjM2E4Y2EwZDVjMWYwNmYwZjAyM2Y5ZDE5ZmUzMmEzODU5ZmEzNTlkZSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiYjVmYmQ0MTZhYjkwNjBlMTQ4MzBhZDIwZGZjZDI3NGI2MmRmYWZhZWZhNWZmNmMwNjU1NWU5ZmJjOWU1MGM1OSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZmRkZDg5MzlmYjY0NTQ1MzZlNDZkMTk3MzkwNTFjNWYwOWEyYzcyZjU2NWI4YzgzNjc4N2JkYTRkYjQ1NmJlNyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMTJmNGUwMWIwNWZmZDA2YzNlNzcxZWQ3OGEyMTUyMDZkODI5Mzc4NWQyZGMwMWNlYWU2MjQ0NjY1ZmM0NGQ3YSJ9"
         }
       ]
     }
   ],
   "verification": {
     "by": "openwiki/0.5.0",
-    "at": "2026-09-09T05:56:49.829Z"
+    "at": "2026-09-09T15:43:59.341Z"
   }
 }

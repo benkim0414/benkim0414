@@ -4,6 +4,8 @@ title: Validation workflow
 description: Select checks for application behavior, compiled layout, agent documentation, and the local OpenWiki installer.
 tags: [testing, nx, vitest, validation]
 sources:
+  - id: openwiki-source-cded3bee0a4a4ba7e5c5f9f0
+    resource: repo://.github/workflows/commit-scopes.yml
   - id: openwiki-source-e0c4e21b9bfdc3be09ed876d
     resource: repo://.github/workflows/release-github-io.yml
   - id: openwiki-source-45b1d77b308bd57403f55ff9
@@ -20,26 +22,36 @@ sources:
     resource: repo://apps/github.io/src/app/skills/skill-detail-page.spec.tsx
   - id: openwiki-source-fcfa3ced1d03143bb27d5018
     resource: repo://apps/github.io/vite.config.ts
+  - id: openwiki-source-af76a0570259ad84dd4c02ea
+    resource: repo://docs/agents/commit-scopes.md
+  - id: openwiki-source-cdda5d4e7c9cf1bdd3f5a61c
+    resource: repo://docs/runbooks/historical-commit-scope-repair.md
   - id: openwiki-source-6ba748254f38112b13d529da
     resource: repo://nx.json
   - id: openwiki-source-5b54a58d1b51cd490b0e7162
     resource: repo://package.json
-  - id: openwiki-source-8e995cb599a34a3b0c5b8cbe
-    resource: repo://scripts/github-io-bootstrap.test.mjs
+  - id: openwiki-source-cd91660a594184921462a53c
+    resource: repo://scripts/check-commit-scopes.mjs
+  - id: openwiki-source-324c3fb37ca901567896163b
+    resource: repo://scripts/commit-scope-policy.mjs
+  - id: openwiki-source-354ae3b17c2952154324b9e4
+    resource: repo://scripts/commit-scope-workflow.test.mjs
   - id: openwiki-source-6498c12d54fa48fbe250bfda
     resource: repo://scripts/github-io-build-version.test.mjs
   - id: openwiki-source-434f3fc007f0b8f286d47431
     resource: repo://scripts/github-io-nx-release.test.mjs
   - id: openwiki-source-b5b471d0c1179e011acc7c64
     resource: repo://scripts/github-io-release-recovery.test.mjs
+  - id: openwiki-source-e62ed3cfd7e6ce98024ea30c
+    resource: repo://scripts/github-io-release.test.mjs
   - id: openwiki-source-871ac2bb60a2ea411c19a76e
     resource: repo://scripts/setup-openwiki.test.mjs
   - id: openwiki-source-165465422a61a00b62b0f6d3
     resource: repo://scripts/sync-github-pages-artifact.test.mjs
-generated: { by: "codex", at: "2026-09-09T05:56:49.829Z" }
+generated: { by: "codex", at: "2026-09-09T15:43:59.341Z" }
 verified:
   - by: openwiki/0.5.0
-    at: 2026-09-09T05:56:49.829Z
+    at: 2026-09-09T15:43:59.341Z
 ---
 
 # Validation workflow
@@ -61,7 +73,7 @@ Semantic release behavior has a separate narrow suite:
 
 ```sh
 pnpm test:release:github.io
-node --test scripts/github-io-bootstrap.test.mjs \
+node --test scripts/github-io-release.test.mjs \
   scripts/github-io-release-workflows.test.mjs \
   scripts/github-pages-workflow.test.mjs \
   scripts/sync-github-pages-artifact.test.mjs
@@ -70,8 +82,10 @@ APP_RELEASE=true APP_VERSION=9.8.7 pnpm nx build github.io --skip-nx-cache
 
 The pure and Git-fixture tests cover exact conventional-commit scope,
 first-parent calculation, deterministic records, digest verification, and
-deployment ordering. The bootstrap fixture independently locks the reviewed
-history at `0.142.3`. Real Nx integration tests exercise the pinned Release API
+deployment ordering. Bootstrap fixtures cover unrelated direct, root, and true-merge
+introductions, ambiguous identity histories, and first-parent overrides without
+depending on an old repository commit ID or fixed production version.
+Real Nx integration tests exercise the pinned Release API
 for bootstrap and tag-based releases, while Vite boundary tests prove canonical
 SemVer acceptance, invalid-value rejection, and immutable emitted versions.
 CLI tests protect JSON-only stdout and diagnostic stderr behavior.
@@ -87,6 +101,44 @@ The automated GitHub workflow applies the same focused Nx lint and test gates
 before its one release build. Local tests establish its declarative contract;
 the first real Actions run remains the validation point for GitHub artifact,
 Release, and protected Environment behavior.
+
+## Commit scopes and history tooling
+
+Run the focused Node/Git suites for scope policy or history-tooling changes:
+
+```sh
+pnpm test:commit-scopes
+pnpm test:commit-history
+pnpm check:commit-scopes --base <full-baseline-oid> --head <full-head-oid>
+```
+
+The commit hook combines commitlint with staged-path ownership checking. The
+shared policy covers current and historical apps, packages, and tools; dedicated
+root release scripts belong to `github.io`, while Astryx documentation-maintenance
+scripts belong to `astryx`. General documentation and mixed-domain changes produce
+human-review guidance instead of a forced winner. Generated OpenWiki pages and
+OpenSpec proposals follow their subject's domain, while actual tool setup/config
+retains tool ownership. An allowed vocabulary entry is not proof that the scope
+fits the change; consult the [canonical policy](../../docs/agents/commit-scopes.md).
+
+Read-only CI checks introduced commits and, for pull requests, the proposed squash
+title with both commitlint and the ownership policy. Titles reach commitlint via
+stdin, and positional CLI parsing keeps flag-like title text separate from control
+options. PR ranges permit diverged base/head graphs. Pushes require a resolvable
+ancestor baseline; the shared range-only preflight runs before either commit
+linter. Missing, all-zero, or non-ancestor push boundaries stop with an explicit
+baseline diagnostic instead of linting replacement or legacy history. An
+executable workflow fixture verifies that a resolved divergent push never invokes
+commitlint.
+
+The history suite uses disposable repositories to test inventory/ledger coverage,
+byte-preserving transformations, independent graph verification, restore-verified
+backups, and approval/path/ref/worktree guards. Passing these tests does not
+authorize a real rehearsal. Follow the separate
+[history-repair operation](../operations/history-repair.md) and retain required
+human approvals and recovery evidence.
+
+## Application and agent-document checks
 
 Vitest uses jsdom, includes source test/spec files and `.storybook/**/*.spec.ts`,
 and disables watch mode. Coverage uses V8 with reports under

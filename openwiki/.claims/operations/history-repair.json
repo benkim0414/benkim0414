@@ -1,0 +1,86 @@
+{
+  "schemaVersion": 1,
+  "pageVersion": "sha256:31adb7f22e96747c5deb3567d60b930603b91403e2d856c29f8155e6610c5375",
+  "claims": [
+    {
+      "id": "claim_20703f5ad38d4b9681443c8d321ce0f0",
+      "statement": "The inventory traverses unique commits reachable from refs and linked-worktree heads, retaining original message bytes, ordered parents and per-parent paths, and rejects lossy UTF-8 paths.",
+      "evidence": [
+        {
+          "resource": "repo://scripts/commit-history/inventory.mjs#L169-L264",
+          "version": "repo-lines-v1:sha256:78abcc894da709e96cf5b4365bd5dc9f238a5f5f5f825aac814062b28fb97f38:eyJzZWxlY3RlZExpbmVDb3VudCI6OTYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImQzZTNmMTFiOGFlYjY0ZDk0Mzc0ZGY1MmM2Mjg1OGJhMTJlZDBkZjBhN2VhYjhjMTJiNDgxZjRlMmIwMjNjODciLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImFkOWUxMjU0NjQyNTU3NmQzZGVhZThjOWI5ZGJmMTI4ZDVkNmRkYWY1ZDdmZTg1NzkzNDkyN2RlZmZhM2I5ZGQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImZjYzlkODY5YTNiMDg4YTgzOWE4NmQ2MzkxNWJkZWYyNmQ3MDMwNDBhNzQyOGFiOTM3NTRlYTg2ZDNkNzk0MzAiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImM4ODY0ZDFjOThiMmYyYWYwMWM1NWYyMWNlMjNhNWI5MmM4OGRhMjkyNjE4M2I4YTFhYmY5ODFiODcwY2Q3MjIifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_7b447c56752241edad77ab96b9ad2492",
+      "statement": "Resolved ledgers require exact commit coverage and scope-only changes preserve type, description, breaking marker and body bytes; wider message changes require separate evidence.",
+      "evidence": [
+        {
+          "resource": "repo://scripts/commit-history/ledger.mjs#L265-L401",
+          "version": "repo-lines-v1:sha256:4665742887fdc5ee450575e29ee900d7d381e0de796c73c248d1ed9816b57559:eyJzZWxlY3RlZExpbmVDb3VudCI6MTM3LCJmaXJzdFNlbGVjdGVkTGluZUhhc2giOiI4NzgyYWRkZjIyMWYzZDJiYjIzOTYxNzUxMjU3Y2JkNTAxNjA5ZGFkN2YwZDg5MjhkZjM0ZjY1NTdmNDJmZmFhIiwibGFzdFNlbGVjdGVkTGluZUhhc2giOiI0MzI0MzgzN2E0ZDY4ODBkZGE0NDAyOTFhNzNmYjZjNjA1MmEyMTQ5Njc2Mzc3MGFmNmE0ZTBlMmMwMGIxZjRjIiwicHJlY2VkaW5nQ29udGV4dExpbmVDb3VudCI6MywicHJlY2VkaW5nQ29udGV4dEhhc2giOiIzNWYxZmUzOThlNjBmZDhhZjYzMjQzYzQ0MTAxMWIxYzNmZTdmYmYxYjdhZTA4NTJkZTdiMjcxNTVkMTEwNTZkIiwiZm9sbG93aW5nQ29udGV4dExpbmVDb3VudCI6MSwiZm9sbG93aW5nQ29udGV4dEhhc2giOiI0MTJjYTM0NWNjZjc1YmY5YzA4MDZiY2U2OTViZThkZTgwOGI3OTk4NDI1MWE3YTU0ZDIwMmNmNjEwMWRkNDUxIn0"
+        }
+      ]
+    },
+    {
+      "id": "claim_6deaae9f94b1405d9de25e40fc7f427d",
+      "statement": "Preparation creates and restore-verifies a complete ref bundle, records frozen source/worktree state and binds executable, argv, inputs and backup digests into the approval package; detached-only history is rejected and worktree files are not backed up.",
+      "evidence": [
+        {
+          "resource": "repo://scripts/commit-history/rehearsal.mjs#L391-L461",
+          "version": "repo-lines-v1:sha256:da653278c361c132c48fedf02488dac741bb1a9058fe3fe62bfb6771e541c0d7:eyJzZWxlY3RlZExpbmVDb3VudCI6NzEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImQ5MWVmMTJkM2VlN2QzNzZmYTAzY2JmM2U3MTY2OGI4NWM5ZDI0MWY3NWJlZWVkYWYwZWYwNjNlYjQ5ODQ3MTAiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjYxYTcwYTU5ZTMwNDNkZGFjZmRlNmJhZjc3ZWVlOTBjMDVjNDc0MzlhYjIwZmQ5NTYzN2M0OGFiNzBmNWI4ZWUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImZiNTgwZTk2NGY4M2E0NzNmNDNkNDQzODQ2Mjk0OWQ2OGI1NjAwZmRhNzg3ZjE2Mzc0NWQwMGRlODljYmYzNmEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjkzZWViZDAyZTlkMDdmNzA2N2RmMzdiYjE0MWRmOTU2NWJiOTNmM2Q5OWJmNzliMmJhYTU0MWE4MjNjNWE2YzQifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_5c92c9a2b3b641dca630352dafe4fc8f",
+      "statement": "Rehearsal validates the exact approved invocation and inputs, independently verifies the replacement graph, updates mapped refs only in its destination and rechecks source state.",
+      "evidence": [
+        {
+          "resource": "repo://scripts/commit-history/rehearsal.mjs#L582-L629",
+          "version": "repo-lines-v1:sha256:07787daff15333124ab3eaace363fba50beea7e875ae03d1ee9a9f2fa48a03e8:eyJzZWxlY3RlZExpbmVDb3VudCI6NDgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImQ1ZWQ2M2I3YTY4ODUwYWNlNDg4ZGE5Nzk4NzQ0ODdiY2FhYjVjMTczZDgzNTlhNDAyYTJlNjFhOTlhZDY0ODIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjZlYzhjYjU0ZGM1NzcyNjhjYjVjYjVjZjIyMzQ5MjVmZTg1OTg1YjkwYmRiM2ViMWJmMTUxZTYxNjM0NGE1YWYiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjkyMDQwZTA5NWE5NGUyYWRhNzRlNDIxZjM3MTg3NTFhOTFhODEwYmZkNjZmNDhmNGU5MzljN2I3NDgwZWI2NzAiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImQ1ODIyMzIxMTc3Yzk2MjRmOThmNjNmYzYxMjIyMWZiN2Y2NjQ1ZWVmMmUxMGEzZTE2NjQ5ZDViY2RjM2UzZjQifQ"
+        },
+        {
+          "resource": "repo://scripts/commit-history/rehearsal.mjs#L692-L741",
+          "version": "repo-lines-v1:sha256:a16124504638ac15539adc082aa76c47f2769df9387dd31242e90452b10eddb0:eyJzZWxlY3RlZExpbmVDb3VudCI6NTAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjljYzRjZGFjOTNjZDkwMWEwNDdlNjE5ZGZiY2UyMzBiY2E1MTcwMjA3ZGFhYjk5ZGFhNWU0NDExNzdhNTAzZjkiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijk1ZWYwMWJjMDhkYmMzYjYzZTRlNzVlYTNkMjZhNWI5NDE4OTE4NzdlMjdhZDg5MTMyOWM4NDExZDdkOGRjNGQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImJkMGYyZDNhM2FhZGEyNzU4NjQ1NzhkMGE0MzkxNTYzOGQ1NDNmZWNhMmM5NDg1OGRiOTQxMjExZTg2Y2VmMmIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjFiNzYyMTQ3NzQ5Y2U2ZDMxNzg0ZDIwMGQwZGE5MGYzMzVjZDUyYmFjMGM1MDBmZGVlYWYxZmU5MWQxMmIyODcifQ"
+        },
+        {
+          "resource": "repo://scripts/commit-history/verify.mjs#L99-L199",
+          "version": "repo-lines-v1:sha256:218a73ac7f07976ca897706e2328a70dcf9e3f87600941c5ab29bc8ad56f9042:eyJzZWxlY3RlZExpbmVDb3VudCI6MTAxLCJmaXJzdFNlbGVjdGVkTGluZUhhc2giOiIzOThiN2ZlYmYxOWVlMjQ3ODczMjA2NTUwMDY2MmE2Mjg0ZTUwMWI4MWMzYmJjMTRhN2NjNzAxZWY4Y2JmZWFlIiwibGFzdFNlbGVjdGVkTGluZUhhc2giOiI0MmEyY2IyNWExMjJiNDQyMjFhNjIzNGVjNjYwYTdiNWZiN2Y5YmRlN2IzYjllMmIzYzU1OWEwZDk2ZmFjNzM5IiwicHJlY2VkaW5nQ29udGV4dExpbmVDb3VudCI6MywicHJlY2VkaW5nQ29udGV4dEhhc2giOiI0NDM1MmQ2ODU0M2RlZjM1OWI2MDcwM2EwZDgzY2ViOTNlZmQzNjI2MzM0NTA2MDNhZTUxNGE0ZTUzMGNjMTZkIiwiZm9sbG93aW5nQ29udGV4dExpbmVDb3VudCI6MSwiZm9sbG93aW5nQ29udGV4dEhhc2giOiI0MTJjYTM0NWNjZjc1YmY5YzA4MDZiY2U2OTViZThkZTgwOGI3OTk4NDI1MWE3YTU0ZDIwMmNmNjEwMWRkNDUxIn0"
+        }
+      ]
+    },
+    {
+      "id": "claim_085323ca318142509006bef37c6d8df9",
+      "statement": "The default rehearsal rejects changed signed commit identities, mergetag parent remapping and annotated tags rather than stripping or re-signing them.",
+      "evidence": [
+        {
+          "resource": "repo://scripts/commit-history/rehearsal.mjs#L715-L726",
+          "version": "repo-lines-v1:sha256:c12159e71e0e0145bbee68273d29a303b7ed44970a29852fdda08acd88dc7d69:eyJzZWxlY3RlZExpbmVDb3VudCI6MTIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImY5ODYxY2JkNDBiNDNhYzBhNzUwMzU4NzdlZmI4MjNmNDk0NDdlODYzMWM2ZDgyNDg3MDMyMmZmMDY0YTlkOTAiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjNhM2U0NmY5NDI3NmI2ZjZmNGVkMWYwMmFmNzhiZWY2YTJlZTFjNDM5ZGQ1NTg0Yjk3Mzk0ODMxMzIxNGQyYjciLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjhjYzIxMWE2NzExYzkzMWY0NWM4YzJmMjhlZjBkMjgwMTc5Mjc1MWExODg4YjM5Zjk1MjhmMmM0YTE5NmYzZDYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6Ijc0MTZhMzZkMThmOWQ1YTc1YzJiMmNjOTk3MDViZjhjMTcyMDRmMjRjNTFmNDA5ZWU4NGQ4OTM4NjgzMzU0NWYifQ"
+        },
+        {
+          "resource": "repo://scripts/commit-history/verify.mjs#L153-L168",
+          "version": "repo-lines-v1:sha256:1a3ade0811798237fc4446d58941fe69d367a7dfdbc636e66cbf35203b0a98f0:eyJzZWxlY3RlZExpbmVDb3VudCI6MTYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImZmOGRkNDEyMzBjNTdkMzhjMTNkMjZiMTBiMDcxNzAxMmMyNmViMmE2NDk4NDI2MzcxMDBhYzdjZmQwYjQ4NWIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQ4OTNmNDBlMzc4MWViODk2YzgyZDA0NmEwODA2N2ExMWUzNWNkZjJmMWRmYWYyNmZlYTkwYjhkYjY2NzY0MTMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjAzNGYyY2U5MjVlMDVkZWJjNWY1NjE2YTcxMTEyMmM0NGVhZmRlODNlZTg4NTQ5M2E3ZjY0ODBjZTgyOGUzMzgiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjY5ZWY0NjI1ODIzZDcxZmMzODYxMjMyMTY5MWU5NGU2ZjUyMjI4MGJiZDk3ODQ2NTBlZGM3NzQ4YzE5ZmM4YzYifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_f9e52d2a961f4314a3006cebca937429",
+      "statement": "Operational guidance requires actual direct approval, retaining failed run evidence and separately gated publication; history-repair artifacts are excluded from OpenWiki.",
+      "evidence": [
+        {
+          "resource": "repo://.openwikiignore#L1-L4",
+          "version": "repo-lines-v1:sha256:7fab1dca62438148687cc7f542ce3f81d4968810264f2bb054fe95e11b9a508e:eyJzZWxlY3RlZExpbmVDb3VudCI6NCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZDA4NDYyZjA0MjhiNDZiMjIwZDg1ODZjNGFhZTQ1YzEzMjUwNjlhY2VkOTY4Nzc2YjcwZGQ0YzI1OWEwMmM1ZiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiOGRjMDY5YWY2ODJiOGEwOGM1YjQ0ZjUyMDZiOGZiNjk4NzRiNmExZGU1NjM5ZTUzOTgzNGQzMWQ1N2NkZmUxNSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjAsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiYjgyZDk0ZmJlNTkyODIxYzY3N2NhYTgxZDNhYzRjMDNjNjU5ZTg4ZDI3M2IyOTc3MGJjY2Y0NDY3NGYzZDlkNiJ9"
+        },
+        {
+          "resource": "repo://docs/runbooks/historical-commit-scope-repair.md",
+          "version": "repo-file-v1:sha256:ce1cde0e6bff845182668e0889229b1f37b6cfe2ef365e1e2209062cdc4450f3"
+        }
+      ]
+    }
+  ],
+  "verification": {
+    "by": "openwiki/0.5.0",
+    "at": "2026-09-09T15:24:02.550Z"
+  }
+}

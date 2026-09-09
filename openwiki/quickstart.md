@@ -14,18 +14,22 @@ sources:
     resource: repo://apps/github.io/project.json
   - id: openwiki-source-fcfa3ced1d03143bb27d5018
     resource: repo://apps/github.io/vite.config.ts
+  - id: openwiki-source-af76a0570259ad84dd4c02ea
+    resource: repo://docs/agents/commit-scopes.md
   - id: openwiki-source-e9bb13afb6b400d29b3f8512
     resource: repo://docs/agents/openwiki.md
   - id: openwiki-source-8b0ac8066b150cc5fe3fd0ff
     resource: repo://docs/runbooks/github-pages-artifact-release.md
+  - id: openwiki-source-cdda5d4e7c9cf1bdd3f5a61c
+    resource: repo://docs/runbooks/historical-commit-scope-repair.md
   - id: openwiki-source-5b54a58d1b51cd490b0e7162
     resource: repo://package.json
   - id: openwiki-source-40275cb92c3610938f16ade3
     resource: repo://pnpm-workspace.yaml
-generated: { by: "codex", at: "2026-09-09T05:56:49.829Z" }
+generated: { by: "codex", at: "2026-09-09T15:24:02.550Z" }
 verified:
   - by: openwiki/0.5.0
-    at: 2026-09-09T05:56:49.829Z
+    at: 2026-09-09T15:43:59.341Z
 ---
 
 # Workspace quickstart
@@ -61,6 +65,14 @@ first release or a recovery should also follow
 [`docs/runbooks/github-pages-artifact-release.md`](../docs/runbooks/github-pages-artifact-release.md)
 for the reviewed SHA/version inputs, target repository setup, and live checks.
 
+For commit ownership, use `pnpm test:commit-scopes` and the
+[scope policy](../docs/agents/commit-scopes.md); documentation and mixed-root
+changes still need human domain judgment. `pnpm test:commit-history` exercises
+the guarded repair tooling in disposable fixtures. A successful test run does
+not approve a real history rewrite: follow the
+[history-repair guide](operations/history-repair.md) for inventory, backup,
+exact-package approval, and isolated verification boundaries.
+
 ## Find the right guide
 
 | Task | Start here |
@@ -69,6 +81,8 @@ for the reviewed SHA/version inputs, target repository setup, and live checks.
 | Change skills, evidence, or scores | [Skills and capability evidence](concepts/evidence.md) |
 | Change themes, components, or scroll layout | [Design system and layout](architecture/design-system.md) |
 | Select tests and checks | [Validation workflow](workflows/validation.md) |
+| Choose a commit scope or investigate a CI range diagnostic | [Scope ownership](../docs/agents/commit-scopes.md) and [validation](workflows/validation.md) |
+| Review historical messages or prepare an isolated repair | [Guarded history repair](operations/history-repair.md) |
 | Calculate versions or understand release, recovery, deployment, and handoff boundaries | [Release and session handoff](operations/releases.md) |
 
 ## Maintain this wiki
