@@ -43,7 +43,7 @@ const roadmapSuggestedConceptsByNodeId = {
   'secret-management': ['Vault', 'AWS Secrets Manager', 'Sealed Secrets'],
   'infrastructure-monitoring': ['Prometheus', 'Grafana', 'Datadog'],
   'logs-management': ['Loki', 'Elastic Stack'],
-  'container-orchestration': ['Kubernetes', 'Amazon EKS'],
+  'container-orchestration': ['Kubernetes'],
   'application-monitoring': ['Prometheus'],
   'artifact-management': ['Artifactory'],
   gitops: ['ArgoCD'],
