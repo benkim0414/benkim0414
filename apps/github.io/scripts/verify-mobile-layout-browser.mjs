@@ -878,6 +878,15 @@ function assertRouteMetrics(route, viewport, metrics, navigationPath) {
     const roadmap = metrics.roadmapStepper;
     assert(roadmap != null, `${label} has no completed roadmap step.`);
     assert(
+      roadmap.labelColor != null &&
+        roadmap.expectedPrimaryColor != null &&
+        roadmap.descriptionColor != null &&
+        roadmap.expectedSecondaryColor != null &&
+        roadmap.upcomingLabelColor != null &&
+        roadmap.expectedDisabledColor != null,
+      `${label} cannot resolve roadmap color targets: ${JSON.stringify(roadmap)}.`,
+    );
+    assert(
       roadmap.labelColor === roadmap.expectedPrimaryColor,
       `${label} completed title does not use primary color: ${JSON.stringify(roadmap)}.`,
     );
