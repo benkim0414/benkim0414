@@ -86,6 +86,7 @@ Do not assume a project name. Verify it from Nx/project files.
 ## Git rules
 
 - Keep diffs small and ticket-scoped.
+- Follow [commit scope ownership](docs/agents/commit-scopes.md): use product scopes such as `github.io` and `date-interval`, tool scopes such as `nx` and `commitlint`, and leave genuinely repository-wide commits unscoped. Documentation and mixed-root ownership require explicit reviewer judgment.
 - Use branches/worktrees for implementation work.
 - Commit messages should follow the repo's commitlint/conventional-commit setup.
 - `implement` may create local commits if useful, but must not push.
