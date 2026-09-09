@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:8afd76687e4665ebd176f6ec38c9eb9a05f983eb614d8b1902bb41ee36173032",
+  "pageVersion": "sha256:9698880d8f5f2ab76f875a14e91a8b1c0edd92fd6c70746d95d4e264277f5038",
   "claims": [
     {
       "id": "claim_6cbb6dd0080f4763aaf4dec964f7f76e",
@@ -116,25 +116,29 @@
     },
     {
       "id": "claim_3ecd9cb7eae64aed95ac69e7f65432a7",
-      "statement": "The production Firefox mobile-layout verifier audits the `/roadmap` route at 375×667 and 820×1180, requiring completed descriptions to differ from bright titles, completed vertical bars to match title color, and the measured space above evidence to exceed the space below it.",
+      "statement": "The production Firefox mobile-layout verifier audits the `/roadmap` route at 375×667 and 820×1180 in dark and light modes, checks completed descriptions, titles, bars, and upcoming labels against their exact component-scoped color tokens, and requires the description-to-evidence gap to be smaller than the evidence-to-next-title gap.",
       "evidence": [
         {
           "resource": "repo://apps/github.io/scripts/verify-mobile-layout-browser.mjs#L15-L44",
           "version": "repo-lines-v1:sha256:abb6ef3df03c60650088e77a2c5f2dbda5a238658f4363d2e2b5bc80375d1555:eyJzZWxlY3RlZExpbmVDb3VudCI6MzAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjkyNmU3YmI2ODM3MjcyZjZjNjQzZTc5ZjExNGE4OTc2YTY4OTUxYThlMThhZWRkNTJjNDA1MzRjNWVmMmQ5MDgiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjJmZjc4MjJkYTZmNzZmNGQzZjZmNTQwOWYwNGIwZmE3ZDExZDg5NDFmOTM3MzQ2NWY4YjVjZDgxZTc3NDMyZDciLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjliM2FlYWY2NmJlZmUzZTVkYzRiMWM5NTZiZWE2NmQ5MGQ3ODJkMWY5OGJiYThkYjQ3MmQ1NWNiY2E2Mzk0ZTMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjQ1MjNkZGUzZjhiZDgyMjRlMTA0MTI5OGY1N2QwMDhlNmIxNzhjZDNhODA4ZmE1ZTU1MjYwYjcwZGQ4MTVhOTEifQ"
         },
         {
-          "resource": "repo://apps/github.io/scripts/verify-mobile-layout-browser.mjs#L758-L823",
-          "version": "repo-lines-v1:sha256:dd3a4ac9b10001e5e88419d04d84174b2fcaa6e2c07d328a33adfd398a1a2e94:eyJzZWxlY3RlZExpbmVDb3VudCI6NjYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjFlNzVjNzBkOTQ2MzYyNWUxMDc5ZmQ4ZmM4ZWU2MmFkMmU5MmM0MmJlYWFiZmQ4NWI3OGQ4ZTBhNDk3OWI5NGEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImZlMzNkYzczMWU3ZDA3YjFmMGMwNWNmZWJkN2UxOTIyMDIzZTYwNzdiYzBhZTdiYTMwMTQ4ZjUwODMzYTI1YTkiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjU1MTJhZTg3MzNlNmM2ZDA2ZmQzNGVkNWZkYTJhMDk3MTI2MTk5MWYxNWExOWJhYjY5ZjU0MDE0ODY1Y2JmMGQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImRmOGI2ZDlkMDY4MDIwZDAzMGY5MzQxMWI1ZTFiMDVmNjhiNDQ0NzgxMDQwZTk5NDQ0NDYxNzEwZGM3ZmVlZGMifQ"
+          "resource": "repo://apps/github.io/scripts/verify-mobile-layout-browser.mjs#L1600-L1627",
+          "version": "repo-lines-v1:sha256:c3fff076455f4156c2271a80436948187e8f2ad5e86df941ef4cad3578a8e2fb:eyJzZWxlY3RlZExpbmVDb3VudCI6MjgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjgxOTU5OTM3YjY0NjE5MjVhZmUyMmVkODRiOTg4MDIzZWYwYjlmNjI1NTYyMzdhYjUyODJmMGNhODE5NzFlMzYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjliNjJmNjBkODU5MGE1NzljZjQ2ZjhkNjczNzhjNGM1NzJiOTYyY2VjY2RiOTBjN2E1ZjdiNDJiOTYwNzgyYTQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjE2ZTNhMWFkZTYxYzI1MjVmYmVlNzQ2YmRiMDIwZWQ4MDZlNjIwOWI4ODM5YWE3NWRjMjRlZjI5NTllMWYwOGMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImNmOTA5NjUyZDdiYTJmOTJiODgwZWFhNTI0ZWI4Y2FjZGU5NDEyZmQzOWQ2ZGE2MzQ5Y2U0YjA3ODQ1MjY0N2QifQ"
         },
         {
-          "resource": "repo://apps/github.io/scripts/verify-mobile-layout-browser.mjs#L850-L879",
-          "version": "repo-lines-v1:sha256:1cd04cdcbfb0a6fd6fb855633c3364b582bed31a91e92d189259907c3551a7c9:eyJzZWxlY3RlZExpbmVDb3VudCI6MzAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImIxNTczOGY2NmY4NzBmOGIxZWQ3YjkwZGEwN2MxZDg3YTdhMGVkZGM4YTM5YTlkYjA1ZjdlODQzNDc4YzNiZDAiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjE0NWRlNmFiZmNmMTgzOThiYWZmOTUwYmI0MzU0YTRlODM2OGE3MDllMmRmOTlhYmMxNDE3NTdmMjJiZjRkNzMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjJmYzU2MzJiZmFlN2UzM2EyNmQ3OWYwNWY2NzBiZWY4ZjAxMGFmNzhmMTNmYmU5NzUyM2Q3YzY3ZDQxZDNlNWUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjllNjg1M2NhMDcyOGQ4YWU3MzQ5MGFkZjViZDQzMmJiZmUwYTQ3NmRiMTkyNTc2OTk4MjdhYWYyZTQ1YWZkOWMifQ"
+          "resource": "repo://apps/github.io/scripts/verify-mobile-layout-browser.mjs#L758-L842",
+          "version": "repo-lines-v1:sha256:5796e70079b4414518f68feb1814d1d1960bf38f80e689212a609987b281f5c9:eyJzZWxlY3RlZExpbmVDb3VudCI6ODUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjFlNzVjNzBkOTQ2MzYyNWUxMDc5ZmQ4ZmM4ZWU2MmFkMmU5MmM0MmJlYWFiZmQ4NWI3OGQ4ZTBhNDk3OWI5NGEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjkyMTY5ZjM2NmQ4NjVhMzJhMTQzYTZiNjA4MjFhOWU0NjUyMzJjMmZkYzE3MzExNmRkYjkxMjcwZWZjOWJiZjgiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjU1MTJhZTg3MzNlNmM2ZDA2ZmQzNGVkNWZkYTJhMDk3MTI2MTk5MWYxNWExOWJhYjY5ZjU0MDE0ODY1Y2JmMGQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImFlYzQwZjhjY2VhZGNjYjI5NTViMmI1OTRkMGZiNWIxY2E4MzRlNzQ4OTg1MzFlNDZjYjJiMzQyYWZmYmY2YjYifQ"
+        },
+        {
+          "resource": "repo://apps/github.io/scripts/verify-mobile-layout-browser.mjs#L861-L922",
+          "version": "repo-lines-v1:sha256:56f5f9cc369f449eb315a245118d1150b0f95979613dc4518ff7027755139c7d:eyJzZWxlY3RlZExpbmVDb3VudCI6NjIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImM1NjlhYmZhYjQyNzE5OTFjYWIwYTY1ZmEzY2Y2ODJjMjg1MzJhMzY2YWFmMzNmMDJjYjY5YmM4ODBlZTYzZGYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjViMGQ5NDJlNzBlMDYyNzUxMmQ2ZjI2MmE1MmRjMWUzYTRkNTZkMGI5MDc0Y2QzY2RmZTNlMDdmMTFlMjg4NjMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImQ5ZGNiNGE0YWVlMTgyMjNmNWI2N2M2YmQ5YzIyNGQ4YmE1MDU3MGE2NzU2NjU2Zjg4NmUwZDgwYjBlMGE1ZDkifQ"
         }
       ]
     }
   ],
   "verification": {
     "by": "openwiki/0.5.0",
-    "at": "2026-09-09T06:19:25.051Z"
+    "at": "2026-09-09T06:35:50.795Z"
   }
 }

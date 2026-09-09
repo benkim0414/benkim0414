@@ -26,10 +26,10 @@ sources:
     resource: repo://nx.json
   - id: openwiki-source-871ac2bb60a2ea411c19a76e
     resource: repo://scripts/setup-openwiki.test.mjs
-generated: { by: "codex", at: "2026-09-09T06:19:25.051Z" }
+generated: { by: "codex", at: "2026-09-09T06:35:50.795Z" }
 verified:
   - by: openwiki/0.5.0
-    at: 2026-09-09T06:19:25.051Z
+    at: 2026-09-09T06:35:50.795Z
 ---
 
 # Validation workflow
@@ -82,7 +82,7 @@ visual correctness. Browser prerequisites and failures must be reported, not
 converted into an assumed pass. The mobile browser verifier also checks the
 roadmap at both viewport widths: completed descriptions must remain visually
 secondary to their titles, completed vertical bars must match title color, and
-the measured evidence gap above the token group must exceed the gap below it.
+the description-to-token gap must be smaller than the token-to-next-title gap.
 It also checks the
 skill-detail Experience heading and its neutral count badge as rendered
 geometry: both must exist, fit within the main surface without overlap, align

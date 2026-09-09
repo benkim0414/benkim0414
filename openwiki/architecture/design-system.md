@@ -5,7 +5,7 @@ description: How Astryx, StyleX, theme persistence, and browser layout checks fi
 tags: [astryx, stylex, theme, layout]
 verified:
   - by: openwiki/0.5.0
-    at: 2026-09-09T06:19:25.051Z
+    at: 2026-09-09T06:35:50.795Z
 sources:
   - id: openwiki-source-45b1d77b308bd57403f55ff9
     resource: repo://apps/github.io/.storybook/story-taxonomy.spec.ts
@@ -41,7 +41,7 @@ sources:
     resource: repo://apps/github.io/src/styles.css
   - id: openwiki-source-fcfa3ced1d03143bb27d5018
     resource: repo://apps/github.io/vite.config.ts
-generated: { by: "codex", at: "2026-09-09T06:19:25.051Z" }
+generated: { by: "codex", at: "2026-09-09T06:35:50.795Z" }
 ---
 
 # Design system and layout
@@ -83,8 +83,8 @@ and disabled states to Astryx 0.5.4 `Stepper` and `Step`. App-owned StyleX is
 limited to the wrapping evidence lists inside each step, while a roadmap-scoped
 global selector promotes completed labels and vertical bars to the primary text
 token without changing semantic success status; descriptions retain Astryx's
-secondary text color. Evidence spacing deliberately leaves more room above the
-token group than below it. Linked `SkillToken`s,
+secondary text color. Evidence spacing keeps the token group closer to its own
+description than to the following step title. Linked `SkillToken`s,
 certification citations, and neutral concept tokens reuse existing components.
 The component deliberately has no active step because evidence can complete
 non-contiguous topics, so completion is represented by each step's semantic
