@@ -20,6 +20,9 @@ export interface DevOpsRoadmapStepperProps {
 const NO_ACTIVE_STEP = -1;
 
 const styles = stylex.create({
+  evidenceGroup: {
+    marginBlockStart: `calc(-1 * ${spacingVars['--spacing-1']})`,
+  },
   evidenceList: {
     display: 'flex',
     flexWrap: 'wrap',
@@ -49,7 +52,7 @@ function StepEvidence({ item }: { readonly item: DevOpsRoadmapItem }) {
   const evidenceSkillTokens = item.evidenceSkillTokens ?? item.skills ?? [];
 
   return (
-    <VStack gap={2}>
+    <VStack gap={2} xstyle={styles.evidenceGroup}>
       {item.certifications?.length ? (
         <HStack
           as="ul"
@@ -110,7 +113,8 @@ export function DevOpsRoadmapStepper({
   return (
     <Stepper
       activeStep={NO_ACTIVE_STEP}
-      density="balanced"
+      data-roadmap-stepper=""
+      density="spacious"
       label={label}
       orientation="vertical"
     >

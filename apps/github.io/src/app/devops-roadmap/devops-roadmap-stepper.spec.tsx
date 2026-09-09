@@ -101,6 +101,7 @@ describe('DevOpsRoadmapStepper', () => {
     const stepper = getByRole('list', { name: 'DevOps Roadmap' });
     const steps = getDirectSteps(stepper);
 
+    expect(stepper.getAttribute('data-roadmap-stepper')).toBe('');
     expect(container.querySelector('[aria-current="step"]')).toBeNull();
     expect(within(steps[0]).getByText('completed')).toBeTruthy();
     expect(within(steps[2]).getByText('completed')).toBeTruthy();
