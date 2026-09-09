@@ -49,6 +49,8 @@ test('increments strict major.minor.patch versions', () => {
   assert.equal(incrementVersion('1.2.3', 'major'), '2.0.0');
   assert.throws(() => incrementVersion('v1.2.3', 'patch'), /strict SemVer/);
   assert.throws(() => incrementVersion('1.2', 'patch'), /strict SemVer/);
+  assert.throws(() => incrementVersion('1.2.3\n', 'patch'), /strict SemVer/);
+  assert.equal(incrementVersion('9007199254740991.0.0', 'major'), '9007199254740992.0.0');
 });
 
 test('calculates a release and preserves contributing commit details', () => {

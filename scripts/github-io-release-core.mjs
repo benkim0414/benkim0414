@@ -35,20 +35,20 @@ export function highestBump(commits) {
 
 function parseVersion(version) {
   const match = VERSION.exec(version);
-  if (!match) throw new Error('version must be strict SemVer major.minor.patch');
+  if (!match || match[0] !== version) throw new Error('version must be strict SemVer major.minor.patch');
   return {
-    major: Number(match.groups.major),
-    minor: Number(match.groups.minor),
-    patch: Number(match.groups.patch),
+    major: BigInt(match.groups.major),
+    minor: BigInt(match.groups.minor),
+    patch: BigInt(match.groups.patch),
   };
 }
 
 export function incrementVersion(version, bump) {
   const parsed = parseVersion(version);
   if (!BUMP_ORDER[bump]) throw new Error(`unknown release bump: ${bump}`);
-  if (bump === 'major') parsed.major += 1, parsed.minor = 0, parsed.patch = 0;
-  if (bump === 'minor') parsed.minor += 1, parsed.patch = 0;
-  if (bump === 'patch') parsed.patch += 1;
+  if (bump === 'major') parsed.major += 1n, parsed.minor = 0n, parsed.patch = 0n;
+  if (bump === 'minor') parsed.minor += 1n, parsed.patch = 0n;
+  if (bump === 'patch') parsed.patch += 1n;
   return `${parsed.major}.${parsed.minor}.${parsed.patch}`;
 }
 
