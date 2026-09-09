@@ -250,7 +250,7 @@ describe('AppRoutes', () => {
       getByRole('heading', { level: 2, name: 'DevOps roadmap' }),
     ).toBeTruthy();
     expect(getByText('About this roadmap')).toBeTruthy();
-    expect(getByRole('group', { name: 'DevOps roadmap diagram' })).toBeTruthy();
+    expect(getByRole('list', { name: 'DevOps Roadmap' })).toBeTruthy();
   });
 
   it('navigates from detail search to the selected skill route', async () => {

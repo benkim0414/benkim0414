@@ -4,7 +4,7 @@ import { Heading } from '@astryxdesign/core/Heading';
 import { VStack } from '@astryxdesign/core/Layout';
 import type { ReactElement } from 'react';
 
-import { DevOpsRoadmap } from './devops-roadmap';
+import { DevOpsRoadmapStepper } from './devops-roadmap-stepper';
 
 const ROADMAP_DESCRIPTION =
   'This roadmap presents my DevOps capabilities using the learning path published by roadmap.sh as a reference framework. Each topic highlights relevant skills and certifications, providing a structured overview of my experience across the DevOps discipline.';
@@ -34,7 +34,7 @@ export function RoadmapPage(): ReactElement {
         status="info"
         title="About this roadmap"
       />
-      <DevOpsRoadmap />
+      <DevOpsRoadmapStepper />
     </VStack>
   );
 }
