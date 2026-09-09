@@ -5,7 +5,7 @@ description: Runtime composition, route ownership, and the boundary between sour
 tags: [react, routing, github-io]
 verified:
   - by: openwiki/0.5.0
-    at: 2026-09-09T05:07:58.190Z
+    at: 2026-09-09T05:56:49.829Z
 sources:
   - id: openwiki-source-a099837b8e8614c677082a9d
     resource: repo://apps/github.io/project.json
@@ -27,7 +27,11 @@ sources:
     resource: repo://apps/github.io/vite.config.ts
   - id: openwiki-source-6ba748254f38112b13d529da
     resource: repo://nx.json
-generated: { by: "codex", at: "2026-09-09T05:07:58.190Z" }
+  - id: openwiki-source-234366370818f39ce649e8e3
+    resource: repo://scripts/github-io-nx-release.mjs
+  - id: openwiki-source-8df1ce8801fb1bde82edbc9c
+    resource: repo://scripts/github-io-version-actions.cjs
+generated: { by: "codex", at: "2026-09-09T05:56:49.829Z" }
 ---
 
 # Application architecture
@@ -70,11 +74,15 @@ without hiding its supporting records.
 Application versioning is a build boundary rather than authored package data.
 Vite injects `__APP_RELEASE__` and `__APP_VERSION__`; ordinary development
 resolves that boundary to `dev`, while a release build fails unless
-`APP_VERSION` is a stable three-part SemVer. The footer consumes only the
+`APP_VERSION` is a canonical stable three-part SemVer without leading zeroes,
+suffixes, or trailing whitespace. The footer consumes only the
 resulting `appVersion`. Nx marks `github.io` as a deployable project, gives its
 build cache explicit inputs for both environment values, and configures an
-independent `github.io@{version}` release stream without allowing Nx itself to
-commit, tag, or push.
+independent `github.io@{version}` release stream. The release coordinator calls
+Nx Release in dry-run mode against an ignored staging manifest and verifies
+Nx's baseline, candidate, project, and tag against its own decision. Nx never
+commits, tags, or pushes; a small version-actions adapter exists only because
+the source app manifest deliberately has no version during bootstrap.
 
 Continue with [evidence semantics](../concepts/evidence.md),
 [theme and layout](design-system.md), and [validation](../workflows/validation.md).

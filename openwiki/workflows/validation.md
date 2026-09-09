@@ -26,16 +26,20 @@ sources:
     resource: repo://package.json
   - id: openwiki-source-8e995cb599a34a3b0c5b8cbe
     resource: repo://scripts/github-io-bootstrap.test.mjs
-  - id: openwiki-source-e3096823142592901fa19f6b
-    resource: repo://scripts/github-io-release-workflows.test.mjs
+  - id: openwiki-source-6498c12d54fa48fbe250bfda
+    resource: repo://scripts/github-io-build-version.test.mjs
+  - id: openwiki-source-434f3fc007f0b8f286d47431
+    resource: repo://scripts/github-io-nx-release.test.mjs
+  - id: openwiki-source-b5b471d0c1179e011acc7c64
+    resource: repo://scripts/github-io-release-recovery.test.mjs
   - id: openwiki-source-871ac2bb60a2ea411c19a76e
     resource: repo://scripts/setup-openwiki.test.mjs
   - id: openwiki-source-165465422a61a00b62b0f6d3
     resource: repo://scripts/sync-github-pages-artifact.test.mjs
-generated: { by: "codex", at: "2026-09-09T05:07:58.190Z" }
+generated: { by: "codex", at: "2026-09-09T05:56:49.829Z" }
 verified:
   - by: openwiki/0.5.0
-    at: 2026-09-09T05:07:58.190Z
+    at: 2026-09-09T05:56:49.829Z
 ---
 
 # Validation workflow
@@ -67,10 +71,17 @@ APP_RELEASE=true APP_VERSION=9.8.7 pnpm nx build github.io --skip-nx-cache
 The pure and Git-fixture tests cover exact conventional-commit scope,
 first-parent calculation, deterministic records, digest verification, and
 deployment ordering. The bootstrap fixture independently locks the reviewed
-history at `0.142.1`. Static workflow tests protect artifact-before-tag order,
-recovery without rebuild, permission boundaries, and removal of Changesets.
-The release build proves that a supplied version reaches the immutable output;
-an `APP_RELEASE=true` build without `APP_VERSION` must fail.
+history at `0.142.3`. Real Nx integration tests exercise the pinned Release API
+for bootstrap and tag-based releases, while Vite boundary tests prove canonical
+SemVer acceptance, invalid-value rejection, and immutable emitted versions.
+CLI tests protect JSON-only stdout and diagnostic stderr behavior.
+
+Static workflow tests still protect declarative ordering and permissions. In
+addition, the recovery suite extracts the actual workflow shell boundaries and
+runs them against temporary Git/filesystem fixtures and a strict fake GitHub
+CLI. It exercises failures and retries after persistence, tag creation, Release
+creation, each asset upload, publication, Pages synchronization, and delivery,
+proving recovery reuses the saved artifact without a rebuild.
 
 The automated GitHub workflow applies the same focused Nx lint and test gates
 before its one release build. Local tests establish its declarative contract;

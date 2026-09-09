@@ -8,23 +8,27 @@ sources:
     resource: repo://.github/workflows/release-github-io.yml
   - id: openwiki-source-e9bb13afb6b400d29b3f8512
     resource: repo://docs/agents/openwiki.md
+  - id: openwiki-source-8b0ac8066b150cc5fe3fd0ff
+    resource: repo://docs/runbooks/github-pages-artifact-release.md
+  - id: openwiki-source-234366370818f39ce649e8e3
+    resource: repo://scripts/github-io-nx-release.mjs
   - id: openwiki-source-6077ffb7151edbd55ee9736a
     resource: repo://scripts/github-io-release-core.mjs
   - id: openwiki-source-2987102e69de21dc21c6b7d8
     resource: repo://scripts/github-io-release.mjs
   - id: openwiki-source-692e6bda673663422a5ce28b
     resource: repo://scripts/sync-github-pages-artifact.mjs
-generated: { by: "codex", at: "2026-09-09T05:07:58.190Z" }
+generated: { by: "codex", at: "2026-09-09T05:56:49.829Z" }
 verified:
   - by: openwiki/0.5.0
-    at: 2026-09-09T05:07:58.190Z
+    at: 2026-09-09T05:56:49.829Z
 ---
 
 # Release and session handoff
 
 One serialized workflow now owns the complete `github.io` release on pushes to
 `main`; manual dispatch supports an explicit first bootstrap or recovery for a
-specific full source SHA. Its non-cancelling `release` concurrency group covers
+specific reviewed first-parent source SHA and version. Its non-cancelling `release` concurrency group covers
 calculation, publication, and deployment. With no baseline tag, an ordinary
 push fails and instructs an operator to dispatch the reviewed bootstrap. Later
 runs scan from the latest `github.io@<version>` tag and ignore histories without
@@ -33,7 +37,8 @@ an exact-scope qualifying conventional commit.
 The release coordinator classifies exact `github.io` scope only. Breaking
 changes win major, `feat` produces minor, and `fix` produces patch. Bootstrap
 replays first-parent integrations from `8acdd81` at `0.0.0`; the repository test
-locks the reviewed result at `0.142.1`. The app manifest is not a version source.
+locks the current reviewed result at `0.142.3`. Bootstrap requires both that
+exact source and replayed version. The app manifest is not a version source.
 
 A prepared release is built once. After lint and test, the workflow supplies
 the calculated version to an uncached production build, verifies that exact
@@ -43,7 +48,10 @@ Only after persistence succeeds does it create or verify the tag, attach the
 same bytes to a GitHub Release, and publish it. Recovery finds that saved
 artifact across runs, validates its workflow provenance, metadata, tag, source,
 and digest, and continues without rebuilding. Ambiguous, expired, corrupt, or
-tagged-but-unrecorded state fails explicitly.
+tagged-but-unrecorded state fails explicitly. Release notes are rendered only
+from accepted commits in the saved record and must match on retries. Before a
+fresh build, the coordinator also asks Nx Release to verify the selected
+project, baseline, candidate, and tag in mutation-disabled dry-run mode.
 
 Deployment receives the verified archive instead of source build credentials.
 It checks out the separate user-site repository only in the environment-gated
@@ -52,6 +60,9 @@ deployment job. Before mutation, the synchronizer compares the candidate with
 is superseded, newer history must also increase version, and divergence or
 identity conflicts fail. Bootstrap alone may initialize a site without that
 metadata. A changed target is committed with both release tag and source SHA.
+Obsolete first-parent release targets stop successfully before build or
+publication. The operator setup, first-deployment checks, and recovery limits
+are detailed in `docs/runbooks/github-pages-artifact-release.md`.
 
 These describe existing automation, not authorization to invoke it from a local
 coding session. [AGENTS.md](../../AGENTS.md) owns the explicit handoff/shipping

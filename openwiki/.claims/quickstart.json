@@ -1,18 +1,14 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:a46f62e941e16a8680b109bcaa224bf05de49b2bc93cefad1bd8c12d05335051",
+  "pageVersion": "sha256:cfb8032edd2542efcc7363ceac56395cfc62448c5dacaa45fb959c1052ff7816",
   "claims": [
     {
       "id": "claim_a1aaa09a8bdc4247ba862841aa6d008f",
       "statement": "The root is a private pnpm workspace pinned to pnpm 11.16.0 with apps/* and packages/* package globs.",
       "evidence": [
         {
-          "resource": "repo://package.json#L1-L18",
-          "version": "repo-lines-v1:sha256:827456ab329bdacb02df2a3d6e3805c5a3b5c08ed157f11ecfa05b486e41aac5:eyJzZWxlY3RlZExpbmVDb3VudCI6MjAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImE2ZmIwOGZkYTFhY2I5NTdiNjExNmJkMzc4MTFhMWZlNDFhMDE2MTFjMDYzMWVkYmY3ODZkNjg4OWEyN2E1NWMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjgyYzExMjEyZDIzNTI3YmFiNTY0M2Y1YzI2OWRjZjAyZDMwNmRiMzY1M2JhNTllZGUxZDNhYTZmZDFmYzNiNTAiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjI3M2UxMDZmODdiNmZmMzdhMmY2MGE4MmFmYjJiMDc4OWIwODk0OTFhNzU0MmIwOTdhMmViMGU4NmIxOTAzYjgifQ"
-        },
-        {
-          "resource": "repo://package.json#L23-L24",
-          "version": "repo-lines-v1:sha256:515b63c0334548122e627ffbcc5cf1e94bb8842a014876744d8ccffb6dacddc8:eyJzZWxlY3RlZExpbmVDb3VudCI6MiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMDBmYTZiN2M3YWRjMTFjZTA5OGE0YTljZjc1MmViZDg1ZGQzZTU4YWMwZjhlODA0ZDkzMjljYWY5YjRhYmZlNSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiOWRjNGRlN2VkMzVhMjMzNjQ1Mzk4NjRkYWRiOTM4Yjg3MjMzMzc5MTc5ZDYyOTJiOWZmNWY2MTlhNmMxMzE2NCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZGE4MGI3ZmZiYTg5MGI2ZTkwYjFlMTlkNzk4MTgyZTEzODk3YzViOTZjNzgzYWQ4Yjc1NTBkZDdjZGVkZTJkNSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiOTU5OGMyYjcxMTQ3NmVjZWU0NTA5NmZjZGIzOTgzNGIzMTZmY2I0YWFkYjRkNGJhOTQ2YTI1NTdjYzBjNTgyMCJ9"
+          "resource": "repo://package.json",
+          "version": "repo-file-v1:sha256:bbcc5d421174276525084d3b4f29e96d7caccdf822e4417e50e9455df5054a50"
         },
         {
           "resource": "repo://pnpm-workspace.yaml#L1-L3",
@@ -49,12 +45,8 @@
       "statement": "The repository exposes OpenWiki setup, status and visualization scripts with openwiki pinned at 0.5.0.",
       "evidence": [
         {
-          "resource": "repo://package.json#L14-L16",
-          "version": "repo-lines-v1:sha256:d85ca03cdd40e6e98b4ac67cf88ba7a7ac71471cbad4b681ef21e5bd2933e27d:eyJzZWxlY3RlZExpbmVDb3VudCI6NSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMjc3YTA2MTc3MTgzZmEwMmM1ZGJjZDVjMDVkZDc5OTZjZTZmZTk0YzM3NGU4ZTIzYmE2ODY3MGUwMmU3YWUxMiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiYjc2YTEyMjFkMjMyMjcyM2JmMjVjOGEwZmNmZGUyYTVlZjU5Zjk2MDFmOGQzYzZiYzRjYmQxZTQwNGVkZWU5ZSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMTJmNGUwMWIwNWZmZDA2YzNlNzcxZWQ3OGEyMTUyMDZkODI5Mzc4NWQyZGMwMWNlYWU2MjQ0NjY1ZmM0NGQ3YSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNGFhNmI4YmFmNGZiYWM1ZDAxYTYyYzYxOTZmMmFjNGIxZDgzYmQ3ZjIxMzI4ZTJmZTJjNzAyMzQ5OTE3NGIwNyJ9"
-        },
-        {
-          "resource": "repo://package.json#L64-L64",
-          "version": "repo-lines-v1:sha256:febad2d8429ae904d61efc8a77736ee6c6c1e8408561e821f353377a45106c94:eyJzZWxlY3RlZExpbmVDb3VudCI6MSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZmViYWQyZDg0MjlhZTkwNGQ2MWVmYzhhNzc3MzZlZTZjNmMxZTg0MDg1NjFlODIxZjM1MzM3N2E0NTEwNmM5NCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiZmViYWQyZDg0MjlhZTkwNGQ2MWVmYzhhNzc3MzZlZTZjNmMxZTg0MDg1NjFlODIxZjM1MzM3N2E0NTEwNmM5NCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNDUzNDNmOTNiM2Y0NTFkZDg4N2VhNWM3Zjg2ZjM0ZThjNzI5NWM5MDhlYTM1NWU0MWY0NGVhMWI4ZDZjNzEzOSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiYzk3YjQ4NDEzZDcwYTM2NzQ0YjJmOGVmMzE1MDJhMWJmMDAwMjhkNDg4ZGRkNGU0NzQ1MTFiYTA5NWY4ODkxMCJ9"
+          "resource": "repo://package.json",
+          "version": "repo-file-v1:sha256:bbcc5d421174276525084d3b4f29e96d7caccdf822e4417e50e9455df5054a50"
         }
       ]
     },
@@ -70,25 +62,35 @@
     },
     {
       "id": "claim_3b40877f87a94300a642154b0a68cbc2",
-      "statement": "The repository exposes local github.io release calculation and focused release-test commands, while actual publication and deployment remain inside the serialized GitHub workflow and explicit handoff boundary.",
+      "statement": "The repository exposes local github.io release calculation and a comprehensive focused release-test command, while actual publication and deployment remain inside the serialized GitHub workflow and explicit handoff boundary.",
       "evidence": [
         {
-          "resource": "repo://.github/workflows/release-github-io.yml#L1-L29",
-          "version": "repo-lines-v1:sha256:ed50d696b22b9e76e1e1c8bf9f58b390b06a59997d7bebc0f9b25ec5702e3aa4:eyJzZWxlY3RlZExpbmVDb3VudCI6MjksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQ3YTI0NjliYmJmZGEzMDZmMDk2NjI1YWY5ODdhMTdlNTEwZGJmY2U3ZTBlYjU5OGFjNjQ5NGFhZGJkODlkYjUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjlkMWFkZWY2M2ZhOTgwNGQwYWI2Y2U1ZDFhODdjNjc5OWU0NDU2MjBjN2VjYzNhZjE5OTE2YzZiZWFmZWVmNTIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjNjZjVmNTE4MGQ1MTJlNzIwMzdlYTQ0MzBlYWQxMTE1ODdjMzgzMGNkZjNiZTAwZmRmNGNkMDEyMzJkY2UwMmEifQ"
+          "resource": "repo://.github/workflows/release-github-io.yml#L1-L34",
+          "version": "repo-lines-v1:sha256:52e79b3f8aee16c61710918e622751c843306c697687fb6cba0b44f8ea6d431c:eyJzZWxlY3RlZExpbmVDb3VudCI6MzQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQ3YTI0NjliYmJmZGEzMDZmMDk2NjI1YWY5ODdhMTdlNTEwZGJmY2U3ZTBlYjU5OGFjNjQ5NGFhZGJkODlkYjUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQwYzk3OWNhYWZhNDY0ODI5ZDY1NGJiYzM4Y2JhYTg4ZjE3NTJjZDJlMWRjMjAxM2VmYmVhNjY4NDljNWRhMzgiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImZmNjIyNjYyYmNjYjA4ZDU4NTY2YTg1NGM5N2NhZjUyYjQzNDUzMDRhNWRmZTRiNzIzMWFjOGJhNmZjNzAwYmIifQ"
         },
         {
           "resource": "repo://AGENTS.md",
           "version": "repo-file-v1:sha256:2cb64c9009eb3cc49d1c81e4a84a5352a024e77a727b16736d7024a37486ecd3"
         },
         {
-          "resource": "repo://package.json#L14-L18",
-          "version": "repo-lines-v1:sha256:d85ca03cdd40e6e98b4ac67cf88ba7a7ac71471cbad4b681ef21e5bd2933e27d:eyJzZWxlY3RlZExpbmVDb3VudCI6NSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMjc3YTA2MTc3MTgzZmEwMmM1ZGJjZDVjMDVkZDc5OTZjZTZmZTk0YzM3NGU4ZTIzYmE2ODY3MGUwMmU3YWUxMiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiYjc2YTEyMjFkMjMyMjcyM2JmMjVjOGEwZmNmZGUyYTVlZjU5Zjk2MDFmOGQzYzZiYzRjYmQxZTQwNGVkZWU5ZSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMTJmNGUwMWIwNWZmZDA2YzNlNzcxZWQ3OGEyMTUyMDZkODI5Mzc4NWQyZGMwMWNlYWU2MjQ0NjY1ZmM0NGQ3YSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNGFhNmI4YmFmNGZiYWM1ZDAxYTYyYzYxOTZmMmFjNGIxZDgzYmQ3ZjIxMzI4ZTJmZTJjNzAyMzQ5OTE3NGIwNyJ9"
+          "resource": "repo://package.json#L17-L18",
+          "version": "repo-lines-v1:sha256:44a354f86a60ff5d6e0ecaf19e2092848658d2cf8f000f15799a2f2ff8ce76b0:eyJzZWxlY3RlZExpbmVDb3VudCI6MiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZDBkMDdmMDdmYWExOTczYWZjZWE5NDczYzk1NGNmZWVjMzdiMWM4Mzg5NGU0MTBiNTNmZDZlZTMyMWE2OWY5MSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiOTk5ZjFiNjFlMjI1MWQ5ZDFkYmJkMDViOTM5OWMwODRjYjVhNGIyNDg2M2EwNjFlMTdjNjliMWVjNjVmOTJkMiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNzdjOTM0YThiMWY5MzNjMjBmZDg2YzE1YjkxMjZhZWQyZTc3YWVjMDIyZTc5M2EyM2RmZGM3YWY3NWE1ODkyMCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNGFhNmI4YmFmNGZiYWM1ZDAxYTYyYzYxOTZmMmFjNGIxZDgzYmQ3ZjIxMzI4ZTJmZTJjNzAyMzQ5OTE3NGIwNyJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_640a938d731840b5a54ca4d417b9ec1d",
+      "statement": "The Pages artifact release runbook guides reviewed bootstrap inputs, target setup, live verification, and recovery without granting publication authority.",
+      "evidence": [
+        {
+          "resource": "repo://docs/runbooks/github-pages-artifact-release.md",
+          "version": "repo-file-v1:sha256:654828527a9e10cb564d2a48895afdb8ff82cdf52b8460da85887711b68fb58b"
         }
       ]
     }
   ],
   "verification": {
     "by": "openwiki/0.5.0",
-    "at": "2026-09-09T05:07:58.190Z"
+    "at": "2026-09-09T05:56:49.829Z"
   }
 }

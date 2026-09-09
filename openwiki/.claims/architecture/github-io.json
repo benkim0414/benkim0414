@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:7600da9dd07b000d018c316ddd501b107f8b894efe9d6e71fea3d83b9c8fe37f",
+  "pageVersion": "sha256:e58444d2cf6e2364df180c2778ae86de380dd0c5431fbeceaf1fb4af5af00303",
   "claims": [
     {
       "id": "claim_da9ac46eb2204e9b9a555848aea5550d",
@@ -80,7 +80,7 @@
     },
     {
       "id": "claim_340cdc6b4b064a45be096325c7772ce8",
-      "statement": "Application versioning is a build-time boundary: development resolves to dev, while release mode requires and injects a stable three-part SemVer consumed by the footer.",
+      "statement": "Application versioning is a build-time boundary: development resolves to dev, while release mode requires a canonical stable three-part SemVer without leading zeroes, suffixes, or trailing characters and injects it for the footer.",
       "evidence": [
         {
           "resource": "repo://apps/github.io/src/app/global-navigation-footer.tsx#L76-L85",
@@ -91,18 +91,14 @@
           "version": "repo-lines-v1:sha256:0b9da6d3b6551e0b9a269f9ce7f9a032801c1f46b49a0e1c8a82e8c3d0508f5c:eyJzZWxlY3RlZExpbmVDb3VudCI6NywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZjZjNzA3ZjRlZmIzYzczMzFmMzNjZWU1MTM2Mjc5ZDczZjQ4MDEwM2I2NTcyMzIzMzhmY2U0OGJhYzQzZTdiNyIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiYmM0YTcyODRiYjU5NTZlODA2NWEwM2I2NDk4MTYzZDQwMGE4OGM2MjkyZDYxYjg4MGRiOGI0NWZmMjgyMzc0OSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjAsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjAsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSJ9"
         },
         {
-          "resource": "repo://apps/github.io/vite.config.ts#L57-L63",
-          "version": "repo-lines-v1:sha256:6b0f1e689a6244803f97de3daa5438172d9b4294bf290c520a41748a029c6b16:eyJzZWxlY3RlZExpbmVDb3VudCI6NywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNzg3ODU2NjUxZTcyZWI0MDhkYzIyY2I1MjUwY2I5MmIwMGZmYTFkNjRjZTA0NjdiZTUwOGUwZWIzMTA5MmFjOSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMWU2NzNhYmQ0NTdhOTdlZWExN2E2MDA2MmViMGZhZWE2YmRmMDk0ODY4Y2M2YjhmOGMwZWJkYTJmNjFlZDQyZiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMTQ2NGViMTNiZTI1YzA1ZjQyMmEyZjBkNWNjZDliYjkxZThkYTk3OTY5Mzc1OWFkMWQ1N2U2OTc0NzM0ZTVlNSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiYWU1ZWZiYTA4Y2MyZTBmZGNhOTExMTUwODUwYzUyMjhiMDk3YzI2YTE3OTE4NjU4YjJkODRkMGY5YjhlNzAzZCJ9"
-        },
-        {
-          "resource": "repo://apps/github.io/vite.config.ts#L8-L15",
-          "version": "repo-lines-v1:sha256:b7c02b351a30fd1138ef62cdd70b111bf07f771f3a87b4c857ee43a029729089:eyJzZWxlY3RlZExpbmVDb3VudCI6OCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNmVmZDRjYjE5NWMxMTVlMjg0MWFkMjc5M2UwNDdiY2JlZjQ1NWYzODliMmY1MjdjY2I5YzNmZmJmZmI3NjQzZSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiOGQ0NzU5NjZhZmE2OGJkYjAyYjgzNzc4ZWM3YjdiYjIyZTU5NGZlYzU3ZjY0ZDE1MTc2ZDk2ZGUyNjUxMzkwMSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMjkyMjVmYTNlZTBhZTkyZjJlM2MxNGYwMGM1NDg2MDRlYmRkNzg0NTE3NDA3MzlmZTkxZTZmYmIwODAxNGU0ZSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiYWUzNjIwMjg1ZTBlMTkwMjMzYzQyNDRmY2FhZTdiN2YxNzU2N2JmNzFjYzIyMTBkMDlhY2IwOGQzNjM1YWNmOSJ9"
+          "resource": "repo://apps/github.io/vite.config.ts#L8-L17",
+          "version": "repo-lines-v1:sha256:b3eb5cdc491b98dc6694fd438706eb1230311e371edf2c7e98e52f83f15d3d47:eyJzZWxlY3RlZExpbmVDb3VudCI6MTAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjZlZmQ0Y2IxOTVjMTE1ZTI4NDFhZDI3OTNlMDQ3YmNiZWY0NTVmMzg5YjJmNTI3Y2NiOWMzZmZiZmZiNzY0M2UiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjhkNDc1OTY2YWZhNjhiZGIwMmI4Mzc3OGVjN2I3YmIyMmU1OTRmZWM1N2Y2NGQxNTE3NmQ5NmRlMjY1MTM5MDEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjI5MjI1ZmEzZWUwYWU5MmYyZTNjMTRmMDBjNTQ4NjA0ZWJkZDc4NDUxNzQwNzM5ZmU5MWU2ZmJiMDgwMTRlNGUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImFlMzYyMDI4NWUwZTE5MDIzM2M0MjQ0ZmNhYWU3YjdmMTc1NjdiZjcxY2MyMjEwZDA5YWNiMDhkMzYzNWFjZjkifQ"
         }
       ]
     },
     {
       "id": "claim_af6beec5538b4ca2ad2dd76c724b6ca0",
-      "statement": "Nx models github.io as a deployable project with version-sensitive build cache inputs and an independent github.io@{version} stream whose Nx Git mutations are disabled.",
+      "statement": "Nx models github.io as an independent deployable stream with version-sensitive cache inputs; the coordinator calls Nx Release in mutation-disabled dry-run mode against an ignored staging manifest and verifies Nx's baseline, candidate, project, and tag.",
       "evidence": [
         {
           "resource": "repo://apps/github.io/project.json#L1-L11",
@@ -110,13 +106,21 @@
         },
         {
           "resource": "repo://nx.json#L38-L53",
-          "version": "repo-lines-v1:sha256:69a44f147bd210bc4b05544cdf0936a4d22ad2635a317c92f510a32a66073a1a:eyJzZWxlY3RlZExpbmVDb3VudCI6MTYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjlmMmEyZjQzNGE3YzRlYmQ5MzQxZjE1YzVjM2Y3OTEyMmU3ZjllMjcxMzQ5OWYwZjg0N2VlOWRlZTk2MjIxNzAiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjRkNWNkMmZiNGYzZGY4ODQ1MTUyNTViMzk1MjNmMmY4YjU0NzJiZWVhOWY1NjZmZmNhMjA0ZGI4MDI1NjEwNDEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUwN2UzZTc4NmU2NTZiMWU2MWY0YTExMjQ3YmYzZGIxNTlhN2Q1OTUxZGU0NmIwOGYzZWZkMDI2NWFhZjg3ZDAiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6Ijg3NWY4NDZjZWM2M2M0ZDVkMDg4NDA1N2YyNWU2ZmE4ODYxZTA2MTY1NGI1MTlhNmZhOGFhOTkyM2YyZTk1MjQifQ"
+          "version": "repo-lines-v1:sha256:90615ea1f863d449bbcf0941bcdc824a38ffb85f4ad6bc458941a7a1ef80a3d1:eyJzZWxlY3RlZExpbmVDb3VudCI6MTYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjlmMmEyZjQzNGE3YzRlYmQ5MzQxZjE1YzVjM2Y3OTEyMmU3ZjllMjcxMzQ5OWYwZjg0N2VlOWRlZTk2MjIxNzAiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjRkNWNkMmZiNGYzZGY4ODQ1MTUyNTViMzk1MjNmMmY4YjU0NzJiZWVhOWY1NjZmZmNhMjA0ZGI4MDI1NjEwNDEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUwN2UzZTc4NmU2NTZiMWU2MWY0YTExMjQ3YmYzZGIxNTlhN2Q1OTUxZGU0NmIwOGYzZWZkMDI2NWFhZjg3ZDAiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6Ijg3NWY4NDZjZWM2M2M0ZDVkMDg4NDA1N2YyNWU2ZmE4ODYxZTA2MTY1NGI1MTlhNmZhOGFhOTkyM2YyZTk1MjQifQ"
+        },
+        {
+          "resource": "repo://scripts/github-io-nx-release.mjs#L10-L75",
+          "version": "repo-lines-v1:sha256:35aaa8cb86614c02e433c589a9c4251f099b12ef749d383fcc0adefe8b44a74c:eyJzZWxlY3RlZExpbmVDb3VudCI6NjYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImNhNTNiYTM1MDk2Njc2YzUyNDBjYzA4NDQ4M2ZlMDM1NjE3Zjk0ZjA5MGMyYTA5YTI4NjdjMDQwYWEzNjE5ZTgiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijk1ZWYwMWJjMDhkYmMzYjYzZTRlNzVlYTNkMjZhNWI5NDE4OTE4NzdlMjdhZDg5MTMyOWM4NDExZDdkOGRjNGQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImYzMzM0ZGZmMjk3YTE5NjdmY2ExZGM3ODQ3YzVmOGMxN2JkNzdiNDhkMTQxYjU4OGM3ZjQ4MDhkOTRjMDJjMWYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImMxNjNhOGQ4YTNjMDQzNDliZjk3OGI1OGYzMTI3MDEwZDFjYWFhNmI4YThmY2Q1ZmRiNTk2OTBlNGNiMzYyNzYifQ"
+        },
+        {
+          "resource": "repo://scripts/github-io-version-actions.cjs",
+          "version": "repo-file-v1:sha256:2c573b0fedb2412bbd7152dcebc859bdc5f16c724cb77da0728fbec3f4cb2a3d"
         }
       ]
     }
   ],
   "verification": {
     "by": "openwiki/0.5.0",
-    "at": "2026-09-09T05:07:58.190Z"
+    "at": "2026-09-09T05:56:49.829Z"
   }
 }

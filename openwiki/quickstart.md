@@ -16,14 +16,16 @@ sources:
     resource: repo://apps/github.io/vite.config.ts
   - id: openwiki-source-e9bb13afb6b400d29b3f8512
     resource: repo://docs/agents/openwiki.md
+  - id: openwiki-source-8b0ac8066b150cc5fe3fd0ff
+    resource: repo://docs/runbooks/github-pages-artifact-release.md
   - id: openwiki-source-5b54a58d1b51cd490b0e7162
     resource: repo://package.json
   - id: openwiki-source-40275cb92c3610938f16ade3
     resource: repo://pnpm-workspace.yaml
-generated: { by: "codex", at: "2026-09-09T05:07:58.190Z" }
+generated: { by: "codex", at: "2026-09-09T05:56:49.829Z" }
 verified:
   - by: openwiki/0.5.0
-    at: 2026-09-09T05:07:58.190Z
+    at: 2026-09-09T05:56:49.829Z
 ---
 
 # Workspace quickstart
@@ -54,7 +56,10 @@ and `pnpm test:release:github.io`. These are inspection and validation entrypoin
 do not substitute a local production build for the serialized GitHub release
 workflow, and do not invoke publishing or deployment without the explicit
 handoff gate. The complete state machine is in
-[release and session handoff](operations/releases.md).
+[release and session handoff](operations/releases.md). Operators preparing the
+first release or a recovery should also follow
+[`docs/runbooks/github-pages-artifact-release.md`](../docs/runbooks/github-pages-artifact-release.md)
+for the reviewed SHA/version inputs, target repository setup, and live checks.
 
 ## Find the right guide
 

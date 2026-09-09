@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:f9456bcfef254f4c53e07f1b0e9eb05babbf76dfa2f94e7e9e90226c88d0e967",
+  "pageVersion": "sha256:7bc1c39de935c1c40fda2a5808219bbe10b6f0073a1162e8cde0e9dbd779b389",
   "claims": [
     {
       "id": "claim_6cbb6dd0080f4763aaf4dec964f7f76e",
@@ -11,8 +11,8 @@
           "version": "repo-file-v1:sha256:e6cbb5bbf23ce5abe3170e2071691b4fb184891130c54ed454107d1035ebe88c"
         },
         {
-          "resource": "repo://nx.json#L4-L39",
-          "version": "repo-lines-v1:sha256:c03035d366dd043e6459267d867c2d727005299228ca889e0f7c528662ab9001:eyJzZWxlY3RlZExpbmVDb3VudCI6NTIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijc5NDY5YzkxZTViNjgyZjYxZWJiNjgzM2FmZjdhZmE2Y2JlNTdiZTZiOWNhNzQ2NWU4MmZlNmYzOWFmOWVjYTgiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjFmNDMyZjBiNWI4YzRkMzE3OWI0ZjQzZjY3OTJkZDgwZThlYTNjMTkzYzNhNWIxN2VlZGQwNjMwNGIwMDg0MDMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImQ2ZjA4OTcwZDU2NDQ0MzRiY2Q0OGUzZmFkZGQ1NDBjNmY1NTczMmI4MzBjYWQzYzg0NzRjNzg0ZTMxMzhhZmIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImVlODAzMjM2YmQwY2ZlODk2MTQxODU5NWY1NmU5NzgxYjRmMmQwZTNiNDliZTY4NzU1OTI1YzExNzA5OGY1M2IifQ"
+          "resource": "repo://nx.json",
+          "version": "repo-file-v1:sha256:61909703b3a53b5e497c875abaef763cbd4c94fdc0507e86005852022a73bf59"
         }
       ]
     },
@@ -28,11 +28,11 @@
     },
     {
       "id": "claim_e9440bd320194bafa444fdfcd3e55363",
-      "statement": "The release workflow runs focused github.io lint and tests, requires a valid injected SemVer for its single uncached build, and verifies the emitted version before persisting artifacts.",
+      "statement": "The release workflow validates its candidate through Nx Release, runs focused github.io lint and tests, requires a canonical injected SemVer for its single uncached build, and verifies the emitted version before persisting artifacts.",
       "evidence": [
         {
-          "resource": "repo://.github/workflows/release-github-io.yml#L124-L175",
-          "version": "repo-lines-v1:sha256:964b708e03b7da5fbce6ea502ae80f9c015e015231a35753d62cb72cfad345ac:eyJzZWxlY3RlZExpbmVDb3VudCI6NTIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImNiOGU1YzgzYjE1NDljMzk4ZmUwYzM1NjBjYWM1ODU0ZGRkODBkZGNkYmE1NzI1ZDM4OTlmYTg1MjBjYzIyM2MiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImNlZGFmNWYyNTgxMmM3MDViOTA4MzIyNTczOWE1MzFjZmY5NmM4MDE3M2UyMTJmMzAzZWZjYjg5ZWU0MDc3NzIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImYyMjU2ZTVlYTQ3MmUwZGJiZDhlNGI3OGMwYzZkYjY0NTNhMjRjMjEzYWE0YjM5YWU0OGI2ZmJkNjZmNzY0NmUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImJhMmFjMTNmM2MwZjNlY2EwMDcwMDRkMjcwYmIwODNkMzMwMzM2MjdkODA3YmEyZjVjNmE5ODJlOGY4YzczNTEifQ"
+          "resource": "repo://.github/workflows/release-github-io.yml#L135-L188",
+          "version": "repo-lines-v1:sha256:1f605af4a0532415228b85327599412a33787802717129ca9f21c7e3d27b24e1:eyJzZWxlY3RlZExpbmVDb3VudCI6NTQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImNiOGU1YzgzYjE1NDljMzk4ZmUwYzM1NjBjYWM1ODU0ZGRkODBkZGNkYmE1NzI1ZDM4OTlmYTg1MjBjYzIyM2MiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjU2MTA0NGFlYWUyOThlN2ZhNzNmODJjOTBiYjQzODg2MjI2ODg1Y2Q0OTg0YTAwOWZkN2I2YmE5ZDk5NDk4YmYiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImYyMjU2ZTVlYTQ3MmUwZGJiZDhlNGI3OGMwYzZkYjY0NTNhMjRjMjEzYWE0YjM5YWU0OGI2ZmJkNjZmNzY0NmUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImU2NGRhZTkxOGI1MjNiNTU3Y2ZjMTZjMzAwMmQ2Yzg5NjQyM2RmYmY4YzQ3ZGQ1MDFiZmRiZDRjNzMxZGJhNWEifQ"
         }
       ]
     },
@@ -88,19 +88,27 @@
     },
     {
       "id": "claim_dcb3917b11684ebdb6766ad37d0320e8",
-      "statement": "Release tests separately cover commit classification, Git-history calculation, record verification, bootstrap history, workflow ordering, and deployment anti-rollback behavior.",
+      "statement": "Release tests cover classification, first-parent calculation, records, reviewed bootstrap, real Nx and Vite boundaries, CLI streams, workflow ordering, executable crash/retry recovery, and deployment anti-rollback behavior.",
       "evidence": [
         {
           "resource": "repo://package.json#L17-L18",
-          "version": "repo-lines-v1:sha256:d5f66e9b3641a350d2af28004a5105cd9b73703a9ca34ea7a020eb58440939a6:eyJzZWxlY3RlZExpbmVDb3VudCI6MiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZDBkMDdmMDdmYWExOTczYWZjZWE5NDczYzk1NGNmZWVjMzdiMWM4Mzg5NGU0MTBiNTNmZDZlZTMyMWE2OWY5MSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiYjc2YTEyMjFkMjMyMjcyM2JmMjVjOGEwZmNmZGUyYTVlZjU5Zjk2MDFmOGQzYzZiYzRjYmQxZTQwNGVkZWU5ZSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNzdjOTM0YThiMWY5MzNjMjBmZDg2YzE1YjkxMjZhZWQyZTc3YWVjMDIyZTc5M2EyM2RmZGM3YWY3NWE1ODkyMCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNGFhNmI4YmFmNGZiYWM1ZDAxYTYyYzYxOTZmMmFjNGIxZDgzYmQ3ZjIxMzI4ZTJmZTJjNzAyMzQ5OTE3NGIwNyJ9"
+          "version": "repo-lines-v1:sha256:44a354f86a60ff5d6e0ecaf19e2092848658d2cf8f000f15799a2f2ff8ce76b0:eyJzZWxlY3RlZExpbmVDb3VudCI6MiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZDBkMDdmMDdmYWExOTczYWZjZWE5NDczYzk1NGNmZWVjMzdiMWM4Mzg5NGU0MTBiNTNmZDZlZTMyMWE2OWY5MSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiOTk5ZjFiNjFlMjI1MWQ5ZDFkYmJkMDViOTM5OWMwODRjYjVhNGIyNDg2M2EwNjFlMTdjNjliMWVjNjVmOTJkMiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNzdjOTM0YThiMWY5MzNjMjBmZDg2YzE1YjkxMjZhZWQyZTc3YWVjMDIyZTc5M2EyM2RmZGM3YWY3NWE1ODkyMCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNGFhNmI4YmFmNGZiYWM1ZDAxYTYyYzYxOTZmMmFjNGIxZDgzYmQ3ZjIxMzI4ZTJmZTJjNzAyMzQ5OTE3NGIwNyJ9"
         },
         {
-          "resource": "repo://scripts/github-io-bootstrap.test.mjs#L1-L15",
-          "version": "repo-lines-v1:sha256:971ab03f1c06c9ede8fb3c368f26ee9dc9524aee566dd64ab301ac1938e63036:eyJzZWxlY3RlZExpbmVDb3VudCI6MTUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjcwNjYyZmJjYzBkNGQ4YzExOTY4M2RhMTk0N2IxMjA0NjgwM2Q0OGI0NDc5ODgxOTdlYzMwOTJmZmU1YThiNGEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImQwYjE0Mzg1NzQyNzllMzc4Y2VkNmNkZDllZTdhZDE4NjA1MTQ4OWRiMzhmYzllZjdmMDY3YTIyOGRmYWQ3NDQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImEzNWU2NGUzYmE4ZDU1M2ZjNWRhMDZkM2FlYmU4Y2FmYmJlM2ZjZGQxMGI2ZmJiNmJjMGU0YjRiOWI2N2MxZmQifQ"
+          "resource": "repo://scripts/github-io-bootstrap.test.mjs",
+          "version": "repo-file-v1:sha256:455f3b58c109e4b8fb143404510d5939bc37fefbd6d7b175893cb29cc374fa82"
         },
         {
-          "resource": "repo://scripts/github-io-release-workflows.test.mjs",
-          "version": "repo-file-v1:sha256:3b530aaf7d094b0102655b648e63b419cab10b496670aac20a4bb02db3ab1cec"
+          "resource": "repo://scripts/github-io-build-version.test.mjs",
+          "version": "repo-file-v1:sha256:efab0a4e9b6c971a8e93feb2ed8c3869bde12366c72870f78b2931c8f081a0a0"
+        },
+        {
+          "resource": "repo://scripts/github-io-nx-release.test.mjs",
+          "version": "repo-file-v1:sha256:72b86b83d340c625f0628fa5c42943007c0321c26e21083bc2ebaa6c46705651"
+        },
+        {
+          "resource": "repo://scripts/github-io-release-recovery.test.mjs",
+          "version": "repo-file-v1:sha256:bc0ccf2206f05ae28d23fba5de9a5135d87f3e1aa38dcbed02f5d9554fa8bd86"
         },
         {
           "resource": "repo://scripts/sync-github-pages-artifact.test.mjs",
@@ -111,6 +119,6 @@
   ],
   "verification": {
     "by": "openwiki/0.5.0",
-    "at": "2026-09-09T05:07:58.190Z"
+    "at": "2026-09-09T05:56:49.829Z"
   }
 }
