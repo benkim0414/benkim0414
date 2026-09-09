@@ -824,3 +824,23 @@ git log --oneline ec145e4..HEAD
 ```
 
 Expected: clean feature worktree with the planned logical commits. Stop in awaiting-handoff state; do not push, open a PR, merge, or deploy until the user explicitly requests handoff.
+
+### Task 6: Record Artifact Registry Skills
+
+**Files:**
+- Modify: `apps/github.io/src/app/skills/skill-list.data.ts`
+- Modify as required by the existing skill-brand pattern: `apps/github.io/src/app/skills/skill-brand.ts`
+- Modify: `apps/github.io/src/app/devops-roadmap/devops-roadmap-skill-inventory.data.ts`
+- Test: existing focused skill catalog, route, brand, and roadmap inventory test files
+
+- [x] **Step 1: Add failing behavior tests**
+
+Prove that `GitHub Packages` resolves as a canonical linked skill and that Artifact Management renders completed evidence tokens for exactly `Amazon ECR` and `GitHub Packages`. Confirm the focused tests fail because this evidence is absent.
+
+- [x] **Step 2: Add the canonical skill and roadmap evidence**
+
+Add `GitHub Packages` using the repository's GitHub branding convention. Its concise description must identify GitHub Packages as the product and npm as the supported registry/package format. Add `Amazon ECR` and `GitHub Packages` to Artifact Management's `evidenceSkillTokens`; leave `coveredRoadmapConcepts` empty because neither is a roadmap.sh suggestion for that node.
+
+- [x] **Step 3: Verify and commit**
+
+Run the focused tests, `pnpm nx lint github.io`, `pnpm nx test github.io`, and `pnpm nx build github.io`. Inspect the diff, stage explicit paths only, and create one conventional commit. Do not push, merge, or deploy.
