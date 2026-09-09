@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:fb9de7055e5a9ee1147fda413024ce5801e07dda2aece1b02449c692d90a56c5",
+  "pageVersion": "sha256:dee3e482d1b1b1e8b01aefa1af54b1f48d05e99e4dffaa882a05b1f29b0e4252",
   "claims": [
     {
       "id": "claim_da9ac46eb2204e9b9a555848aea5550d",
@@ -84,7 +84,7 @@
         },
         {
           "resource": "repo://apps/github.io/src/app/devops-roadmap/devops-roadmap-stepper.tsx#L41-L137",
-          "version": "repo-lines-v1:sha256:64c93731b3ba8265458f8a739714ac53721c85e6ce02cecf5a0ccc37569c865a:eyJzZWxlY3RlZExpbmVDb3VudCI6OTcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjZiNzA1YjkxMzA2MjRkZTkyZTYzMzcyYmNhZTA2YTVkMGQ5YzcyNTViYzVjODc4NDc0NGY0MjdkOTliYzczNWMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjFlNzVjNzBkOTQ2MzYyNWUxMDc5ZmQ4ZmM4ZWU2MmFkMmU5MmM0MmJlYWFiZmQ4NWI3OGQ4ZTBhNDk3OWI5NGEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjEzODNhYzE5OThhZDg4Mjg4NDVjNzBlZGZmOWQyNWZjYzc4OTU3ZjU1MzBhNzk4MzhkNTE4NGExZTE3MGZlNDIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjNkN2RlZGNjZTY1Nzg1ZjQ4MWQ0ZWVmY2YzNzgwNmY0MjJkZjM3YmYxMzRmN2U5NzBmNGJjOTJkMDhmZTY3OGEifQ"
+          "version": "repo-lines-v1:sha256:7a00b801a55a167bf670bc14749d5dce0b7a1784a714823d31ebaaae7278e9fd:eyJzZWxlY3RlZExpbmVDb3VudCI6OTcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjZiNzA1YjkxMzA2MjRkZTkyZTYzMzcyYmNhZTA2YTVkMGQ5YzcyNTViYzVjODc4NDc0NGY0MjdkOTliYzczNWMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjFlNzVjNzBkOTQ2MzYyNWUxMDc5ZmQ4ZmM4ZWU2MmFkMmU5MmM0MmJlYWFiZmQ4NWI3OGQ4ZTBhNDk3OWI5NGEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjEzODNhYzE5OThhZDg4Mjg4NDVjNzBlZGZmOWQyNWZjYzc4OTU3ZjU1MzBhNzk4MzhkNTE4NGExZTE3MGZlNDIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjNkN2RlZGNjZTY1Nzg1ZjQ4MWQ0ZWVmY2YzNzgwNmY0MjJkZjM3YmYxMzRmN2U5NzBmNGJjOTJkMDhmZTY3OGEifQ"
         },
         {
           "resource": "repo://apps/github.io/src/app/devops-roadmap/roadmap-page.tsx#L7-L37",
@@ -95,6 +95,6 @@
   ],
   "verification": {
     "by": "openwiki/0.5.0",
-    "at": "2026-09-09T06:01:39.198Z"
+    "at": "2026-09-09T06:19:25.051Z"
   }
 }

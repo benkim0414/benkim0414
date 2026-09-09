@@ -26,10 +26,10 @@ sources:
     resource: repo://nx.json
   - id: openwiki-source-871ac2bb60a2ea411c19a76e
     resource: repo://scripts/setup-openwiki.test.mjs
-generated: { by: "codex", at: "2026-09-09T04:57:16.606Z" }
+generated: { by: "codex", at: "2026-09-09T06:19:25.051Z" }
 verified:
   - by: openwiki/0.5.0
-    at: 2026-09-09T06:01:39.198Z
+    at: 2026-09-09T06:19:25.051Z
 ---
 
 # Validation workflow
@@ -80,6 +80,10 @@ Both targets depend on build. They complement DOM tests with compiled-CSS and
 browser-level checks; a jsdom pass alone does not establish mobile scroll or
 visual correctness. Browser prerequisites and failures must be reported, not
 converted into an assumed pass. The mobile browser verifier also checks the
+roadmap at both viewport widths: completed descriptions must remain visually
+secondary to their titles, completed vertical bars must match title color, and
+the measured evidence gap above the token group must exceed the gap below it.
+It also checks the
 skill-detail Experience heading and its neutral count badge as rendered
 geometry: both must exist, fit within the main surface without overlap, align
 vertically, retain the native `Experience` heading name, and show the expected

@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:74f8e66f80ef70b719793858b3d169be25be7c8115e7b6b8d9aebc5aa2f4c4fc",
+  "pageVersion": "sha256:93b4ec0689ee218e61bd4b284281944e87d9aa7bfee4f79b0ae312708e8ad787",
   "claims": [
     {
       "id": "claim_67f0a6341495404e8eefce3e45fd6173",
@@ -128,21 +128,21 @@
     },
     {
       "id": "claim_ec95ed4bd2d74defb6cb0ee200d1f990",
-      "statement": "DevOpsRoadmapStepper delegates vertical ordered progress semantics, numbered indicators, completed and disabled states to Astryx Stepper/Step; app-owned styling wraps evidence, tightens its spacing, and uses a roadmap-scoped global selector to promote completed copy without changing semantic status.",
+      "statement": "DevOpsRoadmapStepper delegates vertical ordered progress semantics, numbered indicators, completed and disabled states to Astryx Stepper/Step; app-owned styling spaces evidence and uses roadmap-scoped selectors to brighten completed titles and vertical bars while descriptions retain Astryx secondary color and semantic status remains unchanged.",
       "evidence": [
         {
-          "resource": "repo://apps/github.io/src/app/devops-roadmap/devops-roadmap-stepper.tsx#L20-L135",
-          "version": "repo-lines-v1:sha256:2b6e39c7c60f4f6ce3c4b0067c1848f0582dc839dce0407f223e67407e22657a:eyJzZWxlY3RlZExpbmVDb3VudCI6MTE2LCJmaXJzdFNlbGVjdGVkTGluZUhhc2giOiJkNWViMDMyNGM2ZGU2YTE2ZDY1M2YyNGJmNGVkNzI3MTgwNGZlMjVlMTMxNGM5ODMxOWM3ZDljZDdjNDhjYjk4IiwibGFzdFNlbGVjdGVkTGluZUhhc2giOiJhNzU0OWE4Yjg0YjIzODdhMDM0NDc2NzFhMDFhODQ1NDY1NjQwNDMzZDA1MzEwMjFiOTAxNmU1Y2RmYTlmYWRhIiwicHJlY2VkaW5nQ29udGV4dExpbmVDb3VudCI6MywicHJlY2VkaW5nQ29udGV4dEhhc2giOiI2NWQ3OWM3NmJkOGNiZmQyMTk2MzYzYjJlYjk0ZGNhYTY1NWIzZDBjOWNhOGYwNGM2NTQ3OTUzOTRkYmMzNDcxIiwiZm9sbG93aW5nQ29udGV4dExpbmVDb3VudCI6MywiZm9sbG93aW5nQ29udGV4dEhhc2giOiI4YWI4ZGEwMDFjNmU3NWQwYThlM2FiN2JlM2I1OWFiZWE4YWQwNDY0ODU5YTM3ZTEyZGU0MWVjMGZkNWNkOWMyIn0"
+          "resource": "repo://apps/github.io/src/app/devops-roadmap/devops-roadmap-stepper.tsx#L20-L137",
+          "version": "repo-lines-v1:sha256:f233643fed641136b411fbdb631fa6e1c1d186da295be4cc3086eb30baa2b3e8:eyJzZWxlY3RlZExpbmVDb3VudCI6MTE4LCJmaXJzdFNlbGVjdGVkTGluZUhhc2giOiJkNWViMDMyNGM2ZGU2YTE2ZDY1M2YyNGJmNGVkNzI3MTgwNGZlMjVlMTMxNGM5ODMxOWM3ZDljZDdjNDhjYjk4IiwibGFzdFNlbGVjdGVkTGluZUhhc2giOiIxZTc1YzcwZDk0NjM2MjVlMTA3OWZkOGZjOGVlNjJhZDJlOTJjNDJiZWFhYmZkODViNzhkOGUwYTQ5NzliOTRhIiwicHJlY2VkaW5nQ29udGV4dExpbmVDb3VudCI6MywicHJlY2VkaW5nQ29udGV4dEhhc2giOiI2NWQ3OWM3NmJkOGNiZmQyMTk2MzYzYjJlYjk0ZGNhYTY1NWIzZDBjOWNhOGYwNGM2NTQ3OTUzOTRkYmMzNDcxIiwiZm9sbG93aW5nQ29udGV4dExpbmVDb3VudCI6MywiZm9sbG93aW5nQ29udGV4dEhhc2giOiIzZDdkZWRjY2U2NTc4NWY0ODFkNGVlZmNmMzc4MDZmNDIyZGYzN2JmMTM0ZjdlOTcwZjRiYzkyZDA4ZmU2NzhhIn0"
         },
         {
-          "resource": "repo://apps/github.io/src/styles.css#L51-L61",
-          "version": "repo-lines-v1:sha256:bbacb9420f4145da9f8ab12027c7de839339ff29d32c681186a7960c4e93318e:eyJzZWxlY3RlZExpbmVDb3VudCI6MTEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg3MzI3NzVlZWU3NzAwMThkYjdkNzlkMDM1YTAxNjMwMTVhMDE2ZGUxN2ViYmY4ODg0OTAyZWM2ZDFkOWZjZjIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg3MzI3NzVlZWU3NzAwMThkYjdkNzlkMDM1YTAxNjMwMTVhMDE2ZGUxN2ViYmY4ODg0OTAyZWM2ZDFkOWZjZjIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImIwNTQzNjYwODE0Y2RkYmEyZDc2NzUwZDE4ZGUwNmFjOGY5MjhjY2E0MDRlMjBlYjI5ZDY3ZDY0N2JlNjdmY2IiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjU1MWI4YTUyMTVhODMyZDZkNWIzNTc3MjZiNDAxZTYwMTU4YTIyZDdlYmNiODFlOGM1Y2I5YWZkNzFmYmFkZWMifQ"
+          "resource": "repo://apps/github.io/src/styles.css#L51-L64",
+          "version": "repo-lines-v1:sha256:29ddd584203b3eecb698e91e8925cb61a8ac69d0f90dc4ce338a0f5f5eb0dd26:eyJzZWxlY3RlZExpbmVDb3VudCI6MTQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg3MzI3NzVlZWU3NzAwMThkYjdkNzlkMDM1YTAxNjMwMTVhMDE2ZGUxN2ViYmY4ODg0OTAyZWM2ZDFkOWZjZjIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg3MzI3NzVlZWU3NzAwMThkYjdkNzlkMDM1YTAxNjMwMTVhMDE2ZGUxN2ViYmY4ODg0OTAyZWM2ZDFkOWZjZjIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImIwNTQzNjYwODE0Y2RkYmEyZDc2NzUwZDE4ZGUwNmFjOGY5MjhjY2E0MDRlMjBlYjI5ZDY3ZDY0N2JlNjdmY2IiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjU1MWI4YTUyMTVhODMyZDZkNWIzNTc3MjZiNDAxZTYwMTU4YTIyZDdlYmNiODFlOGM1Y2I5YWZkNzFmYmFkZWMifQ"
         }
       ]
     }
   ],
   "verification": {
     "by": "openwiki/0.5.0",
-    "at": "2026-09-09T06:01:39.198Z"
+    "at": "2026-09-09T06:19:25.051Z"
   }
 }
