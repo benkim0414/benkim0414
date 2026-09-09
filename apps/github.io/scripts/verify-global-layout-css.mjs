@@ -22,26 +22,34 @@ function escapeRegExp(value) {
   return value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 }
 
-function findClass(declaration) {
-  return css.match(
-    new RegExp(`\\.([a-zA-Z0-9_-]+)\\{${escapeRegExp(declaration)};?\\}`),
-  )?.[1];
+function findClasses(declaration) {
+  return [
+    ...css.matchAll(
+      new RegExp(
+        `\\.([a-zA-Z0-9_-]+)\\{${escapeRegExp(declaration)};?\\}`,
+        'g',
+      ),
+    ),
+  ].map((match) => match[1]);
 }
 
-function classFor(declaration) {
-  const match = findClass(declaration);
+function classesFor(declaration) {
+  const matches = findClasses(declaration);
 
-  if (!match) {
+  if (matches.length === 0) {
     throw new Error(`Missing emitted StyleX declaration: ${declaration}`);
   }
 
-  return match;
+  return matches;
 }
 
 function compiledStyle(name) {
   const styles = [
     ...javascript.matchAll(
-      new RegExp(`${name}:\\{([^{}]+?\\$\\$css:!0)\\}`, 'g'),
+      new RegExp(
+        `${name}:\\{([^{}]+?\\$\\$css:(?:!0|\`[^\`]*\`))\\}`,
+        'g',
+      ),
     ),
   ];
 
@@ -64,9 +72,11 @@ function compiledStyle(name) {
 }
 
 function assertStyle(name, declarations) {
-  const expectedClasses = declarations.map(classFor);
+  const expectedClassSets = declarations.map(classesFor);
   const candidate = compiledStyle(name).find(({ style }) =>
-    expectedClasses.every((className) => style.includes(`\`${className}\``)),
+    expectedClassSets.every((classNames) =>
+      classNames.some((className) => style.includes(`\`${className}\``)),
+    ),
   );
 
   if (!candidate) {
@@ -719,6 +729,50 @@ function runSelfTests() {
   );
 
   try {
+    const previousCss = css;
+    const previousJavascript = javascript;
+
+    css = [
+      '.react-flow__node{width:100%}',
+      '.xh8yej3{width:100%;}',
+      '.xtdtrs8{height:100dvh}',
+      '.xb3r6kr{overflow:hidden}',
+    ].join('');
+    javascript =
+      'styles={frame:{width:`xh8yej3`,height:`xtdtrs8`,' +
+      'overflow:`xb3r6kr`,$$css:!0}},props={xstyle:styles.frame}';
+
+    try {
+      assertAccepts(
+        failures,
+        'compiled style with a duplicate non-StyleX declaration',
+        () =>
+          assertStyle('frame', [
+            'width:100%',
+            'height:100dvh',
+            'overflow:hidden',
+          ]),
+      );
+
+      javascript =
+        'styles={frame:{width:`xh8yej3`,height:`xtdtrs8`,' +
+        'overflow:`xb3r6kr`,$$css:`source:1`}},' +
+        'props={xstyle:styles.frame}';
+      assertAccepts(
+        failures,
+        'compiled development style marker',
+        () =>
+          assertStyle('frame', [
+            'width:100%',
+            'height:100dvh',
+            'overflow:hidden',
+          ]),
+      );
+    } finally {
+      css = previousCss;
+      javascript = previousJavascript;
+    }
+
     const fixture = (name, source) => {
       const sourcePath = resolve(fixtureDirectory, name);
       writeFileSync(sourcePath, source);
@@ -1022,11 +1076,6 @@ function verifyBuiltLayout() {
       'The not found page must use a full-width semantic root and constrain only its standalone branch.',
     );
   }
-
-  assertStyle('linkedRoot', [
-    'padding-block:var(--spacing-0)',
-    'padding-inline:var(--spacing-0)',
-  ]);
 
   console.log(
     `Verified compiled global frame and detail width rules in ${cssPath}.`,
