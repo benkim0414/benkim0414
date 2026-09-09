@@ -4,6 +4,14 @@ import { neutralTheme } from '@astryxdesign/theme-neutral/built';
 
 import { GlobalNavigationFooter } from './global-navigation-footer';
 
+const { appVersionFixture } = vi.hoisted(() => ({
+  appVersionFixture: '1.2.3',
+}));
+
+vi.mock('./release-version', () => ({
+  appVersion: appVersionFixture,
+}));
+
 function renderFooter() {
   return render(
     <Theme theme={neutralTheme}>
@@ -16,7 +24,7 @@ describe('GlobalNavigationFooter', () => {
   it('places the semantic app version before the attribution', () => {
     const { getByRole, getByText } = renderFooter();
     const footer = getByRole('contentinfo');
-    const version = getByText('v0.1.0');
+    const version = getByText(`v${appVersionFixture}`);
     const attribution = getByText('Built with');
 
     expect(version.tagName).toBe('CODE');

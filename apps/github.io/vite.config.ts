@@ -5,6 +5,15 @@ import react from '@vitejs/plugin-react';
 import stylex from '@stylexjs/unplugin';
 import { nxViteTsPaths } from '@nx/vite/plugins/nx-tsconfig-paths.plugin';
 
+const release = process.env.APP_RELEASE === 'true';
+const supplied = process.env.APP_VERSION;
+
+if (release && !/^\d+\.\d+\.\d+$/.test(supplied ?? '')) {
+  throw new Error('APP_VERSION must be a stable SemVer for release builds');
+}
+
+const version = release ? supplied : 'dev';
+
 function getStylexPlugin(mode: string) {
   const plugin = stylex.vite({
     devMode: mode === 'test' ? 'css-only' : 'full',
@@ -44,6 +53,14 @@ export default defineConfig(({ mode }) => ({
   },
 
   plugins: [getStylexPlugin(mode), react(), nxViteTsPaths()],
+
+  define:
+    mode === 'test'
+      ? undefined
+      : {
+          __APP_RELEASE__: JSON.stringify(release),
+          __APP_VERSION__: JSON.stringify(version),
+        },
 
   // Uncomment this if you are using workers.
   // worker: {

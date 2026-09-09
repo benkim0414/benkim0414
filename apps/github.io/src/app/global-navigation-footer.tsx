@@ -7,7 +7,7 @@ import { colorVars, spacingVars } from '@astryxdesign/core/theme/tokens.stylex';
 import * as stylex from '@stylexjs/stylex';
 import { siReact } from 'simple-icons';
 
-import { version } from '../../package.json';
+import { appVersion } from './release-version';
 
 const GITHUB_PROFILE_URL = 'https://github.com/benkim0414';
 const REACT_URL = 'https://react.dev';
@@ -80,7 +80,7 @@ export function GlobalNavigationFooter(): ReactElement {
       <footer {...stylex.props(styles.footer)}>
         <Text type="supporting">
           <Code color="inherit" size="inherit">
-            {`v${version}`}
+            {`v${appVersion}`}
           </Code>
         </Text>
         <span {...stylex.props(styles.attribution)}>

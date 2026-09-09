@@ -35,6 +35,19 @@
       }
     }
   ],
+  "targetDefaults": {
+    "build": {
+      "inputs": [
+        "...",
+        {
+          "env": "APP_RELEASE"
+        },
+        {
+          "env": "APP_VERSION"
+        }
+      ]
+    }
+  },
   "generators": {
     "@nx/react": {
       "application": {
