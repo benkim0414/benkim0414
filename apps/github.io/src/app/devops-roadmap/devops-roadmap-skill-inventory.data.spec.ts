@@ -3,7 +3,10 @@ import {
   devOpsRoadmapSkillInventoryGaps,
   devOpsRoadmapSkillInventoryNodes,
 } from './devops-roadmap-skill-inventory.data';
-import { devOpsRoadmapItems } from './devops-roadmap.data';
+import {
+  devOpsRoadmapDescriptions,
+  devOpsRoadmapItems,
+} from './devops-roadmap.data';
 
 const roadmapSuggestedConceptsByNodeId = {
   'learn-programming-language': ['Python', 'Go', 'JavaScript'],
@@ -94,6 +97,29 @@ const roadmapSuggestedConceptsByNodeId = {
 } satisfies Record<string, readonly string[]>;
 
 describe('devOpsRoadmapSkillInventoryNodes', () => {
+  it('gives every roadmap topic one concise description', () => {
+    expect(Object.keys(devOpsRoadmapDescriptions)).toHaveLength(
+      devOpsRoadmapItems.length,
+    );
+
+    for (const item of devOpsRoadmapItems) {
+      expect(item.description.trim().length).toBeGreaterThan(0);
+      expect(item.description.split(/\s+/).length).toBeGreaterThanOrEqual(10);
+      expect(item.description.split(/\s+/).length).toBeLessThanOrEqual(20);
+    }
+  });
+
+  it('shares canonical descriptions with the skill inventory', () => {
+    expect(
+      devOpsRoadmapSkillInventoryNodes.map(({ id, description }) => ({
+        id,
+        description,
+      })),
+    ).toEqual(
+      devOpsRoadmapItems.map(({ id, description }) => ({ id, description })),
+    );
+  });
+
   it('stores only yellow roadmap.sh DevOps nodes using their exact titles', () => {
     expect(
       devOpsRoadmapSkillInventoryNodes.map(({ id, title }) => ({ id, title })),

@@ -8,6 +8,7 @@ export type Certification = Omit<
 export interface DevOpsRoadmapItem {
   id: string;
   title: string;
+  description: string;
   skills?: readonly string[];
   certifications?: readonly Certification[];
   evidenceSkillTokens?: readonly string[];
