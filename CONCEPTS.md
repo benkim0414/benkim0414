@@ -234,3 +234,13 @@ The dependency-health gate that verifies installed packages satisfy declared pee
 The workflow for validating an isolated feature worktree while using a dependency installation that can execute the repo's local tooling.
 
 Linked Worktree Verification keeps feature changes out of the main checkout while ensuring tests, builds, and previews still execute the worktree's source files.
+
+### App Release Integration
+
+The first-parent history event treated as one semantic-version increment for an independently released app, regardless of whether that event is a squash commit or a true merge containing several qualifying commits.
+
+### Prepared Release Checkpoint
+
+The durable pairing of a canonical release record and immutable build artifact that fixes an app release's source, version, accepted changes, and artifact digest before any external release identity is published.
+
+A retry verifies and reuses the Prepared Release Checkpoint rather than recalculating or rebuilding. Missing, ambiguous, expired, or mismatched checkpoint state fails closed once publication may have begun.

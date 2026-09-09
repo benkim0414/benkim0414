@@ -1,102 +1,182 @@
 ---
 title: Secure Cross-Repository GitHub Pages Artifact Deployment
 date: 2026-09-01
+last_updated: 2026-09-09
 category: workflow-issues
 module: apps/github.io
 problem_type: workflow_issue
 component: development_workflow
 severity: high
 applies_when:
-  - "Deploying a root GitHub Pages user site from a source monorepo into a separate artifact-only repository"
-  - "Releasing apps/github.io through a Changesets version pull request"
-  - "Creating an idempotent Git tag and GitHub Release after the trusted release PR merges"
-related_components: [github-actions, github-pages, release-automation]
-tags: [github-pages, github-actions, github-io, changesets, deploy-key, artifact-sync, semantic-versioning]
+  - "Deploying an independently versioned application from an Nx and pnpm monorepo"
+  - "Conventional Commit scope is the release eligibility contract"
+  - "A tag, GitHub Release, or deployment may need to resume after partial completion"
+  - "The first authoritative tag must be reconstructed from existing first-parent history"
+related_components: [github-actions, nx-release, github-pages]
+tags: [github-io, semantic-versioning, nx-release, conventional-commits, first-parent, artifact-recovery, github-actions, anti-rollback]
 ---
 
 # Secure Cross-Repository GitHub Pages Artifact Deployment
 
 ## Context
 
-`apps/github.io` is built in the source monorepo, while the separate artifact
-repository is intentionally limited to the GitHub Pages output. Deployment
-therefore crosses repository boundaries: the
-source workflow must validate the app, obtain narrowly scoped write access to
-the target repository, replace only publishable output, and push a normal
-update to the target's seeded `main` branch.
+`apps/github.io` is built in the source monorepo, while a separate artifact-only
+repository serves the root GitHub Pages site. The release therefore crosses two
+boundaries: it must derive an app-specific version from shared repository
+history, and it must publish exactly the bytes that were approved even when a
+workflow stops after creating a tag, Release, asset, or deployment commit.
 
-Changesets calculates semantic versions in a source-repository pull request.
-Only the trusted merged Changesets pull request may create the
-`github.io@X.Y.Z` tag and GitHub Release. This branch is not merged at the
-time of writing.
+The durable design is one repository-owned coordinator for release eligibility,
+integration-history replay, and release identity. Nx validates that decision
+against the workspace project and tag configuration; it does not independently
+decide which commits release the app. The source package is private and
+versionless, and the production version exists in the tag, release record,
+built artifact, and deployment metadata.
+
+Earlier work used Changesets, a mutable manifest version, and a separate Pages
+deployment workflow. That created two potential release authorities and did not
+provide enough durable state to recover after an irreversible publication step.
+Review-driven testing showed that retries must reuse a persisted record and
+artifact instead of recalculating or rebuilding (session history).
 
 ## Guidance
 
-1. Seed the artifact-only user-site repository's `main` branch before the first
-   deployment. Check out that exact branch and use ordinary `git push origin
-   main`; never create or force-push target history. [Deployment workflow](../../../.github/workflows/deploy-github-pages-artifact.yml#L33-L53)
+### Keep app eligibility exact and pure
 
-2. Validate in the source repository before checking out the target: use a
-   frozen install, then lint, test, and build. Keep the source checkout
-   credential-free; only the target checkout receives the dedicated write
-   deploy key, and it persists that SSH credential for the subsequent push.
-   [Deployment workflow](../../../.github/workflows/deploy-github-pages-artifact.yml#L19-L41)
+Accept only the exact Conventional Commit scope `github.io`. A scoped `feat`
+produces a minor bump, a scoped `fix` produces a patch, and a scoped `!` or
+breaking-change footer produces a major bump. Unscoped commits, look-alike
+scopes, and nonbreaking types other than `feat` or `fix` do not contribute.
+[Classifier](../../../scripts/github-io-release-core.mjs)
+[Classifier tests](../../../scripts/github-io-release-core.test.mjs)
 
-3. Use a dedicated, target-scoped SSH deploy key rather than a personal key.
-   Store its private half in the source repository as `PAGES_DEPLOY_KEY`.
-   During this setup GitHub rejected `GITHUB_PAGES_DEPLOY_KEY`, because Actions
-   secret names may not begin with `GITHUB_`. [Runbook](../../runbooks/github-pages-artifact-release.md#L30-L50)
+This exact-scope rule is the monorepo boundary. Changed-file attribution can
+identify affected projects, but it cannot replace the author-declared release
+scope or determine SemVer impact.
 
-4. Make synchronization explicit: require the target `.git` directory; remove
-   target-root entries except `.git`; copy the build except generated
-   `package.json`; and create `.nojekyll`. This removes stale hashed assets
-   without corrupting repository metadata. [Synchronizer](../../../scripts/sync-github-pages-artifact.mjs#L11-L30)
+### Replay integrations on first-parent history
 
-5. Treat a no-change deployment as success. Serialize deploys with one
-   concurrency group, and commit only when the staged target diff is nonempty.
-   [Deployment workflow](../../../.github/workflows/deploy-github-pages-artifact.yml#L8-L10)
+Treat the deployment branch's first-parent chain as the ordered release stream.
+A squash merge is one integration. For a true merge, inspect the commits it
+introduces relative to its first parent and apply one highest bump for that
+integration. Require release targets and normal-release baselines to be on the
+first-parent chain so branch-only work cannot become a release boundary.
+[Release coordinator](../../../scripts/github-io-release.mjs)
+[History tests](../../../scripts/github-io-release.test.mjs)
 
-6. Separate version calculation from release publication. Let Changesets open
-   the deterministic version PR; then accept only the expected merged,
-   bot-created PR from `changeset-release/main`. Read the version at its merge
-   commit, and make tag and release creation idempotent. If an existing tag
-   resolves to a different commit, fail instead of accepting history drift.
-   [Changesets workflow](../../../.github/workflows/changesets-version.yml#L7-L31)
-   [Release workflow](../../../.github/workflows/release-github-io.yml#L15-L69)
+For the first tag, replay that same model from an explicitly reviewed app
+introduction boundary, starting at `0.0.0`. Bind bootstrap execution to the full
+reviewed source SHA and exact replayed version, and lock the contributing commit
+sequence in a repository-history fixture. The current reviewed fixture produces
+`0.142.3`; it is a repository-specific bootstrap result, not a reusable seed.
+[Bootstrap fixture](../../../scripts/github-io-bootstrap.test.mjs)
+
+### Persist before publishing identity
+
+A prepared release consists of an immutable archive and a canonical record that
+binds project, source SHA, previous and next versions, tag, accepted commits,
+artifact name, and SHA-256 digest. On a fresh run:
+
+1. Calculate the candidate and have pinned Nx Release validate it with all Git
+   mutations disabled.
+2. Install, lint, test, and build once for the recorded source and version.
+3. Create a deterministic archive, write and verify its release record, then
+   upload both as the source-keyed Actions artifact.
+4. Only after persistence, create or verify the tag and GitHub Release, upload
+   matching assets, and deploy the downloaded archive.
+
+[Nx validator](../../../scripts/github-io-nx-release.mjs)
+[Release workflow](../../../.github/workflows/release-github-io.yml)
+
+On retry, discover the saved checkpoint before recalculation. Accept exactly
+one unexpired artifact with the expected workflow provenance, then verify its
+record and digest. Recovery must not enter the build path. If a source is tagged
+but its checkpoint is missing, ambiguous, expired, or corrupt, fail closed
+rather than create different bytes under the same identity.
+[Recovery tests](../../../scripts/github-io-release-recovery.test.mjs)
+
+### Make every external step idempotent
+
+Serialize release runs without cancelling an in-progress run. Existing tags,
+release notes, assets, and deployed metadata are acceptable only when they
+match the saved checkpoint. An out-of-order deployment compares source ancestry
+before SemVer and distinguishes deploy, identical, superseded, divergent, and
+conflict states before mutating the target repository.
+
+Keep the deploy job's source checkout credential-free. Give only the target
+checkout the dedicated `PAGES_DEPLOY_KEY`, preserve its `.git` directory, replace published
+output, create `.nojekyll`, persist the canonical deployment record, and use an
+ordinary non-force push. GitHub Actions secret names must not begin with
+`GITHUB_`.
+[Artifact synchronizer](../../../scripts/sync-github-pages-artifact.mjs)
+[Operator runbook](../../runbooks/github-pages-artifact-release.md)
 
 ## Why This Matters
 
-An artifact-only user-site repository keeps source history, dependency files,
-and build tooling out of the Pages branch. The separation is safe only when
-the credential boundary is deliberate and stale output cannot survive a later
-build.
+Rebuilding after publication starts can associate different bytes with the same
+version because dependency resolution, tools, timestamps, or source state may
+have changed. A source-bound record and digest turn recovery into verification
+of an earlier decision. The failure-boundary suite exercises retries after
+persistence, tagging, Release creation, asset upload, publication,
+synchronization, and deployment while asserting one version, one build, and
+unchanged saved bytes.
 
-The version PR is also a trust boundary. Requiring a merged, same-repository,
-bot-authored `changeset-release/main` pull request prevents unrelated pull
-requests from minting releases. Comparing an existing tag with the merge commit
-makes retries safe while detecting collisions or altered history.
+First-parent replay makes versions follow the integration order users receive.
+Exact scope matching prevents unrelated monorepo work from advancing this app's
+stream. Keeping the coordinator authoritative while Nx performs a mutation-free
+agreement check avoids two competing version calculators.
+
+The artifact-only repository remains a useful security and ownership boundary:
+source history and build tooling stay out of the Pages repository, while its
+write credential is narrowly scoped to the final synchronization step.
 
 ## When to Apply
 
-- A static app lives in a monorepo but must publish at
-  `https://<owner>.github.io/`.
-- The source and Pages artifacts should have separate repositories.
-- Releases need semantic versions, Git tags, and GitHub Releases without npm
-  publication.
+- A deployable app in a monorepo needs an independent semantic-version stream.
+- History contains squash merges, true merges, or both.
+- A pre-versioning app needs a reviewed version reconstructed from history.
+- Publication has several irreversible steps and a retry must preserve bytes.
+- An older queued run must not roll back a newer deployment.
+- Nx or another release framework is useful for graph and tag validation, while
+  repository-specific eligibility and recovery semantics need a coordinator.
 
-Do not use this exact flow if the target branch rejects a deploy key's normal
-push, the host needs an API upload, or the app is served under a project-site
-base path.
+Do not copy local policy values blindly. The `github.io` scope, tag pattern,
+bootstrap boundary and version, artifact name, and retention period belong to
+this repository. The reusable invariants are exact eligibility, integration-
+ordered replay, reviewed bootstrap input, persistence before publication,
+fail-closed verification, and recovery without rebuilding.
 
 ## Examples
 
-- A source `main` commit runs the verified build, checks out the artifact
-  repository using `PAGES_DEPLOY_KEY`, synchronizes static output, and pushes
-  only when it changed.
-- A patch changeset opens `chore(release): version github.io`; after that exact
-  bot PR merges, the release workflow creates `github.io@X.Y.Z` and its GitHub
-  Release. [Release workflow tests](../../../scripts/github-io-release-workflows.test.mjs#L12-L84)
+### Commit eligibility
+
+```text
+feat(github.io): add profile           -> minor
+fix(github.io): repair footer          -> patch
+fix(github.io)!: remove an API         -> major
+feat(github.io-ui): add profile        -> ignored
+feat: repository-wide breaking change -> ignored for github.io
+chore(github.io): reorganize files     -> ignored
+```
+
+### Recoverable workflow
+
+```text
+source SHA
+  -> saved checkpoint exists
+       -> verify record and digest
+       -> recover the same tag, version, and artifact
+       -> publish or deploy only missing matching steps
+  -> no saved checkpoint
+       -> if source is already tagged: fail closed
+       -> calculate
+       -> noop or superseded: stop before build
+       -> prepare: validate, build once, persist checkpoint
+       -> publish and deploy the exact persisted artifact
+```
 
 ## Related
 
-- No related solution or GitHub issue was found during this capture.
+- [Versioned footer contract](../design-patterns/github-io-astryx-attribution-footer.md)
+- [Nx and pnpm app scaffolding](scaffold-nx-react-astryx-with-pnpm.md)
+- No matching GitHub issue was found during this update.
