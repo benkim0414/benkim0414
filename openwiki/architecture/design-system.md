@@ -5,7 +5,7 @@ description: How Astryx, StyleX, theme persistence, and browser layout checks fi
 tags: [astryx, stylex, theme, layout]
 verified:
   - by: openwiki/0.5.0
-    at: 2026-09-09T04:57:16.606Z
+    at: 2026-09-09T06:01:39.198Z
 sources:
   - id: openwiki-source-45b1d77b308bd57403f55ff9
     resource: repo://apps/github.io/.storybook/story-taxonomy.spec.ts
@@ -41,7 +41,7 @@ sources:
     resource: repo://apps/github.io/src/styles.css
   - id: openwiki-source-fcfa3ced1d03143bb27d5018
     resource: repo://apps/github.io/vite.config.ts
-generated: { by: "codex", at: "2026-09-09T04:57:16.606Z" }
+generated: { by: "codex", at: "2026-09-09T06:01:39.198Z" }
 ---
 
 # Design system and layout
@@ -80,7 +80,9 @@ design-system contract for count indicators.
 The DevOps roadmap follows the same boundary. `DevOpsRoadmapStepper` delegates
 ordering, vertical connectors, numbered indicators, completed announcements,
 and disabled states to Astryx 0.5.4 `Stepper` and `Step`. App-owned StyleX is
-limited to the wrapping evidence lists inside each step; linked `SkillToken`s,
+limited to the wrapping evidence lists inside each step, while a roadmap-scoped
+global selector promotes completed labels and descriptions to the primary text
+token without changing their semantic success status. Linked `SkillToken`s,
 certification citations, and neutral concept tokens reuse existing components.
 The component deliberately has no active step because evidence can complete
 non-contiguous topics, so completion is represented by each step's semantic
