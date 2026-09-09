@@ -1,7 +1,7 @@
 # Repository-wide historical commit scope repair
 
 Date: 2026-09-09
-Status: approach approved; written spec awaiting review
+Status: written spec approved by the user; implementation planning authorized
 
 ## Goal
 
