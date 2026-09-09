@@ -759,12 +759,24 @@ async function inspectRoute(bidi, context, route) {
       });
       const activeElement = document.activeElement;
       const completedRoadmapStep = ${route.roadmapStepper ? "document.querySelector('[data-roadmap-stepper] > [data-status=\"success\"]')" : 'null'};
+      const completedRoadmapLabel = completedRoadmapStep?.querySelector('.astryx-step-label') ?? null;
       const roadmapDescription = completedRoadmapStep?.querySelector('.astryx-step-description') ?? null;
       const roadmapEvidence = completedRoadmapStep?.querySelector('[data-roadmap-evidence]') ?? null;
       const roadmapNextStep = completedRoadmapStep?.nextElementSibling ?? null;
+      const upcomingRoadmapLabel = document.querySelector(
+        '[data-roadmap-stepper] > [aria-disabled="true"] .astryx-step-label',
+      );
       const roadmapBars = completedRoadmapStep
         ? [...completedRoadmapStep.querySelectorAll('.astryx-step-bar')]
         : [];
+      const resolveColorToken = (token, owner) => {
+        const probe = document.createElement('span');
+        probe.style.color = 'var(' + token + ')';
+        owner.append(probe);
+        const color = getComputedStyle(probe).color;
+        probe.remove();
+        return color;
+      };
       const documentWidth = Math.max(
         document.documentElement.scrollWidth,
         document.body?.scrollWidth ?? 0,
@@ -810,11 +822,23 @@ async function inspectRoute(bidi, context, route) {
                 ? getComputedStyle(roadmapDescription).color
                 : null,
               evidence: rectangle(roadmapEvidence),
-              labelColor: getComputedStyle(
-                completedRoadmapStep.querySelector('.astryx-step-label'),
-              ).color,
+              expectedDisabledColor: upcomingRoadmapLabel
+                ? resolveColorToken('--color-text-disabled', upcomingRoadmapLabel)
+                : null,
+              expectedPrimaryColor: completedRoadmapLabel
+                ? resolveColorToken('--color-text-primary', completedRoadmapLabel)
+                : null,
+              expectedSecondaryColor: roadmapDescription
+                ? resolveColorToken('--color-text-secondary', roadmapDescription)
+                : null,
+              labelColor: completedRoadmapLabel
+                ? getComputedStyle(completedRoadmapLabel).color
+                : null,
               nextStep: rectangle(roadmapNextStep),
               description: rectangle(roadmapDescription),
+              upcomingLabelColor: upcomingRoadmapLabel
+                ? getComputedStyle(upcomingRoadmapLabel).color
+                : null,
             }
           : null,
         layoutMode: document.querySelector('[data-testid="not-found-page"]')?.getAttribute('data-layout') ?? null,
@@ -854,13 +878,23 @@ function assertRouteMetrics(route, viewport, metrics, navigationPath) {
     const roadmap = metrics.roadmapStepper;
     assert(roadmap != null, `${label} has no completed roadmap step.`);
     assert(
-      roadmap.descriptionColor !== roadmap.labelColor,
-      `${label} completed description is not gray: ${JSON.stringify(roadmap)}.`,
+      roadmap.labelColor === roadmap.expectedPrimaryColor,
+      `${label} completed title does not use primary color: ${JSON.stringify(roadmap)}.`,
+    );
+    assert(
+      roadmap.descriptionColor === roadmap.expectedSecondaryColor,
+      `${label} completed description does not use secondary color: ${JSON.stringify(roadmap)}.`,
     );
     assert(
       roadmap.barColors.length > 0 &&
-        roadmap.barColors.every((color) => color === roadmap.labelColor),
+        roadmap.barColors.every(
+          (color) => color === roadmap.expectedPrimaryColor,
+        ),
       `${label} completed bars are not as bright as the title: ${JSON.stringify(roadmap)}.`,
+    );
+    assert(
+      roadmap.upcomingLabelColor === roadmap.expectedDisabledColor,
+      `${label} upcoming title does not retain disabled color: ${JSON.stringify(roadmap)}.`,
     );
     assert(
       roadmap.description != null &&
@@ -1564,6 +1598,23 @@ async function verifyRoutes(bidi, context, baseUrl, signal) {
       }
 
       assertRouteMetrics(route, viewport, metrics, navigationPath);
+
+      if (route.roadmapStepper) {
+        await evaluateJson(
+          bidi,
+          context,
+          `document.documentElement.setAttribute('data-theme', 'light'); return true;`,
+        );
+        await wait(200, signal);
+        const lightMetrics = await inspectRoute(bidi, context, route);
+        assertRouteMetrics(route, viewport, lightMetrics, navigationPath);
+        await evaluateJson(
+          bidi,
+          context,
+          `document.documentElement.setAttribute('data-theme', 'dark'); return true;`,
+        );
+        await wait(200, signal);
+      }
 
       if (route.path === '/') {
         await verifyThemeToggle(bidi, context, viewport);
