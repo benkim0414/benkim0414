@@ -45,6 +45,11 @@ The machine-readable artifacts are
 `48801bbf40b57a2193b17f9e4847569a2fe3754898bd2f47d0b7c7b29a86295e`).
 The ledger checker reports `ledger valid: 1645 decisions`. These artifacts and
 the exact 99 proposals await user acceptance and are not execution authority.
+The canonical human-readable 99-row table, disjoint domain totals, and
+overlapping per-ref coverage are in the
+[preliminary review](../../.history-repair/preliminary/review.md#exact-pending-scope-corrections).
+The shorter [proposed-corrections review aid](../../.superpowers/sdd/2026-09-09-historical-commit-scope-repair/proposed-corrections.md)
+is not the canonical detailed set.
 
 The screening narrative and candidate tables below are retained as audit
 rationale. The complete preliminary ledger supersedes their earlier candidate
