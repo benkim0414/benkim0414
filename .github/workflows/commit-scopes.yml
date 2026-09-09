@@ -31,8 +31,8 @@ jobs:
           const isPr = process.env.GITHUB_EVENT_NAME === 'pull_request';
           const base = isPr ? event.pull_request.base.sha : event.before;
           const head = isPr ? event.pull_request.head.sha : event.after;
-          const run = (command, args) => {
-            const result = spawnSync(command, args, { stdio: 'inherit' });
+          const run = (command, args, options = {}) => {
+            const result = spawnSync(command, args, { stdio: 'inherit', ...options });
             if (result.status !== 0) process.exitCode = result.status ?? 1;
           };
           const args = ['scripts/check-commit-scopes.mjs'];
@@ -41,5 +41,9 @@ jobs:
           const preflight = spawnSync(process.execPath, [...args, '--validate-range'], { stdio: 'inherit' });
           if (preflight.status !== 0) process.exit(preflight.status ?? 1);
           run('pnpm', ['exec', 'commitlint', '--from', base, '--to', head]);
+          if (isPr) run('pnpm', ['exec', 'commitlint'], {
+            input: `${event.pull_request.title}\n`,
+            stdio: ['pipe', 'inherit', 'inherit'],
+          });
           run(process.execPath, args);
           NODE

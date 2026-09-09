@@ -36,16 +36,13 @@ function owner(path) {
   if (path === 'nx.json' || path.startsWith('.nx/')) return 'nx';
   if (
     path === '.openwikiignore' ||
-    path.startsWith('openwiki/') ||
     /^scripts\/setup-openwiki(?:\.test)?\.mjs$/.test(path)
   )
     return 'openwiki';
-  if (
-    path === 'openspec' ||
-    path.startsWith('openspec/') ||
-    path.startsWith('.openspec/')
-  )
-    return 'openspec';
+  if (path.startsWith('openwiki/')) return 'documentation';
+  if (/^\.?openspec\/config\.(?:json|ya?ml)$/.test(path)) return 'openspec';
+  if (path.startsWith('openspec/') || path.startsWith('.openspec/'))
+    return 'documentation';
   if (path.startsWith('.codex/')) return 'codex';
   if (
     path === 'commitlint.config.mjs' ||
@@ -87,14 +84,19 @@ export function checkScope({ subject, paths }) {
   const owners = new Set(classified.filter(Boolean));
   const hasUnownedRoot = classified.some((value) => value === null);
   const hasDocs = owners.delete('documentation');
-  const dependencyOnly = owners.size === 1 && owners.has('dependency');
+  const hasDependency = owners.delete('dependency');
+  const dependencyOnly =
+    classified.length > 0 &&
+    classified.every((value) => value === 'dependency');
   if (dependencyOnly) {
-    owners.clear();
     if (!['deps', 'deps-dev'].includes(scope))
       errors.push('Dependency-only changes require scope deps or deps-dev.');
-  }
-
-  if (owners.size === 1) {
+  } else if (
+    owners.size === 1 &&
+    !hasDocs &&
+    !hasUnownedRoot &&
+    !hasDependency
+  ) {
     const [expected] = owners;
     if (scope !== expected)
       errors.push(
@@ -117,6 +119,16 @@ export function checkScope({ subject, paths }) {
   if (hasUnownedRoot && owners.size > 0) {
     review.push(
       'Root files are mixed with an owned domain; a reviewer must confirm the dominant scope.',
+    );
+  }
+  if (hasUnownedRoot && owners.size === 0 && scope) {
+    review.push(
+      'Root-file purpose is ambiguous from its path; a reviewer must confirm its domain scope.',
+    );
+  }
+  if (hasDependency && !dependencyOnly) {
+    review.push(
+      'Dependency metadata is mixed with another domain; a reviewer must confirm the dominant scope.',
     );
   }
   return { errors, review };

@@ -6,6 +6,7 @@ import {
   mkdirSync,
   mkdtempSync,
   readFileSync,
+  rmSync,
   symlinkSync,
   writeFileSync,
 } from 'node:fs';
@@ -46,11 +47,13 @@ test('workflow reads event JSON and passes arguments without expression interpol
   assert.match(workflow, /--pr-title/);
   assert.match(workflow, /--base/);
   assert.match(workflow, /--head/);
+  assert.match(workflow, /input:.*pull_request\.title/);
   assert.match(workflow, /pnpm install --frozen-lockfile/);
 });
 
-test('a resolved divergent push base fails before commitlint is invoked', () => {
+test('a resolved divergent push base fails before commitlint is invoked', (t) => {
   const cwd = mkdtempSync(join(tmpdir(), 'scope-workflow-'));
+  t.after(() => rmSync(cwd, { recursive: true, force: true }));
   const git = (...args) =>
     execFileSync('git', args, { cwd, encoding: 'utf8' }).trim();
   git('init', '-q');
@@ -108,4 +111,23 @@ test('a resolved divergent push base fails before commitlint is invoked', () => 
   assert.equal(result.status, 1);
   assert.match(result.stderr, /explicit documented baseline/);
   assert.equal(existsSync(invocationLog), false, 'commitlint must be skipped');
+});
+
+test('installed commitlint validates PR titles from stdin including breaking syntax', () => {
+  const commitlint = new URL('../node_modules/.bin/commitlint', import.meta.url)
+    .pathname;
+  const cwd = new URL('..', import.meta.url).pathname;
+  const invalid = spawnSync(commitlint, [], {
+    cwd,
+    input: 'bogus(github.io): change app\n',
+    encoding: 'utf8',
+  });
+  assert.equal(invalid.status, 1);
+  assert.match(invalid.stdout + invalid.stderr, /type-enum/);
+  const breaking = spawnSync(commitlint, [], {
+    cwd,
+    input: 'feat(github.io)!: change app API\n',
+    encoding: 'utf8',
+  });
+  assert.equal(breaking.status, 0, breaking.stdout + breaking.stderr);
 });

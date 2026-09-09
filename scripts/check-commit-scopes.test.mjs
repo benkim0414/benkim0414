@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import { execFileSync, spawnSync } from 'node:child_process';
-import { mkdtempSync, writeFileSync } from 'node:fs';
+import { mkdtempSync, rmSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import test from 'node:test';
@@ -11,8 +11,9 @@ const run = (args, cwd) =>
 const git = (cwd, ...args) =>
   execFileSync('git', args, { cwd, encoding: 'utf8' }).trim();
 
-function repo() {
+function repo(t) {
   const cwd = mkdtempSync(join(tmpdir(), 'scope-check-'));
+  t.after(() => rmSync(cwd, { recursive: true, force: true }));
   git(cwd, 'init', '-q');
   git(cwd, 'config', 'user.name', 'Test');
   git(cwd, 'config', 'user.email', 'test@example.com');
@@ -31,8 +32,8 @@ function commit(cwd, subject, files) {
   return git(cwd, 'rev-parse', 'HEAD');
 }
 
-test('range checks root commits, introduced commits, and both sides of renames', () => {
-  const cwd = repo();
+test('range checks root commits, introduced commits, and both sides of renames', (t) => {
+  const cwd = repo(t);
   const base = commit(cwd, 'feat(github.io): begin app', {
     'apps/github.io/a.js': 'a',
   });
@@ -48,8 +49,8 @@ test('range checks root commits, introduced commits, and both sides of renames',
   assert.match(root.stderr, /explicit documented baseline/);
 });
 
-test('PR title and staged modes use the shared checker without shell interpolation', () => {
-  const cwd = repo();
+test('PR title and staged modes use the shared checker without shell interpolation', (t) => {
+  const cwd = repo(t);
   const base = commit(cwd, 'chore: initialize repository', {
     '.gitignore': 'x',
   });
@@ -76,8 +77,24 @@ test('PR title and staged modes use the shared checker without shell interpolati
   );
 });
 
-test('rejects abbreviated and unreachable range OIDs', () => {
-  const cwd = repo();
+test('a PR title equal to a control flag is parsed as the title value', (t) => {
+  const cwd = repo(t);
+  const base = commit(cwd, 'chore: initialize repository', {
+    '.gitignore': 'x',
+  });
+  const head = commit(cwd, 'feat(github.io): add app', {
+    'apps/github.io/a.js': 'a',
+  });
+  const result = run(
+    ['--pr-title', '--validate-range', '--base', base, '--head', head],
+    cwd,
+  );
+  assert.equal(result.status, 1);
+  assert.match(result.stderr, /Conventional Commit header/);
+});
+
+test('rejects abbreviated and unreachable range OIDs', (t) => {
+  const cwd = repo(t);
   const head = commit(cwd, 'chore: initialize repository', {
     '.gitignore': 'x',
   });
@@ -91,8 +108,8 @@ test('rejects abbreviated and unreachable range OIDs', () => {
   );
 });
 
-test('PR mode checks a diverged base/head graph without treating divergence as a rewrite', () => {
-  const cwd = repo();
+test('PR mode checks a diverged base/head graph without treating divergence as a rewrite', (t) => {
+  const cwd = repo(t);
   const root = commit(cwd, 'chore: initialize repository', {
     '.gitignore': 'x',
   });

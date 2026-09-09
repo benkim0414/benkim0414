@@ -122,6 +122,44 @@ test('surfaces ambiguous docs and mixed ownership for human review', () => {
   );
 });
 
+test('does not fabricate a single owner for app changes mixed with root or docs', () => {
+  for (const paths of [
+    ['apps/github.io/src/app.tsx', 'package.json'],
+    ['apps/github.io/src/app.tsx', 'docs/research/decision.md'],
+  ]) {
+    const result = checkScope({
+      subject: 'chore(nx): update integration',
+      paths,
+    });
+    assert.deepEqual(result.errors, []);
+    assert.ok(result.review.length);
+  }
+});
+
+test('treats generated OpenWiki and OpenSpec documents by semantic domain', () => {
+  for (const [subject, path] of [
+    [
+      'docs(workflow): document repair operations',
+      'openwiki/operations/history-repair.md',
+    ],
+    [
+      'docs(github.io): propose app filtering',
+      'openspec/changes/app-filter/proposal.md',
+    ],
+  ]) {
+    const result = checkScope({ subject, paths: [path] });
+    assert.deepEqual(result.errors, []);
+    assert.ok(result.review.length);
+  }
+  assert.deepEqual(
+    checkScope({
+      subject: 'chore(openspec): update configuration',
+      paths: ['openspec/config.yaml'],
+    }).errors,
+    [],
+  );
+});
+
 test('allows merge subjects and rejects malformed headers', () => {
   assert.deepEqual(checkScope({ subject: 'Merge branch feature', paths: [] }), {
     errors: [],

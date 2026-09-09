@@ -13,11 +13,47 @@ function git(args, options = {}) {
   });
 }
 
-function option(args, name) {
-  const index = args.indexOf(name);
-  if (index < 0 || index === args.length - 1)
-    throw new Error(`Missing required ${name} argument.`);
-  return args[index + 1];
+function parseOptions(args) {
+  const parsed = { staged: false, validateRange: false };
+  const values = new Map([
+    ['--message-file', 'messageFile'],
+    ['--base', 'base'],
+    ['--head', 'head'],
+    ['--pr-title', 'prTitle'],
+  ]);
+  for (let index = 0; index < args.length; index += 1) {
+    const argument = args[index];
+    if (argument === '--staged') {
+      parsed.staged = true;
+      continue;
+    }
+    if (argument === '--validate-range') {
+      parsed.validateRange = true;
+      continue;
+    }
+    const key = values.get(argument);
+    if (!key) throw new Error(`Unknown argument ${JSON.stringify(argument)}.`);
+    if (parsed[key] !== undefined)
+      throw new Error(`Argument ${argument} may be supplied only once.`);
+    if (index === args.length - 1)
+      throw new Error(`Missing required ${argument} value.`);
+    parsed[key] = args[(index += 1)];
+  }
+  if (parsed.staged) {
+    if (
+      !parsed.messageFile ||
+      parsed.base ||
+      parsed.head ||
+      parsed.prTitle ||
+      parsed.validateRange
+    )
+      throw new Error(
+        'Staged mode requires only --staged --message-file PATH.',
+      );
+  } else if (!parsed.base || !parsed.head || parsed.messageFile) {
+    throw new Error('Range mode requires --base OID --head OID.');
+  }
+  return parsed;
 }
 
 function validateOid(value, label) {
@@ -105,10 +141,13 @@ function rangeCommits(base, head, requireAncestor) {
 }
 
 function main(args) {
+  const options = parseOptions(args);
   let failures = 0;
-  if (args.includes('--staged')) {
-    const messageFile = option(args, '--message-file');
-    const subject = readFileSync(messageFile, 'utf8').split(/\r?\n/, 1)[0];
+  if (options.staged) {
+    const subject = readFileSync(options.messageFile, 'utf8').split(
+      /\r?\n/,
+      1,
+    )[0];
     const paths = nameStatusPaths(
       git(['diff', '--cached', '--name-status', '-z', '-M'], {
         encoding: 'buffer',
@@ -116,10 +155,9 @@ function main(args) {
     );
     failures += inspect(subject, paths, 'staged commit');
   } else {
-    const base = option(args, '--base');
-    const head = option(args, '--head');
-    const requireAncestor = !args.includes('--pr-title');
-    if (args.includes('--validate-range')) {
+    const { base, head } = options;
+    const requireAncestor = options.prTitle === undefined;
+    if (options.validateRange) {
       assertRange(base, head, requireAncestor);
       return;
     }
@@ -134,9 +172,9 @@ function main(args) {
         oid,
       );
     }
-    if (args.includes('--pr-title'))
+    if (options.prTitle !== undefined)
       failures += inspect(
-        option(args, '--pr-title'),
+        options.prTitle,
         [...new Set(allPaths)],
         'proposed squash title',
       );
