@@ -8,7 +8,9 @@ import { nxViteTsPaths } from '@nx/vite/plugins/nx-tsconfig-paths.plugin';
 const release = process.env.APP_RELEASE === 'true';
 const supplied = process.env.APP_VERSION;
 
-if (release && !/^\d+\.\d+\.\d+$/.test(supplied ?? '')) {
+// The absolute end assertion also rejects JavaScript's final-newline $ match.
+const stableVersion = /^(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)(?![\s\S])/;
+if (release && !stableVersion.test(supplied ?? '')) {
   throw new Error('APP_VERSION must be a stable SemVer for release builds');
 }
 
