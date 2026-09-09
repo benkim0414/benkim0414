@@ -5,13 +5,21 @@ description: Public-safe evidence, curated projections, skill resolution, and ca
 tags: [skills, evidence, capabilities, domain]
 verified:
   - by: openwiki/0.5.0
-    at: 2026-09-08T02:06:28.031Z
+    at: 2026-09-09T04:57:16.606Z
 sources:
   - id: openwiki-source-d004d8237034180f25bca313
     resource: repo://apps/github.io/src/app/devops-capability-evidence/devops-capability-evidence.scoring.ts
+  - id: openwiki-source-c74ed2ffc48c42eefc7d7f1b
+    resource: repo://apps/github.io/src/app/devops-roadmap/devops-roadmap-skill-inventory.data.spec.ts
+  - id: openwiki-source-16f3c4caa37e89d7694f060b
+    resource: repo://apps/github.io/src/app/devops-roadmap/devops-roadmap-skill-inventory.data.ts
+  - id: openwiki-source-931cab7abf1d26363f1a35b7
+    resource: repo://apps/github.io/src/app/devops-roadmap/devops-roadmap-stepper.tsx
+  - id: openwiki-source-43f6485bd500f1f79408e2e3
+    resource: repo://apps/github.io/src/app/devops-roadmap/devops-roadmap.data.ts
   - id: openwiki-source-bcd58fc33f104c190f9326be
     resource: repo://apps/github.io/src/app/skills/skill-detail-resolver.ts
-generated: { by: "codex", at: "2026-09-08T02:06:28.031Z" }
+generated: { by: "codex", at: "2026-09-09T04:57:16.606Z" }
 ---
 
 # Skills and capability evidence
@@ -43,6 +51,20 @@ narratives must exist, be public and non-sensitive, and declare that skill;
 projects must resolve. Explicit experience evidence must be public, non-sensitive,
 and of type `experience`. Broken references throw, distinguishing invalid authored
 data from a visitor's unknown URL.
+
+The DevOps roadmap inventory is another separate, display-oriented projection.
+Its 22 canonical topics and concise descriptions define the source order, while
+the inventory explicitly associates each topic with skill labels,
+certifications, or covered concepts. The Stepper treats any of those visible
+associations as completed evidence and treats a topic with none as an upcoming,
+disabled step. This is a presentation rule, not the capability scoring model:
+roadmap skill and concept tokens must not be interpreted as scored proof.
+
+Descriptions are shared between the canonical roadmap and its evidence
+inventory, and tests require both projections to have the same IDs, titles,
+descriptions, and order. At present Artifact Management and Service Mesh are
+the intentional unsupported gaps; additions should update the explicit
+inventory rather than inferring evidence from unrelated catalog entries.
 
 When extending data, change the catalog and its intended projections explicitly,
 then exercise resolver/scoring tests. Do not introduce private source material as

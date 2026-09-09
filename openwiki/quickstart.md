@@ -3,9 +3,6 @@ type: guide
 title: Workspace quickstart
 description: Set up the pnpm/Nx monorepo, run github.io, and find the right architecture or workflow guide.
 tags: [quickstart, workspace, pnpm, nx]
-verified:
-  - by: openwiki/0.5.0
-    at: 2026-09-08T02:12:24.965Z
 sources:
   - id: openwiki-source-7960267d064bb36aab7607cb
     resource: repo://apps/github.io/package.json
@@ -19,7 +16,10 @@ sources:
     resource: repo://package.json
   - id: openwiki-source-40275cb92c3610938f16ade3
     resource: repo://pnpm-workspace.yaml
-generated: { by: "codex", at: "2026-09-08T02:06:28.031Z" }
+generated: { by: "codex", at: "2026-09-09T04:57:16.606Z" }
+verified:
+  - by: openwiki/0.5.0
+    at: 2026-09-09T04:57:16.606Z
 ---
 
 # Workspace quickstart
@@ -51,6 +51,7 @@ See [validation](workflows/validation.md) before handing off changes.
 | --- | --- |
 | Add a route or understand shared providers | [Application architecture](architecture/github-io.md) |
 | Change skills, evidence, or scores | [Skills and capability evidence](concepts/evidence.md) |
+| Change roadmap topics, evidence states, or Stepper presentation | [Application architecture](architecture/github-io.md), [evidence semantics](concepts/evidence.md), then [design system and layout](architecture/design-system.md) |
 | Change themes, components, or scroll layout | [Design system and layout](architecture/design-system.md) |
 | Select tests and checks | [Validation workflow](workflows/validation.md) |
 | Understand deployment and handoff boundaries | [Release and session handoff](operations/releases.md) |

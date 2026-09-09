@@ -10,24 +10,26 @@ sources:
     resource: repo://apps/github.io/.storybook/story-taxonomy.spec.ts
   - id: openwiki-source-a099837b8e8614c677082a9d
     resource: repo://apps/github.io/project.json
+  - id: openwiki-source-5f2ef006d9eda2b471c35da0
+    resource: repo://apps/github.io/scripts/verify-global-layout-css.mjs
   - id: openwiki-source-2bfcdfa6f69acb4ddbe6f2af
     resource: repo://apps/github.io/scripts/verify-mobile-layout-browser.mjs
-  - id: openwiki-source-47aa440893a5a291d1ad1984
-    resource: repo://apps/github.io/src/app/count-badge.spec.tsx
-  - id: openwiki-source-7710c13ca861e757d9eac20c
-    resource: repo://apps/github.io/src/app/count-badge.stories.spec.ts
-  - id: openwiki-source-d97b9e088d941d15580a0bd7
-    resource: repo://apps/github.io/src/app/skills/skill-detail-page.spec.tsx
+  - id: openwiki-source-6120c05e6c28f6f4f5433722
+    resource: repo://apps/github.io/src/app/app.spec.tsx
+  - id: openwiki-source-237f7adb9abebb15f51f4ef5
+    resource: repo://apps/github.io/src/app/devops-roadmap/devops-roadmap-stepper.spec.tsx
+  - id: openwiki-source-9945d2358006f012fbfbe4af
+    resource: repo://apps/github.io/src/app/devops-roadmap/devops-roadmap-stepper.stories.spec.ts
   - id: openwiki-source-fcfa3ced1d03143bb27d5018
     resource: repo://apps/github.io/vite.config.ts
   - id: openwiki-source-6ba748254f38112b13d529da
     resource: repo://nx.json
   - id: openwiki-source-871ac2bb60a2ea411c19a76e
     resource: repo://scripts/setup-openwiki.test.mjs
-generated: { by: "codex", at: "2026-09-08T05:02:46.510Z" }
+generated: { by: "codex", at: "2026-09-09T04:57:16.606Z" }
 verified:
   - by: openwiki/0.5.0
-    at: 2026-09-08T05:02:46.510Z
+    at: 2026-09-09T04:57:16.606Z
 ---
 
 # Validation workflow
@@ -49,8 +51,9 @@ Vitest uses jsdom, includes source test/spec files and `.storybook/**/*.spec.ts`
 and disables watch mode. Coverage uses V8 with reports under
 `coverage/apps/github.io`. Relevant focused contracts include
 `skill-detail-resolver.spec.ts`, `devops-capability-evidence.scoring.spec.ts`,
-`theme-mode.spec.tsx`, and `global-navigation-layout.spec.tsx` beside their source.
-Choose the test closest to the changed behavior before running the broader suite.
+`theme-mode.spec.tsx`, `global-navigation-layout.spec.tsx`, and
+`devops-roadmap-stepper.spec.tsx` beside their source. Choose the test closest
+to the changed behavior before running the broader suite.
 
 For reusable UI elements, keep a focused component test beside the component and
 exercise consumer-visible values, including zero where it changes the displayed
@@ -58,6 +61,13 @@ state. Colocate Storybook stories and a small story-module test that fixes the
 established title taxonomy and representative args. Pair those tests with the
 page-level test that proves the component is wired into its actual accessible
 and data-derived context.
+
+Roadmap changes use three layers of evidence. The Stepper component test fixes
+the 22-topic order, numbered indicators, descriptions, completion and disabled
+semantics, certification citations, skill links, and concept tokens. Its story
+module test protects the default and representative-state catalog entries. The
+real `/roadmap` route test then proves those states survive provider and page
+integration and that the legacy React Flow viewport is not rendered.
 
 For CSS/layout changes, also run:
 
@@ -74,6 +84,13 @@ skill-detail Experience heading and its neutral count badge as rendered
 geometry: both must exist, fit within the main surface without overlap, align
 vertically, retain the native `Experience` heading name, and show the expected
 primary-experience count.
+
+The compiled global-layout verifier matches every emitted class declaration
+for an expected layout property, because StyleX may emit duplicate declarations
+whose classes split the required properties. It accepts both production and
+development StyleX markers, but still requires each expected declaration to
+intersect the compiled classes. Keep its self-tests green when changing the
+StyleX or Vite compilation pipeline.
 
 For agent-document or OpenWiki setup changes:
 

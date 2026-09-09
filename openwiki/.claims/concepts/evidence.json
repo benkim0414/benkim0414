@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:8e65e5a99e0bd88d589776867758de7156058e1d9ecd4e74f5c0354b4bbfb5c5",
+  "pageVersion": "sha256:bc9f54a48f97adf826eec587bb60ec25d312e1ce85a297f38255c3d692aeacac",
   "claims": [
     {
       "id": "claim_41253c1ed05946c38b803e4b8b5d55dc",
@@ -55,10 +55,42 @@
           "version": "repo-lines-v1:sha256:3c6022578c5681c9ab1cf2c91300d8ed37d87929acec4c78f3cea3518522e0b9:eyJzZWxlY3RlZExpbmVDb3VudCI6NTMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijk1ZWYwMWJjMDhkYmMzYjYzZTRlNzVlYTNkMjZhNWI5NDE4OTE4NzdlMjdhZDg5MTMyOWM4NDExZDdkOGRjNGQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImRiMmI5ZjgxYzAzZmY3ZjdlZjkxYTI4MTI5OGI1YTkzZjI3NDRlMjVhY2YxMzEzMWNmMmU0OGQ0ZDUwYTFhZGMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjY1ZGI4NjdiZDIzNTgzOWM4NDU1YWM5Yjk1MGM5YTI0MDE2ZWY0ZWFjNWZhODc3MTA1NDZiY2I0OTJhYzY3ZTIifQ"
         }
       ]
+    },
+    {
+      "id": "claim_bdf5d0a6a5db48528888fab1fb5e88de",
+      "statement": "The DevOps roadmap inventory is an explicit display projection over 22 canonical ordered topics and shared concise descriptions, with curated skill labels, certifications, and covered concepts rather than inferred catalog membership.",
+      "evidence": [
+        {
+          "resource": "repo://apps/github.io/src/app/devops-roadmap/devops-roadmap-skill-inventory.data.spec.ts#L99-L127",
+          "version": "repo-lines-v1:sha256:731f25a42a83991392059cdaa8456f6b4e0c0ef1319a571a6f0ce71903902f52:eyJzZWxlY3RlZExpbmVDb3VudCI6MjksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjFlYjEzNzhlZDJmNDJlZWM1ZTliODA4OTZmMTBmMDFlNTU2OGFlMWExMjgwNWMwNzE2YTdjYjY1Yjk5ZjFkNGMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjNhM2U0NmY5NDI3NmI2ZjZmNGVkMWYwMmFmNzhiZWY2YTJlZTFjNDM5ZGQ1NTg0Yjk3Mzk0ODMxMzIxNGQyYjciLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImMxODUwNGRlMDIyNjI3YjNlYjk2ZDVmMDI2YWU4NTI5ODkxZTM0ZjgzZmJiNzA1NzM4NDlhODNhYjgyZjkwM2IiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjcyMzViNjYzYjhkZDliNmYxMWY1NGNiNjk5MzVmZTE5ZDMyZDkwNTQ0NzkwMWY1MDYxMjhjNmRjZTc3ODk5MjIifQ"
+        },
+        {
+          "resource": "repo://apps/github.io/src/app/devops-roadmap/devops-roadmap.data.ts#L4-L52",
+          "version": "repo-lines-v1:sha256:875d6604fd2014baa411d61871464ea0d868cd11ae5b59fceacc3c2aa940d330:eyJzZWxlY3RlZExpbmVDb3VudCI6NDksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjIxZTgzOTAzNTFiNjJkMjIwNWQ3NWRmNzZiM2VjMmIyODE2YWYyNjliNmY5NDdhNjgyZjkxMjk2ODcxNGI2ZWYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjBmNDdjMWIxNjg4ODZiYjJkZjY0MTg5MTZlZGMxYThlZGJlMTY4MmQxMWVjZjA5ZDcyNzJiZGY3ZmE4MTU0ZDciLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImJmMGE2MzU1NThhYjA3NjhmZTY2MjdkNTNmMGY5YmYwY2I5NjlmM2EyMmMzNTA4ZTkzZWY1YzkyZDk3MmI2NzMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImFiZDA3ZmNkYzY3ZTdmYWUzNTJmYjkyNzI5NTc1NzM3ZjI2NTNhNzM3NTI0YWEyOWUwZjhlZDFkZjNmYTFkZWUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_dc3ea82d81d84c40b35e5ff785d146f7",
+      "statement": "DevOpsRoadmapStepper treats any visible skill, certification, or covered concept as completed evidence and renders topics with no such evidence as disabled upcoming steps; this presentation rule is separate from capability scoring.",
+      "evidence": [
+        {
+          "resource": "repo://apps/github.io/src/app/devops-roadmap/devops-roadmap-skill-inventory.data.ts#L145-L195",
+          "version": "repo-lines-v1:sha256:9d0cbed6c57a8e51b41875ac1a8e9cfca1c059b972069bcbe23ba38fea95eb31:eyJzZWxlY3RlZExpbmVDb3VudCI6NTEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjhhOTYwNGEzZmY4NTZlMGJjYmJjYTA1YmM0OTIzMjg1NjBiYmQwNGVlY2ViOTkwYmJiYWQzMjAwZThmZTM1OGUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAwNGNjZDU0NWE0ZWYxZDg0MDA5NGM5NWQwYTI4N2I1MjE3MGI3ZmEwYjFlNjQyZGE0ODZlZmE2NDAzZGExZTAiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImU3MGNlMDE1ZTA5YTNiZGFlNjM5ZDBiMzU1MDBkNzZiNTRkYjdiZmMwZDQ0M2VkNTE3NDNkYjQ2NDU1NDQ3MWMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImM3OWY1YTk0NTVkZmI4N2I2NTZjYWY5NTQ3OWFmY2M1NjM0ZDhmMTAwNjNmNzFiODk1NTRlNTcwNzIxNGY3MjkifQ"
+        },
+        {
+          "resource": "repo://apps/github.io/src/app/devops-roadmap/devops-roadmap-stepper.tsx#L117-L132",
+          "version": "repo-lines-v1:sha256:1b2d5438b82129b5888bb8e577fce931f799c4c01ac1d561e576735b5e3cb3a0:eyJzZWxlY3RlZExpbmVDb3VudCI6MTYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjhhNmViMTEyNDY1YWFhZWNkOGEwYzdhNzkxMzY1Y2EwOTlhNGY4YWE5ZDRjNzIxODI5MmUxMjhmNDY5ODIwZWUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjM5ZDA4ZThmMjhjZjQyMWU4OWY2NGQ3NTYwMjBlYjg5YzY0OGQ2MTYwNjUyOGFjNjIxYzMwOTYwNjU1MzgwZmEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjVlNjFhNDExMTI5YzEyNzAyNzdiOGFmYTFhNTk0ODFmMmJlMzM1ZjhlNGI0YjY3ODliOWUxYWVlYzBjZGZlNzciLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjhiYmM3NGU1YWI3NWM1NjgyNWZkNTlhYjg2OWQ2OGU4ZDY2YmFkNWU4OWQ4MjY5YjI4YWEwMTY5MDkxODNiYTAifQ"
+        },
+        {
+          "resource": "repo://apps/github.io/src/app/devops-roadmap/devops-roadmap-stepper.tsx#L38-L45",
+          "version": "repo-lines-v1:sha256:1268280072eff1c8b326961abadbde992c75cb9340edfb97147f882d46301fd6:eyJzZWxlY3RlZExpbmVDb3VudCI6OCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNmI3MDViOTEzMDYyNGRlOTJlNjMzNzJiY2FlMDZhNWQwZDljNzI1NWJjNWM4Nzg0NzQ0ZjQyN2Q5OWJjNzM1YyIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiOTVlZjAxYmMwOGRiYzNiNjNlNGU3NWVhM2QyNmE1Yjk0MTg5MTg3N2UyN2FkODkxMzI5Yzg0MTFkN2Q4ZGM0ZCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMTM4M2FjMTk5OGFkODgyODg0NWM3MGVkZmY5ZDI1ZmNjNzg5NTdmNTUzMGE3OTgzOGQ1MTg0YTFlMTcwZmU0MiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNjQ3MDg0NzQ5ZjM5Yjc2NGM1YjU5MDg5ZTA5NzUwZjk3MTE1MTBlNzY3NWFiMjA2MjZlOTMxNjgzYzg2OWI0MiJ9"
+        }
+      ]
     }
   ],
   "verification": {
     "by": "openwiki/0.5.0",
-    "at": "2026-09-08T02:06:28.031Z"
+    "at": "2026-09-09T04:57:16.606Z"
   }
 }

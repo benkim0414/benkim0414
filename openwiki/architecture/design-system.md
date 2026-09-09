@@ -5,7 +5,7 @@ description: How Astryx, StyleX, theme persistence, and browser layout checks fi
 tags: [astryx, stylex, theme, layout]
 verified:
   - by: openwiki/0.5.0
-    at: 2026-09-08T06:48:21.757Z
+    at: 2026-09-09T04:57:16.606Z
 sources:
   - id: openwiki-source-45b1d77b308bd57403f55ff9
     resource: repo://apps/github.io/.storybook/story-taxonomy.spec.ts
@@ -15,6 +15,8 @@ sources:
     resource: repo://apps/github.io/src/app/count-badge.stories.tsx
   - id: openwiki-source-43db7fa7bd3bd05d549bdc0a
     resource: repo://apps/github.io/src/app/count-badge.tsx
+  - id: openwiki-source-931cab7abf1d26363f1a35b7
+    resource: repo://apps/github.io/src/app/devops-roadmap/devops-roadmap-stepper.tsx
   - id: openwiki-source-0e64d2f01d205d55b34c0576
     resource: repo://apps/github.io/src/app/devops-roadmap/roadmap-page.spec.tsx
   - id: openwiki-source-ddb555a1fa50192a107dbf5f
@@ -39,7 +41,7 @@ sources:
     resource: repo://apps/github.io/src/styles.css
   - id: openwiki-source-fcfa3ced1d03143bb27d5018
     resource: repo://apps/github.io/vite.config.ts
-generated: { by: "codex", at: "2026-09-08T06:48:21.757Z" }
+generated: { by: "codex", at: "2026-09-09T04:57:16.606Z" }
 ---
 
 # Design system and layout
@@ -74,6 +76,15 @@ the rendered label and neutral styling to Astryx's `Badge`; its colocated
 Storybook stories are cataloged as `Components/Count Badge` and cover a
 representative populated count and zero. This keeps pages from recreating the
 design-system contract for count indicators.
+
+The DevOps roadmap follows the same boundary. `DevOpsRoadmapStepper` delegates
+ordering, vertical connectors, numbered indicators, completed announcements,
+and disabled states to Astryx 0.5.4 `Stepper` and `Step`. App-owned StyleX is
+limited to the wrapping evidence lists inside each step; linked `SkillToken`s,
+certification citations, and neutral concept tokens reuse existing components.
+The component deliberately has no active step because evidence can complete
+non-contiguous topics, so completion is represented by each step's semantic
+status rather than by a single progress cursor.
 
 Vite compiles StyleX before its React and Nx path plugins. Test mode uses
 `css-only` and removes the StyleX development-server hooks; production and local

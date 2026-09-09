@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:cff2c7ffae8d5e8bf3a5ec039ce48119ef6e5d1ef958b351fc0241f2a258b949",
+  "pageVersion": "sha256:79e2b3b6ef937636e192931d54260d1bdbf1081fbfbaa3e2fd03bd955aef6406",
   "claims": [
     {
       "id": "claim_67f0a6341495404e8eefce3e45fd6173",
@@ -92,7 +92,7 @@
         },
         {
           "resource": "repo://apps/github.io/src/app/home/home-page.tsx#L28-L53",
-          "version": "repo-lines-v1:sha256:3f19298abd40e08654482441c6ffef5cf5f14610689a1ab42da1166d175bde5c:eyJzZWxlY3RlZExpbmVDb3VudCI6MjYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjNlZTdhMDZiZjliZDc0OWU3NWExN2E2ZGY2NTlhNGVhNTMyYTVkMGY1MmI5MzkwODY4MjZlZTJjNzM1NWZlZjAiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjEyODQwZmZhMTU2NmY3NDE0MDVjZDg0OWMxODc5YmE0NzEzODAzYWE4MTZmY2EwNDUwOTljZTI1YzU1ZTc0YzEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6Ijk2MmNkMjYzNzI0NGE0NWFjNjU1MTEyMTUwOTMwYjU3ODYxYzJkNzkzOGE1ZjUyZDVkMTAyZTUyOWIxOTVhZjkiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjkxMWQ0OGJiOWEyNjZjZDkxMWU3NjM5M2E1YTBmOTBkYzU1YzZmMzI5ZTZiNGQ3ZmZiYjE2Y2YzMTIyOTdkNjAifQ"
+          "version": "repo-lines-v1:sha256:47a30f3d4128689733da7a904ea350b164a130b17faf78fa5180bf4989e8bed8:eyJzZWxlY3RlZExpbmVDb3VudCI6MjgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjNlZTdhMDZiZjliZDc0OWU3NWExN2E2ZGY2NTlhNGVhNTMyYTVkMGY1MmI5MzkwODY4MjZlZTJjNzM1NWZlZjAiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjEyODQwZmZhMTU2NmY3NDE0MDVjZDg0OWMxODc5YmE0NzEzODAzYWE4MTZmY2EwNDUwOTljZTI1YzU1ZTc0YzEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6Ijk2MmNkMjYzNzI0NGE0NWFjNjU1MTEyMTUwOTMwYjU3ODYxYzJkNzkzOGE1ZjUyZDVkMTAyZTUyOWIxOTVhZjkiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjkxMWQ0OGJiOWEyNjZjZDkxMWU3NjM5M2E1YTBmOTBkYzU1YzZmMzI5ZTZiNGQ3ZmZiYjE2Y2YzMTIyOTdkNjAifQ"
         },
         {
           "resource": "repo://apps/github.io/src/app/skills/skills-page.spec.tsx#L43-L59",
@@ -125,10 +125,20 @@
           "version": "repo-lines-v1:sha256:740ca450520fc97d31e50e4d498ebf6137267bf9f5a455c0b18465dc38224d3e:eyJzZWxlY3RlZExpbmVDb3VudCI6NDcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImZjOWFjM2U0MWQ1YjA4YTBjZWUzYTRlMjVmZWZhMTdhNjg1M2U2MTBkOGZhZGJjZDBkMGYwMjI0ZDNjZjVhMWYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImFkODc5NzJmZDY3ODgxZWJhNzZmNDhhN2JiODVmMjdjZTIwNjdhZDBhYjFjN2UwYWEyNjllNDZhYzgyMjM2ZGQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjEzODNhYzE5OThhZDg4Mjg4NDVjNzBlZGZmOWQyNWZjYzc4OTU3ZjU1MzBhNzk4MzhkNTE4NGExZTE3MGZlNDIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjYzMzI5Njc4NjBhYjgyMjdkZWQzNjk4Yjk2ODMxZDJiNTIzZjgwODMzMmExOTIxYTExYzdiNjcyZDBmODgyNmIifQ"
         }
       ]
+    },
+    {
+      "id": "claim_ec95ed4bd2d74defb6cb0ee200d1f990",
+      "statement": "DevOpsRoadmapStepper delegates vertical ordered progress semantics, numbered indicators, completed and disabled states to Astryx Stepper/Step while limiting app-owned StyleX to wrapping evidence lists and reusing existing skill, certification, and token components.",
+      "evidence": [
+        {
+          "resource": "repo://apps/github.io/src/app/devops-roadmap/devops-roadmap-stepper.tsx#L38-L135",
+          "version": "repo-lines-v1:sha256:619127f7fc114fb9cac9d47f5b8b793d4d202b5afde776d7c58910d1eda52d7a:eyJzZWxlY3RlZExpbmVDb3VudCI6OTgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjZiNzA1YjkxMzA2MjRkZTkyZTYzMzcyYmNhZTA2YTVkMGQ5YzcyNTViYzVjODc4NDc0NGY0MjdkOTliYzczNWMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImQ1ZjE5ZDUxNWYxZjIzN2ZmMWM0Mzg4MzIwZmQ1Mzk1OTQ2YTU1YTgwMWVkMTg4Mzg5MmI3OTY4ZGY5ZjNhOWYiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjEzODNhYzE5OThhZDg4Mjg4NDVjNzBlZGZmOWQyNWZjYzc4OTU3ZjU1MzBhNzk4MzhkNTE4NGExZTE3MGZlNDIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjoyLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjdiOGI2MDBhNWI0NDhiMWU0ZDAyZGYwOTc0NmVkM2NhMzE3MmY3NWM0YWFiYjAxZGRlMDgwZTM2Y2FiMDc0YjQifQ"
+        }
+      ]
     }
   ],
   "verification": {
     "by": "openwiki/0.5.0",
-    "at": "2026-09-08T06:48:21.757Z"
+    "at": "2026-09-09T04:57:16.606Z"
   }
 }
