@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:bc9f54a48f97adf826eec587bb60ec25d312e1ce85a297f38255c3d692aeacac",
+  "pageVersion": "sha256:5c4f5f912a1c73204f2a2a82836c1e6f0023d3848778400a70b3c1c8b12d66e8",
   "claims": [
     {
       "id": "claim_41253c1ed05946c38b803e4b8b5d55dc",
@@ -76,7 +76,7 @@
       "evidence": [
         {
           "resource": "repo://apps/github.io/src/app/devops-roadmap/devops-roadmap-skill-inventory.data.ts#L145-L195",
-          "version": "repo-lines-v1:sha256:9d0cbed6c57a8e51b41875ac1a8e9cfca1c059b972069bcbe23ba38fea95eb31:eyJzZWxlY3RlZExpbmVDb3VudCI6NTEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjhhOTYwNGEzZmY4NTZlMGJjYmJjYTA1YmM0OTIzMjg1NjBiYmQwNGVlY2ViOTkwYmJiYWQzMjAwZThmZTM1OGUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAwNGNjZDU0NWE0ZWYxZDg0MDA5NGM5NWQwYTI4N2I1MjE3MGI3ZmEwYjFlNjQyZGE0ODZlZmE2NDAzZGExZTAiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImU3MGNlMDE1ZTA5YTNiZGFlNjM5ZDBiMzU1MDBkNzZiNTRkYjdiZmMwZDQ0M2VkNTE3NDNkYjQ2NDU1NDQ3MWMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImM3OWY1YTk0NTVkZmI4N2I2NTZjYWY5NTQ3OWFmY2M1NjM0ZDhmMTAwNjNmNzFiODk1NTRlNTcwNzIxNGY3MjkifQ"
+          "version": "repo-lines-v1:sha256:dbb75539dac95e2c26ba33e28a67972fe5d5282fa5c185300d93892ee048ecae:eyJzZWxlY3RlZExpbmVDb3VudCI6NTEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjhhOTYwNGEzZmY4NTZlMGJjYmJjYTA1YmM0OTIzMjg1NjBiYmQwNGVlY2ViOTkwYmJiYWQzMjAwZThmZTM1OGUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAwNGNjZDU0NWE0ZWYxZDg0MDA5NGM5NWQwYTI4N2I1MjE3MGI3ZmEwYjFlNjQyZGE0ODZlZmE2NDAzZGExZTAiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImU3MGNlMDE1ZTA5YTNiZGFlNjM5ZDBiMzU1MDBkNzZiNTRkYjdiZmMwZDQ0M2VkNTE3NDNkYjQ2NDU1NDQ3MWMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImM3OWY1YTk0NTVkZmI4N2I2NTZjYWY5NTQ3OWFmY2M1NjM0ZDhmMTAwNjNmNzFiODk1NTRlNTcwNzIxNGY3MjkifQ"
         },
         {
           "resource": "repo://apps/github.io/src/app/devops-roadmap/devops-roadmap-stepper.tsx#L117-L132",
@@ -91,6 +91,6 @@
   ],
   "verification": {
     "by": "openwiki/0.5.0",
-    "at": "2026-09-09T04:57:16.606Z"
+    "at": "2026-09-09T09:42:47.264Z"
   }
 }
