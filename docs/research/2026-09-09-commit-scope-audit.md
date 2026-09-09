@@ -1,51 +1,62 @@
-# Repository-wide historical commit scope audit and repair proposal
+# Repository-wide historical commit scope audit and preliminary decisions
 
-Status: proposal for review; no release policy or Git history changed.
+Status: all reachable commits have a scope disposition; acceptance of the 99
+scope corrections is pending. No release policy, Git object, or ref has changed.
 
 The user clarified that this is a single-developer repository and the desired
 repair covers **all incorrect historical scopes**, not only scopes that affect
-github.io releases. The proposed direction is now a verified message rewrite.
+github.io releases. The selected design is a verified message-only rewrite.
 The release comparison below is one consequence of that work, not its boundary.
-Planning a rewrite does not execute it or publish rewritten refs.
+Recording scope decisions does not authorize a rehearsal, rewrite, ref update,
+force-push, or publication.
 
 ## Scope and evidence
 
-Audited on 2026-09-09 at main `fba4865083a81ea3d4fd2124ba0d25ed1ddfeb75`.
-Remote main and local main matched. `git ls-remote --heads --tags origin`
-confirmed the remote branch set and returned no tags. GitHub release listing
-returned an empty array. Recheck these observations before implementation or
-bootstrap; this report does not reserve the remote state.
+The original audit began on 2026-09-09 at main
+`fba4865083a81ea3d4fd2124ba0d25ed1ddfeb75`. The final read-only refresh was
+inspected at `2026-09-09T13:54:20Z` (`2026-09-10` in Australia/Melbourne).
+`git ls-remote --symref --heads --tags origin` showed seven remote heads, all
+already matching their local remote-tracking refs, and no tags. GitHub release
+listing remained empty. The repository is not shallow.
 
-The repository is not shallow. Header, parent, and changed-path screening
-covered all **1,635 commits reachable through local refs**, including remote
-tracking branches, linked-worktree branches, and stash history. Of these,
-**1,165 are reachable from main**. This excludes unreachable objects, reflog-only
-history, and GitHub PR refs not fetched locally. Current advertised remote heads
-were represented in the local branch inventory.
+The generated preliminary inventory covers **1,645 unique commits** reachable
+from all 24 local refs or the 12 linked-worktree HEADs, including stash history
+and detached worktree history. The four saved audit partitions cover the prior
+1,638 commits exactly; seven new commits implementing the guarded workflow were
+reviewed individually. Unreachable and reflog-only objects and unfetched GitHub
+PR refs remain outside this explicit reachability boundary.
 
-This is a complete reachable-history screening, not a claim that every historical
-diff has received a full semantic code review. The candidate lists below separate
-clear release-contract mismatches from cases that still require domain judgment.
-
-| Screening bucket | Commits |
+| Final scope disposition | Commits |
 | --- | ---: |
-| Non-merge app changes with a scope other than github.io | 37 |
-| Non-merge github.io-scoped changes outside apps/github.io | 532 |
-| Other conventional non-merge commits | 1,008 |
-| Merge or stash-container commits | 55 |
-| Nonconventional non-merge commits | 3 |
-| Total | 1,635 |
+| Keep existing scope/message | 1,546 |
+| Change scope only | 99 |
+| Manual review | 0 |
+| Total | 1,645 |
 
-The 532 outside-app commits comprise 496 docs, 19 fix, 4 feat, 9 chore, 2 test,
-and 2 ci commits. Being outside the app directory does not make a scope wrong:
-app design documents, release coordination, and deployment scripts can belong to
-the github.io product area. Do not bulk-rescope this bucket.
+The existing release classifier marks 765 effective messages as releasing and
+880 as nonreleasing after these dispositions. That classification applies the
+existing `github.io` scope and Conventional Commit rules; it is not inferred by
+comparing numerical versions.
+
+The machine-readable artifacts are
+`.history-repair/preliminary/inventory.json` (SHA-256
+`ee305dad27302f23aa78549a69f05f55856eba8980c165bd393f14aa1985f9a4`) and
+`.history-repair/preliminary/ledger.json` (SHA-256
+`48801bbf40b57a2193b17f9e4847569a2fe3754898bd2f47d0b7c7b29a86295e`).
+The ledger checker reports `ledger valid: 1645 decisions`. These artifacts and
+the exact 99 proposals await user acceptance and are not execution authority.
+
+The screening narrative and candidate tables below are retained as audit
+rationale. The complete preliminary ledger supersedes their earlier candidate
+or manual-review wording for final scope disposition. Separate type or
+description concerns remain deferred and unapproved.
 
 ## Repository-wide scope review
 
-The non-merge history uses 23 named scopes plus 23 unscoped and three
-nonconventional messages. Counts include parallel historical branches and
-distinct copies of commits; they are not counts of unique logical changes.
+The original non-merge screening used 23 named scopes plus unscoped and
+nonconventional messages. Counts below describe that saved historical screening,
+including parallel branches and distinct copies of commits; they are not the
+current 1,645-row inventory totals or counts of unique logical changes.
 
 | Existing scope | Count | Review disposition |
 | --- | ---: | --- |
@@ -94,7 +105,7 @@ Additional concrete corrections and review cases beyond release eligibility:
 | 25859bcd83, bf1ba75b54, eb84dbcff7, 63109b50f4 | absent | nx | Plans/specifies Nx workspace tooling migration |
 | 6b0695f09e, 6870b6c5fa, d847f23c32, 7663db0e80, c78fe2f2fb, f8ee2e90ab | absent | github.io | App scaffold plans/specs and their formatting correction |
 | 9b0a46d29d | absent | github.io | Defines the application design system in DESIGN.md |
-| e8485997d1 | absent | Review date-interval versus repository-wide ownership | feat: temp introduces packages/date-interval and extensive workspace tooling; do not assume github.io |
+| e8485997d1 | absent | date-interval | feat: temp delivers the date-interval package; only the scope is selected for correction |
 
 The remaining docs(skills), docs(experience), and docs(roadmap) entries belong in
 the correction ledger even though they do not change a version. Broad release
@@ -191,11 +202,12 @@ duplicate releases.
 | 6473d96391 | fix(skills): add Conventional Commits icon |
 | 3fd98c6dc8 | fix(roadmap): address review findings |
 
-These five are not part of main's bootstrap replay. The Astryx upgrade mixes
-application and workspace/tooling changes, so decide ownership or split future
-changes rather than automatically renaming its scope. Retain old branch and
-stash objects. If an active branch will be integrated, review the exact messages
-that its selected merge method will introduce.
+These five are not part of main's bootstrap replay. Focused review retains
+`57c41ee3f9175db6ac87a58db620f2ae99ee35ff` as `astryx`: its shared
+package migration, refresh tooling, and consuming application adaptation form a
+coherent Astryx-owned change. Retain old branch and stash objects. If an active
+branch will be integrated, review the exact messages that its selected merge
+method will introduce.
 
 ## Potential false eligibility and cosmetic consistency
 
@@ -388,19 +400,26 @@ deletion, PR publication, or deployment is part of this audit.
 
 ## Validation performed and current handoff state
 
-Read-only Git/API inspection, full reachable-history header/path screening, and
-bootstrap comparison replay completed. Focused core/coordinator tests passed:
-**23 tests, 0 failures** outside the sandbox. The sandbox run's CLI test produced
-empty stdout and `SyntaxError: Unexpected end of JSON input`; the identical
-focused test command passed with approved escalation. No production fix was made.
+Read-only Git/GitHub refresh, exact inventory coverage, and the complete
+decision-ledger check passed. Independent raw-object verification matched every
+inventoried message, tree, ordered parent list, and containing-ref set.
+Independent ledger verification reconstructed the 99 scope-only message spans,
+confirmed that type, description, body, and all other bytes are retained, and
+reproduced the 765 releasing / 880 nonreleasing classification.
 
-Full application and release pipeline validation was not run because this is a
-planning artifact. The source tree and historical commits remain unchanged.
-OpenWiki: **unchanged**; this audit does not alter implemented behavior.
+Read-only ancestry analysis predicts 1,636 changed identities because descendants
+of changed messages must be remapped. All 17 inventoried signed commits are
+affected. The default fail-closed signature policy therefore makes a real
+rehearsal impossible until signature handling is separately and explicitly
+approved. The 17 exact source OIDs and header hashes are recorded in the
+protected signature-disposition artifact; that policy proposal is also pending
+and this audit does not remove signatures.
 
-The proposal now covers repository-wide message correction through a verified
-history rewrite. A complete per-commit decision ledger and precise ref migration
-remain required before execution. This document is a reviewable proposal, not the
-approved Superpowers design spec or an executable implementation plan. Complete
-the written-spec review gate before invoking writing-plans; no rewrite or force
-push has been performed.
+Full application and release checks are not part of this scope-decision record.
+The source trees, historical commits, and refs remain unchanged. OpenWiki:
+**unchanged**; this audit does not alter implemented behavior.
+
+The exact 99 scope proposals are ready for user review but remain unaccepted.
+Even acceptance of those choices would not itself approve a backup, rehearsal,
+rewrite, ref update, force-push, or publication. No such operation has been
+performed.
