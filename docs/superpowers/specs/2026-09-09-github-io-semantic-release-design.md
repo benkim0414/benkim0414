@@ -18,8 +18,9 @@ applications and libraries without making all projects share one version.
   eligible to release the application.
 - Every qualifying first-parent merge advances the version once using its
   highest requested bump.
-- A push containing no qualifying change produces neither a release nor a
-  deployment.
+- An ordinary push containing no qualifying change produces neither a new
+  release nor a deployment. Explicit bootstrap and recovery of an already
+  prepared release use the separate paths defined below.
 - The release build receives the candidate version explicitly and the built
   artifact is deployed without rebuilding.
 - `apps/github.io/package.json` omits `version` and retains `private: true`.
@@ -31,15 +32,16 @@ them as follows:
 
 | Commit | Bump |
 | --- | --- |
-| `fix(github.io): ...` | patch |
-| `feat(github.io): ...` | minor |
-| `fix(github.io)!: ...` or `feat(github.io)!: ...` | major |
-| A scoped commit with a `BREAKING CHANGE:` footer | major |
-| Other types or scopes | none |
+| Any valid type with exact `github.io` scope and `!` or a `BREAKING CHANGE:` footer | major |
+| Nonbreaking `feat(github.io): ...` | minor |
+| Nonbreaking `fix(github.io): ...` | patch |
+| Nonbreaking other types, or any unrelated/missing scope | none |
 
 Breaking syntax is eligible only when the commit itself has the exact
 `github.io` scope. A breaking footer on an unrelated or unscoped commit must not
-release this application.
+release this application. Evaluate breaking markers before type exclusions:
+`refactor(github.io)!: ...` and a `refactor(github.io)` message with a breaking
+footer both request a major bump; a nonbreaking refactor requests none.
 
 The coordinator treats each integration point on `main`'s first-parent history
 as one potential release. For a squash merge, it parses the first-parent commit
@@ -61,16 +63,29 @@ history.
 The initial authoritative version is reconstructed rather than copied from the
 current source manifest.
 
-1. Locate the commit that introduced `apps/github.io`.
+1. Locate the commit that introduced `apps/github.io` and its first integration
+   into `main`. Include that integration in the replay. The inspected history
+   identifies `8acdd81` (`feat(github.io): scaffold react app`) as both; the dry
+   run must verify this boundary against the selected target's history.
 2. Begin at `0.0.0`.
 3. Traverse first-parent integration points from that boundary through the
    selected target commit in chronological order.
 4. Apply the normal scope and bump rules to the commit set introduced at every
    integration point.
-5. Emit the contributing commits and calculated version in a reviewable dry
-   run.
-6. Create the first `github.io@<version>` tag only through a separate explicit
-   bootstrap operation.
+5. Select a target SHA on `main` containing the completed footer injection and
+   workflow migration. Emit that SHA, the introduction boundary, contributing
+   commits, ordered bumps, and calculated version in a reviewable dry run.
+6. After explicit handoff approval of that SHA/version pair, run bootstrap
+   through the common verification, artifact persistence, publication, and
+   deployment stages. Inject the reconstructed version without adding an extra
+   bootstrap bump. The tag points to the same migrated SHA used for the build.
+7. Verify that the first live footer, artifact metadata, Git tag, and GitHub
+   Release agree. Record successful delivery before considering bootstrap done.
+
+Bootstrap is an explicit first release, not a tag-only seed. It is allowed even
+if the migration commit itself has no qualifying scope; historical replay
+determines its version. A changed target SHA requires a new dry run and review.
+Bootstrap retries use the same recovery rules and artifact as normal releases.
 
 Production release calculation must fail clearly when no baseline tag exists.
 It must not guess whether the initial public version should be `0.1.0` or
@@ -97,15 +112,29 @@ introduced only for packages that constitute one lockstep product.
 A small repository-owned Node module provides the policy Nx does not natively
 model: exact eligibility by Conventional Commit scope. It:
 
-1. resolves the latest project tag and the target commit;
-2. enumerates first-parent integration points within that range and resolves
+1. resolves the immutable target SHA and, under the release lock, checks for a
+   prepared release record for that project/SHA before looking for new commits;
+2. resumes an incomplete recorded release with its saved version and artifact,
+   or skips a completed/superseded delivery; it never increments a retry;
+3. for a fresh normal release, resolves the latest project tag and verifies
+   that its commit belongs to the target's first-parent ancestry; a target
+   older than the latest published release is skipped, and divergent or
+   conflicting history fails explicitly;
+4. enumerates first-parent integration points within that range and resolves
    the commits introduced by each squash or true merge;
-3. parses and classifies those commit messages without double counting;
-4. computes the ordered sequence of bumps;
-5. exits successfully with `released: false` when none qualify;
-6. invokes the Nx Release programmatic API for the explicit project/version;
-7. emits structured output containing `project`, `previousVersion`,
+5. parses and classifies those commit messages without double counting;
+6. computes the ordered sequence of bumps;
+7. exits successfully with action `noop` when none qualify and no recovery is
+   pending for the target;
+8. invokes the Nx Release programmatic API for the explicit project/version;
+9. emits structured output containing `action` (`prepare`, `resume`, `noop`, or
+   `superseded`), `project`, `sourceSha`, `previousVersion`,
    `newVersion`, `tag`, `bump`, and contributing commit SHAs.
+
+Explicit bootstrap supplies the reviewed SHA/version pair in place of normal
+baseline resolution. A new-version decision and completion of release delivery
+are separate states; downstream jobs must not use one `released` boolean to
+decide both.
 
 The coordinator owns eligibility and version orchestration only. Nx continues
 to own release groups, project filtering, dependency-aware ordering, tag
@@ -121,6 +150,10 @@ Vite exposes a dedicated build-time application-version constant.
 - Production release builds require a valid SemVer value and fail when it is
   absent or invalid.
 - The built artifact is checked for `v<newVersion>` before publication.
+- The injected version and release/development mode are explicit Nx build task
+  inputs. Cached output from a different version or mode must never satisfy a
+  release build. Validate cache behavior with unchanged source and two different
+  supplied versions, including a missing-version attempt after a valid build.
 
 The source manifest retains package identity and the npm publication guard:
 
@@ -141,19 +174,32 @@ One workflow responds to pushes to `main` and runs under a repository-wide,
 non-cancelling release concurrency group:
 
 ```text
-resolve history and tags
-  -> classify commits
-  -> no-op, or calculate candidate version
-  -> lint and test
-  -> build once with candidate version
-  -> assert artifact version
-  -> create project tag and GitHub Release
-  -> hand immutable artifact to deployment
+lock -> inspect target and saved release state
+  -> incomplete release: resume with saved version and verified artifact
+  -> fresh release: classify history (or accept reviewed bootstrap result)
+       -> no-op, or calculate candidate version
+       -> lint, test, build once, and assert artifact version
+       -> persist verified artifact and release record
+  -> ensure matching tag and GitHub Release exist
+  -> check current deployment under lock
+  -> deploy exact artifact, or skip completed/superseded delivery
 ```
 
-The workflow checks out full Git history and tags. A later queued run always
-scans from the last published project tag through its own target SHA, so
-coalesced or superseded workflow runs cannot lose release-worthy commits.
+The workflow checks out full Git history and tags. A fresh eligible run scans
+from the last published project tag through its own target SHA after ancestry
+checks. Coalesced runs therefore retain the intervening qualifying increments.
+The lock covers publication and deployment, including deployment-only retries.
+
+Before creating a tag, persist the verified artifact and a release record
+containing project, source SHA, previous/new versions, tag, contributing commits,
+artifact identifier, and content digest. The record must be discoverable by
+project/source SHA across workflow reruns, independent of the current run ID.
+Persist it with sufficient retention for the supported retry window. A resume
+verifies the artifact digest and saved metadata before continuing publication.
+If a published tag has no matching record, or its recorded artifact has expired
+or is corrupt, fail with an explicit recovery error. Do not silently rebuild,
+assign a new version, or claim successful delivery. Selection of the persistence
+backend and retention period belongs in the implementation plan.
 
 ### Deployment boundary
 
@@ -165,9 +211,21 @@ Deployment credentials remain isolated to the deployment job. The calculation
 and build jobs receive no cross-repository write credential. The deployed
 commit message records the source release tag and commit for traceability.
 
+The Pages artifact also carries machine-readable source SHA, release tag,
+version, and artifact identity. Read that deployed state while holding the
+release lock immediately before synchronization. An identical deployment is a
+successful no-op; a candidate older than the deployed source is skipped as
+superseded; divergent history or a version/identity conflict fails. A newer
+candidate must advance both source ancestry and version. A deployment-only
+retry must perform the same checks, so retrying A after B deployed cannot roll
+production back to A. Bootstrap explicitly permits initializing this metadata
+on the existing unversioned site; normal deployment treats missing metadata as
+a recovery error.
+
 ## Failure handling and idempotency
 
-- Missing or malformed baseline tags fail before version calculation.
+- Missing or malformed baseline tags fail normal version calculation;
+  explicitly approved bootstrap uses its reviewed historical result.
 - A missing or invalid production build version fails before tagging.
 - Lint, test, build, or artifact assertions fail before irreversible release
   publication.
@@ -175,9 +233,14 @@ commit message records the source release tag and commit for traceability.
   commit and version; conflicts fail closed.
 - An existing matching GitHub Release is reused or verified rather than
   duplicated.
+- Saved release state is checked before the no-op path. Failure after tag
+  creation resumes release publication; failure after release creation resumes
+  delivery of the persisted artifact, with no additional bump.
 - Publication failure prevents deployment.
 - Deployment retries synchronize the same immutable artifact and do not create
-  a new application version.
+  a new application version. Completed or superseded deliveries skip safely.
+- Missing/corrupt saved artifacts fail recovery without rebuilding, and older
+  retries never overwrite a newer deployment.
 - Active publication is never cancelled by a newer workflow run.
 
 ## Changelogs and future dependencies
@@ -199,14 +262,20 @@ unless their product policy requests it.
 1. Prove the coordinator and Nx Release configuration with temporary Git
    histories and dry runs.
 2. Reconcile any pending Changeset or Changesets release PR.
-3. Bootstrap and verify the first authoritative `github.io@<version>` tag.
-4. Replace the package-manifest footer import with required build injection.
-5. Replace the Changesets version-PR and release-PR workflows with the
-   serialized main-push release workflow.
-6. Remove `.changeset` configuration and `@changesets/cli` only after no
-   pending release metadata remains.
-7. Change the Pages deployment workflow to consume the released artifact and
-   skip non-release pushes.
+3. Prepare the footer injection, Nx cache inputs, source-version omission,
+   recoverable release workflow, and prebuilt-artifact Pages deployment on the
+   isolated branch. Replace the old workflows together; remove Changesets only
+   after pending release metadata is reconciled.
+4. At explicit handoff, integrate the migration and select its resulting `main`
+   SHA. Normal release calculation without a baseline must stop with a bootstrap
+   requirement; it must not recreate an unconditional deployment.
+5. Run historical replay through that exact migrated SHA and obtain approval
+   of its resulting version. Do not create a baseline tag against pre-migration
+   source merely to unblock normal automation.
+6. Execute the explicit bootstrap release: build and verify the migrated SHA
+   with that version, persist its artifact/record, publish the tag and GitHub
+   Release, and deploy the same artifact. Verify the live footer and metadata.
+7. Subsequent ordinary pushes use the new baseline and skip non-release changes.
 
 The transition must not leave the old and new release authorities active at the
 same time.
@@ -219,12 +288,16 @@ same time.
 - exact `github.io` scope matching;
 - ignored types and unrelated scopes;
 - `!` and `BREAKING CHANGE:` parsing;
+- equivalent major bumps for both markers on `refactor(github.io)` and other
+  valid scoped types; unrelated breaking scopes and nonbreaking refactors skip;
 - malformed messages;
 - multiple commits within one merge;
 - chronological replay across multiple merges;
 - no qualifying commits;
 - missing, valid, duplicate, and conflicting tags;
 - historical bootstrap from the introduction boundary.
+- baseline ancestry, obsolete targets, and divergent history;
+- recovery selected before no-op for an already prepared project/source SHA.
 
 ### Nx integration tests
 
@@ -239,12 +312,21 @@ same time.
 - footer renders `dev` locally and an injected SemVer in production fixtures;
 - production builds reject missing, invalid, or sentinel versions;
 - built artifacts contain the exact candidate version;
+- unchanged source built with different injected versions cannot reuse the
+  wrong Nx cache entry; missing version after a valid build still fails;
 - `pnpm nx lint github.io`, `pnpm nx test github.io --run`, and
   `pnpm nx build github.io` pass;
 - workflow contract tests cover concurrency, full history, no-op behavior,
   publication ordering, immutable artifact transfer, and safe retry behavior;
-- a nonqualifying `main` push creates neither a tag, GitHub Release, Pages
-  commit, nor deployment.
+- injected failures after artifact persistence, tag creation, GitHub Release
+  creation, and Pages synchronization resume without a new version;
+- retries fail explicitly for missing or corrupt recorded artifacts;
+- deploy A, deploy B, retry A leaves B live; an older run's baseline cannot be
+  used against a target outside its applicable ancestry;
+- bootstrap from the migrated SHA publishes the reconstructed version with
+  matching live footer, artifact, tag, and GitHub Release;
+- an ordinary nonqualifying `main` push with no pending recovery creates neither
+  a tag, GitHub Release, Pages commit, nor deployment.
 
 ## Boundaries
 
