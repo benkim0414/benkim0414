@@ -112,6 +112,96 @@ test('snapshot enumerates shared commits once and records every containing ref',
   ]);
 });
 
+test('snapshot traverses an unreferenced detached worktree HEAD', (t) => {
+  const fixture = repositoryFixture(t);
+  fixture.commit('feat(workflow): add root');
+  const detachedPath = join(fixture.cwd, '.detached-worktree');
+  fixture.git('worktree', 'add', '--quiet', '--detach', detachedPath, 'HEAD');
+  writeFileSync(join(detachedPath, 'detached.txt'), 'detached history\n');
+  fixture.git('-C', detachedPath, 'add', '--', 'detached.txt');
+  fixture.git(
+    '-C',
+    detachedPath,
+    'commit',
+    '--quiet',
+    '-m',
+    'docs(workflow): preserve detached history',
+  );
+  const detachedHead = fixture
+    .git('-C', detachedPath, 'rev-parse', 'HEAD')
+    .toString('ascii')
+    .trim();
+
+  const inventory = snapshot(fixture.cwd);
+
+  assert.deepEqual(
+    inventory.worktrees.find(({ path }) => path === detachedPath),
+    {
+      path: detachedPath,
+      head: detachedHead,
+      branch: null,
+      statusPorcelain: '',
+    },
+  );
+  assert.deepEqual(
+    inventory.commits.find(({ oid }) => oid === detachedHead).containingRefs,
+    [],
+  );
+});
+
+test('snapshot rejects a ref that cannot be peeled to a commit', (t) => {
+  const fixture = repositoryFixture(t);
+  fixture.commit('feat(workflow): add root');
+  const blob = fixture
+    .git('rev-parse', 'HEAD:fixture-1.txt')
+    .toString('ascii')
+    .trim();
+  fixture.git('update-ref', 'refs/archive/blob', blob);
+
+  assert.throws(
+    () => snapshot(fixture.cwd),
+    /cannot inventory ref refs\/archive\/blob: object type blob cannot be peeled to a commit/,
+  );
+});
+
+test('snapshot rejects paths that are not valid UTF-8', (t) => {
+  if (process.platform === 'win32') {
+    t.skip('Windows paths cannot contain arbitrary invalid UTF-8 bytes');
+    return;
+  }
+  const fixture = repositoryFixture(t);
+  const parent = fixture.commit('feat(workflow): add root');
+  const blob = git(
+    fixture.cwd,
+    ['hash-object', '-w', '--stdin'],
+    Buffer.from('invalid path bytes\n'),
+  )
+    .toString('ascii')
+    .trim();
+  const treeInput = Buffer.concat([
+    git(fixture.cwd, ['ls-tree', '-z', parent]),
+    Buffer.from(`100644 blob ${blob}\tinvalid-`),
+    Buffer.from([0xff]),
+    Buffer.from('.txt\0'),
+  ]);
+  const tree = git(fixture.cwd, ['mktree', '-z'], treeInput)
+    .toString('ascii')
+    .trim();
+  const commit = git(
+    fixture.cwd,
+    ['commit-tree', tree, '-p', parent],
+    Buffer.from('test(workflow): add invalid path bytes\n'),
+  )
+    .toString('ascii')
+    .trim();
+  fixture.git('update-ref', 'refs/heads/main', commit);
+
+  assert.throws(
+    () => snapshot(fixture.cwd),
+    /cannot inventory non-UTF-8 path losslessly/,
+  );
+});
+
 test('snapshot records root paths, merge paths per parent, and special commit headers', (t) => {
   const fixture = repositoryFixture(t);
   const root = fixture.commit('feat(workflow): add root');

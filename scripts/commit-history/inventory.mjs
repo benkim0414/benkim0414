@@ -46,8 +46,23 @@ function classifyRef(name, symbolicTarget) {
 }
 
 function commitTip(cwd, ref) {
-  const result = git(cwd, ['rev-parse', '--verify', `${ref.name}^{commit}`]);
-  return result.toString('ascii').trim();
+  try {
+    return git(cwd, ['rev-parse', '--verify', `${ref.name}^{commit}`])
+      .toString('ascii')
+      .trim();
+  } catch {
+    let objectType = 'unknown';
+    try {
+      objectType = git(cwd, ['cat-file', '-t', `${ref.name}^{}`])
+        .toString('ascii')
+        .trim();
+    } catch {
+      // The ref came from for-each-ref, but fail closed if it disappears mid-snapshot.
+    }
+    throw new Error(
+      `cannot inventory ref ${ref.name}: object type ${objectType} cannot be peeled to a commit`,
+    );
+  }
 }
 
 function parseWorktrees(cwd) {
@@ -146,8 +161,22 @@ function parseCommit(raw) {
 }
 
 function parsePaths(output) {
-  const fields = output.toString('utf8').split('\0');
-  if (fields.at(-1) === '') fields.pop();
+  const fields = [];
+  let fieldStart = 0;
+
+  while (fieldStart < output.length) {
+    const separator = output.indexOf(0x00, fieldStart);
+    const fieldEnd = separator === -1 ? output.length : separator;
+    const bytes = output.subarray(fieldStart, fieldEnd);
+    const path = bytes.toString('utf8');
+    if (!Buffer.from(path, 'utf8').equals(bytes)) {
+      throw new Error('cannot inventory non-UTF-8 path losslessly');
+    }
+    fields.push(path);
+    if (separator === -1) break;
+    fieldStart = separator + 1;
+  }
+
   return fields;
 }
 
@@ -196,7 +225,13 @@ export function snapshot(cwd) {
     ...ref,
     commitTip: commitTip(cwd, ref),
   }));
-  const exactTips = [...new Set(refsWithTips.map(({ commitTip: tip }) => tip))];
+  const worktrees = parseWorktrees(cwd);
+  const exactTips = [
+    ...new Set([
+      ...refsWithTips.map(({ commitTip: tip }) => tip),
+      ...worktrees.map(({ head }) => head).filter((head) => !/^0+$/.test(head)),
+    ]),
+  ];
   const commitOids =
     exactTips.length === 0
       ? []
@@ -238,7 +273,7 @@ export function snapshot(cwd) {
       role,
       reason,
     })),
-    worktrees: parseWorktrees(cwd),
+    worktrees,
     commits,
   };
 }
