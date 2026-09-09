@@ -13,7 +13,9 @@
     "commit": "git-cz",
     "openwiki:setup": "node scripts/setup-openwiki.mjs",
     "openwiki:status": "openwiki integrations list --project .",
-    "openwiki:visualize": "openwiki visualize openwiki"
+    "openwiki:visualize": "openwiki visualize openwiki",
+    "release:github.io": "node scripts/github-io-release.mjs",
+    "test:release:github.io": "node --test scripts/github-io-release-core.test.mjs scripts/github-io-release.test.mjs"
   },
   "config": {
     "commitizen": {
