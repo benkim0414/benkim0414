@@ -21,7 +21,7 @@ const NO_ACTIVE_STEP = -1;
 
 const styles = stylex.create({
   evidenceGroup: {
-    marginBlockStart: spacingVars['--spacing-2'],
+    marginBlockStart: `calc(-1 * ${spacingVars['--spacing-2']})`,
   },
   evidenceList: {
     display: 'flex',

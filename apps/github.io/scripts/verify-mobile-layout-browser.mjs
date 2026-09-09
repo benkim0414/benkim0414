@@ -763,6 +763,7 @@ async function inspectRoute(bidi, context, route) {
       const roadmapDescription = completedRoadmapStep?.querySelector('.astryx-step-description') ?? null;
       const roadmapEvidence = completedRoadmapStep?.querySelector('[data-roadmap-evidence]') ?? null;
       const roadmapNextStep = completedRoadmapStep?.nextElementSibling ?? null;
+      const roadmapNextLabel = roadmapNextStep?.querySelector('.astryx-step-label') ?? null;
       const upcomingRoadmapLabel = document.querySelector(
         '[data-roadmap-stepper] > [aria-disabled="true"] .astryx-step-label',
       );
@@ -834,7 +835,7 @@ async function inspectRoute(bidi, context, route) {
               labelColor: completedRoadmapLabel
                 ? getComputedStyle(completedRoadmapLabel).color
                 : null,
-              nextStep: rectangle(roadmapNextStep),
+              nextLabel: rectangle(roadmapNextLabel),
               description: rectangle(roadmapDescription),
               upcomingLabelColor: upcomingRoadmapLabel
                 ? getComputedStyle(upcomingRoadmapLabel).color
@@ -908,14 +909,14 @@ function assertRouteMetrics(route, viewport, metrics, navigationPath) {
     assert(
       roadmap.description != null &&
         roadmap.evidence != null &&
-        roadmap.nextStep != null,
+        roadmap.nextLabel != null,
       `${label} cannot measure roadmap evidence spacing: ${JSON.stringify(roadmap)}.`,
     );
     const evidenceTopGap = roadmap.evidence.top - roadmap.description.bottom;
-    const evidenceBottomGap = roadmap.nextStep.top - roadmap.evidence.bottom;
+    const evidenceBottomGap = roadmap.nextLabel.top - roadmap.evidence.bottom;
     assert(
-      evidenceTopGap > evidenceBottomGap + SUBPIXEL_TOLERANCE,
-      `${label} evidence needs more top than bottom space: ${JSON.stringify({ evidenceTopGap, evidenceBottomGap })}.`,
+      evidenceTopGap + SUBPIXEL_TOLERANCE < evidenceBottomGap,
+      `${label} evidence needs less top than bottom space: ${JSON.stringify({ evidenceTopGap, evidenceBottomGap })}.`,
     );
   }
 
