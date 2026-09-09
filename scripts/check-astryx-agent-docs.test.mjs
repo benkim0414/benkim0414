@@ -31,7 +31,7 @@ const block = (version) =>
 function writeFakeAstryxCli(repoRoot, source) {
   const cliPath = join(
     repoRoot,
-    'node_modules/@astryxdesign/cli/bin/astryx.mjs',
+    'node_modules/@astryxdesign/cli/clients/cli/bin/astryx.mjs',
   );
   mkdirSync(dirname(cliPath), { recursive: true });
   writeFileSync(cliPath, source);
@@ -891,7 +891,7 @@ test('generateExpectedAgentDocs preserves nonzero CLI diagnostics', () => {
   );
   const cliPath = join(
     repoRoot,
-    'node_modules/@astryxdesign/cli/bin/astryx.mjs',
+    'node_modules/@astryxdesign/cli/clients/cli/bin/astryx.mjs',
   );
   try {
     mkdirSync(dirname(cliPath), { recursive: true });

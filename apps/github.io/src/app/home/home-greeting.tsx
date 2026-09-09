@@ -133,7 +133,7 @@ export function HomeGreeting({
       <Card padding={0} variant="muted" width="100%" xstyle={styles.greetingCard}>
         <ChatMessageList density="balanced">
           <ChatMessage
-            avatar={<Avatar name="Gunwoo Ben Kim" size="small" />}
+            avatar={<Avatar name="Gunwoo Ben Kim" size="md" />}
             sender="assistant"
           >
             {visibleMessageCount >= 1 ? (

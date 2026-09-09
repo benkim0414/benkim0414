@@ -4,7 +4,7 @@
   "packageManager": "pnpm@11.16.0",
   "license": "MIT",
   "scripts": {
-    "astryx": "node node_modules/@astryxdesign/cli/bin/astryx.mjs",
+    "astryx": "node node_modules/@astryxdesign/cli/clients/cli/bin/astryx.mjs",
     "astryx:agents": "node scripts/refresh-astryx-agent-docs.mjs",
     "astryx:agents:check": "node scripts/check-astryx-agent-docs.mjs",
     "test:astryx-agents": "node --test scripts/check-astryx-agent-docs.test.mjs",
@@ -22,7 +22,7 @@
   },
   "private": true,
   "devDependencies": {
-    "@astryxdesign/cli": "^0.1.4",
+    "@astryxdesign/cli": "^0.5.4",
     "@commitlint/cli": "^19.3.0",
     "@commitlint/config-conventional": "^19.2.2",
     "@commitlint/cz-commitlint": "^19.2.0",
@@ -72,8 +72,8 @@
     "vitest": "4.1.10"
   },
   "dependencies": {
-    "@astryxdesign/core": "^0.1.4",
-    "@astryxdesign/theme-neutral": "^0.1.4",
+    "@astryxdesign/core": "^0.5.4",
+    "@astryxdesign/theme-neutral": "^0.5.4",
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.1",
     "@heroicons/react": "^2.2.0",
