@@ -6,10 +6,11 @@ import { bootstrapRelease } from './github-io-release.mjs';
 
 const cwd = fileURLToPath(new URL('..', import.meta.url));
 
-// Reviewed at cd711dfb362778f168afd29692704d7330d41b7a, including every
+// Historical entries reviewed at cd711dfb362778f168afd29692704d7330d41b7a, including every
 // contributing subject/body and the first-parent integration boundaries.
-// There are 306 qualifying integrations: 142 minor and 164 patch. The final
-// minor resets earlier patches, and one patch follows it: 0.142.1.
+// The two final-review fixes were reviewed at b50640b15f65b2538575f69b99d4a40828d8821a.
+// There are 308 qualifying integrations: 142 minor and 166 patch. The final
+// minor resets earlier patches, and three patches follow it: 0.142.3.
 // Repeated subjects with different SHAs are distinct commits introduced by
 // historical merges; eligibility does not deduplicate by subject or patch ID.
 // This pre-handoff HEAD lock must be reviewed again if qualifying history changes.
@@ -2701,14 +2702,24 @@ const reviewedCommits = [
     subject: 'fix(github.io): prevent stale pages deployments',
     bump: 'patch',
   },
+  {
+    sha: 'ff7f03361d94283b480bb0bdd07b2e289a20cd1b',
+    subject: 'fix(github.io): enforce strict release build versions',
+    bump: 'patch',
+  },
+  {
+    sha: 'b50640b15f65b2538575f69b99d4a40828d8821a',
+    subject: 'fix(github.io): enforce reviewed recoverable releases',
+    bump: 'patch',
+  },
 ];
 
 test('repository bootstrap replays the reviewed introduction-to-HEAD history', () => {
   const result = bootstrapRelease({ cwd, start: '8acdd81', target: 'HEAD' });
 
-  assert.equal(result.newVersion, '0.142.1');
+  assert.equal(result.newVersion, '0.142.3');
   assert.equal(result.previousVersion, '0.0.0');
-  assert.equal(result.tag, 'github.io@0.142.1');
+  assert.equal(result.tag, 'github.io@0.142.3');
   assert.equal(result.action, 'prepare');
   assert.equal(result.bootstrap, true);
   assert.deepEqual(result.commits, reviewedCommits);
