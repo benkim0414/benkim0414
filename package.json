@@ -8,6 +8,7 @@
     "astryx:agents": "node scripts/refresh-astryx-agent-docs.mjs",
     "astryx:agents:check": "node scripts/check-astryx-agent-docs.mjs",
     "test:astryx-agents": "node --test scripts/check-astryx-agent-docs.test.mjs",
+    "test:commit-history": "node --test scripts/commit-history/*.test.mjs",
     "prepare": "husky",
     "commitlint": "commitlint --edit",
     "commit": "git-cz",
