@@ -112,6 +112,21 @@ test('snapshot enumerates shared commits once and records every containing ref',
   ]);
 });
 
+test('snapshot preserves valid UTF-8 ref names', (t) => {
+  const fixture = repositoryFixture(t);
+  const root = fixture.commit('feat(workflow): add root');
+  fixture.git('branch', 'café');
+
+  const inventory = snapshot(fixture.cwd);
+
+  assert.ok(inventory.refs.some(({ name }) => name === 'refs/heads/café'));
+  assert.ok(
+    inventory.commits
+      .find(({ oid }) => oid === root)
+      .containingRefs.includes('refs/heads/café'),
+  );
+});
+
 test('snapshot traverses an unreferenced detached worktree HEAD', (t) => {
   const fixture = repositoryFixture(t);
   fixture.commit('feat(workflow): add root');

@@ -21,6 +21,10 @@ const workflow = readFileSync(
 
 test('workflow is read-only, pinned, and checks PR and push events', () => {
   assert.match(workflow, /pull_request:/);
+  assert.match(
+    workflow,
+    /pull_request:\n    types: \[opened, synchronize, reopened, edited\]/,
+  );
   assert.match(workflow, /push:/);
   assert.match(workflow, /permissions:\n  contents: read/);
   assert.doesNotMatch(workflow, /pull_request_target|secrets\./);

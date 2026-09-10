@@ -12,6 +12,41 @@ function lines(buffer) {
   return text === '' ? [] : text.split('\n');
 }
 
+function splitOnByte(buffer, byte) {
+  const fields = [];
+  let start = 0;
+  while (start <= buffer.length) {
+    const separator = buffer.indexOf(byte, start);
+    if (separator === -1) {
+      fields.push(buffer.subarray(start));
+      break;
+    }
+    fields.push(buffer.subarray(start, separator));
+    start = separator + 1;
+  }
+  return fields;
+}
+
+function decodeUtf8(bytes, label) {
+  const value = bytes.toString('utf8');
+  if (!Buffer.from(value, 'utf8').equals(bytes)) {
+    throw new Error(`${label} is not valid UTF-8`);
+  }
+  return value;
+}
+
+function decodeOid(bytes, label, { allowEmpty = false } = {}) {
+  if (allowEmpty && bytes.length === 0) return '';
+  const oid = bytes.toString('ascii');
+  if (
+    !Buffer.from(oid, 'ascii').equals(bytes) ||
+    !/^[0-9a-f]{40}$|^[0-9a-f]{64}$/.test(oid)
+  ) {
+    throw new Error(`${label} is not a full object OID`);
+  }
+  return oid;
+}
+
 function parseRefs(cwd) {
   const output = git(cwd, [
     'for-each-ref',
@@ -19,8 +54,27 @@ function parseRefs(cwd) {
     '--format=%(refname)%00%(objectname)%00%(*objectname)%00%(symref)',
   ]);
 
-  return lines(output).map((record) => {
-    const [name, oid, peeledOid, symbolicTarget] = record.split('\0');
+  const records = splitOnByte(output, 0x0a);
+  if (records.at(-1)?.length === 0) records.pop();
+
+  return records.map((record, index) => {
+    const fields = splitOnByte(record, 0x00);
+    if (fields.length !== 4) {
+      throw new Error(`ref record[${index}] must contain exactly four fields`);
+    }
+    const name = decodeUtf8(fields[0], `ref record[${index}] name`);
+    const oid = decodeOid(fields[1], `ref record[${index}] object`);
+    const peeledOid = decodeOid(
+      fields[2],
+      `ref record[${index}] peeled object`,
+      {
+        allowEmpty: true,
+      },
+    );
+    const symbolicTarget = decodeUtf8(
+      fields[3],
+      `ref record[${index}] symbolic target`,
+    );
     const classification = classifyRef(name, symbolicTarget);
     return { name, oid, peeledOid, ...classification };
   });

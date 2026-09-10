@@ -2,6 +2,7 @@ name: Commit scopes
 
 on:
   pull_request:
+    types: [opened, synchronize, reopened, edited]
   push:
 
 permissions:
