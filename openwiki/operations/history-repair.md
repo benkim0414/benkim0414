@@ -5,7 +5,7 @@ description: How commit history is inventoried, reviewed, backed up, and verifie
 tags: [git, conventional-commits, history-repair, verification]
 verified:
   - by: openwiki/0.5.0
-    at: 2026-09-09T15:24:02.550Z
+    at: 2026-09-10T11:25:10.647Z
 sources:
   - id: openwiki-source-e119253b3c3737247dc63f2a
     resource: repo://.openwikiignore
@@ -19,7 +19,9 @@ sources:
     resource: repo://scripts/commit-history/rehearsal.mjs
   - id: openwiki-source-9b2a282b958514f27a3b0a3f
     resource: repo://scripts/commit-history/verify.mjs
-generated: { by: "codex", at: "2026-09-09T15:24:02.550Z" }
+  - id: openwiki-source-c86e8e2ae13bb4da0db6f627
+    resource: repo://scripts/commit-history/verify.test.mjs
+generated: { by: "codex", at: "2026-09-10T11:25:10.647Z" }
 ---
 
 # Guarded historical commit repair
@@ -69,12 +71,24 @@ and header placement. Only after verification does a guarded local transaction
 install mapped target/tracking refs. Recovery refs retain their original IDs;
 the source refs and worktree set/state are checked before and after the operation.
 
-The current signature policy is **reject**: a signed commit whose identity would
-change, a remapped parent bound by a mergetag, or an annotated tag requiring
-unsupported handling stops the rehearsal. There is no automatic signature
-stripping or re-signing. Even an unchanged message acquires a new commit ID when
-its parent changes, so signature handling must consider ancestry, not just the
-edited messages.
+The default signature policy is **reject**: a signed commit whose identity would
+change stops preparation or rehearsal. The opt-in `remove-approved` policy
+requires an exact allowlist of original commit ID, signature header name, and
+SHA-256 of the raw header record without its trailing LF. Preparation checks
+every entry against the source and approved message/ancestry changes before
+creating a backup, then binds the protected allowlist copy and digest into the
+approval package and exact invocation. Unknown, duplicate, mismatched, or unused
+entries fail closed; there is no blanket stripping or re-signing.
+
+The independent verifier derives removal eligibility from the approved message
+and ordered mapped parents, not from a supplied destination ID. An otherwise
+unchanged signed commit must retain its signature. Removed headers are recorded
+as exact tuples in the verification report; the original signed objects remain
+in the backup and retained recovery history. Even an unchanged message acquires
+a new commit ID when its parent changes, so signature handling must consider
+ancestry, not just edited messages. Mergetag-bound parent remaps and annotated
+tags still require unsupported handling and are rejected. Existing report files
+are protected against overwrite.
 
 ## Failure, recovery, and downstream release checks
 

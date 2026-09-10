@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:4c22b4b4f76a087a072d3276adb3dcaad8a40c52e113c6bda0559f1dd8756113",
+  "pageVersion": "sha256:049b9d4c9feb44ae7c36c96883259f833427673de30d761b979ccc557503c439",
   "claims": [
     {
       "id": "claim_60ead053c1e74811a25b4d65b2af502c",
@@ -104,7 +104,7 @@
       "evidence": [
         {
           "resource": "repo://docs/runbooks/historical-commit-scope-repair.md",
-          "version": "repo-file-v1:sha256:ce1cde0e6bff845182668e0889229b1f37b6cfe2ef365e1e2209062cdc4450f3"
+          "version": "repo-file-v1:sha256:39a782e2cacad4a421b616e09922bf61b48f0633b766c75e246d2c937c9221a5"
         },
         {
           "resource": "repo://docs/superpowers/plans/2026-09-09-historical-commit-scope-repair.md#L324-L347",
@@ -115,6 +115,6 @@
   ],
   "verification": {
     "by": "openwiki/0.5.0",
-    "at": "2026-09-09T15:24:02.550Z"
+    "at": "2026-09-10T11:25:10.647Z"
   }
 }
