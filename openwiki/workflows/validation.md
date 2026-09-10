@@ -48,10 +48,10 @@ sources:
     resource: repo://scripts/setup-openwiki.test.mjs
   - id: openwiki-source-165465422a61a00b62b0f6d3
     resource: repo://scripts/sync-github-pages-artifact.test.mjs
-generated: { by: "codex", at: "2026-09-09T15:43:59.341Z" }
+generated: { by: "codex", at: "2026-09-10T11:47:00.605Z" }
 verified:
   - by: openwiki/0.5.0
-    at: 2026-09-10T11:25:10.647Z
+    at: 2026-09-10T11:47:00.605Z
 ---
 
 # Validation workflow
@@ -122,9 +122,11 @@ retains tool ownership. An allowed vocabulary entry is not proof that the scope
 fits the change; consult the [canonical policy](../../docs/agents/commit-scopes.md).
 
 Read-only CI checks introduced commits and, for pull requests, the proposed squash
-title with both commitlint and the ownership policy. Titles reach commitlint via
-stdin, and positional CLI parsing keeps flag-like title text separate from control
-options. PR ranges permit diverged base/head graphs. Pushes require a resolvable
+title with both commitlint and the ownership policy. Pull-request validation runs
+when a PR is opened, synchronized, reopened, or edited, so title-only changes are
+covered as well. Titles reach commitlint via stdin, and positional CLI parsing
+keeps flag-like title text separate from control options. PR ranges permit diverged
+base/head graphs. Pushes require a resolvable
 ancestor baseline; the shared range-only preflight runs before either commit
 linter. Missing, all-zero, or non-ancestor push boundaries stop with an explicit
 baseline diagnostic instead of linting replacement or legacy history. An

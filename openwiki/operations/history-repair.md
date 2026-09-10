@@ -5,7 +5,7 @@ description: How commit history is inventoried, reviewed, backed up, and verifie
 tags: [git, conventional-commits, history-repair, verification]
 verified:
   - by: openwiki/0.5.0
-    at: 2026-09-10T11:25:10.647Z
+    at: 2026-09-10T11:47:00.605Z
 sources:
   - id: openwiki-source-e119253b3c3737247dc63f2a
     resource: repo://.openwikiignore
@@ -21,7 +21,7 @@ sources:
     resource: repo://scripts/commit-history/verify.mjs
   - id: openwiki-source-c86e8e2ae13bb4da0db6f627
     resource: repo://scripts/commit-history/verify.test.mjs
-generated: { by: "codex", at: "2026-09-10T11:25:10.647Z" }
+generated: { by: "codex", at: "2026-09-10T11:47:00.605Z" }
 ---
 
 # Guarded historical commit repair
@@ -37,8 +37,9 @@ not permission to rewrite repository history.
 `inventory` reads refs and linked-worktree heads, deduplicates their reachable
 commits, and records original message bytes, tree IDs, ordered parents,
 containing refs, and per-parent changed paths. This makes shared ancestry and
-merge ownership explicit. Paths that cannot be represented losslessly as UTF-8
-are rejected rather than silently altered.
+merge ownership explicit. Ref records are split as raw bytes before decoding,
+so valid non-ASCII ref names are preserved; names that cannot be represented
+losslessly as UTF-8 are rejected rather than silently altered.
 
 `check-ledger` requires exactly one decision for every inventoried commit and
 rejects missing, duplicate, unknown, or unresolved rows. A scope-only correction
