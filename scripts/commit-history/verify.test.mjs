@@ -328,6 +328,37 @@ test('independently verifies exact signature removal after an ancestry-only iden
   assert.equal(verification.metadataEqual, true);
 });
 
+test('verifier rejects approved signature removal from an unchanged signed commit', (t) => {
+  const record = Buffer.from('gpgsig approved signature');
+  const state = setupHeaderBinding(t, [record.toString('ascii')]);
+  const ledger = ledgerFor(state.inventory);
+  const signatureAllowlist = [signatureApproval(state.child, 'gpgsig', record)];
+  const unsignedChild = writeCommit(
+    state.destination,
+    Buffer.from(
+      git(state.source, ['cat-file', 'commit', state.child])
+        .toString('utf8')
+        .replace('\ngpgsig approved signature\n', '\n'),
+    ),
+  );
+  const mapping = state.inventory.commits.map(({ oid }) => ({
+    oldOid: oid,
+    newOid: oid === state.child ? unsignedChild : oid,
+  }));
+
+  assert.throws(
+    () =>
+      verifyMapping({
+        ...state,
+        ledger,
+        mapping,
+        signaturePolicy: 'remove-approved',
+        signatureAllowlist,
+      }),
+    /header order|metadata differs|unused signature approval/,
+  );
+});
+
 test('verifier rejects a tampered destination after approved signature removal', (t) => {
   const record = Buffer.from('gpgsig approved signature');
   const state = setupHeaderBinding(t, [record.toString('ascii')]);

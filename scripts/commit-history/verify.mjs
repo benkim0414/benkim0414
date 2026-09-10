@@ -55,14 +55,13 @@ function headersEqual(expected, destination) {
 function expectedHeaders({
   source,
   oldOid,
-  newOid,
+  authorizedIdentityChange,
   byOld,
   signaturePolicy,
   approvals,
   usedApprovals,
   removals,
 }) {
-  const identityChanged = oldOid !== newOid;
   return source.headers.flatMap((header) => {
     if (header.name === 'parent') {
       return [
@@ -75,7 +74,7 @@ function expectedHeaders({
         },
       ];
     }
-    if (!identityChanged || !isSignatureHeader(header.name)) {
+    if (!authorizedIdentityChange || !isSignatureHeader(header.name)) {
       return [header];
     }
     if (signaturePolicy === 'reject') {
@@ -235,7 +234,9 @@ export function verifyMapping({
     const expected = expectedHeaders({
       source: sourceCommit,
       oldOid: commit.oid,
-      newOid,
+      authorizedIdentityChange:
+        !sourceCommit.message.equals(expectedMessage) ||
+        !equalArrays(sourceParents, expectedParents),
       byOld,
       signaturePolicy,
       approvals,
