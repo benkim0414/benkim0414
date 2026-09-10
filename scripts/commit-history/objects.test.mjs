@@ -1,5 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
+import { createHash } from 'node:crypto';
 
 import { parseCommit, transformCommit } from './objects.mjs';
 
@@ -12,6 +13,14 @@ function commitBuffer({ parents = [], headers = [], message = '' } = {}) {
     ...headers,
   ];
   return Buffer.from(`${lines.join('\n')}\n\n${message}`);
+}
+
+function signatureApproval(oid, header, record) {
+  return {
+    oid,
+    header,
+    sha256: createHash('sha256').update(record).digest('hex'),
+  };
 }
 
 test('changes only approved message and mapped parent bytes', () => {
@@ -145,6 +154,175 @@ for (const signatureHeader of ['gpgsig', 'gpgsig-sha256']) {
     );
   });
 }
+
+test('removes only an exactly approved signature header from a changed commit', () => {
+  const oid = 'a'.repeat(40);
+  const signatureRecord = Buffer.from(
+    'gpgsig -----BEGIN SIGNATURE-----\n continuation bytes',
+  );
+  const raw = commitBuffer({
+    headers: [
+      'gpgsig -----BEGIN SIGNATURE-----',
+      ' continuation bytes',
+      'x-private exact bytes',
+    ],
+    message: 'feat(workflow): signed\n',
+  });
+
+  const rewritten = transformCommit(raw, {
+    originalOid: oid,
+    parentMap: new Map(),
+    replacementMessage: Buffer.from('feat(github.io): signed\n'),
+    signaturePolicy: 'remove-approved',
+    signatureAllowlist: [signatureApproval(oid, 'gpgsig', signatureRecord)],
+  });
+  const parsed = parseCommit(rewritten);
+
+  assert.equal(
+    parsed.headers.some(({ name }) => name === 'gpgsig'),
+    false,
+  );
+  assert.equal(
+    parsed.headers.find(({ name }) => name === 'x-private').value.toString(),
+    'exact bytes',
+  );
+});
+
+test('rejects signature removal without an exact OID, header, and record digest', async (t) => {
+  const oid = 'a'.repeat(40);
+  const signatureRecord = Buffer.from(
+    'gpgsig -----BEGIN SIGNATURE-----\n continuation bytes',
+  );
+  const raw = commitBuffer({
+    headers: ['gpgsig -----BEGIN SIGNATURE-----', ' continuation bytes'],
+    message: 'feat(workflow): signed\n',
+  });
+  const exact = signatureApproval(oid, 'gpgsig', signatureRecord);
+
+  for (const [name, approval] of [
+    ['wrong OID', { ...exact, oid: 'b'.repeat(40) }],
+    ['wrong header', { ...exact, header: 'gpgsig-sha256' }],
+    ['wrong digest', { ...exact, sha256: '0'.repeat(64) }],
+  ]) {
+    await t.test(name, () => {
+      assert.throws(
+        () =>
+          transformCommit(raw, {
+            originalOid: oid,
+            parentMap: new Map(),
+            replacementMessage: Buffer.from('feat(github.io): signed\n'),
+            signaturePolicy: 'remove-approved',
+            signatureAllowlist: [approval],
+          }),
+        /exact signature approval|unused signature approval/,
+      );
+    });
+  }
+});
+
+test('rejects malformed, duplicate, and unused signature approvals', async (t) => {
+  const oid = 'a'.repeat(40);
+  const record = Buffer.from('gpgsig signature bytes');
+  const exact = signatureApproval(oid, 'gpgsig', record);
+  const raw = commitBuffer({
+    headers: ['gpgsig signature bytes'],
+    message: 'feat(workflow): signed\n',
+  });
+
+  await t.test('malformed entry', () => {
+    assert.throws(
+      () =>
+        transformCommit(raw, {
+          originalOid: oid,
+          parentMap: new Map(),
+          replacementMessage: Buffer.from('feat(github.io): signed\n'),
+          signaturePolicy: 'remove-approved',
+          signatureAllowlist: [{ ...exact, extra: true }],
+        }),
+      /signature approval.*fields/,
+    );
+  });
+  await t.test('duplicate entry', () => {
+    assert.throws(
+      () =>
+        transformCommit(raw, {
+          originalOid: oid,
+          parentMap: new Map(),
+          replacementMessage: Buffer.from('feat(github.io): signed\n'),
+          signaturePolicy: 'remove-approved',
+          signatureAllowlist: [exact, exact],
+        }),
+      /duplicate signature approval/,
+    );
+  });
+  await t.test('unknown header', () => {
+    assert.throws(
+      () =>
+        transformCommit(raw, {
+          originalOid: oid,
+          parentMap: new Map(),
+          replacementMessage: Buffer.from('feat(github.io): signed\n'),
+          signaturePolicy: 'remove-approved',
+          signatureAllowlist: [{ ...exact, header: 'x-signature' }],
+        }),
+      /unknown header/,
+    );
+  });
+  await t.test('unused entry on unchanged identity', () => {
+    assert.throws(
+      () =>
+        transformCommit(raw, {
+          originalOid: oid,
+          parentMap: new Map(),
+          replacementMessage: null,
+          signaturePolicy: 'remove-approved',
+          signatureAllowlist: [exact],
+        }),
+      /unused signature approval/,
+    );
+  });
+});
+
+test('removes multiple signatures only when every header record is approved', () => {
+  const oid = 'a'.repeat(40);
+  const records = [
+    Buffer.from('gpgsig first signature'),
+    Buffer.from('gpgsig-sha256 second signature'),
+  ];
+  const raw = commitBuffer({
+    headers: records.map((record) => record.toString('ascii')),
+    message: 'feat(workflow): signed twice\n',
+  });
+  const options = {
+    originalOid: oid,
+    parentMap: new Map(),
+    replacementMessage: Buffer.from('feat(github.io): signed twice\n'),
+    signaturePolicy: 'remove-approved',
+  };
+
+  assert.throws(
+    () =>
+      transformCommit(raw, {
+        ...options,
+        signatureAllowlist: [signatureApproval(oid, 'gpgsig', records[0])],
+      }),
+    /exact signature approval/,
+  );
+
+  const rewritten = transformCommit(raw, {
+    ...options,
+    signatureAllowlist: [
+      signatureApproval(oid, 'gpgsig', records[0]),
+      signatureApproval(oid, 'gpgsig-sha256', records[1]),
+    ],
+  });
+  assert.equal(
+    parseCommit(rewritten).headers.some(({ name }) =>
+      ['gpgsig', 'gpgsig-sha256'].includes(name),
+    ),
+    false,
+  );
+});
 
 test('preserves an embedded mergetag byte-for-byte', () => {
   const raw = commitBuffer({

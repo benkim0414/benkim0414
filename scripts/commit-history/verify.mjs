@@ -1,6 +1,12 @@
 import { git } from './git.mjs';
 import { validateLedger } from './ledger.mjs';
-import { parseCommit } from './objects.mjs';
+import {
+  isSignatureHeader,
+  parseCommit,
+  signatureApprovalKey,
+  signatureHeaderSha256,
+  validateSignatureAllowlist,
+} from './objects.mjs';
 
 function fail(message) {
   throw new Error(message);
@@ -35,19 +41,64 @@ function equalArrays(left, right) {
   );
 }
 
-function headersEqualWithMappedParents(source, destination, byOld) {
+function headersEqual(expected, destination) {
   return (
-    source.headers.length === destination.headers.length &&
-    source.headers.every(
+    expected.length === destination.headers.length &&
+    expected.every(
       (header, index) =>
         header.name === destination.headers[index].name &&
-        (header.name === 'parent'
-          ? destination.headers[index].value.equals(
-              Buffer.from(byOld.get(header.value.toString('ascii')), 'ascii'),
-            )
-          : header.value.equals(destination.headers[index].value)),
+        header.value.equals(destination.headers[index].value),
     )
   );
+}
+
+function expectedHeaders({
+  source,
+  oldOid,
+  newOid,
+  byOld,
+  signaturePolicy,
+  approvals,
+  usedApprovals,
+  removals,
+}) {
+  const identityChanged = oldOid !== newOid;
+  return source.headers.flatMap((header) => {
+    if (header.name === 'parent') {
+      return [
+        {
+          name: header.name,
+          value: Buffer.from(
+            byOld.get(header.value.toString('ascii')),
+            'ascii',
+          ),
+        },
+      ];
+    }
+    if (!identityChanged || !isSignatureHeader(header.name)) {
+      return [header];
+    }
+    if (signaturePolicy === 'reject') {
+      fail(`refusing changed identity for signature-bearing commit ${oldOid}`);
+    }
+    const removal = {
+      oid: oldOid,
+      header: header.name,
+      sha256: signatureHeaderSha256(header),
+    };
+    const key = signatureApprovalKey(removal);
+    if (
+      !approvals.some((approval) => signatureApprovalKey(approval) === key) ||
+      usedApprovals.has(key)
+    ) {
+      fail(
+        `refusing changed identity for signature-bearing commit ${oldOid} without exact signature approval`,
+      );
+    }
+    usedApprovals.add(key);
+    removals.push(removal);
+    return [];
+  });
 }
 
 function validateMapping(inventory, mapping) {
@@ -102,10 +153,19 @@ export function verifyMapping({
   inventory,
   ledger,
   mapping,
+  signaturePolicy = 'reject',
+  signatureAllowlist = [],
 }) {
   const ledgerRows = validateLedger(inventory, ledger, {
     requireResolved: true,
   });
+  const approvals = validateSignatureAllowlist(
+    signaturePolicy,
+    signatureAllowlist,
+    inventory.objectFormat,
+  );
+  const usedSignatureApprovals = new Set();
+  const signatureRemovals = [];
   const byOld = validateMapping(inventory, mapping);
   const parsedPairs = inventory.commits.map((commit) => ({
     commit,
@@ -151,16 +211,6 @@ export function verifyMapping({
       fail(`source commit ${commit.oid} has an unmapped parent`);
     }
     if (
-      sourceCommit.headers.some(
-        ({ name }) => name === 'gpgsig' || name === 'gpgsig-sha256',
-      ) &&
-      newOid !== commit.oid
-    ) {
-      fail(
-        `refusing changed identity for signature-bearing commit ${commit.oid}`,
-      );
-    }
-    if (
       sourceCommit.headers.some(({ name }) => name === 'mergetag') &&
       sourceParents.some((parent, index) => parent !== expectedParents[index])
     ) {
@@ -182,11 +232,28 @@ export function verifyMapping({
     if (!newCommit.message.equals(expectedMessage)) {
       fail(`destination commit ${newOid} message differs from ledger`);
     }
-    if (!headersEqualWithMappedParents(sourceCommit, newCommit, byOld)) {
+    const expected = expectedHeaders({
+      source: sourceCommit,
+      oldOid: commit.oid,
+      newOid,
+      byOld,
+      signaturePolicy,
+      approvals,
+      usedApprovals: usedSignatureApprovals,
+      removals: signatureRemovals,
+    });
+    if (!headersEqual(expected, newCommit)) {
       fail(
         `destination commit ${newOid} header order or metadata differs from source`,
       );
     }
+  }
+
+  const unused = approvals.find(
+    (approval) => !usedSignatureApprovals.has(signatureApprovalKey(approval)),
+  );
+  if (unused) {
+    fail(`unused signature approval ${signatureApprovalKey(unused)}`);
   }
 
   return {
@@ -196,5 +263,6 @@ export function verifyMapping({
     parentsEqual: true,
     messagesEqual: true,
     metadataEqual: true,
+    signatureRemovals,
   };
 }

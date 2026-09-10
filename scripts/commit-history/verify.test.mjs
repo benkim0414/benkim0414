@@ -1,5 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
+import { createHash } from 'node:crypto';
 import { join } from 'node:path';
 
 import { git } from './git.mjs';
@@ -110,6 +111,14 @@ function setupHeaderBinding(t, headerLines) {
   };
 }
 
+function signatureApproval(oid, header, record) {
+  return {
+    oid,
+    header,
+    sha256: createHash('sha256').update(record).digest('hex'),
+  };
+}
+
 test('independently verifies a complete message-only mapping', (t) => {
   const state = setupVerification(t);
 
@@ -120,6 +129,7 @@ test('independently verifies a complete message-only mapping', (t) => {
     parentsEqual: true,
     messagesEqual: true,
     metadataEqual: true,
+    signatureRemovals: [],
   });
   const childMapping = state.mapping.find(
     ({ oldOid }) => oldOid === state.child,
@@ -288,6 +298,66 @@ test('verifier rejects a remapped parent on a directly signed commit', (t) => {
   assert.throws(
     () => verifyMapping({ ...state, ledger, mapping }),
     /signature-bearing commit/,
+  );
+});
+
+test('independently verifies exact signature removal after an ancestry-only identity change', (t) => {
+  const record = Buffer.from(
+    'gpgsig -----BEGIN SIGNATURE-----\n continuation bytes',
+  );
+  const state = setupHeaderBinding(t, record.toString('ascii').split('\n'));
+  const ledger = ledgerFor(state.inventory, state.root);
+  const signatureAllowlist = [signatureApproval(state.child, 'gpgsig', record)];
+  const mapping = rewriteObjects({
+    cwd: state.destination,
+    inventory: state.inventory,
+    ledger,
+    signaturePolicy: 'remove-approved',
+    signatureAllowlist,
+  });
+
+  const verification = verifyMapping({
+    ...state,
+    ledger,
+    mapping,
+    signaturePolicy: 'remove-approved',
+    signatureAllowlist,
+  });
+
+  assert.deepEqual(verification.signatureRemovals, signatureAllowlist);
+  assert.equal(verification.metadataEqual, true);
+});
+
+test('verifier rejects a tampered destination after approved signature removal', (t) => {
+  const record = Buffer.from('gpgsig approved signature');
+  const state = setupHeaderBinding(t, [record.toString('ascii')]);
+  const ledger = ledgerFor(
+    state.inventory,
+    state.child,
+    Buffer.from('fix(github.io): add child\n'),
+  );
+  const signatureAllowlist = [signatureApproval(state.child, 'gpgsig', record)];
+  const mapping = rewriteObjects({
+    cwd: state.destination,
+    inventory: state.inventory,
+    ledger,
+    signaturePolicy: 'remove-approved',
+    signatureAllowlist,
+  });
+  replaceCommit(state.destination, mapping, state.child, (raw) =>
+    insertHeaders(raw, ['gpgsig unapproved replacement signature']),
+  );
+
+  assert.throws(
+    () =>
+      verifyMapping({
+        ...state,
+        ledger,
+        mapping,
+        signaturePolicy: 'remove-approved',
+        signatureAllowlist,
+      }),
+    /header order|metadata differs|signature/,
   );
 });
 

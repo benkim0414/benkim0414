@@ -13,11 +13,12 @@ const CLI = fileURLToPath(import.meta.url);
 const HELP = `Usage:
   commit-history inventory --source PATH
   commit-history check-ledger --inventory FILE --ledger FILE
-  commit-history prepare --source PATH --inventory FILE --ledger FILE --run-directory PATH --output FILE
-  commit-history rehearse --backup FILE --destination PATH --inventory FILE --ledger FILE --approval FILE --output FILE
+  commit-history prepare --source PATH --inventory FILE --ledger FILE --run-directory PATH --output FILE [--signature-allowlist FILE]
+  commit-history rehearse --backup FILE --destination PATH --inventory FILE --ledger FILE --approval FILE --output FILE [--signature-allowlist FILE]
 `;
 
-function options(args, names) {
+function options(args, requiredNames, optionalNames = new Set()) {
+  const names = new Set([...requiredNames, ...optionalNames]);
   const result = {};
   for (let index = 0; index < args.length; index += 2) {
     const flag = args[index];
@@ -29,7 +30,7 @@ function options(args, names) {
       throw new Error(`duplicate option ${flag}`);
     result[flag] = value;
   }
-  for (const name of names) {
+  for (const name of requiredNames) {
     if (!Object.hasOwn(result, name))
       throw new Error(`missing required option ${name}`);
   }
@@ -77,14 +78,24 @@ function main(args) {
         '--run-directory',
         '--output',
       ]),
+      new Set(['--signature-allowlist']),
     );
     const inventory = readJson(parsed['--inventory'], 'inventory');
     const ledger = readJson(parsed['--ledger'], 'ledger');
+    const hasSignatureAllowlist = Object.hasOwn(
+      parsed,
+      '--signature-allowlist',
+    );
+    const signatureAllowlist = hasSignatureAllowlist
+      ? readJson(parsed['--signature-allowlist'], 'signature allowlist')
+      : [];
     const approval = prepareRehearsal({
       source: parsed['--source'],
       runDirectory: parsed['--run-directory'],
       inventory,
       ledger,
+      signaturePolicy: hasSignatureAllowlist ? 'remove-approved' : 'reject',
+      signatureAllowlist,
     });
     if (resolve(parsed['--output']) !== approval.approvalPath) {
       throw new Error(
@@ -107,10 +118,14 @@ function main(args) {
         '--approval',
         '--output',
       ]),
+      new Set(['--signature-allowlist']),
     );
     const inventory = readJson(parsed['--inventory'], 'inventory');
     const ledger = readJson(parsed['--ledger'], 'ledger');
     const approval = readJson(parsed['--approval'], 'approval');
+    const signatureAllowlist = Object.hasOwn(parsed, '--signature-allowlist')
+      ? readJson(parsed['--signature-allowlist'], 'signature allowlist')
+      : [];
     if (resolve(parsed['--output']) !== approval.reportPath) {
       throw new Error(
         `rehearse output must be the approved report path ${approval.reportPath}`,
@@ -121,6 +136,7 @@ function main(args) {
       destination: parsed['--destination'],
       inventory,
       ledger,
+      signatureAllowlist,
       approval,
       invocation: {
         executable: process.execPath,

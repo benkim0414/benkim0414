@@ -21,6 +21,13 @@ import { fileURLToPath } from 'node:url';
 
 import { git } from './git.mjs';
 import { validateLedger } from './ledger.mjs';
+import {
+  isSignatureHeader,
+  parseCommit,
+  signatureApprovalKey,
+  signatureHeaderSha256,
+  validateSignatureAllowlist,
+} from './objects.mjs';
 import { rewriteObjects } from './rewrite.mjs';
 import { verifyMapping } from './verify.mjs';
 
@@ -47,6 +54,9 @@ const APPROVAL_KEYS = [
   'refs',
   'worktrees',
   'signaturePolicy',
+  'signatureAllowlist',
+  'signatureAllowlistPath',
+  'signatureAllowlistDigest',
   'backupVerified',
   'warnings',
   'approvalDigest',
@@ -360,7 +370,7 @@ function assertRestored(repository, inventory, refs) {
 }
 
 function rehearsalArgv(paths) {
-  return [
+  const argv = [
     CLI,
     'rehearse',
     '--backup',
@@ -376,6 +386,10 @@ function rehearsalArgv(paths) {
     '--output',
     paths.reportPath,
   ];
+  if (paths.signatureAllowlistPath !== null) {
+    argv.push('--signature-allowlist', paths.signatureAllowlistPath);
+  }
+  return argv;
 }
 
 function assertSourceUnchanged(source, beforeRefs, beforeWorktrees, inventory) {
@@ -388,8 +402,94 @@ function assertSourceUnchanged(source, beforeRefs, beforeWorktrees, inventory) {
   }
 }
 
-export function prepareRehearsal({ source, runDirectory, inventory, ledger }) {
-  validateLedger(inventory, ledger, { requireResolved: true });
+function validateSignaturePlan({
+  source,
+  inventory,
+  ledgerRows,
+  signaturePolicy,
+  signatureAllowlist,
+}) {
+  const approvals = validateSignatureAllowlist(
+    signaturePolicy,
+    signatureAllowlist,
+    inventory.objectFormat,
+  );
+  const changedIdentities = new Map();
+  const used = new Set();
+
+  for (const commit of inventory.commits) {
+    const row = ledgerRows.get(commit.oid);
+    const unavailableParent = commit.parents.find(
+      (parent) => !changedIdentities.has(parent),
+    );
+    if (unavailableParent) {
+      fail(`missing parent ${unavailableParent} before commit ${commit.oid}`);
+    }
+    const identityChanged =
+      row.decision === 'change' ||
+      commit.parents.some((parent) => changedIdentities.get(parent) === true);
+    changedIdentities.set(commit.oid, identityChanged);
+
+    const parsed = parseCommit(git(source, ['cat-file', 'commit', commit.oid]));
+    const signatures = parsed.headers.filter(({ name }) =>
+      isSignatureHeader(name),
+    );
+    const inventoriedSignatures = commit.specialHeaders.filter(({ name }) =>
+      isSignatureHeader(name),
+    );
+    if (
+      commit.signed !== signatures.length > 0 ||
+      signatures.length !== inventoriedSignatures.length ||
+      signatures.some(
+        (header, index) =>
+          header.name !== inventoriedSignatures[index].name ||
+          header.value.toString('base64') !==
+            inventoriedSignatures[index].valueBase64,
+      )
+    ) {
+      fail(`source commit ${commit.oid} signatures differ from inventory`);
+    }
+    if (!identityChanged || signatures.length === 0) continue;
+    if (signaturePolicy === 'reject') {
+      fail(`refusing to rewrite signature-bearing commit ${commit.oid}`);
+    }
+    for (const header of signatures) {
+      const removal = {
+        oid: commit.oid,
+        header: header.name,
+        sha256: signatureHeaderSha256(header),
+      };
+      const key = signatureApprovalKey(removal);
+      if (
+        !approvals.some((approval) => signatureApprovalKey(approval) === key) ||
+        used.has(key)
+      ) {
+        fail(
+          `refusing to remove ${header.name} from ${commit.oid} without exact signature approval`,
+        );
+      }
+      used.add(key);
+    }
+  }
+
+  const unused = approvals.find(
+    (approval) => !used.has(signatureApprovalKey(approval)),
+  );
+  if (unused) fail(`unused signature approval ${signatureApprovalKey(unused)}`);
+  return approvals;
+}
+
+export function prepareRehearsal({
+  source,
+  runDirectory,
+  inventory,
+  ledger,
+  signaturePolicy = 'reject',
+  signatureAllowlist = [],
+}) {
+  const ledgerRows = validateLedger(inventory, ledger, {
+    requireResolved: true,
+  });
   assertNoDetachedOnlyCommits(inventory);
 
   const sourcePath = realpathSync(source);
@@ -401,6 +501,13 @@ export function prepareRehearsal({ source, runDirectory, inventory, ledger }) {
     sourceGitDirectory,
     sourceCommonDirectory,
   );
+  const approvals = validateSignaturePlan({
+    source: sourcePath,
+    inventory,
+    ledgerRows,
+    signaturePolicy,
+    signatureAllowlist,
+  });
 
   const { raw: beforeRefs, refs } = frozenRefs(sourcePath, inventory);
   const beforeWorktrees = assertFrozenWorktrees(inventory);
@@ -414,9 +521,16 @@ export function prepareRehearsal({ source, runDirectory, inventory, ledger }) {
     approvalPath: join(runPath, 'approval.json'),
     destination: join(runPath, 'rewritten.git'),
     reportPath: join(runPath, 'report.json'),
+    signatureAllowlistPath:
+      signaturePolicy === 'remove-approved'
+        ? join(runPath, 'signature-allowlist.json')
+        : null,
   };
   writeJson(paths.inventoryPath, inventory);
   writeJson(paths.ledgerPath, ledger);
+  if (paths.signatureAllowlistPath !== null) {
+    writeJson(paths.signatureAllowlistPath, approvals);
+  }
   git(sourcePath, [
     'bundle',
     'create',
@@ -448,7 +562,9 @@ export function prepareRehearsal({ source, runDirectory, inventory, ledger }) {
     sourceRefStateBase64: beforeRefs.toString('base64'),
     refs,
     worktrees: beforeWorktrees,
-    signaturePolicy: 'reject',
+    signaturePolicy,
+    signatureAllowlist: approvals,
+    signatureAllowlistDigest: digestJson(approvals),
     backupVerified: true,
     warnings,
   };
@@ -510,7 +626,28 @@ function validateApproval(approval) {
     fail('direct user approval evidence is required');
   }
   if (approval.signaturePolicy !== 'reject') {
-    fail('approval signature policy must be reject');
+    if (approval.signaturePolicy !== 'remove-approved') {
+      fail('approval signature policy is unsupported');
+    }
+  }
+  const approvals = validateSignatureAllowlist(
+    approval.signaturePolicy,
+    approval.signatureAllowlist,
+  );
+  if (
+    typeof approval.signatureAllowlistDigest !== 'string' ||
+    !/^[0-9a-f]{64}$/.test(approval.signatureAllowlistDigest) ||
+    digestJson(approvals) !== approval.signatureAllowlistDigest
+  ) {
+    fail('approval signature allowlist digest does not match');
+  }
+  if (
+    (approval.signaturePolicy === 'reject' &&
+      approval.signatureAllowlistPath !== null) ||
+    (approval.signaturePolicy === 'remove-approved' &&
+      typeof approval.signatureAllowlistPath !== 'string')
+  ) {
+    fail('approval signature allowlist path does not match policy');
   }
   if (approval.backupVerified !== true) {
     fail('approval must record a verified backup');
@@ -556,6 +693,19 @@ function assertSafeDestination(destination, approval) {
   ) {
     fail(`destination must be empty: ${destinationPath}`);
   }
+  if (
+    approval.signatureAllowlistPath !== null &&
+    canonicalPath(approval.signatureAllowlistPath) !==
+      join(approvedRunDirectory, 'signature-allowlist.json')
+  ) {
+    fail('signature allowlist must remain at its protected run path');
+  }
+  if (
+    canonicalPath(approval.reportPath) !==
+    join(approvedRunDirectory, 'report.json')
+  ) {
+    fail('report must remain at its protected run path');
+  }
   return destinationPath;
 }
 
@@ -566,7 +716,7 @@ function normalizeInvocation(invocation) {
     if (typeof value !== 'string') fail('invocation argv must contain strings');
     return value;
   });
-  if (argv.length !== 14 || argv[1] !== 'rehearse') {
+  if ((argv.length !== 14 && argv.length !== 16) || argv[1] !== 'rehearse') {
     fail('actual invocation differs from approved arguments');
   }
   const normalizedArgv = [canonicalPath(argv[0]), argv[1]];
@@ -583,6 +733,7 @@ function assertApprovedInputs({
   backup,
   inventory,
   ledger,
+  signatureAllowlist,
   approval,
   invocation,
 }) {
@@ -602,6 +753,22 @@ function assertApprovedInputs({
   }
   if (digestJson(ledger) !== approval.ledgerDigest) {
     fail('ledger digest differs from approval');
+  }
+  if (digestJson(signatureAllowlist) !== approval.signatureAllowlistDigest) {
+    fail('signature allowlist digest differs from approval');
+  }
+  if (approval.signatureAllowlistPath !== null) {
+    let frozenAllowlist;
+    try {
+      frozenAllowlist = JSON.parse(
+        readFileSync(approval.signatureAllowlistPath, 'utf8'),
+      );
+    } catch (error) {
+      fail(`cannot read approved signature allowlist: ${error.message}`);
+    }
+    if (digestJson(frozenAllowlist) !== approval.signatureAllowlistDigest) {
+      fail('frozen signature allowlist digest differs from approval');
+    }
   }
   if (digestFile(approval.backupPath) !== approval.backupDigest) {
     fail('backup digest differs from approval');
@@ -694,6 +861,7 @@ export function rehearse({
   destination,
   inventory,
   ledger,
+  signatureAllowlist = [],
   approval,
   invocation,
 }) {
@@ -705,12 +873,16 @@ export function rehearse({
     backup,
     inventory,
     ledger,
+    signatureAllowlist,
     approval,
     invocation,
   });
   const beforeWorktrees = assertFrozenWorktrees(inventory);
   if (JSON.stringify(beforeWorktrees) !== JSON.stringify(approval.worktrees)) {
     fail('approved worktrees differ from exact frozen worktrees');
+  }
+  if (existsSync(approval.reportPath)) {
+    fail(`report output already exists: ${approval.reportPath}`);
   }
   git(approval.source, ['bundle', 'verify', approval.backupPath]);
   assertBundleRefs(approval.source, approval.backupPath, approval.refs);
@@ -723,6 +895,8 @@ export function rehearse({
     cwd: destinationPath,
     inventory,
     ledger,
+    signaturePolicy: approval.signaturePolicy,
+    signatureAllowlist,
   });
   const verification = verifyMapping({
     source: destinationPath,
@@ -730,6 +904,8 @@ export function rehearse({
     inventory,
     ledger,
     mapping,
+    signaturePolicy: approval.signaturePolicy,
+    signatureAllowlist,
   });
   const byOld = installMappedRefs(destinationPath, approval.refs, mapping);
   const refs = verifyInstalledRefs(destinationPath, approval.refs, byOld);
@@ -745,6 +921,7 @@ export function rehearse({
     inventoryDigest: approval.inventoryDigest,
     ledgerDigest: approval.ledgerDigest,
     backupDigest: approval.backupDigest,
+    signatureAllowlistDigest: approval.signatureAllowlistDigest,
     mapping,
     refs,
     preservedRefs: refs
@@ -761,11 +938,14 @@ export function rehearse({
         .length,
     },
     verification,
-    signaturePolicy: 'reject',
+    signaturePolicy: approval.signaturePolicy,
     signatureHandling: {
-      policy: 'reject',
+      policy: approval.signaturePolicy,
       signedCommitCount: inventory.commits.filter(({ signed }) => signed)
         .length,
+      approvedHeaderCount: signatureAllowlist.length,
+      removedHeaderCount: verification.signatureRemovals.length,
+      removedHeaders: verification.signatureRemovals,
       annotatedTagCount: 0,
     },
     failures: [],

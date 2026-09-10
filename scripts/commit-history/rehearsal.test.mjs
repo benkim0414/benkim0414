@@ -1,5 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
+import { createHash } from 'node:crypto';
 import {
   existsSync,
   mkdirSync,
@@ -69,11 +70,44 @@ function assertSourceState(cwd, expected) {
   assert.deepEqual(actual.refs, expected.refs);
 }
 
-function graphFixture(t, { dirty = false, annotatedTag = false } = {}) {
+function graphFixture(
+  t,
+  { dirty = false, annotatedTag = false, signed = false } = {},
+) {
   const fixture = repositoryFixture(t);
   const root = fixture.commit('feat(workflow): add root');
   fixture.git('branch', 'topic');
-  const main = fixture.commit('fix(workflow): update main');
+  let main = fixture.commit('fix(workflow): update main');
+  let signatureAllowlist = [];
+  if (signed) {
+    const unsignedMain = main;
+    const raw = git(fixture.cwd, ['cat-file', 'commit', unsignedMain]);
+    const separator = raw.indexOf('\n\n');
+    const signatureRecord = Buffer.from(
+      'gpgsig -----BEGIN SIGNATURE-----\n continuation bytes',
+    );
+    const signedRaw = Buffer.concat([
+      raw.subarray(0, separator),
+      Buffer.from('\n'),
+      signatureRecord,
+      raw.subarray(separator),
+    ]);
+    main = git(
+      fixture.cwd,
+      ['hash-object', '-t', 'commit', '-w', '--stdin'],
+      signedRaw,
+    )
+      .toString('ascii')
+      .trim();
+    fixture.git('update-ref', 'refs/heads/main', main, unsignedMain);
+    signatureAllowlist = [
+      {
+        oid: main,
+        header: 'gpgsig',
+        sha256: createHash('sha256').update(signatureRecord).digest('hex'),
+      },
+    ];
+  }
   fixture.git('update-ref', 'refs/remotes/origin/main', main);
   fixture.git(
     'symbolic-ref',
@@ -104,6 +138,7 @@ function graphFixture(t, { dirty = false, annotatedTag = false } = {}) {
     root,
     inventory,
     ledger: ledgerFor(inventory, root),
+    signatureAllowlist,
   };
 }
 
@@ -137,6 +172,9 @@ function prepareFixture(t, options = {}) {
     runDirectory,
     inventory: state.inventory,
     ledger: state.ledger,
+    signaturePolicy:
+      state.signatureAllowlist.length === 0 ? 'reject' : 'remove-approved',
+    signatureAllowlist: state.signatureAllowlist,
   });
   assertSourceState(state.fixture.cwd, before);
   return { ...state, runDirectory, before, approvalPackage };
@@ -183,6 +221,66 @@ test('prepare creates and verifies a complete recoverable bundle', (t) => {
       'commit',
     );
   }
+});
+
+test('prepare freezes an exact signature allowlist and rehearsal reports verified removals', (t) => {
+  const state = prepareFixture(t, { signed: true });
+  const { approvalPackage, signatureAllowlist } = state;
+
+  assert.equal(approvalPackage.signaturePolicy, 'remove-approved');
+  assert.deepEqual(approvalPackage.signatureAllowlist, signatureAllowlist);
+  assert.deepEqual(
+    JSON.parse(readFileSync(approvalPackage.signatureAllowlistPath, 'utf8')),
+    signatureAllowlist,
+  );
+  assert.match(approvalPackage.signatureAllowlistDigest, /^[0-9a-f]{64}$/);
+  assert.deepEqual(
+    approvalPackage.argv.slice(
+      approvalPackage.argv.indexOf('--signature-allowlist'),
+      approvalPackage.argv.indexOf('--signature-allowlist') + 2,
+    ),
+    ['--signature-allowlist', approvalPackage.signatureAllowlistPath],
+  );
+
+  const report = rehearse({
+    backup: approvalPackage.backupPath,
+    destination: approvalPackage.destination,
+    inventory: state.inventory,
+    ledger: state.ledger,
+    signatureAllowlist,
+    approval: approve(approvalPackage),
+    invocation: invocationFor(approvalPackage),
+  });
+
+  assert.equal(report.signaturePolicy, 'remove-approved');
+  assert.equal(
+    report.signatureAllowlistDigest,
+    approvalPackage.signatureAllowlistDigest,
+  );
+  assert.deepEqual(report.signatureHandling.removedHeaders, signatureAllowlist);
+  assert.equal(report.signatureHandling.removedHeaderCount, 1);
+});
+
+test('prepare rejects malformed signature approvals before writing a run', (t) => {
+  const state = graphFixture(t, { signed: true });
+  const runDirectory = join(scratchDirectory(t), 'run');
+
+  assert.throws(
+    () =>
+      prepareRehearsal({
+        source: state.fixture.cwd,
+        runDirectory,
+        inventory: state.inventory,
+        ledger: state.ledger,
+        signaturePolicy: 'remove-approved',
+        signatureAllowlist: [
+          state.signatureAllowlist[0],
+          state.signatureAllowlist[0],
+        ],
+      }),
+    /duplicate signature approval/,
+  );
+  assert.equal(existsSync(runDirectory), false);
 });
 
 test('prepare permits the approved source-local history repair directory', (t) => {
@@ -621,6 +719,44 @@ test('rehearse rejects an approval whose exact ref set was altered', (t) => {
   );
 });
 
+test('rehearse rejects substitution of the frozen signature allowlist', (t) => {
+  const state = prepareFixture(t, { signed: true });
+  const substituted = structuredClone(state.signatureAllowlist);
+  substituted[0].sha256 = '0'.repeat(64);
+
+  assert.throws(
+    () =>
+      rehearse({
+        backup: state.approvalPackage.backupPath,
+        destination: state.approvalPackage.destination,
+        inventory: state.inventory,
+        ledger: state.ledger,
+        signatureAllowlist: substituted,
+        approval: approve(state.approvalPackage),
+        invocation: invocationFor(state.approvalPackage),
+      }),
+    /signature allowlist digest differs from approval/,
+  );
+});
+
+test('rehearse refuses to overwrite a pre-existing report', (t) => {
+  const state = prepareFixture(t);
+  writeFileSync(state.approvalPackage.reportPath, '{"tampered":true}\n');
+
+  assert.throws(
+    () =>
+      rehearse({
+        backup: state.approvalPackage.backupPath,
+        destination: state.approvalPackage.destination,
+        inventory: state.inventory,
+        ledger: state.ledger,
+        approval: approve(state.approvalPackage),
+        invocation: invocationFor(state.approvalPackage),
+      }),
+    /report output already exists/,
+  );
+});
+
 test('rehearse rejects a destination equal to the source or common Git directory', async (t) => {
   const state = prepareFixture(t);
   const commonOutput = git(state.fixture.cwd, ['rev-parse', '--git-common-dir'])
@@ -674,11 +810,11 @@ test('CLI exposes guarded local prepare and rehearse commands without a network 
   assert.equal(result.status, 0, result.stderr.toString('utf8'));
   assert.match(
     help,
-    /prepare --source PATH --inventory FILE --ledger FILE --run-directory PATH --output FILE/,
+    /prepare --source PATH --inventory FILE --ledger FILE --run-directory PATH --output FILE \[--signature-allowlist FILE\]/,
   );
   assert.match(
     help,
-    /rehearse --backup FILE --destination PATH --inventory FILE --ledger FILE --approval FILE --output FILE/,
+    /rehearse --backup FILE --destination PATH --inventory FILE --ledger FILE --approval FILE --output FILE \[--signature-allowlist FILE\]/,
   );
   assert.doesNotMatch(help, /--remote|push/);
 
