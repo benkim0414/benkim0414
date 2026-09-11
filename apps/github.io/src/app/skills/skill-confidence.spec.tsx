@@ -49,6 +49,21 @@ describe('SkillConfidence', () => {
     expect(screen.queryByTestId('skill-rating-compact-star')).toBeNull();
   });
 
+  it('can render confidence with body text styling', () => {
+    render(
+      <SkillConfidence
+        confidence={4}
+        hasTooltip={false}
+        textStyle="body"
+      />,
+    );
+
+    const label = screen.getByText('Confident');
+
+    expect(label.getAttribute('data-type')).toBe('body');
+    expect(label.getAttribute('data-color')).toBe('primary');
+  });
+
   it('describes text confidence with a concise tooltip', () => {
     render(<SkillConfidence confidence={4} />);
 

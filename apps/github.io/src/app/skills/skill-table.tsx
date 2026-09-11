@@ -7,10 +7,10 @@ import {
   useTableSortableState,
 } from '@astryxdesign/core/Table';
 import { Text } from '@astryxdesign/core/Text';
-import { Token } from '@astryxdesign/core/Token';
 import type { ReactElement } from 'react';
 
 import { SkillAvatar } from './skill-avatar';
+import { SkillCategory } from './skill-category';
 import { SkillConfidence } from './skill-confidence';
 import type { Skill } from './skill-list.types';
 
@@ -35,7 +35,7 @@ const columns: TableColumn<SkillTableRow>[] = [
     sortable: true,
     renderCell: ({ skill }) => (
       <HStack align="center" gap={2}>
-        <SkillAvatar isDecorative size="md" skill={skill} />
+        <SkillAvatar isDecorative size="xsm" skill={skill} />
         <Text>{skill.name}</Text>
       </HStack>
     ),
@@ -54,7 +54,7 @@ const columns: TableColumn<SkillTableRow>[] = [
     renderCell: ({ skill }) => (
       <HStack align="center" gap={1}>
         {skill.categories.map((category) => (
-          <Token color="gray" key={category} label={category} size="sm" />
+          <SkillCategory key={category} name={category} />
         ))}
       </HStack>
     ),
@@ -65,7 +65,11 @@ const columns: TableColumn<SkillTableRow>[] = [
     width: proportional(1),
     sortable: true,
     renderCell: ({ skill }) => (
-      <SkillConfidence confidence={skill.confidence} hasTooltip={false} />
+      <SkillConfidence
+        confidence={skill.confidence}
+        hasTooltip={false}
+        textStyle="body"
+      />
     ),
   },
 ];

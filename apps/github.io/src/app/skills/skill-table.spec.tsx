@@ -79,10 +79,18 @@ describe('SkillTable', () => {
         .getAllByRole('columnheader')
         .map((header) => header.textContent),
     ).toEqual(['Name', 'Primary use', 'Categories', 'Confidence']);
-    expect(getByText('Cloud').closest('.astryx-token')).toBeTruthy();
-    expect(getByText('CI/CD').closest('.astryx-token')).toBeTruthy();
-    expect(within(table).getAllByText('Proven')).toHaveLength(2);
-    expect(container.querySelectorAll('.astryx-avatar')).toHaveLength(3);
+    expect(getByText('Cloud').closest('.astryx-badge')).toBeTruthy();
+    expect(getByText('CI/CD').closest('.astryx-badge')).toBeTruthy();
+    const confidenceLabels = within(table).getAllByText('Proven');
+    const avatars = container.querySelectorAll('.astryx-avatar');
+
+    expect(confidenceLabels).toHaveLength(2);
+    expect(confidenceLabels[0].getAttribute('data-type')).toBe('body');
+    expect(confidenceLabels[0].getAttribute('data-color')).toBe('primary');
+    expect(avatars).toHaveLength(3);
+    for (const avatar of avatars) {
+      expect(avatar.getAttribute('data-size')).toBe('xsm');
+    }
     expect(within(table).queryByRole('link')).toBeNull();
   });
 

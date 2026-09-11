@@ -13,6 +13,7 @@ interface SkillConfidenceProps {
   confidence: Skill['confidence'];
   hasTooltip?: boolean;
   isTooltipOpen?: boolean;
+  textStyle?: 'body' | 'supporting';
   variant?: SkillConfidenceVariant;
 }
 
@@ -51,6 +52,7 @@ export function SkillConfidence({
   confidence,
   hasTooltip = true,
   isTooltipOpen,
+  textStyle = 'supporting',
   variant = 'text',
 }: SkillConfidenceProps) {
   const label = confidenceLabels[confidence];
@@ -90,14 +92,14 @@ export function SkillConfidence({
             aria-label={`Self-rated confidence: ${label}`}
             data-testid="skill-confidence-tooltip-trigger"
             tabIndex={0}
-            type="supporting"
+            type={textStyle}
             xstyle={styles.textTooltipTrigger}
           >
             {label}
           </Text>,
         )
       ) : (
-        <Text aria-hidden="true" type="supporting">
+        <Text aria-hidden="true" type={textStyle}>
           {label}
         </Text>
       )}
