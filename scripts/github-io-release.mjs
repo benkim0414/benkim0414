@@ -13,6 +13,7 @@ import {
 } from './github-io-release-core.mjs';
 
 const PROJECT = 'github.io';
+const PROJECT_CONFIG = 'apps/github.io/project.json';
 const TAG_PREFIX = `${PROJECT}@`;
 const LOG_FORMAT = '%H%x00%s%x00%b%x00';
 
@@ -106,10 +107,86 @@ function firstParentCommits(range, cwd) {
   );
 }
 
+function firstParentOids(target, cwd) {
+  return git(['rev-list', '--first-parent', '--reverse', target], cwd)
+    .split('\n')
+    .filter(Boolean);
+}
+
 function isFirstParent(ancestor, descendant, cwd) {
   return git(['rev-list', '--first-parent', descendant], cwd)
     .split('\n')
     .includes(ancestor);
+}
+
+function projectIdentityAt(commit, cwd, cache) {
+  const entry = git(['ls-tree', '-z', commit, '--', PROJECT_CONFIG], cwd);
+  if (!entry) return 'absent';
+
+  const match = /^\d+ blob ([a-f0-9]+)\t[^\0]+\0$/.exec(entry);
+  if (!match) return 'conflicting';
+  const blobOid = match[1];
+  if (cache.has(blobOid)) return cache.get(blobOid);
+
+  let project;
+  try {
+    project = JSON.parse(git(['cat-file', 'blob', blobOid], cwd));
+  } catch {
+    cache.set(blobOid, 'conflicting');
+    return 'conflicting';
+  }
+  const identity =
+    project &&
+    typeof project === 'object' &&
+    !Array.isArray(project) &&
+    project.name === PROJECT
+      ? 'github.io'
+      : 'conflicting';
+  cache.set(blobOid, identity);
+  return identity;
+}
+
+export function findGithubIoIntroduction({ target, cwd = process.cwd() }) {
+  const sourceSha = resolveCommit(target, cwd);
+  const identityCache = new Map();
+  let introduction;
+  let projectPresent = false;
+  let removed = false;
+
+  for (const commit of firstParentOids(sourceSha, cwd)) {
+    const identity = projectIdentityAt(commit, cwd, identityCache);
+    if (identity === 'conflicting') {
+      throw new Error(
+        `${PROJECT_CONFIG} has a conflicting historical identity; use an explicit reviewed --start`,
+      );
+    }
+    if (identity === 'github.io') {
+      if (!projectPresent) {
+        if (introduction || removed) {
+          throw new Error(
+            `${PROJECT_CONFIG} was removed or reintroduced; use an explicit reviewed --start`,
+          );
+        }
+        introduction = commit;
+      }
+      projectPresent = true;
+      continue;
+    }
+    if (projectPresent) removed = true;
+    projectPresent = false;
+  }
+
+  if (!introduction) {
+    throw new Error(
+      `no valid ${PROJECT_CONFIG} introduction found on ${sourceSha}'s first-parent history`,
+    );
+  }
+  if (removed || !projectPresent) {
+    throw new Error(
+      `${PROJECT_CONFIG} was removed after introduction; use an explicit reviewed --start`,
+    );
+  }
+  return introduction;
 }
 
 export function verifyMainTarget({
@@ -255,18 +332,26 @@ export function calculateRelease({
   });
 }
 
-export function bootstrapRelease({
-  target,
-  start = '8acdd81',
-  cwd = process.cwd(),
-}) {
+export function bootstrapRelease({ target, start, cwd = process.cwd() }) {
   const sourceSha = resolveCommit(target, cwd);
-  const startSha = resolveCommit(start, cwd);
-  if (!isAncestor(startSha, sourceSha, cwd)) {
-    throw new Error(`${start} is not an ancestor of ${sourceSha}`);
+  const startSha =
+    start === undefined
+      ? findGithubIoIntroduction({ target: sourceSha, cwd })
+      : resolveCommit(start, cwd);
+  if (!isFirstParent(startSha, sourceSha, cwd)) {
+    throw new Error(
+      `${start ?? startSha} is not on ${sourceSha}'s first-parent history`,
+    );
   }
+  const parents = git(['show', '-s', '--format=%P', startSha], cwd)
+    .trim()
+    .split(' ')
+    .filter(Boolean);
   return replay({
-    integrations: firstParentIntegrations(`${startSha}^..${sourceSha}`, cwd),
+    integrations: firstParentIntegrations(
+      parents.length === 0 ? sourceSha : `${parents[0]}..${sourceSha}`,
+      cwd,
+    ),
     previousVersion: '0.0.0',
     sourceSha,
     bootstrap: true,
@@ -437,7 +522,7 @@ function runCli(argv) {
   if (command === 'bootstrap') {
     return bootstrapRelease({
       target: required(options, 'target'),
-      start: options.start ?? '8acdd81',
+      start: options.start,
     });
   }
   if (command === 'verify-main-target') {

@@ -1,18 +1,14 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:3b822a42da6cb09f35cd3bc024f763be1920a79216e549e69fdd51e72a28f70a",
+  "pageVersion": "sha256:6118b86515ac54587cafc25ae739266ce7f19bc89ea548d6a5825ee867cc95a0",
   "claims": [
     {
       "id": "claim_a1aaa09a8bdc4247ba862841aa6d008f",
       "statement": "The root is a private pnpm workspace pinned to pnpm 11.16.0 with apps/* and packages/* package globs.",
       "evidence": [
         {
-          "resource": "repo://package.json#L1-L4",
-          "version": "repo-lines-v1:sha256:d2457025d46f04f246beb349eca7ee0aceeb7a3a6afc5453ae6b3d1fb1ad13e5:eyJzZWxlY3RlZExpbmVDb3VudCI6NCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiYTZmYjA4ZmRhMWFjYjk1N2I2MTE2YmQzNzgxMWExZmU0MWEwMTYxMWMwNjMxZWRiZjc4NmQ2ODg5YTI3YTU1YyIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMzMzZTUzZGI4NTFkYzZhMzA2M2QxZDA1NjkwMGVhMDAyZGQwYzRlYWU5NmRhNmZjNzZlNGVmZTIyMWM1ZjA3MCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjAsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNmVjMTlkNWNlMjIwZThhZGZiMmQ3M2Q3NDcxN2RlZTBjNTQxZThhNDAxNDVjNjdkZmNhYjQwOWEzYWUwNGMwZCJ9"
-        },
-        {
-          "resource": "repo://package.json#L23-L25",
-          "version": "repo-lines-v1:sha256:f1f3b484e403c144e9d769b58f162b5a93466c94496daa315b522f166b2d0813:eyJzZWxlY3RlZExpbmVDb3VudCI6MywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMDBmYTZiN2M3YWRjMTFjZTA5OGE0YTljZjc1MmViZDg1ZGQzZTU4YWMwZjhlODA0ZDkzMjljYWY5YjRhYmZlNSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNGY4ODc1ZmZiNDFhMDNmNjY4ZmQxZWE2NTUwODFkZGE2NDgyZWE1ZDMzYWQyZTRhMWE3ODRmZThhNTFiODRmYSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZGE4MGI3ZmZiYTg5MGI2ZTkwYjFlMTlkNzk4MTgyZTEzODk3YzViOTZjNzgzYWQ4Yjc1NTBkZDdjZGVkZTJkNSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMmEwZDI4MjNlZDA0NTg0NDU2ZjRjYWZiYTYyOWRlNTRiMTQwOGVkZWUwOWQzZjcxYjYyMzQ2YTgzZWQ4M2YwYSJ9"
+          "resource": "repo://package.json",
+          "version": "repo-file-v1:sha256:8e700cd24fce5c8ef64c77f589599797af8b5cdd216e971540cc72ac1642d8d1"
         },
         {
           "resource": "repo://pnpm-workspace.yaml#L1-L3",
@@ -25,12 +21,12 @@
       "statement": "The app package is @benkim0414/github-io and its Nx project name is github.io.",
       "evidence": [
         {
-          "resource": "repo://apps/github.io/package.json#L1-L4",
-          "version": "repo-lines-v1:sha256:f13f5168e13579be66399e61881a25ed68f58241c848159a9f8276cef5e839c6:eyJzZWxlY3RlZExpbmVDb3VudCI6NCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiYTZmYjA4ZmRhMWFjYjk1N2I2MTE2YmQzNzgxMWExZmU0MWEwMTYxMWMwNjMxZWRiZjc4NmQ2ODg5YTI3YTU1YyIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNDEyY2EzNDVjY2Y3NWJmOWMwODA2YmNlNjk1YmU4ZGU4MDhiNzk5ODQyNTFhN2E1NGQyMDJjZjYxMDFkZDQ1MSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjAsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjAsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSJ9"
+          "resource": "repo://apps/github.io/package.json",
+          "version": "repo-file-v1:sha256:f13f5168e13579be66399e61881a25ed68f58241c848159a9f8276cef5e839c6"
         },
         {
-          "resource": "repo://apps/github.io/project.json#L1-L7",
-          "version": "repo-lines-v1:sha256:934b085d36cbc16a291e72d5eb8048a5aed17b8ebafbede336323f256d5bb810:eyJzZWxlY3RlZExpbmVDb3VudCI6NywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiYTZmYjA4ZmRhMWFjYjk1N2I2MTE2YmQzNzgxMWExZmU0MWEwMTYxMWMwNjMxZWRiZjc4NmQ2ODg5YTI3YTU1YyIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNDcyNTQ3ODQzOWQ5Y2I2NWI2MmFjMzRlOGIyYTM1Y2UwMDMwOWY5YzczZTU3NTMzYmRhNWNiNTNlMDUxZjE0NyIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjAsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMTEzZDAyZmVkMTlmMzBiODQ1YmQ0YzA0ODY5NjExNmNhZTk1MzZiN2Q5ZmYyNzkyNWVkZGE2MzhiYWY5NTI0NCJ9"
+          "resource": "repo://apps/github.io/project.json",
+          "version": "repo-file-v1:sha256:e6cbb5bbf23ce5abe3170e2071691b4fb184891130c54ed454107d1035ebe88c"
         }
       ]
     },
@@ -39,7 +35,7 @@
       "statement": "Vite uses localhost ports 4200 and 4300 for serve and preview and builds main plus 404 entries to dist/apps/github.io.",
       "evidence": [
         {
-          "resource": "repo://apps/github.io/vite.config.ts#L42-L85",
+          "resource": "repo://apps/github.io/vite.config.ts#L31-L66",
           "version": "repo-lines-v1:sha256:c523ae99a2415bfbbf1cf585411f41ce10550179232e073351ae1af35f1a52e6:eyJzZWxlY3RlZExpbmVDb3VudCI6NDQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImZmMWE1MDM2NzUzMDMxOTIwMDliZmFiMDVmYWM2OGRiYmQ3M2RmZjRmYTg1NjQ2MTBjM2NmOTdkYTRkYTA0MmYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjRkNWNkMmZiNGYzZGY4ODQ1MTUyNTViMzk1MjNmMmY4YjU0NzJiZWVhOWY1NjZmZmNhMjA0ZGI4MDI1NjEwNDEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjkyMDQwZTA5NWE5NGUyYWRhNzRlNDIxZjM3MTg3NTFhOTFhODEwYmZkNjZmNDhmNGU5MzljN2I3NDgwZWI2NzAiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjVhNTA5ZTM3OTI4ZWNlYjQ5N2M0YjlkZDcxMWZmMjlhZGVjMThkNzlmZTY4ZDAzNjE5NzRhYThhY2Q0NGU4MTUifQ"
         }
       ]
@@ -49,12 +45,8 @@
       "statement": "The repository exposes OpenWiki setup, status and visualization scripts with openwiki pinned at 0.5.0.",
       "evidence": [
         {
-          "resource": "repo://package.json#L14-L18",
-          "version": "repo-lines-v1:sha256:03a9083ca33d5ea615d2de3a91cef5151b8cffffc44ee3eaa26cd88a6e8b8deb:eyJzZWxlY3RlZExpbmVDb3VudCI6NSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMjc3YTA2MTc3MTgzZmEwMmM1ZGJjZDVjMDVkZDc5OTZjZTZmZTk0YzM3NGU4ZTIzYmE2ODY3MGUwMmU3YWUxMiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiOTk5ZjFiNjFlMjI1MWQ5ZDFkYmJkMDViOTM5OWMwODRjYjVhNGIyNDg2M2EwNjFlMTdjNjliMWVjNjVmOTJkMiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMTJmNGUwMWIwNWZmZDA2YzNlNzcxZWQ3OGEyMTUyMDZkODI5Mzc4NWQyZGMwMWNlYWU2MjQ0NjY1ZmM0NGQ3YSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNGFhNmI4YmFmNGZiYWM1ZDAxYTYyYzYxOTZmMmFjNGIxZDgzYmQ3ZjIxMzI4ZTJmZTJjNzAyMzQ5OTE3NGIwNyJ9"
-        },
-        {
-          "resource": "repo://package.json#L64-L66",
-          "version": "repo-lines-v1:sha256:0e31c1c80b2ece03326f0172a1721139cf462ac479a182950b283224229b7911:eyJzZWxlY3RlZExpbmVDb3VudCI6MywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMDM0MzI0NWZlYTk5MzkxYTY4Y2Q5ZTU5NmE4MjMxNmM4ODQxNTU0MzUwODNlY2YyYmRiNzRmZGVjMjI4YTZkNyIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNTcyZjk5MzA0Y2I2M2RiZjVmYzI4YjEwYmRhYmJjZjAzNmZhNjc0NWRkOWU3ZTViNmQ5NzU1ZGI1MmE0M2JhMiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZGFkOTM5NDY3ZWU4ZmE3MTAwODUzNzM0NjljMDdhOWIyNGUzZjRjYWI2MTkzZWFlODI0Nzc0Yjg2MTI1NTU5ZSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiYmIxZDdjZDlkMzJhZTcwNjliMGRmZWVmYjY4ZDA4ZGZjYWE4ODg2ODYzMTVhNTM4Mzk4ZTk1YzU1NGE0MTYxOCJ9"
+          "resource": "repo://package.json",
+          "version": "repo-file-v1:sha256:8e700cd24fce5c8ef64c77f589599797af8b5cdd216e971540cc72ac1642d8d1"
         }
       ]
     },
@@ -67,10 +59,56 @@
           "version": "repo-file-v1:sha256:a26d89e630947c3fe26147350ca0461573fedd96cbc9fbe0eec3556cc59839a9"
         }
       ]
+    },
+    {
+      "id": "claim_3b40877f87a94300a642154b0a68cbc2",
+      "statement": "The repository exposes local github.io release calculation and a comprehensive focused release-test command, while actual publication and deployment remain inside the serialized GitHub workflow and explicit handoff boundary.",
+      "evidence": [
+        {
+          "resource": "repo://.github/workflows/release-github-io.yml#L1-L34",
+          "version": "repo-lines-v1:sha256:52e79b3f8aee16c61710918e622751c843306c697687fb6cba0b44f8ea6d431c:eyJzZWxlY3RlZExpbmVDb3VudCI6MzQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQ3YTI0NjliYmJmZGEzMDZmMDk2NjI1YWY5ODdhMTdlNTEwZGJmY2U3ZTBlYjU5OGFjNjQ5NGFhZGJkODlkYjUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQwYzk3OWNhYWZhNDY0ODI5ZDY1NGJiYzM4Y2JhYTg4ZjE3NTJjZDJlMWRjMjAxM2VmYmVhNjY4NDljNWRhMzgiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImZmNjIyNjYyYmNjYjA4ZDU4NTY2YTg1NGM5N2NhZjUyYjQzNDUzMDRhNWRmZTRiNzIzMWFjOGJhNmZjNzAwYmIifQ"
+        },
+        {
+          "resource": "repo://AGENTS.md",
+          "version": "repo-file-v1:sha256:89539513ba23570216443c1ee9165b48491b9fe22a43a3affd2769a53aabd298"
+        },
+        {
+          "resource": "repo://package.json#L20-L21",
+          "version": "repo-lines-v1:sha256:44a354f86a60ff5d6e0ecaf19e2092848658d2cf8f000f15799a2f2ff8ce76b0:eyJzZWxlY3RlZExpbmVDb3VudCI6MiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZDBkMDdmMDdmYWExOTczYWZjZWE5NDczYzk1NGNmZWVjMzdiMWM4Mzg5NGU0MTBiNTNmZDZlZTMyMWE2OWY5MSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiOTk5ZjFiNjFlMjI1MWQ5ZDFkYmJkMDViOTM5OWMwODRjYjVhNGIyNDg2M2EwNjFlMTdjNjliMWVjNjVmOTJkMiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNzdjOTM0YThiMWY5MzNjMjBmZDg2YzE1YjkxMjZhZWQyZTc3YWVjMDIyZTc5M2EyM2RmZGM3YWY3NWE1ODkyMCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNGFhNmI4YmFmNGZiYWM1ZDAxYTYyYzYxOTZmMmFjNGIxZDgzYmQ3ZjIxMzI4ZTJmZTJjNzAyMzQ5OTE3NGIwNyJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_640a938d731840b5a54ca4d417b9ec1d",
+      "statement": "The Pages artifact release runbook guides reviewed bootstrap inputs, target setup, live verification, and recovery without granting publication authority.",
+      "evidence": [
+        {
+          "resource": "repo://docs/runbooks/github-pages-artifact-release.md",
+          "version": "repo-file-v1:sha256:a7f9612de0c8e906a0dc95729e22057c39ae0970d787210ba9e576a7d73f2d89"
+        }
+      ]
+    },
+    {
+      "id": "claim_8e909af2d47547b3b288f87b6b554c93",
+      "statement": "The repository exposes focused scope and history test commands; documentation and mixed-root scopes require human judgment, and fixture tests do not approve a real history rewrite.",
+      "evidence": [
+        {
+          "resource": "repo://docs/agents/commit-scopes.md",
+          "version": "repo-file-v1:sha256:500384e3f9677690dfa36a566137c3ac1c9bd86b50733b54f7a25161996046c9"
+        },
+        {
+          "resource": "repo://docs/runbooks/historical-commit-scope-repair.md#L1-L19",
+          "version": "repo-lines-v1:sha256:56b5e3ba549f890711f14659d99973bb4d04d2ce279f6513b46bde834c498630:eyJzZWxlY3RlZExpbmVDb3VudCI6MTksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImEwYjA1NDg3OGZmMDZhM2FjNTJlNTYyMDM0ZjhmNDcwOTY0ZDRiZTE4NDE1NzlhNGQ5ZTdjYzY5N2JjNzM2ZjgiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjJmNjgyYjhiZmE2NTBiZGUzZDRmOTA5OTNlODNmNjM4ZWE1YWUwNTkxYTY5MmMxYjNmMTk2OWI5OTJkODRlNzEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImJjMTM3MDQ2YTM0NmUxZWY1NTgzNzQ3ZDkzNjUwZTVmYzM1ZWZhM2IzMWUwOWNhOWI5MjJiNTY5OWRmODdjMGMifQ"
+        },
+        {
+          "resource": "repo://package.json#L11-L13",
+          "version": "repo-lines-v1:sha256:4fbc704cd7bd110e114c3e6bfc1ebc34545cf534e20708249997b9b30ff2c89a:eyJzZWxlY3RlZExpbmVDb3VudCI6MywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMDYyZTI1NzBmNTQ5ZDM4MjcyMzY3MjZjM2E4Y2EwZDVjMWYwNmYwZjAyM2Y5ZDE5ZmUzMmEzODU5ZmEzNTlkZSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiYjVmYmQ0MTZhYjkwNjBlMTQ4MzBhZDIwZGZjZDI3NGI2MmRmYWZhZWZhNWZmNmMwNjU1NWU5ZmJjOWU1MGM1OSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZmRkZDg5MzlmYjY0NTQ1MzZlNDZkMTk3MzkwNTFjNWYwOWEyYzcyZjU2NWI4YzgzNjc4N2JkYTRkYjQ1NmJlNyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMTJmNGUwMWIwNWZmZDA2YzNlNzcxZWQ3OGEyMTUyMDZkODI5Mzc4NWQyZGMwMWNlYWU2MjQ0NjY1ZmM0NGQ3YSJ9"
+        }
+      ]
     }
   ],
   "verification": {
     "by": "openwiki/0.5.0",
-    "at": "2026-09-09T10:46:58.649Z"
+    "at": "2026-09-10T11:25:10.647Z"
   }
 }

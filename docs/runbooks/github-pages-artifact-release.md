@@ -53,9 +53,21 @@ apply the intended Environment protection before the first release.
 
 After the migration is integrated into `main`, select its full 40-character
 first-parent SHA. Preview that exact source with
-`pnpm release:github.io bootstrap --start 8acdd81 --target <reviewed-main-sha>`
-and obtain handoff approval for the resulting SHA/version pair. A new target
-requires a fresh preview and approval.
+`pnpm release:github.io bootstrap --target <reviewed-main-sha>` and obtain
+handoff approval for the resulting SHA/version pair. The coordinator discovers
+the first transition on the target's first-parent history from an absent project
+to a valid `apps/github.io/project.json` whose Nx project name is `github.io`.
+It reads historical Git blobs without executing project files and supports both
+root and merge introductions.
+
+Removal/reintroduction or a conflicting historical project identity fails
+closed. Resolve that ambiguity only with a separately reviewed full first-parent
+SHA:
+
+`pnpm release:github.io bootstrap --start <reviewed-introduction-sha> --target <reviewed-main-sha>`
+
+The explicit start must belong to the target's first-parent history. A new
+target or override requires a fresh preview and approval.
 
 After that approval, dispatch **Release github.io** on `main` with
 `bootstrap: true`, `source_sha: <reviewed-main-sha>`, and

@@ -1,5 +1,6 @@
 .git/
 .worktrees/
+.history-repair/
 **/node_modules/
 **/dist/
 **/coverage/

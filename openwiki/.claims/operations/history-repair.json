@@ -1,0 +1,118 @@
+{
+  "schemaVersion": 1,
+  "pageVersion": "sha256:8cec0742de81fa13f0e5d6b3d770ed289970d838ea40daa10078e9434747dc00",
+  "claims": [
+    {
+      "id": "claim_20703f5ad38d4b9681443c8d321ce0f0",
+      "statement": "The inventory traverses unique commits reachable from refs and linked-worktree heads, retaining original message bytes, ordered parents and per-parent paths, and rejects lossy UTF-8 paths.",
+      "evidence": [
+        {
+          "resource": "repo://scripts/commit-history/inventory.mjs#L169-L264",
+          "version": "repo-lines-v1:sha256:78abcc894da709e96cf5b4365bd5dc9f238a5f5f5f825aac814062b28fb97f38:eyJzZWxlY3RlZExpbmVDb3VudCI6OTYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImQzZTNmMTFiOGFlYjY0ZDk0Mzc0ZGY1MmM2Mjg1OGJhMTJlZDBkZjBhN2VhYjhjMTJiNDgxZjRlMmIwMjNjODciLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImFkOWUxMjU0NjQyNTU3NmQzZGVhZThjOWI5ZGJmMTI4ZDVkNmRkYWY1ZDdmZTg1NzkzNDkyN2RlZmZhM2I5ZGQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImZjYzlkODY5YTNiMDg4YTgzOWE4NmQ2MzkxNWJkZWYyNmQ3MDMwNDBhNzQyOGFiOTM3NTRlYTg2ZDNkNzk0MzAiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImM4ODY0ZDFjOThiMmYyYWYwMWM1NWYyMWNlMjNhNWI5MmM4OGRhMjkyNjE4M2I4YTFhYmY5ODFiODcwY2Q3MjIifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_7b447c56752241edad77ab96b9ad2492",
+      "statement": "Resolved ledgers require exact commit coverage and scope-only changes preserve type, description, breaking marker and body bytes; wider message changes require separate evidence.",
+      "evidence": [
+        {
+          "resource": "repo://scripts/commit-history/ledger.mjs#L265-L401",
+          "version": "repo-lines-v1:sha256:4665742887fdc5ee450575e29ee900d7d381e0de796c73c248d1ed9816b57559:eyJzZWxlY3RlZExpbmVDb3VudCI6MTM3LCJmaXJzdFNlbGVjdGVkTGluZUhhc2giOiI4NzgyYWRkZjIyMWYzZDJiYjIzOTYxNzUxMjU3Y2JkNTAxNjA5ZGFkN2YwZDg5MjhkZjM0ZjY1NTdmNDJmZmFhIiwibGFzdFNlbGVjdGVkTGluZUhhc2giOiI0MzI0MzgzN2E0ZDY4ODBkZGE0NDAyOTFhNzNmYjZjNjA1MmEyMTQ5Njc2Mzc3MGFmNmE0ZTBlMmMwMGIxZjRjIiwicHJlY2VkaW5nQ29udGV4dExpbmVDb3VudCI6MywicHJlY2VkaW5nQ29udGV4dEhhc2giOiIzNWYxZmUzOThlNjBmZDhhZjYzMjQzYzQ0MTAxMWIxYzNmZTdmYmYxYjdhZTA4NTJkZTdiMjcxNTVkMTEwNTZkIiwiZm9sbG93aW5nQ29udGV4dExpbmVDb3VudCI6MSwiZm9sbG93aW5nQ29udGV4dEhhc2giOiI0MTJjYTM0NWNjZjc1YmY5YzA4MDZiY2U2OTViZThkZTgwOGI3OTk4NDI1MWE3YTU0ZDIwMmNmNjEwMWRkNDUxIn0"
+        }
+      ]
+    },
+    {
+      "id": "claim_6deaae9f94b1405d9de25e40fc7f427d",
+      "statement": "Preparation creates and restore-verifies a complete ref bundle, records frozen source/worktree state and binds executable, argv, inputs and backup digests into the approval package; detached-only history is rejected and worktree files are not backed up.",
+      "evidence": [
+        {
+          "resource": "repo://scripts/commit-history/rehearsal.mjs#L482-L577",
+          "version": "repo-lines-v1:sha256:79a874e3967e2a141f4a762b74193dae591b7c7e19c66392a6a86a5d83bdcdd2:eyJzZWxlY3RlZExpbmVDb3VudCI6OTYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjFhYmI5Yjc4ZGY1NzY4OTY4ZDk2NWEwMjNjYmIxZGFiOTYyMGZiMjE4YTc1Y2Y4YTgxOTk0MjFiZWZhMDgyMGEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjYxYTcwYTU5ZTMwNDNkZGFjZmRlNmJhZjc3ZWVlOTBjMDVjNDc0MzlhYjIwZmQ5NTYzN2M0OGFiNzBmNWI4ZWUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImI5M2I5YmMzYTIwZDU5NjNhYzgzNGY4YjVmZDAzMDI2MTMzYjhiZmU0ODg3YzgyM2U4YmZmZDhkZmFkMDRlYWQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjkzZWViZDAyZTlkMDdmNzA2N2RmMzdiYjE0MWRmOTU2NWJiOTNmM2Q5OWJmNzliMmJhYTU0MWE4MjNjNWE2YzQifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_5c92c9a2b3b641dca630352dafe4fc8f",
+      "statement": "Rehearsal validates the exact approved invocation and inputs, independently verifies the replacement graph, updates mapped refs only in its destination and rechecks source state.",
+      "evidence": [
+        {
+          "resource": "repo://scripts/commit-history/rehearsal.mjs#L858-L918",
+          "version": "repo-lines-v1:sha256:4e2128f4d02cd3682aa46c8c9214a651d5f346c44601ec660923fc729b06bd8f:eyJzZWxlY3RlZExpbmVDb3VudCI6NjEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjVkYzBiMWY1ZTFlMjczMmU3Njk2YTY4NTQ0MGFmOGUwMjRlZWZkN2FiNjY5ZDc5MGUwM2ViZWZhYTZhZTBkZTkiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjdlNmMxMTdiMGQyYTdkOTEzOTRmMzQ4NDA2Y2I3MmJjNmUyMmY5OTY0ZDlhZWRjNjUyNzcyNjJjN2M4ZWFhM2MifQ"
+        },
+        {
+          "resource": "repo://scripts/commit-history/verify.mjs#L180-L269",
+          "version": "repo-lines-v1:sha256:c34b7ecb4e32169d768b77e3220db582ad4fd72b6b2a16211ad77e321c8b1398:eyJzZWxlY3RlZExpbmVDb3VudCI6OTAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjljNmNkN2U0MjBhNjRkODk4OWE0ZWIwZTBlYTc1NWIyMjY0OGYzOTRiN2E5NDk2YjFiNDc3YTVjMGIxNDA5YTIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6Ijk2ZDk4NzU2NjY2NDAwMzE3OWEzZmUxNDdjODg0MWIwMjM3YzYzYTFiN2RmMWQ1NmIwNmY0ZGNlZGNhNzdlYjEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_085323ca318142509006bef37c6d8df9",
+      "statement": "The default rehearsal rejects changed signed commit identities, mergetag parent remapping and annotated tags rather than stripping or re-signing them.",
+      "evidence": [
+        {
+          "resource": "repo://docs/runbooks/historical-commit-scope-repair.md#L34-L55",
+          "version": "repo-lines-v1:sha256:3dc3bdf36a7d5e64df93ef8d8c99a70a41ec9267ea8ffe7830c44587fc99bd89:eyJzZWxlY3RlZExpbmVDb3VudCI6MjIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImZhODczYzhhMjA2NmU4MzA4OGIwZmQyN2Y2NTU5NGYxYjgxOGFiZDg3MTI2NmQzYjk4NDU4MzRhZjQwZDRmODMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjNkZmNmNmYwNzk1NGQ2ZTUyZjExNWQ4ODgwZjMxMGNjNWQ3NGRjZGNiZDU2MzgxM2Y2YmQwYjEzZTVlMThmZjMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjhkNjk1ZjFhYzkzYjYyZjY0OGJhYTZmYzZkZmZlNDlkM2E5OTMxMTg2NTljYmQ5NGEyMDgwMjhlNzI4N2ExMjEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImZjZTBkMjE1NzU3Zjg1NzkzNjQxMzE5NjczMDA5MDdlNjVkOWRmZmNlNGM5OTYwZWE0YjE5NTIxOWVkMzc5YjEifQ"
+        },
+        {
+          "resource": "repo://docs/runbooks/historical-commit-scope-repair.md#L73-L73",
+          "version": "repo-lines-v1:sha256:f88ff0141054b9379137dbd0f0a54ae98005aa36025ccbeced7971f27ed07888:eyJzZWxlY3RlZExpbmVDb3VudCI6MSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZjg4ZmYwMTQxMDU0YjkzNzkxMzdkYmQwZjBhNTRhZTk4MDA1YWEzNjAyNWNjYmVjZWQ3OTcxZjI3ZWQwNzg4OCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiZjg4ZmYwMTQxMDU0YjkzNzkxMzdkYmQwZjBhNTRhZTk4MDA1YWEzNjAyNWNjYmVjZWQ3OTcxZjI3ZWQwNzg4OCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNzlkYzg0YjY2NmMwNjEyMWY0MGNmNTVhNmM1MThmYjY3YzRhYmNhZWY0Y2U5YTIxYjAxNTZlN2RlMGY5ZmI5ZCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiOGQzY2NiOTdmMDVjYmYxZDA2MTc2MGNkMDAyMDFkYzI4YmIzZWJiOTQxYjA1MWIwNmNjNTBmMDMxYTYwNWNkNCJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_f9e52d2a961f4314a3006cebca937429",
+      "statement": "Operational guidance requires actual direct approval, retaining failed run evidence and separately gated publication; history-repair artifacts are excluded from OpenWiki.",
+      "evidence": [
+        {
+          "resource": "repo://.openwikiignore#L1-L4",
+          "version": "repo-lines-v1:sha256:7fab1dca62438148687cc7f542ce3f81d4968810264f2bb054fe95e11b9a508e:eyJzZWxlY3RlZExpbmVDb3VudCI6NCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZDA4NDYyZjA0MjhiNDZiMjIwZDg1ODZjNGFhZTQ1YzEzMjUwNjlhY2VkOTY4Nzc2YjcwZGQ0YzI1OWEwMmM1ZiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiOGRjMDY5YWY2ODJiOGEwOGM1YjQ0ZjUyMDZiOGZiNjk4NzRiNmExZGU1NjM5ZTUzOTgzNGQzMWQ1N2NkZmUxNSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjAsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiYjgyZDk0ZmJlNTkyODIxYzY3N2NhYTgxZDNhYzRjMDNjNjU5ZTg4ZDI3M2IyOTc3MGJjY2Y0NDY3NGYzZDlkNiJ9"
+        },
+        {
+          "resource": "repo://docs/runbooks/historical-commit-scope-repair.md",
+          "version": "repo-file-v1:sha256:39a782e2cacad4a421b616e09922bf61b48f0633b766c75e246d2c937c9221a5"
+        }
+      ]
+    },
+    {
+      "id": "claim_82090ab520d445ebaa5d27da24f63c9b",
+      "statement": "Opt-in signature removal requires exact original-OID/header/raw-record-SHA256 tuples, validated before backup and bound into the immutable approval package; unknown, duplicate, mismatched and unused entries fail closed.",
+      "evidence": [
+        {
+          "resource": "repo://docs/runbooks/historical-commit-scope-repair.md#L34-L55",
+          "version": "repo-lines-v1:sha256:3dc3bdf36a7d5e64df93ef8d8c99a70a41ec9267ea8ffe7830c44587fc99bd89:eyJzZWxlY3RlZExpbmVDb3VudCI6MjIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImZhODczYzhhMjA2NmU4MzA4OGIwZmQyN2Y2NTU5NGYxYjgxOGFiZDg3MTI2NmQzYjk4NDU4MzRhZjQwZDRmODMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjNkZmNmNmYwNzk1NGQ2ZTUyZjExNWQ4ODgwZjMxMGNjNWQ3NGRjZGNiZDU2MzgxM2Y2YmQwYjEzZTVlMThmZjMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjhkNjk1ZjFhYzkzYjYyZjY0OGJhYTZmYzZkZmZlNDlkM2E5OTMxMTg2NTljYmQ5NGEyMDgwMjhlNzI4N2ExMjEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImZjZTBkMjE1NzU3Zjg1NzkzNjQxMzE5NjczMDA5MDdlNjVkOWRmZmNlNGM5OTYwZWE0YjE5NTIxOWVkMzc5YjEifQ"
+        },
+        {
+          "resource": "repo://scripts/commit-history/rehearsal.mjs#L409-L577",
+          "version": "repo-lines-v1:sha256:6335f456d7093121139261675e31f69c7a26103d8f54a5d67dd540dd6f0e2830:eyJzZWxlY3RlZExpbmVDb3VudCI6MTY5LCJmaXJzdFNlbGVjdGVkTGluZUhhc2giOiI1YjIxYWUyYmYyOTlmOGY4OTFmMTUzOTVhZWM1MjZmOWM1MjMyMzk1Y2YwZmQ2ODhiYTAyM2U3ZDgwMzQ3N2NmIiwibGFzdFNlbGVjdGVkTGluZUhhc2giOiI2MWE3MGE1OWUzMDQzZGRhY2ZkZTZiYWY3N2VlZTkwYzA1YzQ3NDM5YWIyMGZkOTU2MzdjNDhhYjcwZjViOGVlIiwicHJlY2VkaW5nQ29udGV4dExpbmVDb3VudCI6MywicHJlY2VkaW5nQ29udGV4dEhhc2giOiIyNWI0NTkxYzA5MDc3YTUzMTUzZTUyYWFmOWFkNzNjZDc1NzBiMjcwNjFmMjBjZWUwNGUwOGI2NDYwYWQ3YTA3IiwiZm9sbG93aW5nQ29udGV4dExpbmVDb3VudCI6MywiZm9sbG93aW5nQ29udGV4dEhhc2giOiI5M2VlYmQwMmU5ZDA3ZjcwNjdkZjM3YmIxNDFkZjk1NjViYjkzZjNkOTliZjc5YjJiYWE1NDFhODIzYzVhNmM0In0"
+        }
+      ]
+    },
+    {
+      "id": "claim_b9ba6300c15c42898a802c357755d82a",
+      "statement": "Independent verification permits signature removal only for ledger-authorized message or mapped-parent changes, reports exact removed tuples and rejects signature-only tampering on unchanged commits; rehearsal refuses existing report output.",
+      "evidence": [
+        {
+          "resource": "repo://scripts/commit-history/rehearsal.mjs#L885-L887",
+          "version": "repo-lines-v1:sha256:571cf0256fccbe9bb5b5b5860d52ab8bc8950ae19136a80b56eda0cc202bc73b:eyJzZWxlY3RlZExpbmVDb3VudCI6MywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMDk5ZDJmYjdhODEyYjZmZmFmY2FmNWIzZWVjZTBlOTY3NjA3OTAwNDlmNzc1MWJjMDM0MmZkN2YxZDA2MzQ3YiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiZjk4NjFjYmQ0MGI0M2FjMGE3NTAzNTg3N2VmYjgyM2Y0OTQ0N2U4NjMxYzZkODI0ODcwMzIyZmYwNjRhOWQ5MCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMjEwZWE0NzRlMjExOGY1NzRhOTkxNzliOWMwMGUxNDkyMTg4MjlmZTQ5ZGU4MjMxM2YyODVlYjVhZjY1MjMxNiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZjlkMjQ5MjBjZDU0ZmIwZjg3NGJkZTg5ODg1NmQ0ODMyY2ZjMDFlYTM5Y2FkZTU2MmMxZjA1MjE3NDU1YTI4NyJ9"
+        },
+        {
+          "resource": "repo://scripts/commit-history/rehearsal.mjs#L921-L955",
+          "version": "repo-lines-v1:sha256:a075db75dd33c5f3bcb6d4873ecd8d2a09c734ec1b4f427a520ecffe91b50d00:eyJzZWxlY3RlZExpbmVDb3VudCI6MzUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImI5ZDAwN2U5MjNiOWY1YjI1M2FhZmNjMDg2ZDE3MTEzZDYzNzUzYWNmODhhZjcxZmQ2YTA3ZGFkN2QwM2ZhMGYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjFiNzYyMTQ3NzQ5Y2U2ZDMxNzg0ZDIwMGQwZGE5MGYzMzVjZDUyYmFjMGM1MDBmZGVlYWYxZmU5MWQxMmIyODciLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        },
+        {
+          "resource": "repo://scripts/commit-history/verify.mjs#L224-L269",
+          "version": "repo-lines-v1:sha256:b59124f9321d5ed7d6e1f956f935c06a280d3c436f167f03eea7fdc0134054f0:eyJzZWxlY3RlZExpbmVDb3VudCI6NDYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjM5Yzk4ODU1NzRlY2MyYjMzYzM1MmNhMmRkNjhmNTUwZTBmZjYwYzEyYzI2MjY3MjVkNDU4ZjVhZmM1YzI3MWYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImViNzlkYWU5NjQzMDBlNmEyMmJhOWI1Mzg4OTAyM2UxMWJjY2JkNWIwNDk4YTVmZThjM2ExZjVlNmQ4NGM1YmUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        },
+        {
+          "resource": "repo://scripts/commit-history/verify.test.mjs#L331-L367",
+          "version": "repo-lines-v1:sha256:1a6641899c45ca67cb87cd673994073fa2e034bd71f1450ac9c3469a516b951b:eyJzZWxlY3RlZExpbmVDb3VudCI6MzcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImU4YjA2NGEzMGZlNDY4YmQ4YmQ0NDI1MDhiZjMzMmEyYWRkMTBiMjdjNmM0MWYxY2E5ZmQ5OWQ4N2YxOGNhOTciLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijk3YjZhODBiMTgwOTRlMjhjMDFkY2Q3ZDQwZDA3YWM4OTg4M2UwNmE1MzkyNzkxOWM0YmQ2MmZjMzhhMzM5MzQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjU2YTU2NGE3Y2FiNWNkYjhhOTVhNTYzZDE5MTM2ZTVlYTJkMmI3NDQxMmNjN2JiNzlmZGQ2MzQ1MmRkODkxNzciLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjBjZmVlZTNkNjY2MjNkMTNlODY5YzUzY2UwMDllNzkzZTA2ODEyMGVkZDkzZGRhNjQ2ZWUzZTllNDhjYzJmNjYifQ"
+        }
+      ]
+    }
+  ],
+  "verification": {
+    "by": "openwiki/0.5.0",
+    "at": "2026-09-10T11:47:00.605Z"
+  }
+}

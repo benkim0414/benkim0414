@@ -53,8 +53,14 @@ function fixture(t, { bootstrap = false } = {}) {
     return git('rev-parse', 'HEAD');
   };
   commit('chore: root');
+  mkdirSync(join(cwd, 'apps/github.io'), { recursive: true });
+  writeFileSync(
+    join(cwd, 'apps/github.io/project.json'),
+    '{"name":"github.io"}\n',
+  );
+  git('add', 'apps/github.io/project.json');
   const baseline = commit('feat(github.io): introduce app');
-  git('tag', bootstrap ? '8acdd81' : 'github.io@1.0.0');
+  if (!bootstrap) git('tag', 'github.io@1.0.0');
   const sourceSha = commit('fix(github.io): accepted fix');
   const target = commit('feat(other): ignored feature');
   git('update-ref', 'refs/remotes/origin/main', target);

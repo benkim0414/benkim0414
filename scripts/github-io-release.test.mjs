@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import { createHash } from 'node:crypto';
 import { spawnSync } from 'node:child_process';
-import { mkdtempSync, rmSync, writeFileSync } from 'node:fs';
+import { mkdirSync, mkdtempSync, rmSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import test from 'node:test';
@@ -14,8 +14,12 @@ import {
   verifyReleaseRecord,
 } from './github-io-release.mjs';
 import * as release from './github-io-release.mjs';
-const { isCompletedSandboxProcess, verifyMainTarget, verifyBootstrapApproval } =
-  release;
+const {
+  findGithubIoIntroduction,
+  isCompletedSandboxProcess,
+  verifyMainTarget,
+  verifyBootstrapApproval,
+} = release;
 
 test('release notes contain only the accepted ordered commit set, including on recovery', (t) => {
   const cwd = repository(t);
@@ -59,6 +63,20 @@ function commit(cwd, subject, body = '') {
   const args = ['commit', '-m', subject];
   if (body) args.push('-m', body);
   git(cwd, ...args);
+  return git(cwd, 'rev-parse', 'HEAD');
+}
+
+function writeProject(cwd, name = 'github.io') {
+  mkdirSync(join(cwd, 'apps/github.io'), { recursive: true });
+  writeFileSync(
+    join(cwd, 'apps/github.io/project.json'),
+    `${JSON.stringify({ name })}\n`,
+  );
+}
+
+function commitProject(cwd, subject) {
+  git(cwd, 'add', 'apps/github.io/project.json');
+  git(cwd, 'commit', '-m', subject);
   return git(cwd, 'rev-parse', 'HEAD');
 }
 
@@ -334,6 +352,152 @@ test('bootstrap includes the introduction commit and replays from 0.0.0', (t) =>
       { sha: target, subject: 'fix(github.io): stabilize app', bump: 'patch' },
     ],
   });
+});
+
+test('bootstrap discovers a direct introduction in fresh unrelated history', (t) => {
+  const cwd = repository(t);
+  commit(cwd, 'chore: seed');
+  writeProject(cwd);
+  const introduction = commitProject(cwd, 'feat(github.io): scaffold app');
+  const target = commit(cwd, 'fix(github.io): correct label');
+
+  assert.equal(findGithubIoIntroduction({ target: 'HEAD', cwd }), introduction);
+  assert.equal(bootstrapRelease({ target: 'HEAD', cwd }).newVersion, '0.1.1');
+
+  const cli = spawnSync(
+    process.execPath,
+    [
+      new URL('./github-io-release.mjs', import.meta.url).pathname,
+      'bootstrap',
+      '--target',
+      target,
+    ],
+    { cwd, encoding: 'utf8' },
+  );
+  assert.equal(cli.status, 0, cli.stderr);
+  assert.equal(JSON.parse(cli.stdout).newVersion, '0.1.1');
+});
+
+test('bootstrap discovers a project introduced by a true merge', (t) => {
+  const cwd = repository(t);
+  commit(cwd, 'chore: seed');
+  git(cwd, 'switch', '-c', 'app');
+  writeProject(cwd);
+  const appCommit = commitProject(cwd, 'feat(github.io): scaffold app');
+  git(cwd, 'switch', 'main');
+  commit(cwd, 'chore: prepare integration');
+  git(cwd, 'merge', '--no-ff', 'app', '-m', 'chore: integrate app');
+  const introduction = git(cwd, 'rev-parse', 'HEAD');
+  const target = commit(cwd, 'fix(github.io): correct merged app');
+
+  assert.equal(findGithubIoIntroduction({ target, cwd }), introduction);
+  assert.deepEqual(bootstrapRelease({ target, cwd }).commits, [
+    {
+      sha: appCommit,
+      subject: 'feat(github.io): scaffold app',
+      bump: 'minor',
+    },
+    {
+      sha: target,
+      subject: 'fix(github.io): correct merged app',
+      bump: 'patch',
+    },
+  ]);
+});
+
+test('bootstrap supports a project introduced at the history root', (t) => {
+  const cwd = repository(t);
+  writeProject(cwd);
+  const introduction = commitProject(
+    cwd,
+    'feat(github.io): create root application',
+  );
+  const target = commit(cwd, 'fix(github.io): stabilize root application');
+
+  assert.equal(findGithubIoIntroduction({ target, cwd }), introduction);
+  assert.deepEqual(bootstrapRelease({ target, cwd }).commits, [
+    {
+      sha: introduction,
+      subject: 'feat(github.io): create root application',
+      bump: 'minor',
+    },
+    {
+      sha: target,
+      subject: 'fix(github.io): stabilize root application',
+      bump: 'patch',
+    },
+  ]);
+});
+
+test('bootstrap discovery rejects absent and ambiguous project histories', (t) => {
+  const absent = repository(t);
+  const absentTarget = commit(absent, 'chore: seed');
+  assert.throws(
+    () => findGithubIoIntroduction({ target: absentTarget, cwd: absent }),
+    /github\.io.*not found|no.*github\.io/i,
+  );
+
+  const cwd = repository(t);
+  commit(cwd, 'chore: seed');
+  writeProject(cwd);
+  commitProject(cwd, 'feat(github.io): first introduction');
+  rmSync(join(cwd, 'apps/github.io/project.json'));
+  const removal = commitProject(cwd, 'chore(github.io): remove project');
+  writeProject(cwd);
+  const reintroduction = commitProject(
+    cwd,
+    'feat(github.io): reintroduce project',
+  );
+
+  assert.throws(
+    () => findGithubIoIntroduction({ target: reintroduction, cwd }),
+    /ambiguous|removed|reintroduced|explicit.*start/i,
+  );
+  assert.equal(
+    bootstrapRelease({ target: reintroduction, start: reintroduction, cwd })
+      .commits[0].sha,
+    reintroduction,
+  );
+  assert.notEqual(removal, reintroduction);
+});
+
+test('bootstrap discovery rejects a conflicting historical project identity', (t) => {
+  const cwd = repository(t);
+  commit(cwd, 'chore: seed');
+  writeProject(cwd, 'different-project');
+  commitProject(cwd, 'feat(other): occupy github.io path');
+  writeProject(cwd);
+  const introduction = commitProject(cwd, 'feat(github.io): replace identity');
+
+  assert.throws(
+    () => findGithubIoIntroduction({ target: introduction, cwd }),
+    /conflict|identity|explicit.*start/i,
+  );
+  assert.equal(
+    bootstrapRelease({ target: introduction, start: introduction, cwd })
+      .commits[0].sha,
+    introduction,
+  );
+});
+
+test('bootstrap explicit start must be on target first-parent history', (t) => {
+  const cwd = repository(t);
+  commit(cwd, 'chore: seed');
+  git(cwd, 'switch', '-c', 'app');
+  writeProject(cwd);
+  const secondParentStart = commitProject(
+    cwd,
+    'feat(github.io): branch introduction',
+  );
+  git(cwd, 'switch', 'main');
+  commit(cwd, 'chore: prepare integration');
+  git(cwd, 'merge', '--no-ff', 'app', '-m', 'chore: integrate app');
+  const target = git(cwd, 'rev-parse', 'HEAD');
+
+  assert.throws(
+    () => bootstrapRelease({ target, start: secondParentStart, cwd }),
+    /first-parent/,
+  );
 });
 
 test('calculate returns a no-op for histories without qualifying commits', (t) => {

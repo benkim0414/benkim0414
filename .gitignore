@@ -47,6 +47,9 @@ Thumbs.db
 # workflow scratch files
 .superpowers/
 
+# retained recovery material for commit-history rehearsals
+.history-repair/
+
 .claude/worktrees
 .nx/polygraph
 .nx/self-healing
