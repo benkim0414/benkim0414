@@ -615,7 +615,7 @@ export function resolveRepoPath(repoRoot, relativePath) {
 export function generateExpectedAgentDocs({ repoRoot, outputRelativePath }) {
   const cliPath = join(
     repoRoot,
-    'node_modules/@astryxdesign/cli/bin/astryx.mjs',
+    'node_modules/@astryxdesign/cli/clients/cli/bin/astryx.mjs',
   );
   if (!existsSync(cliPath)) {
     throw new Error(

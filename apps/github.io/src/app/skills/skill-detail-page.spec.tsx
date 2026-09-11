@@ -339,10 +339,11 @@ describe('SkillDetailPage', () => {
       <SkillDetailPage detail={detail} />,
     );
     const heading = getByRole('heading', { level: 2, name: 'Experience' });
-    const badge = getByText('4');
+    const badgeLabel = getByText('4');
+    const badge = badgeLabel.closest('.astryx-badge');
 
-    expect(badge.className).toContain('astryx-badge');
-    expect(heading.contains(badge)).toBe(false);
+    expect(badge).toBeTruthy();
+    expect(heading.contains(badgeLabel)).toBe(false);
   });
 
   it('shows a zero count when supporting evidence is the only experience content', () => {
@@ -351,10 +352,11 @@ describe('SkillDetailPage', () => {
       <SkillDetailPage detail={{ ...detail, experiences: [] }} />,
     );
     const heading = getByRole('heading', { level: 2, name: 'Experience' });
-    const badge = getByText('0');
+    const badgeLabel = getByText('0');
+    const badge = badgeLabel.closest('.astryx-badge');
 
-    expect(badge.className).toContain('astryx-badge');
-    expect(heading.contains(badge)).toBe(false);
+    expect(badge).toBeTruthy();
+    expect(heading.contains(badgeLabel)).toBe(false);
   });
 
   it('focuses the heading on initial detail mount and skill changes only', () => {

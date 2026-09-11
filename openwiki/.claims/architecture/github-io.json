@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:e58444d2cf6e2364df180c2778ae86de380dd0c5431fbeceaf1fb4af5af00303",
+  "pageVersion": "sha256:6a8832019392256d268e5ceb5db134ab5e649cd462c7140be84965773cfa94f1",
   "claims": [
     {
       "id": "claim_da9ac46eb2204e9b9a555848aea5550d",
@@ -51,76 +51,50 @@
       "statement": "The SkillDetailPage renders the Experience section when primary experiences or supporting evidence exist, but passes only the primary experience length to a sibling count badge so the level-two heading remains named `Experience`.",
       "evidence": [
         {
-          "resource": "repo://apps/github.io/src/app/skills/skill-detail-page.spec.tsx#L336-L358",
-          "version": "repo-lines-v1:sha256:8e63c370cf463909edf2403dc2c86854e19d75007885428afca128467633d029:eyJzZWxlY3RlZExpbmVDb3VudCI6MjMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImJlMWEyNDgwODdiNjkwOWJjNjFjMDc3MTgyNzRkZThlYmU0Y2RjODBjMjM1MzE4N2RiNDBiYzFkMjgzMzAzZDQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjNhM2U0NmY5NDI3NmI2ZjZmNGVkMWYwMmFmNzhiZWY2YTJlZTFjNDM5ZGQ1NTg0Yjk3Mzk0ODMxMzIxNGQyYjciLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImM1YmQ5ZDdkYTJkOGI1ODllZDlhZGQyNmMyNTNmNzFjNzUyNzgxZTA2YzA5N2M1NGQ1NjgwZTkyYmU5MWE2ZWEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjZhMDg0NGM1YzA3OWYyZmFjZjhmZDNlMTU3NmJjYzc5YzIwODRmYjhiN2Y1Yjg5Yzk2YTA5OWVmYWE2ZTdjYjgifQ"
+          "resource": "repo://apps/github.io/src/app/skills/skill-detail-page.spec.tsx#L336-L360",
+          "version": "repo-lines-v1:sha256:c0cfbf0f100037186c52db40ccc402892ee8fdc89a4056b7ca9a54c244650ea7:eyJzZWxlY3RlZExpbmVDb3VudCI6MjUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImJlMWEyNDgwODdiNjkwOWJjNjFjMDc3MTgyNzRkZThlYmU0Y2RjODBjMjM1MzE4N2RiNDBiYzFkMjgzMzAzZDQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjNhM2U0NmY5NDI3NmI2ZjZmNGVkMWYwMmFmNzhiZWY2YTJlZTFjNDM5ZGQ1NTg0Yjk3Mzk0ODMxMzIxNGQyYjciLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImM1YmQ5ZDdkYTJkOGI1ODllZDlhZGQyNmMyNTNmNzFjNzUyNzgxZTA2YzA5N2M1NGQ1NjgwZTkyYmU5MWE2ZWEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjZhMDg0NGM1YzA3OWYyZmFjZjhmZDNlMTU3NmJjYzc5YzIwODRmYjhiN2Y1Yjg5Yzk2YTA5OWVmYWE2ZTdjYjgifQ"
         },
         {
-          "resource": "repo://apps/github.io/src/app/skills/skill-detail-page.tsx#L128-L150",
-          "version": "repo-lines-v1:sha256:05c84983199a2823e753b654e631b0b701099493ed1cce45836f70868d59e5ae:eyJzZWxlY3RlZExpbmVDb3VudCI6MjMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjA3NWExY2U1OGMxMTBlYzA3NWUzMmE3YWJjZmNlZTlkYTQzMzY3YWMwMzRiNWU2MjAxYjg5OGRhMzI1ODM4Y2YiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjNmYzRlZTA1NjRmOTRjNDYzNzE3ODhkZDUxMDk5YmM2ZTE4Y2Q0YWE1ZGZiYTA2YzVkYTExNGJiMzJmOTg0NWUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6Ijg2NTYzZGUyNzgxZTk2YTFhNGNkNTlmYTEyZmVkYmM3MWZmNjhkNzNhNTZkZjQ3MjVmNzhiZDBlZjc1OGRkYTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImNlZWEwNWFiZTU0MmVmYzgyMTRhZWU2NDJlYmEwNGRiMzE2YmM1MjFmNTk2ZWVkZTk2MjQ5NTdlOTE3ZDhkNjAifQ"
+          "resource": "repo://apps/github.io/src/app/skills/skill-detail-page.tsx#L128-L153",
+          "version": "repo-lines-v1:sha256:58860e77f07de12a5bd5f53c989ede7752e67c77c1bf6e110162ab41ea528cbd:eyJzZWxlY3RlZExpbmVDb3VudCI6MjYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjA3NWExY2U1OGMxMTBlYzA3NWUzMmE3YWJjZmNlZTlkYTQzMzY3YWMwMzRiNWU2MjAxYjg5OGRhMzI1ODM4Y2YiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjEwMDhlYWM3NTAyNTk5ODkwZDNkYWVmMjI3ODU4OGEzZTIwYTVlYWJiYTA3YTZkNTU2MjQ0YjNkYjhkOWZlZDMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6Ijg2NTYzZGUyNzgxZTk2YTFhNGNkNTlmYTEyZmVkYmM3MWZmNjhkNzNhNTZkZjQ3MjVmNzhiZDBlZjc1OGRkYTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImZhN2RlY2ZjY2IxOGE1Y2FhNzE4NGZiNjYxOGQ3MzA4ZWFmMDc5OTdhNjY1ZDQwZjU3YTVkZTE1ZjRmYjIwOTIifQ"
         }
       ]
     },
     {
       "id": "claim_2f5872dd70294613a8a5d94a687b74b5",
-      "statement": "`SkillDetailPage` imports the app-level `CountBadge` and renders it immediately after the Experience heading, keeping the indicator reusable while preserving the heading's own accessible name.",
+      "statement": "`SkillDetailPage` renders the reusable app-level `CountBadge` immediately after the Experience heading, preserving the heading's own accessible name.",
       "evidence": [
         {
-          "resource": "repo://apps/github.io/src/app/skills/skill-detail-page.spec.tsx#L320-L350",
-          "version": "repo-lines-v1:sha256:af58bb7da4d7f81b9cd60de7b5e8431164ff9f5cb2c2854bc8d430b641971d83:eyJzZWxlY3RlZExpbmVDb3VudCI6MzEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImQzNzJiZDYyYzlkZDMxY2QwMjU5MTJiYTM2Y2E3ODE0YjNlYWJhZTQ3ZTc3Yjc3ODMyYTJkYTJmODVhMmU5NDMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImJhNDI0YjE0YjBkZDFiYTJjYTVmYjMzOGM3MDliZWY4N2Y3MGI0NzUyOTExMTZiYzYwMzYyYWEzMzFjMzE3YjMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjVjNjVkM2U4NjM2Y2RlZmQ4Njk0M2UwMTM5YmFmNGNjODgxMjc5NmRlODliMzE2ZjVmNGNiNmRmNzE1MzE5OTciLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjY5YjdjNzA4MzA3YjdkMjJiNDNmY2UxMDU3NDcxNjIxYjZjNjRlYTQxZGE5ZDYxMDhmNTY1Mjg3Y2M5NmJjN2MifQ"
+          "resource": "repo://apps/github.io/src/app/skills/skill-detail-page.spec.tsx#L336-L347",
+          "version": "repo-lines-v1:sha256:9542e98e607e3ca4f7b12209b796ec3080f073a58ac4579be9085ddb08b54d6a:eyJzZWxlY3RlZExpbmVDb3VudCI6MTIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImJlMWEyNDgwODdiNjkwOWJjNjFjMDc3MTgyNzRkZThlYmU0Y2RjODBjMjM1MzE4N2RiNDBiYzFkMjgzMzAzZDQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjNhM2U0NmY5NDI3NmI2ZjZmNGVkMWYwMmFmNzhiZWY2YTJlZTFjNDM5ZGQ1NTg0Yjk3Mzk0ODMxMzIxNGQyYjciLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImM1YmQ5ZDdkYTJkOGI1ODllZDlhZGQyNmMyNTNmNzFjNzUyNzgxZTA2YzA5N2M1NGQ1NjgwZTkyYmU5MWE2ZWEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjNjZTg1NmRiNTkxODJhNzMzNDYxMTRhYmUxYjYyMDg0YWExZTAwZDY3NTY2ZWJkYjU1OGY2NjFiN2QxMmJiNmYifQ"
         },
         {
-          "resource": "repo://apps/github.io/src/app/skills/skill-detail-page.tsx#L12-L17",
-          "version": "repo-lines-v1:sha256:4bcd08d96b1dab5c1ea584e990b9917c8e00dbb81cbab175fab0476ca4149adb:eyJzZWxlY3RlZExpbmVDb3VudCI6NiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZDU3NmZiN2M5ZmU5MjQyNzQ2OTE5Mjg0NjgxOWZhYTQ5MjRlMjM2MzhlODQ5MDU2MmE0YTgzZDk2Y2M3OWU5ZSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiOWIxNjBhZjBjMTY4ZmM4ZjBmMWZkYTM3MDkwNGIyZTk2NjgxNTM0MGFlMDBhZmM0Yzk4YWEyYTY3NzBiNGM3MSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiYmFjMmUxM2MwMjVkNDg2YjZlYTRiNjA1MmUzNGZkOGY4OTEzMzg2MDhkZTU1YzIwZjNlOTFjZGM4MDVkNzJmNCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNTYxYTI0ODBkY2Y1MDUwNWE3Njc0YTJkYTMzM2M4MGQ3ODNjYzI3ZTlmN2M5ZGYyNWExODI2ODQzYjdjNGFmZCJ9"
-        },
-        {
-          "resource": "repo://apps/github.io/src/app/skills/skill-detail-page.tsx#L93-L111",
-          "version": "repo-lines-v1:sha256:260a12c1dd326dc6bdc1430058de668832413e1465bfbc835505a08cf6d818c2:eyJzZWxlY3RlZExpbmVDb3VudCI6MTksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijk2ZDI1NDNjYjk5YTBlOTFmZjU2YjI3Y2YwYWU4NGFiZjBjMTE0MTZjMzJiNGMxNDRmNTM2MDMzMTNkOTFiOTAiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImQyOWY2MmM2MGFmZmUwNzFmMWYxNmI4MjZhMDE2M2JjYWIxZDY4MzYzNjI5NWE1Njc1MGI2MmVlZTc2NmU1MjUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImYzNjliNjM3M2ViM2E1MThkNWE4ZDM4MjNiMjcwNGQ2YjY4NDk5YjdkNzkxOTVmMjYwNjc0M2NjMWI2ZWFiNzkiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjRhYmFhNzI1ZjRiNjcwYmYwODNkNTExZWJkMWZlMTA4ODg3ODkyNWU0NTUxOWIyM2QwOGRkN2YxODcwZDY0ZTkifQ"
+          "resource": "repo://apps/github.io/src/app/skills/skill-detail-page.tsx#L128-L136",
+          "version": "repo-lines-v1:sha256:064365a26ebbc5c46975e8a64421fff4095ade944fc4ab350fc137d4cc6e1073:eyJzZWxlY3RlZExpbmVDb3VudCI6OSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMDc1YTFjZTU4YzExMGVjMDc1ZTMyYTdhYmNmY2VlOWRhNDMzNjdhYzAzNGI1ZTYyMDFiODk4ZGEzMjU4MzhjZiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiZTI1Nzk5MTk3ZDU4YWI0OWZmMzQwZWI1YjE1ZDNiYTllNWYxZmM1MzQ1ODk4YmVlYzJkZjVmMGU3MGEwYWI5YSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiODY1NjNkZTI3ODFlOTZhMWE0Y2Q1OWZhMTJmZWRiYzcxZmY2OGQ3M2E1NmRmNDcyNWY3OGJkMGVmNzU4ZGRhNSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMmEyNTQwNGJlNDBjMjkyM2FjMWQ1ZmFmNjdkZjA3YTk4YjAxZGJjMmFiYWIzNGI2MmE2NDUwNmM3MjZiMzliYiJ9"
         }
       ]
     },
     {
-      "id": "claim_340cdc6b4b064a45be096325c7772ce8",
-      "statement": "Application versioning is a build-time boundary: development resolves to dev, while release mode requires a canonical stable three-part SemVer without leading zeroes, suffixes, or trailing characters and injects it for the footer.",
+      "id": "claim_80d4be3846a2478cb22dc562f1658d22",
+      "statement": "RoadmapPage owns the `/roadmap` framing and selects DevOpsRoadmapStepper, which projects the curated roadmap inventory into Astryx steps with evidence-derived completed or upcoming states; the legacy React Flow component remains in source but is not rendered by the route.",
       "evidence": [
         {
-          "resource": "repo://apps/github.io/src/app/global-navigation-footer.tsx#L76-L85",
-          "version": "repo-lines-v1:sha256:1645bb5fce2a6d43d00f14ac4c7b597fdeadbd08aa4eab2713db653fcd035330:eyJzZWxlY3RlZExpbmVDb3VudCI6MTAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImZjOWFjM2U0MWQ1YjA4YTBjZWUzYTRlMjVmZWZhMTdhNjg1M2U2MTBkOGZhZGJjZDBkMGYwMjI0ZDNjZjVhMWYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjYzNzNhNzJiM2Y4ZGJiZTU5N2Y5NDg1NDQwNTcxNzYwODM3OTY2ZTFhZmZiZmI4ODA0NjFhYjBjNzk3ODNiZDkiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjEzODNhYzE5OThhZDg4Mjg4NDVjNzBlZGZmOWQyNWZjYzc4OTU3ZjU1MzBhNzk4MzhkNTE4NGExZTE3MGZlNDIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjExYTc1ZDgxMDY1OWYyNGJmMjlkMDdiMDZhNWUwZGFlYTMwN2Q1ZmQ1NzBiNTQ3YTA1NTYwOTQwZDQ3YjI2YTcifQ"
+          "resource": "repo://apps/github.io/src/app/app.spec.tsx#L246-L332",
+          "version": "repo-lines-v1:sha256:fab0525a0334e657940a0481568519ca28625fd9f9e63f554edd8aff3034906f:eyJzZWxlY3RlZExpbmVDb3VudCI6ODcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImU3OGNmYmE1M2M2MGFkNzk5NjFiYjllZTAyNDM4OTQ4OTdiMGYxOGI3NjdjMWRmZDU1N2ViZDUzYzQwYmNhZWUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjkxN2M2OGIxNjUzNjQxM2U0NTUyNmUwOTUwZTlkNGM3NzBjMjk0OTgwMDAxOTQyMTRhM2JlMzc1ZjA2MTFjNzMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImEzMGM1OGE5MTcwNWFhODYzZTdmZDIzOTJkZGE0ZGNhYzM0YjQwODQ0ZjQ2NzgxZGNjOWI2M2VlYTM3ZmRjMmUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImEzNGFlYWYwZWE5MTI4NGZkNTQ3ZjhiOTg0OGU3NjZiNTJkN2ZlMWQ0ZmVkMzY3MGJkNjhlYjNiZWFhMjRkYjUifQ"
         },
         {
-          "resource": "repo://apps/github.io/src/app/release-version.ts#L1-L7",
-          "version": "repo-lines-v1:sha256:0b9da6d3b6551e0b9a269f9ce7f9a032801c1f46b49a0e1c8a82e8c3d0508f5c:eyJzZWxlY3RlZExpbmVDb3VudCI6NywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZjZjNzA3ZjRlZmIzYzczMzFmMzNjZWU1MTM2Mjc5ZDczZjQ4MDEwM2I2NTcyMzIzMzhmY2U0OGJhYzQzZTdiNyIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiYmM0YTcyODRiYjU5NTZlODA2NWEwM2I2NDk4MTYzZDQwMGE4OGM2MjkyZDYxYjg4MGRiOGI0NWZmMjgyMzc0OSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjAsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjAsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSJ9"
+          "resource": "repo://apps/github.io/src/app/devops-roadmap/devops-roadmap-stepper.tsx#L41-L139",
+          "version": "repo-lines-v1:sha256:a4a0055ba9bfa010b5036b19fc734ac9595cdbe51ca8bd3a59d29811969fcd78:eyJzZWxlY3RlZExpbmVDb3VudCI6OTksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjZiNzA1YjkxMzA2MjRkZTkyZTYzMzcyYmNhZTA2YTVkMGQ5YzcyNTViYzVjODc4NDc0NGY0MjdkOTliYzczNWMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImQ1ZjE5ZDUxNWYxZjIzN2ZmMWM0Mzg4MzIwZmQ1Mzk1OTQ2YTU1YTgwMWVkMTg4Mzg5MmI3OTY4ZGY5ZjNhOWYiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjEzODNhYzE5OThhZDg4Mjg4NDVjNzBlZGZmOWQyNWZjYzc4OTU3ZjU1MzBhNzk4MzhkNTE4NGExZTE3MGZlNDIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjoyLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjdiOGI2MDBhNWI0NDhiMWU0ZDAyZGYwOTc0NmVkM2NhMzE3MmY3NWM0YWFiYjAxZGRlMDgwZTM2Y2FiMDc0YjQifQ"
         },
         {
-          "resource": "repo://apps/github.io/vite.config.ts#L8-L17",
-          "version": "repo-lines-v1:sha256:b3eb5cdc491b98dc6694fd438706eb1230311e371edf2c7e98e52f83f15d3d47:eyJzZWxlY3RlZExpbmVDb3VudCI6MTAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjZlZmQ0Y2IxOTVjMTE1ZTI4NDFhZDI3OTNlMDQ3YmNiZWY0NTVmMzg5YjJmNTI3Y2NiOWMzZmZiZmZiNzY0M2UiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjhkNDc1OTY2YWZhNjhiZGIwMmI4Mzc3OGVjN2I3YmIyMmU1OTRmZWM1N2Y2NGQxNTE3NmQ5NmRlMjY1MTM5MDEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjI5MjI1ZmEzZWUwYWU5MmYyZTNjMTRmMDBjNTQ4NjA0ZWJkZDc4NDUxNzQwNzM5ZmU5MWU2ZmJiMDgwMTRlNGUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImFlMzYyMDI4NWUwZTE5MDIzM2M0MjQ0ZmNhYWU3YjdmMTc1NjdiZjcxY2MyMjEwZDA5YWNiMDhkMzYzNWFjZjkifQ"
-        }
-      ]
-    },
-    {
-      "id": "claim_af6beec5538b4ca2ad2dd76c724b6ca0",
-      "statement": "Nx models github.io as an independent deployable stream with version-sensitive cache inputs; the coordinator calls Nx Release in mutation-disabled dry-run mode against an ignored staging manifest and verifies Nx's baseline, candidate, project, and tag.",
-      "evidence": [
-        {
-          "resource": "repo://apps/github.io/project.json#L1-L11",
-          "version": "repo-lines-v1:sha256:4ac6ddfc2f53736a0d92f0633386e0088ef44af7386244660d17d71025da3bab:eyJzZWxlY3RlZExpbmVDb3VudCI6MTEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImE2ZmIwOGZkYTFhY2I5NTdiNjExNmJkMzc4MTFhMWZlNDFhMDE2MTFjMDYzMWVkYmY3ODZkNjg4OWEyN2E1NWMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjFmMGNkYjk3MmE3YmZiN2VkMjQ2ZjlmZjY3MjM4NWU1NWY0OTY4ZmMxMTA0M2RjNWI2ODRkNTFkZmEzMWRiY2IiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjM3NzYwNWJmOTU4NzllM2NhODkxNjdjMGIwYzNlOWQwZGQ3NjE3YTEyZWM0MzkyNTdlMjEyZWU3ZGRmYWZjZTkifQ"
-        },
-        {
-          "resource": "repo://nx.json#L38-L53",
-          "version": "repo-lines-v1:sha256:90615ea1f863d449bbcf0941bcdc824a38ffb85f4ad6bc458941a7a1ef80a3d1:eyJzZWxlY3RlZExpbmVDb3VudCI6MTYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjlmMmEyZjQzNGE3YzRlYmQ5MzQxZjE1YzVjM2Y3OTEyMmU3ZjllMjcxMzQ5OWYwZjg0N2VlOWRlZTk2MjIxNzAiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjRkNWNkMmZiNGYzZGY4ODQ1MTUyNTViMzk1MjNmMmY4YjU0NzJiZWVhOWY1NjZmZmNhMjA0ZGI4MDI1NjEwNDEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUwN2UzZTc4NmU2NTZiMWU2MWY0YTExMjQ3YmYzZGIxNTlhN2Q1OTUxZGU0NmIwOGYzZWZkMDI2NWFhZjg3ZDAiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6Ijg3NWY4NDZjZWM2M2M0ZDVkMDg4NDA1N2YyNWU2ZmE4ODYxZTA2MTY1NGI1MTlhNmZhOGFhOTkyM2YyZTk1MjQifQ"
-        },
-        {
-          "resource": "repo://scripts/github-io-nx-release.mjs#L10-L75",
-          "version": "repo-lines-v1:sha256:35aaa8cb86614c02e433c589a9c4251f099b12ef749d383fcc0adefe8b44a74c:eyJzZWxlY3RlZExpbmVDb3VudCI6NjYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImNhNTNiYTM1MDk2Njc2YzUyNDBjYzA4NDQ4M2ZlMDM1NjE3Zjk0ZjA5MGMyYTA5YTI4NjdjMDQwYWEzNjE5ZTgiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijk1ZWYwMWJjMDhkYmMzYjYzZTRlNzVlYTNkMjZhNWI5NDE4OTE4NzdlMjdhZDg5MTMyOWM4NDExZDdkOGRjNGQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImYzMzM0ZGZmMjk3YTE5NjdmY2ExZGM3ODQ3YzVmOGMxN2JkNzdiNDhkMTQxYjU4OGM3ZjQ4MDhkOTRjMDJjMWYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImMxNjNhOGQ4YTNjMDQzNDliZjk3OGI1OGYzMTI3MDEwZDFjYWFhNmI4YThmY2Q1ZmRiNTk2OTBlNGNiMzYyNzYifQ"
-        },
-        {
-          "resource": "repo://scripts/github-io-version-actions.cjs",
-          "version": "repo-file-v1:sha256:2c573b0fedb2412bbd7152dcebc859bdc5f16c724cb77da0728fbec3f4cb2a3d"
+          "resource": "repo://apps/github.io/src/app/devops-roadmap/roadmap-page.tsx#L7-L38",
+          "version": "repo-lines-v1:sha256:361ed2d442aa29a01dce97331efd5c64b4cf67920a0ee41dd79e03b4fd463480:eyJzZWxlY3RlZExpbmVDb3VudCI6MzIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg2YjRkZDE0ZjY2OWUyMjA3OGY5ZjM4NGNjMmVhMWZhNjdkYzA1ODRhMDg3NTM5MDU2NTA2Y2IxZjM2MzE2NzAiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImE3Yzc0YWYyZDEyZDdhODQ5YTIxNTgwODFjMWE3MTU3ZTdjZjI3ZTA0ZWYwZDJjYzdhNDdhNDFhYzkwMTUwOGUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjgwMzg3YjYxYmEyOTM3MzU1MmU0Zjk2MTBjODk1YzcwZDkwNGY4YmMzMTIyZmYxMjI1ZDE3NDcxOTUxMTU1NzEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjoyLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjdiOGI2MDBhNWI0NDhiMWU0ZDAyZGYwOTc0NmVkM2NhMzE3MmY3NWM0YWFiYjAxZGRlMDgwZTM2Y2FiMDc0YjQifQ"
         }
       ]
     }
   ],
   "verification": {
     "by": "openwiki/0.5.0",
-    "at": "2026-09-09T05:56:49.829Z"
+    "at": "2026-09-09T10:30:13.793Z"
   }
 }

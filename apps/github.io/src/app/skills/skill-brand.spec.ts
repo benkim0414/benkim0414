@@ -171,6 +171,12 @@ describe('getSkillBrand', () => {
     expect(hasSkillBrandIcon(getSkillBrand(skill))).toBe(true);
   });
 
+  it('uses the GitHub brand for GitHub Packages', () => {
+    expect(getSkillBrand('GitHub Packages')?.iconPath).toBe(
+      getSkillBrand('GitHub')?.iconPath,
+    );
+  });
+
   it.each(['IRSA', 'Sealed Secrets'])(
     'keeps %s text-only instead of fabricating an icon',
     (skill) => {

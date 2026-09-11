@@ -207,6 +207,7 @@ export function CertificationCitation({
             </MetadataList>
           }
           hasHoverIndication={false}
+          label={`${title} certification details`}
         >
           {citation}
         </HoverCard>

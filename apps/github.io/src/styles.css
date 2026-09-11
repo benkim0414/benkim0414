@@ -49,6 +49,19 @@ body {
 }
 
 /*
+ * Roadmap evidence may complete non-contiguous steps, so the Stepper has no
+ * single active index. Keep completed titles and bars as prominent as the
+ * active treatment while leaving descriptions and disabled topics to Astryx.
+ */
+[data-roadmap-stepper] > [data-status="success"] .astryx-step-label {
+  color: var(--color-text-primary);
+}
+
+[data-roadmap-stepper] > [data-status="success"] .astryx-step-bar {
+  background-color: var(--color-text-primary);
+}
+
+/*
  * Astryx Carousel applies cross-axis centering on its internal scroller.
  * Keep this selector scoped to SkillCarousel so cards can stretch to the
  * tallest natural card height without adding a hardcoded Card height.

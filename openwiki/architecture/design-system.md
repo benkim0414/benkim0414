@@ -5,7 +5,7 @@ description: How Astryx, StyleX, theme persistence, and browser layout checks fi
 tags: [astryx, stylex, theme, layout]
 verified:
   - by: openwiki/0.5.0
-    at: 2026-09-09T05:07:58.190Z
+    at: 2026-09-09T10:46:58.649Z
 sources:
   - id: openwiki-source-45b1d77b308bd57403f55ff9
     resource: repo://apps/github.io/.storybook/story-taxonomy.spec.ts
@@ -15,6 +15,8 @@ sources:
     resource: repo://apps/github.io/src/app/count-badge.stories.tsx
   - id: openwiki-source-43db7fa7bd3bd05d549bdc0a
     resource: repo://apps/github.io/src/app/count-badge.tsx
+  - id: openwiki-source-931cab7abf1d26363f1a35b7
+    resource: repo://apps/github.io/src/app/devops-roadmap/devops-roadmap-stepper.tsx
   - id: openwiki-source-0e64d2f01d205d55b34c0576
     resource: repo://apps/github.io/src/app/devops-roadmap/roadmap-page.spec.tsx
   - id: openwiki-source-ddb555a1fa50192a107dbf5f
@@ -29,8 +31,6 @@ sources:
     resource: repo://apps/github.io/src/app/home/home-page.spec.tsx
   - id: openwiki-source-0e3b0dfb231db070ffd8340f
     resource: repo://apps/github.io/src/app/home/home-page.tsx
-  - id: openwiki-source-167ebe2e87fa08117553fbbc
-    resource: repo://apps/github.io/src/app/release-version.ts
   - id: openwiki-source-4fbf5ecc6f0c1fc5eff98141
     resource: repo://apps/github.io/src/app/skills/skills-page.spec.tsx
   - id: openwiki-source-a845ec3d01c38967df3a4dad
@@ -41,7 +41,7 @@ sources:
     resource: repo://apps/github.io/src/styles.css
   - id: openwiki-source-fcfa3ced1d03143bb27d5018
     resource: repo://apps/github.io/vite.config.ts
-generated: { by: "codex", at: "2026-09-09T05:07:58.190Z" }
+generated: { by: "codex", at: "2026-09-09T06:35:50.795Z" }
 ---
 
 # Design system and layout
@@ -63,14 +63,12 @@ asserting the accessible heading level and the stable `astryx-heading` and
 `data-level` surfaces.
 
 Inline technical metadata follows the same ownership rule. The global footer
-reads `appVersion` from the compile-time release boundary, renders it with
-Astryx `Code` inside supporting `Text`, and explicitly inherits the surrounding
-size and color. Release builds inject a stable SemVer while normal development
-shows `dev`; the package manifest is not the version source. The footer's flex
-layout keeps that value in the leading region and moves the existing
+reads the application package version, renders it with Astryx `Code` inside
+supporting `Text`, and explicitly inherits the surrounding size and color. Its
+flex layout keeps that version in the leading region and moves the existing
 React/Astryx attribution to an end-aligned region that can wrap on narrower
 viewports. The focused footer test protects the semantic `code` element,
-injected fixture output, region order, and supporting-text boundary.
+package-version output, region order, and supporting-text boundary.
 
 Small repeated presentation values belong in reusable app components. For
 example, the app-level `CountBadge` exposes a numeric `count` prop and delegates
@@ -78,6 +76,19 @@ the rendered label and neutral styling to Astryx's `Badge`; its colocated
 Storybook stories are cataloged as `Components/Count Badge` and cover a
 representative populated count and zero. This keeps pages from recreating the
 design-system contract for count indicators.
+
+The DevOps roadmap follows the same boundary. `DevOpsRoadmapStepper` delegates
+ordering, vertical connectors, numbered indicators, completed announcements,
+and disabled states to Astryx 0.5.4 `Stepper` and `Step`. App-owned StyleX is
+limited to the wrapping evidence lists inside each step, while a roadmap-scoped
+global selector promotes completed labels and vertical bars to the primary text
+token without changing semantic success status; descriptions retain Astryx's
+secondary text color. Evidence spacing keeps the token group closer to its own
+description than to the following step title. Linked `SkillToken`s,
+certification citations, and neutral concept tokens reuse existing components.
+The component deliberately has no active step because evidence can complete
+non-contiguous topics, so completion is represented by each step's semantic
+status rather than by a single progress cursor.
 
 Vite compiles StyleX before its React and Nx path plugins. Test mode uses
 `css-only` and removes the StyleX development-server hooks; production and local

@@ -3,6 +3,7 @@ import type {
   DevOpsRoadmapSkillInventoryGap,
   DevOpsRoadmapSkillInventoryNode,
 } from './devops-roadmap.types';
+import { devOpsRoadmapDescriptions } from './devops-roadmap.data';
 
 const kubernetesCertificationRow = [
   kubernetesCertifications.cka,
@@ -14,12 +15,14 @@ export const devOpsRoadmapSkillInventoryNodes = [
   {
     id: 'learn-programming-language',
     title: 'Learn a Programming Language',
+    description: devOpsRoadmapDescriptions['learn-programming-language'],
     evidenceSkillTokens: ['Node.js', 'TypeScript', 'Go', 'Python'],
     coveredRoadmapConcepts: [],
   },
   {
     id: 'operating-system',
     title: 'Operating System',
+    description: devOpsRoadmapDescriptions['operating-system'],
     evidenceSkillTokens: [
       'macOS',
       'Ubuntu',
@@ -31,6 +34,7 @@ export const devOpsRoadmapSkillInventoryNodes = [
   {
     id: 'terminal-knowledge',
     title: 'Terminal Knowledge',
+    description: devOpsRoadmapDescriptions['terminal-knowledge'],
     evidenceSkillTokens: [
       'Bash',
       'Process Monitoring',
@@ -43,24 +47,28 @@ export const devOpsRoadmapSkillInventoryNodes = [
   {
     id: 'version-control-systems',
     title: 'Version Control Systems',
+    description: devOpsRoadmapDescriptions['version-control-systems'],
     evidenceSkillTokens: ['Git'],
     coveredRoadmapConcepts: [],
   },
   {
     id: 'vcs-hosting',
     title: 'VCS Hosting',
+    description: devOpsRoadmapDescriptions['vcs-hosting'],
     evidenceSkillTokens: ['GitHub', 'GitLab'],
     coveredRoadmapConcepts: [],
   },
   {
     id: 'containers',
     title: 'Containers',
+    description: devOpsRoadmapDescriptions.containers,
     evidenceSkillTokens: ['Docker', 'LXC'],
     coveredRoadmapConcepts: [],
   },
   {
     id: 'setup-x',
     title: 'What is and how to setup X ?',
+    description: devOpsRoadmapDescriptions['setup-x'],
     evidenceSkillTokens: [
       'Forward Proxy',
       'Reverse Proxy',
@@ -72,91 +80,106 @@ export const devOpsRoadmapSkillInventoryNodes = [
   {
     id: 'networking-protocols',
     title: 'Networking & Protocols',
+    description: devOpsRoadmapDescriptions['networking-protocols'],
     evidenceSkillTokens: ['DNS', 'HTTP', 'HTTPS', 'SSL / TLS', 'SSH'],
     coveredRoadmapConcepts: [],
   },
   {
     id: 'cloud-providers',
     title: 'Cloud Providers',
+    description: devOpsRoadmapDescriptions['cloud-providers'],
     evidenceSkillTokens: ['AWS', 'Google Cloud'],
     coveredRoadmapConcepts: [],
   },
   {
     id: 'serverless',
     title: 'Serverless',
+    description: devOpsRoadmapDescriptions.serverless,
     evidenceSkillTokens: ['AWS Lambda'],
     coveredRoadmapConcepts: [],
   },
   {
     id: 'provisioning',
     title: 'Provisioning',
+    description: devOpsRoadmapDescriptions.provisioning,
     evidenceSkillTokens: ['Terraform'],
     coveredRoadmapConcepts: [],
   },
   {
     id: 'configuration-management',
     title: 'Configuration Management',
+    description: devOpsRoadmapDescriptions['configuration-management'],
     evidenceSkillTokens: ['Ansible'],
     coveredRoadmapConcepts: [],
   },
   {
     id: 'ci-cd-tools',
     title: 'CI / CD Tools',
+    description: devOpsRoadmapDescriptions['ci-cd-tools'],
     evidenceSkillTokens: ['GitHub Actions', 'GitLab CI'],
     coveredRoadmapConcepts: [],
   },
   {
     id: 'secret-management',
     title: 'Secret Management',
+    description: devOpsRoadmapDescriptions['secret-management'],
     evidenceSkillTokens: ['Sealed Secrets', 'AWS Secrets Manager'],
     coveredRoadmapConcepts: [],
   },
   {
     id: 'infrastructure-monitoring',
     title: 'Infrastructure Monitoring',
+    description: devOpsRoadmapDescriptions['infrastructure-monitoring'],
     evidenceSkillTokens: ['Prometheus', 'Grafana'],
     coveredRoadmapConcepts: [],
   },
   {
     id: 'logs-management',
     title: 'Logs Management',
+    description: devOpsRoadmapDescriptions['logs-management'],
     evidenceSkillTokens: ['Loki', 'Elastic Stack'],
     coveredRoadmapConcepts: [],
   },
   {
     id: 'container-orchestration',
     title: 'Container Orchestration',
+    description: devOpsRoadmapDescriptions['container-orchestration'],
     certifications: kubernetesCertificationRow,
-    evidenceSkillTokens: ['Kubernetes'],
+    evidenceSkillTokens: ['Kubernetes', 'Amazon EKS'],
     coveredRoadmapConcepts: [],
   },
   {
     id: 'application-monitoring',
     title: 'Application Monitoring',
+    description: devOpsRoadmapDescriptions['application-monitoring'],
     evidenceSkillTokens: ['Prometheus'],
     coveredRoadmapConcepts: [],
   },
   {
     id: 'artifact-management',
     title: 'Artifact Management',
-    evidenceSkillTokens: [],
+    description: devOpsRoadmapDescriptions['artifact-management'],
+    evidenceSkillTokens: ['Amazon ECR', 'GitHub Packages'],
     coveredRoadmapConcepts: [],
   },
   {
     id: 'gitops',
     title: 'GitOps',
+    description: devOpsRoadmapDescriptions.gitops,
     evidenceSkillTokens: ['ArgoCD'],
     coveredRoadmapConcepts: [],
   },
   {
     id: 'service-mesh',
     title: 'Service Mesh',
+    description: devOpsRoadmapDescriptions['service-mesh'],
     evidenceSkillTokens: [],
     coveredRoadmapConcepts: [],
   },
   {
     id: 'cloud-design-patterns',
     title: 'Cloud Design Patterns',
+    description: devOpsRoadmapDescriptions['cloud-design-patterns'],
     evidenceSkillTokens: [],
     coveredRoadmapConcepts: [
       'Backends for Frontends',

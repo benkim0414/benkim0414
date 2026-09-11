@@ -196,6 +196,17 @@ export const skills: readonly Skill[] = [
     keywords: ['ci', 'cd', 'automation', 'workflow', 'delivery', 'deployment'],
   },
   {
+    id: 'github-packages',
+    name: 'GitHub Packages',
+    description:
+      'GitHub Packages registry for publishing and consuming npm packages.',
+    categories: ['Tooling', 'CI/CD'],
+    primaryUse: 'npm package registry',
+    confidence: 3,
+    iconSlug: 'github',
+    keywords: ['github', 'packages', 'npm', 'registry', 'artifacts'],
+  },
+  {
     id: 'go',
     name: 'Go',
     description:
