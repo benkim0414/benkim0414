@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:daee80c6f526265318c4124c2b1aa20aa2926a4f24c9b32d626cfee299360dbd",
+  "pageVersion": "sha256:d6597070d88f79dff5aaadb930b3c11239340cb15850d65a6912930404bb49dc",
   "claims": [
     {
       "id": "claim_67f0a6341495404e8eefce3e45fd6173",
@@ -139,10 +139,24 @@
           "version": "repo-lines-v1:sha256:29ddd584203b3eecb698e91e8925cb61a8ac69d0f90dc4ce338a0f5f5eb0dd26:eyJzZWxlY3RlZExpbmVDb3VudCI6MTQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg3MzI3NzVlZWU3NzAwMThkYjdkNzlkMDM1YTAxNjMwMTVhMDE2ZGUxN2ViYmY4ODg0OTAyZWM2ZDFkOWZjZjIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg3MzI3NzVlZWU3NzAwMThkYjdkNzlkMDM1YTAxNjMwMTVhMDE2ZGUxN2ViYmY4ODg0OTAyZWM2ZDFkOWZjZjIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImIwNTQzNjYwODE0Y2RkYmEyZDc2NzUwZDE4ZGUwNmFjOGY5MjhjY2E0MDRlMjBlYjI5ZDY3ZDY0N2JlNjdmY2IiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjU1MWI4YTUyMTVhODMyZDZkNWIzNTc3MjZiNDAxZTYwMTU4YTIyZDdlYmNiODFlOGM1Y2I5YWZkNzFmYmFkZWMifQ"
         }
       ]
+    },
+    {
+      "id": "claim_e60e9e0eb69646cba7b3570677531e65",
+      "statement": "The reusable SkillTable is currently exposed through Storybook and composes Astryx controls with the app's avatar, category, and confidence presentation components; it provides four sortable content-sized columns, confidence-descending default order, name/category filtering, result count, clearing, and distinct empty states without claiming responsive browser fit.",
+      "evidence": [
+        {
+          "resource": "repo://apps/github.io/src/app/skills/skill-table.stories.tsx#L1-L34",
+          "version": "repo-lines-v1:sha256:d11a23a2f01b0f76bc1b1c18ec564af9aa5c27a6c0841fa02b37351fe465474f:eyJzZWxlY3RlZExpbmVDb3VudCI6MzQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAyZmQ5NDMxMDYyZGUxZjRiZjEwNTZiYzZiN2Q4ZjgwZGE3OGI0MTNjMWM2YThmMDNjMGIyMWY2Zjk5ZjJkYTgiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjRkNWNkMmZiNGYzZGY4ODQ1MTUyNTViMzk1MjNmMmY4YjU0NzJiZWVhOWY1NjZmZmNhMjA0ZGI4MDI1NjEwNDEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjoxLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImFhMWQxYTYzMzkwMjI5Yzc5ODM0N2U4M2EwNDA1NDQxYzk0MDAwMzUyODRhZDE2OGMxYmY2Y2RmMWQ3MGEzNzAifQ"
+        },
+        {
+          "resource": "repo://apps/github.io/src/app/skills/skill-table.tsx#L35-L210",
+          "version": "repo-lines-v1:sha256:baeda2622d643bc0ec701e95f4e84a672655a0d02d85d7fac493b205803d2288:eyJzZWxlY3RlZExpbmVDb3VudCI6MTc2LCJmaXJzdFNlbGVjdGVkTGluZUhhc2giOiI5ZjhhN2FkODM5MTU2NWM1ODNkYWE5ZTgxZmI5NmM4NGQzYjcyMGRjZDE3OGQ3MGQwMDIzYjBkYmZmYzczOGE0IiwibGFzdFNlbGVjdGVkTGluZUhhc2giOiI2ZGE1OTNlYjgzYzc5ZmU5YzZkMjY4ZDFjMWI4Nzg3YTA5MjgxMDg2MmIyMWZlOGExZDE2MmY0ZjFkMWYzMTFhIiwicHJlY2VkaW5nQ29udGV4dExpbmVDb3VudCI6MywicHJlY2VkaW5nQ29udGV4dEhhc2giOiJmYzZkYzdlMTA0NjE2MjNkZmNkMGQzZGJjNGI1NDU2ZjZmMTY4NmMxN2U2NzYyZGZhYWQzYmU0YzRiMWVmODA1IiwiZm9sbG93aW5nQ29udGV4dExpbmVDb3VudCI6MywiZm9sbG93aW5nQ29udGV4dEhhc2giOiI2OTg1M2RiZmNiNWQ5Yzc3MjA4NmMxOGYwYzcxY2I4NWMzMGJlZTY5ZmExZDYwNWZlMmJiNGJmNTA1OGNjMDI3In0"
+        }
+      ]
     }
   ],
   "verification": {
     "by": "openwiki/0.5.0",
-    "at": "2026-09-09T10:46:58.649Z"
+    "at": "2026-09-12T06:05:48.941Z"
   }
 }

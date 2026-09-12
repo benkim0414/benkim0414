@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:c7df09297be0d64b186ab92dc5a19ab7f14fa6e6436be2dd3dda133aa41a7992",
+  "pageVersion": "sha256:554521c48425ed9cc8c5432163a6437d802a487dbee1cc53d3895429e74ff6f1",
   "claims": [
     {
       "id": "claim_6cbb6dd0080f4763aaf4dec964f7f76e",
@@ -48,7 +48,7 @@
     },
     {
       "id": "claim_d4e4d19066de4c75b1176d3f918bb857",
-      "statement": "Reusable UI changes use colocated component tests for displayed values, Storybook-module tests for representative arguments, canonical Storybook taxonomy coverage, and page tests for data-derived accessible integration.",
+      "statement": "Reusable UI changes use colocated component tests for consumer-visible behavior and colocated Storybook stories under the canonical taxonomy; page-level tests are added when a component is integrated into an application page, while standalone components such as SkillTable retain their behavioral boundary in the component suite.",
       "evidence": [
         {
           "resource": "repo://apps/github.io/.storybook/story-taxonomy.spec.ts#L49-L105",
@@ -63,8 +63,12 @@
           "version": "repo-lines-v1:sha256:f39575c641767172ed27e501ad5a87ac2db7773d0f7e14c2db046203d916c2a3:eyJzZWxlY3RlZExpbmVDb3VudCI6OCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZGVjZjRjNTU2YWYyNmQ2Y2U4NGJkMjhjZTdlNDllYjUxNWFmYTE2ZjBiNTRlMTIwZWU0ZmU3YTg0NTllN2RmZiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiZjZmNWI0MGIxNTg0NTdkMTc4NjRmMjE3OTA3ODZkZDVhMmVjZGI2NGI2NmE2NTFmNzg4ZDRlMjVjZDMzMDNkMiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjAsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjAsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSJ9"
         },
         {
-          "resource": "repo://apps/github.io/src/app/skills/skill-table.spec.tsx#L140-L213",
-          "version": "repo-lines-v1:sha256:43c3c1b594835ed80bc6a60db7899f1796bd201e4d1a51ad196277e9859bc4b6:eyJzZWxlY3RlZExpbmVDb3VudCI6NzQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQyOWIxYTllZWNkYWExYTdjYzI2ZWM3YmI0MGVjZGU0YWJiNjdjNzFmZTM2ZDdiNjk5YWUwMzEzMmYwM2I4ZjQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjNhM2U0NmY5NDI3NmI2ZjZmNGVkMWYwMmFmNzhiZWY2YTJlZTFjNDM5ZGQ1NTg0Yjk3Mzk0ODMxMzIxNGQyYjciLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjQ2OTEzNTcyZDVjYWUxYWZjNjJjZDk2NDIxMWZjYzZmYzRhZTZlNjMxMGIwZDQ0ZjUzYWI2NDA1MTFlM2UxZGQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjoxLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImY2ZjViNDBiMTU4NDU3ZDE3ODY0ZjIxNzkwNzg2ZGQ1YTJlY2RiNjRiNjZhNjUxZjc4OGQ0ZTI1Y2QzMzAzZDIifQ"
+          "resource": "repo://apps/github.io/src/app/skills/skill-table.spec.tsx#L72-L270",
+          "version": "repo-lines-v1:sha256:17edaf87f7f599fa2ccb27b197e25c18ddc45a57dbe44cafa56a883614a47a23:eyJzZWxlY3RlZExpbmVDb3VudCI6MTk5LCJmaXJzdFNlbGVjdGVkTGluZUhhc2giOiIwNWRmYTg2NmNjNTQzMmMxZDliMGY3M2Q0YTZlYWNmYzdlZjcyZjFmMmYyMzFjZjE5MjhkYzhiZjU1Njk5NDJjIiwibGFzdFNlbGVjdGVkTGluZUhhc2giOiI2MzMyMzkxYzIxZjU2MDJiMTZmOTYwMmIwZmEwYzkyMmYxNmNmYzIwMmRmMzIyNDEwYWU1ZWVlNTFlZTZhZTNiIiwicHJlY2VkaW5nQ29udGV4dExpbmVDb3VudCI6MywicHJlY2VkaW5nQ29udGV4dEhhc2giOiJhNTkzNzY3OTFlNjk0NzZmN2EwNzE4OTZkYzI1YjkxMzdlZjg0MjNlM2U5NjM0MGNjZmFjMzMyM2Q0MmNhNTFlIiwiZm9sbG93aW5nQ29udGV4dExpbmVDb3VudCI6MywiZm9sbG93aW5nQ29udGV4dEhhc2giOiI5ODAzNDE0M2E4OTlhNThlYjM1MzliMjMxYjA4ZWYwZTRhYmY4MzYwYTNiMjM4NDcwOTUyYTk3Y2E5Y2Y3MWIwIn0"
+        },
+        {
+          "resource": "repo://apps/github.io/src/app/skills/skill-table.stories.tsx#L1-L34",
+          "version": "repo-lines-v1:sha256:d11a23a2f01b0f76bc1b1c18ec564af9aa5c27a6c0841fa02b37351fe465474f:eyJzZWxlY3RlZExpbmVDb3VudCI6MzQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAyZmQ5NDMxMDYyZGUxZjRiZjEwNTZiYzZiN2Q4ZjgwZGE3OGI0MTNjMWM2YThmMDNjMGIyMWY2Zjk5ZjJkYTgiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjRkNWNkMmZiNGYzZGY4ODQ1MTUyNTViMzk1MjNmMmY4YjU0NzJiZWVhOWY1NjZmZmNhMjA0ZGI4MDI1NjEwNDEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjoxLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImFhMWQxYTYzMzkwMjI5Yzc5ODM0N2U4M2EwNDA1NDQxYzk0MDAwMzUyODRhZDE2OGMxYmY2Y2RmMWQ3MGEzNzAifQ"
         }
       ]
     },
@@ -203,10 +207,20 @@
           "version": "repo-lines-v1:sha256:db7592a6a0ddee982f15632cdc5e6862b03cfe79808053b03f26b9a7039cfbd5:eyJzZWxlY3RlZExpbmVDb3VudCI6OSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNjg3NjUzNzFhZWExY2M3ZDQ2ZWM2ZWZjY2JiZTllOWU3M2M5MTg5NGYwZDA2YzcxZjEyNWFjOGJlMjU1YjdiYSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNTk0ZTcwZTczYzkwYWNjYjc0NGU5ODkwZDRlYTBmYTRhYzg1YjkxOTBjMjc1ZTg5NDY5OGM0N2ZmY2NjMjYyOSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiOTU3MWYzMmE0ZjViZDZkZjJiNjM4YmYwZTI0YzBkYTc0ZjA5NzNiMGRjZjVkNTAyYTQ0OWNhZGM2YzZhNDRkZSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNWNhZjE3YTZjMzM1YmUyYTY0Nzk3YTViNmI1OWY1ZDc4MGMyMzNhYzkxZjgyOTFlYTZmZDkwYjAyZDg2ZDVkNCJ9"
         }
       ]
+    },
+    {
+      "id": "claim_fe39b61fdd60481d9dfa11b5b6711f09",
+      "statement": "SkillTable's jsdom suite covers its display components, content-derived widths, default and interactive sort behavior, name and category filters including AND/OR composition, clearing, counts, and empty states, but does not establish browser-rendered column fit.",
+      "evidence": [
+        {
+          "resource": "repo://apps/github.io/src/app/skills/skill-table.spec.tsx#L72-L270",
+          "version": "repo-lines-v1:sha256:17edaf87f7f599fa2ccb27b197e25c18ddc45a57dbe44cafa56a883614a47a23:eyJzZWxlY3RlZExpbmVDb3VudCI6MTk5LCJmaXJzdFNlbGVjdGVkTGluZUhhc2giOiIwNWRmYTg2NmNjNTQzMmMxZDliMGY3M2Q0YTZlYWNmYzdlZjcyZjFmMmYyMzFjZjE5MjhkYzhiZjU1Njk5NDJjIiwibGFzdFNlbGVjdGVkTGluZUhhc2giOiI2MzMyMzkxYzIxZjU2MDJiMTZmOTYwMmIwZmEwYzkyMmYxNmNmYzIwMmRmMzIyNDEwYWU1ZWVlNTFlZTZhZTNiIiwicHJlY2VkaW5nQ29udGV4dExpbmVDb3VudCI6MywicHJlY2VkaW5nQ29udGV4dEhhc2giOiJhNTkzNzY3OTFlNjk0NzZmN2EwNzE4OTZkYzI1YjkxMzdlZjg0MjNlM2U5NjM0MGNjZmFjMzMyM2Q0MmNhNTFlIiwiZm9sbG93aW5nQ29udGV4dExpbmVDb3VudCI6MywiZm9sbG93aW5nQ29udGV4dEhhc2giOiI5ODAzNDE0M2E4OTlhNThlYjM1MzliMjMxYjA4ZWYwZTRhYmY4MzYwYTNiMjM4NDcwOTUyYTk3Y2E5Y2Y3MWIwIn0"
+        }
+      ]
     }
   ],
   "verification": {
     "by": "openwiki/0.5.0",
-    "at": "2026-09-12T05:49:45.675Z"
+    "at": "2026-09-12T06:05:48.941Z"
   }
 }

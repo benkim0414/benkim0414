@@ -20,6 +20,8 @@ sources:
     resource: repo://apps/github.io/src/app/count-badge.stories.spec.ts
   - id: openwiki-source-3d04b17fb8b6c27eb59cd798
     resource: repo://apps/github.io/src/app/skills/skill-table.spec.tsx
+  - id: openwiki-source-a08412c702b94999bfa82651
+    resource: repo://apps/github.io/src/app/skills/skill-table.stories.tsx
   - id: openwiki-source-fcfa3ced1d03143bb27d5018
     resource: repo://apps/github.io/vite.config.ts
   - id: openwiki-source-af76a0570259ad84dd4c02ea
@@ -48,10 +50,10 @@ sources:
     resource: repo://scripts/setup-openwiki.test.mjs
   - id: openwiki-source-165465422a61a00b62b0f6d3
     resource: repo://scripts/sync-github-pages-artifact.test.mjs
-generated: { by: "codex", at: "2026-09-10T11:47:00.605Z" }
+generated: { by: "codex", at: "2026-09-12T06:05:48.941Z" }
 verified:
   - by: openwiki/0.5.0
-    at: 2026-09-12T05:49:45.675Z
+    at: 2026-09-12T06:05:48.941Z
 ---
 
 # Validation workflow
@@ -153,8 +155,18 @@ For reusable UI elements, keep a focused component test beside the component and
 exercise consumer-visible values, including zero where it changes the displayed
 state. Colocate Storybook stories and a small story-module test that fixes the
 established title taxonomy and representative args. Pair those tests with the
-page-level test that proves the component is wired into its actual accessible
-and data-derived context.
+page-level test when the component is wired into an application page, proving
+its actual accessible and data-derived context.
+
+The standalone `SkillTable` is not yet page-integrated, so its colocated jsdom
+suite is the behavioral boundary. It verifies the four columns and display
+components, content-derived pixel widths, confidence-descending default order,
+all column sort paths, case-insensitive name filtering, OR category selection,
+AND composition between search and categories, clearing, result counts, and
+both empty states. The confidence test uses shuffled input and checks the
+`aria-sort` transitions so source order cannot masquerade as a successful sort.
+These DOM assertions do not prove that estimated column widths fit rendered
+content; that remains a Storybook visual check.
 
 For CSS/layout changes, also run:
 

@@ -5,7 +5,7 @@ description: How Astryx, StyleX, theme persistence, and browser layout checks fi
 tags: [astryx, stylex, theme, layout]
 verified:
   - by: openwiki/0.5.0
-    at: 2026-09-09T10:46:58.649Z
+    at: 2026-09-12T06:05:48.941Z
 sources:
   - id: openwiki-source-45b1d77b308bd57403f55ff9
     resource: repo://apps/github.io/.storybook/story-taxonomy.spec.ts
@@ -31,6 +31,10 @@ sources:
     resource: repo://apps/github.io/src/app/home/home-page.spec.tsx
   - id: openwiki-source-0e3b0dfb231db070ffd8340f
     resource: repo://apps/github.io/src/app/home/home-page.tsx
+  - id: openwiki-source-a08412c702b94999bfa82651
+    resource: repo://apps/github.io/src/app/skills/skill-table.stories.tsx
+  - id: openwiki-source-c2ac9449940c36fc7db6b3e4
+    resource: repo://apps/github.io/src/app/skills/skill-table.tsx
   - id: openwiki-source-4fbf5ecc6f0c1fc5eff98141
     resource: repo://apps/github.io/src/app/skills/skills-page.spec.tsx
   - id: openwiki-source-a845ec3d01c38967df3a4dad
@@ -41,7 +45,7 @@ sources:
     resource: repo://apps/github.io/src/styles.css
   - id: openwiki-source-fcfa3ced1d03143bb27d5018
     resource: repo://apps/github.io/vite.config.ts
-generated: { by: "codex", at: "2026-09-09T06:35:50.795Z" }
+generated: { by: "codex", at: "2026-09-12T06:05:48.941Z" }
 ---
 
 # Design system and layout
@@ -89,6 +93,19 @@ certification citations, and neutral concept tokens reuse existing components.
 The component deliberately has no active step because evidence can complete
 non-contiguous topics, so completion is represented by each step's semantic
 status rather than by a single progress cursor.
+
+The reusable `SkillTable` is currently a Storybook component rather than a
+page-level integration. It composes Astryx's table, compact text input,
+multi-selector, button, layout, and empty-state primitives with the app's
+smallest `SkillAvatar`, colored `SkillCategory`, and text-only
+`SkillConfidence` components. Its four columns remain sortable and derive pixel
+widths from the longest supplied values; confidence starts high-to-low with name
+as a deterministic tiebreaker. Name search is case-insensitive and combines
+with an OR-across-selected-categories filter, while the category choices come
+from the supplied skill collection. The result count, clear action, and distinct
+empty states belong to this standalone component. These source contracts do not
+establish browser-rendered fit or responsive behavior, which still require a
+visual check.
 
 Vite compiles StyleX before its React and Nx path plugins. Test mode uses
 `css-only` and removes the StyleX development-server hooks; production and local
