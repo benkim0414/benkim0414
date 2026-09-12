@@ -126,7 +126,6 @@ describe('SkillTable', () => {
     ['Name', ['Zeta', 'Beta', 'Alpha']],
     ['Primary use', ['Zeta', 'Alpha', 'Beta']],
     ['Categories', ['Alpha', 'Beta', 'Zeta']],
-    ['Confidence', ['Zeta', 'Alpha', 'Beta']],
   ])('sorts by %s when its header is selected', (header, expected) => {
     const { getByRole } = renderSkillTable();
 
@@ -135,6 +134,46 @@ describe('SkillTable', () => {
     );
 
     expect(renderedNames(getByRole('table'))).toEqual(expected);
+  });
+
+  it('sorts shuffled confidence values in ascending and descending order', () => {
+    const shuffledSkills: readonly Skill[] = [
+      suppliedSkills[2]!,
+      suppliedSkills[0]!,
+      suppliedSkills[1]!,
+    ];
+    const { getByRole } = renderSkillTable(shuffledSkills);
+    const sortButton = getByRole('button', { name: /^Sort by Confidence/ });
+    const confidenceHeader = getByRole('columnheader', {
+      name: 'Confidence',
+    });
+
+    fireEvent.click(sortButton);
+
+    expect(confidenceHeader.getAttribute('aria-sort')).toBeNull();
+    expect(renderedNames(getByRole('table'))).toEqual([
+      'Beta',
+      'Zeta',
+      'Alpha',
+    ]);
+
+    fireEvent.click(sortButton);
+
+    expect(confidenceHeader.getAttribute('aria-sort')).toBe('ascending');
+    expect(renderedNames(getByRole('table'))).toEqual([
+      'Zeta',
+      'Beta',
+      'Alpha',
+    ]);
+
+    fireEvent.click(sortButton);
+
+    expect(confidenceHeader.getAttribute('aria-sort')).toBe('descending');
+    expect(renderedNames(getByRole('table'))).toEqual([
+      'Beta',
+      'Alpha',
+      'Zeta',
+    ]);
   });
 
   it('filters skills by a case-insensitive name query', () => {
@@ -162,18 +201,34 @@ describe('SkillTable', () => {
   });
 
   it('combines the name query with category selection and sorts matching rows', () => {
-    const { getByRole, queryByText } = renderSkillTable();
+    const suppliedSkillsWithAdditionalToolingMatch: readonly Skill[] = [
+      ...suppliedSkills,
+      {
+        id: 'albatross',
+        name: 'Albatross',
+        description: 'Albatross description',
+        categories: ['Tooling'],
+        primaryUse: 'Automation',
+        confidence: 5,
+        iconSlug: 'albatross',
+        keywords: [],
+      },
+    ];
+    const { getByRole, queryByText } = renderSkillTable(
+      suppliedSkillsWithAdditionalToolingMatch,
+    );
 
     fireEvent.change(getByRole('textbox', { name: 'Skill name' }), {
-      target: { value: 'a' },
+      target: { value: 'al' },
     });
     fireEvent.click(getByRole('combobox', { name: 'Categories' }));
     fireEvent.click(getByRole('option', { name: 'Cloud' }));
     fireEvent.click(getByRole('option', { name: 'Tooling' }));
     fireEvent.click(getByRole('button', { name: /^Sort by Name/ }));
 
-    expect(renderedNames(getByRole('table'))).toEqual(['Zeta', 'Alpha']);
+    expect(renderedNames(getByRole('table'))).toEqual(['Alpha', 'Albatross']);
     expect(queryByText('Beta')).toBeNull();
+    expect(queryByText('Zeta')).toBeNull();
   });
 
   it('clears both active filters', () => {
