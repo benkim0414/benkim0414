@@ -69,12 +69,13 @@ describe('SkillExperienceList', () => {
     expect(evidence.technologies).toContain('GitHub Actions');
     expect(evidence.technologies).toContain('Argo CD');
 
-    const { getByRole, getByText } = render(
+    const { getByRole, getByText, queryByText } = render(
       <SkillExperienceList evidence={[evidence]} skills={skills} />,
     );
 
-    const outcomes = getByRole('list', { name: 'Key outcomes' });
+    const outcomes = getByRole('list', { name: '' });
 
+    expect(queryByText('Key outcomes')).toBeNull();
     expect(outcomes.getAttribute('data-density')).toBe('compact');
     expect(outcomes.getAttribute('data-list-style')).toBe('disc');
     expect(
@@ -153,6 +154,6 @@ describe('SkillExperienceList', () => {
       />,
     );
 
-    expect(screen.queryByRole('list', { name: 'Key outcomes' })).toBeNull();
+    expect(screen.queryByRole('list', { name: '' })).toBeNull();
   });
 });

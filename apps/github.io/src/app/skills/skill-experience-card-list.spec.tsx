@@ -66,14 +66,15 @@ describe('SkillExperienceCard', () => {
       .closest('.astryx-card');
 
     expect(card).not.toBeNull();
-    expect(card?.querySelectorAll('.astryx-text')).toHaveLength(5);
+    expect(card?.querySelectorAll('.astryx-text')).toHaveLength(4);
   });
 
   it('presents narrative details as readable key outcomes', () => {
     render(<SkillExperienceCard experience={ciCdExperience} />);
 
-    const outcomes = screen.getByRole('list', { name: 'Key outcomes' });
+    const outcomes = screen.getByRole('list', { name: '' });
 
+    expect(screen.queryByText('Key outcomes')).toBeNull();
     expect(outcomes.getAttribute('data-density')).toBe('compact');
     expect(outcomes.getAttribute('data-list-style')).toBe('disc');
     expect(within(outcomes).getAllByRole('listitem')).toHaveLength(2);

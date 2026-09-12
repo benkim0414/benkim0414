@@ -16,7 +16,6 @@ export function SkillKeyOutcomes({
   return (
     <List
       density="compact"
-      header={<Text type="label">Key outcomes</Text>}
       listStyle="disc"
     >
       {outcomes.map((outcome) => (
