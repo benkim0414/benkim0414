@@ -72,7 +72,7 @@ describe('SkillExperienceCard', () => {
   it('presents narrative details as readable key outcomes', () => {
     render(<SkillExperienceCard experience={ciCdExperience} />);
 
-    const outcomes = screen.getByRole('list', { name: '' });
+    const outcomes = screen.getByRole('list');
 
     expect(screen.queryByText('Key outcomes')).toBeNull();
     expect(outcomes.getAttribute('data-density')).toBe('compact');

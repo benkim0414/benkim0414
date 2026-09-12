@@ -69,11 +69,17 @@ describe('SkillExperienceList', () => {
     expect(evidence.technologies).toContain('GitHub Actions');
     expect(evidence.technologies).toContain('Argo CD');
 
-    const { getByRole, getByText, queryByText } = render(
+    const { getByRole, queryByText } = render(
       <SkillExperienceList evidence={[evidence]} skills={skills} />,
     );
 
-    const outcomes = getByRole('list', { name: '' });
+    const card = getByRole('heading', {
+      level: 3,
+      name: evidence.title,
+    }).closest('.astryx-card');
+
+    expect(card).not.toBeNull();
+    const [outcomes] = within(card as HTMLElement).getAllByRole('list');
 
     expect(queryByText('Key outcomes')).toBeNull();
     expect(outcomes.getAttribute('data-density')).toBe('compact');
@@ -86,8 +92,8 @@ describe('SkillExperienceList', () => {
     const tokens = within(relevantSkills).getAllByTestId('skill-token');
     const links = within(relevantSkills).getAllByRole('link');
 
-    expect(within(relevantSkills).getByText('GitHub Actions')).toBeTruthy();
-    expect(within(relevantSkills).getByText('Argo CD')).toBeTruthy();
+    expect(screen.getByText('GitHub Actions')).toBeTruthy();
+    expect(screen.getByText('Argo CD')).toBeTruthy();
     expect(tokens).toHaveLength(6);
     expect(tokens.every((token) => token.getAttribute('style') === null)).toBe(
       true,
@@ -154,6 +160,11 @@ describe('SkillExperienceList', () => {
       />,
     );
 
-    expect(screen.queryByRole('list', { name: '' })).toBeNull();
+    const card = screen
+      .getByRole('heading', { level: 3, name: evidence.title })
+      .closest('.astryx-card');
+
+    expect(card).not.toBeNull();
+    expect(within(card as HTMLElement).queryByRole('list')).toBeNull();
   });
 });

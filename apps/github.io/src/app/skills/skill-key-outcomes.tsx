@@ -14,10 +14,7 @@ export function SkillKeyOutcomes({
   }
 
   return (
-    <List
-      density="compact"
-      listStyle="disc"
-    >
+    <List density="compact" listStyle="disc">
       {outcomes.map((outcome) => (
         <ListItem
           key={outcome}
