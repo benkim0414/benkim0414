@@ -29,7 +29,7 @@ sources:
 generated: { by: "codex", at: "2026-09-09T15:24:02.550Z" }
 verified:
   - by: openwiki/0.5.0
-    at: 2026-09-12T05:51:41.289Z
+    at: 2026-09-12T23:43:59.905Z
 ---
 
 # Workspace quickstart

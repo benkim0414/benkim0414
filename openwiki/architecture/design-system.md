@@ -5,7 +5,7 @@ description: How Astryx, StyleX, theme persistence, and browser layout checks fi
 tags: [astryx, stylex, theme, layout]
 verified:
   - by: openwiki/0.5.0
-    at: 2026-09-12T05:51:41.289Z
+    at: 2026-09-12T23:43:59.905Z
 sources:
   - id: openwiki-source-45b1d77b308bd57403f55ff9
     resource: repo://apps/github.io/.storybook/story-taxonomy.spec.ts
@@ -45,7 +45,7 @@ sources:
     resource: repo://apps/github.io/src/styles.css
   - id: openwiki-source-fcfa3ced1d03143bb27d5018
     resource: repo://apps/github.io/vite.config.ts
-generated: { by: "codex", at: "2026-09-12T05:51:41.289Z" }
+generated: { by: "codex", at: "2026-09-12T23:43:59.905Z" }
 ---
 
 # Design system and layout
@@ -83,8 +83,8 @@ design-system contract for count indicators.
 
 Text-heavy skill experience cards keep their one-sentence summary as primary
 body copy and delegate repeated narrative or evidence details to
-`SkillKeyOutcomes`. That shared component uses a compact, disc-marked Astryx
-`List` labeled `Key outcomes`; each outcome is primary body `Text` supplied as
+`SkillKeyOutcomes`. That shared component uses an unnamed compact, disc-marked Astryx
+`List`; each outcome is primary body `Text` supplied as
 rich list-item content so long evidence wraps instead of receiving the string
 label's single-line truncation. Empty outcome collections render nothing, while
 supporting color remains reserved for metadata such as the relevant-skills

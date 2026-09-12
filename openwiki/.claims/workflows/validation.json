@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:27a82ff2860c5075bb93aca0d819e11596b4b5af5fb2526c0ad085d5c46ca468",
+  "pageVersion": "sha256:4b3ca6980f4d4856a55f6efbd1fbe7fbb8e37007de98e679bcf5e1d04b728f73",
   "claims": [
     {
       "id": "claim_6cbb6dd0080f4763aaf4dec964f7f76e",
@@ -206,25 +206,25 @@
     },
     {
       "id": "claim_6c23e544a51d4500967fd2d99b57dc34",
-      "statement": "Skill experience readability tests cover accessible outcome-list semantics, complete authored and capability text, capability-fact deduplication, and empty-list omission; Storybook fixtures separately provide long authored narratives and multi-fact capability evidence for manual visual review.",
+      "statement": "Skill experience readability tests cover semantic unnamed outcome-list behavior, complete authored and capability text, capability-fact deduplication, and empty-list omission; Storybook fixtures separately provide long authored narratives and multi-fact capability evidence for manual visual review.",
       "evidence": [
         {
-          "resource": "repo://apps/github.io/src/app/skills/skill-experience-card-list.spec.tsx#L72-L88",
-          "version": "repo-lines-v1:sha256:39b469aa862089ed6232ec6523cd8d853faf5d9e3bd42cddfe669f5301726ee8:eyJzZWxlY3RlZExpbmVDb3VudCI6MTcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjNlYWM0NGZhMmMyNmY4MWU2OGVjYTkyZjZjMmJmY2Q3ODY0YmM5OWZkOGNkYmIzNWIxZTA2MzJjMWFhY2I1OGQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjNhM2U0NmY5NDI3NmI2ZjZmNGVkMWYwMmFmNzhiZWY2YTJlZTFjNDM5ZGQ1NTg0Yjk3Mzk0ODMxMzIxNGQyYjciLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImQ5ZjdkODQ0MDY1NmYyZGRjMjFmOTdlMzM4YmViNTQ5YzU1NzZjMjRiMzFhNGU2NWVhNTU4MTE0YzQ3OTA4OWMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjEzMTJkZmJjOTFlZjZkZmM2MTI4NGI1MGQyODc5M2VkMTZkZWY4ODVkOTcwNzIwNjQ2M2UyNGViYjgyNTE4OWQifQ"
+          "resource": "repo://apps/github.io/src/app/skills/skill-experience-card-list.spec.tsx",
+          "version": "repo-file-v1:sha256:2aa56cd4ddca916f068fb8cfa940781cae75718904814443f5a0af59443facea"
         },
         {
-          "resource": "repo://apps/github.io/src/app/skills/skill-experience-list.spec.tsx#L62-L157",
-          "version": "repo-lines-v1:sha256:41f2bcb220ff44c934ed31e11d4927ca18d3af1bc28a69958cd3067477c9b83e:eyJzZWxlY3RlZExpbmVDb3VudCI6OTYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjkxZDE4ZWIxMGRkZmNkZTg4MzJjNDFiN2NjZTA1MDRmYTAwM2FlMDAxMzI2MDYzMmNlMmVmMzJiYTU5Yzc4NWIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjNhM2U0NmY5NDI3NmI2ZjZmNGVkMWYwMmFmNzhiZWY2YTJlZTFjNDM5ZGQ1NTg0Yjk3Mzk0ODMxMzIxNGQyYjciLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjM1MGZiZjc5OGE4ZTdjZWNmMzc1ZDA1OGJhNGMwYWU5OWIxMGYzNmY0ODg1NTg0M2VmZDBiOTJhN2YwMDIwYTEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjoxLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImY2ZjViNDBiMTU4NDU3ZDE3ODY0ZjIxNzkwNzg2ZGQ1YTJlY2RiNjRiNjZhNjUxZjc4OGQ0ZTI1Y2QzMzAzZDIifQ"
+          "resource": "repo://apps/github.io/src/app/skills/skill-experience-list.spec.tsx",
+          "version": "repo-file-v1:sha256:9bfd16e3dcc76f468bed3a0daefd11ecb02510c16b961a17f5bff64de667114d"
         },
         {
-          "resource": "repo://apps/github.io/src/app/skills/skill-experience-list.stories.spec.ts#L1-L12",
-          "version": "repo-lines-v1:sha256:159e3d26918dfba12f20813d8fbb03115553c623e4edd98baa671cf119966008:eyJzZWxlY3RlZExpbmVDb3VudCI6MTIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjY1OTFkM2Y3ODljOGYzNDM5Y2M3MDcyNzU5M2FmYmVjMTJhMmZhOTI5ZDEyYmRkMDIzNzJmZTI0YmQ0NGJhMTciLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImY2ZjViNDBiMTU4NDU3ZDE3ODY0ZjIxNzkwNzg2ZGQ1YTJlY2RiNjRiNjZhNjUxZjc4OGQ0ZTI1Y2QzMzAzZDIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+          "resource": "repo://apps/github.io/src/app/skills/skill-experience-list.stories.spec.ts",
+          "version": "repo-file-v1:sha256:159e3d26918dfba12f20813d8fbb03115553c623e4edd98baa671cf119966008"
         }
       ]
     }
   ],
   "verification": {
     "by": "openwiki/0.5.0",
-    "at": "2026-09-12T05:51:41.289Z"
+    "at": "2026-09-12T23:43:59.905Z"
   }
 }

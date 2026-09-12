@@ -24,10 +24,10 @@ sources:
     resource: repo://apps/github.io/src/app/skills/skill-key-outcomes.tsx
   - id: openwiki-source-b4039a7397de0bc8565df5e3
     resource: repo://apps/github.io/src/app/skills/skill-list.data.ts
-generated: { by: "codex", at: "2026-09-12T05:51:41.289Z" }
+generated: { by: "codex", at: "2026-09-12T23:43:59.905Z" }
 verified:
   - by: openwiki/0.5.0
-    at: 2026-09-12T05:51:41.289Z
+    at: 2026-09-12T23:43:59.905Z
 ---
 
 # Skills and capability evidence
@@ -62,7 +62,7 @@ data from a visitor's unknown URL.
 
 The rendered skill-detail projection keeps orientation and proof separate. Each
 card leads with its source summary, then presents ordered authored narrative
-entries or distinct capability facts as `Key outcomes`; capability facts equal
+entries or distinct capability facts as an unnamed outcome list; capability facts equal
 to the summary are filtered so the same claim is not repeated. Outcome text is
 primary reading content, while related-skill tokens remain supporting metadata.
 This shared presentation does not make the two source models interchangeable or

@@ -54,10 +54,10 @@ sources:
     resource: repo://scripts/setup-openwiki.test.mjs
   - id: openwiki-source-165465422a61a00b62b0f6d3
     resource: repo://scripts/sync-github-pages-artifact.test.mjs
-generated: { by: "codex", at: "2026-09-12T05:51:41.289Z" }
+generated: { by: "codex", at: "2026-09-12T23:43:59.905Z" }
 verified:
   - by: openwiki/0.5.0
-    at: 2026-09-12T05:51:41.289Z
+    at: 2026-09-12T23:43:59.905Z
 ---
 
 # Validation workflow
@@ -163,7 +163,7 @@ page-level test that proves the component is wired into its actual accessible
 and data-derived context.
 
 Experience-card readability is protected at both renderer boundaries: focused
-tests query the accessible `Key outcomes` list, verify complete outcome text and
+tests query the semantic unnamed outcome list, verify complete outcome text and
 empty-state omission, and preserve capability-fact deduplication. The authored
 stories exercise long wrapping narratives, while the capability-list story
 supplies multiple facts so Storybook exposes the shared outcome treatment for

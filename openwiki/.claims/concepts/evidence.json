@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:043c6ad1f53bc9bdb42371995d04b4628eb3439a076bdaf5810be11aa37e7b1c",
+  "pageVersion": "sha256:bdb1d6c2a9bd0bd43192647e6c159eb933a05b18ba47f898f655f15cce97d774",
   "claims": [
     {
       "id": "claim_41253c1ed05946c38b803e4b8b5d55dc",
@@ -104,25 +104,25 @@
     },
     {
       "id": "claim_344dbb0a2c884ad9b5dcd8dc2fb22caa",
-      "statement": "Skill-detail cards orient with the source summary, then render authored narratives or deduplicated capability facts as primary-text key outcomes; capability facts identical to the summary are removed without altering source-model or resolver boundaries.",
+      "statement": "Skill-detail cards orient with the source summary, then render authored narratives or deduplicated capability facts as primary-text entries in an unnamed outcome list; capability facts identical to the summary are removed without altering source-model or resolver boundaries.",
       "evidence": [
         {
-          "resource": "repo://apps/github.io/src/app/skills/skill-experience-card-list.tsx#L87-L124",
-          "version": "repo-lines-v1:sha256:c2301eb88a562bcf76179e34aa9e3a3531cc1a84e6440b83aad044b1559ca109:eyJzZWxlY3RlZExpbmVDb3VudCI6MzgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImU3MjE2ZThlOWMwYTFhNjhkMDZjMmZiYWE1ZmQyMTM5NDgyYjhlZmQwYTE5MzE1YjkxNWU2Y2NlODQ5ZDg5ZGMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQzYzc3OGZiMjk4YzU2MDVkZDgyYTExZGZhZmJhZmY0NjczYTQ4ODEyZWNjZWM4N2E1Mjg5MTcxNDExNzVjZTciLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjNjYTA2YWZmOTI2MDdhN2VkMzg5MGJjZWU1ODgxMGEzNDZkYjIyMWVmYTllN2UyODBjZmY5NGVmYTg1ZTI0ZDMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjVkOWQ2MDY3NzUzZTkwN2I1Yzg4NmY4MWE0NDAwNGU2ZjEwYThjY2EyZjUxMTUyY2VhZDVlMjUxOTFjZTY0OTEifQ"
+          "resource": "repo://apps/github.io/src/app/skills/skill-experience-card-list.tsx",
+          "version": "repo-file-v1:sha256:32e36b7e95ee5746a32670375bf5941bcc324683ecfd73a2374acba1606279af"
         },
         {
-          "resource": "repo://apps/github.io/src/app/skills/skill-experience-list.tsx#L44-L96",
-          "version": "repo-lines-v1:sha256:f3a7ae04ad925309deac0a4a24e70c5df6b18924e253e77362a658f8f9deae67:eyJzZWxlY3RlZExpbmVDb3VudCI6NTMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijc2NzI2ZDBkZjk5NGZhODA5NTJkYzdkODYwZjA4MWIxNzg0YjdmM2ViZWEwZGZiZTBiOWFmMDJlM2E4ZTQ0NmYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQ4NWYxOTVkOWJiNzU4NjEwMGI2NTcwZWI1NzViMThlMTAxZmIzODIzMDliYjQwYWJhNjIzZDk0ZThkYmRkOGQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjEzODNhYzE5OThhZDg4Mjg4NDVjNzBlZGZmOWQyNWZjYzc4OTU3ZjU1MzBhNzk4MzhkNTE4NGExZTE3MGZlNDIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjM5NmViMTNkZTNhMDNhNjAzMmMyNmM5ZDBlYzcyYWEyMzNmNzg2ZGZlZjRmNTc4YWEyMzYxOTM3NGRjZjBkYzcifQ"
+          "resource": "repo://apps/github.io/src/app/skills/skill-experience-list.tsx",
+          "version": "repo-file-v1:sha256:88656febdc618b3e6fc7d7cb7893dd4d3b21fdc63641a4b9fedf6f0fbc3d5c40"
         },
         {
-          "resource": "repo://apps/github.io/src/app/skills/skill-key-outcomes.tsx#L9-L34",
-          "version": "repo-lines-v1:sha256:e5c3579ff3cc5ad0daa6605269b134b719ddeafbfd925210c46d354e138a5982:eyJzZWxlY3RlZExpbmVDb3VudCI6MjYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjdjMTU0ZmMyNzMyNWMzMzkyMTk2ODZkODExMzZkYmQwNzJjNjQ5YmU2NGU5MDI5MTgyNDc1NjY5ZWEwZmFiZDEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjNkYjE2NDRiYzQ0NzEwYjk2ZWZjNWE2YjVlODAyNWJkMWJjMTljNzkzZDJjNGJkYjlkZGEzZWFlMDg4NzdlNzciLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+          "resource": "repo://apps/github.io/src/app/skills/skill-key-outcomes.tsx",
+          "version": "repo-file-v1:sha256:5f41016cf03a414426741b9d3094c88fc793d4006f2eae0480160dbd89674e88"
         }
       ]
     }
   ],
   "verification": {
     "by": "openwiki/0.5.0",
-    "at": "2026-09-12T05:51:41.289Z"
+    "at": "2026-09-12T23:43:59.905Z"
   }
 }
