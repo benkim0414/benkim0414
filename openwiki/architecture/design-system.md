@@ -5,7 +5,7 @@ description: How Astryx, StyleX, theme persistence, and browser layout checks fi
 tags: [astryx, stylex, theme, layout]
 verified:
   - by: openwiki/0.5.0
-    at: 2026-09-09T10:46:58.649Z
+    at: 2026-09-12T05:51:41.289Z
 sources:
   - id: openwiki-source-45b1d77b308bd57403f55ff9
     resource: repo://apps/github.io/.storybook/story-taxonomy.spec.ts
@@ -31,6 +31,10 @@ sources:
     resource: repo://apps/github.io/src/app/home/home-page.spec.tsx
   - id: openwiki-source-0e3b0dfb231db070ffd8340f
     resource: repo://apps/github.io/src/app/home/home-page.tsx
+  - id: openwiki-source-f836c5cc4931cfb5c1d0b9ee
+    resource: repo://apps/github.io/src/app/skills/skill-experience-list.stories.tsx
+  - id: openwiki-source-2944a7e4b1284a70a09ee95a
+    resource: repo://apps/github.io/src/app/skills/skill-key-outcomes.tsx
   - id: openwiki-source-4fbf5ecc6f0c1fc5eff98141
     resource: repo://apps/github.io/src/app/skills/skills-page.spec.tsx
   - id: openwiki-source-a845ec3d01c38967df3a4dad
@@ -41,7 +45,7 @@ sources:
     resource: repo://apps/github.io/src/styles.css
   - id: openwiki-source-fcfa3ced1d03143bb27d5018
     resource: repo://apps/github.io/vite.config.ts
-generated: { by: "codex", at: "2026-09-09T06:35:50.795Z" }
+generated: { by: "codex", at: "2026-09-12T05:51:41.289Z" }
 ---
 
 # Design system and layout
@@ -76,6 +80,16 @@ the rendered label and neutral styling to Astryx's `Badge`; its colocated
 Storybook stories are cataloged as `Components/Count Badge` and cover a
 representative populated count and zero. This keeps pages from recreating the
 design-system contract for count indicators.
+
+Text-heavy skill experience cards keep their one-sentence summary as primary
+body copy and delegate repeated narrative or evidence details to
+`SkillKeyOutcomes`. That shared component uses a compact, disc-marked Astryx
+`List` labeled `Key outcomes`; each outcome is primary body `Text` supplied as
+rich list-item content so long evidence wraps instead of receiving the string
+label's single-line truncation. Empty outcome collections render nothing, while
+supporting color remains reserved for metadata such as the relevant-skills
+label. Focused stories cover both long authored narratives and capability
+evidence with multiple outcomes.
 
 The DevOps roadmap follows the same boundary. `DevOpsRoadmapStepper` delegates
 ordering, vertical connectors, numbered indicators, completed announcements,

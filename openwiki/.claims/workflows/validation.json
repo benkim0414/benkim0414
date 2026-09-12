@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:75e5cc533ec0b1561f27cb9058b811362c49dd78798de1634ef34ebf4e0a0206",
+  "pageVersion": "sha256:27a82ff2860c5075bb93aca0d819e11596b4b5af5fb2526c0ad085d5c46ca468",
   "claims": [
     {
       "id": "claim_6cbb6dd0080f4763aaf4dec964f7f76e",
@@ -22,7 +22,7 @@
       "evidence": [
         {
           "resource": "repo://apps/github.io/vite.config.ts#L68-L83",
-          "version": "repo-lines-v1:sha256:39372a4f603eb11dcc522d7c62c3190d31103fda8bb9dff255db794cda211292:eyJzZWxlY3RlZExpbmVDb3VudCI6MTYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjU5MzZkZjdhNWEzYWFmMTgwY2ZmZDFkNjVjNjQ2ZWY2YWVhMzUyY2MyNzc3NDY4NjE5OWNkOGZiM2U4OTljN2IiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjViNzQxZDJjMDhlNmY1MTBiN2U5YTI2NGYzNzhmOWNlMDA0OWE1MDRlMGU3ZWY1ZDY3Y2QzZWE4MTNmODU0NzQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjM0ZjgxYTFjMWE1N2EzNjdmZDcwMzBkZGE3ZGIzNzMxYTMwMGE1ZjkwMDJlNmZkZTQ5MjJjNDg1NzllMTY4ZDgiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+          "version": "repo-lines-v1:sha256:9d0e96cea8dced80bba00b5fa0eb4c43a3d133bd75c3f6f7d0f63199cdc7e0f7:eyJzZWxlY3RlZExpbmVDb3VudCI6MTcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjU5MzZkZjdhNWEzYWFmMTgwY2ZmZDFkNjVjNjQ2ZWY2YWVhMzUyY2MyNzc3NDY4NjE5OWNkOGZiM2U4OTljN2IiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjViNzQxZDJjMDhlNmY1MTBiN2U5YTI2NGYzNzhmOWNlMDA0OWE1MDRlMGU3ZWY1ZDY3Y2QzZWE4MTNmODU0NzQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjM0ZjgxYTFjMWE1N2EzNjdmZDcwMzBkZGE3ZGIzNzMxYTMwMGE1ZjkwMDJlNmZkZTQ5MjJjNDg1NzllMTY4ZDgiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
         }
       ]
     },
@@ -48,7 +48,7 @@
     },
     {
       "id": "claim_d4e4d19066de4c75b1176d3f918bb857",
-      "statement": "Reusable UI changes use colocated component tests for displayed values, Storybook-module tests for representative arguments, canonical Storybook taxonomy coverage, and page tests for data-derived accessible integration.",
+      "statement": "Reusable UI changes use colocated component tests for displayed behavior, Storybook-module tests for representative arguments, canonical Storybook taxonomy coverage, and page tests for data-derived accessible integration.",
       "evidence": [
         {
           "resource": "repo://apps/github.io/.storybook/story-taxonomy.spec.ts#L49-L84",
@@ -63,8 +63,8 @@
           "version": "repo-lines-v1:sha256:f39575c641767172ed27e501ad5a87ac2db7773d0f7e14c2db046203d916c2a3:eyJzZWxlY3RlZExpbmVDb3VudCI6OCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZGVjZjRjNTU2YWYyNmQ2Y2U4NGJkMjhjZTdlNDllYjUxNWFmYTE2ZjBiNTRlMTIwZWU0ZmU3YTg0NTllN2RmZiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiZjZmNWI0MGIxNTg0NTdkMTc4NjRmMjE3OTA3ODZkZDVhMmVjZGI2NGI2NmE2NTFmNzg4ZDRlMjVjZDMzMDNkMiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjAsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjAsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSJ9"
         },
         {
-          "resource": "repo://apps/github.io/src/app/skills/skill-detail-page.spec.tsx#L336-L358",
-          "version": "repo-lines-v1:sha256:8e63c370cf463909edf2403dc2c86854e19d75007885428afca128467633d029:eyJzZWxlY3RlZExpbmVDb3VudCI6MjMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImJlMWEyNDgwODdiNjkwOWJjNjFjMDc3MTgyNzRkZThlYmU0Y2RjODBjMjM1MzE4N2RiNDBiYzFkMjgzMzAzZDQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjNhM2U0NmY5NDI3NmI2ZjZmNGVkMWYwMmFmNzhiZWY2YTJlZTFjNDM5ZGQ1NTg0Yjk3Mzk0ODMxMzIxNGQyYjciLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImM1YmQ5ZDdkYTJkOGI1ODllZDlhZGQyNmMyNTNmNzFjNzUyNzgxZTA2YzA5N2M1NGQ1NjgwZTkyYmU5MWE2ZWEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjZhMDg0NGM1YzA3OWYyZmFjZjhmZDNlMTU3NmJjYzc5YzIwODRmYjhiN2Y1Yjg5Yzk2YTA5OWVmYWE2ZTdjYjgifQ"
+          "resource": "repo://apps/github.io/src/app/skills/skill-detail-page.spec.tsx#L336-L360",
+          "version": "repo-lines-v1:sha256:c0cfbf0f100037186c52db40ccc402892ee8fdc89a4056b7ca9a54c244650ea7:eyJzZWxlY3RlZExpbmVDb3VudCI6MjUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImJlMWEyNDgwODdiNjkwOWJjNjFjMDc3MTgyNzRkZThlYmU0Y2RjODBjMjM1MzE4N2RiNDBiYzFkMjgzMzAzZDQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjNhM2U0NmY5NDI3NmI2ZjZmNGVkMWYwMmFmNzhiZWY2YTJlZTFjNDM5ZGQ1NTg0Yjk3Mzk0ODMxMzIxNGQyYjciLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImM1YmQ5ZDdkYTJkOGI1ODllZDlhZGQyNmMyNTNmNzFjNzUyNzgxZTA2YzA5N2M1NGQ1NjgwZTkyYmU5MWE2ZWEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjZhMDg0NGM1YzA3OWYyZmFjZjhmZDNlMTU3NmJjYzc5YzIwODRmYjhiN2Y1Yjg5Yzk2YTA5OWVmYWE2ZTdjYjgifQ"
         }
       ]
     },
@@ -203,10 +203,28 @@
           "version": "repo-lines-v1:sha256:db7592a6a0ddee982f15632cdc5e6862b03cfe79808053b03f26b9a7039cfbd5:eyJzZWxlY3RlZExpbmVDb3VudCI6OSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNjg3NjUzNzFhZWExY2M3ZDQ2ZWM2ZWZjY2JiZTllOWU3M2M5MTg5NGYwZDA2YzcxZjEyNWFjOGJlMjU1YjdiYSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNTk0ZTcwZTczYzkwYWNjYjc0NGU5ODkwZDRlYTBmYTRhYzg1YjkxOTBjMjc1ZTg5NDY5OGM0N2ZmY2NjMjYyOSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiOTU3MWYzMmE0ZjViZDZkZjJiNjM4YmYwZTI0YzBkYTc0ZjA5NzNiMGRjZjVkNTAyYTQ0OWNhZGM2YzZhNDRkZSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNWNhZjE3YTZjMzM1YmUyYTY0Nzk3YTViNmI1OWY1ZDc4MGMyMzNhYzkxZjgyOTFlYTZmZDkwYjAyZDg2ZDVkNCJ9"
         }
       ]
+    },
+    {
+      "id": "claim_6c23e544a51d4500967fd2d99b57dc34",
+      "statement": "Skill experience readability tests cover accessible outcome-list semantics, complete authored and capability text, capability-fact deduplication, and empty-list omission; Storybook fixtures separately provide long authored narratives and multi-fact capability evidence for manual visual review.",
+      "evidence": [
+        {
+          "resource": "repo://apps/github.io/src/app/skills/skill-experience-card-list.spec.tsx#L72-L88",
+          "version": "repo-lines-v1:sha256:39b469aa862089ed6232ec6523cd8d853faf5d9e3bd42cddfe669f5301726ee8:eyJzZWxlY3RlZExpbmVDb3VudCI6MTcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjNlYWM0NGZhMmMyNmY4MWU2OGVjYTkyZjZjMmJmY2Q3ODY0YmM5OWZkOGNkYmIzNWIxZTA2MzJjMWFhY2I1OGQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjNhM2U0NmY5NDI3NmI2ZjZmNGVkMWYwMmFmNzhiZWY2YTJlZTFjNDM5ZGQ1NTg0Yjk3Mzk0ODMxMzIxNGQyYjciLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImQ5ZjdkODQ0MDY1NmYyZGRjMjFmOTdlMzM4YmViNTQ5YzU1NzZjMjRiMzFhNGU2NWVhNTU4MTE0YzQ3OTA4OWMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjEzMTJkZmJjOTFlZjZkZmM2MTI4NGI1MGQyODc5M2VkMTZkZWY4ODVkOTcwNzIwNjQ2M2UyNGViYjgyNTE4OWQifQ"
+        },
+        {
+          "resource": "repo://apps/github.io/src/app/skills/skill-experience-list.spec.tsx#L62-L157",
+          "version": "repo-lines-v1:sha256:41f2bcb220ff44c934ed31e11d4927ca18d3af1bc28a69958cd3067477c9b83e:eyJzZWxlY3RlZExpbmVDb3VudCI6OTYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjkxZDE4ZWIxMGRkZmNkZTg4MzJjNDFiN2NjZTA1MDRmYTAwM2FlMDAxMzI2MDYzMmNlMmVmMzJiYTU5Yzc4NWIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjNhM2U0NmY5NDI3NmI2ZjZmNGVkMWYwMmFmNzhiZWY2YTJlZTFjNDM5ZGQ1NTg0Yjk3Mzk0ODMxMzIxNGQyYjciLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjM1MGZiZjc5OGE4ZTdjZWNmMzc1ZDA1OGJhNGMwYWU5OWIxMGYzNmY0ODg1NTg0M2VmZDBiOTJhN2YwMDIwYTEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjoxLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImY2ZjViNDBiMTU4NDU3ZDE3ODY0ZjIxNzkwNzg2ZGQ1YTJlY2RiNjRiNjZhNjUxZjc4OGQ0ZTI1Y2QzMzAzZDIifQ"
+        },
+        {
+          "resource": "repo://apps/github.io/src/app/skills/skill-experience-list.stories.spec.ts#L1-L12",
+          "version": "repo-lines-v1:sha256:159e3d26918dfba12f20813d8fbb03115553c623e4edd98baa671cf119966008:eyJzZWxlY3RlZExpbmVDb3VudCI6MTIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjY1OTFkM2Y3ODljOGYzNDM5Y2M3MDcyNzU5M2FmYmVjMTJhMmZhOTI5ZDEyYmRkMDIzNzJmZTI0YmQ0NGJhMTciLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImY2ZjViNDBiMTU4NDU3ZDE3ODY0ZjIxNzkwNzg2ZGQ1YTJlY2RiNjRiNjZhNjUxZjc4OGQ0ZTI1Y2QzMzAzZDIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
     }
   ],
   "verification": {
     "by": "openwiki/0.5.0",
-    "at": "2026-09-10T11:47:00.605Z"
+    "at": "2026-09-12T05:51:41.289Z"
   }
 }

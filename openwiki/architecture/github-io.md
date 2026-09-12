@@ -20,10 +20,14 @@ sources:
     resource: repo://apps/github.io/src/app/skills/skill-detail-page.tsx
   - id: openwiki-source-2fe979393541d6de345e3a57
     resource: repo://apps/github.io/src/app/skills/skill-detail-route.tsx
-generated: { by: "codex", at: "2026-09-09T04:57:16.606Z" }
+  - id: openwiki-source-61956fea1deed015d3bafd72
+    resource: repo://apps/github.io/src/app/skills/skill-experience-card-list.tsx
+  - id: openwiki-source-ba5c27392181e6c65798f3c4
+    resource: repo://apps/github.io/src/app/skills/skill-experience-list.tsx
+generated: { by: "codex", at: "2026-09-12T05:51:41.289Z" }
 verified:
   - by: openwiki/0.5.0
-    at: 2026-09-09T10:30:13.793Z
+    at: 2026-09-12T05:51:41.289Z
 ---
 
 # Application architecture
@@ -72,6 +76,14 @@ experience cards or supporting evidence exists, but its adjacent app-level
 of the level-two heading so the section's accessible heading name remains
 `Experience`; an evidence-only section therefore communicates a count of zero
 without hiding its supporting records.
+
+The two experience renderers keep source-specific projection work at their own
+boundaries. Authored records pass their ordered `narrative` strings directly to
+the shared `SkillKeyOutcomes` presentation, while capability evidence first
+deduplicates `details.facts` and removes any fact that repeats the summary. Both
+paths then receive the same labelled Astryx list treatment without merging the
+underlying authored-experience and capability-evidence models. Relevant skills
+remain a separate canonical-token projection beneath the outcomes.
 
 Continue with [evidence semantics](../concepts/evidence.md),
 [theme and layout](design-system.md), and [validation](../workflows/validation.md).

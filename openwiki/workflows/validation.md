@@ -20,6 +20,12 @@ sources:
     resource: repo://apps/github.io/src/app/count-badge.stories.spec.ts
   - id: openwiki-source-d97b9e088d941d15580a0bd7
     resource: repo://apps/github.io/src/app/skills/skill-detail-page.spec.tsx
+  - id: openwiki-source-3d8376b39a8411106c980cf0
+    resource: repo://apps/github.io/src/app/skills/skill-experience-card-list.spec.tsx
+  - id: openwiki-source-1da2c5712de0a298fd2a580a
+    resource: repo://apps/github.io/src/app/skills/skill-experience-list.spec.tsx
+  - id: openwiki-source-7f023dd179d1a53b0aaf4497
+    resource: repo://apps/github.io/src/app/skills/skill-experience-list.stories.spec.ts
   - id: openwiki-source-fcfa3ced1d03143bb27d5018
     resource: repo://apps/github.io/vite.config.ts
   - id: openwiki-source-af76a0570259ad84dd4c02ea
@@ -48,10 +54,10 @@ sources:
     resource: repo://scripts/setup-openwiki.test.mjs
   - id: openwiki-source-165465422a61a00b62b0f6d3
     resource: repo://scripts/sync-github-pages-artifact.test.mjs
-generated: { by: "codex", at: "2026-09-10T11:47:00.605Z" }
+generated: { by: "codex", at: "2026-09-12T05:51:41.289Z" }
 verified:
   - by: openwiki/0.5.0
-    at: 2026-09-10T11:47:00.605Z
+    at: 2026-09-12T05:51:41.289Z
 ---
 
 # Validation workflow
@@ -155,6 +161,14 @@ state. Colocate Storybook stories and a small story-module test that fixes the
 established title taxonomy and representative args. Pair those tests with the
 page-level test that proves the component is wired into its actual accessible
 and data-derived context.
+
+Experience-card readability is protected at both renderer boundaries: focused
+tests query the accessible `Key outcomes` list, verify complete outcome text and
+empty-state omission, and preserve capability-fact deduplication. The authored
+stories exercise long wrapping narratives, while the capability-list story
+supplies multiple facts so Storybook exposes the shared outcome treatment for
+visual review. These fixtures do not replace manual viewport, theme, or computed
+contrast inspection.
 
 For CSS/layout changes, also run:
 

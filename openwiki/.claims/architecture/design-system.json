@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:daee80c6f526265318c4124c2b1aa20aa2926a4f24c9b32d626cfee299360dbd",
+  "pageVersion": "sha256:3dce4b7ee1fbccebb89671501fcf55cb6a6f1ab0d823ddf28995aaa82155efd9",
   "claims": [
     {
       "id": "claim_67f0a6341495404e8eefce3e45fd6173",
@@ -139,10 +139,24 @@
           "version": "repo-lines-v1:sha256:29ddd584203b3eecb698e91e8925cb61a8ac69d0f90dc4ce338a0f5f5eb0dd26:eyJzZWxlY3RlZExpbmVDb3VudCI6MTQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg3MzI3NzVlZWU3NzAwMThkYjdkNzlkMDM1YTAxNjMwMTVhMDE2ZGUxN2ViYmY4ODg0OTAyZWM2ZDFkOWZjZjIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg3MzI3NzVlZWU3NzAwMThkYjdkNzlkMDM1YTAxNjMwMTVhMDE2ZGUxN2ViYmY4ODg0OTAyZWM2ZDFkOWZjZjIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImIwNTQzNjYwODE0Y2RkYmEyZDc2NzUwZDE4ZGUwNmFjOGY5MjhjY2E0MDRlMjBlYjI5ZDY3ZDY0N2JlNjdmY2IiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjU1MWI4YTUyMTVhODMyZDZkNWIzNTc3MjZiNDAxZTYwMTU4YTIyZDdlYmNiODFlOGM1Y2I5YWZkNzFmYmFkZWMifQ"
         }
       ]
+    },
+    {
+      "id": "claim_71cef4e42d40420a9759b7406b69cb53",
+      "statement": "Skill experience details share a compact, disc-marked and visibly labelled Astryx outcome-list component that renders primary body text, wraps rich labels, and omits empty collections; focused stories cover authored and capability-derived projections.",
+      "evidence": [
+        {
+          "resource": "repo://apps/github.io/src/app/skills/skill-experience-list.stories.tsx#L8-L42",
+          "version": "repo-lines-v1:sha256:d5ce32d1f51ba0260d0547374edfae844b0d4eb67e449965fdd0b8ebd407bd83:eyJzZWxlY3RlZExpbmVDb3VudCI6MzUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijc3NDE0NDNlYjgyYzQ3MDA5YmY5YTQ2MDcxMDI5ZDE3NTFjNTRkYzI3ZTI0ZjBhZDQ3ZDVjMTZiZWM3MmJhZGMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImFhMWQxYTYzMzkwMjI5Yzc5ODM0N2U4M2EwNDA1NDQxYzk0MDAwMzUyODRhZDE2OGMxYmY2Y2RmMWQ3MGEzNzAiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImJjZTMyMTVhZjg1MWM3NGFiZWQ0NDQwYzU2MWVmZjA2MDI4ZjM5NzgzMzRiMjI4Y2ZkOTI3NTZiMzVjNzU2ZTAiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        },
+        {
+          "resource": "repo://apps/github.io/src/app/skills/skill-key-outcomes.tsx#L5-L34",
+          "version": "repo-lines-v1:sha256:f2f2f79a8094fdbccd3b6d3379f443022d478cdcc0500b77ad9c964068c24a7b:eyJzZWxlY3RlZExpbmVDb3VudCI6MzAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImYyYjY2NzM5ZTYxMTMzM2JmMWIwMmRkYWMwMDdlMzcyYjc0NzI3N2E4MmEzNzg3YTkxM2NlYjYxMDEwMzQxNTkiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjFlNWE3N2Q5MGQ3MTRhNDE4OTUwYmI5OTljZDY3MjdjNTczNDFjMTNmNGU5M2U5MGFjMWM0YTNkNGZkODM4YTkiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
     }
   ],
   "verification": {
     "by": "openwiki/0.5.0",
-    "at": "2026-09-09T10:46:58.649Z"
+    "at": "2026-09-12T05:51:41.289Z"
   }
 }
