@@ -8,6 +8,7 @@ import type { ReactElement } from 'react';
 
 import type { Experience } from '../experience/experience.types';
 import { getSkillDetailPath } from './skill-route';
+import { SkillKeyOutcomes } from './skill-key-outcomes';
 import type { Skill } from './skill-list.types';
 import { SkillToken } from './skill-token';
 
@@ -93,13 +94,7 @@ export function SkillExperienceCard({
           </Text>
         </VStack>
 
-        <VStack gap={2}>
-          {experience.narrative.map((paragraph) => (
-            <Text key={paragraph} as="p" type="body" color="secondary">
-              {paragraph}
-            </Text>
-          ))}
-        </VStack>
+        <SkillKeyOutcomes outcomes={experience.narrative} />
 
         {resolvedRelevantSkills.length > 0 ? (
           <VStack gap={1}>

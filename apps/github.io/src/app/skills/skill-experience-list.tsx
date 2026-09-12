@@ -8,6 +8,7 @@ import type { ReactElement } from 'react';
 
 import type { CapabilityEvidenceItem } from '../devops-capability-evidence/devops-capability-evidence.types';
 import { getSkillDetailPath } from './skill-route';
+import { SkillKeyOutcomes } from './skill-key-outcomes';
 import type { Skill } from './skill-list.types';
 import { SkillToken } from './skill-token';
 
@@ -64,15 +65,7 @@ export function SkillExperienceList({
                     </Text>
                   </VStack>
 
-                  {facts.length > 0 ? (
-                    <VStack gap={2}>
-                      {facts.map((fact) => (
-                        <Text key={fact} as="p" type="body" color="secondary">
-                          {fact}
-                        </Text>
-                      ))}
-                    </VStack>
-                  ) : null}
+                  <SkillKeyOutcomes outcomes={facts} />
 
                   {relevantSkills.length > 0 ? (
                     <VStack gap={1}>

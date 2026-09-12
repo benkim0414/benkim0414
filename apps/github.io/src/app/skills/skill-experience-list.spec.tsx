@@ -1,4 +1,4 @@
-import { render, within } from '@testing-library/react';
+import { render, screen, within } from '@testing-library/react';
 
 import { devOpsCapabilityEvidenceItems } from '../devops-capability-evidence/devops-capability-evidence.data';
 import { skills } from './skill-list.data';
@@ -19,8 +19,10 @@ describe('SkillExperienceList', () => {
       <SkillExperienceList evidence={experienceFixtures} />,
     );
 
-    expect(getByRole('list', { name: 'Supporting experience' })).toBeTruthy();
-    const listItems = getAllByRole('listitem');
+    const experienceList = getByRole('list', {
+      name: 'Supporting experience',
+    });
+    const listItems = Array.from(experienceList.children) as HTMLElement[];
 
     expect(listItems).toHaveLength(experienceFixtures.length);
     expect(getAllByRole('heading', { level: 3 })).toHaveLength(
@@ -71,8 +73,12 @@ describe('SkillExperienceList', () => {
       <SkillExperienceList evidence={[evidence]} skills={skills} />,
     );
 
+    const outcomes = getByRole('list', { name: 'Key outcomes' });
+
+    expect(outcomes.getAttribute('data-density')).toBe('compact');
+    expect(outcomes.getAttribute('data-list-style')).toBe('disc');
     expect(
-      getByText(evidence.details?.facts[0] ?? '', { selector: 'p' }),
+      within(outcomes).getByText(evidence.details?.facts[0] ?? ''),
     ).toBeTruthy();
 
     const relevantSkills = getByRole('list', { name: 'Relevant skills' });
@@ -128,6 +134,25 @@ describe('SkillExperienceList', () => {
     );
 
     expect(getAllByText(evidence.summary, { selector: 'p' })).toHaveLength(1);
-    expect(getAllByText(duplicateFact, { selector: 'p' })).toHaveLength(1);
+    expect(getAllByText(duplicateFact)).toHaveLength(1);
+  });
+
+  it('omits key outcomes when evidence has no distinct facts', () => {
+    const [evidence] = experienceFixtures;
+
+    expect(evidence).toBeDefined();
+
+    render(
+      <SkillExperienceList
+        evidence={[
+          {
+            ...evidence,
+            details: { facts: [evidence.summary] },
+          },
+        ]}
+      />,
+    );
+
+    expect(screen.queryByRole('list', { name: 'Key outcomes' })).toBeNull();
   });
 });

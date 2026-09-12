@@ -66,7 +66,25 @@ describe('SkillExperienceCard', () => {
       .closest('.astryx-card');
 
     expect(card).not.toBeNull();
-    expect(card?.querySelectorAll('.astryx-text')).toHaveLength(4);
+    expect(card?.querySelectorAll('.astryx-text')).toHaveLength(5);
+  });
+
+  it('presents narrative details as readable key outcomes', () => {
+    render(<SkillExperienceCard experience={ciCdExperience} />);
+
+    const outcomes = screen.getByRole('list', { name: 'Key outcomes' });
+
+    expect(outcomes.getAttribute('data-density')).toBe('compact');
+    expect(outcomes.getAttribute('data-list-style')).toBe('disc');
+    expect(within(outcomes).getAllByRole('listitem')).toHaveLength(2);
+
+    ciCdExperience.narrative.forEach((outcome) => {
+      const text = within(outcomes).getByText(outcome);
+
+      expect(text.getAttribute('data-type')).toBe('body');
+      expect(text.getAttribute('data-color')).toBe('primary');
+      expect(text.textContent).toBe(outcome);
+    });
   });
 
   it('keeps role and environment metadata out of the card surface', () => {
