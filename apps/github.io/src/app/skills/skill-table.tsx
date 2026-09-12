@@ -1,4 +1,7 @@
 import { HStack } from '@astryxdesign/core/Layout';
+import { Button } from '@astryxdesign/core/Button';
+import { EmptyState } from '@astryxdesign/core/EmptyState';
+import { MultiSelector } from '@astryxdesign/core/MultiSelector';
 import {
   pixel,
   Table,
@@ -7,7 +10,8 @@ import {
   useTableSortableState,
 } from '@astryxdesign/core/Table';
 import { Text } from '@astryxdesign/core/Text';
-import type { ReactElement } from 'react';
+import { TextInput } from '@astryxdesign/core/TextInput';
+import { useState, type ReactElement } from 'react';
 
 import { SkillAvatar } from './skill-avatar';
 import { SkillCategory } from './skill-category';
@@ -113,8 +117,22 @@ function createColumns(skills: readonly Skill[]): TableColumn<SkillTableRow>[] {
 }
 
 export function SkillTable({ skills }: SkillTableProps): ReactElement {
+  const [nameQuery, setNameQuery] = useState('');
+  const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
   const columns = createColumns(skills);
-  const rows: SkillTableRow[] = skills.map((skill) => ({
+  const categoryOptions = [
+    ...new Set(skills.flatMap((skill) => skill.categories)),
+  ].sort();
+  const normalizedNameQuery = nameQuery.trim().toLocaleLowerCase();
+  const filteredSkills = skills.filter(
+    (skill) =>
+      skill.name.toLocaleLowerCase().includes(normalizedNameQuery) &&
+      (selectedCategories.length === 0 ||
+        selectedCategories.some((category) =>
+          skill.categories.includes(category),
+        )),
+  );
+  const rows: SkillTableRow[] = filteredSkills.map((skill) => ({
     id: skill.id,
     name: skill.name,
     primaryUse: skill.primaryUse,
@@ -130,15 +148,67 @@ export function SkillTable({ skills }: SkillTableProps): ReactElement {
     ],
   });
   const sortable = useTableSortable<SkillTableRow>(sortConfig);
+  const hasActiveFilters =
+    nameQuery.length > 0 || selectedCategories.length > 0;
+  const resultLabel = `${filteredSkills.length} ${
+    filteredSkills.length === 1 ? 'skill' : 'skills'
+  }`;
 
   return (
-    <Table
-      columns={columns}
-      data={sortedData}
-      hasHover
-      idKey="id"
-      plugins={{ sortable }}
-      verticalAlign="middle"
-    />
+    <>
+      <HStack align="center" gap={2}>
+        <TextInput
+          isLabelHidden
+          label="Skill name"
+          placeholder="Skill name"
+          size="sm"
+          startIcon="search"
+          value={nameQuery}
+          onChange={setNameQuery}
+        />
+        <MultiSelector
+          hasClear
+          isLabelHidden
+          label="Categories"
+          options={categoryOptions}
+          placeholder="Categories"
+          size="sm"
+          triggerDisplay="labels"
+          value={selectedCategories}
+          onChange={setSelectedCategories}
+        />
+        <Text>{resultLabel}</Text>
+        {hasActiveFilters ? (
+          <Button
+            label="Clear all"
+            variant="ghost"
+            onClick={() => {
+              setNameQuery('');
+              setSelectedCategories([]);
+            }}
+          />
+        ) : null}
+      </HStack>
+      {filteredSkills.length === 0 ? (
+        <EmptyState
+          headingLevel={3}
+          isCompact
+          title={
+            skills.length === 0
+              ? 'No skills have been supplied.'
+              : 'No skills match your search or filters.'
+          }
+        />
+      ) : (
+        <Table
+          columns={columns}
+          data={sortedData}
+          hasHover
+          idKey="id"
+          plugins={{ sortable }}
+          verticalAlign="middle"
+        />
+      )}
+    </>
   );
 }

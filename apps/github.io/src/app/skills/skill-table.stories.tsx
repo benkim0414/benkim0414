@@ -16,3 +16,20 @@ export const AllSkills: Story = {
     skills,
   },
 };
+
+export const FilterControlsOpen: Story = {
+  args: {
+    skills,
+  },
+  play: async ({ canvasElement }) => {
+    const categorySelector = canvasElement.querySelector<HTMLButtonElement>(
+      'button[role="combobox"]',
+    );
+
+    if (!categorySelector) {
+      throw new Error('Expected the category selector to render.');
+    }
+
+    categorySelector.click();
+  },
+};

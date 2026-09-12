@@ -1,14 +1,18 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:6118b86515ac54587cafc25ae739266ce7f19bc89ea548d6a5825ee867cc95a0",
+  "pageVersion": "sha256:1dfce1af7aede3f86e6b572c31295ae35c08e8783c4eb954e5807e4412a1b703",
   "claims": [
     {
       "id": "claim_a1aaa09a8bdc4247ba862841aa6d008f",
       "statement": "The root is a private pnpm workspace pinned to pnpm 11.16.0 with apps/* and packages/* package globs.",
       "evidence": [
         {
-          "resource": "repo://package.json",
-          "version": "repo-file-v1:sha256:8e700cd24fce5c8ef64c77f589599797af8b5cdd216e971540cc72ac1642d8d1"
+          "resource": "repo://package.json#L1-L4",
+          "version": "repo-lines-v1:sha256:d2457025d46f04f246beb349eca7ee0aceeb7a3a6afc5453ae6b3d1fb1ad13e5:eyJzZWxlY3RlZExpbmVDb3VudCI6NCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiYTZmYjA4ZmRhMWFjYjk1N2I2MTE2YmQzNzgxMWExZmU0MWEwMTYxMWMwNjMxZWRiZjc4NmQ2ODg5YTI3YTU1YyIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMzMzZTUzZGI4NTFkYzZhMzA2M2QxZDA1NjkwMGVhMDAyZGQwYzRlYWU5NmRhNmZjNzZlNGVmZTIyMWM1ZjA3MCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjAsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNmVjMTlkNWNlMjIwZThhZGZiMmQ3M2Q3NDcxN2RlZTBjNTQxZThhNDAxNDVjNjdkZmNhYjQwOWEzYWUwNGMwZCJ9"
+        },
+        {
+          "resource": "repo://package.json#L28-L29",
+          "version": "repo-lines-v1:sha256:515b63c0334548122e627ffbcc5cf1e94bb8842a014876744d8ccffb6dacddc8:eyJzZWxlY3RlZExpbmVDb3VudCI6MiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMDBmYTZiN2M3YWRjMTFjZTA5OGE0YTljZjc1MmViZDg1ZGQzZTU4YWMwZjhlODA0ZDkzMjljYWY5YjRhYmZlNSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiOWRjNGRlN2VkMzVhMjMzNjQ1Mzk4NjRkYWRiOTM4Yjg3MjMzMzc5MTc5ZDYyOTJiOWZmNWY2MTlhNmMxMzE2NCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZGE4MGI3ZmZiYTg5MGI2ZTkwYjFlMTlkNzk4MTgyZTEzODk3YzViOTZjNzgzYWQ4Yjc1NTBkZDdjZGVkZTJkNSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMzZkODY3ZDQ4NjI1MjUxYzkxOThmOGRkZjgwOTFhZTg0ZjUwZmM3N2M5MzFkODc0MzFiMjYzZDM3NGY1NTEyNSJ9"
         },
         {
           "resource": "repo://pnpm-workspace.yaml#L1-L3",
@@ -45,8 +49,12 @@
       "statement": "The repository exposes OpenWiki setup, status and visualization scripts with openwiki pinned at 0.5.0.",
       "evidence": [
         {
-          "resource": "repo://package.json",
-          "version": "repo-file-v1:sha256:8e700cd24fce5c8ef64c77f589599797af8b5cdd216e971540cc72ac1642d8d1"
+          "resource": "repo://package.json#L17-L19",
+          "version": "repo-lines-v1:sha256:77c934a8b1f933c20fd86c15b9126aed2e77aec022e793a23dfdc7af75a58920:eyJzZWxlY3RlZExpbmVDb3VudCI6MywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMjc3YTA2MTc3MTgzZmEwMmM1ZGJjZDVjMDVkZDc5OTZjZTZmZTk0YzM3NGU4ZTIzYmE2ODY3MGUwMmU3YWUxMiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiZTdiOTVlMDczOTlhYjU2YmIwMTc0YTBjY2MxZjdiZDRjMWMxMzhmYTliZDhiYWRmMGQzYTk1NDRkOWQwMDU4YSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMTJmNGUwMWIwNWZmZDA2YzNlNzcxZWQ3OGEyMTUyMDZkODI5Mzc4NWQyZGMwMWNlYWU2MjQ0NjY1ZmM0NGQ3YSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZmNjYzEzZDY1MDE3NDk2N2YwNmVjYmViMWQ1YTE3MDdhZjkyYjhkMTY2NDc1NTJkYjg1YTMwZWQxNGZmNDgxYyJ9"
+        },
+        {
+          "resource": "repo://package.json#L67-L69",
+          "version": "repo-lines-v1:sha256:0e31c1c80b2ece03326f0172a1721139cf462ac479a182950b283224229b7911:eyJzZWxlY3RlZExpbmVDb3VudCI6MywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMDM0MzI0NWZlYTk5MzkxYTY4Y2Q5ZTU5NmE4MjMxNmM4ODQxNTU0MzUwODNlY2YyYmRiNzRmZGVjMjI4YTZkNyIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNTcyZjk5MzA0Y2I2M2RiZjVmYzI4YjEwYmRhYmJjZjAzNmZhNjc0NWRkOWU3ZTViNmQ5NzU1ZGI1MmE0M2JhMiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZGFkOTM5NDY3ZWU4ZmE3MTAwODUzNzM0NjljMDdhOWIyNGUzZjRjYWI2MTkzZWFlODI0Nzc0Yjg2MTI1NTU5ZSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiYmIxZDdjZDlkMzJhZTcwNjliMGRmZWVmYjY4ZDA4ZGZjYWE4ODg2ODYzMTVhNTM4Mzk4ZTk1YzU1NGE0MTYxOCJ9"
         }
       ]
     },
@@ -109,6 +117,6 @@
   ],
   "verification": {
     "by": "openwiki/0.5.0",
-    "at": "2026-09-10T11:25:10.647Z"
+    "at": "2026-09-12T05:49:45.675Z"
   }
 }

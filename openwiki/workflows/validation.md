@@ -18,8 +18,8 @@ sources:
     resource: repo://apps/github.io/src/app/count-badge.spec.tsx
   - id: openwiki-source-7710c13ca861e757d9eac20c
     resource: repo://apps/github.io/src/app/count-badge.stories.spec.ts
-  - id: openwiki-source-d97b9e088d941d15580a0bd7
-    resource: repo://apps/github.io/src/app/skills/skill-detail-page.spec.tsx
+  - id: openwiki-source-3d04b17fb8b6c27eb59cd798
+    resource: repo://apps/github.io/src/app/skills/skill-table.spec.tsx
   - id: openwiki-source-fcfa3ced1d03143bb27d5018
     resource: repo://apps/github.io/vite.config.ts
   - id: openwiki-source-af76a0570259ad84dd4c02ea
@@ -51,7 +51,7 @@ sources:
 generated: { by: "codex", at: "2026-09-10T11:47:00.605Z" }
 verified:
   - by: openwiki/0.5.0
-    at: 2026-09-10T11:47:00.605Z
+    at: 2026-09-12T05:49:45.675Z
 ---
 
 # Validation workflow
