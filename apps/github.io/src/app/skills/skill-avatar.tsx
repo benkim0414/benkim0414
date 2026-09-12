@@ -25,6 +25,7 @@ import {
 } from 'simple-icons';
 
 import type { Skill } from './skill-list.types';
+import { getSkillBrand } from './skill-brand';
 
 function svgDataUrl(content: string) {
   return `data:image/svg+xml,${encodeURIComponent(content)}`;
@@ -56,8 +57,14 @@ const simpleIconSources: Readonly<Record<string, SimpleIcon>> = {
   expo: siExpo,
 };
 
-function skillAvatarPresentation(iconSlug: string) {
-  const simpleIcon = simpleIconSources[iconSlug];
+function skillAvatarPresentation(skill: Skill) {
+  const brandSource = getSkillBrand(skill.name)?.iconDataUrl;
+
+  if (brandSource) {
+    return brandSource;
+  }
+
+  const simpleIcon = simpleIconSources[skill.iconSlug];
 
   if (simpleIcon) {
     return simpleIconSource(simpleIcon);
@@ -87,7 +94,7 @@ export function SkillAvatar({
       name={skill.name}
       role={isDecorative ? 'presentation' : 'img'}
       size={size}
-      src={skillAvatarPresentation(skill.iconSlug)}
+      src={skillAvatarPresentation(skill)}
       tooltip={tooltip}
     />
   );

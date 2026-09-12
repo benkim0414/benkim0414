@@ -1,6 +1,6 @@
 import { fireEvent, render } from '@testing-library/react';
 
-import { sampleSkills } from './skill-list.data';
+import { sampleSkills, skills } from './skill-list.data';
 import { SkillAvatar } from './skill-avatar';
 
 function svgContent(source: string | null | undefined) {
@@ -106,6 +106,18 @@ describe('SkillAvatar', () => {
         tmuxAvatar.container.querySelector('img')?.getAttribute('src'),
       ),
     ).toContain('<title>tmux</title>');
+  });
+
+  it('uses the canonical skill-token brand asset when no avatar slug logo exists', () => {
+    const lambda = skills.find((skill) => skill.id === 'aws-lambda');
+
+    expect(lambda).toBeTruthy();
+
+    const { container } = render(<SkillAvatar skill={lambda!} />);
+
+    expect(container.querySelector('img')?.getAttribute('src')).toMatch(
+      /aws-lambda.*\.svg/,
+    );
   });
 
   it('lets Astryx Avatar own image sizing inside the circular mask', () => {

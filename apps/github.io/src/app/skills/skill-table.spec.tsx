@@ -104,6 +104,20 @@ describe('SkillTable', () => {
     ]);
   });
 
+  it('sizes columns from the longest value in the supplied skills', () => {
+    const { getByRole } = renderSkillTable();
+    const headers = within(getByRole('table')).getAllByRole('columnheader');
+    const widths = headers.map((header) =>
+      Number.parseFloat(header.style.width),
+    );
+
+    expect(headers.every((header) => header.style.width.endsWith('px'))).toBe(
+      true,
+    );
+    expect(widths[1]).toBeGreaterThan(widths[0]);
+    expect(widths[2]).toBeGreaterThan(widths[3]);
+  });
+
   it.each([
     ['Name', ['Zeta', 'Beta', 'Alpha']],
     ['Primary use', ['Zeta', 'Alpha', 'Beta']],

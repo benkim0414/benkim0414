@@ -45,6 +45,10 @@ const confidenceLabels = {
   5: 'Proven',
 } as const satisfies Record<Skill['confidence'], string>;
 
+export function getSkillConfidenceLabel(confidence: Skill['confidence']) {
+  return confidenceLabels[confidence];
+}
+
 const confidenceTooltip =
   'Self-rated comfort; evidence appears in experience, projects, and certifications.';
 
@@ -55,7 +59,7 @@ export function SkillConfidence({
   textStyle = 'supporting',
   variant = 'text',
 }: SkillConfidenceProps) {
-  const label = confidenceLabels[confidence];
+  const label = getSkillConfidenceLabel(confidence);
   const tooltipContent = (
     <span
       data-testid="skill-confidence-tooltip-copy"
