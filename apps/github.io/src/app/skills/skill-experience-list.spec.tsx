@@ -79,9 +79,24 @@ describe('SkillExperienceList', () => {
     }).closest('.astryx-card');
 
     expect(card).not.toBeNull();
-    const [outcomes] = within(card as HTMLElement).getAllByRole('list');
+    const outcomeLists = within(card as HTMLElement)
+      .getAllByRole('list')
+      .filter(
+        (list) =>
+          list.getAttribute('data-density') === 'compact' &&
+          list.getAttribute('data-list-style') === 'disc',
+      );
+
+    expect(outcomeLists).toHaveLength(1);
+    const outcomes = outcomeLists[0];
+
+    if (!outcomes) {
+      throw new Error('Expected a compact disc outcome list.');
+    }
 
     expect(queryByText('Key outcomes')).toBeNull();
+    expect(outcomes.getAttribute('aria-label')).toBeNull();
+    expect(outcomes.getAttribute('aria-labelledby')).toBeNull();
     expect(outcomes.getAttribute('data-density')).toBe('compact');
     expect(outcomes.getAttribute('data-list-style')).toBe('disc');
     expect(
