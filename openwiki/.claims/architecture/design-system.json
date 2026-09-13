@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:a7a5bbdffa3e31e900d7886c15220ed4f00bedf6bdd23c3473d4ddbf75538eba",
+  "pageVersion": "sha256:521793acbe54563bdbe48c8d4a6f4a5a602c93a976cb3669c7e10786e909f4c5",
   "claims": [
     {
       "id": "claim_67f0a6341495404e8eefce3e45fd6173",
@@ -209,10 +209,20 @@
           "version": "repo-lines-v1:sha256:d441adf62a179b7c7b5e0e8fe3399a5759c373cc7e602653643f9d5c38b56946:eyJzZWxlY3RlZExpbmVDb3VudCI6MTAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImE5MzllZWU1N2NmYjM4OWNmMGRjMmNjMmU5ZmE5ZjA5MzZjZGUwY2E5ODJkODgxNDczOTIzYmM4ODMwNzE1NGYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjFlNzVjNzBkOTQ2MzYyNWUxMDc5ZmQ4ZmM4ZWU2MmFkMmU5MmM0MmJlYWFiZmQ4NWI3OGQ4ZTBhNDk3OWI5NGEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImNmNmFjNzUwMzE0ZWEwODQwMTMzZDZmZGY5NWEzMmEyNjVkZGNmMGY0M2YzNmI2ZWMzMDhmMTQ2MWM4OTUxODIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImQwOTUyMzEyNGZjMTNhM2I5MjZiZmE0NjkwNTljY2JlOTY0NzljZmUxMTY5NjY1NTM2OTg0NzU5YTg0YjZkYmIifQ"
         }
       ]
+    },
+    {
+      "id": "claim_87627df0fb2a40caa8fa8de5218e3fc7",
+      "statement": "The skill-detail page renders shared neutral count badges beside both the Experience and Projects headings, keeps each badge outside the heading element, and derives each count from the collection rendered by that section.",
+      "evidence": [
+        {
+          "resource": "repo://apps/github.io/src/app/skills/skill-detail-page.tsx#L160-L201",
+          "version": "repo-lines-v1:sha256:7236e57bcb57e9da8ac6d2825d61379213ee0590e0726d5e2d02fe9081ee12b6:eyJzZWxlY3RlZExpbmVDb3VudCI6NDIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjA3NWExY2U1OGMxMTBlYzA3NWUzMmE3YWJjZmNlZTlkYTQzMzY3YWMwMzRiNWU2MjAxYjg5OGRhMzI1ODM4Y2YiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjEwMDhlYWM3NTAyNTk5ODkwZDNkYWVmMjI3ODU4OGEzZTIwYTVlYWJiYTA3YTZkNTU2MjQ0YjNkYjhkOWZlZDMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6Ijg2NTYzZGUyNzgxZTk2YTFhNGNkNTlmYTEyZmVkYmM3MWZmNjhkNzNhNTZkZjQ3MjVmNzhiZDBlZjc1OGRkYTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImQ1ZWMxNWU1NWFiMjU5ZGUzYjgwZDhkNWVmNjdhY2U3ZTA0MWYwYmJmYzc1OWVkYzFiYWI2ZGJlYTI3NzU0ZGIifQ"
+        }
+      ]
     }
   ],
   "verification": {
     "by": "openwiki/0.5.0",
-    "at": "2026-09-13T10:13:03.396Z"
+    "at": "2026-09-13T10:46:09.743Z"
   }
 }

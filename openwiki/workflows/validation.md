@@ -62,10 +62,10 @@ sources:
     resource: repo://scripts/setup-openwiki.test.mjs
   - id: openwiki-source-165465422a61a00b62b0f6d3
     resource: repo://scripts/sync-github-pages-artifact.test.mjs
-generated: { by: "codex", at: "2026-09-13T10:13:03.396Z" }
+generated: { by: "codex", at: "2026-09-13T10:46:09.743Z" }
 verified:
   - by: openwiki/0.5.0
-    at: 2026-09-13T10:13:03.396Z
+    at: 2026-09-13T10:46:09.743Z
 ---
 
 # Validation workflow
@@ -211,10 +211,12 @@ Both targets depend on build. They complement DOM tests with compiled-CSS and
 browser-level checks; a jsdom pass alone does not establish mobile scroll or
 visual correctness. Browser prerequisites and failures must be reported, not
 converted into an assumed pass. The mobile browser verifier also checks the
-skill-detail Experience heading and its neutral count badge as rendered
-geometry: both must exist, fit within the main surface without overlap, align
-vertically, retain the native `Experience` heading name, and show the expected
-primary-experience count.
+skill-detail Experience and Projects headings and their neutral count badges as
+rendered geometry: each pair must exist, fit within the main surface without
+overlap, align vertically, retain the native heading name, and show the expected
+collection count. The page-level component test separately ensures the Projects
+badge is outside the heading's accessible name and derives from the rendered
+projects collection.
 
 For agent-document or OpenWiki setup changes:
 

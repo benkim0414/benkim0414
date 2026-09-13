@@ -5,7 +5,7 @@ description: How Astryx, StyleX, theme persistence, and browser layout checks fi
 tags: [astryx, stylex, theme, layout]
 verified:
   - by: openwiki/0.5.0
-    at: 2026-09-13T10:13:03.396Z
+    at: 2026-09-13T10:46:09.743Z
 sources:
   - id: openwiki-source-45b1d77b308bd57403f55ff9
     resource: repo://apps/github.io/.storybook/story-taxonomy.spec.ts
@@ -57,7 +57,7 @@ sources:
     resource: repo://apps/github.io/src/styles.css
   - id: openwiki-source-fcfa3ced1d03143bb27d5018
     resource: repo://apps/github.io/vite.config.ts
-generated: { by: "codex", at: "2026-09-13T10:13:03.396Z" }
+generated: { by: "codex", at: "2026-09-13T10:46:09.743Z" }
 ---
 
 # Design system and layout
@@ -90,8 +90,11 @@ Small repeated presentation values belong in reusable app components. For
 example, the app-level `CountBadge` exposes a numeric `count` prop and delegates
 the rendered label and neutral styling to Astryx's `Badge`; its colocated
 Storybook stories are cataloged as `Components/Count Badge` and cover a
-representative populated count and zero. This keeps pages from recreating the
-design-system contract for count indicators.
+representative populated count and zero. The skill-detail page uses this shared
+badge beside both its Experience and Projects headings. Each badge sits outside
+the heading's accessible name in the same centered horizontal layout and derives
+its value from the collection rendered by that section. This keeps pages from
+recreating the design-system contract for count indicators.
 
 The DevOps roadmap follows the same boundary. `DevOpsRoadmapStepper` delegates
 ordering, vertical connectors, numbered indicators, completed announcements,

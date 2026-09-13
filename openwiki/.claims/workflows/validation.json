@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:b5bd32827e03109eb3123ed440a8ce3101ab250f09eee30f4622a23ee4af0fde",
+  "pageVersion": "sha256:556cca2f4121ccb1a214ef3c87ea88daf29960e4b6eb82c5e405e263cfa612e9",
   "claims": [
     {
       "id": "claim_6cbb6dd0080f4763aaf4dec964f7f76e",
@@ -74,19 +74,15 @@
     },
     {
       "id": "claim_14189418ccfe4618bf632dce6a440539",
-      "statement": "The production mobile-layout browser verifier checks that the Kubernetes skill's Experience heading and neutral count badge are rendered, non-overlapping, within the main bounds, vertically aligned, and retain the expected heading text and primary-experience count.",
+      "statement": "The production mobile-layout browser verifier checks that the Kubernetes skill's Experience and Projects headings and neutral count badges are rendered, non-overlapping, within the main bounds, vertically aligned, retain their expected heading text, and show their expected collection counts.",
       "evidence": [
         {
-          "resource": "repo://apps/github.io/scripts/verify-mobile-layout-browser.mjs#L49-L63",
-          "version": "repo-lines-v1:sha256:493d62a9339a5e4319a4cd2b6c630088364320cd7140b5c353f06738c3a4e04d:eyJzZWxlY3RlZExpbmVDb3VudCI6MTUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjIxMTFmMjM5YWM2NWM5ZmVjZDRmNzk3NWQ0ZWUwYzY3N2I1OGE4ZWE2Nzg1MmVhMjVkMjc5MjM5MjUxOGQyZjgiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjRkNWNkMmZiNGYzZGY4ODQ1MTUyNTViMzk1MjNmMmY4YjU0NzJiZWVhOWY1NjZmZmNhMjA0ZGI4MDI1NjEwNDEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUyNWQxMWM4MGUwOTJjMWRmOTMyYjg5ZDRlMTM3MDMzNjU3NDUyNWYwOTk1NzQ2MGNlOWY5ZWUzNjU3YzI4ZTYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjFkNjRmNWI1OGIxMDM5MmQ3NWU2NzBkMmEyYmEwZTE3NGYwNjgzNzRiY2U0YWUzYWFhZTBjNDQ0OTYwNjdhOWMifQ"
+          "resource": "repo://apps/github.io/scripts/verify-mobile-layout-browser.mjs#L1034-L1125",
+          "version": "repo-lines-v1:sha256:6e2e96aa5e539bede22c99eb5c78a281c48b99f310bfc86c2ec617e977a074d6:eyJzZWxlY3RlZExpbmVDb3VudCI6OTIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjhjYWExYzk4Y2QxN2RmNzI0YWU2MzZhZjhhY2Q3OTlmMzFkM2YxNjRhODVjMmE5NDAyYmE0N2FiMjcyYmQ5MTIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjI3ZTU3ODhkNWQ5ZDczZDI0YTgxZGJjMGE1YTc0YmZhODJjOWMzYjNhZjk5ZTUyYWY3OTZlOTBiNDY4YThhM2QiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjFkYjNlN2NkMGMzYTYyMzA0NzY2ODE2MWQxMDRlOTlkODYyMDljYTNlNzc1NGEyNWIxMTlhNDkwNzg3ODA0MjYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjVlMWEwNDNmYTRmNzM5MGMyNTdjNGJlMzllZmE1M2RkODEwM2QyZjY3ODZhY2Q4NDYyMzQ1NmMxNGJlZDhjMzcifQ"
         },
         {
-          "resource": "repo://apps/github.io/scripts/verify-mobile-layout-browser.mjs#L786-L795",
-          "version": "repo-lines-v1:sha256:7fc61111dc80e59331d7d17a21a5dda12eb2e4a44f14527d278abc4a8a07a5ae:eyJzZWxlY3RlZExpbmVDb3VudCI6MTAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg3NTljZmZiNWIxMTgwMDMzMjYzM2E1ODdmMTY4MGRjYzFlMWU3NzJiZWYzMjFkY2RmNmRmYzYwNjNlNjMxMTAiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImNmMzFiMzNhNTJlYTI1NTU1N2YyODdiODZmZmI1Mzg2OThiYzFkZGViZTdmOTkyZTBjYjBmYzQ0OTUyNDkxNWMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjNiMjExZmM2MmE4MmZkZTdjNTU3ZmY0NjExNjA3YjZhZjNlMjFlZjliYjJkNDUyZjRjOGRhMjgwZDIyOGNjNWYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjdkMTlkMzdkZDM2MzFmYzEzMGZlZjFhMzIxYTAwZjJlNzkxZDE2YWEyMjA4NzE1NzJlMzY4ZjNkODEzZGQ4MmYifQ"
-        },
-        {
-          "resource": "repo://apps/github.io/scripts/verify-mobile-layout-browser.mjs#L913-L984",
-          "version": "repo-lines-v1:sha256:b18b52c7513f2634cb622cbcc7c16cacfe665799fa30921cd79d73cc5db0404e:eyJzZWxlY3RlZExpbmVDb3VudCI6NzIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjhjYWExYzk4Y2QxN2RmNzI0YWU2MzZhZjhhY2Q3OTlmMzFkM2YxNjRhODVjMmE5NDAyYmE0N2FiMjcyYmQ5MTIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijk1ZWYwMWJjMDhkYmMzYjYzZTRlNzVlYTNkMjZhNWI5NDE4OTE4NzdlMjdhZDg5MTMyOWM4NDExZDdkOGRjNGQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjFkYjNlN2NkMGMzYTYyMzA0NzY2ODE2MWQxMDRlOTlkODYyMDljYTNlNzc1NGEyNWIxMTlhNDkwNzg3ODA0MjYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjJjNGQ3ODg0NTMzZmZhN2JmODlkNjA2OTBlZDExOWE5ODM1ZjQwZjgyZjQ1OWI5MzM2NTYwZGI2OWNjNTE3MWIifQ"
+          "resource": "repo://apps/github.io/scripts/verify-mobile-layout-browser.mjs#L52-L67",
+          "version": "repo-lines-v1:sha256:5fceb4e9ad1611f8e2f8b721cadc7c0ee80e200ffe3156c93bcb7d5d6d27dad7:eyJzZWxlY3RlZExpbmVDb3VudCI6MTYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjIxMTFmMjM5YWM2NWM5ZmVjZDRmNzk3NWQ0ZWUwYzY3N2I1OGE4ZWE2Nzg1MmVhMjVkMjc5MjM5MjUxOGQyZjgiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjFmMGNkYjk3MmE3YmZiN2VkMjQ2ZjlmZjY3MjM4NWU1NWY0OTY4ZmMxMTA0M2RjNWI2ODRkNTFkZmEzMWRiY2IiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUyNWQxMWM4MGUwOTJjMWRmOTMyYjg5ZDRlMTM3MDMzNjU3NDUyNWYwOTk1NzQ2MGNlOWY5ZWUzNjU3YzI4ZTYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjQwM2I2NWI0ZmNhMzhjYzVlMzQyYjAxMTcyM2Q5YzhlMWQ1YWZmZDY3OGI1Zjg2M2UwM2U5MTA5OTVkZTYwNmIifQ"
         }
       ]
     },
@@ -261,10 +257,20 @@
           "version": "repo-lines-v1:sha256:72a74e7313fa2e628a2705259264e6032b5f9ef094bceb67d4f5da81ad685382:eyJzZWxlY3RlZExpbmVDb3VudCI6OSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiOWI2NzkxNjU1ODljMThiYzM0OWFjZmVjNDMzYzAwODU5ZGQwYzU0YzJlZDhhYWZjODVkMzA0ZDFiMWE1M2FlOSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiZjZmNWI0MGIxNTg0NTdkMTc4NjRmMjE3OTA3ODZkZDVhMmVjZGI2NGI2NmE2NTFmNzg4ZDRlMjVjZDMzMDNkMiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjAsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjAsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSJ9"
         }
       ]
+    },
+    {
+      "id": "claim_37d2c57dc40c484cba28e5cb417eb944",
+      "statement": "The skill-detail component test verifies that the Projects badge shows the rendered projects count while remaining outside the Projects heading's accessible name.",
+      "evidence": [
+        {
+          "resource": "repo://apps/github.io/src/app/skills/skill-detail-page.spec.tsx#L427-L438",
+          "version": "repo-lines-v1:sha256:f444e1cbe8e54445e9daa8e88ba9e57516d62a91df569a9aec7185a84f531a9e:eyJzZWxlY3RlZExpbmVDb3VudCI6MTIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjVhMjBkMzQxMjg5YTY4YjgyODQxOTUzNWUzNWNmN2E4OTMyZjVlYTQ4YWIwYWM2MDhkYjZiZmUyMTYwNjBiZjAiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjNhM2U0NmY5NDI3NmI2ZjZmNGVkMWYwMmFmNzhiZWY2YTJlZTFjNDM5ZGQ1NTg0Yjk3Mzk0ODMxMzIxNGQyYjciLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjY0YjQxYjRiYTk3N2ZmZmM4NWU5OTA3ZjE2Y2MxYzBhZjBhMTRlY2ZmMzNkNjc1NDUwNzRlY2JiZTUzNDVhMTQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjZhMDg0NGM1YzA3OWYyZmFjZjhmZDNlMTU3NmJjYzc5YzIwODRmYjhiN2Y1Yjg5Yzk2YTA5OWVmYWE2ZTdjYjgifQ"
+        }
+      ]
     }
   ],
   "verification": {
     "by": "openwiki/0.5.0",
-    "at": "2026-09-13T10:13:03.396Z"
+    "at": "2026-09-13T10:46:09.743Z"
   }
 }
