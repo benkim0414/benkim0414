@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:6a8832019392256d268e5ceb5db134ab5e649cd462c7140be84965773cfa94f1",
+  "pageVersion": "sha256:fd10a00a19e823104802ed79f7ae35f56b8b6ca0bfedb3d14d6078726640f1a7",
   "claims": [
     {
       "id": "claim_da9ac46eb2204e9b9a555848aea5550d",
@@ -31,8 +31,8 @@
       "statement": "SkillDetailRoute passes authored source collections to resolveSkillDetail and chooses a full-width not-found component or SkillDetailPage based on the resolution.",
       "evidence": [
         {
-          "resource": "repo://apps/github.io/src/app/skills/skill-detail-route.tsx",
-          "version": "repo-file-v1:sha256:d59af87a188308f8157b20483104b0d4fbc597e8e619d2ce00588d3aa132cf26"
+          "resource": "repo://apps/github.io/src/app/skills/skill-detail-route.tsx#L9-L17",
+          "version": "repo-lines-v1:sha256:337f574e0b99b4ee592a5e0a80ead554c206f0fbc364c4b96908b6891f16681d:eyJzZWxlY3RlZExpbmVDb3VudCI6OSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMGVhN2NmZjMyZmE2ZDEwOWIyMDk3ZjA0NGZhOTdjZDEzYjBmZTA3OWUxOTc5MDgyZDZkMDE2MzRlYmZkMTliNyIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMmRjZGJhMWZkMGE5MjRlOWQ2MTI3MDFjMjFjZWUxMWZmNzkwNTQ5ZmFjM2M0YzA3NjIyYWM2ZDdkMjlkMTU4MyIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZGZlZGMyZjVmOTNkZDExNGQ2MzcwNGY0Y2RkNWMyNGZhYTc1ZjNhMDBiYjhiNWM0NGUxMTViNDg1NWI3NjBjNyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjEsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNDEyY2EzNDVjY2Y3NWJmOWMwODA2YmNlNjk1YmU4ZGU4MDhiNzk5ODQyNTFhN2E1NGQyMDJjZjYxMDFkZDQ1MSJ9"
         }
       ]
     },
@@ -48,29 +48,29 @@
     },
     {
       "id": "claim_466cbd14839941c58399743b6191d5b5",
-      "statement": "The SkillDetailPage renders the Experience section when primary experiences or supporting evidence exist, but passes only the primary experience length to a sibling count badge so the level-two heading remains named `Experience`.",
+      "statement": "SkillDetailContent renders the Experience section when primary experiences or supporting evidence exist, but passes only the primary experience length to a sibling count badge so the level-two heading remains named `Experience`.",
       "evidence": [
         {
-          "resource": "repo://apps/github.io/src/app/skills/skill-detail-page.spec.tsx#L336-L360",
-          "version": "repo-lines-v1:sha256:c0cfbf0f100037186c52db40ccc402892ee8fdc89a4056b7ca9a54c244650ea7:eyJzZWxlY3RlZExpbmVDb3VudCI6MjUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImJlMWEyNDgwODdiNjkwOWJjNjFjMDc3MTgyNzRkZThlYmU0Y2RjODBjMjM1MzE4N2RiNDBiYzFkMjgzMzAzZDQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjNhM2U0NmY5NDI3NmI2ZjZmNGVkMWYwMmFmNzhiZWY2YTJlZTFjNDM5ZGQ1NTg0Yjk3Mzk0ODMxMzIxNGQyYjciLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImM1YmQ5ZDdkYTJkOGI1ODllZDlhZGQyNmMyNTNmNzFjNzUyNzgxZTA2YzA5N2M1NGQ1NjgwZTkyYmU5MWE2ZWEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjZhMDg0NGM1YzA3OWYyZmFjZjhmZDNlMTU3NmJjYzc5YzIwODRmYjhiN2Y1Yjg5Yzk2YTA5OWVmYWE2ZTdjYjgifQ"
+          "resource": "repo://apps/github.io/src/app/skills/skill-detail-content.tsx#L45-L125",
+          "version": "repo-lines-v1:sha256:640f04d47b234177759ada0cc848a80e3b5c26f091472f503a41e17b99da9b4a:eyJzZWxlY3RlZExpbmVDb3VudCI6ODEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImJiZWM5MjdhMTZiNjA1OWFhNTQxNDU5MTE4ZDNhNGFiYTUyMDQ4ZTdkZDdjODg2NWNlNjI3YjkwZGFkMTE1ZTkiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjEwZmQwMzlhMzcxMWE3ZTYwZjhjNzg5Yzc1YjNjMjQ5ODFlYmRkMWQ4OGNlYTcyNjIxYzgxOWEwYjlhYzdjNjgiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjYzOWQ3MTgyNjllODYwNmEyYjU3NGVlNzFlYTc3YjhlYzcwYTFmZTMzNmVkZDQ1MGFkMGNiNWVjZWUxZGM1OTIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImQzMzQ0ZTY0ZjMzMGI3NTk1MDRhODE1M2Y5ZjQ2NWIzYzQwZmRlMTVlMzVhNzljOTY4YTZjOTlhMTJlZjg1MWYifQ"
         },
         {
-          "resource": "repo://apps/github.io/src/app/skills/skill-detail-page.tsx#L128-L153",
-          "version": "repo-lines-v1:sha256:58860e77f07de12a5bd5f53c989ede7752e67c77c1bf6e110162ab41ea528cbd:eyJzZWxlY3RlZExpbmVDb3VudCI6MjYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjA3NWExY2U1OGMxMTBlYzA3NWUzMmE3YWJjZmNlZTlkYTQzMzY3YWMwMzRiNWU2MjAxYjg5OGRhMzI1ODM4Y2YiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjEwMDhlYWM3NTAyNTk5ODkwZDNkYWVmMjI3ODU4OGEzZTIwYTVlYWJiYTA3YTZkNTU2MjQ0YjNkYjhkOWZlZDMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6Ijg2NTYzZGUyNzgxZTk2YTFhNGNkNTlmYTEyZmVkYmM3MWZmNjhkNzNhNTZkZjQ3MjVmNzhiZDBlZjc1OGRkYTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImZhN2RlY2ZjY2IxOGE1Y2FhNzE4NGZiNjYxOGQ3MzA4ZWFmMDc5OTdhNjY1ZDQwZjU3YTVkZTE1ZjRmYjIwOTIifQ"
+          "resource": "repo://apps/github.io/src/app/skills/skill-detail-page.spec.tsx#L354-L365",
+          "version": "repo-lines-v1:sha256:9542e98e607e3ca4f7b12209b796ec3080f073a58ac4579be9085ddb08b54d6a:eyJzZWxlY3RlZExpbmVDb3VudCI6MTIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImJlMWEyNDgwODdiNjkwOWJjNjFjMDc3MTgyNzRkZThlYmU0Y2RjODBjMjM1MzE4N2RiNDBiYzFkMjgzMzAzZDQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjNhM2U0NmY5NDI3NmI2ZjZmNGVkMWYwMmFmNzhiZWY2YTJlZTFjNDM5ZGQ1NTg0Yjk3Mzk0ODMxMzIxNGQyYjciLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImM1YmQ5ZDdkYTJkOGI1ODllZDlhZGQyNmMyNTNmNzFjNzUyNzgxZTA2YzA5N2M1NGQ1NjgwZTkyYmU5MWE2ZWEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjNjZTg1NmRiNTkxODJhNzMzNDYxMTRhYmUxYjYyMDg0YWExZTAwZDY3NTY2ZWJkYjU1OGY2NjFiN2QxMmJiNmYifQ"
         }
       ]
     },
     {
       "id": "claim_2f5872dd70294613a8a5d94a687b74b5",
-      "statement": "`SkillDetailPage` renders the reusable app-level `CountBadge` immediately after the Experience heading, preserving the heading's own accessible name.",
+      "statement": "SkillDetailContent renders the reusable app-level CountBadge immediately after the Experience heading, preserving the heading's own accessible name.",
       "evidence": [
         {
-          "resource": "repo://apps/github.io/src/app/skills/skill-detail-page.spec.tsx#L336-L347",
-          "version": "repo-lines-v1:sha256:9542e98e607e3ca4f7b12209b796ec3080f073a58ac4579be9085ddb08b54d6a:eyJzZWxlY3RlZExpbmVDb3VudCI6MTIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImJlMWEyNDgwODdiNjkwOWJjNjFjMDc3MTgyNzRkZThlYmU0Y2RjODBjMjM1MzE4N2RiNDBiYzFkMjgzMzAzZDQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjNhM2U0NmY5NDI3NmI2ZjZmNGVkMWYwMmFmNzhiZWY2YTJlZTFjNDM5ZGQ1NTg0Yjk3Mzk0ODMxMzIxNGQyYjciLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImM1YmQ5ZDdkYTJkOGI1ODllZDlhZGQyNmMyNTNmNzFjNzUyNzgxZTA2YzA5N2M1NGQ1NjgwZTkyYmU5MWE2ZWEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjNjZTg1NmRiNTkxODJhNzMzNDYxMTRhYmUxYjYyMDg0YWExZTAwZDY3NTY2ZWJkYjU1OGY2NjFiN2QxMmJiNmYifQ"
+          "resource": "repo://apps/github.io/src/app/skills/skill-detail-content.tsx#L101-L109",
+          "version": "repo-lines-v1:sha256:064365a26ebbc5c46975e8a64421fff4095ade944fc4ab350fc137d4cc6e1073:eyJzZWxlY3RlZExpbmVDb3VudCI6OSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMDc1YTFjZTU4YzExMGVjMDc1ZTMyYTdhYmNmY2VlOWRhNDMzNjdhYzAzNGI1ZTYyMDFiODk4ZGEzMjU4MzhjZiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiZTI1Nzk5MTk3ZDU4YWI0OWZmMzQwZWI1YjE1ZDNiYTllNWYxZmM1MzQ1ODk4YmVlYzJkZjVmMGU3MGEwYWI5YSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiODY1NjNkZTI3ODFlOTZhMWE0Y2Q1OWZhMTJmZWRiYzcxZmY2OGQ3M2E1NmRmNDcyNWY3OGJkMGVmNzU4ZGRhNSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMmEyNTQwNGJlNDBjMjkyM2FjMWQ1ZmFmNjdkZjA3YTk4YjAxZGJjMmFiYWIzNGI2MmE2NDUwNmM3MjZiMzliYiJ9"
         },
         {
-          "resource": "repo://apps/github.io/src/app/skills/skill-detail-page.tsx#L128-L136",
-          "version": "repo-lines-v1:sha256:064365a26ebbc5c46975e8a64421fff4095ade944fc4ab350fc137d4cc6e1073:eyJzZWxlY3RlZExpbmVDb3VudCI6OSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMDc1YTFjZTU4YzExMGVjMDc1ZTMyYTdhYmNmY2VlOWRhNDMzNjdhYzAzNGI1ZTYyMDFiODk4ZGEzMjU4MzhjZiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiZTI1Nzk5MTk3ZDU4YWI0OWZmMzQwZWI1YjE1ZDNiYTllNWYxZmM1MzQ1ODk4YmVlYzJkZjVmMGU3MGEwYWI5YSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiODY1NjNkZTI3ODFlOTZhMWE0Y2Q1OWZhMTJmZWRiYzcxZmY2OGQ3M2E1NmRmNDcyNWY3OGJkMGVmNzU4ZGRhNSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMmEyNTQwNGJlNDBjMjkyM2FjMWQ1ZmFmNjdkZjA3YTk4YjAxZGJjMmFiYWIzNGI2MmE2NDUwNmM3MjZiMzliYiJ9"
+          "resource": "repo://apps/github.io/src/app/skills/skill-detail-page.spec.tsx#L354-L365",
+          "version": "repo-lines-v1:sha256:9542e98e607e3ca4f7b12209b796ec3080f073a58ac4579be9085ddb08b54d6a:eyJzZWxlY3RlZExpbmVDb3VudCI6MTIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImJlMWEyNDgwODdiNjkwOWJjNjFjMDc3MTgyNzRkZThlYmU0Y2RjODBjMjM1MzE4N2RiNDBiYzFkMjgzMzAzZDQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjNhM2U0NmY5NDI3NmI2ZjZmNGVkMWYwMmFmNzhiZWY2YTJlZTFjNDM5ZGQ1NTg0Yjk3Mzk0ODMxMzIxNGQyYjciLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImM1YmQ5ZDdkYTJkOGI1ODllZDlhZGQyNmMyNTNmNzFjNzUyNzgxZTA2YzA5N2M1NGQ1NjgwZTkyYmU5MWE2ZWEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjNjZTg1NmRiNTkxODJhNzMzNDYxMTRhYmUxYjYyMDg0YWExZTAwZDY3NTY2ZWJkYjU1OGY2NjFiN2QxMmJiNmYifQ"
         }
       ]
     },
@@ -91,10 +91,30 @@
           "version": "repo-lines-v1:sha256:361ed2d442aa29a01dce97331efd5c64b4cf67920a0ee41dd79e03b4fd463480:eyJzZWxlY3RlZExpbmVDb3VudCI6MzIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg2YjRkZDE0ZjY2OWUyMjA3OGY5ZjM4NGNjMmVhMWZhNjdkYzA1ODRhMDg3NTM5MDU2NTA2Y2IxZjM2MzE2NzAiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImE3Yzc0YWYyZDEyZDdhODQ5YTIxNTgwODFjMWE3MTU3ZTdjZjI3ZTA0ZWYwZDJjYzdhNDdhNDFhYzkwMTUwOGUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjgwMzg3YjYxYmEyOTM3MzU1MmU0Zjk2MTBjODk1YzcwZDkwNGY4YmMzMTIyZmYxMjI1ZDE3NDcxOTUxMTU1NzEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjoyLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjdiOGI2MDBhNWI0NDhiMWU0ZDAyZGYwOTc0NmVkM2NhMzE3MmY3NWM0YWFiYjAxZGRlMDgwZTM2Y2FiMDc0YjQifQ"
         }
       ]
+    },
+    {
+      "id": "claim_b27536f7474640569b04c7cb33a09382",
+      "statement": "SkillsPage keeps filters and selected-skill state at the route boundary, chooses cards or SkillTableDetailLayout from the table media query, and restores the activated row's focus after either detail presentation closes.",
+      "evidence": [
+        {
+          "resource": "repo://apps/github.io/src/app/skills/skills-page.tsx#L41-L118",
+          "version": "repo-lines-v1:sha256:44f3134eb9785fc6dda2eadc489d9278ee423f50c677b96065d0ebc069a90fa5:eyJzZWxlY3RlZExpbmVDb3VudCI6NzgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImYyOGM3ZWQzNDNlMzBiNDgwM2M1YmY0M2U2NjlkZmM1M2RhMmQwNzEzNjcxNzU3NzY5ZWE5ODU4YmVhNTE3ZGIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjYxZWMzYWEwYWRmOGJlZWE2YTk5MmZmZmQ4MDdhMTVjOTczZWZjNTJmY2Q2NTA1OWZlNWIzNTU4YTBkZWNkNTMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjcwM2RmY2U2NTQyMzVjZDRiYTA0MGY1ZGZjMmY2YWYwYzZmZGI5ZmEwNTg3ZTA4MDg1NmYwMDE3NWMxZDhmZmQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImQ4MTIxOTU0NjZjODUxYTM2NGZjNDdkODg3NzBmYTVmMzMzMGM4MTQ1ZWNjZjkxNzJmNzFlZDNhMzRjZjc2OGQifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_e222ac51859945e4b30e6e84e3d0dc01",
+      "statement": "SkillTableDetailLayout renders a selected detail in a resizable desktop end panel or a compact-surface bottom sheet without duplicating the detail body.",
+      "evidence": [
+        {
+          "resource": "repo://apps/github.io/src/app/skills/skill-table-detail-layout.tsx#L54-L148",
+          "version": "repo-lines-v1:sha256:6da0b5a8b8e4f36734b7a2da25fac318357cdbcadec785f2824e7a5c68c006a2:eyJzZWxlY3RlZExpbmVDb3VudCI6OTUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImI2ODE0YmUxNWUxMjM4MzFkMzVlNmFmYThlNmI3YWU4N2ZhY2UxNTVlOGRjM2U4Mzg2ZjE1YzM5OWI5NzRjYjciLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQ3MzY5NTY4MzljNjM1YmFkNzRmZTM3NmY5ODhmM2Y1ZWNiOTAyMmRmZmY3MzUyZTg4MzZkMTA3N2Q1MmUyN2IiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImE4ZDZjM2M2Y2I2NTM3ZWM3NjY1ZTE5YmRmMWFlMmIzYTU5MTVhODhhNDdjZGRhOTAyZGQzN2JkNTE3ZGZhNTciLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjoyLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjdiOGI2MDBhNWI0NDhiMWU0ZDAyZGYwOTc0NmVkM2NhMzE3MmY3NWM0YWFiYjAxZGRlMDgwZTM2Y2FiMDc0YjQifQ"
+        }
+      ]
     }
   ],
   "verification": {
     "by": "openwiki/0.5.0",
-    "at": "2026-09-09T10:30:13.793Z"
+    "at": "2026-09-13T08:16:21.924Z"
   }
 }

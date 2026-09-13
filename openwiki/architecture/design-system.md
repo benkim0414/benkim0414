@@ -5,7 +5,7 @@ description: How Astryx, StyleX, theme persistence, and browser layout checks fi
 tags: [astryx, stylex, theme, layout]
 verified:
   - by: openwiki/0.5.0
-    at: 2026-09-12T06:05:48.941Z
+    at: 2026-09-13T08:16:21.924Z
 sources:
   - id: openwiki-source-45b1d77b308bd57403f55ff9
     resource: repo://apps/github.io/.storybook/story-taxonomy.spec.ts
@@ -31,12 +31,14 @@ sources:
     resource: repo://apps/github.io/src/app/home/home-page.spec.tsx
   - id: openwiki-source-0e3b0dfb231db070ffd8340f
     resource: repo://apps/github.io/src/app/home/home-page.tsx
-  - id: openwiki-source-a08412c702b94999bfa82651
-    resource: repo://apps/github.io/src/app/skills/skill-table.stories.tsx
+  - id: openwiki-source-b7cc9784bea6b15d468f9f23
+    resource: repo://apps/github.io/src/app/skills/skill-table-detail-layout.tsx
   - id: openwiki-source-c2ac9449940c36fc7db6b3e4
     resource: repo://apps/github.io/src/app/skills/skill-table.tsx
   - id: openwiki-source-4fbf5ecc6f0c1fc5eff98141
     resource: repo://apps/github.io/src/app/skills/skills-page.spec.tsx
+  - id: openwiki-source-7c231b2ec321d7ab8ca1554f
+    resource: repo://apps/github.io/src/app/skills/skills-page.stories.tsx
   - id: openwiki-source-a845ec3d01c38967df3a4dad
     resource: repo://apps/github.io/src/app/skills/skills-page.tsx
   - id: openwiki-source-dec673c983d1738cf99fce82
@@ -45,7 +47,7 @@ sources:
     resource: repo://apps/github.io/src/styles.css
   - id: openwiki-source-fcfa3ced1d03143bb27d5018
     resource: repo://apps/github.io/vite.config.ts
-generated: { by: "codex", at: "2026-09-12T06:05:48.941Z" }
+generated: { by: "codex", at: "2026-09-13T08:16:21.924Z" }
 ---
 
 # Design system and layout
@@ -94,18 +96,33 @@ The component deliberately has no active step because evidence can complete
 non-contiguous topics, so completion is represented by each step's semantic
 status rather than by a single progress cursor.
 
-The reusable `SkillTable` is currently a Storybook component rather than a
-page-level integration. It composes Astryx's table, compact text input,
-multi-selector, button, layout, and empty-state primitives with the app's
-smallest `SkillAvatar`, colored `SkillCategory`, and text-only
-`SkillConfidence` components. Its four columns remain sortable and derive pixel
-widths from the longest supplied values; confidence starts high-to-low with name
-as a deterministic tiebreaker. Name search is case-insensitive and combines
-with an OR-across-selected-categories filter, while the category choices come
-from the supplied skill collection. The result count, clear action, and distinct
-empty states belong to this standalone component. These source contracts do not
-establish browser-rendered fit or responsive behavior, which still require a
-visual check.
+`SkillsPage` owns the responsive composition around the reusable `SkillTable`.
+Below 768px it presents searchable card links; at table widths it delegates the
+table and selected detail to `SkillTableDetailLayout`. That layout keeps the
+table and a non-compact end panel in independently scrollable regions. The panel
+uses Astryx's resizable contract with a 380px default and a 320–560px range. On
+compact surfaces—including coarse 768–1024px tablets—the same selected detail
+opens in a tall bottom sheet, leaving the table underneath intact. The detail
+surface remains the single shared content component, while row activation,
+Escape/close dismissal, and focus restoration remain page-owned state behavior.
+
+The table composes Astryx's table, compact text input, multi-selector, button,
+layout, and empty-state primitives with the app's smallest `SkillAvatar`,
+colored `SkillCategory`, and text-only `SkillConfidence` components. Its four
+columns remain sortable and derive pixel widths from the longest supplied
+values; confidence starts high-to-low with name as a deterministic tiebreaker.
+Name search is case-insensitive and combines with an OR-across-selected-
+categories filter, while the category choices come from the supplied skill
+collection. The result count, clear action, and distinct empty states remain
+table-owned.
+
+The Skills page's Storybook module provides deterministic mobile-card,
+desktop-open-detail, and coarse-tablet-bottom-sheet states. The two selected-row
+stories activate Kubernetes by accessible row name and assert the labeled
+detail region or dialog; the coarse-tablet story temporarily overrides only the
+two responsive media queries and restores the original matcher during Storybook
+cleanup. These states make visual inspection repeatable but do not replace a
+real browser check for rendered fit, scrolling, or overlap.
 
 Vite compiles StyleX before its React and Nx path plugins. Test mode uses
 `css-only` and removes the StyleX development-server hooks; production and local

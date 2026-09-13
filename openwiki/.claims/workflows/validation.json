@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:554521c48425ed9cc8c5432163a6437d802a487dbee1cc53d3895429e74ff6f1",
+  "pageVersion": "sha256:1395d869f8162566424677a83027cea32b57165c8586589ee3230bd4f7884e36",
   "claims": [
     {
       "id": "claim_6cbb6dd0080f4763aaf4dec964f7f76e",
@@ -48,27 +48,31 @@
     },
     {
       "id": "claim_d4e4d19066de4c75b1176d3f918bb857",
-      "statement": "Reusable UI changes use colocated component tests for consumer-visible behavior and colocated Storybook stories under the canonical taxonomy; page-level tests are added when a component is integrated into an application page, while standalone components such as SkillTable retain their behavioral boundary in the component suite.",
+      "statement": "Reusable UI changes use colocated component tests for consumer-visible behavior and colocated Storybook stories under the canonical taxonomy; page-level tests are added when a component is integrated into an application page, while component suites retain their focused behavioral boundary.",
       "evidence": [
         {
-          "resource": "repo://apps/github.io/.storybook/story-taxonomy.spec.ts#L49-L105",
-          "version": "repo-lines-v1:sha256:fd05f53223f22eef97847e93cb006c0e1358f6a9097c6cc9a74e854743e6114a:eyJzZWxlY3RlZExpbmVDb3VudCI6NTcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImM5ZGYyYzFkZDQ5YzBhNWYxY2Y2NmM3MzI3MmI1MmE4NzkyMjY1YTFhMmI3N2JlN2Y5YzU1NzA0ZjdlODcyOGMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImM1NTM2OTdkNGNkYjlmNzViYmE3ZDZkYjJiZjJkZTY1MDZmYmMxZjI5ZTNhNGQ0N2E0ZWZjODg0MGVkZGE1MGMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjEwZmIyN2ZhOTQ3MTNiOGQ4ZjYyMTM3YzFjZDEzODQ4OTlhZWI3OWE3OGIzM2Y5MTc2NGVhMTI1NmZlNjM5NTIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImIxNjQ4YmMyYWEyODlkNmM2YzcwZmQ2ZjIxMmY1OGQwMDU5YmYzMjUzMWU0YTQ1M2RlNzc2NjMyOTZmZDE1MzAifQ"
+          "resource": "repo://apps/github.io/.storybook/story-taxonomy.spec.ts",
+          "version": "repo-file-v1:sha256:38e486454f640948f06ff455f4659763291a8e9cf96f51c02e0034aad587c88c"
         },
         {
-          "resource": "repo://apps/github.io/src/app/count-badge.spec.tsx#L5-L22",
-          "version": "repo-lines-v1:sha256:5bee0c573652e4797553e16f8c5068ed2554c51ede667b424c417b44c8fbae16:eyJzZWxlY3RlZExpbmVDb3VudCI6MTgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImE0MDJmZGU4NjY1OGZhZTJlZTI2NjE1MWE0MmJkOTQxMzVhOWJhNjBjZjI2N2E5MjVhM2JlNDdlOWVhZmI2MTIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjNhM2U0NmY5NDI3NmI2ZjZmNGVkMWYwMmFmNzhiZWY2YTJlZTFjNDM5ZGQ1NTg0Yjk3Mzk0ODMxMzIxNGQyYjciLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjU4ODc1MGYyMDE4NmJmNTAzNjU1MmJkOWVjZGRkYWJlZmY3MjkxYTM1OWMzZTg1OGJhYjMxNjBmMjQ5M2M0N2YiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjoxLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImY2ZjViNDBiMTU4NDU3ZDE3ODY0ZjIxNzkwNzg2ZGQ1YTJlY2RiNjRiNjZhNjUxZjc4OGQ0ZTI1Y2QzMzAzZDIifQ"
+          "resource": "repo://apps/github.io/src/app/count-badge.spec.tsx",
+          "version": "repo-file-v1:sha256:f9431b2f84100939b81c506f7724a1e302685fb78f3fceebecf072dd6214b342"
         },
         {
-          "resource": "repo://apps/github.io/src/app/count-badge.stories.spec.ts#L1-L8",
-          "version": "repo-lines-v1:sha256:f39575c641767172ed27e501ad5a87ac2db7773d0f7e14c2db046203d916c2a3:eyJzZWxlY3RlZExpbmVDb3VudCI6OCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZGVjZjRjNTU2YWYyNmQ2Y2U4NGJkMjhjZTdlNDllYjUxNWFmYTE2ZjBiNTRlMTIwZWU0ZmU3YTg0NTllN2RmZiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiZjZmNWI0MGIxNTg0NTdkMTc4NjRmMjE3OTA3ODZkZDVhMmVjZGI2NGI2NmE2NTFmNzg4ZDRlMjVjZDMzMDNkMiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjAsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjAsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSJ9"
+          "resource": "repo://apps/github.io/src/app/count-badge.stories.spec.ts",
+          "version": "repo-file-v1:sha256:f39575c641767172ed27e501ad5a87ac2db7773d0f7e14c2db046203d916c2a3"
         },
         {
-          "resource": "repo://apps/github.io/src/app/skills/skill-table.spec.tsx#L72-L270",
-          "version": "repo-lines-v1:sha256:17edaf87f7f599fa2ccb27b197e25c18ddc45a57dbe44cafa56a883614a47a23:eyJzZWxlY3RlZExpbmVDb3VudCI6MTk5LCJmaXJzdFNlbGVjdGVkTGluZUhhc2giOiIwNWRmYTg2NmNjNTQzMmMxZDliMGY3M2Q0YTZlYWNmYzdlZjcyZjFmMmYyMzFjZjE5MjhkYzhiZjU1Njk5NDJjIiwibGFzdFNlbGVjdGVkTGluZUhhc2giOiI2MzMyMzkxYzIxZjU2MDJiMTZmOTYwMmIwZmEwYzkyMmYxNmNmYzIwMmRmMzIyNDEwYWU1ZWVlNTFlZTZhZTNiIiwicHJlY2VkaW5nQ29udGV4dExpbmVDb3VudCI6MywicHJlY2VkaW5nQ29udGV4dEhhc2giOiJhNTkzNzY3OTFlNjk0NzZmN2EwNzE4OTZkYzI1YjkxMzdlZjg0MjNlM2U5NjM0MGNjZmFjMzMyM2Q0MmNhNTFlIiwiZm9sbG93aW5nQ29udGV4dExpbmVDb3VudCI6MywiZm9sbG93aW5nQ29udGV4dEhhc2giOiI5ODAzNDE0M2E4OTlhNThlYjM1MzliMjMxYjA4ZWYwZTRhYmY4MzYwYTNiMjM4NDcwOTUyYTk3Y2E5Y2Y3MWIwIn0"
+          "resource": "repo://apps/github.io/src/app/skills/skill-table.spec.tsx",
+          "version": "repo-file-v1:sha256:385bfc8b3355552efcb92d73fbd0d0a23ef8f195e87cd2da21ec769acefd34d2"
         },
         {
-          "resource": "repo://apps/github.io/src/app/skills/skill-table.stories.tsx#L1-L34",
-          "version": "repo-lines-v1:sha256:d11a23a2f01b0f76bc1b1c18ec564af9aa5c27a6c0841fa02b37351fe465474f:eyJzZWxlY3RlZExpbmVDb3VudCI6MzQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAyZmQ5NDMxMDYyZGUxZjRiZjEwNTZiYzZiN2Q4ZjgwZGE3OGI0MTNjMWM2YThmMDNjMGIyMWY2Zjk5ZjJkYTgiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjRkNWNkMmZiNGYzZGY4ODQ1MTUyNTViMzk1MjNmMmY4YjU0NzJiZWVhOWY1NjZmZmNhMjA0ZGI4MDI1NjEwNDEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjoxLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImFhMWQxYTYzMzkwMjI5Yzc5ODM0N2U4M2EwNDA1NDQxYzk0MDAwMzUyODRhZDE2OGMxYmY2Y2RmMWQ3MGEzNzAifQ"
+          "resource": "repo://apps/github.io/src/app/skills/skills-page.spec.tsx",
+          "version": "repo-file-v1:sha256:2a9eff07401cedfd1377287e1c5efac1158587dd2c4d2f96073282e32189112b"
+        },
+        {
+          "resource": "repo://apps/github.io/src/app/skills/skills-page.stories.spec.ts",
+          "version": "repo-file-v1:sha256:925c7e0deb4ea898c6e5fd053cc7d3f76d69497128378072e7f3ec35978f14c3"
         }
       ]
     },
@@ -213,14 +217,38 @@
       "statement": "SkillTable's jsdom suite covers its display components, content-derived widths, default and interactive sort behavior, name and category filters including AND/OR composition, clearing, counts, and empty states, but does not establish browser-rendered column fit.",
       "evidence": [
         {
-          "resource": "repo://apps/github.io/src/app/skills/skill-table.spec.tsx#L72-L270",
-          "version": "repo-lines-v1:sha256:17edaf87f7f599fa2ccb27b197e25c18ddc45a57dbe44cafa56a883614a47a23:eyJzZWxlY3RlZExpbmVDb3VudCI6MTk5LCJmaXJzdFNlbGVjdGVkTGluZUhhc2giOiIwNWRmYTg2NmNjNTQzMmMxZDliMGY3M2Q0YTZlYWNmYzdlZjcyZjFmMmYyMzFjZjE5MjhkYzhiZjU1Njk5NDJjIiwibGFzdFNlbGVjdGVkTGluZUhhc2giOiI2MzMyMzkxYzIxZjU2MDJiMTZmOTYwMmIwZmEwYzkyMmYxNmNmYzIwMmRmMzIyNDEwYWU1ZWVlNTFlZTZhZTNiIiwicHJlY2VkaW5nQ29udGV4dExpbmVDb3VudCI6MywicHJlY2VkaW5nQ29udGV4dEhhc2giOiJhNTkzNzY3OTFlNjk0NzZmN2EwNzE4OTZkYzI1YjkxMzdlZjg0MjNlM2U5NjM0MGNjZmFjMzMyM2Q0MmNhNTFlIiwiZm9sbG93aW5nQ29udGV4dExpbmVDb3VudCI6MywiZm9sbG93aW5nQ29udGV4dEhhc2giOiI5ODAzNDE0M2E4OTlhNThlYjM1MzliMjMxYjA4ZWYwZTRhYmY4MzYwYTNiMjM4NDcwOTUyYTk3Y2E5Y2Y3MWIwIn0"
+          "resource": "repo://apps/github.io/src/app/skills/skill-table.spec.tsx",
+          "version": "repo-file-v1:sha256:385bfc8b3355552efcb92d73fbd0d0a23ef8f195e87cd2da21ec769acefd34d2"
+        }
+      ]
+    },
+    {
+      "id": "claim_b2b0acec795d41ffb2421e0b81d5e7b9",
+      "statement": "SkillsPage Storybook states provide mobile cards plus accessible Kubernetes row activation for desktop detail and coarse-tablet bottom-sheet presentation; the story module restores its temporary coarse-tablet matchMedia override when switching stories.",
+      "evidence": [
+        {
+          "resource": "repo://apps/github.io/src/app/skills/skills-page.stories.spec.ts",
+          "version": "repo-file-v1:sha256:925c7e0deb4ea898c6e5fd053cc7d3f76d69497128378072e7f3ec35978f14c3"
+        },
+        {
+          "resource": "repo://apps/github.io/src/app/skills/skills-page.stories.tsx",
+          "version": "repo-file-v1:sha256:594d0f231073ad428091deb045426289e1b166522d4f57c28f0a2330c20a4821"
+        }
+      ]
+    },
+    {
+      "id": "claim_3fe69064474a4691aaafbd903ba031da",
+      "statement": "When a linked worktree's pnpm dependency-state check fails before its runner starts, validation may use direct worktree-configured runners from a dependency-bearing checkout, while Storybook must launch from the worktree app directory; browser or port prerequisites remain reportable blockers.",
+      "evidence": [
+        {
+          "resource": "repo://docs/solutions/workflow-issues/verify-storybook-from-linked-worktree.md",
+          "version": "repo-file-v1:sha256:6ad9fe4cb0972c6f584357b12cebf56e5ed179ba9ed362773aef10a944858101"
         }
       ]
     }
   ],
   "verification": {
     "by": "openwiki/0.5.0",
-    "at": "2026-09-12T06:05:48.941Z"
+    "at": "2026-09-13T08:16:21.924Z"
   }
 }

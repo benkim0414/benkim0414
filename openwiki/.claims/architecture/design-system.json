@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:d6597070d88f79dff5aaadb930b3c11239340cb15850d65a6912930404bb49dc",
+  "pageVersion": "sha256:5fd5b7a5b965460e640f42d4b70d8c8518adf7b099c015938d5d2a1153d22bba",
   "claims": [
     {
       "id": "claim_67f0a6341495404e8eefce3e45fd6173",
@@ -80,7 +80,7 @@
       "evidence": [
         {
           "resource": "repo://apps/github.io/src/app/devops-roadmap/roadmap-page.spec.tsx#L67-L76",
-          "version": "repo-lines-v1:sha256:a000c05bb4e28d24ae7c2baa3d22bc70f7d81c158f84290deb323b0afaf07a57:eyJzZWxlY3RlZExpbmVDb3VudCI6MTAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijk4MTM3ZTQxYTMyMzQ1NmVmNjgwZDY0ZDA4MGE1MWFiY2FiNTAyZGU0YzE2ODBmNmM0YWQ3ZjYwYTM4ODRjNWQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjNhM2U0NmY5NDI3NmI2ZjZmNGVkMWYwMmFmNzhiZWY2YTJlZTFjNDM5ZGQ1NTg0Yjk3Mzk0ODMxMzIxNGQyYjciLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjgxZDQwZDA4MDc4NzkzNGIyODE0M2RhOTRlYzUxMzdhMDY3MWUzNGRlNDZmOWY4YjYwMTU4OTdjNjMzZTQ5MTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6Ijk1YzQ3MTE2OGJjMjc5ZGEzYTQwZmNmMDgzY2MzMzE3ZjIzNGQ3ODc4NzY3N2ZjYmU2NTMyMTRiMDQ3YmQxNDIifQ"
+          "version": "repo-lines-v1:sha256:a000c05bb4e28d24ae7c2baa3d22bc70f7d81c158f84290deb323b0afaf07a57:eyJzZWxlY3RlZExpbmVDb3VudCI6MTAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijk4MTM3ZTQxYTMyMzQ1NmVmNjgwZDY0ZDA4MGE1MWFiY2FiNTAyZGU0YzE2ODBmNmM0YWQ3ZjYwYTM4ODRjNWQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjNhM2U0NmY5NDI3NmI2ZjZmNGVkMWYwMmFmNzhiZWY2YTJlZTFjNDM5ZGQ1NTg0Yjk3Mzk0ODMxMzIxNGQyYjciLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjgxZDQwZDA4MDc4NzkzNGIyODE0M2RhOTRlYzUxMzdhMDY3MWUzNGRlNDZmOWY4YjYwMTU4OTdjNjMzZTQ5MTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImIyMGEyOWYwNDkzMTAxMGIwYTQwOTUwY2NlZDYzNjIzNzdkOWU3OWNmZWM4YzgxMjdiODAwNjFmYjhjNmQyYTIifQ"
         },
         {
           "resource": "repo://apps/github.io/src/app/devops-roadmap/roadmap-page.tsx#L16-L23",
@@ -88,19 +88,19 @@
         },
         {
           "resource": "repo://apps/github.io/src/app/home/home-page.spec.tsx#L88-L97",
-          "version": "repo-lines-v1:sha256:184bbc4767c35bfe2e097275bdd6483a0a726da7fb2ac413cba031379680688d:eyJzZWxlY3RlZExpbmVDb3VudCI6MTAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijk1OTZiZDM2NjVjNjIxODUyM2YwNTJiM2VjMGJmZThkOGQxZjc2ZGI0MDUwMWM0YWNhOTMzOTkzZGE2ZmQwMTYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjNhM2U0NmY5NDI3NmI2ZjZmNGVkMWYwMmFmNzhiZWY2YTJlZTFjNDM5ZGQ1NTg0Yjk3Mzk0ODMxMzIxNGQyYjciLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjU2ZDM5MjQzNjdhMzUxYjU5OGU5NmJiZTZkOGE5NDljYzE2NGZkNmU3NDFiOGI4NDkzZTkzY2EwOWJiZGU5OGEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImIwMzczMDJkYzU4ZGExOGQ0YjQ4YmFhYzZhMTA2MjBhODI4NGQzNTJjMzM3N2VjNGJiM2UxODE1NTJkZWZlOTIifQ"
+          "version": "repo-lines-v1:sha256:a45bda9890f3b0fc7f0eb00d7340e5769b28b31d377caa0555450e0c9e25757e:eyJzZWxlY3RlZExpbmVDb3VudCI6MTAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjIyZDExY2FmNDNlOTdlZjM2OWU2YmVlZDFhMjY4YmQwNTgzOGYyOWI5ZGQyNTRiZjY5YmE2NDg4NDE0NzIzNGEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg0ZTQyMDhjZDZmZmI4YzRhMzU0N2IyZjU0YWRhMTk5NzhjM2YzNjVlNzhmOTUwMmVmNTE0NWNkZDJhYTg1NDMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjQ2Y2M4NGU4YzIzYTdhZDFhZmU4M2ViNzllMTM0YWJlYjQ2N2NmMGYwODA4ZGYyYmM2ZTRjZjRiMzU5MGU0YjUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImVhOTVkYjMyMmQyNGNkODQxYjE2Zjk5ZGQ4OGVmYmM5MjQzYzhiZDQ2YTI3NmM1ZjQ5MTdhNjgyYzRlMDE5YzEifQ"
         },
         {
           "resource": "repo://apps/github.io/src/app/home/home-page.tsx#L28-L53",
-          "version": "repo-lines-v1:sha256:47a30f3d4128689733da7a904ea350b164a130b17faf78fa5180bf4989e8bed8:eyJzZWxlY3RlZExpbmVDb3VudCI6MjgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjNlZTdhMDZiZjliZDc0OWU3NWExN2E2ZGY2NTlhNGVhNTMyYTVkMGY1MmI5MzkwODY4MjZlZTJjNzM1NWZlZjAiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjEyODQwZmZhMTU2NmY3NDE0MDVjZDg0OWMxODc5YmE0NzEzODAzYWE4MTZmY2EwNDUwOTljZTI1YzU1ZTc0YzEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6Ijk2MmNkMjYzNzI0NGE0NWFjNjU1MTEyMTUwOTMwYjU3ODYxYzJkNzkzOGE1ZjUyZDVkMTAyZTUyOWIxOTVhZjkiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjkxMWQ0OGJiOWEyNjZjZDkxMWU3NjM5M2E1YTBmOTBkYzU1YzZmMzI5ZTZiNGQ3ZmZiYjE2Y2YzMTIyOTdkNjAifQ"
+          "version": "repo-lines-v1:sha256:355ebd5d1ad41ce7c07e2994f55d10246d9b597830b6f6c19c2fcd84d91e32f6:eyJzZWxlY3RlZExpbmVDb3VudCI6MjYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImZhZWJlNDEyNDI0MjA5ZGRmNmMwNzlkNzhhZjAxNzg2ZTdmYjMyZDg0MzM4YzFjNWZmYjFjMmNiMWE2ZTZjZWIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjgxNGUwY2I0OWRjZDQ5NWFmY2Y4NTY4ZjU1NWRmNjQ5MWI1NDYzNjY3ZmQwOTQ5ZTliZmM2Zjk0M2IzM2ZhZTIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjRmZGU3NWI4ZTIyZTI3YWJmZjBjNjllZjRmNjk2MWQ1NTgwYWYzNGE4NjQ5YTc4Y2FmNmU4ZjYwMDQ3MzhiZTIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjUyZWE3YmZhOGYwYjQwMTkxZWYxZjI1NzMxNGViYWYyMWNlZDU0OTZmYzJjZjdmOTBiYzgzY2NlMmY5NmQ5MjEifQ"
         },
         {
           "resource": "repo://apps/github.io/src/app/skills/skills-page.spec.tsx#L43-L59",
-          "version": "repo-lines-v1:sha256:44a04684e6080f4897e9b6c121f4f07924f5085c5dca6a4bd0820f2c702689a1:eyJzZWxlY3RlZExpbmVDb3VudCI6MTcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjYyODJkNGE4NDg3MTRjYjU4NTAwNmI4MGY4YWRhMDA1ZDhiYzE3NTk3Y2MxYzFjYTY1YTExNjQ1NGNlMDVmYjQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjNhM2U0NmY5NDI3NmI2ZjZmNGVkMWYwMmFmNzhiZWY2YTJlZTFjNDM5ZGQ1NTg0Yjk3Mzk0ODMxMzIxNGQyYjciLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjU2ZDM5MjQzNjdhMzUxYjU5OGU5NmJiZTZkOGE5NDljYzE2NGZkNmU3NDFiOGI4NDkzZTkzY2EwOWJiZGU5OGEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6Ijk4Njg1NWExYWRlZWI4MzAxODM2Njk1YTRiOWI2MTZlNGE2ZjY3NDdhNThiMDFkMTA0NThjYWI2MDY2NTFlMGMifQ"
+          "version": "repo-lines-v1:sha256:fb6b8cbaf6ad2a8fa87a6b7f959bee20265a0e4d69df1a9867137cf04d9dcc85:eyJzZWxlY3RlZExpbmVDb3VudCI6MTcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImYyZTJlOTU5MjdlNDU5MTE4MTI4MzRhZGZmODYzNzgxOGZmODUyNmRkNTA3YjE2YzQ5MDczY2QyZGNmODAxNzEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImY5NGUxNDY5YWVkMmZiMzA5ZmVjOGM4Y2ZkZTdjNGVjZWI1NWFiZWIwZDQ3N2NhZjJiZGEwYjQwYWFlYzRjNzIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjkyN2ZkZGMxYTYxM2MxNzA5YzQyNzEyOTViNmI5MTVmMjc1NzEwZjEzYjAxNGMyNmQ4MzkwNDFlYTNkNzhhZjQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImI0OTMyYWIyMjQ1Zjg5MzQxZTE1OGJlYjQwNzIzMGU0Yzc3YmM5MmMyNzg4M2Y5MTQ4NmQ2YmZlZTkzOTY1NmMifQ"
         },
         {
-          "resource": "repo://apps/github.io/src/app/skills/skills-page.tsx#L57-L70",
-          "version": "repo-lines-v1:sha256:6982df625c94e766a184b9825b2c2202ff21a756164a7a161d1ba75f1a916ced:eyJzZWxlY3RlZExpbmVDb3VudCI6MTQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImU3MjE2ZThlOWMwYTFhNjhkMDZjMmZiYWE1ZmQyMTM5NDgyYjhlZmQwYTE5MzE1YjkxNWU2Y2NlODQ5ZDg5ZGMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImJiNmI5Y2NiMjBiZjM4MWRmNTk2N2QxZWFmYWUxZDY2OTEwZjEyOGNjMDRhY2E2NDFmMWJjMThlOTk3MjZlYmQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjRkY2U1MGZmOTU4NWI5ZTY0OTY5MzA0NmIwZjVhNzI4OTc2OGNhNDA2ZDM2ZjE3YjU2Y2RlYWJmNzQ2ODRkYzIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImJkYjYzODZjNjk2MjY4ZjZkNmVmYjMyNjZjM2MzMDU5NjRmMGY0ZThlYWVhNTQxMzBiZTJkMDJlMWNlMGEyM2YifQ"
+          "resource": "repo://apps/github.io/src/app/skills/skills-page.tsx#L100-L126",
+          "version": "repo-lines-v1:sha256:2ea2039683d0ebd9ad5c7f58302c8bce6f17220e19a5bd1df9efaa63f51575dd:eyJzZWxlY3RlZExpbmVDb3VudCI6MjcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImIwYjAzNTZjNGZiYjgwMjYyOGQxNmNhZDRkZTBlYjIxNDAxNTY5YTllMzNhMzFlY2Y4OGJjMTNjOTM5YzcyYTkiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjEyZDAwZmQzNmMxNDIyNzAzMTFlYjIxNjEwYWFiYTVhZDI1MWEzM2Y3OGQ3M2I0NjVkNGEzMGM1ZmNjYTUwODQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImZhNTM0NmI1YzM1ZGE3YWQxZmUwOGJhY2NhNzliYmNlZDIwZjU1MDYzNGZjODIzMTE4YTFlY2YyNjQzNjgyODIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImEzMGZiNTc1ZmIzODg5MjRiMjFjMzBmNTE2MjJjODA2ZDJkNTVmZGVhYTMwNTMyOTVjOWJhNzA4OTNhZDA4NzAifQ"
         }
       ]
     },
@@ -142,21 +142,41 @@
     },
     {
       "id": "claim_e60e9e0eb69646cba7b3570677531e65",
-      "statement": "The reusable SkillTable is currently exposed through Storybook and composes Astryx controls with the app's avatar, category, and confidence presentation components; it provides four sortable content-sized columns, confidence-descending default order, name/category filtering, result count, clearing, and distinct empty states without claiming responsive browser fit.",
+      "statement": "SkillTable composes Astryx controls with the app's avatar, category, and confidence presentation components; it provides four sortable content-sized columns, confidence-descending default order, name/category filtering, result count, clearing, and distinct empty states.",
       "evidence": [
         {
-          "resource": "repo://apps/github.io/src/app/skills/skill-table.stories.tsx#L1-L34",
-          "version": "repo-lines-v1:sha256:d11a23a2f01b0f76bc1b1c18ec564af9aa5c27a6c0841fa02b37351fe465474f:eyJzZWxlY3RlZExpbmVDb3VudCI6MzQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAyZmQ5NDMxMDYyZGUxZjRiZjEwNTZiYzZiN2Q4ZjgwZGE3OGI0MTNjMWM2YThmMDNjMGIyMWY2Zjk5ZjJkYTgiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjRkNWNkMmZiNGYzZGY4ODQ1MTUyNTViMzk1MjNmMmY4YjU0NzJiZWVhOWY1NjZmZmNhMjA0ZGI4MDI1NjEwNDEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjoxLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImFhMWQxYTYzMzkwMjI5Yzc5ODM0N2U4M2EwNDA1NDQxYzk0MDAwMzUyODRhZDE2OGMxYmY2Y2RmMWQ3MGEzNzAifQ"
+          "resource": "repo://apps/github.io/src/app/skills/skill-table.tsx#L75-L218",
+          "version": "repo-lines-v1:sha256:08c3106f91d31ba266a6ce78009ffa2d02fddbb433ef35244f95f0a06a319ce9:eyJzZWxlY3RlZExpbmVDb3VudCI6MTQ0LCJmaXJzdFNlbGVjdGVkTGluZUhhc2giOiJlMTVkZTBhZjI1OWVmM2JmYWY4ZWMzNmUzMmYzZTUwNzI2ODAwN2ViZDIxMTNhM2EzZTc3NGRiMWViYWFmMDY3IiwibGFzdFNlbGVjdGVkTGluZUhhc2giOiIyMjJlNDA1YjA2NWY5Mjc1YTRlM2Y1NDQ1OWQzZGE2NTVmMjI1ZDFlY2Q5ZTBkZGRhMDk4YzMzNDllMjA3NTZiIiwicHJlY2VkaW5nQ29udGV4dExpbmVDb3VudCI6MywicHJlY2VkaW5nQ29udGV4dEhhc2giOiI0YzJkNzhiMzVmZGMwOGU1YjFmOTg2ZTgzNTE5ZGE1NDU3ODdmNmNkNTQzMzY1NDY3ZWEzMjBiYmFiMWQ0MzRlIiwiZm9sbG93aW5nQ29udGV4dExpbmVDb3VudCI6MywiZm9sbG93aW5nQ29udGV4dEhhc2giOiJkNDc4MjAyOTJhN2E2ZmE2ZmI0YTdiYTk5YjZmNmRmZmRjYjViMDY4OGRkMzY1MGQ0ZDM3ZGNkMzQzNjQ2OGY5In0"
+        }
+      ]
+    },
+    {
+      "id": "claim_4267c6ef89c84e3099c45adbe34b0133",
+      "statement": "SkillsPage presents cards below the table breakpoint and delegates table-mode selection and detail presentation to SkillTableDetailLayout; desktop details use an independently scrollable 320–560px resizable end panel, while compact surfaces use a tall BottomSheet.",
+      "evidence": [
+        {
+          "resource": "repo://apps/github.io/src/app/skills/skill-table-detail-layout.tsx#L25-L148",
+          "version": "repo-lines-v1:sha256:7925adfbde68e8921c7fc306cb18f623e559b6727875a228c62a6180a9ded06f:eyJzZWxlY3RlZExpbmVDb3VudCI6MTI0LCJmaXJzdFNlbGVjdGVkTGluZUhhc2giOiIyN2Q3ZWQ2YzlkOTE4NTJlYjFlYzg4NDc2YmUxMzRjMjg3ZGE0NDYxMTBiZWU1NzdiNWE4MzE1OTFiOTJkMmNlIiwibGFzdFNlbGVjdGVkTGluZUhhc2giOiI0NzM2OTU2ODM5YzYzNWJhZDc0ZmUzNzZmOTg4ZjNmNWVjYjkwMjJkZmZmNzM1MmU4ODM2ZDEwNzdkNTJlMjdiIiwicHJlY2VkaW5nQ29udGV4dExpbmVDb3VudCI6MywicHJlY2VkaW5nQ29udGV4dEhhc2giOiJmNDhlZGVhZTliMzczYzJhMWFmYTZhMThiNzE4ZjlmNmVkNDdlYTJhMjI0MWU2ZDgxNTk1MjM2N2FiN2I4YzhkIiwiZm9sbG93aW5nQ29udGV4dExpbmVDb3VudCI6MiwiZm9sbG93aW5nQ29udGV4dEhhc2giOiI3YjhiNjAwYTViNDQ4YjFlNGQwMmRmMDk3NDZlZDNjYTMxNzJmNzVjNGFhYmIwMWRkZTA4MGUzNmNhYjA3NGI0In0"
         },
         {
-          "resource": "repo://apps/github.io/src/app/skills/skill-table.tsx#L35-L210",
-          "version": "repo-lines-v1:sha256:baeda2622d643bc0ec701e95f4e84a672655a0d02d85d7fac493b205803d2288:eyJzZWxlY3RlZExpbmVDb3VudCI6MTc2LCJmaXJzdFNlbGVjdGVkTGluZUhhc2giOiI5ZjhhN2FkODM5MTU2NWM1ODNkYWE5ZTgxZmI5NmM4NGQzYjcyMGRjZDE3OGQ3MGQwMDIzYjBkYmZmYzczOGE0IiwibGFzdFNlbGVjdGVkTGluZUhhc2giOiI2ZGE1OTNlYjgzYzc5ZmU5YzZkMjY4ZDFjMWI4Nzg3YTA5MjgxMDg2MmIyMWZlOGExZDE2MmY0ZjFkMWYzMTFhIiwicHJlY2VkaW5nQ29udGV4dExpbmVDb3VudCI6MywicHJlY2VkaW5nQ29udGV4dEhhc2giOiJmYzZkYzdlMTA0NjE2MjNkZmNkMGQzZGJjNGI1NDU2ZjZmMTY4NmMxN2U2NzYyZGZhYWQzYmU0YzRiMWVmODA1IiwiZm9sbG93aW5nQ29udGV4dExpbmVDb3VudCI6MywiZm9sbG93aW5nQ29udGV4dEhhc2giOiI2OTg1M2RiZmNiNWQ5Yzc3MjA4NmMxOGYwYzcxY2I4NWMzMGJlZTY5ZmExZDYwNWZlMmJiNGJmNTA1OGNjMDI3In0"
+          "resource": "repo://apps/github.io/src/app/skills/skills-page.tsx#L48-L118",
+          "version": "repo-lines-v1:sha256:5c8cee47435b54289fb0a48a1342a04f52ec0014319a45c5fe7e9bbbdfda2f1d:eyJzZWxlY3RlZExpbmVDb3VudCI6NzEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImI0Mzk1ZDg4YzIyMGM0ZmNjZTU4ZjRmNjlkZTY3NjRkNjYzNTk5ODIwMjY2ZGJmOTE3MTg3MTljMGM4ZmJjOTAiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjYxZWMzYWEwYWRmOGJlZWE2YTk5MmZmZmQ4MDdhMTVjOTczZWZjNTJmY2Q2NTA1OWZlNWIzNTU4YTBkZWNkNTMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImVhNjU4OGRiYjZjNTg4ZWQyYzU3NTVhMzJjOTgxOTBkYTYyNWU3MGMwYjQ4M2MyOTdkYTNjNDAwNDk0MzhkNDkiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImQ4MTIxOTU0NjZjODUxYTM2NGZjNDdkODg3NzBmYTVmMzMzMGM4MTQ1ZWNjZjkxNzJmNzFlZDNhMzRjZjc2OGQifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_f8bf6fad8bfb47d98e42acbf5306c265",
+      "statement": "SkillsPage stories define deterministic mobile, desktop selected-detail, and coarse-tablet bottom-sheet states, and the coarse-tablet state restores its temporary responsive matchMedia override during Storybook cleanup.",
+      "evidence": [
+        {
+          "resource": "repo://apps/github.io/src/app/skills/skills-page.stories.tsx#L43-L106",
+          "version": "repo-lines-v1:sha256:a673e1b180d8e4a55b202ef6b6e351ade8d4e63dadeae0fa6686a7083a1fb909:eyJzZWxlY3RlZExpbmVDb3VudCI6NjQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjIxNGI2ZWYyNDBhNmJkMzlhMmFjMTY0NDIwNTczOTg3NTE2ODJlMWExZmU4ZmEzYjk5MWVkMDNiYzA0YTA1ZmIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImFhMWQxYTYzMzkwMjI5Yzc5ODM0N2U4M2EwNDA1NDQxYzk0MDAwMzUyODRhZDE2OGMxYmY2Y2RmMWQ3MGEzNzAiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImJhMzhlZTljYzczYzlmMWYyYzhmOGM1NmQwMGJkMDBkZTViMDczNjlmMTJlMDgwYWJiZDc5YzhjNDM3NTZjMTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
         }
       ]
     }
   ],
   "verification": {
     "by": "openwiki/0.5.0",
-    "at": "2026-09-12T06:05:48.941Z"
+    "at": "2026-09-13T08:16:21.924Z"
   }
 }

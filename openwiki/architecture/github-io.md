@@ -14,16 +14,20 @@ sources:
     resource: repo://apps/github.io/src/app/devops-roadmap/roadmap-page.tsx
   - id: openwiki-source-27a9eeb6972479f50ad1d034
     resource: repo://apps/github.io/src/app/router-link.tsx
+  - id: openwiki-source-0326a209b3e8f758018bcc41
+    resource: repo://apps/github.io/src/app/skills/skill-detail-content.tsx
   - id: openwiki-source-d97b9e088d941d15580a0bd7
     resource: repo://apps/github.io/src/app/skills/skill-detail-page.spec.tsx
-  - id: openwiki-source-679e425aa4dc519b0748e74d
-    resource: repo://apps/github.io/src/app/skills/skill-detail-page.tsx
   - id: openwiki-source-2fe979393541d6de345e3a57
     resource: repo://apps/github.io/src/app/skills/skill-detail-route.tsx
-generated: { by: "codex", at: "2026-09-09T04:57:16.606Z" }
+  - id: openwiki-source-b7cc9784bea6b15d468f9f23
+    resource: repo://apps/github.io/src/app/skills/skill-table-detail-layout.tsx
+  - id: openwiki-source-a845ec3d01c38967df3a4dad
+    resource: repo://apps/github.io/src/app/skills/skills-page.tsx
+generated: { by: "codex", at: "2026-09-13T08:16:21.924Z" }
 verified:
   - by: openwiki/0.5.0
-    at: 2026-09-09T10:30:13.793Z
+    at: 2026-09-13T08:16:21.924Z
 ---
 
 # Application architecture
@@ -49,6 +53,17 @@ duplicating them in each page. New top-level pages should deliberately choose
 whether to join that layout route. A skill detail's domain-level not-found
 result is different from an unmatched URL: `SkillDetailRoute` renders the
 full-width not-found component within its existing route.
+
+`SkillsPage` is a responsive collection route, not just a table wrapper. It
+keeps filtering and selected-skill state at the page boundary, renders linked
+skill cards when the table query does not match, and passes the controlled table
+inputs plus the resolved selected detail to `SkillTableDetailLayout` otherwise.
+Row activation records the row element so both a desktop panel close and a
+compact bottom-sheet close can restore focus. The layout owns presentation
+selection: a non-compact table surface receives a resizable detail panel, while
+a compact tablet surface uses the same detail body in a modal bottom sheet.
+`resolveSkillDetail` remains the only boundary that turns the selected ID and
+authored source collections into a typed detail or not-found result.
 
 `RoadmapPage` owns the `/roadmap` page framing: its heading, redesign notice,
 roadmap.sh attribution, and content spacing. It now selects

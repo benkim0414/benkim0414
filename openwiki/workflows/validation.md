@@ -20,14 +20,20 @@ sources:
     resource: repo://apps/github.io/src/app/count-badge.stories.spec.ts
   - id: openwiki-source-3d04b17fb8b6c27eb59cd798
     resource: repo://apps/github.io/src/app/skills/skill-table.spec.tsx
-  - id: openwiki-source-a08412c702b94999bfa82651
-    resource: repo://apps/github.io/src/app/skills/skill-table.stories.tsx
+  - id: openwiki-source-4fbf5ecc6f0c1fc5eff98141
+    resource: repo://apps/github.io/src/app/skills/skills-page.spec.tsx
+  - id: openwiki-source-a69a6ae44356584e51853db4
+    resource: repo://apps/github.io/src/app/skills/skills-page.stories.spec.ts
+  - id: openwiki-source-7c231b2ec321d7ab8ca1554f
+    resource: repo://apps/github.io/src/app/skills/skills-page.stories.tsx
   - id: openwiki-source-fcfa3ced1d03143bb27d5018
     resource: repo://apps/github.io/vite.config.ts
   - id: openwiki-source-af76a0570259ad84dd4c02ea
     resource: repo://docs/agents/commit-scopes.md
   - id: openwiki-source-cdda5d4e7c9cf1bdd3f5a61c
     resource: repo://docs/runbooks/historical-commit-scope-repair.md
+  - id: openwiki-source-9e111948bc98f8feeab61028
+    resource: repo://docs/solutions/workflow-issues/verify-storybook-from-linked-worktree.md
   - id: openwiki-source-6ba748254f38112b13d529da
     resource: repo://nx.json
   - id: openwiki-source-5b54a58d1b51cd490b0e7162
@@ -50,10 +56,10 @@ sources:
     resource: repo://scripts/setup-openwiki.test.mjs
   - id: openwiki-source-165465422a61a00b62b0f6d3
     resource: repo://scripts/sync-github-pages-artifact.test.mjs
-generated: { by: "codex", at: "2026-09-12T06:05:48.941Z" }
+generated: { by: "codex", at: "2026-09-13T08:16:21.924Z" }
 verified:
   - by: openwiki/0.5.0
-    at: 2026-09-12T06:05:48.941Z
+    at: 2026-09-13T08:16:21.924Z
 ---
 
 # Validation workflow
@@ -156,17 +162,23 @@ exercise consumer-visible values, including zero where it changes the displayed
 state. Colocate Storybook stories and a small story-module test that fixes the
 established title taxonomy and representative args. Pair those tests with the
 page-level test when the component is wired into an application page, proving
-its actual accessible and data-derived context.
+its actual accessible and data-derived context. Responsive interactions also
+need deterministic visual stories: the Skills page manifest asserts its mobile
+cards, desktop selected-detail, and coarse-tablet selected-detail exports, while
+the latter two use an accessible Kubernetes row activation and assert the
+labeled detail surface.
 
-The standalone `SkillTable` is not yet page-integrated, so its colocated jsdom
-suite is the behavioral boundary. It verifies the four columns and display
+`SkillTable`'s colocated jsdom suite verifies the four columns and display
 components, content-derived pixel widths, confidence-descending default order,
 all column sort paths, case-insensitive name filtering, OR category selection,
 AND composition between search and categories, clearing, result counts, and
 both empty states. The confidence test uses shuffled input and checks the
 `aria-sort` transitions so source order cannot masquerade as a successful sort.
-These DOM assertions do not prove that estimated column widths fit rendered
-content; that remains a Storybook visual check.
+The page-level responsive detail tests cover controlled selection, desktop
+panel/bottom-sheet presentation, independent scroll ownership, dismissal, and
+focus restoration. These DOM assertions do not prove rendered fit; inspect the
+three Storybook states in a real browser for clipping, overlap, scrolling,
+resize affordances, and compact-surface behavior.
 
 For CSS/layout changes, also run:
 
@@ -183,6 +195,15 @@ skill-detail Experience heading and its neutral count badge as rendered
 geometry: both must exist, fit within the main surface without overlap, align
 vertically, retain the native `Experience` heading name, and show the expected
 primary-experience count.
+
+Linked worktrees can fail pnpm's dependency-state check before Nx, Vitest, or
+Vite starts. In that case, preserve the failed Nx output, then invoke the
+dependency-bearing checkout's direct runner against the worktree's Vite config
+for test/build verification; run Storybook from the worktree app directory so
+its Vite config and stories remain branch-local. This fallback proves the same
+source only when the runner's working directory preserves any path-sensitive
+tests. It does not turn a browser-driver or local-port failure into a visual
+pass.
 
 For agent-document or OpenWiki setup changes:
 
