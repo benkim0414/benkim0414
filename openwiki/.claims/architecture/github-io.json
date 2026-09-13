@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:3460a41976aaf9839a4926000343e6bf61c1f5f001475390e2329611c48a0a44",
+  "pageVersion": "sha256:4620a08dfcc2846224bd811972e7efbcb0d7c6c4120f4261bccf2b0c3046b489",
   "claims": [
     {
       "id": "claim_da9ac46eb2204e9b9a555848aea5550d",
@@ -76,19 +76,23 @@
     },
     {
       "id": "claim_80d4be3846a2478cb22dc562f1658d22",
-      "statement": "RoadmapPage owns the `/roadmap` framing and selects DevOpsRoadmapStepper, which projects the curated roadmap inventory into Astryx steps with evidence-derived completed or upcoming states; the legacy React Flow component remains in source but is not rendered by the route.",
+      "statement": "RoadmapPage owns the `/roadmap` framing, explanatory introduction, roadmap.sh attribution and informational source banner, then selects DevOpsRoadmapStepper to project the curated roadmap inventory into Astryx steps with evidence-derived completed or upcoming states; the legacy React Flow component remains in source but is not rendered by the route.",
       "evidence": [
         {
           "resource": "repo://apps/github.io/src/app/app.spec.tsx#L246-L332",
-          "version": "repo-lines-v1:sha256:fab0525a0334e657940a0481568519ca28625fd9f9e63f554edd8aff3034906f:eyJzZWxlY3RlZExpbmVDb3VudCI6ODcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImU3OGNmYmE1M2M2MGFkNzk5NjFiYjllZTAyNDM4OTQ4OTdiMGYxOGI3NjdjMWRmZDU1N2ViZDUzYzQwYmNhZWUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjkxN2M2OGIxNjUzNjQxM2U0NTUyNmUwOTUwZTlkNGM3NzBjMjk0OTgwMDAxOTQyMTRhM2JlMzc1ZjA2MTFjNzMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImEzMGM1OGE5MTcwNWFhODYzZTdmZDIzOTJkZGE0ZGNhYzM0YjQwODQ0ZjQ2NzgxZGNjOWI2M2VlYTM3ZmRjMmUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImEzNGFlYWYwZWE5MTI4NGZkNTQ3ZjhiOTg0OGU3NjZiNTJkN2ZlMWQ0ZmVkMzY3MGJkNjhlYjNiZWFhMjRkYjUifQ"
+          "version": "repo-lines-v1:sha256:f43e3febbcd10a4d1ba0975d0e38a21c0167fbca8e9d1f6391ce66f947939075:eyJzZWxlY3RlZExpbmVDb3VudCI6ODcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImU3OGNmYmE1M2M2MGFkNzk5NjFiYjllZTAyNDM4OTQ4OTdiMGYxOGI3NjdjMWRmZDU1N2ViZDUzYzQwYmNhZWUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjkxN2M2OGIxNjUzNjQxM2U0NTUyNmUwOTUwZTlkNGM3NzBjMjk0OTgwMDAxOTQyMTRhM2JlMzc1ZjA2MTFjNzMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImEzMGM1OGE5MTcwNWFhODYzZTdmZDIzOTJkZGE0ZGNhYzM0YjQwODQ0ZjQ2NzgxZGNjOWI2M2VlYTM3ZmRjMmUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImEzNGFlYWYwZWE5MTI4NGZkNTQ3ZjhiOTg0OGU3NjZiNTJkN2ZlMWQ0ZmVkMzY3MGJkNjhlYjNiZWFhMjRkYjUifQ"
         },
         {
           "resource": "repo://apps/github.io/src/app/devops-roadmap/devops-roadmap-stepper.tsx#L41-L139",
           "version": "repo-lines-v1:sha256:a4a0055ba9bfa010b5036b19fc734ac9595cdbe51ca8bd3a59d29811969fcd78:eyJzZWxlY3RlZExpbmVDb3VudCI6OTksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjZiNzA1YjkxMzA2MjRkZTkyZTYzMzcyYmNhZTA2YTVkMGQ5YzcyNTViYzVjODc4NDc0NGY0MjdkOTliYzczNWMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImQ1ZjE5ZDUxNWYxZjIzN2ZmMWM0Mzg4MzIwZmQ1Mzk1OTQ2YTU1YTgwMWVkMTg4Mzg5MmI3OTY4ZGY5ZjNhOWYiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjEzODNhYzE5OThhZDg4Mjg4NDVjNzBlZGZmOWQyNWZjYzc4OTU3ZjU1MzBhNzk4MzhkNTE4NGExZTE3MGZlNDIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjoyLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjdiOGI2MDBhNWI0NDhiMWU0ZDAyZGYwOTc0NmVkM2NhMzE3MmY3NWM0YWFiYjAxZGRlMDgwZTM2Y2FiMDc0YjQifQ"
         },
         {
-          "resource": "repo://apps/github.io/src/app/devops-roadmap/roadmap-page.tsx#L7-L38",
-          "version": "repo-lines-v1:sha256:361ed2d442aa29a01dce97331efd5c64b4cf67920a0ee41dd79e03b4fd463480:eyJzZWxlY3RlZExpbmVDb3VudCI6MzIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg2YjRkZDE0ZjY2OWUyMjA3OGY5ZjM4NGNjMmVhMWZhNjdkYzA1ODRhMDg3NTM5MDU2NTA2Y2IxZjM2MzE2NzAiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImE3Yzc0YWYyZDEyZDdhODQ5YTIxNTgwODFjMWE3MTU3ZTdjZjI3ZTA0ZWYwZDJjYzdhNDdhNDFhYzkwMTUwOGUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjgwMzg3YjYxYmEyOTM3MzU1MmU0Zjk2MTBjODk1YzcwZDkwNGY4YmMzMTIyZmYxMjI1ZDE3NDcxOTUxMTU1NzEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjoyLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjdiOGI2MDBhNWI0NDhiMWU0ZDAyZGYwOTc0NmVkM2NhMzE3MmY3NWM0YWFiYjAxZGRlMDgwZTM2Y2FiMDc0YjQifQ"
+          "resource": "repo://apps/github.io/src/app/devops-roadmap/roadmap-page.spec.tsx#L40-L109",
+          "version": "repo-lines-v1:sha256:2f87c370960f43558613f73b6bedc1739ee0b869f076d83a12061342ddd40ca4:eyJzZWxlY3RlZExpbmVDb3VudCI6NzAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjIzMzUwNGIzMmE4NmQwNzA3NWIwYmI4ZDBiMjhjZWIxNDU2Yjc0NmRlMTY2M2M2ZmEyYmRmMDI0ZTZmYmQwNDMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjNhM2U0NmY5NDI3NmI2ZjZmNGVkMWYwMmFmNzhiZWY2YTJlZTFjNDM5ZGQ1NTg0Yjk3Mzk0ODMxMzIxNGQyYjciLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjQ5NzdlZmE3Y2Q5ODkxMzBkMGE0ODJkMTg0ZWRhNWI2NzhhMDI4YTQ4MjgyODhmNWYzZDhkMjQ5OGIxNzMyNzMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjoxLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImY2ZjViNDBiMTU4NDU3ZDE3ODY0ZjIxNzkwNzg2ZGQ1YTJlY2RiNjRiNjZhNjUxZjc4OGQ0ZTI1Y2QzMzAzZDIifQ"
+        },
+        {
+          "resource": "repo://apps/github.io/src/app/devops-roadmap/roadmap-page.tsx#L14-L56",
+          "version": "repo-lines-v1:sha256:d0dbc760ced827dfbdea3973183ceac063733e326f0d916f5b57e181972fcc4e:eyJzZWxlY3RlZExpbmVDb3VudCI6NDMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjZlN2RiYmMxNzJlNjkzOTMzMDU4ODZlMWZiMTJmMGEyNDc0N2ViOWQzMWNlMjBkZjcwNzU2ZGIxYzNlYzYwN2EiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImE3Yzc0YWYyZDEyZDdhODQ5YTIxNTgwODFjMWE3MTU3ZTdjZjI3ZTA0ZWYwZDJjYzdhNDdhNDFhYzkwMTUwOGUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImFlMzQzY2JiODIyNzc5YWE3MzNhOGJmMGI4YzE2MjhlZjdjNGZkODQ0MGVhMzNhOGU3MzEwNzZhNjhjOTk1ODciLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjoyLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjdiOGI2MDBhNWI0NDhiMWU0ZDAyZGYwOTc0NmVkM2NhMzE3MmY3NWM0YWFiYjAxZGRlMDgwZTM2Y2FiMDc0YjQifQ"
         }
       ]
     },
@@ -131,6 +135,6 @@
   ],
   "verification": {
     "by": "openwiki/0.5.0",
-    "at": "2026-09-13T10:13:03.396Z"
+    "at": "2026-09-13T12:20:31.716Z"
   }
 }

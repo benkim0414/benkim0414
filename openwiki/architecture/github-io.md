@@ -10,6 +10,8 @@ sources:
     resource: repo://apps/github.io/src/app/app.tsx
   - id: openwiki-source-931cab7abf1d26363f1a35b7
     resource: repo://apps/github.io/src/app/devops-roadmap/devops-roadmap-stepper.tsx
+  - id: openwiki-source-0e64d2f01d205d55b34c0576
+    resource: repo://apps/github.io/src/app/devops-roadmap/roadmap-page.spec.tsx
   - id: openwiki-source-ddb555a1fa50192a107dbf5f
     resource: repo://apps/github.io/src/app/devops-roadmap/roadmap-page.tsx
   - id: openwiki-source-5dbaa213d52c3aac678d1838
@@ -26,10 +28,10 @@ sources:
     resource: repo://apps/github.io/src/app/skills/skill-experience-card-list.tsx
   - id: openwiki-source-ba5c27392181e6c65798f3c4
     resource: repo://apps/github.io/src/app/skills/skill-experience-list.tsx
-generated: { by: "codex", at: "2026-09-13T10:13:03.396Z" }
+generated: { by: "codex", at: "2026-09-13T12:20:31.716Z" }
 verified:
   - by: openwiki/0.5.0
-    at: 2026-09-13T10:13:03.396Z
+    at: 2026-09-13T12:20:31.716Z
 ---
 
 # Application architecture
@@ -56,8 +58,11 @@ whether to join that layout route. A skill detail's domain-level not-found
 result is different from an unmatched URL: `SkillDetailRoute` renders the
 full-width not-found component within its existing route.
 
-`RoadmapPage` owns the `/roadmap` page framing: its heading, redesign notice,
-roadmap.sh attribution, and content spacing. It now selects
+`RoadmapPage` owns the `/roadmap` page framing: its heading, two explanatory
+paragraphs, roadmap.sh attribution, informational source banner, external
+DevOps roadmap action, and content spacing. The introduction explains that the
+page maps portfolio capabilities and evidence to the roadmap.sh structure, then
+guides visitors to explore the covered topics. The page selects
 `DevOpsRoadmapStepper`, whose default input is the curated 22-topic inventory.
 That component translates each item's title and description into an Astryx
 step, derives completed or upcoming presentation from visible evidence, and

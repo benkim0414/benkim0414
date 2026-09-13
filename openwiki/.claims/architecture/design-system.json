@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:521793acbe54563bdbe48c8d4a6f4a5a602c93a976cb3669c7e10786e909f4c5",
+  "pageVersion": "sha256:af4fc0b573df4dd1354b3c00736a19ccbd3c8f85f73e7d57151e8bdff8f41582",
   "claims": [
     {
       "id": "claim_67f0a6341495404e8eefce3e45fd6173",
@@ -84,7 +84,7 @@
         },
         {
           "resource": "repo://apps/github.io/src/app/devops-roadmap/roadmap-page.tsx#L16-L23",
-          "version": "repo-lines-v1:sha256:ee34798604660bfb11681543076385a40d4093803da4c7b81fdf24f1d282376d:eyJzZWxlY3RlZExpbmVDb3VudCI6OCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMTM1ZDU2ZDRiYWY0Y2YzYzg2YTA3ZDdkNjlkZjRkZjIzZGYwYWZmZmY5OWIzZDY4ZWFmYjRmMjQ3YWIwMGI1MiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiYjMwYTY1YzI1YTQ0OGM1ZWQ4NjVlM2ZjZjQ4ZDI4YmM5NDgxODc1ZjhiMGZlNGZlMjE2NmY0NDVmNDZkMTg1MCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMmU5MDhkNTc4ODc2NDg3YTU0NDRhNjgwZTIyZGNhYzdkMTM5Y2EzNDk3YzliNDVjNjk2N2E0NzU0M2ExOWNiZSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZDlmZmZhODczODgzMDYxYjEzMjM4OGI1YTcxNzIzYjFlYWRjYjk1MGE2ODFjNzYyZjg5OTY2NWNkYTc2ZTBjYSJ9"
+          "version": "repo-lines-v1:sha256:84a5a0e23d002a7130ded76810767d411c9c2ed8ae8bb4ae2136f7330f3e4c16:eyJzZWxlY3RlZExpbmVDb3VudCI6MjQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjEzNWQ1NmQ0YmFmNGNmM2M4NmEwN2Q3ZDY5ZGY0ZGYyM2RmMGFmZmZmOTliM2Q2OGVhZmI0ZjI0N2FiMDBiNTIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImIzMGE2NWMyNWE0NDhjNWVkODY1ZTNmY2Y0OGQyOGJjOTQ4MTg3NWY4YjBmZTRmZTIxNjZmNDQ1ZjQ2ZDE4NTAiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjJlOTA4ZDU3ODg3NjQ4N2E1NDQ0YTY4MGUyMmRjYWM3ZDEzOWNhMzQ5N2M5YjQ1YzY5NjdhNDc1NDNhMTljYmUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImQ5ZmZmYTg3Mzg4MzA2MWIxMzIzODhiNWE3MTcyM2IxZWFkY2I5NTBhNjgxYzc2MmY4OTk2NjVjZGE3NmUwY2EifQ"
         },
         {
           "resource": "repo://apps/github.io/src/app/home/home-page.spec.tsx#L88-L97",
@@ -219,10 +219,24 @@
           "version": "repo-lines-v1:sha256:7236e57bcb57e9da8ac6d2825d61379213ee0590e0726d5e2d02fe9081ee12b6:eyJzZWxlY3RlZExpbmVDb3VudCI6NDIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjA3NWExY2U1OGMxMTBlYzA3NWUzMmE3YWJjZmNlZTlkYTQzMzY3YWMwMzRiNWU2MjAxYjg5OGRhMzI1ODM4Y2YiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjEwMDhlYWM3NTAyNTk5ODkwZDNkYWVmMjI3ODU4OGEzZTIwYTVlYWJiYTA3YTZkNTU2MjQ0YjNkYjhkOWZlZDMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6Ijg2NTYzZGUyNzgxZTk2YTFhNGNkNTlmYTEyZmVkYmM3MWZmNjhkNzNhNTZkZjQ3MjVmNzhiZDBlZjc1OGRkYTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImQ1ZWMxNWU1NWFiMjU5ZGUzYjgwZDhkNWVmNjdhY2U3ZTA0MWYwYmJmYzc1OWVkYzFiYWI2ZGJlYTI3NzU0ZGIifQ"
         }
       ]
+    },
+    {
+      "id": "claim_746518c4d99b409d8e2cbdfaa967016f",
+      "statement": "RoadmapPage composes its heading, two secondary semantic body paragraphs, an informational roadmap.sh banner, and the default DevOpsRoadmapStepper inside a full-width Astryx VStack; its roadmap.sh attribution and DevOps source action are safe external links whose copy, ordering, and presentation are protected by focused tests.",
+      "evidence": [
+        {
+          "resource": "repo://apps/github.io/src/app/devops-roadmap/roadmap-page.spec.tsx#L40-L109",
+          "version": "repo-lines-v1:sha256:2f87c370960f43558613f73b6bedc1739ee0b869f076d83a12061342ddd40ca4:eyJzZWxlY3RlZExpbmVDb3VudCI6NzAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjIzMzUwNGIzMmE4NmQwNzA3NWIwYmI4ZDBiMjhjZWIxNDU2Yjc0NmRlMTY2M2M2ZmEyYmRmMDI0ZTZmYmQwNDMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjNhM2U0NmY5NDI3NmI2ZjZmNGVkMWYwMmFmNzhiZWY2YTJlZTFjNDM5ZGQ1NTg0Yjk3Mzk0ODMxMzIxNGQyYjciLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjQ5NzdlZmE3Y2Q5ODkxMzBkMGE0ODJkMTg0ZWRhNWI2NzhhMDI4YTQ4MjgyODhmNWYzZDhkMjQ5OGIxNzMyNzMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjoxLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImY2ZjViNDBiMTU4NDU3ZDE3ODY0ZjIxNzkwNzg2ZGQ1YTJlY2RiNjRiNjZhNjUxZjc4OGQ0ZTI1Y2QzMzAzZDIifQ"
+        },
+        {
+          "resource": "repo://apps/github.io/src/app/devops-roadmap/roadmap-page.tsx#L14-L56",
+          "version": "repo-lines-v1:sha256:d0dbc760ced827dfbdea3973183ceac063733e326f0d916f5b57e181972fcc4e:eyJzZWxlY3RlZExpbmVDb3VudCI6NDMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjZlN2RiYmMxNzJlNjkzOTMzMDU4ODZlMWZiMTJmMGEyNDc0N2ViOWQzMWNlMjBkZjcwNzU2ZGIxYzNlYzYwN2EiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImE3Yzc0YWYyZDEyZDdhODQ5YTIxNTgwODFjMWE3MTU3ZTdjZjI3ZTA0ZWYwZDJjYzdhNDdhNDFhYzkwMTUwOGUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImFlMzQzY2JiODIyNzc5YWE3MzNhOGJmMGI4YzE2MjhlZjdjNGZkODQ0MGVhMzNhOGU3MzEwNzZhNjhjOTk1ODciLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjoyLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjdiOGI2MDBhNWI0NDhiMWU0ZDAyZGYwOTc0NmVkM2NhMzE3MmY3NWM0YWFiYjAxZGRlMDgwZTM2Y2FiMDc0YjQifQ"
+        }
+      ]
     }
   ],
   "verification": {
     "by": "openwiki/0.5.0",
-    "at": "2026-09-13T10:46:09.743Z"
+    "at": "2026-09-13T12:20:31.716Z"
   }
 }

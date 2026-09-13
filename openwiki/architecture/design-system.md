@@ -5,7 +5,7 @@ description: How Astryx, StyleX, theme persistence, and browser layout checks fi
 tags: [astryx, stylex, theme, layout]
 verified:
   - by: openwiki/0.5.0
-    at: 2026-09-13T10:46:09.743Z
+    at: 2026-09-13T12:20:31.716Z
 sources:
   - id: openwiki-source-45b1d77b308bd57403f55ff9
     resource: repo://apps/github.io/.storybook/story-taxonomy.spec.ts
@@ -57,7 +57,7 @@ sources:
     resource: repo://apps/github.io/src/styles.css
   - id: openwiki-source-fcfa3ced1d03143bb27d5018
     resource: repo://apps/github.io/vite.config.ts
-generated: { by: "codex", at: "2026-09-13T10:46:09.743Z" }
+generated: { by: "codex", at: "2026-09-13T12:20:31.716Z" }
 ---
 
 # Design system and layout
@@ -96,7 +96,16 @@ the heading's accessible name in the same centered horizontal layout and derives
 its value from the collection rendered by that section. This keeps pages from
 recreating the design-system contract for count indicators.
 
-The DevOps roadmap follows the same boundary. `DevOpsRoadmapStepper` delegates
+The roadmap page frame also stays inside Astryx's public composition surface. A
+full-width `VStack` orders the level-two heading, two semantic body `Text`
+paragraphs in the secondary color, an informational `Banner`, and the roadmap
+content. The first paragraph uses `Link` for explicit roadmap.sh attribution;
+the banner keeps its explanatory copy separate and supplies a secondary
+`Button` action to the DevOps source. Both external controls retain new-tab
+link attributes, while focused tests protect the copy, ordering, secondary text
+treatment, and banner-scoped action.
+
+Within that frame, `DevOpsRoadmapStepper` delegates
 ordering, vertical connectors, numbered indicators, completed announcements,
 and disabled states to Astryx 0.5.4 `Stepper` and `Step`. App-owned StyleX is
 limited to the wrapping evidence lists inside each step, while a roadmap-scoped
