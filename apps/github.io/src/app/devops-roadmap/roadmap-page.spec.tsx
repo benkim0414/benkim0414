@@ -64,6 +64,8 @@ describe('RoadmapPage', () => {
     expect(secondParagraph.textContent).toBe(
       'Explore the topics to see which areas I have covered and how my experience aligns with the roadmap.',
     );
+    expect(firstParagraph.getAttribute('data-color')).toBe('secondary');
+    expect(secondParagraph.getAttribute('data-color')).toBe('secondary');
     expect(heading.compareDocumentPosition(firstParagraph)).toBe(
       Node.DOCUMENT_POSITION_FOLLOWING,
     );

@@ -22,7 +22,7 @@ export function RoadmapPage(): ReactElement {
       width="100%"
     >
       <Heading level={2}>DevOps roadmap</Heading>
-      <Text as="p" type="body">
+      <Text as="p" type="body" color="secondary">
         This page maps my DevOps capabilities to the topics covered by the{' '}
         <Link
           href="https://roadmap.sh/"
@@ -34,7 +34,7 @@ export function RoadmapPage(): ReactElement {
         DevOps roadmap. Each topic includes relevant skills, certifications,
         and evidence from my professional experience.
       </Text>
-      <Text as="p" type="body">
+      <Text as="p" type="body" color="secondary">
         Explore the topics to see which areas I have covered and how my
         experience aligns with the roadmap.
       </Text>
