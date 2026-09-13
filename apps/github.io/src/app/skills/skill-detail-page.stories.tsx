@@ -53,6 +53,17 @@ export const EnrichedKubernetes: Story = {
   },
 };
 
+export const TabletOutline: Story = {
+  args: {
+    detail: kubernetesResolution.value,
+  },
+  parameters: {
+    viewport: {
+      defaultViewport: 'tablet',
+    },
+  },
+};
+
 export const BasicSkill: Story = {
   args: {
     detail: reactResolution.value,

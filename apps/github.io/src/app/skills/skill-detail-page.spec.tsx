@@ -38,9 +38,77 @@ function readAppSource(relativePath: string): string {
 }
 
 describe('SkillDetailPage', () => {
-  it('renders a non-scrollable main without page-local navigation', () => {
+  it('links the Astryx page outline to the rendered skill sections', () => {
+    const { getByRole } = render(
+      <SkillDetailPage detail={getResolvedDetail('kubernetes')} />,
+    );
+    const outline = getByRole('navigation', { name: 'On this page' });
+
+    expect(
+      within(outline)
+        .getByRole('link', { name: 'Overview' })
+        .getAttribute('href'),
+    ).toBe('#skill-overview-heading');
+    expect(
+      within(outline)
+        .getByRole('link', { name: 'Experience' })
+        .getAttribute('href'),
+    ).toBe('#skill-experience-narrative-heading');
+    expect(
+      within(outline)
+        .getByRole('link', { name: 'Projects' })
+        .getAttribute('href'),
+    ).toBe('#skill-projects-heading');
+    expect(getByRole('heading', { level: 1, name: 'Kubernetes' }).id).toBe(
+      'skill-overview-heading',
+    );
+    expect(getByRole('heading', { level: 2, name: 'Experience' }).id).toBe(
+      'skill-experience-narrative-heading',
+    );
+    expect(getByRole('heading', { level: 2, name: 'Projects' }).id).toBe(
+      'skill-projects-heading',
+    );
+  });
+
+  it.each([
+    ['Experience', { projects: [] }, 'Projects'],
+    [
+      'Projects',
+      { experiences: [], experienceEvidence: [] },
+      'Experience',
+    ],
+  ])(
+    'includes %s when it is the only enriched outline section',
+    (includedSection, detailOverrides, omittedSection) => {
+      const detail = {
+        ...getResolvedDetail('kubernetes'),
+        ...detailOverrides,
+      };
+      const { getByRole, queryByRole } = render(
+        <SkillDetailPage detail={detail} />,
+      );
+      const outline = getByRole('navigation', { name: 'On this page' });
+
+      expect(
+        within(outline).getByRole('link', { name: includedSection }),
+      ).toBeTruthy();
+      expect(
+        within(outline).queryByRole('link', { name: omittedSection }),
+      ).toBeNull();
+    },
+  );
+
+  it('omits the page outline when overview is the only available item', () => {
+    const { queryByRole } = render(
+      <SkillDetailPage detail={getResolvedDetail('react')} />,
+    );
+
+    expect(queryByRole('navigation', { name: 'On this page' })).toBeNull();
+  });
+
+  it('keeps global controls out of the page-local skill detail layout', () => {
     const detail = getResolvedDetail('kubernetes');
-    const { container, getByRole, queryByRole } = render(
+    const { getByRole, queryByRole } = render(
       <SkillDetailPage detail={detail} />,
     );
     const { getByTestId } = render(
@@ -56,9 +124,6 @@ describe('SkillDetailPage', () => {
 
     expect(queryByRole('navigation', { name: 'Global navigation' })).toBeNull();
     expect(queryByRole('button', { name: 'Search skills' })).toBeNull();
-    expect(container.querySelectorAll('.astryx-layout-content')).toHaveLength(
-      0,
-    );
     expect(main.className).toBe(
       getByTestId('scrollable-content-control').className,
     );
@@ -186,7 +251,9 @@ describe('SkillDetailPage', () => {
     expect(getAllByTestId('certification-citation')).toHaveLength(
       detail.skill.certifications?.length ?? 0,
     );
-    expect(getByRole('heading', { level: 2, name: 'Experience' })).toBeTruthy();
+    expect(
+      getByRole('heading', { level: 2, name: 'Experience' }),
+    ).toBeTruthy();
     expect(
       queryByRole('heading', { level: 2, name: 'In practice' }),
     ).toBeNull();
@@ -257,9 +324,7 @@ describe('SkillDetailPage', () => {
     expect(
       getByRole('heading', { level: 1, name: 'GitHub Actions' }),
     ).toBeTruthy();
-    expect(
-      getByRole('heading', { level: 2, name: 'Experience' }),
-    ).toBeTruthy();
+    expect(getByRole('heading', { level: 2, name: 'Experience' })).toBeTruthy();
     expect(
       queryByRole('heading', { level: 2, name: 'In practice' }),
     ).toBeNull();
