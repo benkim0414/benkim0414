@@ -1,4 +1,5 @@
-import { render, screen, within } from '@testing-library/react';
+import { fireEvent, render, screen, within } from '@testing-library/react';
+import { afterEach, vi } from 'vitest';
 
 import type { Experience } from '../experience/experience.types';
 import type { Skill } from './skill-list.types';
@@ -49,7 +50,66 @@ const ciCdSkills: readonly Skill[] = [
   },
 ];
 
+const originalMatchMedia = window.matchMedia;
+
+afterEach(() => {
+  window.matchMedia = originalMatchMedia;
+});
+
+function setSmallViewport(isSmall: boolean): void {
+  window.matchMedia = vi.fn().mockImplementation((query: string) => ({
+    matches: query === '(max-width: 640px)' ? isSmall : false,
+    media: query,
+    onchange: null,
+    addEventListener: vi.fn(),
+    removeEventListener: vi.fn(),
+    addListener: vi.fn(),
+    removeListener: vi.fn(),
+    dispatchEvent: vi.fn(),
+  }));
+}
+
 describe('SkillExperienceCard', () => {
+  it('starts compact on small screens and reveals details on request', () => {
+    setSmallViewport(true);
+
+    render(
+      <SkillExperienceCard
+        experience={ciCdExperience}
+        relevantSkillLabels={['AWS CodePipeline', 'AWS CodeBuild']}
+      />,
+    );
+
+    const disclosure = screen.getByRole('button', {
+      name: '2 outcomes · 2 skills',
+    });
+
+    expect(disclosure.getAttribute('aria-expanded')).toBe('false');
+    expect(screen.getByText('2 outcomes · 2 skills')).toBeTruthy();
+
+    fireEvent.click(disclosure);
+
+    expect(disclosure.getAttribute('aria-expanded')).toBe('true');
+    expect(screen.getAllByRole('list')).toHaveLength(2);
+    expect(screen.getByText(ciCdExperience.narrative[0])).toBeTruthy();
+    expect(screen.getByRole('list', { name: 'Relevant skills' })).toBeTruthy();
+  });
+
+  it('starts expanded above the small-screen breakpoint', () => {
+    setSmallViewport(false);
+
+    render(<SkillExperienceCard experience={ciCdExperience} />);
+
+    expect(
+      screen
+        .getByRole('button', {
+          name: '2 outcomes · 0 skills',
+        })
+        .getAttribute('aria-expanded'),
+    ).toBe('true');
+    expect(screen.getByRole('list')).toBeTruthy();
+  });
+
   it('renders experience text through Astryx typography components', () => {
     render(
       <SkillExperienceCard
@@ -66,7 +126,7 @@ describe('SkillExperienceCard', () => {
       .closest('.astryx-card');
 
     expect(card).not.toBeNull();
-    expect(card?.querySelectorAll('.astryx-text')).toHaveLength(4);
+    expect(card?.querySelectorAll('.astryx-text')).toHaveLength(5);
   });
 
   it('presents narrative details as readable key outcomes', () => {

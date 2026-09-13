@@ -36,6 +36,15 @@ export const LongWrappingNarrative: Story = {
   },
 };
 
+export const MobileCompact: Story = {
+  ...LongWrappingNarrative,
+  parameters: {
+    viewport: {
+      defaultViewport: 'mobile1',
+    },
+  },
+};
+
 function getRelevantSkillLabels(
   skillIds: readonly string[],
 ): readonly string[] {

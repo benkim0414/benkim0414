@@ -1,5 +1,3 @@
-import { Card } from '@astryxdesign/core/Card';
-import { Heading } from '@astryxdesign/core/Heading';
 import { HStack, VStack } from '@astryxdesign/core/Layout';
 import { Text } from '@astryxdesign/core/Text';
 import { spacingVars } from '@astryxdesign/core/theme/tokens.stylex';
@@ -7,6 +5,7 @@ import * as stylex from '@stylexjs/stylex';
 import type { ReactElement } from 'react';
 
 import type { CapabilityEvidenceItem } from '../devops-capability-evidence/devops-capability-evidence.types';
+import { SkillExperienceCardShell } from './skill-experience-card-shell';
 import { getSkillDetailPath } from './skill-route';
 import { SkillKeyOutcomes } from './skill-key-outcomes';
 import type { Skill } from './skill-list.types';
@@ -56,46 +55,39 @@ export function SkillExperienceList({
         return (
           <li key={item.id} {...stylex.props(styles.item)}>
             <VStack paddingBlock={3}>
-              <Card padding={4} width="100%">
-                <VStack gap={3}>
+              <SkillExperienceCardShell
+                outcomeCount={facts.length}
+                skillCount={relevantSkills.length}
+                summary={item.summary}
+                title={item.title}
+              >
+                <SkillKeyOutcomes outcomes={facts} />
+
+                {relevantSkills.length > 0 ? (
                   <VStack gap={1}>
-                    <Heading level={3}>{item.title}</Heading>
-                    <Text as="p" type="body">
-                      {item.summary}
+                    <Text type="supporting" color="secondary">
+                      Relevant skills
                     </Text>
+                    <HStack
+                      aria-label="Relevant skills"
+                      as="ul"
+                      wrap="wrap"
+                      xstyle={styles.tokenList}
+                      data-wrap="true"
+                    >
+                      {relevantSkills.map((skill) => (
+                        <li key={skill.id} {...stylex.props(styles.tokenItem)}>
+                          <SkillToken
+                            href={getSkillDetailPath(skill.id)}
+                            label={skill.name}
+                            variant="neutral"
+                          />
+                        </li>
+                      ))}
+                    </HStack>
                   </VStack>
-
-                  <SkillKeyOutcomes outcomes={facts} />
-
-                  {relevantSkills.length > 0 ? (
-                    <VStack gap={1}>
-                      <Text type="supporting" color="secondary">
-                        Relevant skills
-                      </Text>
-                      <HStack
-                        aria-label="Relevant skills"
-                        as="ul"
-                        wrap="wrap"
-                        xstyle={styles.tokenList}
-                        data-wrap="true"
-                      >
-                        {relevantSkills.map((skill) => (
-                          <li
-                            key={skill.id}
-                            {...stylex.props(styles.tokenItem)}
-                          >
-                            <SkillToken
-                              href={getSkillDetailPath(skill.id)}
-                              label={skill.name}
-                              variant="neutral"
-                            />
-                          </li>
-                        ))}
-                      </HStack>
-                    </VStack>
-                  ) : null}
-                </VStack>
-              </Card>
+                ) : null}
+              </SkillExperienceCardShell>
             </VStack>
           </li>
         );

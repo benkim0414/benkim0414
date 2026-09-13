@@ -1,4 +1,5 @@
-import { render, screen, within } from '@testing-library/react';
+import { fireEvent, render, screen, within } from '@testing-library/react';
+import { afterEach, vi } from 'vitest';
 
 import { devOpsCapabilityEvidenceItems } from '../devops-capability-evidence/devops-capability-evidence.data';
 import { skills } from './skill-list.data';
@@ -11,7 +12,48 @@ const experienceFixtures = devOpsCapabilityEvidenceItems.filter((item) =>
   ].includes(item.id),
 );
 
+const originalMatchMedia = window.matchMedia;
+
+afterEach(() => {
+  window.matchMedia = originalMatchMedia;
+});
+
+function useSmallViewport(): void {
+  window.matchMedia = vi.fn().mockImplementation((query: string) => ({
+    matches: query === '(max-width: 640px)',
+    media: query,
+    onchange: null,
+    addEventListener: vi.fn(),
+    removeEventListener: vi.fn(),
+    addListener: vi.fn(),
+    removeListener: vi.fn(),
+    dispatchEvent: vi.fn(),
+  }));
+}
+
 describe('SkillExperienceList', () => {
+  it('summarizes distinct outcomes and skills in its compact state', () => {
+    useSmallViewport();
+    const [evidence] = devOpsCapabilityEvidenceItems.filter(
+      (item) => item.id === 'github-actions-gitops-handoff',
+    );
+
+    expect(evidence).toBeDefined();
+
+    render(<SkillExperienceList evidence={[evidence]} skills={skills} />);
+
+    const detailSummary = '1 outcome · 6 skills';
+    const disclosure = screen.getByRole('button', { name: detailSummary });
+
+    expect(disclosure.getAttribute('aria-expanded')).toBe('false');
+    expect(screen.getByText(detailSummary)).toBeTruthy();
+
+    fireEvent.click(disclosure);
+
+    expect(disclosure.getAttribute('aria-expanded')).toBe('true');
+    expect(screen.getByRole('list', { name: 'Relevant skills' })).toBeTruthy();
+  });
+
   it('renders every evidence summary as an Astryx Card', () => {
     expect(experienceFixtures).toHaveLength(2);
 
@@ -181,5 +223,6 @@ describe('SkillExperienceList', () => {
 
     expect(card).not.toBeNull();
     expect(within(card as HTMLElement).queryByRole('list')).toBeNull();
+    expect(within(card as HTMLElement).queryByRole('button')).toBeNull();
   });
 });
