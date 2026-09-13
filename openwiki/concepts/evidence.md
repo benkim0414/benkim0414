@@ -27,7 +27,7 @@ sources:
 generated: { by: "codex", at: "2026-09-12T23:43:59.905Z" }
 verified:
   - by: openwiki/0.5.0
-    at: 2026-09-12T23:43:59.905Z
+    at: 2026-09-13T00:53:43.131Z
 ---
 
 # Skills and capability evidence

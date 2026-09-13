@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:4b3ca6980f4d4856a55f6efbd1fbe7fbb8e37007de98e679bcf5e1d04b728f73",
+  "pageVersion": "sha256:e3a66dc88a9730ee758e35d4d746755972ededbf8931be6b701b41ca2b367462",
   "claims": [
     {
       "id": "claim_6cbb6dd0080f4763aaf4dec964f7f76e",
@@ -210,11 +210,11 @@
       "evidence": [
         {
           "resource": "repo://apps/github.io/src/app/skills/skill-experience-card-list.spec.tsx",
-          "version": "repo-file-v1:sha256:2aa56cd4ddca916f068fb8cfa940781cae75718904814443f5a0af59443facea"
+          "version": "repo-file-v1:sha256:36d646e0c32ae9e0ec882fbdc49af6c814734bb209193020bf8ab465cb0cbda7"
         },
         {
           "resource": "repo://apps/github.io/src/app/skills/skill-experience-list.spec.tsx",
-          "version": "repo-file-v1:sha256:9bfd16e3dcc76f468bed3a0daefd11ecb02510c16b961a17f5bff64de667114d"
+          "version": "repo-file-v1:sha256:ef9a75a05e16876d85f7337c2f6629ac5d631c194f4e4ef1f938e0a25f2ef172"
         },
         {
           "resource": "repo://apps/github.io/src/app/skills/skill-experience-list.stories.spec.ts",
@@ -225,6 +225,6 @@
   ],
   "verification": {
     "by": "openwiki/0.5.0",
-    "at": "2026-09-12T23:43:59.905Z"
+    "at": "2026-09-13T00:53:43.131Z"
   }
 }
