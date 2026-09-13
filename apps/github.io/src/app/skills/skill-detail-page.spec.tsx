@@ -1,11 +1,14 @@
 import { readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 import { render, within } from '@testing-library/react';
+import { Theme } from '@astryxdesign/core';
 import { VStack } from '@astryxdesign/core/Layout';
+import { neutralTheme } from '@astryxdesign/theme-neutral/built';
 
 import { devOpsCapabilityEvidenceItems } from '../devops-capability-evidence/devops-capability-evidence.data';
 import { experiences } from '../experience/experience.data';
 import { sampleProjects } from '../projects/project-list.data';
+import { SkillDetailContent } from './skill-detail-content';
 import { skillDetailRecords } from './skill-detail.data';
 import { SkillDetailPage } from './skill-detail-page';
 import { resolveSkillDetail } from './skill-detail-resolver';
@@ -106,9 +109,24 @@ describe('SkillDetailPage', () => {
     expect(queryByRole('navigation', { name: 'On this page' })).toBeNull();
   });
 
-  it('keeps global controls out of the page-local skill detail layout', () => {
+  it('renders reusable detail sections without route-only chrome', () => {
     const detail = getResolvedDetail('kubernetes');
-    const { getByRole, queryByRole } = render(
+    const { queryByRole, getByTestId } = render(
+      <Theme theme={neutralTheme}>
+        <SkillDetailContent detail={detail} />
+      </Theme>,
+    );
+
+    expect(getByTestId('skill-metadata')).toBeTruthy();
+    expect(
+      queryByRole('navigation', { name: 'Skill breadcrumb' }),
+    ).toBeNull();
+    expect(queryByRole('heading', { name: detail.skill.name })).toBeNull();
+  });
+
+  it('renders a non-scrollable main without page-local navigation', () => {
+    const detail = getResolvedDetail('kubernetes');
+    const { container, getByRole, queryByRole } = render(
       <SkillDetailPage detail={detail} />,
     );
     const { getByTestId } = render(
@@ -124,6 +142,9 @@ describe('SkillDetailPage', () => {
 
     expect(queryByRole('navigation', { name: 'Global navigation' })).toBeNull();
     expect(queryByRole('button', { name: 'Search skills' })).toBeNull();
+    expect(container.querySelectorAll('.astryx-layout-content')).toHaveLength(
+      0,
+    );
     expect(main.className).toBe(
       getByTestId('scrollable-content-control').className,
     );
@@ -167,7 +188,7 @@ describe('SkillDetailPage', () => {
   });
 
   it('uses the Astryx Basic Metadata defaults without layout overrides', () => {
-    const source = readAppSource('src/app/skills/skill-detail-page.tsx');
+    const source = readAppSource('src/app/skills/skill-detail-content.tsx');
     const metadataOpeningTag = source.match(/<MetadataList[\s\S]*?>/)?.[0];
 
     expect(metadataOpeningTag).toBeDefined();
@@ -177,7 +198,7 @@ describe('SkillDetailPage', () => {
   });
 
   it('places skill metadata in a full-width muted Card with a scoped Astryx surface', () => {
-    const source = readAppSource('src/app/skills/skill-detail-page.tsx');
+    const source = readAppSource('src/app/skills/skill-detail-content.tsx');
     const metadataCardStyle = source.match(
       /metadataCard:\s*\{[\s\S]*?\n\s*\},/,
     )?.[0];
