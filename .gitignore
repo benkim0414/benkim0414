@@ -56,3 +56,4 @@ Thumbs.db
 .nx/migrate-runs
 
 storybook-static
+/apps/github.io/debug-storybook.log
