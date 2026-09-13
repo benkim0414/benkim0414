@@ -52,7 +52,12 @@ describe('SkillExperienceList', () => {
     fireEvent.click(disclosure);
 
     expect(disclosure.getAttribute('aria-expanded')).toBe('true');
+    expect(disclosure.textContent).toContain('Highlights1');
+    expect(disclosure.textContent).not.toContain('Relevant skills');
     expect(screen.getByRole('list', { name: 'Relevant skills' })).toBeTruthy();
+    expect(screen.getByText('Relevant skills').parentElement?.textContent).toBe(
+      'Relevant skills6',
+    );
   });
 
   it('renders every evidence summary as an Astryx Card', () => {

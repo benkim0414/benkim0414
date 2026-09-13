@@ -90,9 +90,15 @@ describe('SkillExperienceCard', () => {
     fireEvent.click(disclosure);
 
     expect(disclosure.getAttribute('aria-expanded')).toBe('true');
+    expect(disclosure.getAttribute('aria-label')).toBeNull();
+    expect(disclosure.textContent).toContain('Highlights2');
+    expect(disclosure.textContent).not.toContain('Relevant skills');
     expect(screen.getAllByRole('list')).toHaveLength(2);
     expect(screen.getByText(ciCdExperience.narrative[0])).toBeTruthy();
     expect(screen.getByRole('list', { name: 'Relevant skills' })).toBeTruthy();
+    expect(screen.getByText('Relevant skills').parentElement?.textContent).toBe(
+      'Relevant skills2',
+    );
   });
 
   it('starts expanded above the small-screen breakpoint', () => {
@@ -103,7 +109,7 @@ describe('SkillExperienceCard', () => {
     expect(
       screen
         .getByRole('button', {
-          name: 'Highlights 2 Relevant skills 0',
+          name: 'Highlights 2',
         })
         .getAttribute('aria-expanded'),
     ).toBe('true');
@@ -117,7 +123,7 @@ describe('SkillExperienceCard', () => {
       <SkillExperienceCard experience={ciCdExperience} />,
     );
     const disclosure = screen.getByRole('button', {
-      name: 'Highlights 2 Relevant skills 0',
+      name: 'Highlights 2',
     });
 
     fireEvent.click(disclosure);

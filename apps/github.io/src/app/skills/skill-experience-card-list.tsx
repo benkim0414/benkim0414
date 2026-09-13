@@ -1,8 +1,10 @@
 import { HStack, VStack } from '@astryxdesign/core/Layout';
+import { Text } from '@astryxdesign/core/Text';
 import { spacingVars } from '@astryxdesign/core/theme/tokens.stylex';
 import * as stylex from '@stylexjs/stylex';
 import type { ReactElement } from 'react';
 
+import { CountBadge } from '../count-badge';
 import type { Experience } from '../experience/experience.types';
 import { SkillExperienceCardShell } from './skill-experience-card-shell';
 import { getSkillDetailPath } from './skill-route';
@@ -92,23 +94,33 @@ export function SkillExperienceCard({
       <SkillKeyOutcomes outcomes={experience.narrative} />
 
       {resolvedRelevantSkills.length > 0 ? (
-        <HStack
-          aria-label="Relevant skills"
-          as="ul"
-          wrap="wrap"
-          xstyle={styles.tokenList}
-          data-wrap="true"
-        >
-          {resolvedRelevantSkills.map((skill) => (
-            <li key={skill.id} {...stylex.props(styles.tokenItem)}>
-              <SkillToken
-                href={relevantSkills ? getSkillDetailPath(skill.id) : undefined}
-                label={skill.name}
-                variant="neutral"
-              />
-            </li>
-          ))}
-        </HStack>
+        <VStack gap={1}>
+          <HStack gap={2} vAlign="center">
+            <Text type="supporting" color="secondary">
+              Relevant skills
+            </Text>
+            <CountBadge count={resolvedRelevantSkills.length} />
+          </HStack>
+          <HStack
+            aria-label="Relevant skills"
+            as="ul"
+            wrap="wrap"
+            xstyle={styles.tokenList}
+            data-wrap="true"
+          >
+            {resolvedRelevantSkills.map((skill) => (
+              <li key={skill.id} {...stylex.props(styles.tokenItem)}>
+                <SkillToken
+                  href={
+                    relevantSkills ? getSkillDetailPath(skill.id) : undefined
+                  }
+                  label={skill.name}
+                  variant="neutral"
+                />
+              </li>
+            ))}
+          </HStack>
+        </VStack>
       ) : null}
     </SkillExperienceCardShell>
   );

@@ -3,7 +3,7 @@ import { Collapsible } from '@astryxdesign/core/Collapsible';
 import { Heading } from '@astryxdesign/core/Heading';
 import { HStack, VStack } from '@astryxdesign/core/Layout';
 import { Text } from '@astryxdesign/core/Text';
-import type { ReactElement, ReactNode } from 'react';
+import { useState, type ReactElement, type ReactNode } from 'react';
 
 import { CountBadge } from '../count-badge';
 
@@ -25,6 +25,7 @@ export function SkillExperienceCardShell({
   title,
 }: SkillExperienceCardShellProps): ReactElement {
   const hasDetails = outcomeCount > 0 || skillCount > 0;
+  const [isOpen, setIsOpen] = useState(shouldStartExpanded);
 
   return (
     <Card padding={4} width="100%">
@@ -38,17 +39,22 @@ export function SkillExperienceCardShell({
 
         {hasDetails ? (
           <Collapsible
-            defaultIsOpen={shouldStartExpanded()}
+            isOpen={isOpen}
+            onOpenChange={setIsOpen}
             trigger={
               <HStack gap={2} vAlign="center">
                 <Text type="supporting" color="secondary">
                   Highlights
                 </Text>
                 <CountBadge count={outcomeCount} />
-                <Text type="supporting" color="secondary">
-                  Relevant skills
-                </Text>
-                <CountBadge count={skillCount} />
+                {!isOpen ? (
+                  <>
+                    <Text type="supporting" color="secondary">
+                      Relevant skills
+                    </Text>
+                    <CountBadge count={skillCount} />
+                  </>
+                ) : null}
               </HStack>
             }
           >
