@@ -45,6 +45,10 @@ export function SkillExperienceCardShell({
                   Highlights
                 </Text>
                 <CountBadge count={outcomeCount} />
+                <Text type="supporting" color="secondary">
+                  Relevant skills
+                </Text>
+                <CountBadge count={skillCount} />
               </HStack>
             }
           >
