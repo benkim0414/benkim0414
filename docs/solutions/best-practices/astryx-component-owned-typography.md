@@ -1,7 +1,7 @@
 ---
 title: Use Astryx Typography For Component-Owned Text
 date: 2026-07-31
-last_updated: 2026-09-08
+last_updated: 2026-09-13
 category: best-practices
 module: github.io Astryx typography
 problem_type: best_practice
@@ -12,6 +12,7 @@ applies_when:
   - Replacing local raw heading or paragraph styles in Astryx-based UI
   - Deciding whether visible text belongs to Astryx typography or a wrapper boundary
   - Choosing between semantic prose and quote-like visual treatment
+  - Deciding whether a contextual Astryx prose list needs its own label
 related_components:
   - github.io Astryx Foundation
   - Astryx Styling Boundary
@@ -95,6 +96,23 @@ quotation treatment, or local font rules just to make the summary stand out.
 The shared DORA card applies this contract at
 `apps/github.io/src/app/devops-capability-evidence/dora-capability-card.tsx:120-148`.
 
+Apply the same semantic restraint to short prose lists inside an already named
+card. Astryx's general `List` guidance recommends a header, but the component
+API makes `header` optional and its ready `ListBulletedFeatures` template omits
+one. WAI-ARIA likewise allows an author-provided name for `role="list"` without
+requiring it; `Name From: author` means that a name is supported, not mandatory.
+Check the separate `Accessible Name Required` characteristic rather than
+inferring a requirement from name-source wording.
+
+For skill experience cards, the level-three title and summary already establish
+the context for the immediately following outcomes. The shared renderer therefore
+uses an unnamed compact, disc-marked Astryx list with primary body text, while
+retaining `List`/`ListItem` semantics and omitting empty collections
+(`apps/github.io/src/app/skills/skill-key-outcomes.tsx:9-28`). Keep a visible
+header when a list is standalone or ambiguous, and add an accessible-only name
+only when it gives the group a useful, distinguishing identity. Do not apply
+this rule to interactive roles such as `listbox`, whose requirements differ.
+
 `DevOpsRoadmapNode` uses the same rule for node titles: the visible title is an
 Astryx `Heading`, while StyleX still owns React Flow node structure and token
 list layout (`apps/github.io/src/app/devops-roadmap/devops-roadmap-node.tsx:1-4`,
@@ -145,6 +163,8 @@ and prose nodes.
   and neither passage is a quotation, testimonial, callout, or second heading.
 - A visually distinctive Astryx component is being considered mainly for its
   border, spacing, or typography rather than its content semantics.
+- A short, non-interactive prose list follows a card heading and summary, and a
+  repeated generic label would add no distinguishing information.
 
 ## Examples
 
@@ -214,6 +234,31 @@ expect(
 ).toBeTruthy();
 ```
 
+For a contextually obvious outcome list, preserve the list semantics without
+adding repeated visual or spoken chrome:
+
+```tsx
+<List density="compact" listStyle="disc">
+  {outcomes.map((outcome) => (
+    <ListItem
+      key={outcome}
+      label={
+        <Text type="body" color="primary">
+          {outcome}
+        </Text>
+      }
+    />
+  ))}
+</List>
+```
+
+Test both halves of that contract: the semantic list and items remain, while
+the redundant label and its programmatic naming attributes stay absent
+(`apps/github.io/src/app/skills/skill-experience-card-list.spec.tsx:72-88`,
+`apps/github.io/src/app/skills/skill-experience-list.spec.tsx:82-103`). If the
+card can contain another list, identify outcomes by their stable presentation
+contract rather than DOM order.
+
 ## Related
 
 - `CONCEPTS.md`
@@ -221,3 +266,6 @@ expect(
 - `docs/solutions/conventions/tokenize-dora-capability-evidence.md`
 - `docs/solutions/design-patterns/compact-capability-evidence-renderers.md`
 - `docs/solutions/design-patterns/astryx-layout-gap-token-spacing.md`
+- `docs/solutions/design-patterns/model-skill-experience-as-astryx-narrative-cards.md`
+- `docs/solutions/design-patterns/skill-detail-experience-section-labeling.md`
+- `docs/solutions/design-patterns/constrain-devops-roadmap-skill-inventory-nodes.md`
