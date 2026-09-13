@@ -24,10 +24,12 @@ sources:
     resource: repo://apps/github.io/src/app/skills/skill-experience-list.tsx
   - id: openwiki-source-b4039a7397de0bc8565df5e3
     resource: repo://apps/github.io/src/app/skills/skill-list.data.ts
-generated: { by: "codex", at: "2026-09-13T13:01:12.648Z" }
+  - id: openwiki-source-e40383c548b8395ffee31167
+    resource: repo://docs/research/2026-09-14-experience-disclosure-label.md
+generated: { by: "codex", at: "2026-09-13T23:12:28.679Z" }
 verified:
   - by: openwiki/0.5.0
-    at: 2026-09-13T13:01:12.648Z
+    at: 2026-09-13T23:12:28.679Z
 ---
 
 # Skills and capability evidence
@@ -63,11 +65,17 @@ data from a visitor's unknown URL.
 The rendered detail projection keeps orientation and proof separate. Each
 experience card keeps its source summary visible, then places ordered authored
 narratives or distinct capability facts and relevant-skill tokens behind one
-counted disclosure. The proof starts collapsed on small initial viewports and
-expanded on larger ones without truncating or discarding evidence. Capability
-facts equal to the summary are filtered so the same claim is not repeated. This
-shared presentation does not collapse the two source models or move projection
-rules into the resolver.
+disclosure. The UI calls the mixed narrative points and facts `Highlights`
+rather than `Outcomes`: the collection includes actions, methods, context, and
+effects, so the broader presentation label avoids implying that every point is
+a measured result. Its badge counts those points, while a separate badge beside
+`Relevant skills` counts the token projection. The proof starts collapsed on
+small initial viewports and expanded on larger ones without truncating or
+discarding evidence. Capability facts equal to the summary are filtered so the
+same claim is not repeated. Internal names such as `outcomeCount` and
+`SkillKeyOutcomes` remain implementation vocabulary; the shared presentation
+does not collapse the two source models or move projection rules into the
+resolver.
 
 The DevOps roadmap inventory is another separate, display-oriented projection.
 Its 22 canonical topics and concise descriptions define the source order, while

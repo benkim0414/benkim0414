@@ -62,10 +62,10 @@ sources:
     resource: repo://scripts/setup-openwiki.test.mjs
   - id: openwiki-source-165465422a61a00b62b0f6d3
     resource: repo://scripts/sync-github-pages-artifact.test.mjs
-generated: { by: "codex", at: "2026-09-13T13:01:12.648Z" }
+generated: { by: "codex", at: "2026-09-13T23:12:28.679Z" }
 verified:
   - by: openwiki/0.5.0
-    at: 2026-09-13T13:08:28.549Z
+    at: 2026-09-13T23:12:28.679Z
 ---
 
 # Validation workflow
@@ -181,13 +181,14 @@ These DOM assertions do not prove that estimated column widths fit rendered
 content; that remains a Storybook visual check.
 
 Skill experience readability is protected at both renderer boundaries. Focused
-tests verify the counted disclosure trigger, a closed small-viewport default,
-an open large-viewport default, expansion through the accessible button,
-singular/plural metadata, complete authored and capability outcome text,
-capability-fact deduplication, and omission when there is nothing to disclose.
-The authored stories include a mobile viewport for the long wrapping narrative,
-while the capability story supplies multiple facts for manual visual review of
-the same shared disclosure and outcome treatment.
+tests verify the accessible `Highlights` trigger and its point-count badge, the
+separate `Relevant skills` count badge, absence of the former combined
+outcome/skill sentence, a closed small-viewport default, an open large-viewport
+default, user expansion and retained choice across resize, complete authored and
+capability list text, capability-fact deduplication, and omission when there is
+nothing to disclose. The authored stories include a mobile viewport for the
+long wrapping narrative, while the capability story supplies multiple facts for
+manual visual review of the same shared disclosure treatment.
 
 The skill-detail page test protects its page-local Outline independently of
 responsive CSS: it verifies the labeled navigation, the three stable heading
@@ -217,7 +218,9 @@ rendered geometry: each pair must exist, fit within the main surface without
 overlap, align vertically, retain the native heading name, and show the expected
 collection count. The page-level component test separately ensures the Projects
 badge is outside the heading's accessible name and derives from the rendered
-projects collection.
+projects collection. Its numeric queries are scoped to the corresponding
+heading container so the page-level badges remain distinguishable from count
+badges inside descendant experience cards.
 
 For agent-document or OpenWiki setup changes:
 

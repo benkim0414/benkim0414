@@ -5,7 +5,7 @@ description: How Astryx, StyleX, theme persistence, and browser layout checks fi
 tags: [astryx, stylex, theme, layout]
 verified:
   - by: openwiki/0.5.0
-    at: 2026-09-13T13:01:12.648Z
+    at: 2026-09-13T23:12:28.679Z
 sources:
   - id: openwiki-source-45b1d77b308bd57403f55ff9
     resource: repo://apps/github.io/.storybook/story-taxonomy.spec.ts
@@ -37,8 +37,12 @@ sources:
     resource: repo://apps/github.io/src/app/skills/skill-detail-page.stories.tsx
   - id: openwiki-source-679e425aa4dc519b0748e74d
     resource: repo://apps/github.io/src/app/skills/skill-detail-page.tsx
+  - id: openwiki-source-61956fea1deed015d3bafd72
+    resource: repo://apps/github.io/src/app/skills/skill-experience-card-list.tsx
   - id: openwiki-source-6d3d436c779dec5facaf5f2d
     resource: repo://apps/github.io/src/app/skills/skill-experience-card-shell.tsx
+  - id: openwiki-source-ba5c27392181e6c65798f3c4
+    resource: repo://apps/github.io/src/app/skills/skill-experience-list.tsx
   - id: openwiki-source-2944a7e4b1284a70a09ee95a
     resource: repo://apps/github.io/src/app/skills/skill-key-outcomes.tsx
   - id: openwiki-source-a08412c702b94999bfa82651
@@ -55,7 +59,7 @@ sources:
     resource: repo://apps/github.io/src/styles.css
   - id: openwiki-source-fcfa3ced1d03143bb27d5018
     resource: repo://apps/github.io/vite.config.ts
-generated: { by: "codex", at: "2026-09-13T13:01:12.648Z" }
+generated: { by: "codex", at: "2026-09-13T23:12:28.679Z" }
 ---
 
 # Design system and layout
@@ -122,11 +126,15 @@ visual check.
 
 Text-heavy skill experience cards use `SkillExperienceCardShell` to keep the
 semantic heading and primary-body summary visible while placing optional proof
-inside Astryx `Collapsible`. The trigger reports outcome and relevant-skill
-counts as supporting metadata. It starts closed when the initial viewport is at
-or below 640px and open otherwise; because the breakpoint only seeds the
-uncontrolled state, a later resize does not override the visitor's choice.
-Cards without outcomes or relevant skills omit the disclosure entirely.
+inside Astryx `Collapsible`. Its `Highlights` trigger pairs supporting text with
+the shared neutral `CountBadge`, counting only the card's narrative points or
+distinct evidence facts. Relevant skills are counted separately beside their
+existing label inside the expanded panel, so the compact trigger does not repeat
+skill metadata that the panel already names. It starts closed when the initial
+viewport is at or below 640px and open otherwise; because the breakpoint only
+seeds the uncontrolled state, a later resize does not override the visitor's
+choice. Cards without highlights or relevant skills omit the disclosure
+entirely.
 
 Repeated details still delegate to `SkillKeyOutcomes`. It renders an unnamed,
 compact, disc-marked Astryx `List`; each `ListItem` receives primary body `Text`

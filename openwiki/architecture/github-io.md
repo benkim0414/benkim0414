@@ -28,10 +28,10 @@ sources:
     resource: repo://apps/github.io/src/app/skills/skill-experience-card-shell.tsx
   - id: openwiki-source-ba5c27392181e6c65798f3c4
     resource: repo://apps/github.io/src/app/skills/skill-experience-list.tsx
-generated: { by: "codex", at: "2026-09-13T13:01:12.648Z" }
+generated: { by: "codex", at: "2026-09-13T23:12:28.679Z" }
 verified:
   - by: openwiki/0.5.0
-    at: 2026-09-13T13:01:12.648Z
+    at: 2026-09-13T23:12:28.679Z
 ---
 
 # Application architecture
@@ -90,16 +90,20 @@ experience cards or supporting evidence exists, but its adjacent app-level
 `CountBadge` reports only the primary-card array length. The badge is a sibling
 of the level-two heading so the section's accessible heading name remains
 `Experience`; an evidence-only section therefore communicates a count of zero
-without hiding its supporting records.
+without hiding its supporting records. Focused tests locate that badge within
+the heading's horizontal container, distinguishing it from the additional
+numeric badges inside descendant experience cards.
 
 The two experience renderers keep their source-specific projection work at the
 boundary. Authored records pass ordered narrative strings onward; capability
 evidence deduplicates detail facts and removes facts equal to the summary first.
-Both provide those outcomes and a separate canonical relevant-skill projection
-to `SkillExperienceCardShell`. The shell keeps the heading and summary visible,
-reports both collection sizes in its disclosure trigger, and reveals the shared
-outcome list and skill tokens together. This presentation reuse does not merge
-the underlying authored-experience and capability-evidence models.
+Both provide those narrative points or facts and a separate canonical
+relevant-skill projection to `SkillExperienceCardShell`. The shell keeps the
+heading and summary visible, labels the point count as `Highlights` in its
+disclosure trigger, and reveals the shared list and skill tokens together.
+Relevant skills carry their own count beside their label inside the panel rather
+than repeating that count in the compact trigger. This presentation reuse does
+not merge the underlying authored-experience and capability-evidence models.
 
 Continue with [evidence semantics](../concepts/evidence.md),
 [theme and layout](design-system.md), and [validation](../workflows/validation.md).
