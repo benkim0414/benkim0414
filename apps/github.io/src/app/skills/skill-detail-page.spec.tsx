@@ -424,6 +424,19 @@ describe('SkillDetailPage', () => {
     expect(heading.contains(badgeLabel)).toBe(false);
   });
 
+  it('shows the rendered project count without including it in the heading name', () => {
+    const detail = getResolvedDetail('kubernetes');
+    const { getByRole, getByText } = render(
+      <SkillDetailPage detail={detail} />,
+    );
+    const heading = getByRole('heading', { level: 2, name: 'Projects' });
+    const badgeLabel = getByText(String(detail.projects.length));
+    const badge = badgeLabel.closest('.astryx-badge');
+
+    expect(badge).toBeTruthy();
+    expect(heading.contains(badgeLabel)).toBe(false);
+  });
+
   it('focuses the heading on initial detail mount and skill changes only', () => {
     const reactDetail = getResolvedDetail('react');
     const kubernetesDetail = getResolvedDetail('kubernetes');

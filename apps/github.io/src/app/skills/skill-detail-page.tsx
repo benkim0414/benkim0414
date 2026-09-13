@@ -187,9 +187,12 @@ export function SkillDetailPage({
       {hasProjects ? (
         <section aria-labelledby={outlineSections.projects.id}>
           <VStack gap={3}>
-            <Heading id={outlineSections.projects.id} level={2}>
-              {outlineSections.projects.label}
-            </Heading>
+            <HStack gap={2} vAlign="center">
+              <Heading id={outlineSections.projects.id} level={2}>
+                {outlineSections.projects.label}
+              </Heading>
+              <CountBadge count={detail.projects.length} />
+            </HStack>
             {detail.projects.map((project) => (
               <ProjectCard key={project.id} isFullWidth project={project} />
             ))}

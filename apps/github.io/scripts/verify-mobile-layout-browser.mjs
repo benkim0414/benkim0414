@@ -58,6 +58,13 @@ const routes = [
       expectedHeadingName: 'Experience',
       headingSelector: '#skill-experience-narrative-heading',
     },
+    projects: {
+      badgeSelector:
+        '#skill-projects-heading + .astryx-badge[data-variant="neutral"]',
+      expectedBadgeText: '1',
+      expectedHeadingName: 'Projects',
+      headingSelector: '#skill-projects-heading',
+    },
     isInFrame: true,
     pageRootSelector: 'main[aria-label="Skill detail"]',
     readySelector: 'main[aria-label="Skill detail"] h1',
@@ -715,6 +722,14 @@ async function inspectRoute(bidi, context, route) {
       const experienceBadge = experienceBadgeSelector
         ? document.querySelector(experienceBadgeSelector)
         : null;
+      const projectsHeadingSelector = ${JSON.stringify(route.projects?.headingSelector ?? null)};
+      const projectsBadgeSelector = ${JSON.stringify(route.projects?.badgeSelector ?? null)};
+      const projectsHeading = projectsHeadingSelector
+        ? document.querySelector(projectsHeadingSelector)
+        : null;
+      const projectsBadge = projectsBadgeSelector
+        ? document.querySelector(projectsBadgeSelector)
+        : null;
       const pageRootMatches = document.querySelectorAll(pageRootSelector).length;
       const expectedScrollOwnerSelector = ${JSON.stringify(route.scrollOwnerSelector ?? null)};
       const expectedScrollOwner = expectedScrollOwnerSelector
@@ -814,6 +829,16 @@ async function inspectRoute(bidi, context, route) {
               headingAriaLabel: experienceHeading?.getAttribute('aria-label') ?? null,
               headingTag: experienceHeading?.tagName.toLowerCase() ?? null,
               headingText: experienceHeading?.textContent?.trim() ?? null,
+            }
+          : null,
+        projects: projectsHeadingSelector
+          ? {
+              badge: rectangle(projectsBadge),
+              badgeText: projectsBadge?.textContent?.trim() ?? null,
+              heading: rectangle(projectsHeading),
+              headingAriaLabel: projectsHeading?.getAttribute('aria-label') ?? null,
+              headingTag: projectsHeading?.tagName.toLowerCase() ?? null,
+              headingText: projectsHeading?.textContent?.trim() ?? null,
             }
           : null,
         roadmapStepper: completedRoadmapStep
@@ -1052,6 +1077,52 @@ function assertRouteMetrics(route, viewport, metrics, navigationPath) {
       `${label} Experience badge is not vertically aligned with its heading: ${JSON.stringify(experience)}.`,
     );
   }
+  if (route.projects) {
+    const projects = metrics.projects;
+
+    assert(projects != null, `${label} has no projects heading metrics.`);
+    assert(
+      projects.heading != null,
+      `${label} is missing the Projects heading ${route.projects.headingSelector}.`,
+    );
+    assert(
+      projects.badge != null,
+      `${label} is missing the projects count badge ${route.projects.badgeSelector}.`,
+    );
+    assert(
+      projects.headingTag === 'h2' &&
+        projects.headingAriaLabel == null &&
+        projects.headingText === route.projects.expectedHeadingName,
+      `${label} Projects heading accessible name changed: ${JSON.stringify(projects)}.`,
+    );
+    assert(
+      projects.badgeText === route.projects.expectedBadgeText,
+      `${label} projects badge text is ${JSON.stringify(projects.badgeText)}, expected ${JSON.stringify(route.projects.expectedBadgeText)}.`,
+    );
+    assert(
+      projects.heading.width > 0 &&
+        projects.heading.height > 0 &&
+        projects.badge.width > 0 &&
+        projects.badge.height > 0,
+      `${label} Projects heading or badge has no rendered size: ${JSON.stringify(projects)}.`,
+    );
+    assert(
+      projects.heading.left >= metrics.main.left - SUBPIXEL_TOLERANCE &&
+        projects.badge.right <= metrics.main.right + SUBPIXEL_TOLERANCE,
+      `${label} Projects heading or badge clips beyond the page main: ${JSON.stringify({ projects, main: metrics.main })}.`,
+    );
+    assert(
+      projects.badge.left >= projects.heading.right - SUBPIXEL_TOLERANCE,
+      `${label} Projects badge overlaps its heading: ${JSON.stringify(projects)}.`,
+    );
+    assert(
+      isWithinTolerance(
+        projects.heading.top + projects.heading.height / 2,
+        projects.badge.top + projects.badge.height / 2,
+      ),
+      `${label} Projects badge is not vertically aligned with its heading: ${JSON.stringify(projects)}.`,
+    );
+  }
   assert(
     metrics.expectedScrollOwnerMatches === 1,
     `${label} expected scroll owner selector ${route.scrollOwnerSelector} matched ${metrics.expectedScrollOwnerMatches} elements.`,
@@ -1076,7 +1147,7 @@ function assertRouteMetrics(route, viewport, metrics, navigationPath) {
   }
 
   console.log(
-    `PASS ${label} pathname=${metrics.path} frame=${metrics.frame.width.toFixed(2)}px main=${metrics.main.width.toFixed(2)}px horizontal-overflow=${metrics.horizontalOverflow.toFixed(2)}px scroll-owner=${route.scrollOwnerSelector}${route.focusSelector ? ' focus=detail-heading' : ''}${route.experience ? ` experience-heading=${metrics.experience.headingText} badge=${metrics.experience.badgeText} aligned=yes` : ''}`,
+    `PASS ${label} pathname=${metrics.path} frame=${metrics.frame.width.toFixed(2)}px main=${metrics.main.width.toFixed(2)}px horizontal-overflow=${metrics.horizontalOverflow.toFixed(2)}px scroll-owner=${route.scrollOwnerSelector}${route.focusSelector ? ' focus=detail-heading' : ''}${route.experience ? ` experience-heading=${metrics.experience.headingText} badge=${metrics.experience.badgeText} aligned=yes` : ''}${route.projects ? ` projects-heading=${metrics.projects.headingText} badge=${metrics.projects.badgeText} aligned=yes` : ''}`,
   );
 }
 
@@ -1789,6 +1860,7 @@ function selfTestMetrics(overrides = {}) {
     fullWidthReferenceMatches: 0,
     fullWidthCardSurfaces: [],
     path: '/skills',
+    projects: null,
     scrollOwners: [
       {
         className: 'astryx-layout-content',
@@ -2034,6 +2106,30 @@ async function runSelfTests() {
     assert(
       actualError instanceof Error && /experience heading/i.test(actualError.message),
       'Missing experience badge metrics did not reject the route.',
+    );
+  });
+  await test('a configured projects badge is required by route metrics', () => {
+    let actualError;
+
+    try {
+      assertRouteMetrics(
+        selfTestRoute({
+          projects: {
+            expectedBadgeText: '1',
+            expectedHeadingName: 'Projects',
+          },
+        }),
+        { width: 375, height: 667 },
+        selfTestMetrics(),
+        '/skills',
+      );
+    } catch (error) {
+      actualError = error;
+    }
+
+    assert(
+      actualError instanceof Error && /projects heading/i.test(actualError.message),
+      'Missing projects badge metrics did not reject the route.',
     );
   });
   await expectFailure(
