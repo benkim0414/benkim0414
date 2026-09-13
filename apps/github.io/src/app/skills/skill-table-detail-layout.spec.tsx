@@ -118,6 +118,26 @@ describe('SkillTableDetailLayout', () => {
     expect(queryByRole('dialog', { name: 'Kubernetes details' })).toBeNull();
   });
 
+  it('keeps a long detail scroll scoped to the bounded desktop panel', () => {
+    setMediaMatches({
+      [TABLE_QUERY]: true,
+      [COMPACT_SURFACE_QUERY]: false,
+    });
+    const { getByRole } = renderLayout();
+    const detailPanel = getByRole('region', { name: 'Kubernetes details' });
+    const layout = detailPanel.closest('[data-height]');
+    const tableContent = layout?.querySelector('.astryx-layout-content');
+
+    expect(layout?.getAttribute('data-height')).toBe('fill');
+    expect(tableContent).toBeTruthy();
+
+    tableContent!.scrollTop = 48;
+    fireEvent.scroll(detailPanel, { target: { scrollTop: 240 } });
+
+    expect(detailPanel.scrollTop).toBe(240);
+    expect(tableContent!.scrollTop).toBe(48);
+  });
+
   it('closes an active panel with Escape and requests focus restoration', () => {
     setMediaMatches({
       [TABLE_QUERY]: true,

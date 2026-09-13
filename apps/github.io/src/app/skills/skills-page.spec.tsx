@@ -220,6 +220,19 @@ describe('SkillsPage', () => {
     expect(queryAllByTestId('skill-card')).toHaveLength(0);
   });
 
+  it('gives the desktop master-detail layout the page height it needs to contain scrolling', () => {
+    setMediaMatches({
+      [TABLE_QUERY]: true,
+      [COMPACT_SURFACE_QUERY]: false,
+    });
+    const { getByRole } = renderSkillsPage(tableSkills);
+
+    expect(getByRole('main', { name: 'Skills' }).style.height).toBe('100%');
+    expect(
+      getByRole('table').closest('[data-height]')?.getAttribute('data-height'),
+    ).toBe('fill');
+  });
+
   it('keeps table selection in page state, swaps reusable details, and restores row focus on close', async () => {
     setMediaMatches({
       [TABLE_QUERY]: true,

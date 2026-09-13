@@ -118,10 +118,10 @@ export function SkillTableDetailLayout({
     <>
       <Layout
         end={isCompactSurface ? undefined : detailPanel}
-        height="auto"
+        height="fill"
         padding={0}
       >
-        <LayoutContent isScrollable={false} padding={0}>
+        <LayoutContent isScrollable padding={0}>
           <SkillTable
             activeSkillId={activeSkillId}
             query={query}

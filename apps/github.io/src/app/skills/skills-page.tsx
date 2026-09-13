@@ -7,7 +7,7 @@ import { EmptyState } from '@astryxdesign/core/EmptyState';
 import { Heading } from '@astryxdesign/core/Heading';
 import { Icon } from '@astryxdesign/core/Icon';
 import { IconButton } from '@astryxdesign/core/IconButton';
-import { VStack } from '@astryxdesign/core/Layout';
+import { StackItem, VStack } from '@astryxdesign/core/Layout';
 import { Popover } from '@astryxdesign/core/Popover';
 import { Text } from '@astryxdesign/core/Text';
 import { TextInput } from '@astryxdesign/core/TextInput';
@@ -90,23 +90,31 @@ export function SkillsPage({
   };
 
   return (
-    <VStack aria-labelledby="skills-page-title" as="main" gap={3} padding={4}>
+    <VStack
+      aria-labelledby="skills-page-title"
+      as="main"
+      gap={3}
+      height={isTable ? '100%' : undefined}
+      padding={4}
+    >
       <VisuallyHidden as="h1" id="skills-page-title">
         Skills
       </VisuallyHidden>
       <Heading level={2}>Skills</Heading>
       {isTable ? (
-        <SkillTableDetailLayout
-          activeDetail={activeDetail}
-          activeSkillId={activeSkillId}
-          query={query}
-          selectedCategories={selectedCategories}
-          skills={skills}
-          onClose={closeActiveSkill}
-          onQueryChange={setQuery}
-          onSelectedCategoriesChange={setSelectedCategories}
-          onSkillActivate={handleSkillActivate}
-        />
+        <StackItem size="fill">
+          <SkillTableDetailLayout
+            activeDetail={activeDetail}
+            activeSkillId={activeSkillId}
+            query={query}
+            selectedCategories={selectedCategories}
+            skills={skills}
+            onClose={closeActiveSkill}
+            onQueryChange={setQuery}
+            onSelectedCategoriesChange={setSelectedCategories}
+            onSkillActivate={handleSkillActivate}
+          />
+        </StackItem>
       ) : (
         <>
           <Toolbar
