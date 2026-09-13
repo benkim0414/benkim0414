@@ -16,13 +16,13 @@ import { VisuallyHidden } from '@astryxdesign/core/VisuallyHidden';
 import { useMemo, useState, type ReactElement } from 'react';
 
 import { SkillCard } from './skill-card';
+import { filterSkills } from './skill-filter';
 import { skills as defaultSkills } from './skill-list.data';
 import {
   skillCategories,
   type Skill,
   type SkillCategory,
 } from './skill-list.types';
-import { skillMatchesQuery } from './skill-search';
 
 export interface SkillsPageProps {
   skills?: readonly Skill[];
@@ -39,15 +39,7 @@ export function SkillsPage({
     skills.some((skill) => skill.categories.includes(category)),
   );
   const filteredSkills = useMemo(
-    () =>
-      skills.filter(
-        (skill) =>
-          skillMatchesQuery(skill, query) &&
-          (selectedCategories.length === 0 ||
-            selectedCategories.some((category) =>
-              skill.categories.includes(category),
-            )),
-      ),
+    () => filterSkills(skills, query, selectedCategories),
     [query, selectedCategories, skills],
   );
   const sortedSkills = [...filteredSkills].sort((left, right) =>

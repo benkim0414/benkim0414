@@ -6,17 +6,21 @@ import {
   pixel,
   Table,
   type TableColumn,
+  type TablePlugin,
   useTableSortable,
   useTableSortableState,
 } from '@astryxdesign/core/Table';
 import { Text } from '@astryxdesign/core/Text';
 import { TextInput } from '@astryxdesign/core/TextInput';
-import { useState, type ReactElement } from 'react';
+import { colorVars } from '@astryxdesign/core/theme/tokens.stylex';
+import * as stylex from '@stylexjs/stylex';
+import { useMemo, type ReactElement } from 'react';
 
 import { SkillAvatar } from './skill-avatar';
-import { SkillCategory } from './skill-category';
+import { SkillCategory as SkillCategoryBadge } from './skill-category';
 import { getSkillConfidenceLabel, SkillConfidence } from './skill-confidence';
-import type { Skill } from './skill-list.types';
+import { filterSkills } from './skill-filter';
+import type { Skill, SkillCategory } from './skill-list.types';
 
 interface SkillTableRow extends Record<string, unknown> {
   id: string;
@@ -28,7 +32,20 @@ interface SkillTableRow extends Record<string, unknown> {
 }
 
 export interface SkillTableProps {
-  skills: readonly Skill[];
+  readonly skills: readonly Skill[];
+  readonly query: string;
+  readonly selectedCategories: readonly SkillCategory[];
+  readonly activeSkillId: string | null;
+  readonly onQueryChange: (query: string) => void;
+  readonly onSelectedCategoriesChange: (
+    categories: SkillCategory[],
+  ) => void;
+  readonly onSkillActivate: (activation: SkillRowActivation) => void;
+}
+
+export interface SkillRowActivation {
+  readonly skillId: string;
+  readonly row: HTMLTableRowElement;
 }
 
 const CHARACTER_WIDTH = 8;
@@ -36,6 +53,16 @@ const CELL_INLINE_PADDING = 32;
 const NAME_MEDIA_WIDTH = 28;
 const CATEGORY_CHROME_WIDTH = 24;
 const CATEGORY_GAP_WIDTH = 4;
+
+const styles = stylex.create({
+  clickableRow: {
+    cursor: 'pointer',
+  },
+  activeRow: {
+    backgroundColor: colorVars['--color-overlay-pressed'],
+    '--table-row-overlay': colorVars['--color-overlay-pressed'],
+  },
+});
 
 function textWidth(value: string) {
   return value.length * CHARACTER_WIDTH;
@@ -90,7 +117,7 @@ function createColumns(skills: readonly Skill[]): TableColumn<SkillTableRow>[] {
       renderCell: ({ skill }) => (
         <HStack align="center" gap={1}>
           {skill.categories.map((category) => (
-            <SkillCategory key={category} name={category} />
+            <SkillCategoryBadge key={category} name={category} />
           ))}
         </HStack>
       ),
@@ -116,22 +143,20 @@ function createColumns(skills: readonly Skill[]): TableColumn<SkillTableRow>[] {
   ];
 }
 
-export function SkillTable({ skills }: SkillTableProps): ReactElement {
-  const [nameQuery, setNameQuery] = useState('');
-  const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
+export function SkillTable({
+  skills,
+  query,
+  selectedCategories,
+  activeSkillId,
+  onQueryChange,
+  onSelectedCategoriesChange,
+  onSkillActivate,
+}: SkillTableProps): ReactElement {
   const columns = createColumns(skills);
   const categoryOptions = [
     ...new Set(skills.flatMap((skill) => skill.categories)),
   ].sort();
-  const normalizedNameQuery = nameQuery.trim().toLocaleLowerCase();
-  const filteredSkills = skills.filter(
-    (skill) =>
-      skill.name.toLocaleLowerCase().includes(normalizedNameQuery) &&
-      (selectedCategories.length === 0 ||
-        selectedCategories.some((category) =>
-          skill.categories.includes(category),
-        )),
-  );
+  const filteredSkills = filterSkills(skills, query, selectedCategories);
   const rows: SkillTableRow[] = filteredSkills.map((skill) => ({
     id: skill.id,
     name: skill.name,
@@ -148,8 +173,52 @@ export function SkillTable({ skills }: SkillTableProps): ReactElement {
     ],
   });
   const sortable = useTableSortable<SkillTableRow>(sortConfig);
+  const rowActivation = useMemo<TablePlugin<SkillTableRow>>(
+    () => ({
+      transformBodyRow: (props, item) => {
+        const isActive = item.id === activeSkillId;
+
+        return {
+          ...props,
+          htmlProps: {
+            ...props.htmlProps,
+            tabIndex: 0,
+            'aria-current': isActive ? true : undefined,
+            onClick: (event) => {
+              if (
+                (event.target as HTMLElement).closest(
+                  'input, button, a, select, textarea',
+                )
+              ) {
+                return;
+              }
+
+              onSkillActivate({ skillId: item.id, row: event.currentTarget });
+            },
+            onKeyDown: (event) => {
+              if (event.target !== event.currentTarget) {
+                return;
+              }
+
+              if (event.key === 'Enter' || event.key === ' ') {
+                event.preventDefault();
+                onSkillActivate({
+                  skillId: item.id,
+                  row: event.currentTarget,
+                });
+              }
+            },
+          },
+          xstyle: isActive
+            ? [...props.xstyle, styles.clickableRow, styles.activeRow]
+            : [...props.xstyle, styles.clickableRow],
+        };
+      },
+    }),
+    [activeSkillId, onSkillActivate],
+  );
   const hasActiveFilters =
-    nameQuery.length > 0 || selectedCategories.length > 0;
+    query.length > 0 || selectedCategories.length > 0;
   const resultLabel = `${filteredSkills.length} ${
     filteredSkills.length === 1 ? 'skill' : 'skills'
   }`;
@@ -163,8 +232,8 @@ export function SkillTable({ skills }: SkillTableProps): ReactElement {
           placeholder="Skill name"
           size="sm"
           startIcon="search"
-          value={nameQuery}
-          onChange={setNameQuery}
+          value={query}
+          onChange={(nextQuery) => onQueryChange(nextQuery)}
         />
         <MultiSelector
           hasClear
@@ -175,7 +244,9 @@ export function SkillTable({ skills }: SkillTableProps): ReactElement {
           size="sm"
           triggerDisplay="labels"
           value={selectedCategories}
-          onChange={setSelectedCategories}
+          onChange={(categories) =>
+            onSelectedCategoriesChange(categories as SkillCategory[])
+          }
         />
         <Text>{resultLabel}</Text>
         {hasActiveFilters ? (
@@ -183,8 +254,8 @@ export function SkillTable({ skills }: SkillTableProps): ReactElement {
             label="Clear all"
             variant="ghost"
             onClick={() => {
-              setNameQuery('');
-              setSelectedCategories([]);
+              onQueryChange('');
+              onSelectedCategoriesChange([]);
             }}
           />
         ) : null}
@@ -205,7 +276,7 @@ export function SkillTable({ skills }: SkillTableProps): ReactElement {
           data={sortedData}
           hasHover
           idKey="id"
-          plugins={{ sortable }}
+          plugins={{ sortable, rowActivation }}
           verticalAlign="middle"
         />
       )}

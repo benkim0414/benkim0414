@@ -3,8 +3,9 @@ import { Theme } from '@astryxdesign/core';
 import { neutralTheme } from '@astryxdesign/theme-neutral/built';
 import { vi } from 'vitest';
 
+import { skills as catalogSkills } from './skill-list.data';
 import type { Skill } from './skill-list.types';
-import { SkillTable } from './skill-table';
+import { SkillTable, type SkillTableProps } from './skill-table';
 
 vi.stubGlobal('matchMedia', (query: string) => ({
   addEventListener: vi.fn(),
@@ -50,10 +51,26 @@ const suppliedSkills: readonly Skill[] = [
   },
 ];
 
-function renderSkillTable(skills = suppliedSkills) {
+function renderSkillTable({
+  skills = suppliedSkills,
+  query = '',
+  selectedCategories = [],
+  activeSkillId = null,
+  onQueryChange = vi.fn(),
+  onSelectedCategoriesChange = vi.fn(),
+  onSkillActivate = vi.fn(),
+}: Partial<SkillTableProps> = {}) {
   return render(
     <Theme theme={neutralTheme}>
-      <SkillTable skills={skills} />
+      <SkillTable
+        activeSkillId={activeSkillId}
+        query={query}
+        selectedCategories={selectedCategories}
+        skills={skills}
+        onQueryChange={onQueryChange}
+        onSelectedCategoriesChange={onSelectedCategoriesChange}
+        onSkillActivate={onSkillActivate}
+      />
     </Theme>,
   );
 }
@@ -142,7 +159,7 @@ describe('SkillTable', () => {
       suppliedSkills[0]!,
       suppliedSkills[1]!,
     ];
-    const { getByRole } = renderSkillTable(shuffledSkills);
+    const { getByRole } = renderSkillTable({ skills: shuffledSkills });
     const sortButton = getByRole('button', { name: /^Sort by Confidence/ });
     const confidenceHeader = getByRole('columnheader', {
       name: 'Confidence',
@@ -176,24 +193,46 @@ describe('SkillTable', () => {
     ]);
   });
 
-  it('filters skills by a case-insensitive name query', () => {
-    const { getByRole, getByText, queryByText } = renderSkillTable();
+  it('reports controlled filter changes and renders parent-provided results', () => {
+    const onQueryChange = vi.fn();
+    const onSelectedCategoriesChange = vi.fn();
+    const { getByRole, getByText, queryByText, rerender } = renderSkillTable({
+      onQueryChange,
+      onSelectedCategoriesChange,
+    });
 
     fireEvent.change(getByRole('textbox', { name: 'Skill name' }), {
-      target: { value: 'beTA' },
+      target: { value: 'beTA description' },
     });
+    fireEvent.click(getByRole('combobox', { name: 'Categories' }));
+    fireEvent.click(getByRole('option', { name: 'Language' }));
+
+    expect(onQueryChange).toHaveBeenCalledWith('beTA description');
+    expect(onSelectedCategoriesChange).toHaveBeenCalledWith(['Language']);
+
+    rerender(
+      <Theme theme={neutralTheme}>
+        <SkillTable
+          activeSkillId={null}
+          query="beTA description"
+          selectedCategories={['Language']}
+          skills={suppliedSkills}
+          onQueryChange={onQueryChange}
+          onSelectedCategoriesChange={onSelectedCategoriesChange}
+          onSkillActivate={vi.fn()}
+        />
+      </Theme>,
+    );
 
     expect(renderedNames(getByRole('table'))).toEqual(['Beta']);
     expect(queryByText('Alpha')).toBeNull();
     expect(getByText('1 skill')).toBeTruthy();
   });
 
-  it('filters skills by any selected category', () => {
-    const { getByRole, getByText, queryByText } = renderSkillTable();
-
-    fireEvent.click(getByRole('combobox', { name: 'Categories' }));
-    fireEvent.click(getByRole('option', { name: 'Cloud' }));
-    fireEvent.click(getByRole('option', { name: 'Language' }));
+  it('filters skills by any parent-selected category', () => {
+    const { getByRole, getByText, queryByText } = renderSkillTable({
+      selectedCategories: ['Cloud', 'Language'],
+    });
 
     expect(renderedNames(getByRole('table'))).toEqual(['Alpha', 'Beta']);
     expect(queryByText('Zeta')).toBeNull();
@@ -214,16 +253,12 @@ describe('SkillTable', () => {
         keywords: [],
       },
     ];
-    const { getByRole, queryByText } = renderSkillTable(
-      suppliedSkillsWithAdditionalToolingMatch,
-    );
-
-    fireEvent.change(getByRole('textbox', { name: 'Skill name' }), {
-      target: { value: 'al' },
+    const { getByRole, queryByText } = renderSkillTable({
+      query: 'al',
+      selectedCategories: ['Cloud', 'Tooling'],
+      skills: suppliedSkillsWithAdditionalToolingMatch,
     });
-    fireEvent.click(getByRole('combobox', { name: 'Categories' }));
-    fireEvent.click(getByRole('option', { name: 'Cloud' }));
-    fireEvent.click(getByRole('option', { name: 'Tooling' }));
+
     fireEvent.click(getByRole('button', { name: /^Sort by Name/ }));
 
     expect(renderedNames(getByRole('table'))).toEqual(['Alpha', 'Albatross']);
@@ -231,32 +266,25 @@ describe('SkillTable', () => {
     expect(queryByText('Zeta')).toBeNull();
   });
 
-  it('clears both active filters', () => {
-    const { getByRole, getByText } = renderSkillTable();
-
-    fireEvent.change(getByRole('textbox', { name: 'Skill name' }), {
-      target: { value: 'alpha' },
+  it('reports clearing both active filters to the parent', () => {
+    const onQueryChange = vi.fn();
+    const onSelectedCategoriesChange = vi.fn();
+    const { getByRole } = renderSkillTable({
+      onQueryChange,
+      onSelectedCategoriesChange,
+      query: 'alpha',
+      selectedCategories: ['Cloud'],
     });
-    fireEvent.click(getByRole('combobox', { name: 'Categories' }));
-    fireEvent.click(getByRole('option', { name: 'Cloud' }));
+
     fireEvent.click(getByRole('button', { name: 'Clear all' }));
 
-    expect(renderedNames(getByRole('table'))).toEqual([
-      'Alpha',
-      'Beta',
-      'Zeta',
-    ]);
-    expect(
-      (getByRole('textbox', { name: 'Skill name' }) as HTMLInputElement).value,
-    ).toBe('');
-    expect(getByText('3 skills')).toBeTruthy();
+    expect(onQueryChange).toHaveBeenCalledWith('');
+    expect(onSelectedCategoriesChange).toHaveBeenCalledWith([]);
   });
 
   it('shows a no-results state when active filters match no skills', () => {
-    const { getByRole } = renderSkillTable();
-
-    fireEvent.change(getByRole('textbox', { name: 'Skill name' }), {
-      target: { value: 'no matching skill' },
+    const { getByRole } = renderSkillTable({
+      query: 'no matching skill',
     });
 
     expect(
@@ -268,7 +296,7 @@ describe('SkillTable', () => {
   });
 
   it('keeps the empty-catalog state distinct from a no-results filter state', () => {
-    const { getByRole } = renderSkillTable([]);
+    const { getByRole } = renderSkillTable({ skills: [] });
 
     expect(
       getByRole('heading', {
@@ -277,4 +305,53 @@ describe('SkillTable', () => {
       }),
     ).toBeTruthy();
   });
+
+  it('activates a row by click, Enter, and Space while marking the active row', () => {
+    const onSkillActivate = vi.fn();
+    const activationSkills = ['kubernetes', 'terraform'].map((id) => {
+      const skill = catalogSkills.find((candidate) => candidate.id === id);
+
+      if (!skill) {
+        throw new Error(`Expected ${id} in the canonical skill catalog.`);
+      }
+
+      return skill;
+    });
+    const { getByRole } = renderSkillTable({
+      activeSkillId: 'terraform',
+      onSkillActivate,
+      skills: activationSkills,
+    });
+    const kubernetesRow = getByRole('row', { name: /Kubernetes/ });
+
+    fireEvent.click(kubernetesRow);
+    expect(onSkillActivate).toHaveBeenCalledWith({
+      skillId: 'kubernetes',
+      row: kubernetesRow,
+    });
+
+    kubernetesRow.focus();
+    fireEvent.keyDown(kubernetesRow, { key: 'Enter' });
+    fireEvent.keyDown(kubernetesRow, { key: ' ' });
+
+    expect(onSkillActivate).toHaveBeenCalledTimes(3);
+    expect(
+      getByRole('row', { name: /Terraform/ }).getAttribute('aria-current'),
+    ).toBe('true');
+  });
+
+  it.each(['input', 'button', 'a', 'select', 'textarea'] as const)(
+    'does not activate a row when a click starts from a %s descendant',
+    (tagName) => {
+      const onSkillActivate = vi.fn();
+      const { getByRole } = renderSkillTable({ onSkillActivate });
+      const row = getByRole('row', { name: /Alpha/ });
+      const interactiveElement = document.createElement(tagName);
+
+      row.append(interactiveElement);
+      fireEvent.click(interactiveElement);
+
+      expect(onSkillActivate).not.toHaveBeenCalled();
+    },
+  );
 });
