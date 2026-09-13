@@ -118,6 +118,23 @@ describe('SkillTableDetailLayout', () => {
     expect(queryByRole('dialog', { name: 'Kubernetes details' })).toBeNull();
   });
 
+  it('keeps the close control in a separate top-right header row', () => {
+    setMediaMatches({
+      [TABLE_QUERY]: true,
+      [COMPACT_SURFACE_QUERY]: false,
+    });
+    const { getByRole } = renderLayout();
+    const closeButton = getByRole('button', {
+      name: 'Close Kubernetes details',
+    });
+    const heading = getByRole('heading', { name: 'Kubernetes' });
+
+    expect(closeButton.parentElement?.contains(heading)).toBe(false);
+    expect(closeButton.compareDocumentPosition(heading)).toBe(
+      Node.DOCUMENT_POSITION_FOLLOWING,
+    );
+  });
+
   it('keeps a long detail scroll scoped to the bounded desktop panel', () => {
     setMediaMatches({
       [TABLE_QUERY]: true,

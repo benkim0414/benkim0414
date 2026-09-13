@@ -3,6 +3,7 @@ import { Heading } from '@astryxdesign/core/Heading';
 import { Icon } from '@astryxdesign/core/Icon';
 import { IconButton } from '@astryxdesign/core/IconButton';
 import {
+  HStack,
   Layout,
   LayoutContent,
   LayoutPanel,
@@ -79,7 +80,7 @@ export function SkillTableDetailLayout({
   const detailBody =
     activeDetail == null ? null : (
       <VStack gap={6} padding={4}>
-        <VStack gap={2} hAlign="start">
+        <HStack hAlign="end">
           <IconButton
             icon={<Icon icon="close" size="sm" />}
             label={`Close ${activeDetail.skill.name} details`}
@@ -92,6 +93,8 @@ export function SkillTableDetailLayout({
               }
             }}
           />
+        </HStack>
+        <VStack gap={2} hAlign="start">
           <Heading level={2}>{activeDetail.skill.name}</Heading>
           <Text as="p" color="secondary" type="body">
             {activeDetail.skill.description}
