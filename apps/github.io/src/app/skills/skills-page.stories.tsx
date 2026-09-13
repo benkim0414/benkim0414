@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
+import { VStack } from '@astryxdesign/core/Layout';
 import { expect, userEvent } from 'storybook/test';
 
 import { SkillsPage } from './skills-page';
@@ -9,6 +10,13 @@ import {
 
 const meta: Meta<typeof SkillsPage> = {
   component: SkillsPage,
+  decorators: [
+    (Story) => (
+      <VStack height="100vh">
+        <Story />
+      </VStack>
+    ),
+  ],
   parameters: {
     layout: 'fullscreen',
   },

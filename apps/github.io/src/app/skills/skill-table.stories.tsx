@@ -1,27 +1,53 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
-import { useState } from 'react';
+import { VStack } from '@astryxdesign/core/Layout';
+import { useRef, useState } from 'react';
+import { userEvent } from 'storybook/test';
 
+import { resolveSkillDetail } from './skill-detail-resolver';
+import { skillDetailSources } from './skill-detail-sources';
 import { skills } from './skill-list.data';
 import type { Skill, SkillCategory } from './skill-list.types';
-import { SkillTable } from './skill-table';
+import { SkillTableDetailLayout } from './skill-table-detail-layout';
+import { SkillTable, type SkillRowActivation } from './skill-table';
 
-function InteractiveSkillTable({ skills }: { readonly skills: readonly Skill[] }) {
+export function InteractiveSkillTable({
+  skills,
+}: {
+  readonly skills: readonly Skill[];
+}) {
   const [query, setQuery] = useState('');
   const [selectedCategories, setSelectedCategories] = useState<SkillCategory[]>(
     [],
   );
   const [activeSkillId, setActiveSkillId] = useState<string | null>(null);
+  const activeRowRef = useRef<HTMLTableRowElement | null>(null);
+  const activeResolution =
+    activeSkillId == null
+      ? null
+      : resolveSkillDetail(activeSkillId, skillDetailSources);
+  const activeDetail =
+    activeResolution?.status === 'found' ? activeResolution.value : null;
+
+  const handleSkillActivate = ({ skillId, row }: SkillRowActivation) => {
+    activeRowRef.current = row;
+    setActiveSkillId(skillId);
+  };
 
   return (
-    <SkillTable
-      activeSkillId={activeSkillId}
-      query={query}
-      selectedCategories={selectedCategories}
-      skills={skills}
-      onQueryChange={setQuery}
-      onSelectedCategoriesChange={setSelectedCategories}
-      onSkillActivate={({ skillId }) => setActiveSkillId(skillId)}
-    />
+    <VStack height="100vh">
+      <SkillTableDetailLayout
+        activeDetail={activeDetail}
+        activeSkillId={activeSkillId}
+        finalFocusRef={activeRowRef}
+        query={query}
+        selectedCategories={selectedCategories}
+        skills={skills}
+        onClose={() => setActiveSkillId(null)}
+        onQueryChange={setQuery}
+        onSelectedCategoriesChange={setSelectedCategories}
+        onSkillActivate={handleSkillActivate}
+      />
+    </VStack>
   );
 }
 
@@ -38,6 +64,21 @@ export const AllSkills: Story = {
     skills,
   },
   render: (args) => <InteractiveSkillTable skills={args.skills ?? []} />,
+};
+
+export const DesktopTableDetail: Story = {
+  args: {
+    skills,
+  },
+  globals: {
+    viewport: { value: 'desktop', isRotated: false },
+  },
+  render: (args) => <InteractiveSkillTable skills={args.skills ?? []} />,
+  play: async ({ canvas }) => {
+    await userEvent.click(
+      canvas.getAllByRole('row', { name: /Kubernetes/ })[0],
+    );
+  },
 };
 
 export const FilterControlsOpen: Story = {
