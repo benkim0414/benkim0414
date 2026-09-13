@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:f8041d1d278d4c81137379540bd8386b3f70fcb02127c31cad8d58c2ad5f1295",
+  "pageVersion": "sha256:8e19f9056950e61ad44d583a4bd38c33f06ab7100ad02d6fe9e1325c8246f23a",
   "claims": [
     {
       "id": "claim_67f0a6341495404e8eefce3e45fd6173",
@@ -156,19 +156,19 @@
     },
     {
       "id": "claim_c91b7ea0d556412bb7f7d58877ebe64a",
-      "statement": "Skill experience cards share a shell that keeps the semantic heading and primary summary visible, exposes the narrative-point or distinct-fact count as `Highlights` through a shared neutral CountBadge, counts relevant skills separately beside their expanded-panel label, seeds the Astryx Collapsible closed at or below 640px and open otherwise, omits it when no details exist, and preserves complete evidence through the shared compact disc list.",
+      "statement": "Skill experience cards share a shell that keeps the semantic heading and primary summary visible, exposes both the narrative-point or distinct-fact count as `Highlights` and the relevant-skill count in the persistent Astryx Collapsible trigger, seeds that disclosure closed at or below 640px and open otherwise, omits it when no details exist, and renders the expanded accessible skill-token list without repeating its visible label.",
       "evidence": [
         {
-          "resource": "repo://apps/github.io/src/app/skills/skill-experience-card-list.tsx#L78-L124",
-          "version": "repo-lines-v1:sha256:d9ddbb695c6206d9ae34debbed6a419beff7f64227bc5769e0826b5e146df4ef:eyJzZWxlY3RlZExpbmVDb3VudCI6NDcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImE0YTJiNGJkZjc1MjhjOGIwZDAxNDg0NmZlY2QxZWNkZjkxYjExNzYwOWYxYzdiMTkwOTY5MWE0MzFmY2RlMWEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjEwMDhlYWM3NTAyNTk5ODkwZDNkYWVmMjI3ODU4OGEzZTIwYTVlYWJiYTA3YTZkNTU2MjQ0YjNkYjhkOWZlZDMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjIxZWIwZTI3N2E4Yjc2ZmRhNzAyNjZkM2RmNTk5MDJiNjY3OWE5NjI1OGYzMWVmNTVkMDI5ZWI2MGIxODM3ZjgiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjBlZjIxYWRlYzA1Yzk5MjIyZmY2NjMwNDc1MDgzNmYwNzcyOTgyZjg3N2FhYjQxZTE1ODYxNTQ4OWJhMzA0NzEifQ"
+          "resource": "repo://apps/github.io/src/app/skills/skill-experience-card-list.tsx#L75-L113",
+          "version": "repo-lines-v1:sha256:aff412bfddabd226a86d7ab164854320885aeab32cfe679f4b3485d8915d4dc5:eyJzZWxlY3RlZExpbmVDb3VudCI6MzksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjA4MWRhYjdmZThkZjI5NjkwYzAxMDY4MDc5NjUyOWMxMTk3NGQ0OTQyZDA3ZjJkYTMwNWJmYjQ4ZmE4ZjZkMWMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjUxY2E5NWI3MGEyMmJmOTY5ZmFhNTA2YzE2ZTVhYTkxMjRmMjM5ZDM1YjYzYzEzNjg1Mzg2NjYzMmQwNjQ1MWIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImI5MTIxZDVjYWVhYzhkODY1M2NhZjI4YTFmZGIyZmI1ZDA3MzM4NTE2M2UzMmE2NDVhNjNhYjI1ZDk2YmRjN2IiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjA5NGZjMGMxNzNkMWVjM2ZjNTAxZDdkZmE5Mjg1NTAxYzUyN2NmYjQ3MTI1ODNkYTNjYzM2MTgwNTY2YjRiZTMifQ"
         },
         {
-          "resource": "repo://apps/github.io/src/app/skills/skill-experience-card-shell.tsx#L20-L64",
-          "version": "repo-lines-v1:sha256:77c256b6ca181ea3884fae548eab76c8c540c1ef64952d618d98ee4029a4a497:eyJzZWxlY3RlZExpbmVDb3VudCI6NDUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg5MTI3Njg3MzhlOTlkZDhlOTY3OGExNWEyZGMwYjE3NmM3MTdlOGRjMDZhYjBhZTM5MmE3OTU3YjdmMjJjOGIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijk1ZWYwMWJjMDhkYmMzYjYzZTRlNzVlYTNkMjZhNWI5NDE4OTE4NzdlMjdhZDg5MTMyOWM4NDExZDdkOGRjNGQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImQwYWE4ZTU2YzMyNDBhZjgzN2Q0YTNmNGJmMWU2OWM2ZjNhODdiZmI3MzNkMmYzYjQ1NGEzYTFhYWJmYWU2NjIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjoxLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEifQ"
+          "resource": "repo://apps/github.io/src/app/skills/skill-experience-card-shell.tsx#L20-L69",
+          "version": "repo-lines-v1:sha256:50dae881651a963c7255abe9c3a44c6140ac7f7a1951ddd205108f7c659e598c:eyJzZWxlY3RlZExpbmVDb3VudCI6NTAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg5MTI3Njg3MzhlOTlkZDhlOTY3OGExNWEyZGMwYjE3NmM3MTdlOGRjMDZhYjBhZTM5MmE3OTU3YjdmMjJjOGIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImQwYWE4ZTU2YzMyNDBhZjgzN2Q0YTNmNGJmMWU2OWM2ZjNhODdiZmI3MzNkMmYzYjQ1NGEzYTFhYWJmYWU2NjIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
         },
         {
-          "resource": "repo://apps/github.io/src/app/skills/skill-experience-list.tsx#L48-L94",
-          "version": "repo-lines-v1:sha256:edabbcd7a93f831ac2f4c09c82c9872c997b1ebf41de7bb9f535b2f072d18e68:eyJzZWxlY3RlZExpbmVDb3VudCI6NDcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImU3MjE2ZThlOWMwYTFhNjhkMDZjMmZiYWE1ZmQyMTM5NDgyYjhlZmQwYTE5MzE1YjkxNWU2Y2NlODQ5ZDg5ZGMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImYwMWUzNzNmMDZkYWM2ZWI2NjRjYWRkOTc5MDI0ZDQ1Zjg3NTMwMDY3Y2Q0MzU2NTFjZmU3ZmY0Yjk4ZGNkYTMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjNiZjU1OGEwOTNjZjNiMjY2ZDg4ZWI1MTM4YmJhN2RkYzIzZWZhYjE2NDM1NzZhMGY0YzNiODE2ZjZlZGQyZWMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjY1OGVjNGE2ODk4ODQ0MmIwMTRhYTg5ZTAxOWU3OGE4YmQzMjE3MWNlNGJmZTdjMDdmNzE0YzA5ZTg2NzI2ODIifQ"
+          "resource": "repo://apps/github.io/src/app/skills/skill-experience-list.tsx#L44-L90",
+          "version": "repo-lines-v1:sha256:56810090ab9d8446396c32db7bc87e7dfeb5d7955a69a0867aadd27c8fedb891:eyJzZWxlY3RlZExpbmVDb3VudCI6NDcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjYyMDBhZjBiZGY1MTBkMmRjNjYzYTI3ZDQ2NzcwZjVjZDBjYWE3NTE3YmI2YjM0YmE2OWUxZmQ3MzIxOTc1NjQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijk1ZWYwMWJjMDhkYmMzYjYzZTRlNzVlYTNkMjZhNWI5NDE4OTE4NzdlMjdhZDg5MTMyOWM4NDExZDdkOGRjNGQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjgyZjE5ZDkwMzBiOWE3Njc5NmE4YTA4OTM3YmUyZDVkMjc3ZTNjMDc4YjZkMTRjYWVjOWU2MmY0OGVhZWY1MDkiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjQ4NDc3MDM5YTZiMGQyMjgzNTJkNzIxYTc2YWM4MjI4MDBjNTllMDJiYjM1ZTA2ZjgzZGYxZGI2OTlmZWNjNDAifQ"
         },
         {
           "resource": "repo://apps/github.io/src/app/skills/skill-key-outcomes.tsx#L9-L30",
@@ -227,6 +227,6 @@
   ],
   "verification": {
     "by": "openwiki/0.5.0",
-    "at": "2026-09-13T23:12:28.679Z"
+    "at": "2026-09-13T23:34:56.858Z"
   }
 }

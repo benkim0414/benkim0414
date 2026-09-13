@@ -26,10 +26,10 @@ sources:
     resource: repo://apps/github.io/src/app/skills/skill-list.data.ts
   - id: openwiki-source-e40383c548b8395ffee31167
     resource: repo://docs/research/2026-09-14-experience-disclosure-label.md
-generated: { by: "codex", at: "2026-09-13T23:12:28.679Z" }
+generated: { by: "codex", at: "2026-09-13T23:34:56.858Z" }
 verified:
   - by: openwiki/0.5.0
-    at: 2026-09-13T23:12:28.679Z
+    at: 2026-09-13T23:34:56.858Z
 ---
 
 # Skills and capability evidence
@@ -68,9 +68,11 @@ narratives or distinct capability facts and relevant-skill tokens behind one
 disclosure. The UI calls the mixed narrative points and facts `Highlights`
 rather than `Outcomes`: the collection includes actions, methods, context, and
 effects, so the broader presentation label avoids implying that every point is
-a measured result. Its badge counts those points, while a separate badge beside
-`Relevant skills` counts the token projection. The proof starts collapsed on
-small initial viewports and expanded on larger ones without truncating or
+a measured result. The persistent disclosure trigger labels and counts both
+`Highlights` and `Relevant skills`, so either projection remains legible while
+collapsed. Once expanded, the token list retains its `Relevant skills`
+accessible name without repeating the visible label. The proof starts collapsed
+on small initial viewports and expanded on larger ones without truncating or
 discarding evidence. Capability facts equal to the summary are filtered so the
 same claim is not repeated. Internal names such as `outcomeCount` and
 `SkillKeyOutcomes` remain implementation vocabulary; the shared presentation

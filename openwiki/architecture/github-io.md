@@ -28,10 +28,10 @@ sources:
     resource: repo://apps/github.io/src/app/skills/skill-experience-card-shell.tsx
   - id: openwiki-source-ba5c27392181e6c65798f3c4
     resource: repo://apps/github.io/src/app/skills/skill-experience-list.tsx
-generated: { by: "codex", at: "2026-09-13T23:12:28.679Z" }
+generated: { by: "codex", at: "2026-09-13T23:34:56.858Z" }
 verified:
   - by: openwiki/0.5.0
-    at: 2026-09-13T23:12:28.679Z
+    at: 2026-09-13T23:34:56.858Z
 ---
 
 # Application architecture
@@ -100,10 +100,11 @@ evidence deduplicates detail facts and removes facts equal to the summary first.
 Both provide those narrative points or facts and a separate canonical
 relevant-skill projection to `SkillExperienceCardShell`. The shell keeps the
 heading and summary visible, labels the point count as `Highlights` in its
-disclosure trigger, and reveals the shared list and skill tokens together.
-Relevant skills carry their own count beside their label inside the panel rather
-than repeating that count in the compact trigger. This presentation reuse does
-not merge the underlying authored-experience and capability-evidence models.
+disclosure trigger, and reveals the shared list and skill tokens together. The
+same trigger labels and counts relevant skills, keeping both projections visible
+while collapsed; the expanded token list retains its accessible name without a
+second visible label. This presentation reuse does not merge the underlying
+authored-experience and capability-evidence models.
 
 Continue with [evidence semantics](../concepts/evidence.md),
 [theme and layout](design-system.md), and [validation](../workflows/validation.md).
