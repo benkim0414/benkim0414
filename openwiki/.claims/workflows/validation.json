@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:556cca2f4121ccb1a214ef3c87ea88daf29960e4b6eb82c5e405e263cfa612e9",
+  "pageVersion": "sha256:26295f76870f7d1a8307df60dcfc43c1edb35199f8a194e0eaf1ae6f979b6e95",
   "claims": [
     {
       "id": "claim_6cbb6dd0080f4763aaf4dec964f7f76e",
@@ -216,23 +216,27 @@
     },
     {
       "id": "claim_22b012bc44d34a13bbc0244b91b44d5b",
-      "statement": "Skill experience readability tests cover semantic unnamed outcome-list behavior, complete authored and capability text, capability-fact deduplication, primary compact-disc presentation, and empty-list omission; Storybook fixtures separately provide long authored narratives and multi-fact capability evidence for manual visual review.",
+      "statement": "Skill experience tests cover counted disclosure metadata, closed small-viewport and open large-viewport defaults, user expansion, singular and plural counts, complete outcome text, capability-fact deduplication, and empty-disclosure omission; Storybook adds a mobile long-content card alongside multi-fact capability evidence for visual review.",
       "evidence": [
         {
-          "resource": "repo://apps/github.io/src/app/skills/skill-experience-card-list.spec.tsx#L72-L88",
-          "version": "repo-lines-v1:sha256:a3d10245ed9bb8adc2101bc5dff756a849e09598f2792809ae5ce86e5bccea67:eyJzZWxlY3RlZExpbmVDb3VudCI6MTcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjNlYWM0NGZhMmMyNmY4MWU2OGVjYTkyZjZjMmJmY2Q3ODY0YmM5OWZkOGNkYmIzNWIxZTA2MzJjMWFhY2I1OGQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjIyZDExY2FmNDNlOTdlZjM2OWU2YmVlZDFhMjY4YmQwNTgzOGYyOWI5ZGQyNTRiZjY5YmE2NDg4NDE0NzIzNGEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjdkOTM4ZjdiM2U3NTY4N2U1ZmFiNGNmOTFmZTZhNjEwYjY2ZDI3OWFjZTRjMTYzZDI0MzhhNDE0M2M4MGY2YmMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6Ijk1NGYxZTE5OTdmNzAzMjM0ODVjMjM3ODQ4YmZiZTVmYzE1OGM5YTljNTg5NzJjZTcwZDgwNDVkYmVlMTk0MmEifQ"
+          "resource": "repo://apps/github.io/src/app/skills/skill-experience-card-list.spec.tsx#L53-L123",
+          "version": "repo-lines-v1:sha256:e4f6c1e01377861007cb97f6729059f416d0cf5b1728a40b07841cd87e5f3c9f:eyJzZWxlY3RlZExpbmVDb3VudCI6NzEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImE5ODhlZTlmNzUwMmMwN2ZiODM4NzYxMzQ5ZjVkZGQ0OTkwOTk0NjNjNWRiOWZkZDgwZjlmMDg3N2RiYzQyMzgiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjVkOTFhMDRiMThkMDkzZTJlM2RmZmEyZTI3MTNlZjZkMzYzM2U1MzQ3MTllMGVkMDBmZjIwNzc2NjM5ZTYxMTAiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjE4YTkxNzU5NzJmZTE1ZTJhOTY0MWFiMTMxZjU3MWU2YzdjYWJjYTA2ODM3NjJlYmE1ZjIzNTNlNDgzYzNkNTYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImZlNGQzMjNkNWViNWE1YzcwMDI5YjExYTRiMjVkZWE3NmU3ZGY2MDA1YjdkODgxOTY5NWJlNzQ4ZTNhN2JiMDkifQ"
         },
         {
-          "resource": "repo://apps/github.io/src/app/skills/skill-experience-list.spec.tsx#L62-L184",
-          "version": "repo-lines-v1:sha256:6fa1445cbb11cbe8b794228bf094aea6f21d0750c260c9edb0ac2f8fd98b8ee4:eyJzZWxlY3RlZExpbmVDb3VudCI6MTIzLCJmaXJzdFNlbGVjdGVkTGluZUhhc2giOiI5MWQxOGViMTBkZGZjZGU4ODMyYzQxYjdjY2UwNTA0ZmEwMDNhZTAwMTMyNjA2MzJjZTJlZjMyYmE1OWM3ODViIiwibGFzdFNlbGVjdGVkTGluZUhhc2giOiIzYTNlNDZmOTQyNzZiNmY2ZjRlZDFmMDJhZjc4YmVmNmEyZWUxYzQzOWRkNTU4NGI5NzM5NDgzMTMyMTRkMmI3IiwicHJlY2VkaW5nQ29udGV4dExpbmVDb3VudCI6MywicHJlY2VkaW5nQ29udGV4dEhhc2giOiIzNTBmYmY3OThhOGU3Y2VjZjM3NWQwNThiYTRjMGFlOTliMTBmMzZmNDg4NTU4NDNlZmQwYjkyYTdmMDAyMGExIiwiZm9sbG93aW5nQ29udGV4dExpbmVDb3VudCI6MSwiZm9sbG93aW5nQ29udGV4dEhhc2giOiJmNmY1YjQwYjE1ODQ1N2QxNzg2NGYyMTc5MDc4NmRkNWEyZWNkYjY0YjY2YTY1MWY3ODhkNGUyNWNkMzMwM2QyIn0"
+          "resource": "repo://apps/github.io/src/app/skills/skill-experience-card.stories.tsx#L24-L49",
+          "version": "repo-lines-v1:sha256:685c0ecce3c63b8bbf4b8d7c94cf0b728b2910739b14d51871e1fe0682aa7413:eyJzZWxlY3RlZExpbmVDb3VudCI6MjYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijk2MjI1MmY2MTgyOTBmNTc5M2JkMzIzMzE5MjQzOWQ2YjIzZmU4NzJlNGVlNGM1MzI2YTVmOThmYWNhOTE5MWYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjMxMzlmYzYxNWQ5NzRmODI1NDcxYWYyMzI4NjczYzFhNWQ4ZGYyN2UwODE0MzQzY2ZmMGIwMzEyY2E2Njc3NmMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImEwNGZiYjdmYjkyNmE1ZGQxM2UwMmNjYjExNTBjNzE0MGEwMTk3ZWM4NTQxMmEyNzY3YThlYWZmZTE0MGIzZGQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImY3MGI5MWMzMWY1NWI5OTRkOGU0MTBjODhjY2MxMGIwODkxMTJhMDYwYzdjNzZlMjU4N2FiNjc5Mzk3OWY5NjgifQ"
         },
         {
-          "resource": "repo://apps/github.io/src/app/skills/skill-experience-list.stories.spec.ts#L1-L12",
-          "version": "repo-lines-v1:sha256:159e3d26918dfba12f20813d8fbb03115553c623e4edd98baa671cf119966008:eyJzZWxlY3RlZExpbmVDb3VudCI6MTIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjY1OTFkM2Y3ODljOGYzNDM5Y2M3MDcyNzU5M2FmYmVjMTJhMmZhOTI5ZDEyYmRkMDIzNzJmZTI0YmQ0NGJhMTciLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImY2ZjViNDBiMTU4NDU3ZDE3ODY0ZjIxNzkwNzg2ZGQ1YTJlY2RiNjRiNjZhNjUxZjc4OGQ0ZTI1Y2QzMzAzZDIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+          "resource": "repo://apps/github.io/src/app/skills/skill-experience-list.spec.tsx#L119-L228",
+          "version": "repo-lines-v1:sha256:10107912c98ab29ad5b7b714eaa45f0960541c5eefbde33b1ff63f41f85eaa9a:eyJzZWxlY3RlZExpbmVDb3VudCI6MTEwLCJmaXJzdFNlbGVjdGVkTGluZUhhc2giOiI2YmU1YWMxMzQwYTBmZDk0YjdlMDE1YTEzOWVkZGE0YmQ5ZDRkNjdmNGExMjM1OTkyYzY2ZTEzYWMwNzQyMjUyIiwibGFzdFNlbGVjdGVkTGluZUhhc2giOiJmNmY1YjQwYjE1ODQ1N2QxNzg2NGYyMTc5MDc4NmRkNWEyZWNkYjY0YjY2YTY1MWY3ODhkNGUyNWNkMzMwM2QyIiwicHJlY2VkaW5nQ29udGV4dExpbmVDb3VudCI6MywicHJlY2VkaW5nQ29udGV4dEhhc2giOiI4NTNjNzZlOGIwN2ViNDhkMjM1NWZhMWI4ZDAzYzVkZTFkYjdkNTRiMTc2NmIzNjBlNjI5MDcyZDlkN2I0M2Y5IiwiZm9sbG93aW5nQ29udGV4dExpbmVDb3VudCI6MCwiZm9sbG93aW5nQ29udGV4dEhhc2giOiJlM2IwYzQ0Mjk4ZmMxYzE0OWFmYmY0Yzg5OTZmYjkyNDI3YWU0MWU0NjQ5YjkzNGNhNDk1OTkxYjc4NTJiODU1In0"
         },
         {
-          "resource": "repo://apps/github.io/src/app/skills/skill-experience-list.stories.tsx#L8-L42",
-          "version": "repo-lines-v1:sha256:d5ce32d1f51ba0260d0547374edfae844b0d4eb67e449965fdd0b8ebd407bd83:eyJzZWxlY3RlZExpbmVDb3VudCI6MzUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijc3NDE0NDNlYjgyYzQ3MDA5YmY5YTQ2MDcxMDI5ZDE3NTFjNTRkYzI3ZTI0ZjBhZDQ3ZDVjMTZiZWM3MmJhZGMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImFhMWQxYTYzMzkwMjI5Yzc5ODM0N2U4M2EwNDA1NDQxYzk0MDAwMzUyODRhZDE2OGMxYmY2Y2RmMWQ3MGEzNzAiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImJjZTMyMTVhZjg1MWM3NGFiZWQ0NDQwYzU2MWVmZjA2MDI4ZjM5NzgzMzRiMjI4Y2ZkOTI3NTZiMzVjNzU2ZTAiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+          "resource": "repo://apps/github.io/src/app/skills/skill-experience-list.spec.tsx#L15-L61",
+          "version": "repo-lines-v1:sha256:67ed66ca00219c24546b7a0704c7d7f57f51aea4a89043354c3fb2231a76b09a:eyJzZWxlY3RlZExpbmVDb3VudCI6NDcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImE5ODhlZTlmNzUwMmMwN2ZiODM4NzYxMzQ5ZjVkZGQ0OTkwOTk0NjNjNWRiOWZkZDgwZjlmMDg3N2RiYzQyMzgiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImVkZmViYTc2NDZkOGNkZWI1MWIxZTM5ZDM1Njk1YjkyYjBiN2Q1MmI0NzFmMGMzMzhmYTliNzIzOTQ3ZGIxZDMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjUzNTIxZWM1MDdkNWJjNDZmNDE1NDUxYTg5M2NlMWY4MDcxOTVlNjgxMWYyODM0ZmRjYzlmMGU3YmRlN2JlMjgiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImU1Nzc3OWJjODUzMjAxYTVlYWFjN2JiNmM1ZWUxZjAwYmZiMWNkOWQ4M2NiMWUzM2IwYmM5ODM1ODBlMWJiMjAifQ"
+        },
+        {
+          "resource": "repo://apps/github.io/src/app/skills/skill-experience-list.stories.tsx#L18-L42",
+          "version": "repo-lines-v1:sha256:4701a6c07ae43d1a28509fe9df7ffedbda2d00c6c9fec3b4dad0f09957d5d05b:eyJzZWxlY3RlZExpbmVDb3VudCI6MjUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjU0NDhlOTdhYTE1MTYxODk0N2EwMjU4ZGI5Yzc2NjQ5YWZmOWJkZDliM2EwMzI3MTkxZTUwODRhMzJiMzgyNDIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImFhMWQxYTYzMzkwMjI5Yzc5ODM0N2U4M2EwNDA1NDQxYzk0MDAwMzUyODRhZDE2OGMxYmY2Y2RmMWQ3MGEzNzAiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjM0YzEwODk2MWI5ZDFiMTAwZTUwNTNlNDkyZjBkMmU0OWNiYjRjMWY1MTQ3MzAwYmVlYjUyMGIwNjFlNmQxOTkiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
         }
       ]
     },
@@ -271,6 +275,6 @@
   ],
   "verification": {
     "by": "openwiki/0.5.0",
-    "at": "2026-09-13T10:46:09.743Z"
+    "at": "2026-09-13T13:01:12.648Z"
   }
 }

@@ -24,10 +24,10 @@ sources:
     resource: repo://apps/github.io/src/app/skills/skill-detail-page.stories.spec.ts
   - id: openwiki-source-3d8376b39a8411106c980cf0
     resource: repo://apps/github.io/src/app/skills/skill-experience-card-list.spec.tsx
+  - id: openwiki-source-595128ced7876e4f8579bc14
+    resource: repo://apps/github.io/src/app/skills/skill-experience-card.stories.tsx
   - id: openwiki-source-1da2c5712de0a298fd2a580a
     resource: repo://apps/github.io/src/app/skills/skill-experience-list.spec.tsx
-  - id: openwiki-source-7f023dd179d1a53b0aaf4497
-    resource: repo://apps/github.io/src/app/skills/skill-experience-list.stories.spec.ts
   - id: openwiki-source-f836c5cc4931cfb5c1d0b9ee
     resource: repo://apps/github.io/src/app/skills/skill-experience-list.stories.tsx
   - id: openwiki-source-3d04b17fb8b6c27eb59cd798
@@ -62,10 +62,10 @@ sources:
     resource: repo://scripts/setup-openwiki.test.mjs
   - id: openwiki-source-165465422a61a00b62b0f6d3
     resource: repo://scripts/sync-github-pages-artifact.test.mjs
-generated: { by: "codex", at: "2026-09-13T10:46:09.743Z" }
+generated: { by: "codex", at: "2026-09-13T13:01:12.648Z" }
 verified:
   - by: openwiki/0.5.0
-    at: 2026-09-13T10:46:09.743Z
+    at: 2026-09-13T13:01:12.648Z
 ---
 
 # Validation workflow
@@ -181,12 +181,13 @@ These DOM assertions do not prove that estimated column widths fit rendered
 content; that remains a Storybook visual check.
 
 Skill experience readability is protected at both renderer boundaries. Focused
-tests verify complete authored and capability outcome text, semantic unnamed
-lists and list items, compact disc presentation, primary typography,
-capability-fact deduplication, and empty-list omission. The authored stories
-exercise long wrapping narratives, while the capability story supplies multiple
-facts so Storybook exposes the same shared outcome treatment for manual visual
-review.
+tests verify the counted disclosure trigger, a closed small-viewport default,
+an open large-viewport default, expansion through the accessible button,
+singular/plural metadata, complete authored and capability outcome text,
+capability-fact deduplication, and omission when there is nothing to disclose.
+The authored stories include a mobile viewport for the long wrapping narrative,
+while the capability story supplies multiple facts for manual visual review of
+the same shared disclosure and outcome treatment.
 
 The skill-detail page test protects its page-local Outline independently of
 responsive CSS: it verifies the labeled navigation, the three stable heading

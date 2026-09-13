@@ -24,12 +24,14 @@ sources:
     resource: repo://apps/github.io/src/app/skills/skill-detail-route.tsx
   - id: openwiki-source-61956fea1deed015d3bafd72
     resource: repo://apps/github.io/src/app/skills/skill-experience-card-list.tsx
+  - id: openwiki-source-6d3d436c779dec5facaf5f2d
+    resource: repo://apps/github.io/src/app/skills/skill-experience-card-shell.tsx
   - id: openwiki-source-ba5c27392181e6c65798f3c4
     resource: repo://apps/github.io/src/app/skills/skill-experience-list.tsx
-generated: { by: "codex", at: "2026-09-13T10:13:03.396Z" }
+generated: { by: "codex", at: "2026-09-13T13:01:12.648Z" }
 verified:
   - by: openwiki/0.5.0
-    at: 2026-09-13T10:13:03.396Z
+    at: 2026-09-13T13:01:12.648Z
 ---
 
 # Application architecture
@@ -91,12 +93,13 @@ of the level-two heading so the section's accessible heading name remains
 without hiding its supporting records.
 
 The two experience renderers keep their source-specific projection work at the
-boundary. Authored records pass ordered narrative strings to the shared
-`SkillKeyOutcomes` presentation; capability evidence deduplicates detail facts
-and removes facts equal to the summary first. Both then use the same unnamed
-Astryx outcome list, while relevant skills remain a separate canonical-token
-projection below it. This shared presentation does not merge the underlying
-authored-experience and capability-evidence models.
+boundary. Authored records pass ordered narrative strings onward; capability
+evidence deduplicates detail facts and removes facts equal to the summary first.
+Both provide those outcomes and a separate canonical relevant-skill projection
+to `SkillExperienceCardShell`. The shell keeps the heading and summary visible,
+reports both collection sizes in its disclosure trigger, and reveals the shared
+outcome list and skill tokens together. This presentation reuse does not merge
+the underlying authored-experience and capability-evidence models.
 
 Continue with [evidence semantics](../concepts/evidence.md),
 [theme and layout](design-system.md), and [validation](../workflows/validation.md).

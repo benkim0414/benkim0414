@@ -5,7 +5,7 @@ description: How Astryx, StyleX, theme persistence, and browser layout checks fi
 tags: [astryx, stylex, theme, layout]
 verified:
   - by: openwiki/0.5.0
-    at: 2026-09-13T10:46:09.743Z
+    at: 2026-09-13T13:01:12.648Z
 sources:
   - id: openwiki-source-45b1d77b308bd57403f55ff9
     resource: repo://apps/github.io/.storybook/story-taxonomy.spec.ts
@@ -37,10 +37,8 @@ sources:
     resource: repo://apps/github.io/src/app/skills/skill-detail-page.stories.tsx
   - id: openwiki-source-679e425aa4dc519b0748e74d
     resource: repo://apps/github.io/src/app/skills/skill-detail-page.tsx
-  - id: openwiki-source-61956fea1deed015d3bafd72
-    resource: repo://apps/github.io/src/app/skills/skill-experience-card-list.tsx
-  - id: openwiki-source-ba5c27392181e6c65798f3c4
-    resource: repo://apps/github.io/src/app/skills/skill-experience-list.tsx
+  - id: openwiki-source-6d3d436c779dec5facaf5f2d
+    resource: repo://apps/github.io/src/app/skills/skill-experience-card-shell.tsx
   - id: openwiki-source-2944a7e4b1284a70a09ee95a
     resource: repo://apps/github.io/src/app/skills/skill-key-outcomes.tsx
   - id: openwiki-source-a08412c702b94999bfa82651
@@ -57,7 +55,7 @@ sources:
     resource: repo://apps/github.io/src/styles.css
   - id: openwiki-source-fcfa3ced1d03143bb27d5018
     resource: repo://apps/github.io/vite.config.ts
-generated: { by: "codex", at: "2026-09-13T10:46:09.743Z" }
+generated: { by: "codex", at: "2026-09-13T13:01:12.648Z" }
 ---
 
 # Design system and layout
@@ -122,13 +120,19 @@ empty states belong to this standalone component. These source contracts do not
 establish browser-rendered fit or responsive behavior, which still require a
 visual check.
 
-Text-heavy skill experience cards keep their summary as primary body copy and
-delegate repeated details to `SkillKeyOutcomes`. The shared component renders an
-unnamed, compact, disc-marked Astryx `List`; each `ListItem` receives primary
-body `Text` as rich content so long outcomes wrap, and an empty collection
-renders nothing. The card heading and summary already identify the following
-points, so the repeated `Key outcomes` header and accessible name are omitted
-without removing the list and list-item semantics.
+Text-heavy skill experience cards use `SkillExperienceCardShell` to keep the
+semantic heading and primary-body summary visible while placing optional proof
+inside Astryx `Collapsible`. The trigger reports outcome and relevant-skill
+counts as supporting metadata. It starts closed when the initial viewport is at
+or below 640px and open otherwise; because the breakpoint only seeds the
+uncontrolled state, a later resize does not override the visitor's choice.
+Cards without outcomes or relevant skills omit the disclosure entirely.
+
+Repeated details still delegate to `SkillKeyOutcomes`. It renders an unnamed,
+compact, disc-marked Astryx `List`; each `ListItem` receives primary body `Text`
+as rich content so long outcomes wrap, and an empty collection renders nothing.
+The card heading and summary identify the points, so the repeated `Key outcomes`
+header and accessible name remain omitted without removing list semantics.
 
 Long skill detail pages use Astryx `Outline` for page-local navigation rather
 than recreating a contents list. A token-spaced Astryx `Grid` reserves a 208px
