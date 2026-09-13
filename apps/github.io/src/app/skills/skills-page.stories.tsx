@@ -27,6 +27,9 @@ export const Empty: Story = {
 };
 
 export const FilterControlsOpen: Story = {
+  globals: {
+    viewport: { value: 'mobile1', isRotated: false },
+  },
   play: async ({ canvasElement }) => {
     const filterButton = canvasElement.querySelector<HTMLButtonElement>(
       'button[aria-label="Filter skills"]',
@@ -41,14 +44,14 @@ export const FilterControlsOpen: Story = {
 };
 
 export const MobileCards: Story = {
-  parameters: {
-    viewport: { defaultViewport: 'mobile1' },
+  globals: {
+    viewport: { value: 'mobile1', isRotated: false },
   },
 };
 
 export const DesktopTableDetail: Story = {
-  parameters: {
-    viewport: { defaultViewport: 'desktop' },
+  globals: {
+    viewport: { value: 'desktop', isRotated: false },
   },
   play: async ({ canvas }) => {
     await userEvent.click(canvas.getByRole('row', { name: /Kubernetes/ }));
@@ -98,8 +101,8 @@ export const CoarseTabletBottomSheet: Story = {
       };
     },
   ],
-  parameters: {
-    viewport: { defaultViewport: 'tablet' },
+  globals: {
+    viewport: { value: 'tablet', isRotated: false },
   },
   play: async ({ canvas }) => {
     await userEvent.click(canvas.getByRole('row', { name: /Kubernetes/ }));

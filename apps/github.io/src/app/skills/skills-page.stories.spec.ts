@@ -15,4 +15,22 @@ describe('SkillsPage stories', () => {
       CoarseTabletBottomSheet: expect.any(Object),
     });
   });
+
+  it.each([
+    ['MobileCards', 'mobile1'],
+    ['DesktopTableDetail', 'desktop'],
+    ['CoarseTabletBottomSheet', 'tablet'],
+    ['FilterControlsOpen', 'mobile1'],
+  ] as const)(
+    'pins %s to the supported %s viewport global',
+    (name, viewport) => {
+      expect(skillsPageStories[name].globals?.viewport).toEqual({
+        value: viewport,
+        isRotated: false,
+      });
+      expect(
+        skillsPageStories[name].parameters?.viewport ?? {},
+      ).not.toHaveProperty('defaultViewport');
+    },
+  );
 });
