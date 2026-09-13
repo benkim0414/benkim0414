@@ -169,6 +169,40 @@ describe('SkillTableDetailLayout', () => {
     expect(onClose).toHaveBeenCalledWith(true);
   });
 
+  it('keeps an active panel open when a foreground control handles Escape', () => {
+    setMediaMatches({
+      [TABLE_QUERY]: true,
+      [COMPACT_SURFACE_QUERY]: false,
+    });
+    const { getByRole, onClose } = renderLayout();
+    const closeButton = getByRole('button', {
+      name: 'Close Kubernetes details',
+    });
+    closeButton.addEventListener('keydown', (event) => event.preventDefault());
+
+    fireEvent.keyDown(closeButton, { key: 'Escape' });
+
+    expect(onClose).not.toHaveBeenCalled();
+    expect(
+      getByRole('region', { name: 'Kubernetes details' }),
+    ).toBeTruthy();
+  });
+
+  it('keeps an active panel open while Escape cancels text composition', () => {
+    setMediaMatches({
+      [TABLE_QUERY]: true,
+      [COMPACT_SURFACE_QUERY]: false,
+    });
+    const { getByRole, onClose } = renderLayout();
+
+    fireEvent.keyDown(document, { key: 'Escape', isComposing: true });
+
+    expect(onClose).not.toHaveBeenCalled();
+    expect(
+      getByRole('region', { name: 'Kubernetes details' }),
+    ).toBeTruthy();
+  });
+
   it('uses a tall bottom sheet on compact surfaces and restores focus for each close path', () => {
     setMediaMatches({
       [TABLE_QUERY]: true,

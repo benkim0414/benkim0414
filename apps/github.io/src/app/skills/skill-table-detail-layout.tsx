@@ -67,7 +67,11 @@ export function SkillTableDetailLayout({
     }
 
     const handleKeyDown = (event: KeyboardEvent) => {
-      if (event.key === 'Escape') {
+      if (
+        event.key === 'Escape' &&
+        !event.defaultPrevented &&
+        !event.isComposing
+      ) {
         onClose(true);
         finalFocusRef?.current?.focus();
       }
