@@ -12,6 +12,8 @@ sources:
     resource: repo://apps/github.io/src/app/devops-roadmap/devops-roadmap-stepper.tsx
   - id: openwiki-source-ddb555a1fa50192a107dbf5f
     resource: repo://apps/github.io/src/app/devops-roadmap/roadmap-page.tsx
+  - id: openwiki-source-5dbaa213d52c3aac678d1838
+    resource: repo://apps/github.io/src/app/global-navigation-layout.tsx
   - id: openwiki-source-27a9eeb6972479f50ad1d034
     resource: repo://apps/github.io/src/app/router-link.tsx
   - id: openwiki-source-d97b9e088d941d15580a0bd7
@@ -24,10 +26,10 @@ sources:
     resource: repo://apps/github.io/src/app/skills/skill-experience-card-list.tsx
   - id: openwiki-source-ba5c27392181e6c65798f3c4
     resource: repo://apps/github.io/src/app/skills/skill-experience-list.tsx
-generated: { by: "codex", at: "2026-09-13T07:13:43.338Z" }
+generated: { by: "codex", at: "2026-09-13T09:47:30.124Z" }
 verified:
   - by: openwiki/0.5.0
-    at: 2026-09-13T07:13:43.338Z
+    at: 2026-09-13T09:47:30.124Z
 ---
 
 # Application architecture
@@ -69,6 +71,14 @@ passes authored skills, detail records, evidence, projects, and experiences to
 `resolveSkillDetail`. The resolver returns a typed resolution; the route selects
 error recovery or passes the resolved value to `SkillDetailPage`. Keep reference
 validation in the resolver rather than burying it in view components.
+
+The detail page remains a direct child of the shared shell's sole scrollable
+`LayoutContent`; its responsive two-column grid does not introduce another
+scroll owner. Enriched details add an Astryx `Outline` labeled `On this page`
+in a sticky end rail on tablet and desktop widths. The outline starts with the
+Overview heading and conditionally follows the same Experience and Projects
+availability checks as the rendered sections. A basic detail with no enriched
+sections stays single-column and does not render a one-item outline.
 
 Within the detail surface, the Experience section appears when either primary
 experience cards or supporting evidence exists, but its adjacent app-level

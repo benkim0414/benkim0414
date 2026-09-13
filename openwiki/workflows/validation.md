@@ -18,6 +18,8 @@ sources:
     resource: repo://apps/github.io/src/app/count-badge.spec.tsx
   - id: openwiki-source-7710c13ca861e757d9eac20c
     resource: repo://apps/github.io/src/app/count-badge.stories.spec.ts
+  - id: openwiki-source-d97b9e088d941d15580a0bd7
+    resource: repo://apps/github.io/src/app/skills/skill-detail-page.spec.tsx
   - id: openwiki-source-3d8376b39a8411106c980cf0
     resource: repo://apps/github.io/src/app/skills/skill-experience-card-list.spec.tsx
   - id: openwiki-source-1da2c5712de0a298fd2a580a
@@ -58,10 +60,10 @@ sources:
     resource: repo://scripts/setup-openwiki.test.mjs
   - id: openwiki-source-165465422a61a00b62b0f6d3
     resource: repo://scripts/sync-github-pages-artifact.test.mjs
-generated: { by: "codex", at: "2026-09-13T07:13:43.338Z" }
+generated: { by: "codex", at: "2026-09-13T09:47:30.124Z" }
 verified:
   - by: openwiki/0.5.0
-    at: 2026-09-13T07:13:43.338Z
+    at: 2026-09-13T09:47:30.124Z
 ---
 
 # Validation workflow
@@ -183,6 +185,15 @@ capability-fact deduplication, and empty-list omission. The authored stories
 exercise long wrapping narratives, while the capability story supplies multiple
 facts so Storybook exposes the same shared outcome treatment for manual visual
 review.
+
+The skill-detail page test protects its page-local Outline independently of
+responsive CSS: it verifies the labeled navigation, the three stable heading
+targets, Experience-only and Projects-only permutations, and omission when
+Overview is the sole item. Use the tablet-specific Storybook story to inspect
+the visible end rail. The production browser verifier exercises the same route
+at 375, 820, and 1280 CSS pixels and proves that the responsive composition
+retains the shell scroll owner and introduces no horizontal overflow; it does
+not replace visual review of the Outline indicator and active state.
 
 For CSS/layout changes, also run:
 

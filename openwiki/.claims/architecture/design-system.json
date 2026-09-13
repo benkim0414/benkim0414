@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:ba2ec05cecfe96e083a076f09e5b876358ed0d385104f90d94ae7c6b24a30546",
+  "pageVersion": "sha256:a7d002bf4d28d6e1745f3c2088baf80a5e4abf7855fcd9dbe8865fe2fc978a9d",
   "claims": [
     {
       "id": "claim_67f0a6341495404e8eefce3e45fd6173",
@@ -171,10 +171,38 @@
           "version": "repo-lines-v1:sha256:c109ba03430ba4415fe7c2c809ccfb774c3af96fe6e7c9557f9d440f435d61d5:eyJzZWxlY3RlZExpbmVDb3VudCI6MjQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImYyYjY2NzM5ZTYxMTMzM2JmMWIwMmRkYWMwMDdlMzcyYjc0NzI3N2E4MmEzNzg3YTkxM2NlYjYxMDEwMzQxNTkiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjgyYzY3MDMwODM2YjEzZmRhZThjN2QwMDhjMzI0MzczNjYxMjcwMjgyNWRiMDRhY2NhOGIyNzgyMjU4MDBlMDkiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjFlNWE3N2Q5MGQ3MTRhNDE4OTUwYmI5OTljZDY3MjdjNTczNDFjMTNmNGU5M2U5MGFjMWM0YTNkNGZkODM4YTkiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjoyLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjdiOGI2MDBhNWI0NDhiMWU0ZDAyZGYwOTc0NmVkM2NhMzE3MmY3NWM0YWFiYjAxZGRlMDgwZTM2Y2FiMDc0YjQifQ"
         }
       ]
+    },
+    {
+      "id": "claim_7524a8522c3049f680da2fc2cd9e07e0",
+      "statement": "Skill detail pages with enriched sections use Astryx Outline in a sticky 208px end rail at viewports 768px and wider, while smaller viewports remain single-column; outline items reuse the rendered section descriptors and the outline is omitted when Overview is the only item.",
+      "evidence": [
+        {
+          "resource": "repo://apps/github.io/src/app/skills/skill-detail-page.tsx#L203-L220",
+          "version": "repo-lines-v1:sha256:9b4b8c11fb71c9805c9fe97849743f3936e56a86e0749135eba7c3099d0ddac4:eyJzZWxlY3RlZExpbmVDb3VudCI6MTgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjI5MWYzOWM2MDAxNmM1NGY4YWRiYmI0ZTA2ZTkzY2YwMWM2MTUyZGUzMWYyNzMxYTAwMDg1MjJjZDI0ZTVlYWMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImE3Yzc0YWYyZDEyZDdhODQ5YTIxNTgwODFjMWE3MTU3ZTdjZjI3ZTA0ZWYwZDJjYzdhNDdhNDFhYzkwMTUwOGUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6Ijc2NmU0MWNjNDAyZjk1MWZjZTk2ODM1OTVhOGFlYTQzMDAyMGE3OGJhMWFlZTE0ZmVjNmEwZjFiYTBiYzIxMTkiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjoyLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjdiOGI2MDBhNWI0NDhiMWU0ZDAyZGYwOTc0NmVkM2NhMzE3MmY3NWM0YWFiYjAxZGRlMDgwZTM2Y2FiMDc0YjQifQ"
+        },
+        {
+          "resource": "repo://apps/github.io/src/app/skills/skill-detail-page.tsx#L29-L37",
+          "version": "repo-lines-v1:sha256:75cba0253d66d15c58bab336ffcf1c08c08090836fb8474b5c93ecd2376b0217:eyJzZWxlY3RlZExpbmVDb3VudCI6OSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiYmUxOTFhM2U3YzE2NmZmYWFiYTBkODM2MjUzODYwMmY4YzhiZWRhYmNjNTVmZDBhYjViMjI1MDYwZGZjM2UxYyIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMGI1YWUyZTRhMGExYTQ1NWUxZTZmN2ExYWFkY2IxZGJhZmJhM2MxNzI5Yzk2NWEwYmFlN2M0MGRhNWE4NzQ0MiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNGJhOWRjNmFiYjA2YTRkYmZhZTA5N2U5MGZlZjYzYWI5MDU2MmI0ZTFjNDZhZjZmMzQwYmZmODExMmNkZDk4NyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMmYyYjRjYThmMTk1NjExYjM1OWE3MzEzNDIxZWQ3Y2Q5N2MwNTg1NTlmZDZjZDViYjhkNzlmYWU1MGE1ZjUyMyJ9"
+        },
+        {
+          "resource": "repo://apps/github.io/src/app/skills/skill-detail-page.tsx#L53-L82",
+          "version": "repo-lines-v1:sha256:c3681027a166662a36761e3ab8716fe66735f46d18c11a774e7380e7f7fe5355:eyJzZWxlY3RlZExpbmVDb3VudCI6MzAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjVmYTQzZThjMGI2MGMwNzBiMjkzYzk0ZDIyYjQ5YTc4NzdmMDVlZmZlMWM0NjAxM2NmZTU1MWRlZDExYWZhNzAiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjA0MDE5MGEzMDU4ZDliMWU3NmIzYzU1MzdlNzI3YjViYzM2ZGIwNTU0Yjg3MWU1MGRiYjhkYzk1Yjg2OTgyNjAiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImI5ZDVjYzcyNGU2YjMzNDIyZDgxY2Q4MmJkOTJmM2M5ZjQxNDAwNDY5NjdkMzljZmU3Mzg3OTBhMzY0YTg4YTEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImJjMTE0Yzk3YjdmYWE3ZTliNzJiODc3NzUwYTY3ZmM1MTAzYmYwMTE3MzBiM2RlMzZmMTU1ZjA5YzhmYjIwNTgifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_2ee04ed768954c2998963da2736e204e",
+      "statement": "The skill detail Storybook catalog includes a tablet-specific story for visually reviewing the enriched Outline composition.",
+      "evidence": [
+        {
+          "resource": "repo://apps/github.io/src/app/skills/skill-detail-page.stories.tsx#L45-L65",
+          "version": "repo-lines-v1:sha256:2d83c1113906bf954483b99881d590739cc597de645e4f791e9ff03faefa5290:eyJzZWxlY3RlZExpbmVDb3VudCI6MjEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjFkYzkzZmQ0NGU0NjBlNzRlN2UwMmY0NTQ4MzQ0NzUwNWE5ZjAyYjQ5NmI0Nzg2NTg2MjgxNDUxMWYxOGFlN2IiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImFhMWQxYTYzMzkwMjI5Yzc5ODM0N2U4M2EwNDA1NDQxYzk0MDAwMzUyODRhZDE2OGMxYmY2Y2RmMWQ3MGEzNzAiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImVmMTI0NTczZTU1NTNkNjY1ZjAyMzgxODg0OWQwMjc3MGZkZDhiOTgyMTU1MDU3NjIxNDBmODA2YzUzNTg4MDUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjA5OTczZWY0MjYyM2IwMTkzMjMwODk4OWRhZTkxMjQ0MGUyMDc1ZWY3NTJhZmM3Y2UxZjcyYTJkNDE2ZTVjMDgifQ"
+        }
+      ]
     }
   ],
   "verification": {
     "by": "openwiki/0.5.0",
-    "at": "2026-09-13T07:13:43.338Z"
+    "at": "2026-09-13T09:47:30.124Z"
   }
 }

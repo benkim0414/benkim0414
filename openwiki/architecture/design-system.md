@@ -5,7 +5,7 @@ description: How Astryx, StyleX, theme persistence, and browser layout checks fi
 tags: [astryx, stylex, theme, layout]
 verified:
   - by: openwiki/0.5.0
-    at: 2026-09-13T07:13:43.338Z
+    at: 2026-09-13T09:47:30.124Z
 sources:
   - id: openwiki-source-45b1d77b308bd57403f55ff9
     resource: repo://apps/github.io/.storybook/story-taxonomy.spec.ts
@@ -31,6 +31,10 @@ sources:
     resource: repo://apps/github.io/src/app/home/home-page.spec.tsx
   - id: openwiki-source-0e3b0dfb231db070ffd8340f
     resource: repo://apps/github.io/src/app/home/home-page.tsx
+  - id: openwiki-source-2f8ff13f4c903910f3a587fc
+    resource: repo://apps/github.io/src/app/skills/skill-detail-page.stories.tsx
+  - id: openwiki-source-679e425aa4dc519b0748e74d
+    resource: repo://apps/github.io/src/app/skills/skill-detail-page.tsx
   - id: openwiki-source-61956fea1deed015d3bafd72
     resource: repo://apps/github.io/src/app/skills/skill-experience-card-list.tsx
   - id: openwiki-source-ba5c27392181e6c65798f3c4
@@ -51,7 +55,7 @@ sources:
     resource: repo://apps/github.io/src/styles.css
   - id: openwiki-source-fcfa3ced1d03143bb27d5018
     resource: repo://apps/github.io/vite.config.ts
-generated: { by: "codex", at: "2026-09-13T07:13:43.338Z" }
+generated: { by: "codex", at: "2026-09-13T09:47:30.124Z" }
 ---
 
 # Design system and layout
@@ -120,6 +124,17 @@ body `Text` as rich content so long outcomes wrap, and an empty collection
 renders nothing. The card heading and summary already identify the following
 points, so the repeated `Key outcomes` header and accessible name are omitted
 without removing the list and list-item semantics.
+
+Long skill detail pages use Astryx `Outline` for page-local navigation rather
+than recreating a contents list. A token-spaced Astryx `Grid` reserves a 208px
+end rail from 768px upward while keeping the article track flexible; below that
+threshold the rail is absent, so phone layouts remain single-column. The rail
+is sticky inside the existing shell scroll owner. Its `On this page` label
+distinguishes it from global navigation, and its ordered items reuse the same
+section descriptors as the rendered heading IDs. Overview is always available,
+Experience and Projects follow their rendered sections, and a page with only
+Overview omits the outline entirely. The focused tablet Storybook story exposes
+the responsive composition for visual review.
 
 Vite compiles StyleX before its React and Nx path plugins. Test mode uses
 `css-only` and removes the StyleX development-server hooks; production and local

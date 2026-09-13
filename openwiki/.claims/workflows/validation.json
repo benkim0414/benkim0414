@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:e0858d1b44fd751b3bcd44aa74715d852e6566a4b9cd854e39d31edbd8f9f7f2",
+  "pageVersion": "sha256:6e0300aef85b8422537642e7848eb262c4e79795f2426b01175f6c75f9ab8906",
   "claims": [
     {
       "id": "claim_6cbb6dd0080f4763aaf4dec964f7f76e",
@@ -239,10 +239,28 @@
           "version": "repo-lines-v1:sha256:d5ce32d1f51ba0260d0547374edfae844b0d4eb67e449965fdd0b8ebd407bd83:eyJzZWxlY3RlZExpbmVDb3VudCI6MzUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijc3NDE0NDNlYjgyYzQ3MDA5YmY5YTQ2MDcxMDI5ZDE3NTFjNTRkYzI3ZTI0ZjBhZDQ3ZDVjMTZiZWM3MmJhZGMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImFhMWQxYTYzMzkwMjI5Yzc5ODM0N2U4M2EwNDA1NDQxYzk0MDAwMzUyODRhZDE2OGMxYmY2Y2RmMWQ3MGEzNzAiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImJjZTMyMTVhZjg1MWM3NGFiZWQ0NDQwYzU2MWVmZjA2MDI4ZjM5NzgzMzRiMjI4Y2ZkOTI3NTZiMzVjNzU2ZTAiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
         }
       ]
+    },
+    {
+      "id": "claim_7f30bc5222a04c3092977768fe3b2daf",
+      "statement": "Skill-detail tests verify Outline labels, stable heading targets, conditional section permutations, and basic-page omission; the production browser verifier separately exercises the skill route at 375, 820, and 1280 pixel viewports under the shell scroll-owner contract.",
+      "evidence": [
+        {
+          "resource": "repo://apps/github.io/scripts/verify-mobile-layout-browser.mjs#L13-L18",
+          "version": "repo-lines-v1:sha256:51e44f5148b4a4207459befa7bdbc163ada2a8ad641764d627572a928477e9b6:eyJzZWxlY3RlZExpbmVDb3VudCI6NiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMDYyNDE2NTA3ZmQwNTE3MWQ1ZGU3YzQ1ZmQ1YmNhOTU2ZjQzMzFiYTg1NjA2MDliMzcyYjE2NGEzOWE3Njg1OCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiODFmYmYxMjRlNzM3YzhjNGY2NzhhOTA5YWYxNDExNThlMGZlNDFlMDI0MTRlYWRlNGNjYmZmYjA4OTlmOGFmNiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiODcwM2Y2ZmE2MDhiNTVmNDZkMjQyNzk1MGVmZjZmNDJjNGMwY2FjNTE2YzZhMjQ0OGI5OWQxZTZmZjBjY2FjNCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNGYwMTdlZTdkMTZjODJlMTg3Mjc0N2FmM2E4MmJkODQwMWMyMmJlMGEwMGE0MWQ1MDBlYzM2YWY4MmU0MGJlNyJ9"
+        },
+        {
+          "resource": "repo://apps/github.io/scripts/verify-mobile-layout-browser.mjs#L51-L64",
+          "version": "repo-lines-v1:sha256:c3a541f40984f79cd16c5619863e3aada46b415c3d257687d0bbafa93f742983:eyJzZWxlY3RlZExpbmVDb3VudCI6MTQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjIxMTFmMjM5YWM2NWM5ZmVjZDRmNzk3NWQ0ZWUwYzY3N2I1OGE4ZWE2Nzg1MmVhMjVkMjc5MjM5MjUxOGQyZjgiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjkzZDI3N2YyN2I0ZjU4YTI1NmFhMDYyMmQyN2UxYjUyYjVmNmRhYTEzY2M3YTBkOGJjNDQ4MGQ5Nzk2ZTYzNWYiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUyNWQxMWM4MGUwOTJjMWRmOTMyYjg5ZDRlMTM3MDMzNjU3NDUyNWYwOTk1NzQ2MGNlOWY5ZWUzNjU3YzI4ZTYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjYxMDk3ZGVmNDBhYmY1OGEwZjkxMGIwNTg3YTYwYTc0NDE0ZTMwOWJkMTFiNzg4ZTViMTE5OTBmZjAxMDJkMDAifQ"
+        },
+        {
+          "resource": "repo://apps/github.io/src/app/skills/skill-detail-page.spec.tsx#L40-L107",
+          "version": "repo-lines-v1:sha256:0525df686f3f27cd9e170bf070bd80b626db7a57229f4124a50d25371d7b9255:eyJzZWxlY3RlZExpbmVDb3VudCI6NjgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImU3NTQ2YzVlYWVkNTMyN2YyY2QzMzlhNmNhMzJlMjE5ZDJkYmQyODM5NzViMmU3YTA3NzdiYzc4NzBkNjZkZTMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjNhM2U0NmY5NDI3NmI2ZjZmNGVkMWYwMmFmNzhiZWY2YTJlZTFjNDM5ZGQ1NTg0Yjk3Mzk0ODMxMzIxNGQyYjciLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImVmNWY0NzQzMjgyZjQ3NTIyNmY4MzE1NzRiZmE3NTJhZDEyZDMwOWNlYjcxZGQzNjRiMDFiNGViOWQ1MjhkMWQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImI3YzVlNTViZjZlZmVkMjhiMDhiNGEwMDQ2ODE4NTUxZWU5MmU4MjE3ZTM0YzBkMTExOTExZGIzZGNiNzY5MjcifQ"
+        }
+      ]
     }
   ],
   "verification": {
     "by": "openwiki/0.5.0",
-    "at": "2026-09-13T07:13:43.338Z"
+    "at": "2026-09-13T09:47:30.124Z"
   }
 }
