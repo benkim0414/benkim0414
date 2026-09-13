@@ -9,13 +9,13 @@ describe('SkillsPage stories', () => {
     expect(FilterControlsOpen.play).toBeTypeOf('function');
   });
 
-  it('publishes deterministic responsive visual states', () => {
+  it('publishes responsive visual states without pinning desktop media queries', () => {
     expect(skillsPageStories).toMatchObject({
       MobileCards: expect.any(Object),
       DesktopTableDetail: expect.any(Object),
       CoarseTabletBottomSheet: expect.any(Object),
     });
-    expect(skillsPageStories.DesktopTableDetail.loaders).toHaveLength(1);
+    expect(skillsPageStories.DesktopTableDetail.loaders).toBeUndefined();
   });
 
   it.each([

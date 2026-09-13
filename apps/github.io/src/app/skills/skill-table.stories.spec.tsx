@@ -24,7 +24,10 @@ describe('SkillTable stories', () => {
   it('publishes the table in the Skills hierarchy', () => {
     expect(meta.title).toBe('Components/Skills/Skill Table');
     expect(meta.excludeStories).toContain('InteractiveSkillTable');
-    expect(DesktopTableDetail.loaders).toHaveLength(1);
+  });
+
+  it('leaves the desktop detail responsive to the Storybook viewport', () => {
+    expect(DesktopTableDetail.loaders).toBeUndefined();
   });
 
   it('opens resolved skill detail beside the table', () => {

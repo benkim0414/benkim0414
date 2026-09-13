@@ -55,24 +55,6 @@ export const MobileCards: Story = {
 };
 
 export const DesktopTableDetail: Story = {
-  beforeEach:
-    ({ loaded }) =>
-    () => {
-      loaded.restoreMatchMedia();
-    },
-  loaders: [
-    () => {
-      const originalMatchMedia = window.matchMedia;
-
-      window.matchMedia = createSkillStoryMatchMedia(originalMatchMedia, false);
-
-      return {
-        restoreMatchMedia: () => {
-          window.matchMedia = originalMatchMedia;
-        },
-      };
-    },
-  ],
   globals: {
     viewport: { value: 'desktop', isRotated: false },
   },
