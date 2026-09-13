@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:a7d002bf4d28d6e1745f3c2088baf80a5e4abf7855fcd9dbe8865fe2fc978a9d",
+  "pageVersion": "sha256:a7a5bbdffa3e31e900d7886c15220ed4f00bedf6bdd23c3473d4ddbf75538eba",
   "claims": [
     {
       "id": "claim_67f0a6341495404e8eefce3e45fd6173",
@@ -174,19 +174,15 @@
     },
     {
       "id": "claim_7524a8522c3049f680da2fc2cd9e07e0",
-      "statement": "Skill detail pages with enriched sections use Astryx Outline in a sticky 208px end rail at viewports 768px and wider, while smaller viewports remain single-column; outline items reuse the rendered section descriptors and the outline is omitted when Overview is the only item.",
+      "statement": "Skill detail pages with enriched sections use Astryx Outline in a sticky 208px end rail at viewports 768px and wider, bind Outline to the persistent shell scroll owner through scrollContainerRef, derive items from the rendered section conditions, and omit the outline when Overview is the only item.",
       "evidence": [
         {
-          "resource": "repo://apps/github.io/src/app/skills/skill-detail-page.tsx#L203-L220",
-          "version": "repo-lines-v1:sha256:9b4b8c11fb71c9805c9fe97849743f3936e56a86e0749135eba7c3099d0ddac4:eyJzZWxlY3RlZExpbmVDb3VudCI6MTgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjI5MWYzOWM2MDAxNmM1NGY4YWRiYmI0ZTA2ZTkzY2YwMWM2MTUyZGUzMWYyNzMxYTAwMDg1MjJjZDI0ZTVlYWMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImE3Yzc0YWYyZDEyZDdhODQ5YTIxNTgwODFjMWE3MTU3ZTdjZjI3ZTA0ZWYwZDJjYzdhNDdhNDFhYzkwMTUwOGUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6Ijc2NmU0MWNjNDAyZjk1MWZjZTk2ODM1OTVhOGFlYTQzMDAyMGE3OGJhMWFlZTE0ZmVjNmEwZjFiYTBiYzIxMTkiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjoyLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjdiOGI2MDBhNWI0NDhiMWU0ZDAyZGYwOTc0NmVkM2NhMzE3MmY3NWM0YWFiYjAxZGRlMDgwZTM2Y2FiMDc0YjQifQ"
+          "resource": "repo://apps/github.io/src/app/skills/skill-detail-page.tsx#L202-L230",
+          "version": "repo-lines-v1:sha256:26d87b235d0cb310e3306979188961f7c7c1acc3d35a23eb21c7924fef044be5:eyJzZWxlY3RlZExpbmVDb3VudCI6MjksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImU3MjE2ZThlOWMwYTFhNjhkMDZjMmZiYWE1ZmQyMTM5NDgyYjhlZmQwYTE5MzE1YjkxNWU2Y2NlODQ5ZDg5ZGMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImE3Yzc0YWYyZDEyZDdhODQ5YTIxNTgwODFjMWE3MTU3ZTdjZjI3ZTA0ZWYwZDJjYzdhNDdhNDFhYzkwMTUwOGUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImQ1ZWMxNWU1NWFiMjU5ZGUzYjgwZDhkNWVmNjdhY2U3ZTA0MWYwYmJmYzc1OWVkYzFiYWI2ZGJlYTI3NzU0ZGIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjoyLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjdiOGI2MDBhNWI0NDhiMWU0ZDAyZGYwOTc0NmVkM2NhMzE3MmY3NWM0YWFiYjAxZGRlMDgwZTM2Y2FiMDc0YjQifQ"
         },
         {
-          "resource": "repo://apps/github.io/src/app/skills/skill-detail-page.tsx#L29-L37",
-          "version": "repo-lines-v1:sha256:75cba0253d66d15c58bab336ffcf1c08c08090836fb8474b5c93ecd2376b0217:eyJzZWxlY3RlZExpbmVDb3VudCI6OSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiYmUxOTFhM2U3YzE2NmZmYWFiYTBkODM2MjUzODYwMmY4YzhiZWRhYmNjNTVmZDBhYjViMjI1MDYwZGZjM2UxYyIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMGI1YWUyZTRhMGExYTQ1NWUxZTZmN2ExYWFkY2IxZGJhZmJhM2MxNzI5Yzk2NWEwYmFlN2M0MGRhNWE4NzQ0MiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNGJhOWRjNmFiYjA2YTRkYmZhZTA5N2U5MGZlZjYzYWI5MDU2MmI0ZTFjNDZhZjZmMzQwYmZmODExMmNkZDk4NyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMmYyYjRjYThmMTk1NjExYjM1OWE3MzEzNDIxZWQ3Y2Q5N2MwNTg1NTlmZDZjZDViYjhkNzlmYWU1MGE1ZjUyMyJ9"
-        },
-        {
-          "resource": "repo://apps/github.io/src/app/skills/skill-detail-page.tsx#L53-L82",
-          "version": "repo-lines-v1:sha256:c3681027a166662a36761e3ab8716fe66735f46d18c11a774e7380e7f7fe5355:eyJzZWxlY3RlZExpbmVDb3VudCI6MzAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjVmYTQzZThjMGI2MGMwNzBiMjkzYzk0ZDIyYjQ5YTc4NzdmMDVlZmZlMWM0NjAxM2NmZTU1MWRlZDExYWZhNzAiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjA0MDE5MGEzMDU4ZDliMWU3NmIzYzU1MzdlNzI3YjViYzM2ZGIwNTU0Yjg3MWU1MGRiYjhkYzk1Yjg2OTgyNjAiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImI5ZDVjYzcyNGU2YjMzNDIyZDgxY2Q4MmJkOTJmM2M5ZjQxNDAwNDY5NjdkMzljZmU3Mzg3OTBhMzY0YTg4YTEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImJjMTE0Yzk3YjdmYWE3ZTliNzJiODc3NzUwYTY3ZmM1MTAzYmYwMTE3MzBiM2RlMzZmMTU1ZjA5YzhmYjIwNTgifQ"
+          "resource": "repo://apps/github.io/src/app/skills/skill-detail-page.tsx#L29-L83",
+          "version": "repo-lines-v1:sha256:bc5f19395a3eba02f8e595ba9342b8f1de5d8680e44ec3acee73b99eafd196ec:eyJzZWxlY3RlZExpbmVDb3VudCI6NTUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImJlMTkxYTNlN2MxNjZmZmFhYmEwZDgzNjI1Mzg2MDJmOGM4YmVkYWJjYzU1ZmQwYWI1YjIyNTA2MGRmYzNlMWMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjA0MDE5MGEzMDU4ZDliMWU3NmIzYzU1MzdlNzI3YjViYzM2ZGIwNTU0Yjg3MWU1MGRiYjhkYzk1Yjg2OTgyNjAiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjRiYTlkYzZhYmIwNmE0ZGJmYWUwOTdlOTBmZWY2M2FiOTA1NjJiNGUxYzQ2YWY2ZjM0MGJmZjgxMTJjZGQ5ODciLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImJjMTE0Yzk3YjdmYWE3ZTliNzJiODc3NzUwYTY3ZmM1MTAzYmYwMTE3MzBiM2RlMzZmMTU1ZjA5YzhmYjIwNTgifQ"
         }
       ]
     },
@@ -199,10 +195,24 @@
           "version": "repo-lines-v1:sha256:2d83c1113906bf954483b99881d590739cc597de645e4f791e9ff03faefa5290:eyJzZWxlY3RlZExpbmVDb3VudCI6MjEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjFkYzkzZmQ0NGU0NjBlNzRlN2UwMmY0NTQ4MzQ0NzUwNWE5ZjAyYjQ5NmI0Nzg2NTg2MjgxNDUxMWYxOGFlN2IiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImFhMWQxYTYzMzkwMjI5Yzc5ODM0N2U4M2EwNDA1NDQxYzk0MDAwMzUyODRhZDE2OGMxYmY2Y2RmMWQ3MGEzNzAiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImVmMTI0NTczZTU1NTNkNjY1ZjAyMzgxODg0OWQwMjc3MGZkZDhiOTgyMTU1MDU3NjIxNDBmODA2YzUzNTg4MDUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjA5OTczZWY0MjYyM2IwMTkzMjMwODk4OWRhZTkxMjQ0MGUyMDc1ZWY3NTJhZmM3Y2UxZjcyYTJkNDE2ZTVjMDgifQ"
         }
       ]
+    },
+    {
+      "id": "claim_6c4d857aec604a148ff83104997e2c8f",
+      "statement": "Production Firefox validation checks the skill-detail Outline's phone hiding, breakpoint and wider visibility, sticky alignment to the shell owner, fragment navigation, and settled aria-current location state.",
+      "evidence": [
+        {
+          "resource": "repo://apps/github.io/scripts/verify-mobile-layout-browser.mjs#L1144-L1225",
+          "version": "repo-lines-v1:sha256:88956209b5ac3b7c2592cbac326511c08f6b64d9b92f177d9a68a54f1c05757e:eyJzZWxlY3RlZExpbmVDb3VudCI6ODIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImE5NDIwZjJlZjE3ODE2NDQ3MTQ4ZDAyMDk1M2JjY2JiMzNkODkxODk1YzMwZjE4NTRjZmQ3YzBkYzJmNWQ4YWEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImIzYjMxMzgzMDY3YWZjZTdmZDAyM2FiMzQ3ZmQ2OWYyZjNhZDlkNGFhMGNlODk2ZmQ1Mzc1NWE4MDM1MjhlYjUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6Ijg2OTRkNGJkNmVlMzM1YjMxMTg1MGUxMjYwZjJkOTE0ODZjYzBmNWI3YmEzMzRkODcwZjU4ZmM4YmRhNGY2MzAiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjhiYjBkMjc3NWVhZThmOTJlZjlkYTkxZjM1MTY1ZGZjMmEzMmZiNGU4NGQ3NzA1YzQ5NDNiNTE4OWFkYjhkOWQifQ"
+        },
+        {
+          "resource": "repo://apps/github.io/scripts/verify-mobile-layout-browser.mjs#L1693-L1702",
+          "version": "repo-lines-v1:sha256:d441adf62a179b7c7b5e0e8fe3399a5759c373cc7e602653643f9d5c38b56946:eyJzZWxlY3RlZExpbmVDb3VudCI6MTAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImE5MzllZWU1N2NmYjM4OWNmMGRjMmNjMmU5ZmE5ZjA5MzZjZGUwY2E5ODJkODgxNDczOTIzYmM4ODMwNzE1NGYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjFlNzVjNzBkOTQ2MzYyNWUxMDc5ZmQ4ZmM4ZWU2MmFkMmU5MmM0MmJlYWFiZmQ4NWI3OGQ4ZTBhNDk3OWI5NGEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImNmNmFjNzUwMzE0ZWEwODQwMTMzZDZmZGY5NWEzMmEyNjVkZGNmMGY0M2YzNmI2ZWMzMDhmMTQ2MWM4OTUxODIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImQwOTUyMzEyNGZjMTNhM2I5MjZiZmE0NjkwNTljY2JlOTY0NzljZmUxMTY5NjY1NTM2OTg0NzU5YTg0YjZkYmIifQ"
+        }
+      ]
     }
   ],
   "verification": {
     "by": "openwiki/0.5.0",
-    "at": "2026-09-13T09:47:30.124Z"
+    "at": "2026-09-13T10:13:03.396Z"
   }
 }

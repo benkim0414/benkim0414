@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:6e0300aef85b8422537642e7848eb262c4e79795f2426b01175f6c75f9ab8906",
+  "pageVersion": "sha256:b5bd32827e03109eb3123ed440a8ce3101ab250f09eee30f4622a23ee4af0fde",
   "claims": [
     {
       "id": "claim_6cbb6dd0080f4763aaf4dec964f7f76e",
@@ -242,25 +242,29 @@
     },
     {
       "id": "claim_7f30bc5222a04c3092977768fe3b2daf",
-      "statement": "Skill-detail tests verify Outline labels, stable heading targets, conditional section permutations, and basic-page omission; the production browser verifier separately exercises the skill route at 375, 820, and 1280 pixel viewports under the shell scroll-owner contract.",
+      "statement": "Skill-detail DOM tests verify Outline labels, stable heading targets, conditional section permutations, and basic-page omission; the story-module test protects the tablet review fixture; and the production Firefox verifier exercises the route at 375, 768, 820, and 1280 pixel widths under the shell scroll-owner contract.",
       "evidence": [
         {
-          "resource": "repo://apps/github.io/scripts/verify-mobile-layout-browser.mjs#L13-L18",
-          "version": "repo-lines-v1:sha256:51e44f5148b4a4207459befa7bdbc163ada2a8ad641764d627572a928477e9b6:eyJzZWxlY3RlZExpbmVDb3VudCI6NiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMDYyNDE2NTA3ZmQwNTE3MWQ1ZGU3YzQ1ZmQ1YmNhOTU2ZjQzMzFiYTg1NjA2MDliMzcyYjE2NGEzOWE3Njg1OCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiODFmYmYxMjRlNzM3YzhjNGY2NzhhOTA5YWYxNDExNThlMGZlNDFlMDI0MTRlYWRlNGNjYmZmYjA4OTlmOGFmNiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiODcwM2Y2ZmE2MDhiNTVmNDZkMjQyNzk1MGVmZjZmNDJjNGMwY2FjNTE2YzZhMjQ0OGI5OWQxZTZmZjBjY2FjNCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNGYwMTdlZTdkMTZjODJlMTg3Mjc0N2FmM2E4MmJkODQwMWMyMmJlMGEwMGE0MWQ1MDBlYzM2YWY4MmU0MGJlNyJ9"
+          "resource": "repo://apps/github.io/scripts/verify-mobile-layout-browser.mjs#L1144-L1225",
+          "version": "repo-lines-v1:sha256:88956209b5ac3b7c2592cbac326511c08f6b64d9b92f177d9a68a54f1c05757e:eyJzZWxlY3RlZExpbmVDb3VudCI6ODIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImE5NDIwZjJlZjE3ODE2NDQ3MTQ4ZDAyMDk1M2JjY2JiMzNkODkxODk1YzMwZjE4NTRjZmQ3YzBkYzJmNWQ4YWEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImIzYjMxMzgzMDY3YWZjZTdmZDAyM2FiMzQ3ZmQ2OWYyZjNhZDlkNGFhMGNlODk2ZmQ1Mzc1NWE4MDM1MjhlYjUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6Ijg2OTRkNGJkNmVlMzM1YjMxMTg1MGUxMjYwZjJkOTE0ODZjYzBmNWI3YmEzMzRkODcwZjU4ZmM4YmRhNGY2MzAiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjhiYjBkMjc3NWVhZThmOTJlZjlkYTkxZjM1MTY1ZGZjMmEzMmZiNGU4NGQ3NzA1YzQ5NDNiNTE4OWFkYjhkOWQifQ"
         },
         {
-          "resource": "repo://apps/github.io/scripts/verify-mobile-layout-browser.mjs#L51-L64",
-          "version": "repo-lines-v1:sha256:c3a541f40984f79cd16c5619863e3aada46b415c3d257687d0bbafa93f742983:eyJzZWxlY3RlZExpbmVDb3VudCI6MTQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjIxMTFmMjM5YWM2NWM5ZmVjZDRmNzk3NWQ0ZWUwYzY3N2I1OGE4ZWE2Nzg1MmVhMjVkMjc5MjM5MjUxOGQyZjgiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjkzZDI3N2YyN2I0ZjU4YTI1NmFhMDYyMmQyN2UxYjUyYjVmNmRhYTEzY2M3YTBkOGJjNDQ4MGQ5Nzk2ZTYzNWYiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUyNWQxMWM4MGUwOTJjMWRmOTMyYjg5ZDRlMTM3MDMzNjU3NDUyNWYwOTk1NzQ2MGNlOWY5ZWUzNjU3YzI4ZTYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjYxMDk3ZGVmNDBhYmY1OGEwZjkxMGIwNTg3YTYwYTc0NDE0ZTMwOWJkMTFiNzg4ZTViMTE5OTBmZjAxMDJkMDAifQ"
+          "resource": "repo://apps/github.io/scripts/verify-mobile-layout-browser.mjs#L13-L18",
+          "version": "repo-lines-v1:sha256:8262208fad1aa9d52e7105ccba2694a671889503cae68c4b3edd0083dcd4cd59:eyJzZWxlY3RlZExpbmVDb3VudCI6NiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMDYyNDE2NTA3ZmQwNTE3MWQ1ZGU3YzQ1ZmQ1YmNhOTU2ZjQzMzFiYTg1NjA2MDliMzcyYjE2NGEzOWE3Njg1OCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiYjAyZDJjMGQ2ZGM1ZTc0ZDkyZmExNGI5MWRiZWEyNjQwOTBiZWIzNWZkYjkxODhkOWIzNDExODFkY2U5ZjRjZSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiODcwM2Y2ZmE2MDhiNTVmNDZkMjQyNzk1MGVmZjZmNDJjNGMwY2FjNTE2YzZhMjQ0OGI5OWQxZTZmZjBjY2FjNCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMGM5NWE2YjNkNTc1MjhkY2Y3OTRmYjZkOTk3MGFlODAxMGY5NjY4YzBmYTExM2I2ZTI3ZDc0MjJkNTk0NzhkNCJ9"
         },
         {
           "resource": "repo://apps/github.io/src/app/skills/skill-detail-page.spec.tsx#L40-L107",
           "version": "repo-lines-v1:sha256:0525df686f3f27cd9e170bf070bd80b626db7a57229f4124a50d25371d7b9255:eyJzZWxlY3RlZExpbmVDb3VudCI6NjgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImU3NTQ2YzVlYWVkNTMyN2YyY2QzMzlhNmNhMzJlMjE5ZDJkYmQyODM5NzViMmU3YTA3NzdiYzc4NzBkNjZkZTMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjNhM2U0NmY5NDI3NmI2ZjZmNGVkMWYwMmFmNzhiZWY2YTJlZTFjNDM5ZGQ1NTg0Yjk3Mzk0ODMxMzIxNGQyYjciLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImVmNWY0NzQzMjgyZjQ3NTIyNmY4MzE1NzRiZmE3NTJhZDEyZDMwOWNlYjcxZGQzNjRiMDFiNGViOWQ1MjhkMWQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImI3YzVlNTViZjZlZmVkMjhiMDhiNGEwMDQ2ODE4NTUxZWU5MmU4MjE3ZTM0YzBkMTExOTExZGIzZGNiNzY5MjcifQ"
+        },
+        {
+          "resource": "repo://apps/github.io/src/app/skills/skill-detail-page.stories.spec.ts#L1-L9",
+          "version": "repo-lines-v1:sha256:72a74e7313fa2e628a2705259264e6032b5f9ef094bceb67d4f5da81ad685382:eyJzZWxlY3RlZExpbmVDb3VudCI6OSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiOWI2NzkxNjU1ODljMThiYzM0OWFjZmVjNDMzYzAwODU5ZGQwYzU0YzJlZDhhYWZjODVkMzA0ZDFiMWE1M2FlOSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiZjZmNWI0MGIxNTg0NTdkMTc4NjRmMjE3OTA3ODZkZDVhMmVjZGI2NGI2NmE2NTFmNzg4ZDRlMjVjZDMzMDNkMiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjAsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjAsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSJ9"
         }
       ]
     }
   ],
   "verification": {
     "by": "openwiki/0.5.0",
-    "at": "2026-09-13T09:47:30.124Z"
+    "at": "2026-09-13T10:13:03.396Z"
   }
 }

@@ -5,12 +5,14 @@ description: How Astryx, StyleX, theme persistence, and browser layout checks fi
 tags: [astryx, stylex, theme, layout]
 verified:
   - by: openwiki/0.5.0
-    at: 2026-09-13T09:47:30.124Z
+    at: 2026-09-13T10:13:03.396Z
 sources:
   - id: openwiki-source-45b1d77b308bd57403f55ff9
     resource: repo://apps/github.io/.storybook/story-taxonomy.spec.ts
   - id: openwiki-source-a099837b8e8614c677082a9d
     resource: repo://apps/github.io/project.json
+  - id: openwiki-source-2bfcdfa6f69acb4ddbe6f2af
+    resource: repo://apps/github.io/scripts/verify-mobile-layout-browser.mjs
   - id: openwiki-source-06c5610bae8f93d17bf2ff2d
     resource: repo://apps/github.io/src/app/count-badge.stories.tsx
   - id: openwiki-source-43db7fa7bd3bd05d549bdc0a
@@ -55,7 +57,7 @@ sources:
     resource: repo://apps/github.io/src/styles.css
   - id: openwiki-source-fcfa3ced1d03143bb27d5018
     resource: repo://apps/github.io/vite.config.ts
-generated: { by: "codex", at: "2026-09-13T09:47:30.124Z" }
+generated: { by: "codex", at: "2026-09-13T10:13:03.396Z" }
 ---
 
 # Design system and layout
@@ -129,12 +131,17 @@ Long skill detail pages use Astryx `Outline` for page-local navigation rather
 than recreating a contents list. A token-spaced Astryx `Grid` reserves a 208px
 end rail from 768px upward while keeping the article track flexible; below that
 threshold the rail is absent, so phone layouts remain single-column. The rail
-is sticky inside the existing shell scroll owner. Its `On this page` label
-distinguishes it from global navigation, and its ordered items reuse the same
-section descriptors as the rendered heading IDs. Overview is always available,
-Experience and Projects follow their rendered sections, and a page with only
-Overview omits the outline entirely. The focused tablet Storybook story exposes
-the responsive composition for visual review.
+is sticky inside the existing shell scroll owner. The page resolves that owner
+from its mounted `main` and passes it through Outline's `scrollContainerRef`, so
+Astryx observes the same container that owns route scrolling without introducing
+a page-local overflow region. Its `On this page` label distinguishes it from
+global navigation, and its ordered items reuse the same section descriptors as
+the rendered heading IDs. Overview is always available, Experience and Projects
+follow their rendered sections, and a page with only Overview omits the outline
+entirely. The focused tablet Storybook story exposes the responsive composition
+for visual review; production Firefox checks establish breakpoint visibility,
+sticky geometry, fragment navigation, and settled `aria-current="location"`
+behavior against the real shell owner.
 
 Vite compiles StyleX before its React and Nx path plugins. Test mode uses
 `css-only` and removes the StyleX development-server hooks; production and local

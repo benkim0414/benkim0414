@@ -20,6 +20,8 @@ sources:
     resource: repo://apps/github.io/src/app/count-badge.stories.spec.ts
   - id: openwiki-source-d97b9e088d941d15580a0bd7
     resource: repo://apps/github.io/src/app/skills/skill-detail-page.spec.tsx
+  - id: openwiki-source-0a3e47ce778a625f17d42cfd
+    resource: repo://apps/github.io/src/app/skills/skill-detail-page.stories.spec.ts
   - id: openwiki-source-3d8376b39a8411106c980cf0
     resource: repo://apps/github.io/src/app/skills/skill-experience-card-list.spec.tsx
   - id: openwiki-source-1da2c5712de0a298fd2a580a
@@ -60,10 +62,10 @@ sources:
     resource: repo://scripts/setup-openwiki.test.mjs
   - id: openwiki-source-165465422a61a00b62b0f6d3
     resource: repo://scripts/sync-github-pages-artifact.test.mjs
-generated: { by: "codex", at: "2026-09-13T09:47:30.124Z" }
+generated: { by: "codex", at: "2026-09-13T10:13:03.396Z" }
 verified:
   - by: openwiki/0.5.0
-    at: 2026-09-13T09:47:30.124Z
+    at: 2026-09-13T10:13:03.396Z
 ---
 
 # Validation workflow
@@ -190,10 +192,13 @@ The skill-detail page test protects its page-local Outline independently of
 responsive CSS: it verifies the labeled navigation, the three stable heading
 targets, Experience-only and Projects-only permutations, and omission when
 Overview is the sole item. Use the tablet-specific Storybook story to inspect
-the visible end rail. The production browser verifier exercises the same route
-at 375, 820, and 1280 CSS pixels and proves that the responsive composition
-retains the shell scroll owner and introduces no horizontal overflow; it does
-not replace visual review of the Outline indicator and active state.
+the visible end rail; its story-module test protects the enriched fixture and
+tablet viewport preset. The production browser verifier exercises the same route
+at 375, exactly 768, 820, and 1280 CSS pixels. It proves that the Outline is
+hidden on the phone and visible from the breakpoint, remains sticky against the
+sole shell scroll owner, and updates both the URL fragment and
+`aria-current="location"` after navigation settles. These behavioral checks do
+not replace visual review of the indicator's appearance.
 
 For CSS/layout changes, also run:
 

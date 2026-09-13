@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:5d69046f184f8f11f48c81d7933e54b0d7372a07c84fae0fe05fb5efe5573338",
+  "pageVersion": "sha256:3460a41976aaf9839a4926000343e6bf61c1f5f001475390e2329611c48a0a44",
   "claims": [
     {
       "id": "claim_da9ac46eb2204e9b9a555848aea5550d",
@@ -108,7 +108,7 @@
     },
     {
       "id": "claim_0ee727becf0a40ee854031f370d4ee89",
-      "statement": "Skill detail pages remain within the shared shell scroll region; enriched details add a responsive, sticky Astryx Outline whose Overview, Experience, and Projects items follow rendered section availability, while basic details omit the one-item outline.",
+      "statement": "Skill detail pages remain direct children of the shared shell scroll region; enriched details add a responsive sticky Astryx Outline explicitly bound to that Page Scroll Owner, with Overview, Experience, and Projects items following rendered section availability, while basic details omit the one-item outline.",
       "evidence": [
         {
           "resource": "repo://apps/github.io/src/app/global-navigation-layout.tsx#L228-L233",
@@ -119,18 +119,18 @@
           "version": "repo-lines-v1:sha256:0525df686f3f27cd9e170bf070bd80b626db7a57229f4124a50d25371d7b9255:eyJzZWxlY3RlZExpbmVDb3VudCI6NjgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImU3NTQ2YzVlYWVkNTMyN2YyY2QzMzlhNmNhMzJlMjE5ZDJkYmQyODM5NzViMmU3YTA3NzdiYzc4NzBkNjZkZTMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjNhM2U0NmY5NDI3NmI2ZjZmNGVkMWYwMmFmNzhiZWY2YTJlZTFjNDM5ZGQ1NTg0Yjk3Mzk0ODMxMzIxNGQyYjciLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImVmNWY0NzQzMjgyZjQ3NTIyNmY4MzE1NzRiZmE3NTJhZDEyZDMwOWNlYjcxZGQzNjRiMDFiNGViOWQ1MjhkMWQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImI3YzVlNTViZjZlZmVkMjhiMDhiNGEwMDQ2ODE4NTUxZWU5MmU4MjE3ZTM0YzBkMTExOTExZGIzZGNiNzY5MjcifQ"
         },
         {
-          "resource": "repo://apps/github.io/src/app/skills/skill-detail-page.tsx#L199-L220",
-          "version": "repo-lines-v1:sha256:1133419c8cc62b24ad8f1e1ffcd15b53f2a9d2c030f80cf9191efce8a3ca37ce:eyJzZWxlY3RlZExpbmVDb3VudCI6MjIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijk1ZWYwMWJjMDhkYmMzYjYzZTRlNzVlYTNkMjZhNWI5NDE4OTE4NzdlMjdhZDg5MTMyOWM4NDExZDdkOGRjNGQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImE3Yzc0YWYyZDEyZDdhODQ5YTIxNTgwODFjMWE3MTU3ZTdjZjI3ZTA0ZWYwZDJjYzdhNDdhNDFhYzkwMTUwOGUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImFhZmMzYWQzZDhhZDMyN2Y2NjNiZmI4OGUwYjc4YWZlODYxZmFmYzIzZmZlYzVjMTZiN2I0N2Q1NzBjOGJmNjYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjoyLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjdiOGI2MDBhNWI0NDhiMWU0ZDAyZGYwOTc0NmVkM2NhMzE3MmY3NWM0YWFiYjAxZGRlMDgwZTM2Y2FiMDc0YjQifQ"
+          "resource": "repo://apps/github.io/src/app/skills/skill-detail-page.tsx#L202-L230",
+          "version": "repo-lines-v1:sha256:26d87b235d0cb310e3306979188961f7c7c1acc3d35a23eb21c7924fef044be5:eyJzZWxlY3RlZExpbmVDb3VudCI6MjksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImU3MjE2ZThlOWMwYTFhNjhkMDZjMmZiYWE1ZmQyMTM5NDgyYjhlZmQwYTE5MzE1YjkxNWU2Y2NlODQ5ZDg5ZGMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImE3Yzc0YWYyZDEyZDdhODQ5YTIxNTgwODFjMWE3MTU3ZTdjZjI3ZTA0ZWYwZDJjYzdhNDdhNDFhYzkwMTUwOGUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImQ1ZWMxNWU1NWFiMjU5ZGUzYjgwZDhkNWVmNjdhY2U3ZTA0MWYwYmJmYzc1OWVkYzFiYWI2ZGJlYTI3NzU0ZGIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjoyLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjdiOGI2MDBhNWI0NDhiMWU0ZDAyZGYwOTc0NmVkM2NhMzE3MmY3NWM0YWFiYjAxZGRlMDgwZTM2Y2FiMDc0YjQifQ"
         },
         {
-          "resource": "repo://apps/github.io/src/app/skills/skill-detail-page.tsx#L29-L82",
-          "version": "repo-lines-v1:sha256:c50a9ec0b1b16cd50e01c7e59c0e4b1d8791671af84399f15d26b38f356fae04:eyJzZWxlY3RlZExpbmVDb3VudCI6NTQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImJlMTkxYTNlN2MxNjZmZmFhYmEwZDgzNjI1Mzg2MDJmOGM4YmVkYWJjYzU1ZmQwYWI1YjIyNTA2MGRmYzNlMWMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjA0MDE5MGEzMDU4ZDliMWU3NmIzYzU1MzdlNzI3YjViYzM2ZGIwNTU0Yjg3MWU1MGRiYjhkYzk1Yjg2OTgyNjAiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjRiYTlkYzZhYmIwNmE0ZGJmYWUwOTdlOTBmZWY2M2FiOTA1NjJiNGUxYzQ2YWY2ZjM0MGJmZjgxMTJjZGQ5ODciLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImJjMTE0Yzk3YjdmYWE3ZTliNzJiODc3NzUwYTY3ZmM1MTAzYmYwMTE3MzBiM2RlMzZmMTU1ZjA5YzhmYjIwNTgifQ"
+          "resource": "repo://apps/github.io/src/app/skills/skill-detail-page.tsx#L29-L83",
+          "version": "repo-lines-v1:sha256:bc5f19395a3eba02f8e595ba9342b8f1de5d8680e44ec3acee73b99eafd196ec:eyJzZWxlY3RlZExpbmVDb3VudCI6NTUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImJlMTkxYTNlN2MxNjZmZmFhYmEwZDgzNjI1Mzg2MDJmOGM4YmVkYWJjYzU1ZmQwYWI1YjIyNTA2MGRmYzNlMWMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjA0MDE5MGEzMDU4ZDliMWU3NmIzYzU1MzdlNzI3YjViYzM2ZGIwNTU0Yjg3MWU1MGRiYjhkYzk1Yjg2OTgyNjAiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjRiYTlkYzZhYmIwNmE0ZGJmYWUwOTdlOTBmZWY2M2FiOTA1NjJiNGUxYzQ2YWY2ZjM0MGJmZjgxMTJjZGQ5ODciLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImJjMTE0Yzk3YjdmYWE3ZTliNzJiODc3NzUwYTY3ZmM1MTAzYmYwMTE3MzBiM2RlMzZmMTU1ZjA5YzhmYjIwNTgifQ"
         }
       ]
     }
   ],
   "verification": {
     "by": "openwiki/0.5.0",
-    "at": "2026-09-13T09:47:30.124Z"
+    "at": "2026-09-13T10:13:03.396Z"
   }
 }

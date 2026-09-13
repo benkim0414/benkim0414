@@ -26,10 +26,10 @@ sources:
     resource: repo://apps/github.io/src/app/skills/skill-experience-card-list.tsx
   - id: openwiki-source-ba5c27392181e6c65798f3c4
     resource: repo://apps/github.io/src/app/skills/skill-experience-list.tsx
-generated: { by: "codex", at: "2026-09-13T09:47:30.124Z" }
+generated: { by: "codex", at: "2026-09-13T10:13:03.396Z" }
 verified:
   - by: openwiki/0.5.0
-    at: 2026-09-13T09:47:30.124Z
+    at: 2026-09-13T10:13:03.396Z
 ---
 
 # Application architecture
@@ -75,10 +75,13 @@ validation in the resolver rather than burying it in view components.
 The detail page remains a direct child of the shared shell's sole scrollable
 `LayoutContent`; its responsive two-column grid does not introduce another
 scroll owner. Enriched details add an Astryx `Outline` labeled `On this page`
-in a sticky end rail on tablet and desktop widths. The outline starts with the
-Overview heading and conditionally follows the same Experience and Projects
-availability checks as the rendered sections. A basic detail with no enriched
-sections stays single-column and does not render a one-item outline.
+in a sticky end rail on tablet and desktop widths. The page resolves the shared
+`LayoutContent` from its mounted `main` and supplies it as Outline's explicit
+`scrollContainerRef`, aligning fragment navigation and active-section tracking
+with the shell-owned scroll path. The outline starts with the Overview heading
+and conditionally follows the same Experience and Projects availability checks
+as the rendered sections. A basic detail with no enriched sections stays
+single-column and does not render a one-item outline.
 
 Within the detail surface, the Experience section appears when either primary
 experience cards or supporting evidence exists, but its adjacent app-level
