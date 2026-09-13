@@ -6,6 +6,9 @@ describe('SkillExperienceCard stories', () => {
     expect(MobileCompact.args?.experience?.title).toContain(
       'intentionally long wrapping title',
     );
-    expect(MobileCompact.parameters?.viewport?.defaultViewport).toBe('mobile1');
+    expect(MobileCompact.globals?.viewport).toEqual({
+      value: 'mobile1',
+      isRotated: false,
+    });
   });
 });

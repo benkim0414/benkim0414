@@ -38,9 +38,10 @@ export const LongWrappingNarrative: Story = {
 
 export const MobileCompact: Story = {
   ...LongWrappingNarrative,
-  parameters: {
+  globals: {
     viewport: {
-      defaultViewport: 'mobile1',
+      value: 'mobile1',
+      isRotated: false,
     },
   },
 };
