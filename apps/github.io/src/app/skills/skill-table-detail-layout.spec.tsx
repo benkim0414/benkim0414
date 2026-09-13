@@ -109,13 +109,16 @@ describe('SkillTableDetailLayout', () => {
       [TABLE_QUERY]: true,
       [COMPACT_SURFACE_QUERY]: false,
     });
-    const { getByRole, queryByRole } = renderLayout();
+    const { container, getByRole, queryByRole } = renderLayout();
 
     expect(getByRole('region', { name: 'Kubernetes details' })).toBeTruthy();
     expect(
       getByRole('separator', { name: 'Resize skill details' }),
     ).toBeTruthy();
     expect(queryByRole('dialog', { name: 'Kubernetes details' })).toBeNull();
+    expect(
+      container.querySelectorAll('#skill-experience-narrative-heading'),
+    ).toHaveLength(1);
   });
 
   it('keeps the close control in a separate top-right header row', () => {
@@ -196,6 +199,21 @@ describe('SkillTableDetailLayout', () => {
     const { getByRole, onClose } = renderLayout();
 
     fireEvent.keyDown(document, { key: 'Escape', isComposing: true });
+
+    expect(onClose).not.toHaveBeenCalled();
+    expect(
+      getByRole('region', { name: 'Kubernetes details' }),
+    ).toBeTruthy();
+  });
+
+  it('keeps an active panel open for the legacy IME key code', () => {
+    setMediaMatches({
+      [TABLE_QUERY]: true,
+      [COMPACT_SURFACE_QUERY]: false,
+    });
+    const { getByRole, onClose } = renderLayout();
+
+    fireEvent.keyDown(document, { key: 'Escape', keyCode: 229 });
 
     expect(onClose).not.toHaveBeenCalled();
     expect(

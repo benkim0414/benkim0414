@@ -341,6 +341,7 @@ describe('SkillsPage', () => {
         requestAnimationFrame(() => resolve()),
       );
       expect(dialog.open).toBe(true);
+      expect(dialog.textContent).toContain('Primary use');
 
       const transitionEnd = new Event('transitionend', { bubbles: true });
       Object.defineProperty(transitionEnd, 'propertyName', {

@@ -11,8 +11,8 @@ import {
 } from '@astryxdesign/core/Layout';
 import { ResizeHandle, useResizable } from '@astryxdesign/core/Resizable';
 import { Text } from '@astryxdesign/core/Text';
-import { useMediaQuery } from '@astryxdesign/core/hooks';
-import { useEffect, type ReactElement, type RefObject } from 'react';
+import { isImeKeyEvent, useMediaQuery } from '@astryxdesign/core/hooks';
+import { useEffect, useRef, type ReactElement, type RefObject } from 'react';
 
 import { SkillDetailContent } from './skill-detail-content';
 import type { ResolvedSkillDetail } from './skill-detail.types';
@@ -42,6 +42,37 @@ export interface SkillTableDetailLayoutProps extends Pick<
   readonly onClose: (restoreFocus: boolean) => void;
 }
 
+interface SkillDetailBodyProps {
+  readonly detail: ResolvedSkillDetail;
+  readonly onClose: () => void;
+}
+
+function SkillDetailBody({
+  detail,
+  onClose,
+}: SkillDetailBodyProps): ReactElement {
+  return (
+    <VStack gap={6} padding={4}>
+      <HStack hAlign="end">
+        <IconButton
+          icon={<Icon icon="close" size="sm" />}
+          label={`Close ${detail.skill.name} details`}
+          tooltip={`Close ${detail.skill.name} details`}
+          variant="ghost"
+          onClick={onClose}
+        />
+      </HStack>
+      <VStack gap={2} hAlign="start">
+        <Heading level={2}>{detail.skill.name}</Heading>
+        <Text as="p" color="secondary" type="body">
+          {detail.skill.description}
+        </Text>
+      </VStack>
+      <SkillDetailContent detail={detail} />
+    </VStack>
+  );
+}
+
 export function SkillTableDetailLayout({
   skills,
   query,
@@ -55,11 +86,16 @@ export function SkillTableDetailLayout({
   onClose,
 }: SkillTableDetailLayoutProps): ReactElement {
   const isCompactSurface = useMediaQuery(COMPACT_SURFACE_QUERY);
+  const retainedCompactDetailRef = useRef<ResolvedSkillDetail | null>(null);
   const detailWidth = useResizable({
     defaultSize: 380,
     minSizePx: 320,
     maxSizePx: 560,
   });
+
+  if (isCompactSurface && activeDetail != null) {
+    retainedCompactDetailRef.current = activeDetail;
+  }
 
   useEffect(() => {
     if (activeDetail == null || isCompactSurface) {
@@ -70,7 +106,7 @@ export function SkillTableDetailLayout({
       if (
         event.key === 'Escape' &&
         !event.defaultPrevented &&
-        !event.isComposing
+        !isImeKeyEvent(event)
       ) {
         onClose(true);
         finalFocusRef?.current?.focus();
@@ -81,32 +117,6 @@ export function SkillTableDetailLayout({
     return () => document.removeEventListener('keydown', handleKeyDown);
   }, [activeDetail, finalFocusRef, isCompactSurface, onClose]);
 
-  const detailBody =
-    activeDetail == null ? null : (
-      <VStack gap={6} padding={4}>
-        <HStack hAlign="end">
-          <IconButton
-            icon={<Icon icon="close" size="sm" />}
-            label={`Close ${activeDetail.skill.name} details`}
-            tooltip={`Close ${activeDetail.skill.name} details`}
-            variant="ghost"
-            onClick={() => {
-              onClose(true);
-              if (!isCompactSurface) {
-                finalFocusRef?.current?.focus();
-              }
-            }}
-          />
-        </HStack>
-        <VStack gap={2} hAlign="start">
-          <Heading level={2}>{activeDetail.skill.name}</Heading>
-          <Text as="p" color="secondary" type="body">
-            {activeDetail.skill.description}
-          </Text>
-        </VStack>
-        <SkillDetailContent detail={activeDetail} />
-      </VStack>
-    );
   const detailPanel =
     activeDetail == null ? undefined : (
       <>
@@ -124,7 +134,13 @@ export function SkillTableDetailLayout({
           resizable={detailWidth.props}
           role="region"
         >
-          {detailBody}
+          <SkillDetailBody
+            detail={activeDetail}
+            onClose={() => {
+              onClose(true);
+              finalFocusRef?.current?.focus();
+            }}
+          />
         </LayoutPanel>
       </>
     );
@@ -153,13 +169,18 @@ export function SkillTableDetailLayout({
         height="tall"
         isOpen={isCompactSurface && activeDetail != null}
         label={
-          activeDetail == null
+          retainedCompactDetailRef.current == null
             ? 'Skill details'
-            : `${activeDetail.skill.name} details`
+            : `${retainedCompactDetailRef.current.skill.name} details`
         }
         onOpenChange={(open) => !open && onClose(true)}
       >
-        {detailBody}
+        {isCompactSurface && retainedCompactDetailRef.current != null ? (
+          <SkillDetailBody
+            detail={retainedCompactDetailRef.current}
+            onClose={() => onClose(true)}
+          />
+        ) : null}
       </BottomSheet>
     </>
   );
