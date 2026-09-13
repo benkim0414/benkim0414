@@ -24,6 +24,8 @@ sources:
     resource: repo://apps/github.io/src/app/skills/skill-detail-page.stories.spec.ts
   - id: openwiki-source-3d8376b39a8411106c980cf0
     resource: repo://apps/github.io/src/app/skills/skill-experience-card-list.spec.tsx
+  - id: openwiki-source-048000f67a10f22b6e816b63
+    resource: repo://apps/github.io/src/app/skills/skill-experience-card.stories.spec.ts
   - id: openwiki-source-595128ced7876e4f8579bc14
     resource: repo://apps/github.io/src/app/skills/skill-experience-card.stories.tsx
   - id: openwiki-source-1da2c5712de0a298fd2a580a
@@ -62,10 +64,10 @@ sources:
     resource: repo://scripts/setup-openwiki.test.mjs
   - id: openwiki-source-165465422a61a00b62b0f6d3
     resource: repo://scripts/sync-github-pages-artifact.test.mjs
-generated: { by: "codex", at: "2026-09-13T23:12:28.679Z" }
+generated: { by: "codex", at: "2026-09-13T23:23:26.933Z" }
 verified:
   - by: openwiki/0.5.0
-    at: 2026-09-13T23:12:28.679Z
+    at: 2026-09-13T23:23:26.933Z
 ---
 
 # Validation workflow
@@ -187,7 +189,9 @@ outcome/skill sentence, a closed small-viewport default, an open large-viewport
 default, user expansion and retained choice across resize, complete authored and
 capability list text, capability-fact deduplication, and omission when there is
 nothing to disclose. The authored stories include a mobile viewport for the
-long wrapping narrative, while the capability story supplies multiple facts for
+long wrapping narrative, selecting Storybook's `mobile1` viewport through the
+Storybook 10 `globals.viewport` contract with rotation disabled. Its story-module
+test protects both values. The capability story supplies multiple facts for
 manual visual review of the same shared disclosure treatment.
 
 The skill-detail page test protects its page-local Outline independently of
