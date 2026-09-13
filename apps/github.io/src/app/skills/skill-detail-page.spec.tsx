@@ -400,11 +400,12 @@ describe('SkillDetailPage', () => {
 
   it('shows the primary experience count without including supporting evidence', () => {
     const detail = getResolvedDetail('kubernetes');
-    const { getByRole, getByText } = render(
+    const { getByRole } = render(
       <SkillDetailPage detail={detail} />,
     );
     const heading = getByRole('heading', { level: 2, name: 'Experience' });
-    const badgeLabel = getByText('4');
+    const header = heading.parentElement as HTMLElement;
+    const badgeLabel = within(header).getByText('4');
     const badge = badgeLabel.closest('.astryx-badge');
 
     expect(badge).toBeTruthy();
@@ -413,11 +414,12 @@ describe('SkillDetailPage', () => {
 
   it('shows a zero count when supporting evidence is the only experience content', () => {
     const detail = getResolvedDetail('kubernetes');
-    const { getByRole, getByText } = render(
+    const { getByRole } = render(
       <SkillDetailPage detail={{ ...detail, experiences: [] }} />,
     );
     const heading = getByRole('heading', { level: 2, name: 'Experience' });
-    const badgeLabel = getByText('0');
+    const header = heading.parentElement as HTMLElement;
+    const badgeLabel = within(header).getByText('0');
     const badge = badgeLabel.closest('.astryx-badge');
 
     expect(badge).toBeTruthy();
@@ -426,11 +428,12 @@ describe('SkillDetailPage', () => {
 
   it('shows the rendered project count without including it in the heading name', () => {
     const detail = getResolvedDetail('kubernetes');
-    const { getByRole, getByText } = render(
+    const { getByRole } = render(
       <SkillDetailPage detail={detail} />,
     );
     const heading = getByRole('heading', { level: 2, name: 'Projects' });
-    const badgeLabel = getByText(String(detail.projects.length));
+    const header = heading.parentElement as HTMLElement;
+    const badgeLabel = within(header).getByText(String(detail.projects.length));
     const badge = badgeLabel.closest('.astryx-badge');
 
     expect(badge).toBeTruthy();
