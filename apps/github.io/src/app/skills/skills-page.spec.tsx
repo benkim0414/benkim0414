@@ -407,6 +407,9 @@ describe('SkillsPage', () => {
       getByRole('button', { name: 'Close Kubernetes details' }).focus(),
     );
     fireEvent.keyDown(document, { key: 'Escape' });
+    expect(document.activeElement).not.toBe(remountedRow);
+
+    fireEvent.keyDown(document, { key: 'Escape' });
 
     expect(document.activeElement).toBe(remountedRow);
     expect(window.location.pathname).toBe('/skills');
