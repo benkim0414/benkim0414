@@ -1,4 +1,4 @@
-import { fireEvent, render, within } from '@testing-library/react';
+import { act, fireEvent, render, within } from '@testing-library/react';
 import { Theme } from '@astryxdesign/core';
 import { neutralTheme } from '@astryxdesign/theme-neutral/built';
 import { vi } from 'vitest';
@@ -6,15 +6,46 @@ import { vi } from 'vitest';
 import { skills } from './skill-list.data';
 import type { Skill } from './skill-list.types';
 import { SkillsPage } from './skills-page';
+import {
+  COMPACT_SURFACE_QUERY,
+  TABLE_QUERY,
+} from './skill-table-detail-layout';
 
-vi.stubGlobal('matchMedia', (query: string) => ({
-  addEventListener: vi.fn(),
+const mediaMatches = new Map<string, boolean>();
+const mediaListeners = new Map<
+  string,
+  Set<(event: MediaQueryListEvent) => void>
+>();
+
+function setMediaMatches(matches: Record<string, boolean>) {
+  act(() => {
+    for (const [query, value] of Object.entries(matches)) {
+      mediaMatches.set(query, value);
+      for (const listener of mediaListeners.get(query) ?? []) {
+        listener({ matches: value, media: query } as MediaQueryListEvent);
+      }
+    }
+  });
+}
+
+vi.stubGlobal('matchMedia', (query: string): MediaQueryList => ({
+  addEventListener: (_type, listener) => {
+    const listeners = mediaListeners.get(query) ?? new Set();
+    listeners.add(listener as (event: MediaQueryListEvent) => void);
+    mediaListeners.set(query, listeners);
+  },
   addListener: vi.fn(),
   dispatchEvent: vi.fn(),
-  matches: false,
+  get matches() {
+    return mediaMatches.get(query) ?? false;
+  },
   media: query,
   onchange: null,
-  removeEventListener: vi.fn(),
+  removeEventListener: (_type, listener) => {
+    mediaListeners
+      .get(query)
+      ?.delete(listener as (event: MediaQueryListEvent) => void);
+  },
   removeListener: vi.fn(),
 }));
 
@@ -26,6 +57,25 @@ const renderSkillsPage = (suppliedSkills?: readonly Skill[]) =>
   );
 
 describe('SkillsPage', () => {
+  const tableSkills = ['kubernetes', 'terraform', 'docker'].map((id) => {
+    const skill = skills.find((candidate) => candidate.id === id);
+
+    if (!skill) {
+      throw new Error(`Expected ${id} in the canonical skill catalog.`);
+    }
+
+    return skill;
+  });
+
+  beforeEach(() => {
+    window.history.replaceState({}, '', '/skills');
+  });
+
+  afterEach(() => {
+    mediaMatches.clear();
+    mediaListeners.clear();
+  });
+
   it('renders a non-scrollable main without page-local navigation', () => {
     const { container, getByRole, queryByRole } = renderSkillsPage();
     const main = getByRole('main', { name: 'Skills' });
@@ -152,5 +202,109 @@ describe('SkillsPage', () => {
     const message = getByText('No skills have been supplied.');
 
     expect(message.closest('[role="status"]')).toBeTruthy();
+  });
+
+  it('uses cards below the table breakpoint and the table above it', () => {
+    const { getAllByTestId, getByRole, queryAllByTestId, queryByRole } =
+      renderSkillsPage(tableSkills);
+
+    expect(getAllByTestId('skill-card')).toHaveLength(3);
+    expect(queryByRole('table')).toBeNull();
+
+    setMediaMatches({
+      [TABLE_QUERY]: true,
+      [COMPACT_SURFACE_QUERY]: false,
+    });
+
+    expect(getByRole('table')).toBeTruthy();
+    expect(queryAllByTestId('skill-card')).toHaveLength(0);
+  });
+
+  it('keeps table selection in page state, swaps reusable details, and restores row focus on close', async () => {
+    setMediaMatches({
+      [TABLE_QUERY]: true,
+      [COMPACT_SURFACE_QUERY]: false,
+    });
+    const { getByRole, getByText, queryByRole } = renderSkillsPage(tableSkills);
+    const kubernetesRow = getByRole('row', { name: /Kubernetes/ });
+
+    fireEvent.click(kubernetesRow);
+
+    expect(window.location.pathname).toBe('/skills');
+    expect(kubernetesRow.getAttribute('aria-current')).toBe('true');
+    expect(getByRole('region', { name: 'Kubernetes details' })).toBeTruthy();
+    expect(
+      within(getByRole('region', { name: 'Kubernetes details' })).getByText(
+        'Cloud-native platform operations',
+      ),
+    ).toBeTruthy();
+    expect(
+      getByRole('heading', {
+        level: 3,
+        name: 'Production Kubernetes platform operations on Amazon EKS',
+      }),
+    ).toBeTruthy();
+    expect(
+      getByRole('heading', { level: 3, name: 'benkim0414/homelab' }),
+    ).toBeTruthy();
+
+    const terraformRow = getByRole('row', { name: /Terraform/ });
+    fireEvent.click(terraformRow);
+
+    expect(queryByRole('region', { name: 'Kubernetes details' })).toBeNull();
+    expect(getByRole('region', { name: 'Terraform details' })).toBeTruthy();
+
+    fireEvent.click(getByRole('button', { name: 'Close Terraform details' }));
+
+    await new Promise<void>((resolve) =>
+      requestAnimationFrame(() => resolve()),
+    );
+
+    expect(document.activeElement).toBe(terraformRow);
+  });
+
+  it('clears an active selection without restoring focus when filtering removes its row', () => {
+    setMediaMatches({
+      [TABLE_QUERY]: true,
+      [COMPACT_SURFACE_QUERY]: false,
+    });
+    const focusFrame = vi.spyOn(window, 'requestAnimationFrame');
+    const { getByRole, queryByRole } = renderSkillsPage(tableSkills);
+
+    fireEvent.click(getByRole('row', { name: /Terraform/ }));
+    fireEvent.change(getByRole('textbox', { name: 'Skill name' }), {
+      target: { value: 'Kubernetes' },
+    });
+
+    expect(queryByRole('region', { name: 'Terraform details' })).toBeNull();
+    expect(focusFrame).not.toHaveBeenCalled();
+  });
+
+  it('keeps controlled filters visible across responsive collection changes', () => {
+    setMediaMatches({
+      [TABLE_QUERY]: true,
+      [COMPACT_SURFACE_QUERY]: false,
+    });
+    const { getAllByTestId, getByRole } = renderSkillsPage(tableSkills);
+
+    fireEvent.change(getByRole('textbox', { name: 'Skill name' }), {
+      target: { value: 'Kubernetes' },
+    });
+    setMediaMatches({
+      [TABLE_QUERY]: false,
+      [COMPACT_SURFACE_QUERY]: false,
+    });
+
+    expect(getAllByTestId('skill-card')).toHaveLength(1);
+    expect(getByRole('heading', { level: 3, name: 'Kubernetes' })).toBeTruthy();
+
+    setMediaMatches({
+      [TABLE_QUERY]: true,
+      [COMPACT_SURFACE_QUERY]: false,
+    });
+
+    expect(
+      within(getByRole('table')).getByRole('row', { name: /Kubernetes/ }),
+    ).toBeTruthy();
   });
 });

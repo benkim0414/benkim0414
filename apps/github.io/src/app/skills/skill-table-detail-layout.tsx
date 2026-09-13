@@ -1,0 +1,150 @@
+import { BottomSheet } from '@astryxdesign/core/BottomSheet';
+import { Heading } from '@astryxdesign/core/Heading';
+import { Icon } from '@astryxdesign/core/Icon';
+import { IconButton } from '@astryxdesign/core/IconButton';
+import {
+  Layout,
+  LayoutContent,
+  LayoutPanel,
+  VStack,
+} from '@astryxdesign/core/Layout';
+import { ResizeHandle, useResizable } from '@astryxdesign/core/Resizable';
+import { Text } from '@astryxdesign/core/Text';
+import { useMediaQuery } from '@astryxdesign/core/hooks';
+import { useEffect, type ReactElement } from 'react';
+
+import { SkillDetailContent } from './skill-detail-content';
+import type { ResolvedSkillDetail } from './skill-detail.types';
+import type { SkillCategory } from './skill-list.types';
+import {
+  SkillTable,
+  type SkillRowActivation,
+  type SkillTableProps,
+} from './skill-table';
+
+export const TABLE_QUERY = '(min-width: 768px)';
+export const COMPACT_SURFACE_QUERY =
+  '(max-width: 768px), (max-width: 1024px) and (pointer: coarse) and (hover: none)';
+
+export interface SkillTableDetailLayoutProps extends Pick<
+  SkillTableProps,
+  | 'skills'
+  | 'query'
+  | 'selectedCategories'
+  | 'activeSkillId'
+  | 'onQueryChange'
+  | 'onSelectedCategoriesChange'
+> {
+  readonly activeDetail: ResolvedSkillDetail | null;
+  readonly onSkillActivate: (activation: SkillRowActivation) => void;
+  readonly onClose: (restoreFocus: boolean) => void;
+}
+
+export function SkillTableDetailLayout({
+  skills,
+  query,
+  selectedCategories,
+  activeSkillId,
+  activeDetail,
+  onQueryChange,
+  onSelectedCategoriesChange,
+  onSkillActivate,
+  onClose,
+}: SkillTableDetailLayoutProps): ReactElement {
+  const isCompactSurface = useMediaQuery(COMPACT_SURFACE_QUERY);
+  const detailWidth = useResizable({
+    defaultSize: 380,
+    minSizePx: 320,
+    maxSizePx: 560,
+  });
+
+  useEffect(() => {
+    if (activeDetail == null || isCompactSurface) {
+      return;
+    }
+
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') {
+        onClose(true);
+      }
+    };
+
+    document.addEventListener('keydown', handleKeyDown);
+    return () => document.removeEventListener('keydown', handleKeyDown);
+  }, [activeDetail, isCompactSurface, onClose]);
+
+  const detailBody =
+    activeDetail == null ? null : (
+      <VStack gap={6} padding={4}>
+        <VStack gap={2} hAlign="start">
+          <IconButton
+            icon={<Icon icon="close" size="sm" />}
+            label={`Close ${activeDetail.skill.name} details`}
+            tooltip={`Close ${activeDetail.skill.name} details`}
+            variant="ghost"
+            onClick={() => onClose(true)}
+          />
+          <Heading level={2}>{activeDetail.skill.name}</Heading>
+          <Text as="p" color="secondary" type="body">
+            {activeDetail.skill.description}
+          </Text>
+        </VStack>
+        <SkillDetailContent detail={activeDetail} />
+      </VStack>
+    );
+  const detailPanel =
+    activeDetail == null ? undefined : (
+      <>
+        <ResizeHandle
+          isAlwaysVisible={false}
+          isReversed
+          label="Resize skill details"
+          resizable={detailWidth.props}
+        />
+        <LayoutPanel
+          hasDivider
+          isScrollable
+          label={`${activeDetail.skill.name} details`}
+          padding={0}
+          resizable={detailWidth.props}
+          role="region"
+        >
+          {detailBody}
+        </LayoutPanel>
+      </>
+    );
+
+  return (
+    <>
+      <Layout
+        end={isCompactSurface ? undefined : detailPanel}
+        height="auto"
+        padding={0}
+      >
+        <LayoutContent isScrollable={false} padding={0}>
+          <SkillTable
+            activeSkillId={activeSkillId}
+            query={query}
+            selectedCategories={selectedCategories}
+            skills={skills}
+            onQueryChange={onQueryChange}
+            onSelectedCategoriesChange={onSelectedCategoriesChange}
+            onSkillActivate={onSkillActivate}
+          />
+        </LayoutContent>
+      </Layout>
+      <BottomSheet
+        height="tall"
+        isOpen={isCompactSurface && activeDetail != null}
+        label={
+          activeDetail == null
+            ? 'Skill details'
+            : `${activeDetail.skill.name} details`
+        }
+        onOpenChange={(open) => !open && onClose(true)}
+      >
+        {detailBody}
+      </BottomSheet>
+    </>
+  );
+}
