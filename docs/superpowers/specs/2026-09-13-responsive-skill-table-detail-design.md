@@ -11,7 +11,7 @@ The skills page currently renders a searchable and category-filterable stack of 
 The target interaction follows the Astryx filterable-table master-detail template:
 
 - desktop uses a resizable end panel with independent scrolling;
-- tablet uses an overlay drawer so the table and detail are not compressed;
+- coarse-pointer tablet uses a tall bottom sheet so the table and detail are not compressed;
 - mobile retains the existing card flow and detail-route navigation.
 
 ## Responsive Presentation
@@ -41,9 +41,9 @@ Because selection is intentionally temporary, refresh, direct linking, and brows
 
 Desktop follows the Astryx filterable-table template: the table occupies the content region and the selected detail occupies a resizable end panel. The panel has a fixed initial width budget, is separated from the table by the template's resize handle/divider, and scrolls independently when the detail is long.
 
-Tablet uses the same detail content in an overlay drawer anchored to the end edge of the table region. The drawer obscures part of the table while open rather than shrinking its columns. Closing it restores the unchanged table and its scroll position.
+As in the template, compact surfaces are identified by both available width and pointer capability: widths at or below 768px, plus coarse-pointer devices at or below 1024px. The skills page still uses cards at mobile width. At tablet width, a coarse-pointer device renders the same detail content in a tall `BottomSheet`; closing it restores the unchanged table and its scroll position. A tablet-sized window with a fine pointer may retain the resizable end panel when the template's compact-surface query does not match.
 
-The implementation uses the public Astryx layout, table, drawer/panel, and responsive APIs demonstrated by the installed version's official documentation and template. It does not recreate the master-detail mechanics with custom overlays or hardcoded dimensions.
+The implementation uses the public Astryx layout, table, bottom-sheet/panel, and responsive APIs demonstrated by the installed version's official documentation and template. It does not recreate the master-detail mechanics with custom overlays or hardcoded dimensions.
 
 ## Component Boundaries
 
@@ -65,7 +65,7 @@ Remains the standalone route presentation. It wraps `SkillDetailContent` with br
 
 ### Skill detail panel
 
-Owns drawer/panel chrome, close behavior, independent scrolling, responsive overlay versus end-panel presentation, and focus restoration. It renders `SkillDetailContent` for the resolved selection.
+Owns bottom-sheet/panel chrome, close behavior, independent scrolling, the template's responsive surface swap, and focus restoration. It renders `SkillDetailContent` for the resolved selection.
 
 ## Data Flow and Failure Handling
 
@@ -97,7 +97,7 @@ Focused component tests will cover:
 - safe behavior for an unresolved selected ID;
 - unchanged standalone `/skills/:skillId` behavior after detail extraction.
 
-Storybook will include a desktop table with an open end panel and a tablet table with an open overlay drawer. Visual QA will check both viewports plus mobile, including long detail scrolling, table preservation, clipping, overlap, and focus visibility.
+Storybook will include a desktop table with an open end panel and a coarse-pointer tablet table with an open tall bottom sheet. Visual QA will check both viewports plus mobile, including long detail scrolling, table preservation, clipping, overlap, and focus visibility.
 
 Relevant verification commands are:
 
@@ -113,7 +113,7 @@ In scope:
 - responsive cards-versus-table presentation;
 - shared catalog filters;
 - temporary table selection;
-- Astryx template-aligned end panel and tablet overlay;
+- Astryx template-aligned end panel and compact-surface bottom sheet;
 - reuse of the complete existing skill detail;
 - focused tests and stories.
 
