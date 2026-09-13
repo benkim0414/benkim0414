@@ -64,10 +64,10 @@ sources:
     resource: repo://scripts/setup-openwiki.test.mjs
   - id: openwiki-source-165465422a61a00b62b0f6d3
     resource: repo://scripts/sync-github-pages-artifact.test.mjs
-generated: { by: "codex", at: "2026-09-13T23:34:56.858Z" }
+generated: { by: "codex", at: "2026-09-13T23:51:20.961Z" }
 verified:
   - by: openwiki/0.5.0
-    at: 2026-09-13T23:34:56.858Z
+    at: 2026-09-13T23:51:20.961Z
 ---
 
 # Validation workflow
@@ -183,13 +183,14 @@ These DOM assertions do not prove that estimated column widths fit rendered
 content; that remains a Storybook visual check.
 
 Skill experience readability is protected at both renderer boundaries. Focused
-tests verify a disclosure trigger whose accessible name includes the labeled
-counts for both `Highlights` and `Relevant skills`, exactly one visible
-`Relevant skills` label, absence of the former combined outcome/skill sentence,
-a closed small-viewport default, an open large-viewport default, user expansion
-and retained choice across resize, complete authored and capability list text,
-capability-fact deduplication, and omission when there is nothing to disclose.
-The authored stories include a mobile viewport for the
+tests verify that the collapsed disclosure's accessible name includes labeled
+counts for both `Highlights` and `Relevant skills`; after expansion the trigger
+keeps only the highlight count and the visible relevant-skill label and count
+move above the token list. Coverage also protects absence of the former combined
+outcome/skill sentence, closed small-viewport and open large-viewport defaults,
+user expansion and retained choice across resize, complete authored and
+capability list text, capability-fact deduplication, and omission when there is
+nothing to disclose. The authored stories include a mobile viewport for the
 long wrapping narrative, selecting Storybook's `mobile1` viewport through the
 Storybook 10 `globals.viewport` contract with rotation disabled. Its story-module
 test protects both values. The capability story supplies multiple facts for

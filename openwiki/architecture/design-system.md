@@ -5,7 +5,7 @@ description: How Astryx, StyleX, theme persistence, and browser layout checks fi
 tags: [astryx, stylex, theme, layout]
 verified:
   - by: openwiki/0.5.0
-    at: 2026-09-13T23:34:56.858Z
+    at: 2026-09-13T23:51:20.961Z
 sources:
   - id: openwiki-source-45b1d77b308bd57403f55ff9
     resource: repo://apps/github.io/.storybook/story-taxonomy.spec.ts
@@ -59,7 +59,7 @@ sources:
     resource: repo://apps/github.io/src/styles.css
   - id: openwiki-source-fcfa3ced1d03143bb27d5018
     resource: repo://apps/github.io/vite.config.ts
-generated: { by: "codex", at: "2026-09-13T23:34:56.858Z" }
+generated: { by: "codex", at: "2026-09-13T23:51:20.961Z" }
 ---
 
 # Design system and layout
@@ -128,14 +128,16 @@ Text-heavy skill experience cards use `SkillExperienceCardShell` to keep the
 semantic heading and primary-body summary visible while placing optional proof
 inside Astryx `Collapsible`. Its `Highlights` trigger pairs supporting text with
 the shared neutral `CountBadge`, counting only the card's narrative points or
-distinct evidence facts. The same persistent trigger also shows `Relevant
-skills` with its own count badge, so both hidden collections remain legible while
-the card is collapsed. The expanded panel renders the accessible skill-token
-list without repeating that visible label. It starts closed when the initial
-viewport is at or below 640px and open otherwise; because the breakpoint only
-seeds the uncontrolled state, a later resize does not override the visitor's
-choice. Cards without highlights or relevant skills omit the disclosure
-entirely.
+distinct evidence facts. While collapsed, the trigger also shows `Relevant
+skills` with its own count badge, so both hidden collections remain legible.
+Expanding removes that segment from the trigger and restores the same visible
+label and count above the accessible skill-token list. The shell controls the
+Astryx disclosure so both placements switch with its open state; it relies on
+the component's built-in chevron transition rather than adding custom panel
+motion. It starts closed when the initial viewport is at or below 640px and open
+otherwise; because the breakpoint only seeds state, a later resize does not
+override the visitor's choice. Cards without highlights or relevant skills omit
+the disclosure entirely.
 
 Repeated details still delegate to `SkillKeyOutcomes`. It renders an unnamed,
 compact, disc-marked Astryx `List`; each `ListItem` receives primary body `Text`
