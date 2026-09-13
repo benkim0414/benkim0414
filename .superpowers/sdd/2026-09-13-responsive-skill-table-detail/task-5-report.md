@@ -23,7 +23,7 @@ The change is limited to the shared `detailBody`: the close button now occupies 
 
 ## Commit
 
-Pending commit at report authoring time.
+`4a1c843` (`fix(github.io): align skill detail close control`).
 
 ## Concerns
 
