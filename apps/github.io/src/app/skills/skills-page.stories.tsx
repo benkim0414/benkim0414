@@ -3,7 +3,13 @@ import { VStack } from '@astryxdesign/core/Layout';
 import { expect, userEvent } from 'storybook/test';
 
 import { SkillsPage } from './skills-page';
-import { createSkillStoryMatchMedia } from './skill-story-match-media';
+import { TABLE_QUERY } from './skill-table-detail-layout';
+import {
+  createSkillStoryMatchMedia,
+  getSkillStoryCompactOverride,
+  getSkillStoryOriginalMatchMedia,
+  getSkillStoryViewportKey,
+} from './skill-story-match-media';
 
 const meta: Meta<typeof SkillsPage> = {
   component: SkillsPage,
@@ -55,13 +61,43 @@ export const MobileCards: Story = {
 };
 
 export const DesktopTableDetail: Story = {
-  globals: {
-    viewport: { value: 'desktop', isRotated: false },
-  },
-  play: async ({ canvas }) => {
+  beforeEach:
+    ({ loaded }) =>
+    () => {
+      loaded.restoreMatchMedia();
+    },
+  loaders: [
+    ({ globals }) => {
+      const originalMatchMedia = getSkillStoryOriginalMatchMedia(
+        window.matchMedia,
+      );
+      window.matchMedia = createSkillStoryMatchMedia(
+        originalMatchMedia,
+        getSkillStoryCompactOverride(globals.viewport),
+      );
+
+      return {
+        restoreMatchMedia: () => {
+          window.matchMedia = originalMatchMedia;
+        },
+      };
+    },
+  ],
+  render: (args, { globals }) => (
+    <SkillsPage
+      {...args}
+      key={getSkillStoryViewportKey(globals.viewport)}
+    />
+  ),
+  play: async ({ canvas, globals }) => {
+    if (!window.matchMedia(TABLE_QUERY).matches) return;
+
     await userEvent.click(canvas.getByRole('row', { name: /Kubernetes/ }));
     await expect(
-      canvas.getByRole('region', { name: 'Kubernetes details' }),
+      canvas.getByRole(
+        getSkillStoryCompactOverride(globals.viewport) ? 'dialog' : 'region',
+        { name: 'Kubernetes details' },
+      ),
     ).toBeVisible();
   },
 };
@@ -74,7 +110,9 @@ export const CoarseTabletBottomSheet: Story = {
     },
   loaders: [
     () => {
-      const originalMatchMedia = window.matchMedia;
+      const originalMatchMedia = getSkillStoryOriginalMatchMedia(
+        window.matchMedia,
+      );
 
       window.matchMedia = createSkillStoryMatchMedia(originalMatchMedia, true);
 

@@ -8,6 +8,12 @@ import { skillDetailSources } from './skill-detail-sources';
 import { skills } from './skill-list.data';
 import type { Skill, SkillCategory } from './skill-list.types';
 import { SkillTableDetailLayout } from './skill-table-detail-layout';
+import {
+  createSkillStoryMatchMedia,
+  getSkillStoryCompactOverride,
+  getSkillStoryOriginalMatchMedia,
+  getSkillStoryViewportKey,
+} from './skill-story-match-media';
 import { SkillTable, type SkillRowActivation } from './skill-table';
 
 export function InteractiveSkillTable({
@@ -64,17 +70,46 @@ export const AllSkills: Story = {
   args: {
     skills,
   },
-  render: (args) => <InteractiveSkillTable skills={args.skills ?? []} />,
+  render: (args, { globals }) => (
+    <InteractiveSkillTable
+      key={getSkillStoryViewportKey(globals.viewport)}
+      skills={args.skills ?? []}
+    />
+  ),
 };
 
 export const DesktopTableDetail: Story = {
   args: {
     skills,
   },
-  globals: {
-    viewport: { value: 'desktop', isRotated: false },
-  },
-  render: (args) => <InteractiveSkillTable skills={args.skills ?? []} />,
+  beforeEach:
+    ({ loaded }) =>
+    () => {
+      loaded.restoreMatchMedia();
+    },
+  loaders: [
+    ({ globals }) => {
+      const originalMatchMedia = getSkillStoryOriginalMatchMedia(
+        window.matchMedia,
+      );
+      window.matchMedia = createSkillStoryMatchMedia(
+        originalMatchMedia,
+        getSkillStoryCompactOverride(globals.viewport),
+      );
+
+      return {
+        restoreMatchMedia: () => {
+          window.matchMedia = originalMatchMedia;
+        },
+      };
+    },
+  ],
+  render: (args, { globals }) => (
+    <InteractiveSkillTable
+      key={getSkillStoryViewportKey(globals.viewport)}
+      skills={args.skills ?? []}
+    />
+  ),
   play: async ({ canvas }) => {
     await userEvent.click(
       canvas.getAllByRole('row', { name: /Kubernetes/ })[0],

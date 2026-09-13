@@ -26,8 +26,9 @@ describe('SkillTable stories', () => {
     expect(meta.excludeStories).toContain('InteractiveSkillTable');
   });
 
-  it('leaves the desktop detail responsive to the Storybook viewport', () => {
-    expect(DesktopTableDetail.loaders).toBeUndefined();
+  it('leaves the detail viewport unlocked and adapts its media queries', () => {
+    expect(DesktopTableDetail.loaders).toHaveLength(1);
+    expect(DesktopTableDetail.globals).toBeUndefined();
   });
 
   it('opens resolved skill detail beside the table', () => {

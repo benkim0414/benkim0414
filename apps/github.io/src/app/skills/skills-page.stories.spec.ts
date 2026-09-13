@@ -9,18 +9,18 @@ describe('SkillsPage stories', () => {
     expect(FilterControlsOpen.play).toBeTypeOf('function');
   });
 
-  it('publishes responsive visual states without pinning desktop media queries', () => {
+  it('publishes responsive visual states without locking the viewport', () => {
     expect(skillsPageStories).toMatchObject({
       MobileCards: expect.any(Object),
       DesktopTableDetail: expect.any(Object),
       CoarseTabletBottomSheet: expect.any(Object),
     });
-    expect(skillsPageStories.DesktopTableDetail.loaders).toBeUndefined();
+    expect(skillsPageStories.DesktopTableDetail.loaders).toHaveLength(1);
+    expect(skillsPageStories.DesktopTableDetail.globals).toBeUndefined();
   });
 
   it.each([
     ['MobileCards', 'mobile1'],
-    ['DesktopTableDetail', 'desktop'],
     ['CoarseTabletBottomSheet', 'tablet'],
     ['FilterControlsOpen', 'mobile1'],
   ] as const)(
