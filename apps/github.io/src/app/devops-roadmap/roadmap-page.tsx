@@ -26,6 +26,8 @@ export function RoadmapPage(): ReactElement {
         This page maps my DevOps capabilities to the topics covered by the{' '}
         <Link
           href="https://roadmap.sh/"
+          isExternalLink
+          isStandalone
           rel="noopener noreferrer"
           target="_blank"
         >

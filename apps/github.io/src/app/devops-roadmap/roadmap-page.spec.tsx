@@ -54,12 +54,14 @@ describe('RoadmapPage', () => {
     });
     const paragraphs = getByRole('main').querySelectorAll('p');
     const [firstParagraph, secondParagraph] = paragraphs;
-    const sourceLink = getByRole('link', { name: /^roadmap\.sh/ });
+    const sourceLink = getByRole('link', {
+      name: 'roadmap.sh (opens in new tab)',
+    });
     const [banner] = getAllByRole('status');
     const learnMore = within(banner).getByRole('link', { name: 'Learn more' });
 
     expect(firstParagraph.textContent).toBe(
-      'This page maps my DevOps capabilities to the topics covered by the roadmap.sh DevOps roadmap. Each topic includes relevant skills, certifications, and evidence from my professional experience.',
+      'This page maps my DevOps capabilities to the topics covered by the roadmap.sh(opens in new tab) DevOps roadmap. Each topic includes relevant skills, certifications, and evidence from my professional experience.',
     );
     expect(secondParagraph.textContent).toBe(
       'Explore the topics to see which areas I have covered and how my experience aligns with the roadmap.',
@@ -78,6 +80,7 @@ describe('RoadmapPage', () => {
     expect(sourceLink.getAttribute('href')).toBe('https://roadmap.sh/');
     expect(sourceLink.getAttribute('target')).toBe('_blank');
     expect(sourceLink.getAttribute('rel')).toBe('noopener noreferrer');
+    expect(sourceLink.querySelector('svg')).toBeTruthy();
     expect(within(banner).getByText('About roadmap.sh')).toBeTruthy();
     expect(
       within(banner).getByText(
