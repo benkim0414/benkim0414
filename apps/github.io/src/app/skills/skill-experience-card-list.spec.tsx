@@ -110,6 +110,40 @@ describe('SkillExperienceCard', () => {
     expect(screen.getByRole('list')).toBeTruthy();
   });
 
+  it('preserves the user choice when the viewport changes', () => {
+    setSmallViewport(false);
+
+    const { rerender } = render(
+      <SkillExperienceCard experience={ciCdExperience} />,
+    );
+    const disclosure = screen.getByRole('button', {
+      name: '2 outcomes · 0 skills',
+    });
+
+    fireEvent.click(disclosure);
+    expect(disclosure.getAttribute('aria-expanded')).toBe('false');
+
+    setSmallViewport(true);
+    rerender(<SkillExperienceCard experience={ciCdExperience} />);
+
+    expect(disclosure.getAttribute('aria-expanded')).toBe('false');
+  });
+
+  it('uses singular metadata labels when a count is one', () => {
+    setSmallViewport(true);
+
+    render(
+      <SkillExperienceCard
+        experience={ciCdExperience}
+        relevantSkillLabels={['AWS CodePipeline']}
+      />,
+    );
+
+    expect(
+      screen.getByRole('button', { name: '2 outcomes · 1 skill' }),
+    ).toBeTruthy();
+  });
+
   it('renders experience text through Astryx typography components', () => {
     render(
       <SkillExperienceCard
