@@ -16,12 +16,18 @@ sources:
     resource: repo://apps/github.io/src/app/devops-roadmap/devops-roadmap.data.ts
   - id: openwiki-source-bcd58fc33f104c190f9326be
     resource: repo://apps/github.io/src/app/skills/skill-detail-resolver.ts
+  - id: openwiki-source-61956fea1deed015d3bafd72
+    resource: repo://apps/github.io/src/app/skills/skill-experience-card-list.tsx
+  - id: openwiki-source-ba5c27392181e6c65798f3c4
+    resource: repo://apps/github.io/src/app/skills/skill-experience-list.tsx
+  - id: openwiki-source-2944a7e4b1284a70a09ee95a
+    resource: repo://apps/github.io/src/app/skills/skill-key-outcomes.tsx
   - id: openwiki-source-b4039a7397de0bc8565df5e3
     resource: repo://apps/github.io/src/app/skills/skill-list.data.ts
-generated: { by: "codex", at: "2026-09-09T10:30:13.793Z" }
+generated: { by: "codex", at: "2026-09-13T07:13:43.338Z" }
 verified:
   - by: openwiki/0.5.0
-    at: 2026-09-09T10:30:13.793Z
+    at: 2026-09-13T07:13:43.338Z
 ---
 
 # Skills and capability evidence
@@ -53,6 +59,14 @@ narratives must exist, be public and non-sensitive, and declare that skill;
 projects must resolve. Explicit experience evidence must be public, non-sensitive,
 and of type `experience`. Broken references throw, distinguishing invalid authored
 data from a visitor's unknown URL.
+
+The rendered detail projection keeps orientation and proof separate. Each
+experience card leads with its source summary, then presents ordered authored
+narratives or distinct capability facts as primary-text entries in an unnamed
+outcome list. Capability facts equal to the summary are filtered so the same
+claim is not repeated. Relevant-skill tokens remain supporting metadata below
+the outcomes, and this shared presentation does not collapse the two source
+models or move projection rules into the resolver.
 
 The DevOps roadmap inventory is another separate, display-oriented projection.
 Its 22 canonical topics and concise descriptions define the source order, while

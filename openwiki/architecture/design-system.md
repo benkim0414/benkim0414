@@ -5,7 +5,7 @@ description: How Astryx, StyleX, theme persistence, and browser layout checks fi
 tags: [astryx, stylex, theme, layout]
 verified:
   - by: openwiki/0.5.0
-    at: 2026-09-12T06:05:48.941Z
+    at: 2026-09-13T07:13:43.338Z
 sources:
   - id: openwiki-source-45b1d77b308bd57403f55ff9
     resource: repo://apps/github.io/.storybook/story-taxonomy.spec.ts
@@ -31,6 +31,12 @@ sources:
     resource: repo://apps/github.io/src/app/home/home-page.spec.tsx
   - id: openwiki-source-0e3b0dfb231db070ffd8340f
     resource: repo://apps/github.io/src/app/home/home-page.tsx
+  - id: openwiki-source-61956fea1deed015d3bafd72
+    resource: repo://apps/github.io/src/app/skills/skill-experience-card-list.tsx
+  - id: openwiki-source-ba5c27392181e6c65798f3c4
+    resource: repo://apps/github.io/src/app/skills/skill-experience-list.tsx
+  - id: openwiki-source-2944a7e4b1284a70a09ee95a
+    resource: repo://apps/github.io/src/app/skills/skill-key-outcomes.tsx
   - id: openwiki-source-a08412c702b94999bfa82651
     resource: repo://apps/github.io/src/app/skills/skill-table.stories.tsx
   - id: openwiki-source-c2ac9449940c36fc7db6b3e4
@@ -45,7 +51,7 @@ sources:
     resource: repo://apps/github.io/src/styles.css
   - id: openwiki-source-fcfa3ced1d03143bb27d5018
     resource: repo://apps/github.io/vite.config.ts
-generated: { by: "codex", at: "2026-09-12T06:05:48.941Z" }
+generated: { by: "codex", at: "2026-09-13T07:13:43.338Z" }
 ---
 
 # Design system and layout
@@ -106,6 +112,14 @@ from the supplied skill collection. The result count, clear action, and distinct
 empty states belong to this standalone component. These source contracts do not
 establish browser-rendered fit or responsive behavior, which still require a
 visual check.
+
+Text-heavy skill experience cards keep their summary as primary body copy and
+delegate repeated details to `SkillKeyOutcomes`. The shared component renders an
+unnamed, compact, disc-marked Astryx `List`; each `ListItem` receives primary
+body `Text` as rich content so long outcomes wrap, and an empty collection
+renders nothing. The card heading and summary already identify the following
+points, so the repeated `Key outcomes` header and accessible name are omitted
+without removing the list and list-item semantics.
 
 Vite compiles StyleX before its React and Nx path plugins. Test mode uses
 `css-only` and removes the StyleX development-server hooks; production and local

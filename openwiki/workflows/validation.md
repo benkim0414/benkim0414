@@ -18,6 +18,14 @@ sources:
     resource: repo://apps/github.io/src/app/count-badge.spec.tsx
   - id: openwiki-source-7710c13ca861e757d9eac20c
     resource: repo://apps/github.io/src/app/count-badge.stories.spec.ts
+  - id: openwiki-source-3d8376b39a8411106c980cf0
+    resource: repo://apps/github.io/src/app/skills/skill-experience-card-list.spec.tsx
+  - id: openwiki-source-1da2c5712de0a298fd2a580a
+    resource: repo://apps/github.io/src/app/skills/skill-experience-list.spec.tsx
+  - id: openwiki-source-7f023dd179d1a53b0aaf4497
+    resource: repo://apps/github.io/src/app/skills/skill-experience-list.stories.spec.ts
+  - id: openwiki-source-f836c5cc4931cfb5c1d0b9ee
+    resource: repo://apps/github.io/src/app/skills/skill-experience-list.stories.tsx
   - id: openwiki-source-3d04b17fb8b6c27eb59cd798
     resource: repo://apps/github.io/src/app/skills/skill-table.spec.tsx
   - id: openwiki-source-a08412c702b94999bfa82651
@@ -50,10 +58,10 @@ sources:
     resource: repo://scripts/setup-openwiki.test.mjs
   - id: openwiki-source-165465422a61a00b62b0f6d3
     resource: repo://scripts/sync-github-pages-artifact.test.mjs
-generated: { by: "codex", at: "2026-09-12T06:05:48.941Z" }
+generated: { by: "codex", at: "2026-09-13T07:13:43.338Z" }
 verified:
   - by: openwiki/0.5.0
-    at: 2026-09-12T06:05:48.941Z
+    at: 2026-09-13T07:13:43.338Z
 ---
 
 # Validation workflow
@@ -167,6 +175,14 @@ both empty states. The confidence test uses shuffled input and checks the
 `aria-sort` transitions so source order cannot masquerade as a successful sort.
 These DOM assertions do not prove that estimated column widths fit rendered
 content; that remains a Storybook visual check.
+
+Skill experience readability is protected at both renderer boundaries. Focused
+tests verify complete authored and capability outcome text, semantic unnamed
+lists and list items, compact disc presentation, primary typography,
+capability-fact deduplication, and empty-list omission. The authored stories
+exercise long wrapping narratives, while the capability story supplies multiple
+facts so Storybook exposes the same shared outcome treatment for manual visual
+review.
 
 For CSS/layout changes, also run:
 

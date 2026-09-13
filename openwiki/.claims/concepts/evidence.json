@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:4be5a2ecae227bd1d8024b0a9e0fa6dfde048e1b323962eae60fe481a35b4029",
+  "pageVersion": "sha256:0cd3b744a90b68e2065537624199780b200b64a93a5916d803da5219f352f337",
   "claims": [
     {
       "id": "claim_41253c1ed05946c38b803e4b8b5d55dc",
@@ -101,10 +101,28 @@
           "version": "repo-lines-v1:sha256:39e00089adf7bd7ab364dd48db073790068c5889e3b5d8e065cad6c333811da4:eyJzZWxlY3RlZExpbmVDb3VudCI6OSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZjQyZjgzMTc2YmZiYWFmZjY0Y2I1ZjAzODNiZmRjOTk1MDc3MDEwOTE2MjY3YzUxYzlmMWY5YmIxY2NlMjk2YyIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNDE2MGYxNjM2YjY0YWMwZjc5MTM2Njc5NzI0MGRlNGY1ZDNmODkzZWVlN2NiNjBmZjVjZDI5OWQ5NGM4NDE5ZCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMzhiMTgzYzZjMDJkZjVjNzg3MWI0NmIxNjQzOTk5ZDZlZTYzYWM0ZGJkZThmOWQxMDdkYzI0ZTgwZjMzZjRiYiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNDM1NzAyM2Q1YjNhNDcyNDk4MzUyZTVhMTVmNzk5ODVjNzliMjlmMjAwYzAyNWZiMzM4NjI1ZTQzMWRmNWY5MCJ9"
         }
       ]
+    },
+    {
+      "id": "claim_ab095bf1773b445c8515b8d44168e5da",
+      "statement": "Skill-detail cards orient with the source summary, then render authored narratives or deduplicated capability facts as primary-text entries in an unnamed outcome list; capability facts identical to the summary are removed without altering source-model or resolver boundaries.",
+      "evidence": [
+        {
+          "resource": "repo://apps/github.io/src/app/skills/skill-experience-card-list.tsx#L87-L124",
+          "version": "repo-lines-v1:sha256:c2301eb88a562bcf76179e34aa9e3a3531cc1a84e6440b83aad044b1559ca109:eyJzZWxlY3RlZExpbmVDb3VudCI6MzgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImU3MjE2ZThlOWMwYTFhNjhkMDZjMmZiYWE1ZmQyMTM5NDgyYjhlZmQwYTE5MzE1YjkxNWU2Y2NlODQ5ZDg5ZGMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQzYzc3OGZiMjk4YzU2MDVkZDgyYTExZGZhZmJhZmY0NjczYTQ4ODEyZWNjZWM4N2E1Mjg5MTcxNDExNzVjZTciLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjNjYTA2YWZmOTI2MDdhN2VkMzg5MGJjZWU1ODgxMGEzNDZkYjIyMWVmYTllN2UyODBjZmY5NGVmYTg1ZTI0ZDMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjVkOWQ2MDY3NzUzZTkwN2I1Yzg4NmY4MWE0NDAwNGU2ZjEwYThjY2EyZjUxMTUyY2VhZDVlMjUxOTFjZTY0OTEifQ"
+        },
+        {
+          "resource": "repo://apps/github.io/src/app/skills/skill-experience-list.tsx#L44-L96",
+          "version": "repo-lines-v1:sha256:f3a7ae04ad925309deac0a4a24e70c5df6b18924e253e77362a658f8f9deae67:eyJzZWxlY3RlZExpbmVDb3VudCI6NTMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijc2NzI2ZDBkZjk5NGZhODA5NTJkYzdkODYwZjA4MWIxNzg0YjdmM2ViZWEwZGZiZTBiOWFmMDJlM2E4ZTQ0NmYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQ4NWYxOTVkOWJiNzU4NjEwMGI2NTcwZWI1NzViMThlMTAxZmIzODIzMDliYjQwYWJhNjIzZDk0ZThkYmRkOGQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjEzODNhYzE5OThhZDg4Mjg4NDVjNzBlZGZmOWQyNWZjYzc4OTU3ZjU1MzBhNzk4MzhkNTE4NGExZTE3MGZlNDIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjM5NmViMTNkZTNhMDNhNjAzMmMyNmM5ZDBlYzcyYWEyMzNmNzg2ZGZlZjRmNTc4YWEyMzYxOTM3NGRjZjBkYzcifQ"
+        },
+        {
+          "resource": "repo://apps/github.io/src/app/skills/skill-key-outcomes.tsx#L9-L28",
+          "version": "repo-lines-v1:sha256:451c1ea15887ac45f22ea28b574ac2ad46e668519c755686832fbc93f5d3f305:eyJzZWxlY3RlZExpbmVDb3VudCI6MjAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjdjMTU0ZmMyNzMyNWMzMzkyMTk2ODZkODExMzZkYmQwNzJjNjQ5YmU2NGU5MDI5MTgyNDc1NjY5ZWEwZmFiZDEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjgyYzY3MDMwODM2YjEzZmRhZThjN2QwMDhjMzI0MzczNjYxMjcwMjgyNWRiMDRhY2NhOGIyNzgyMjU4MDBlMDkiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjNkYjE2NDRiYzQ0NzEwYjk2ZWZjNWE2YjVlODAyNWJkMWJjMTljNzkzZDJjNGJkYjlkZGEzZWFlMDg4NzdlNzciLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjoyLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjdiOGI2MDBhNWI0NDhiMWU0ZDAyZGYwOTc0NmVkM2NhMzE3MmY3NWM0YWFiYjAxZGRlMDgwZTM2Y2FiMDc0YjQifQ"
+        }
+      ]
     }
   ],
   "verification": {
     "by": "openwiki/0.5.0",
-    "at": "2026-09-09T10:30:13.793Z"
+    "at": "2026-09-13T07:13:43.338Z"
   }
 }

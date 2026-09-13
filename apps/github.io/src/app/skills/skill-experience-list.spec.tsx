@@ -1,4 +1,4 @@
-import { render, within } from '@testing-library/react';
+import { render, screen, within } from '@testing-library/react';
 
 import { devOpsCapabilityEvidenceItems } from '../devops-capability-evidence/devops-capability-evidence.data';
 import { skills } from './skill-list.data';
@@ -19,8 +19,10 @@ describe('SkillExperienceList', () => {
       <SkillExperienceList evidence={experienceFixtures} />,
     );
 
-    expect(getByRole('list', { name: 'Supporting experience' })).toBeTruthy();
-    const listItems = getAllByRole('listitem');
+    const experienceList = getByRole('list', {
+      name: 'Supporting experience',
+    });
+    const listItems = Array.from(experienceList.children) as HTMLElement[];
 
     expect(listItems).toHaveLength(experienceFixtures.length);
     expect(getAllByRole('heading', { level: 3 })).toHaveLength(
@@ -67,20 +69,46 @@ describe('SkillExperienceList', () => {
     expect(evidence.technologies).toContain('GitHub Actions');
     expect(evidence.technologies).toContain('Argo CD');
 
-    const { getByRole, getByText } = render(
+    const { getByRole, queryByText } = render(
       <SkillExperienceList evidence={[evidence]} skills={skills} />,
     );
 
+    const card = getByRole('heading', {
+      level: 3,
+      name: evidence.title,
+    }).closest('.astryx-card');
+
+    expect(card).not.toBeNull();
+    const outcomeLists = within(card as HTMLElement)
+      .getAllByRole('list')
+      .filter(
+        (list) =>
+          list.getAttribute('data-density') === 'compact' &&
+          list.getAttribute('data-list-style') === 'disc',
+      );
+
+    expect(outcomeLists).toHaveLength(1);
+    const outcomes = outcomeLists[0];
+
+    if (!outcomes) {
+      throw new Error('Expected a compact disc outcome list.');
+    }
+
+    expect(queryByText('Key outcomes')).toBeNull();
+    expect(outcomes.getAttribute('aria-label')).toBeNull();
+    expect(outcomes.getAttribute('aria-labelledby')).toBeNull();
+    expect(outcomes.getAttribute('data-density')).toBe('compact');
+    expect(outcomes.getAttribute('data-list-style')).toBe('disc');
     expect(
-      getByText(evidence.details?.facts[0] ?? '', { selector: 'p' }),
+      within(outcomes).getByText(evidence.details?.facts[0] ?? ''),
     ).toBeTruthy();
 
     const relevantSkills = getByRole('list', { name: 'Relevant skills' });
     const tokens = within(relevantSkills).getAllByTestId('skill-token');
     const links = within(relevantSkills).getAllByRole('link');
 
-    expect(within(relevantSkills).getByText('GitHub Actions')).toBeTruthy();
-    expect(within(relevantSkills).getByText('Argo CD')).toBeTruthy();
+    expect(screen.getByText('GitHub Actions')).toBeTruthy();
+    expect(screen.getByText('Argo CD')).toBeTruthy();
     expect(tokens).toHaveLength(6);
     expect(tokens.every((token) => token.getAttribute('style') === null)).toBe(
       true,
@@ -128,6 +156,30 @@ describe('SkillExperienceList', () => {
     );
 
     expect(getAllByText(evidence.summary, { selector: 'p' })).toHaveLength(1);
-    expect(getAllByText(duplicateFact, { selector: 'p' })).toHaveLength(1);
+    expect(getAllByText(duplicateFact)).toHaveLength(1);
+  });
+
+  it('omits key outcomes when evidence has no distinct facts', () => {
+    const [evidence] = experienceFixtures;
+
+    expect(evidence).toBeDefined();
+
+    render(
+      <SkillExperienceList
+        evidence={[
+          {
+            ...evidence,
+            details: { facts: [evidence.summary] },
+          },
+        ]}
+      />,
+    );
+
+    const card = screen
+      .getByRole('heading', { level: 3, name: evidence.title })
+      .closest('.astryx-card');
+
+    expect(card).not.toBeNull();
+    expect(within(card as HTMLElement).queryByRole('list')).toBeNull();
   });
 });
