@@ -32,7 +32,7 @@ function useSmallViewport(): void {
 }
 
 describe('SkillExperienceList', () => {
-  it('summarizes distinct outcomes and skills in its compact state', () => {
+  it('labels distinct outcomes as highlights in its compact state', () => {
     useSmallViewport();
     const [evidence] = devOpsCapabilityEvidenceItems.filter(
       (item) => item.id === 'github-actions-gitops-handoff',
@@ -42,11 +42,10 @@ describe('SkillExperienceList', () => {
 
     render(<SkillExperienceList evidence={[evidence]} skills={skills} />);
 
-    const detailSummary = '1 outcome · 6 skills';
-    const disclosure = screen.getByRole('button', { name: detailSummary });
+    const disclosure = screen.getByRole('button', { name: 'Highlights 1' });
 
     expect(disclosure.getAttribute('aria-expanded')).toBe('false');
-    expect(screen.getByText(detailSummary)).toBeTruthy();
+    expect(screen.queryByText('1 outcome · 6 skills')).toBeNull();
 
     fireEvent.click(disclosure);
 
@@ -146,11 +145,14 @@ describe('SkillExperienceList', () => {
     ).toBeTruthy();
 
     const relevantSkills = getByRole('list', { name: 'Relevant skills' });
+    const relevantSkillsHeader = screen.getByText('Relevant skills')
+      .parentElement as HTMLElement;
     const tokens = within(relevantSkills).getAllByTestId('skill-token');
     const links = within(relevantSkills).getAllByRole('link');
 
     expect(screen.getByText('GitHub Actions')).toBeTruthy();
     expect(screen.getByText('Argo CD')).toBeTruthy();
+    expect(within(relevantSkillsHeader).getByText('6')).toBeTruthy();
     expect(tokens).toHaveLength(6);
     expect(tokens.every((token) => token.getAttribute('style') === null)).toBe(
       true,

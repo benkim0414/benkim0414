@@ -4,6 +4,7 @@ import { spacingVars } from '@astryxdesign/core/theme/tokens.stylex';
 import * as stylex from '@stylexjs/stylex';
 import type { ReactElement } from 'react';
 
+import { CountBadge } from '../count-badge';
 import type { CapabilityEvidenceItem } from '../devops-capability-evidence/devops-capability-evidence.types';
 import { SkillExperienceCardShell } from './skill-experience-card-shell';
 import { getSkillDetailPath } from './skill-route';
@@ -65,9 +66,12 @@ export function SkillExperienceList({
 
                 {relevantSkills.length > 0 ? (
                   <VStack gap={1}>
-                    <Text type="supporting" color="secondary">
-                      Relevant skills
-                    </Text>
+                    <HStack gap={2} vAlign="center">
+                      <Text type="supporting" color="secondary">
+                        Relevant skills
+                      </Text>
+                      <CountBadge count={relevantSkills.length} />
+                    </HStack>
                     <HStack
                       aria-label="Relevant skills"
                       as="ul"

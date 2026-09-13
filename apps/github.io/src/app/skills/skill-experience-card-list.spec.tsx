@@ -81,11 +81,11 @@ describe('SkillExperienceCard', () => {
     );
 
     const disclosure = screen.getByRole('button', {
-      name: '2 outcomes · 2 skills',
+      name: 'Highlights 2',
     });
 
     expect(disclosure.getAttribute('aria-expanded')).toBe('false');
-    expect(screen.getByText('2 outcomes · 2 skills')).toBeTruthy();
+    expect(screen.queryByText('2 outcomes · 2 skills')).toBeNull();
 
     fireEvent.click(disclosure);
 
@@ -103,7 +103,7 @@ describe('SkillExperienceCard', () => {
     expect(
       screen
         .getByRole('button', {
-          name: '2 outcomes · 0 skills',
+          name: 'Highlights 2',
         })
         .getAttribute('aria-expanded'),
     ).toBe('true');
@@ -117,7 +117,7 @@ describe('SkillExperienceCard', () => {
       <SkillExperienceCard experience={ciCdExperience} />,
     );
     const disclosure = screen.getByRole('button', {
-      name: '2 outcomes · 0 skills',
+      name: 'Highlights 2',
     });
 
     fireEvent.click(disclosure);
@@ -129,7 +129,7 @@ describe('SkillExperienceCard', () => {
     expect(disclosure.getAttribute('aria-expanded')).toBe('false');
   });
 
-  it('uses singular metadata labels when a count is one', () => {
+  it('uses the outcome count in the highlights disclosure label', () => {
     setSmallViewport(true);
 
     render(
@@ -139,9 +139,7 @@ describe('SkillExperienceCard', () => {
       />,
     );
 
-    expect(
-      screen.getByRole('button', { name: '2 outcomes · 1 skill' }),
-    ).toBeTruthy();
+    expect(screen.getByRole('button', { name: 'Highlights 2' })).toBeTruthy();
   });
 
   it('renders experience text through Astryx typography components', () => {
@@ -203,8 +201,11 @@ describe('SkillExperienceCard', () => {
     const relevantSkills = screen.getByRole('list', {
       name: 'Relevant skills',
     });
+    const relevantSkillsHeader = screen.getByText('Relevant skills')
+      .parentElement as HTMLElement;
 
     expect(screen.getByText('Relevant skills')).toBeTruthy();
+    expect(within(relevantSkillsHeader).getByText('2')).toBeTruthy();
     expect(within(relevantSkills).getByText('AWS CodePipeline')).toBeTruthy();
     expect(within(relevantSkills).getByText('AWS CodeBuild')).toBeTruthy();
     expect(

@@ -1,9 +1,11 @@
 import { Card } from '@astryxdesign/core/Card';
 import { Collapsible } from '@astryxdesign/core/Collapsible';
 import { Heading } from '@astryxdesign/core/Heading';
-import { VStack } from '@astryxdesign/core/Layout';
+import { HStack, VStack } from '@astryxdesign/core/Layout';
 import { Text } from '@astryxdesign/core/Text';
 import type { ReactElement, ReactNode } from 'react';
+
+import { CountBadge } from '../count-badge';
 
 const SMALL_VIEWPORT_QUERY = '(max-width: 640px)';
 
@@ -22,7 +24,6 @@ export function SkillExperienceCardShell({
   summary,
   title,
 }: SkillExperienceCardShellProps): ReactElement {
-  const detailSummary = `${formatCount(outcomeCount, 'outcome')} · ${formatCount(skillCount, 'skill')}`;
   const hasDetails = outcomeCount > 0 || skillCount > 0;
 
   return (
@@ -39,9 +40,12 @@ export function SkillExperienceCardShell({
           <Collapsible
             defaultIsOpen={shouldStartExpanded()}
             trigger={
-              <Text type="supporting" color="secondary">
-                {detailSummary}
-              </Text>
+              <HStack gap={2} vAlign="center">
+                <Text type="supporting" color="secondary">
+                  Highlights
+                </Text>
+                <CountBadge count={outcomeCount} />
+              </HStack>
             }
           >
             <VStack gap={3}>{children}</VStack>
@@ -50,10 +54,6 @@ export function SkillExperienceCardShell({
       </VStack>
     </Card>
   );
-}
-
-function formatCount(count: number, singularLabel: string): string {
-  return `${count} ${singularLabel}${count === 1 ? '' : 's'}`;
 }
 
 function shouldStartExpanded(): boolean {
