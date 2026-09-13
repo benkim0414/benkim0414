@@ -66,27 +66,22 @@ export function SkillsPage({
   useEffect(() => {
     if (
       activeSkillId != null &&
-      (!filteredSkills.some((skill) => skill.id === activeSkillId) ||
+      (!isTable ||
+        !filteredSkills.some((skill) => skill.id === activeSkillId) ||
         activeResolution?.status === 'not-found')
     ) {
       activeRowRef.current = null;
       setActiveSkillId(null);
     }
-  }, [activeResolution?.status, activeSkillId, filteredSkills]);
+  }, [activeResolution?.status, activeSkillId, filteredSkills, isTable]);
 
   const handleSkillActivate = ({ skillId, row }: SkillRowActivation) => {
     activeRowRef.current = row;
     setActiveSkillId(skillId);
   };
-  const closeActiveSkill = (restoreFocus: boolean) => {
-    const row = activeRowRef.current;
-
+  const closeActiveSkill = () => {
     setActiveSkillId(null);
-    activeRowRef.current = null;
-
-    if (restoreFocus && row?.isConnected) {
-      requestAnimationFrame(() => row.focus());
-    }
+    // Keep the row available until Astryx completes the sheet's exit motion.
   };
 
   return (
@@ -106,6 +101,7 @@ export function SkillsPage({
           <SkillTableDetailLayout
             activeDetail={activeDetail}
             activeSkillId={activeSkillId}
+            finalFocusRef={activeRowRef}
             query={query}
             selectedCategories={selectedCategories}
             skills={skills}

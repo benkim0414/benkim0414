@@ -57,6 +57,15 @@ const renderSkillsPage = (suppliedSkills?: readonly Skill[]) =>
   );
 
 describe('SkillsPage', () => {
+  beforeAll(() => {
+    HTMLDialogElement.prototype.showModal = function showModal() {
+      this.setAttribute('open', '');
+    };
+    HTMLDialogElement.prototype.close = function close() {
+      this.removeAttribute('open');
+    };
+  });
+
   const tableSkills = ['kubernetes', 'terraform', 'docker'].map((id) => {
     const skill = skills.find((candidate) => candidate.id === id);
 
@@ -293,6 +302,58 @@ describe('SkillsPage', () => {
     expect(focusFrame).not.toHaveBeenCalled();
   });
 
+  it.each(['close control', 'Escape'])(
+    'restores the selected row after the compact sheet exits via %s following a desktop resize',
+    async (dismissal) => {
+      setMediaMatches({
+        [TABLE_QUERY]: true,
+        [COMPACT_SURFACE_QUERY]: false,
+      });
+      const { getByRole } = renderSkillsPage(tableSkills);
+      const row = getByRole('row', { name: /Kubernetes/ });
+
+      fireEvent.click(row);
+      getByRole('textbox', { name: 'Skill name' }).focus();
+      setMediaMatches({ [COMPACT_SURFACE_QUERY]: true });
+
+      const dialog = getByRole('dialog', {
+        name: 'Kubernetes details',
+      }) as HTMLDialogElement;
+      const sheet = dialog.querySelector<HTMLElement>('.astryx-bottom-sheet');
+      if (!sheet) {
+        throw new Error('Expected the Astryx bottom sheet panel.');
+      }
+      // JSDOM does not resolve Astryx's CSS duration tokens. Supply the browser
+      // timing at the DOM boundary so the real sheet waits for transitionend.
+      sheet.style.transitionProperty = 'transform';
+      sheet.style.transitionDuration = '0.4s';
+      sheet.style.transitionDelay = '0s';
+
+      if (dismissal === 'Escape') {
+        fireEvent.keyDown(dialog, { key: 'Escape' });
+      } else {
+        fireEvent.click(
+          getByRole('button', { name: 'Close Kubernetes details' }),
+        );
+      }
+
+      await new Promise<void>((resolve) =>
+        requestAnimationFrame(() => resolve()),
+      );
+      expect(dialog.open).toBe(true);
+
+      const transitionEnd = new Event('transitionend', { bubbles: true });
+      Object.defineProperty(transitionEnd, 'propertyName', {
+        value: 'transform',
+      });
+      fireEvent(sheet, transitionEnd);
+
+      expect(dialog.open).toBe(false);
+      expect(document.activeElement).toBe(row);
+      expect(window.location.pathname).toBe('/skills');
+    },
+  );
+
   it('keeps controlled filters visible across responsive collection changes', () => {
     setMediaMatches({
       [TABLE_QUERY]: true,
@@ -319,5 +380,35 @@ describe('SkillsPage', () => {
     expect(
       within(getByRole('table')).getByRole('row', { name: /Kubernetes/ }),
     ).toBeTruthy();
+  });
+
+  it('clears temporary detail selection through a table-mobile-table resize and focuses the remounted row on dismissal', () => {
+    setMediaMatches({
+      [TABLE_QUERY]: true,
+      [COMPACT_SURFACE_QUERY]: false,
+    });
+    const { getByRole, queryByRole } = renderSkillsPage(tableSkills);
+    const originalRow = getByRole('row', { name: /Kubernetes/ });
+    fireEvent.click(originalRow);
+
+    setMediaMatches({ [TABLE_QUERY]: false });
+    expect(originalRow.isConnected).toBe(false);
+    expect(getByRole('link', { name: /Kubernetes/ }).getAttribute('href')).toBe(
+      '/skills/kubernetes',
+    );
+
+    setMediaMatches({ [TABLE_QUERY]: true });
+    const remountedRow = getByRole('row', { name: /Kubernetes/ });
+    expect(queryByRole('region', { name: 'Kubernetes details' })).toBeNull();
+    expect(remountedRow.getAttribute('aria-current')).toBeNull();
+
+    fireEvent.click(remountedRow);
+    act(() =>
+      getByRole('button', { name: 'Close Kubernetes details' }).focus(),
+    );
+    fireEvent.keyDown(document, { key: 'Escape' });
+
+    expect(document.activeElement).toBe(remountedRow);
+    expect(window.location.pathname).toBe('/skills');
   });
 });

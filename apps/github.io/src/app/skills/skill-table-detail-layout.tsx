@@ -11,7 +11,7 @@ import {
 import { ResizeHandle, useResizable } from '@astryxdesign/core/Resizable';
 import { Text } from '@astryxdesign/core/Text';
 import { useMediaQuery } from '@astryxdesign/core/hooks';
-import { useEffect, type ReactElement } from 'react';
+import { useEffect, type ReactElement, type RefObject } from 'react';
 
 import { SkillDetailContent } from './skill-detail-content';
 import type { ResolvedSkillDetail } from './skill-detail.types';
@@ -36,6 +36,7 @@ export interface SkillTableDetailLayoutProps extends Pick<
   | 'onSelectedCategoriesChange'
 > {
   readonly activeDetail: ResolvedSkillDetail | null;
+  readonly finalFocusRef?: RefObject<HTMLElement | null>;
   readonly onSkillActivate: (activation: SkillRowActivation) => void;
   readonly onClose: (restoreFocus: boolean) => void;
 }
@@ -46,6 +47,7 @@ export function SkillTableDetailLayout({
   selectedCategories,
   activeSkillId,
   activeDetail,
+  finalFocusRef,
   onQueryChange,
   onSelectedCategoriesChange,
   onSkillActivate,
@@ -66,12 +68,13 @@ export function SkillTableDetailLayout({
     const handleKeyDown = (event: KeyboardEvent) => {
       if (event.key === 'Escape') {
         onClose(true);
+        finalFocusRef?.current?.focus();
       }
     };
 
     document.addEventListener('keydown', handleKeyDown);
     return () => document.removeEventListener('keydown', handleKeyDown);
-  }, [activeDetail, isCompactSurface, onClose]);
+  }, [activeDetail, finalFocusRef, isCompactSurface, onClose]);
 
   const detailBody =
     activeDetail == null ? null : (
@@ -82,7 +85,12 @@ export function SkillTableDetailLayout({
             label={`Close ${activeDetail.skill.name} details`}
             tooltip={`Close ${activeDetail.skill.name} details`}
             variant="ghost"
-            onClick={() => onClose(true)}
+            onClick={() => {
+              onClose(true);
+              if (!isCompactSurface) {
+                finalFocusRef?.current?.focus();
+              }
+            }}
           />
           <Heading level={2}>{activeDetail.skill.name}</Heading>
           <Text as="p" color="secondary" type="body">
@@ -134,6 +142,7 @@ export function SkillTableDetailLayout({
         </LayoutContent>
       </Layout>
       <BottomSheet
+        finalFocusRef={finalFocusRef}
         height="tall"
         isOpen={isCompactSurface && activeDetail != null}
         label={
