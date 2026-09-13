@@ -71,6 +71,7 @@ export function SkillDetailPage({
   detail,
 }: SkillDetailPageProps): ReactElement {
   const headingRef = useRef<HTMLHeadingElement>(null);
+  const scrollContainerRef = useRef<HTMLElement | null>(null);
   const certifications = detail.skill.certifications ?? [];
   const hasExperience =
     detail.experiences.length > 0 || detail.experienceEvidence.length > 0;
@@ -206,6 +207,11 @@ export function SkillDetailPage({
       gap={6}
       paddingBlock={6}
       paddingInline={4}
+      ref={(element) => {
+        scrollContainerRef.current = element?.closest(
+          '.astryx-layout-content',
+        ) as HTMLElement | null;
+      }}
     >
       {outlineItems.length === 1 ? (
         content
@@ -213,7 +219,11 @@ export function SkillDetailPage({
         <Grid columnGap={6} xstyle={styles.pageLayout}>
           {content}
           <VStack xstyle={styles.outlineRail}>
-            <Outline items={outlineItems} label="On this page" />
+            <Outline
+              items={outlineItems}
+              label="On this page"
+              scrollContainerRef={scrollContainerRef}
+            />
           </VStack>
         </Grid>
       )}

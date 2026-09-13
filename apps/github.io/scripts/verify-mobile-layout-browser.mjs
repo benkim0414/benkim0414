@@ -12,6 +12,7 @@ const SUBPIXEL_TOLERANCE = 0.75;
 const appDirectory = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const viewports = [
   { width: 375, height: 667 },
+  { width: 768, height: 1024 },
   { width: 820, height: 1180 },
   { width: 1280, height: 800 },
 ];
@@ -1140,6 +1141,87 @@ async function inspectHomeScrollMotion(bidi, context, route, signal) {
   return { after, before, targetScrollTop };
 }
 
+async function verifySkillDetailOutline(bidi, context, route, viewport, signal) {
+  const label = `${viewport.width}x${viewport.height} ${route.path}`;
+  const readOutline = () =>
+    evaluateJson(
+      bidi,
+      context,
+      `
+        const owner = document.querySelector(${JSON.stringify(route.scrollOwnerSelector)});
+        const outline = document.querySelector('nav[aria-label="On this page"]');
+        const rail = outline?.parentElement ?? null;
+        const rect = outline?.getBoundingClientRect() ?? null;
+        return {
+          activeHash: outline?.querySelector('[aria-current="location"]')?.hash ?? null,
+          hash: location.hash,
+          hashes: outline ? [...outline.querySelectorAll('a')].map((link) => link.hash) : [],
+          ownerTop: owner?.getBoundingClientRect().top ?? null,
+          railPosition: rail ? getComputedStyle(rail).position : null,
+          scrollHeight: owner?.scrollHeight ?? null,
+          scrollTop: owner?.scrollTop ?? null,
+          top: rect?.top ?? null,
+          visible: Boolean(outline && outline.offsetParent && rect && rect.width > 0 && rect.height > 0),
+        };
+      `,
+    );
+
+  const initial = await readOutline();
+  assert(
+    JSON.stringify(initial.hashes) ===
+      JSON.stringify(['#skill-overview-heading', '#skill-experience-narrative-heading', '#skill-projects-heading']),
+    `${label} Outline links do not match rendered skill sections: ${JSON.stringify(initial)}.`,
+  );
+
+  if (viewport.width < 768) {
+    assert(!initial.visible, `${label} Outline must be hidden on phone: ${JSON.stringify(initial)}.`);
+    return;
+  }
+
+  assert(initial.visible, `${label} Outline is not visible at tablet/desktop width: ${JSON.stringify(initial)}.`);
+  assert(initial.railPosition === 'sticky', `${label} Outline rail is not sticky: ${JSON.stringify(initial)}.`);
+
+  await evaluateJson(
+    bidi,
+    context,
+    `
+      const owner = document.querySelector(${JSON.stringify(route.scrollOwnerSelector)});
+      owner.scrollTop = Math.min(320, owner.scrollHeight - owner.clientHeight);
+      return owner.scrollTop;
+    `,
+  );
+  await wait(100, signal);
+  const scrolled = await readOutline();
+  assert(scrolled.scrollTop > 0, `${label} skill detail cannot exercise sticky scrolling: ${JSON.stringify(scrolled)}.`);
+  assert(
+    Math.abs(scrolled.top - scrolled.ownerTop) <= SUBPIXEL_TOLERANCE,
+    `${label} Outline does not remain pinned to the shell scroll owner: ${JSON.stringify(scrolled)}.`,
+  );
+
+  await evaluateJson(
+    bidi,
+    context,
+    `[...document.querySelectorAll('nav[aria-label="On this page"] a')].find((link) => link.hash === '#skill-experience-narrative-heading')?.click(); return true;`,
+  );
+  let activated = await readOutline();
+  for (let attempt = 0; attempt < 20; attempt += 1) {
+    if (activated.activeHash === '#skill-experience-narrative-heading') {
+      break;
+    }
+    await wait(100, signal);
+    activated = await readOutline();
+  }
+  assert(
+    activated.hash === '#skill-experience-narrative-heading' &&
+      activated.activeHash === '#skill-experience-narrative-heading',
+    `${label} Outline navigation did not activate Experience: ${JSON.stringify(activated)}.`,
+  );
+
+  console.log(
+    `PASS ${label} outline=${initial.visible ? 'visible' : 'hidden'} sticky=yes navigation=experience`,
+  );
+}
+
 function assertHomeScrollMotion(viewport, motion) {
   const label = `${viewport.width}x${viewport.height} /`;
   const { after, before, targetScrollTop } = motion;
@@ -1609,6 +1691,16 @@ async function verifyRoutes(bidi, context, baseUrl, signal) {
       }
 
       assertRouteMetrics(route, viewport, metrics, navigationPath);
+
+      if (route.path === '/skills/kubernetes') {
+        await verifySkillDetailOutline(
+          bidi,
+          context,
+          route,
+          viewport,
+          signal,
+        );
+      }
 
       if (route.roadmapStepper) {
         await evaluateJson(
