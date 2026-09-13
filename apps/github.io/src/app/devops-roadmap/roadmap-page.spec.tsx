@@ -1,7 +1,7 @@
 import { Theme } from '@astryxdesign/core';
 import { LinkProvider } from '@astryxdesign/core/Link';
 import { neutralTheme } from '@astryxdesign/theme-neutral/built';
-import { render } from '@testing-library/react';
+import { render, within } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
 import { vi } from 'vitest';
 
@@ -47,16 +47,39 @@ describe('RoadmapPage', () => {
   });
 
   it('renders the approved roadmap introduction and external source action', () => {
-    const { getByRole, getByText } = renderRoadmapPage();
-    const learnMore = getByRole('link', { name: 'Learn more' });
+    const { getAllByRole, getByRole } = renderRoadmapPage();
+    const heading = getByRole('heading', {
+      level: 2,
+      name: 'DevOps roadmap',
+    });
+    const paragraphs = getByRole('main').querySelectorAll('p');
+    const [firstParagraph, secondParagraph] = paragraphs;
+    const sourceLink = getByRole('link', { name: /^roadmap\.sh/ });
+    const [banner] = getAllByRole('status');
+    const learnMore = within(banner).getByRole('link', { name: 'Learn more' });
 
+    expect(firstParagraph.textContent).toBe(
+      'This page maps my DevOps capabilities to the topics covered by the roadmap.sh DevOps roadmap. Each topic includes relevant skills, certifications, and evidence from my professional experience.',
+    );
+    expect(secondParagraph.textContent).toBe(
+      'Explore the topics to see which areas I have covered and how my experience aligns with the roadmap.',
+    );
+    expect(heading.compareDocumentPosition(firstParagraph)).toBe(
+      Node.DOCUMENT_POSITION_FOLLOWING,
+    );
+    expect(firstParagraph.compareDocumentPosition(secondParagraph)).toBe(
+      Node.DOCUMENT_POSITION_FOLLOWING,
+    );
+    expect(secondParagraph.compareDocumentPosition(banner)).toBe(
+      Node.DOCUMENT_POSITION_FOLLOWING,
+    );
+    expect(sourceLink.getAttribute('href')).toBe('https://roadmap.sh/');
+    expect(sourceLink.getAttribute('target')).toBe('_blank');
+    expect(sourceLink.getAttribute('rel')).toBe('noopener noreferrer');
+    expect(within(banner).getByText('About roadmap.sh')).toBeTruthy();
     expect(
-      getByRole('heading', { level: 2, name: 'DevOps roadmap' }),
-    ).toBeTruthy();
-    expect(getByText('About this roadmap')).toBeTruthy();
-    expect(
-      getByText(
-        'This roadmap presents my DevOps capabilities using the learning path published by roadmap.sh as a reference framework. Each topic highlights relevant skills and certifications, providing a structured overview of my experience across the DevOps discipline.',
+      within(banner).getByText(
+        'roadmap.sh provides community-curated roadmaps, study plans, and resources for developers, including a dedicated DevOps roadmap.',
       ),
     ).toBeTruthy();
     expect(learnMore.getAttribute('href')).toBe('https://roadmap.sh/devops');

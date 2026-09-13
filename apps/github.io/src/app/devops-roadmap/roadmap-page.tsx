@@ -1,13 +1,15 @@
 import { Banner } from '@astryxdesign/core/Banner';
 import { Button } from '@astryxdesign/core/Button';
 import { Heading } from '@astryxdesign/core/Heading';
+import { Link } from '@astryxdesign/core/Link';
 import { VStack } from '@astryxdesign/core/Layout';
+import { Text } from '@astryxdesign/core/Text';
 import type { ReactElement } from 'react';
 
 import { DevOpsRoadmapStepper } from './devops-roadmap-stepper';
 
 const ROADMAP_DESCRIPTION =
-  'This roadmap presents my DevOps capabilities using the learning path published by roadmap.sh as a reference framework. Each topic highlights relevant skills and certifications, providing a structured overview of my experience across the DevOps discipline.';
+  'roadmap.sh provides community-curated roadmaps, study plans, and resources for developers, including a dedicated DevOps roadmap.';
 
 export function RoadmapPage(): ReactElement {
   return (
@@ -20,6 +22,22 @@ export function RoadmapPage(): ReactElement {
       width="100%"
     >
       <Heading level={2}>DevOps roadmap</Heading>
+      <Text as="p" type="body">
+        This page maps my DevOps capabilities to the topics covered by the{' '}
+        <Link
+          href="https://roadmap.sh/"
+          rel="noopener noreferrer"
+          target="_blank"
+        >
+          roadmap.sh
+        </Link>{' '}
+        DevOps roadmap. Each topic includes relevant skills, certifications,
+        and evidence from my professional experience.
+      </Text>
+      <Text as="p" type="body">
+        Explore the topics to see which areas I have covered and how my
+        experience aligns with the roadmap.
+      </Text>
       <Banner
         description={ROADMAP_DESCRIPTION}
         endContent={
@@ -32,7 +50,7 @@ export function RoadmapPage(): ReactElement {
           />
         }
         status="info"
-        title="About this roadmap"
+        title="About roadmap.sh"
       />
       <DevOpsRoadmapStepper />
     </VStack>

@@ -278,7 +278,7 @@ describe('AppRoutes', () => {
     expect(
       getByRole('heading', { level: 2, name: 'DevOps roadmap' }),
     ).toBeTruthy();
-    expect(getByText('About this roadmap')).toBeTruthy();
+    expect(getByText('About roadmap.sh')).toBeTruthy();
     expect(steps).toHaveLength(22);
 
     for (const [index, title] of expectedTitles.entries()) {
