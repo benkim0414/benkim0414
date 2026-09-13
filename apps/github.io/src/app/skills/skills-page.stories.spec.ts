@@ -15,6 +15,7 @@ describe('SkillsPage stories', () => {
       DesktopTableDetail: expect.any(Object),
       CoarseTabletBottomSheet: expect.any(Object),
     });
+    expect(skillsPageStories.DesktopTableDetail.loaders).toHaveLength(1);
   });
 
   it.each([

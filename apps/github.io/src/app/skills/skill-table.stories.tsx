@@ -7,6 +7,7 @@ import { resolveSkillDetail } from './skill-detail-resolver';
 import { skillDetailSources } from './skill-detail-sources';
 import { skills } from './skill-list.data';
 import type { Skill, SkillCategory } from './skill-list.types';
+import { createSkillStoryMatchMedia } from './skill-story-match-media';
 import { SkillTableDetailLayout } from './skill-table-detail-layout';
 import { SkillTable, type SkillRowActivation } from './skill-table';
 
@@ -53,6 +54,7 @@ export function InteractiveSkillTable({
 
 const meta: Meta<typeof SkillTable> = {
   component: SkillTable,
+  excludeStories: ['InteractiveSkillTable'],
   title: 'Components/Skills/Skill Table',
 };
 
@@ -70,6 +72,24 @@ export const DesktopTableDetail: Story = {
   args: {
     skills,
   },
+  beforeEach:
+    ({ loaded }) =>
+    () => {
+      loaded.restoreMatchMedia();
+    },
+  loaders: [
+    () => {
+      const originalMatchMedia = window.matchMedia;
+
+      window.matchMedia = createSkillStoryMatchMedia(originalMatchMedia, false);
+
+      return {
+        restoreMatchMedia: () => {
+          window.matchMedia = originalMatchMedia;
+        },
+      };
+    },
+  ],
   globals: {
     viewport: { value: 'desktop', isRotated: false },
   },

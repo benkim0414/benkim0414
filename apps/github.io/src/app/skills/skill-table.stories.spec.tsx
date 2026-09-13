@@ -4,7 +4,10 @@ import { fireEvent, render } from '@testing-library/react';
 import { vi } from 'vitest';
 
 import { skills } from './skill-list.data';
-import meta, { InteractiveSkillTable } from './skill-table.stories';
+import meta, {
+  DesktopTableDetail,
+  InteractiveSkillTable,
+} from './skill-table.stories';
 
 vi.stubGlobal('matchMedia', (query: string) => ({
   addEventListener: vi.fn(),
@@ -20,6 +23,8 @@ vi.stubGlobal('matchMedia', (query: string) => ({
 describe('SkillTable stories', () => {
   it('publishes the table in the Skills hierarchy', () => {
     expect(meta.title).toBe('Components/Skills/Skill Table');
+    expect(meta.excludeStories).toContain('InteractiveSkillTable');
+    expect(DesktopTableDetail.loaders).toHaveLength(1);
   });
 
   it('opens resolved skill detail beside the table', () => {

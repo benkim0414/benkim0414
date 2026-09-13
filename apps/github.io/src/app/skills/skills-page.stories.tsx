@@ -3,10 +3,7 @@ import { VStack } from '@astryxdesign/core/Layout';
 import { expect, userEvent } from 'storybook/test';
 
 import { SkillsPage } from './skills-page';
-import {
-  COMPACT_SURFACE_QUERY,
-  TABLE_QUERY,
-} from './skill-table-detail-layout';
+import { createSkillStoryMatchMedia } from './skill-story-match-media';
 
 const meta: Meta<typeof SkillsPage> = {
   component: SkillsPage,
@@ -58,6 +55,24 @@ export const MobileCards: Story = {
 };
 
 export const DesktopTableDetail: Story = {
+  beforeEach:
+    ({ loaded }) =>
+    () => {
+      loaded.restoreMatchMedia();
+    },
+  loaders: [
+    () => {
+      const originalMatchMedia = window.matchMedia;
+
+      window.matchMedia = createSkillStoryMatchMedia(originalMatchMedia, false);
+
+      return {
+        restoreMatchMedia: () => {
+          window.matchMedia = originalMatchMedia;
+        },
+      };
+    },
+  ],
   globals: {
     viewport: { value: 'desktop', isRotated: false },
   },
@@ -69,27 +84,6 @@ export const DesktopTableDetail: Story = {
   },
 };
 
-function createCoarseTabletMatchMedia(
-  originalMatchMedia: typeof window.matchMedia,
-): typeof window.matchMedia {
-  return (query) => {
-    if (query !== TABLE_QUERY && query !== COMPACT_SURFACE_QUERY) {
-      return originalMatchMedia(query);
-    }
-
-    return {
-      addEventListener: () => undefined,
-      addListener: () => undefined,
-      dispatchEvent: () => false,
-      matches: true,
-      media: query,
-      onchange: null,
-      removeEventListener: () => undefined,
-      removeListener: () => undefined,
-    };
-  };
-}
-
 export const CoarseTabletBottomSheet: Story = {
   beforeEach:
     ({ loaded }) =>
@@ -100,7 +94,7 @@ export const CoarseTabletBottomSheet: Story = {
     () => {
       const originalMatchMedia = window.matchMedia;
 
-      window.matchMedia = createCoarseTabletMatchMedia(originalMatchMedia);
+      window.matchMedia = createSkillStoryMatchMedia(originalMatchMedia, true);
 
       return {
         restoreMatchMedia: () => {
