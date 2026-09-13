@@ -28,3 +28,7 @@ The change is limited to the shared `detailBody`: the close button now occupies 
 ## Concerns
 
 No functional concerns. An unrelated untracked `apps/github.io/debug-storybook.log` was left untouched.
+
+## Round 1 fix evidence
+
+The alignment assertion now checks Astryx's rendered `HStack hAlign="end"` class (`x13a6bvl`). Focused Vitest passed with the end alignment, and a mutation to `hAlign="start"` failed the same test (received `x1nhvcw1`).

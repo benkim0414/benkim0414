@@ -130,6 +130,7 @@ describe('SkillTableDetailLayout', () => {
     const heading = getByRole('heading', { name: 'Kubernetes' });
 
     expect(closeButton.parentElement?.contains(heading)).toBe(false);
+    expect(closeButton.parentElement?.className).toContain('x13a6bvl');
     expect(closeButton.compareDocumentPosition(heading)).toBe(
       Node.DOCUMENT_POSITION_FOLLOWING,
     );
