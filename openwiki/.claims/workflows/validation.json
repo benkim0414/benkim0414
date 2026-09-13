@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:26295f76870f7d1a8307df60dcfc43c1edb35199f8a194e0eaf1ae6f979b6e95",
+  "pageVersion": "sha256:b593d292793f072529d4d1eb2534e899c276a7b47ad408e6bfe23168f9fb7ce9",
   "claims": [
     {
       "id": "claim_6cbb6dd0080f4763aaf4dec964f7f76e",
@@ -220,7 +220,7 @@
       "evidence": [
         {
           "resource": "repo://apps/github.io/src/app/skills/skill-experience-card-list.spec.tsx#L53-L123",
-          "version": "repo-lines-v1:sha256:e4f6c1e01377861007cb97f6729059f416d0cf5b1728a40b07841cd87e5f3c9f:eyJzZWxlY3RlZExpbmVDb3VudCI6NzEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImE5ODhlZTlmNzUwMmMwN2ZiODM4NzYxMzQ5ZjVkZGQ0OTkwOTk0NjNjNWRiOWZkZDgwZjlmMDg3N2RiYzQyMzgiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjVkOTFhMDRiMThkMDkzZTJlM2RmZmEyZTI3MTNlZjZkMzYzM2U1MzQ3MTllMGVkMDBmZjIwNzc2NjM5ZTYxMTAiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjE4YTkxNzU5NzJmZTE1ZTJhOTY0MWFiMTMxZjU3MWU2YzdjYWJjYTA2ODM3NjJlYmE1ZjIzNTNlNDgzYzNkNTYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImZlNGQzMjNkNWViNWE1YzcwMDI5YjExYTRiMjVkZWE3NmU3ZGY2MDA1YjdkODgxOTY5NWJlNzQ4ZTNhN2JiMDkifQ"
+          "version": "repo-lines-v1:sha256:0a5596bb5fa1b5ed25e5959ff0b100392452391cfa3119aa344ab097286874ae:eyJzZWxlY3RlZExpbmVDb3VudCI6MTA1LCJmaXJzdFNlbGVjdGVkTGluZUhhc2giOiJhOTg4ZWU5Zjc1MDJjMDdmYjgzODc2MTM0OWY1ZGRkNDk5MDk5NDYzYzVkYjlmZGQ4MGY5ZjA4NzdkYmM0MjM4IiwibGFzdFNlbGVjdGVkTGluZUhhc2giOiI1ZDkxYTA0YjE4ZDA5M2UyZTNkZmZhMmUyNzEzZWY2ZDM2MzNlNTM0NzE5ZTBlZDAwZmYyMDc3NjYzOWU2MTEwIiwicHJlY2VkaW5nQ29udGV4dExpbmVDb3VudCI6MywicHJlY2VkaW5nQ29udGV4dEhhc2giOiIxOGE5MTc1OTcyZmUxNWUyYTk2NDFhYjEzMWY1NzFlNmM3Y2FiY2EwNjgzNzYyZWJhNWYyMzUzZTQ4M2MzZDU2IiwiZm9sbG93aW5nQ29udGV4dExpbmVDb3VudCI6MywiZm9sbG93aW5nQ29udGV4dEhhc2giOiJmZTRkMzIzZDVlYjVhNWM3MDAyOWIxMWE0YjI1ZGVhNzZlN2RmNjAwNWI3ZDg4MTk2OTViZTc0OGUzYTdiYjA5In0"
         },
         {
           "resource": "repo://apps/github.io/src/app/skills/skill-experience-card.stories.tsx#L24-L49",
@@ -275,6 +275,6 @@
   ],
   "verification": {
     "by": "openwiki/0.5.0",
-    "at": "2026-09-13T13:01:12.648Z"
+    "at": "2026-09-13T13:08:28.549Z"
   }
 }
