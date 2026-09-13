@@ -1,6 +1,11 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
+import { expect, userEvent } from 'storybook/test';
 
 import { SkillsPage } from './skills-page';
+import {
+  COMPACT_SURFACE_QUERY,
+  TABLE_QUERY,
+} from './skill-table-detail-layout';
 
 const meta: Meta<typeof SkillsPage> = {
   component: SkillsPage,
@@ -32,5 +37,74 @@ export const FilterControlsOpen: Story = {
     }
 
     filterButton.click();
+  },
+};
+
+export const MobileCards: Story = {
+  parameters: {
+    viewport: { defaultViewport: 'mobile1' },
+  },
+};
+
+export const DesktopTableDetail: Story = {
+  parameters: {
+    viewport: { defaultViewport: 'desktop' },
+  },
+  play: async ({ canvas }) => {
+    await userEvent.click(canvas.getByRole('row', { name: /Kubernetes/ }));
+    await expect(
+      canvas.getByRole('region', { name: 'Kubernetes details' }),
+    ).toBeVisible();
+  },
+};
+
+function createCoarseTabletMatchMedia(
+  originalMatchMedia: typeof window.matchMedia,
+): typeof window.matchMedia {
+  return (query) => {
+    if (query !== TABLE_QUERY && query !== COMPACT_SURFACE_QUERY) {
+      return originalMatchMedia(query);
+    }
+
+    return {
+      addEventListener: () => undefined,
+      addListener: () => undefined,
+      dispatchEvent: () => false,
+      matches: true,
+      media: query,
+      onchange: null,
+      removeEventListener: () => undefined,
+      removeListener: () => undefined,
+    };
+  };
+}
+
+export const CoarseTabletBottomSheet: Story = {
+  beforeEach:
+    ({ loaded }) =>
+    () => {
+      loaded.restoreMatchMedia();
+    },
+  loaders: [
+    () => {
+      const originalMatchMedia = window.matchMedia;
+
+      window.matchMedia = createCoarseTabletMatchMedia(originalMatchMedia);
+
+      return {
+        restoreMatchMedia: () => {
+          window.matchMedia = originalMatchMedia;
+        },
+      };
+    },
+  ],
+  parameters: {
+    viewport: { defaultViewport: 'tablet' },
+  },
+  play: async ({ canvas }) => {
+    await userEvent.click(canvas.getByRole('row', { name: /Kubernetes/ }));
+    await expect(
+      canvas.getByRole('dialog', { name: 'Kubernetes details' }),
+    ).toBeVisible();
   },
 };
