@@ -1,7 +1,6 @@
 import type { ReactElement } from 'react';
 import { Banner } from '@astryxdesign/core/Banner';
 import { Button } from '@astryxdesign/core/Button';
-import { Grid } from '@astryxdesign/core/Grid';
 import { Heading } from '@astryxdesign/core/Heading';
 import { HStack, VStack } from '@astryxdesign/core/Layout';
 
@@ -15,6 +14,7 @@ import {
 import { highlightedSkills as defaultHighlightedSkills } from '../skills/skill-list.data';
 import { SkillCarousel } from '../skills/skill-carousel';
 import { HomeGreeting } from './home-greeting';
+import { DoraCapabilityMasonry } from './dora-capability-masonry';
 import type { Skill } from '../skills/skill-list.types';
 
 export interface HomePageProps {
@@ -68,12 +68,7 @@ export function HomePage({
           status="info"
           title="About DORA capabilities"
         />
-        <Grid
-          align="start"
-          columns={{ minWidth: 360, max: 2 }}
-          data-testid="dora-capability-grid"
-          gap={4}
-        >
+        <DoraCapabilityMasonry>
           {doraCapabilityDefinitions.map((capability) => (
             <DoraCapabilityCard
               capability={capability}
@@ -83,7 +78,7 @@ export function HomePage({
               scores={curatedDevOpsCapabilityRadarScores}
             />
           ))}
-        </Grid>
+        </DoraCapabilityMasonry>
       </VStack>
     </VStack>
   );

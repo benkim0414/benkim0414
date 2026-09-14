@@ -219,14 +219,15 @@ describe('HomePage', () => {
     expect(within(firstCard).getByText('Relevant experience')).toBeTruthy();
   });
 
-  it('lays out DORA cards in an adaptive two-column grid', () => {
+  it('lays out DORA cards in a responsive masonry container', () => {
     const { getAllByTestId, getByTestId } = renderHomePage();
     const cards = getAllByTestId('dora-capability-card');
-    const doraGrid = getByTestId('dora-capability-grid');
+    const doraMasonry = getByTestId('dora-capability-masonry');
 
-    expect(doraGrid.className).toContain('astryx-grid');
-    expect(doraGrid.getAttribute('data-align')).toBe('start');
-    expect(doraGrid.children).toHaveLength(cards.length);
+    expect(doraMasonry.children).toHaveLength(cards.length);
+    expect(cards.map((card) => card.closest('[data-testid="dora-capability-masonry-item"]'))).toEqual(
+      Array.from(doraMasonry.children),
+    );
   });
 
   it('uses compact skill surfaces for the carousel', () => {

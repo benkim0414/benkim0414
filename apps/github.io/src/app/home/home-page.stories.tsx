@@ -15,7 +15,7 @@ type Story = StoryObj<typeof HomePage>;
 
 export const Default: Story = {};
 
-export const DoraCapabilityGrid: Story = {
+export const DoraCapabilityMasonry: Story = {
   globals: {
     viewport: { value: 'desktop', isRotated: false },
   },
