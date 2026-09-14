@@ -1,13 +1,16 @@
 import { Card } from '@astryxdesign/core/Card';
-import { Citation } from '@astryxdesign/core/Citation';
+import { Collapsible } from '@astryxdesign/core/Collapsible';
 import { Heading } from '@astryxdesign/core/Heading';
-import { VStack } from '@astryxdesign/core/Layout';
+import { IconButton } from '@astryxdesign/core/IconButton';
+import { HStack, VStack } from '@astryxdesign/core/Layout';
 import { Text } from '@astryxdesign/core/Text';
 import { spacingVars } from '@astryxdesign/core/theme/tokens.stylex';
 import * as stylex from '@stylexjs/stylex';
-import { useId, type ReactElement } from 'react';
+import { useId, useState, type ReactElement } from 'react';
+import { siGithub } from 'simple-icons';
 
-import { getSkillBrand } from '../skills/skill-brand';
+import { CountBadge } from '../count-badge';
+import { shouldStartCollapsibleExpanded } from '../responsive-collapsible';
 import { SkillToken } from '../skills/skill-token';
 import type { Project } from './project-list.types';
 
@@ -19,6 +22,14 @@ export interface ProjectCardProps {
 const styles = stylex.create({
   root: {
     display: 'block',
+  },
+  header: {
+    alignItems: 'flex-start',
+    justifyContent: 'space-between',
+    width: '100%',
+  },
+  headingCopy: {
+    minWidth: 0,
   },
   skillList: {
     display: 'flex',
@@ -38,12 +49,10 @@ export function ProjectCard({
   project,
 }: ProjectCardProps): ReactElement {
   const titleId = useId();
-  const githubBrand = getSkillBrand('GitHub');
-  const githubSource = {
-    title: 'GitHub',
-    url: project.githubUrl,
-    icon: githubBrand?.iconDataUrl,
-  };
+  const [areSkillsOpen, setAreSkillsOpen] = useState(
+    shouldStartCollapsibleExpanded,
+  );
+  const repositoryLinkLabel = `Open ${project.title} on GitHub`;
 
   return (
     <Card
@@ -53,19 +62,40 @@ export function ProjectCard({
     >
       <article aria-labelledby={titleId} data-testid="project-card">
         <VStack gap={4}>
-          <VStack gap={2} hAlign="start">
-            <Heading id={titleId} level={3}>
-              {project.title}
-            </Heading>
-            <Text type="body" color="secondary" as="p">
-              {project.description}
-            </Text>
-          </VStack>
+          <HStack gap={3} xstyle={styles.header}>
+            <VStack gap={2} hAlign="start" xstyle={styles.headingCopy}>
+              <Heading id={titleId} level={3}>
+                {project.title}
+              </Heading>
+              <Text type="body" color="secondary" as="p">
+                {project.description}
+              </Text>
+            </VStack>
+            <IconButton
+              as="a"
+              href={project.githubUrl}
+              icon={<GitHubIcon />}
+              label={repositoryLinkLabel}
+              rel="noopener noreferrer"
+              size="sm"
+              target="_blank"
+              tooltip={repositoryLinkLabel}
+              variant="ghost"
+            />
+          </HStack>
 
-          <VStack gap={2} hAlign="start">
-            <Text type="supporting" color="secondary" as="p">
-              Skills used
-            </Text>
+          <Collapsible
+            isOpen={areSkillsOpen}
+            onOpenChange={setAreSkillsOpen}
+            trigger={
+              <HStack gap={2} vAlign="center">
+                <Text type="supporting" color="secondary">
+                  Skills used
+                </Text>
+                <CountBadge count={project.skills.length} />
+              </HStack>
+            }
+          >
             <ul aria-label="Skills used" {...stylex.props(styles.skillList)}>
               {project.skills.map((skill) => (
                 <li
@@ -76,16 +106,24 @@ export function ProjectCard({
                 </li>
               ))}
             </ul>
-          </VStack>
-
-          <VStack gap={2} hAlign="start">
-            <Text type="supporting" color="secondary" as="p">
-              Source
-            </Text>
-            <Citation number={1} source={githubSource} variant="label" />
-          </VStack>
+          </Collapsible>
         </VStack>
       </article>
     </Card>
+  );
+}
+
+function GitHubIcon(): ReactElement {
+  return (
+    <svg
+      aria-hidden
+      fill="currentColor"
+      height={16}
+      viewBox="0 0 24 24"
+      width={16}
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path d={siGithub.path} />
+    </svg>
   );
 }

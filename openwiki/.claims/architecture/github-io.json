@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:a576bf0dcc37c7a1c32e468f3b20c3e151f647e2881990ea9c1668e1c022964a",
+  "pageVersion": "sha256:7edd9e3ddc078675ed53ab64916e442e6ed0ac99bce4ef9d3bc9009221f0e4a7",
   "claims": [
     {
       "id": "claim_da9ac46eb2204e9b9a555848aea5550d",
@@ -155,30 +155,44 @@
       "statement": "Both experience projections use a controlled disclosure shell: mixed cards retain Highlights in the expanded trigger and place Relevant skills above tokens, skills-only cards keep Relevant skills and its count beside the chevron in both states without a duplicate panel heading, and empty cards omit disclosure. The shell shares the detail layout's compact-surface query, seeding new cards closed for the bottom-sheet surface and open for the adjacent panel while preserving user choice across later viewport changes.",
       "evidence": [
         {
-          "resource": "repo://apps/github.io/src/app/skills/skill-experience-card-list.tsx",
-          "version": "repo-file-v1:sha256:d2b33bcec788d41c414d73aad2a71969a3a3b89522ed961f6d9fc8f0059d2b70"
+          "resource": "repo://apps/github.io/src/app/responsive-collapsible.ts#L1-L9",
+          "version": "repo-lines-v1:sha256:9cd3765e7eb21b628befe479185f4683baf068b8416063072515d265719fd880:eyJzZWxlY3RlZExpbmVDb3VudCI6OSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiOGUxNmY5NWI3ZDdkMWI3YzI5NzQ0Nzg5YTM5NjAzNjMxMjFiM2NlOGJmYzA2NzhmZGIxMjBiNTkyZjZiMzJmNyIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNDEyY2EzNDVjY2Y3NWJmOWMwODA2YmNlNjk1YmU4ZGU4MDhiNzk5ODQyNTFhN2E1NGQyMDJjZjYxMDFkZDQ1MSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjAsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjAsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSJ9"
         },
         {
-          "resource": "repo://apps/github.io/src/app/skills/skill-experience-card-shell.tsx#L19-L78",
-          "version": "repo-lines-v1:sha256:58b46690ed2c17d0fc959cf99e70defc9a215f52ade5babd4e2b22ed55a4272a:eyJzZWxlY3RlZExpbmVDb3VudCI6NjAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg5MTI3Njg3MzhlOTlkZDhlOTY3OGExNWEyZGMwYjE3NmM3MTdlOGRjMDZhYjBhZTM5MmE3OTU3YjdmMjJjOGIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImQwYWE4ZTU2YzMyNDBhZjgzN2Q0YTNmNGJmMWU2OWM2ZjNhODdiZmI3MzNkMmYzYjQ1NGEzYTFhYWJmYWU2NjIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+          "resource": "repo://apps/github.io/src/app/skills/skill-experience-card-list.tsx#L80-L129",
+          "version": "repo-lines-v1:sha256:8f22ba78d534b05d6c2471ea73e83f968e7ae3c9cf883c57b52ad2948bf0447c:eyJzZWxlY3RlZExpbmVDb3VudCI6NTAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImNiY2NmMWRiNWMxNDZmNTJkMTFiYTFhYmI5MGIwNWRiNTI4MzhhZGM4MTYwODI1NTg4NjAyYWQzYWIxY2MwY2MiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjgzMjNkMDFmZDIyMmI2Y2MyZDQ3NjI5ODQ2OWQzYjAxMGJhMTEyZjEyODU0MWExNGFhZGFmZjI3MGEyNjc1ZDYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImZmOTBiYWQyYWYzMTlmNjhmMzZlNGFmZmMwNDJkY2U2OGQ2YjY4NDc1Yzg1MTI2MDQxYmYwODkyMzFmMTAzZjUifQ"
         },
         {
-          "resource": "repo://apps/github.io/src/app/skills/skill-experience-list.tsx",
-          "version": "repo-file-v1:sha256:86a37a0576ecdb1e4bdfdbe3794ab69b354c45aab34593a18ee3250ad82beb5f"
+          "resource": "repo://apps/github.io/src/app/skills/skill-experience-card-shell.tsx#L19-L70",
+          "version": "repo-lines-v1:sha256:a77f5b0f6004c50a0e04bbb7e67e3cf15bcbb9e1ddca22455ec76770bde047fa:eyJzZWxlY3RlZExpbmVDb3VudCI6NTIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg5MTI3Njg3MzhlOTlkZDhlOTY3OGExNWEyZGMwYjE3NmM3MTdlOGRjMDZhYjBhZTM5MmE3OTU3YjdmMjJjOGIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImQwYWE4ZTU2YzMyNDBhZjgzN2Q0YTNmNGJmMWU2OWM2ZjNhODdiZmI3MzNkMmYzYjQ1NGEzYTFhYWJmYWU2NjIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
         },
         {
-          "resource": "repo://apps/github.io/src/app/skills/skill-table-detail-layout.tsx",
-          "version": "repo-file-v1:sha256:83eb75dcb8b7d96da880522357a589475ecd94c338f3ac19331218d429240817"
+          "resource": "repo://apps/github.io/src/app/skills/skill-table-detail-layout.tsx#L80-L91",
+          "version": "repo-lines-v1:sha256:1d2e4febd24d5591e5176b355809942d6c95a9826d533b18b66219303270fa44:eyJzZWxlY3RlZExpbmVDb3VudCI6MTIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg3YjI0MWM3ZjhkODdlZmIzYjM0MjA0NGQ5M2E2NTkwNjkzM2M0NWE5NmFiMTc0M2NmMjE3NWEwMDZjZmExOGIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjNhM2U0NmY5NDI3NmI2ZjZmNGVkMWYwMmFmNzhiZWY2YTJlZTFjNDM5ZGQ1NTg0Yjk3Mzk0ODMxMzIxNGQyYjciLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjBlODk3ZThjOTlmMDFhODU2N2VmNjgxNjBmMWQ4YjEwMWQzMzc2ODBiZTEzMmE5MDA4N2UzNGVlMzliMGFjZmUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjQ3NjQxNDdlZjk0ZTc4MDg4N2RlOTMzYTk0ZTNkNDg0NGRmNmU1M2U1MWIzNWI5MDBmOGJiMzViNjgxODhjOGEifQ"
         },
         {
           "resource": "repo://apps/github.io/src/app/skills/skill-table-responsive.ts#L1-L3",
           "version": "repo-lines-v1:sha256:4a8eefbbdd92e49d8b68817de81a373d2a9aeb3a99a64bce216ad176efffb0fa:eyJzZWxlY3RlZExpbmVDb3VudCI6MywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMjdkN2VkNmM5ZDkxODUyZWIxZWM4ODQ3NmJlMTM0YzI4N2RhNDQ2MTEwYmVlNTc3YjVhODMxNTkxYjkyZDJjZSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiZDBkNDM2NDE3MTM3YmRlODg5YTM2ZDUxNjgxMGNiZDhlOWQ2MmI5MDlkZTNlZmNhZWMyZjdiMTYwZjZjZmE2NCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjAsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjAsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSJ9"
         }
       ]
+    },
+    {
+      "id": "claim_e7009ff6c7694e66a5a66d6cc9b7d420",
+      "statement": "Project cards use the same compact-surface disclosure seed for their skills and keep repository navigation as a separately labelled GitHub icon link.",
+      "evidence": [
+        {
+          "resource": "repo://apps/github.io/src/app/projects/project-card.tsx#L48-L113",
+          "version": "repo-lines-v1:sha256:1e30137fd48cbc8e17b64f431ab902388a518ad66b35a5c4dd89879ee45bf554:eyJzZWxlY3RlZExpbmVDb3VudCI6NjYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjVhMjBiYjA4MTdlYjBjNmM3NjQ0NDhkNGUwZjhjMjMzODE1OGYxYTFiOTM2ZmY1OWU1OWY0ODViZmNmY2ZhMzkiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijk1ZWYwMWJjMDhkYmMzYjYzZTRlNzVlYTNkMjZhNWI5NDE4OTE4NzdlMjdhZDg5MTMyOWM4NDExZDdkOGRjNGQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjEzODNhYzE5OThhZDg4Mjg4NDVjNzBlZGZmOWQyNWZjYzc4OTU3ZjU1MzBhNzk4MzhkNTE4NGExZTE3MGZlNDIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImMzMWE0Njg1NzkxNTFjMTJlZWVjZmM0NzlhMDQ2YjExN2U2ZDQ4OWUwMzVhMzQ3NGRhYmI4NWIyYjE2MmEwNzEifQ"
+        },
+        {
+          "resource": "repo://apps/github.io/src/app/responsive-collapsible.ts#L1-L9",
+          "version": "repo-lines-v1:sha256:9cd3765e7eb21b628befe479185f4683baf068b8416063072515d265719fd880:eyJzZWxlY3RlZExpbmVDb3VudCI6OSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiOGUxNmY5NWI3ZDdkMWI3YzI5NzQ0Nzg5YTM5NjAzNjMxMjFiM2NlOGJmYzA2NzhmZGIxMjBiNTkyZjZiMzJmNyIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNDEyY2EzNDVjY2Y3NWJmOWMwODA2YmNlNjk1YmU4ZGU4MDhiNzk5ODQyNTFhN2E1NGQyMDJjZjYxMDFkZDQ1MSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjAsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjAsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSJ9"
+        }
+      ]
     }
   ],
   "verification": {
     "by": "openwiki/0.5.0",
-    "at": "2026-09-14T02:23:05.394Z"
+    "at": "2026-09-14T04:03:57.793Z"
   }
 }

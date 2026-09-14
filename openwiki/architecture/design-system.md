@@ -5,7 +5,7 @@ description: How Astryx, StyleX, theme persistence, and browser layout checks fi
 tags: [astryx, stylex, theme, layout]
 verified:
   - by: openwiki/0.5.0
-    at: 2026-09-14T02:23:05.394Z
+    at: 2026-09-14T04:03:57.793Z
 sources:
   - id: openwiki-source-45b1d77b308bd57403f55ff9
     resource: repo://apps/github.io/.storybook/story-taxonomy.spec.ts
@@ -33,6 +33,12 @@ sources:
     resource: repo://apps/github.io/src/app/home/home-page.spec.tsx
   - id: openwiki-source-0e3b0dfb231db070ffd8340f
     resource: repo://apps/github.io/src/app/home/home-page.tsx
+  - id: openwiki-source-e15aaceb559c1219a1e6667c
+    resource: repo://apps/github.io/src/app/projects/project-card.spec.tsx
+  - id: openwiki-source-bd7d75b07e3062c09dcab6e9
+    resource: repo://apps/github.io/src/app/projects/project-card.tsx
+  - id: openwiki-source-2afbe5e95b136e7b3bda73e7
+    resource: repo://apps/github.io/src/app/responsive-collapsible.ts
   - id: openwiki-source-0326a209b3e8f758018bcc41
     resource: repo://apps/github.io/src/app/skills/skill-detail-content.tsx
   - id: openwiki-source-2f8ff13f4c903910f3a587fc
@@ -63,7 +69,7 @@ sources:
     resource: repo://apps/github.io/src/styles.css
   - id: openwiki-source-fcfa3ced1d03143bb27d5018
     resource: repo://apps/github.io/vite.config.ts
-generated: { by: "codex", at: "2026-09-14T02:23:05.394Z" }
+generated: { by: "codex", at: "2026-09-14T04:03:57.793Z" }
 ---
 
 # Design system and layout
@@ -159,6 +165,11 @@ panel heading. Cards with neither projection omit the disclosure entirely. The
 initial viewport seeds the disclosure closed whenever the shared compact-surface
 query selects the bottom-sheet detail treatment, and open otherwise. Later
 viewport changes do not override the visitor's disclosure choice.
+
+Project cards apply the same responsive disclosure default to their `Skills used`
+token list and show its count in a `CountBadge`. A separately labelled ghost
+`IconButton` opens the repository in a new tab, using the top navigation's
+theme-aware `currentColor` GitHub SVG instead of making the whole card a link.
 
 Long skill detail pages use Astryx `Outline` for page-local navigation rather
 than recreating a contents list. A token-spaced Astryx `Grid` reserves a 208px

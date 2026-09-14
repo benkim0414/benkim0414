@@ -16,6 +16,10 @@ sources:
     resource: repo://apps/github.io/src/app/devops-roadmap/roadmap-page.tsx
   - id: openwiki-source-5dbaa213d52c3aac678d1838
     resource: repo://apps/github.io/src/app/global-navigation-layout.tsx
+  - id: openwiki-source-bd7d75b07e3062c09dcab6e9
+    resource: repo://apps/github.io/src/app/projects/project-card.tsx
+  - id: openwiki-source-2afbe5e95b136e7b3bda73e7
+    resource: repo://apps/github.io/src/app/responsive-collapsible.ts
   - id: openwiki-source-27a9eeb6972479f50ad1d034
     resource: repo://apps/github.io/src/app/router-link.tsx
   - id: openwiki-source-0326a209b3e8f758018bcc41
@@ -42,10 +46,10 @@ sources:
     resource: repo://apps/github.io/src/app/skills/skill-table.tsx
   - id: openwiki-source-a845ec3d01c38967df3a4dad
     resource: repo://apps/github.io/src/app/skills/skills-page.tsx
-generated: { by: "codex", at: "2026-09-14T02:23:05.394Z" }
+generated: { by: "codex", at: "2026-09-14T04:03:57.793Z" }
 verified:
   - by: openwiki/0.5.0
-    at: 2026-09-14T02:23:05.394Z
+    at: 2026-09-14T04:03:57.793Z
 ---
 
 # Application architecture
@@ -84,6 +88,10 @@ compact-surface query. A compact match selects the bottom sheet and seeds newly
 mounted Experience cards closed; a non-compact match selects the adjacent panel
 and seeds them open. The seed is not synchronized after mount, so later viewport
 changes preserve each visitor's disclosure choice.
+
+Project cards reuse that same seed for their `Skills used` disclosure. Their
+repository action is a labelled GitHub icon link rather than a card-wide link,
+so the external navigation stays independent from disclosure interaction.
 
 `RoadmapPage` owns the `/roadmap` page framing: its heading, two explanatory
 paragraphs, roadmap.sh attribution, informational source banner, external

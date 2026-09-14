@@ -14,24 +14,28 @@ sources:
     resource: repo://apps/github.io/src/app/devops-roadmap/devops-roadmap-stepper.tsx
   - id: openwiki-source-43f6485bd500f1f79408e2e3
     resource: repo://apps/github.io/src/app/devops-roadmap/devops-roadmap.data.ts
+  - id: openwiki-source-e15aaceb559c1219a1e6667c
+    resource: repo://apps/github.io/src/app/projects/project-card.spec.tsx
+  - id: openwiki-source-bd7d75b07e3062c09dcab6e9
+    resource: repo://apps/github.io/src/app/projects/project-card.tsx
+  - id: openwiki-source-2afbe5e95b136e7b3bda73e7
+    resource: repo://apps/github.io/src/app/responsive-collapsible.ts
   - id: openwiki-source-bcd58fc33f104c190f9326be
     resource: repo://apps/github.io/src/app/skills/skill-detail-resolver.ts
   - id: openwiki-source-61956fea1deed015d3bafd72
     resource: repo://apps/github.io/src/app/skills/skill-experience-card-list.tsx
   - id: openwiki-source-6d3d436c779dec5facaf5f2d
     resource: repo://apps/github.io/src/app/skills/skill-experience-card-shell.tsx
-  - id: openwiki-source-ba5c27392181e6c65798f3c4
-    resource: repo://apps/github.io/src/app/skills/skill-experience-list.tsx
   - id: openwiki-source-b4039a7397de0bc8565df5e3
     resource: repo://apps/github.io/src/app/skills/skill-list.data.ts
   - id: openwiki-source-3cf56b0e79067d306d450611
     resource: repo://apps/github.io/src/app/skills/skill-table-responsive.ts
   - id: openwiki-source-e40383c548b8395ffee31167
     resource: repo://docs/research/2026-09-14-experience-disclosure-label.md
-generated: { by: "codex", at: "2026-09-14T02:23:05.394Z" }
+generated: { by: "codex", at: "2026-09-14T04:03:57.793Z" }
 verified:
   - by: openwiki/0.5.0
-    at: 2026-09-14T02:23:05.394Z
+    at: 2026-09-14T04:03:57.793Z
 ---
 
 # Skills and capability evidence
@@ -85,6 +89,11 @@ same claim is not repeated. Internal names such as `outcomeCount` and
 `SkillKeyOutcomes` remain implementation vocabulary; the shared presentation
 does not collapse the two source models or move projection rules into the
 resolver.
+
+Project cards similarly keep the project summary visible and place only their
+skill-token projection behind a `Skills used` disclosure with a count. The
+repository link remains a separate, labelled GitHub action rather than turning
+the evidence card into navigation.
 
 The DevOps roadmap inventory is another separate, display-oriented projection.
 Its 22 canonical topics and concise descriptions define the source order, while
