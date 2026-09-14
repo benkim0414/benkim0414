@@ -5,7 +5,7 @@ description: How Astryx, StyleX, theme persistence, and browser layout checks fi
 tags: [astryx, stylex, theme, layout]
 verified:
   - by: openwiki/0.5.0
-    at: 2026-09-14T10:25:42.901Z
+    at: 2026-09-14T11:29:40.650Z
 sources:
   - id: openwiki-source-45b1d77b308bd57403f55ff9
     resource: repo://apps/github.io/.storybook/story-taxonomy.spec.ts
@@ -63,10 +63,10 @@ sources:
     resource: repo://apps/github.io/src/app/skills/skill-experience-list.tsx
   - id: openwiki-source-2944a7e4b1284a70a09ee95a
     resource: repo://apps/github.io/src/app/skills/skill-key-outcomes.tsx
+  - id: openwiki-source-b7cc9784bea6b15d468f9f23
+    resource: repo://apps/github.io/src/app/skills/skill-table-detail-layout.tsx
   - id: openwiki-source-3cf56b0e79067d306d450611
     resource: repo://apps/github.io/src/app/skills/skill-table-responsive.ts
-  - id: openwiki-source-a08412c702b94999bfa82651
-    resource: repo://apps/github.io/src/app/skills/skill-table.stories.tsx
   - id: openwiki-source-c2ac9449940c36fc7db6b3e4
     resource: repo://apps/github.io/src/app/skills/skill-table.tsx
   - id: openwiki-source-4fbf5ecc6f0c1fc5eff98141
@@ -79,7 +79,7 @@ sources:
     resource: repo://apps/github.io/src/styles.css
   - id: openwiki-source-fcfa3ced1d03143bb27d5018
     resource: repo://apps/github.io/vite.config.ts
-generated: { by: "codex", at: "2026-09-14T10:20:53.845Z" }
+generated: { by: "codex", at: "2026-09-14T11:29:40.650Z" }
 ---
 
 # Design system and layout
@@ -149,17 +149,19 @@ status rather than by a single progress cursor.
 
 The Home page keeps its DORA heading and explanatory Banner in the section
 stack, then passes the mapped capability-card collection to an app-owned
-responsive masonry. It keeps one column below 736 px of available width and
-uses two 360 px-minimum columns above that point. A `ResizeObserver` measures
-each card and places the next card in the shortest column with a 16 px gap;
-the same gap is used vertically and horizontally. The masonry wrappers remain
-in canonical source order, preserving the cards' existing article semantics
-and keyboard traversal while letting cards retain their natural heights.
+responsive masonry. It initially uses one column below 736 px of available
+width and two equal flexible columns at or above that breakpoint. A
+`ResizeObserver` measures each card and places the next source-ordered card in
+the shortest column with Astryx spacing-4 as both the horizontal and vertical
+gap. The masonry wrappers remain in canonical source order, preserving the
+cards' existing article semantics and keyboard traversal while letting cards
+retain their natural heights.
 
-At table-width viewports, the Skills page integrates the reusable `SkillTable`
-in a full-width Astryx `Card` with a divided control header and edge-to-edge
-table body alongside a detail sheet; compact viewports retain the card catalog,
-toolbar search, and category popover. The table composes Astryx's table,
+At table-width viewports, the Skills page renders its introduction above the
+reusable `SkillTableDetailLayout`. Inside its full-width Astryx `Card`, a padded
+`LayoutHeader` groups the search and category controls above the edge-to-edge
+table body and adjacent in-card detail panel; compact viewports retain the card
+catalog, toolbar search, and category popover. The table composes Astryx's table,
 compact text input, multi-selector, button, card, layout, and empty-state
 primitives with the app's
 smallest `SkillAvatar`, colored `SkillCategory`, and text-only

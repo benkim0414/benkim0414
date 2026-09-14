@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:ae72ce40e91c7b0524d2d0ca24dbaed5481cadd05bc1a03832462f578dfd7af5",
+  "pageVersion": "sha256:5ead0ad3e9450674aedb7fa94cd02ab80052c39142207533bd07c6639ef50318",
   "claims": [
     {
       "id": "claim_da9ac46eb2204e9b9a555848aea5550d",
@@ -134,19 +134,19 @@
     },
     {
       "id": "claim_ecccdf8849a14979a6b246847cfcc84d",
-      "statement": "SkillsPage owns shared query and category-filter state across a table-width SkillTableDetailLayout and a compact card catalog. At table width, its accessible title and catalogue introduction stay in the catalogue scroll content ahead of a SkillTable whose controls and edge-to-edge table sit in a full-width Astryx Card; rows support pointer and keyboard activation into an adjacent detail sheet, and selection clears when compact mode begins, filters remove the active skill, or detail resolution fails.",
+      "statement": "SkillsPage owns shared query and category-filter state across a table-width SkillTableDetailLayout and a compact card catalogue. At table width it renders its introduction above a full-width Astryx card, whose padded LayoutHeader groups controls above the edge-to-edge table and adjacent in-card detail panel; pointer and keyboard activation open detail, and selection clears when compact mode begins, filters remove the active skill, or detail resolution fails.",
       "evidence": [
         {
           "resource": "repo://apps/github.io/src/app/skills/skill-table-detail-layout.tsx",
-          "version": "repo-file-v1:sha256:a52387c06f0d025fff3466fc757fed32065c0da026f20cf87bbe3e13a07a9d88"
+          "version": "repo-file-v1:sha256:a92f45d1cdec5158cb33d331af9fede4d9f561d477a6f4a395217b5de44a6d80"
         },
         {
           "resource": "repo://apps/github.io/src/app/skills/skill-table.tsx",
-          "version": "repo-file-v1:sha256:a25bee114ba500d1b174752881030b8fc415fab2dfea27250cf3ac21dd50ebd7"
+          "version": "repo-file-v1:sha256:f31df1c1bdd34f5fbc8eec2ad6945dcd71b37213715df331badf5d9f8d19110c"
         },
         {
           "resource": "repo://apps/github.io/src/app/skills/skills-page.tsx",
-          "version": "repo-file-v1:sha256:0054ad2ba51ebdd8f52e0a85b86280938991125933dcb92547c435837c1dbce1"
+          "version": "repo-file-v1:sha256:dc8a0a68e59bdfa180b3c81c8374858837b971a0801cb31d4a7a325b63f3a78c"
         }
       ]
     },
@@ -192,7 +192,7 @@
     },
     {
       "id": "claim_5c14daf227304adf8b24e5fd8405a72b",
-      "statement": "HomePage keeps the DORA heading and Banner outside an app-owned masonry that maps canonical capability definitions through existing evidence-backed cards, measures natural heights, packs each next source-order card into the shortest of up to two 360 px-minimum columns, and keeps DOM order and card semantics unchanged.",
+      "statement": "HomePage keeps the DORA heading and Banner outside app-owned masonry that maps canonical capability definitions through existing evidence-backed cards. It uses one column below 736 px available width and two equal flexible columns at or above that breakpoint, then measures natural heights and packs each next source-order card into the shortest column using Astryx spacing-4 for both gaps while retaining DOM order and card semantics.",
       "evidence": [
         {
           "resource": "repo://apps/github.io/src/app/devops-capability-evidence/dora-capability-card.tsx",
@@ -200,7 +200,7 @@
         },
         {
           "resource": "repo://apps/github.io/src/app/home/dora-capability-masonry.tsx",
-          "version": "repo-file-v1:sha256:8a56c5e3695e3dabbf628acc6b7e1f7bdc0ce1421ead0787dd6d5e8af9ebcb24"
+          "version": "repo-file-v1:sha256:822817ecd5b9c97792e161afcaa31e633ebc4a10fa8c0a1aa42524514f00f90e"
         },
         {
           "resource": "repo://apps/github.io/src/app/home/home-page.tsx",
@@ -211,6 +211,6 @@
   ],
   "verification": {
     "by": "openwiki/0.5.0",
-    "at": "2026-09-14T10:25:42.901Z"
+    "at": "2026-09-14T11:29:40.650Z"
   }
 }

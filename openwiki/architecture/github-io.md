@@ -52,10 +52,10 @@ sources:
     resource: repo://apps/github.io/src/app/skills/skill-table.tsx
   - id: openwiki-source-a845ec3d01c38967df3a4dad
     resource: repo://apps/github.io/src/app/skills/skills-page.tsx
-generated: { by: "codex", at: "2026-09-14T10:20:53.845Z" }
+generated: { by: "codex", at: "2026-09-14T11:29:40.650Z" }
 verified:
   - by: openwiki/0.5.0
-    at: 2026-09-14T10:25:42.901Z
+    at: 2026-09-14T11:29:40.650Z
 ---
 
 # Application architecture
@@ -85,20 +85,21 @@ full-width not-found component within its existing route.
 `HomePage` keeps its top-skills carousel and DORA capability section in normal
 page flow. The DORA section maps canonical definitions through their existing
 evidence-backed cards, with its heading and explanatory Banner outside an
-app-owned masonry component. The component measures natural card heights and
-packs each next source-order card into the shortest column, switching from one
-column to two 360 px-minimum columns when space permits. This responsive
-presentation decision does not change the evidence model, card semantics, or
-DOM and keyboard order.
+app-owned masonry component. The component initially renders one column below
+736 px of available width and two equal flexible columns at or above that
+breakpoint, then measures natural card heights and packs each next source-order
+card into the shortest column using Astryx spacing-4 for both gaps. This
+responsive presentation decision does not change the evidence model, card
+semantics, or DOM and keyboard order.
 
 `SkillsPage` owns one filter state across two responsive projections. At table
-widths it renders `SkillTableDetailLayout`, whose `SkillTable` groups its
-controls and edge-to-edge table in a full-width Astryx card; pointer or keyboard
-row activation opens resolved skill detail in an adjacent sheet and returns
-focus to the originating row. Compact widths render the card catalog with
-toolbar search and category filters instead; changing to compact mode,
-filtering out the active skill, or failing detail resolution clears the table
-selection.
+widths it renders the page introduction above `SkillTableDetailLayout`; inside
+the full-width Astryx card, a padded `LayoutHeader` groups controls above the
+edge-to-edge table and adjacent in-card detail panel. Pointer or keyboard row
+activation opens resolved skill detail and returns focus to the originating row.
+Compact widths render the card catalog with toolbar search and category filters
+instead; changing to compact mode, filtering out the active skill, or failing
+detail resolution clears the table selection.
 
 The table/detail split and Experience disclosures consume the same shared
 compact-surface query. A compact match selects the bottom sheet and seeds newly

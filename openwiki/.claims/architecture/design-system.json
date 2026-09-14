@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:ec90aebe55c9577cad942c192af77fcde4f498beee9c7f7550b3f770cf183753",
+  "pageVersion": "sha256:66fc50bd10c5fe26a58944217c4142c7675faed00985599f371ff7dc6e8aed28",
   "claims": [
     {
       "id": "claim_67f0a6341495404e8eefce3e45fd6173",
@@ -96,11 +96,11 @@
         },
         {
           "resource": "repo://apps/github.io/src/app/skills/skills-page.spec.tsx",
-          "version": "repo-file-v1:sha256:9a26c3c0c1f90938951b95b62c0ba44a433e648c2f9da4e125008fdad790b5fc"
+          "version": "repo-file-v1:sha256:f7b0367574796c29a871e3e9c5435d5917e5ee5c91f5b80f242b961ab6e85237"
         },
         {
           "resource": "repo://apps/github.io/src/app/skills/skills-page.tsx",
-          "version": "repo-file-v1:sha256:0054ad2ba51ebdd8f52e0a85b86280938991125933dcb92547c435837c1dbce1"
+          "version": "repo-file-v1:sha256:dc8a0a68e59bdfa180b3c81c8374858837b971a0801cb31d4a7a325b63f3a78c"
         }
       ]
     },
@@ -138,19 +138,19 @@
     },
     {
       "id": "claim_e60e9e0eb69646cba7b3570677531e65",
-      "statement": "At table-width viewports, the Skills page keeps its accessible title and catalogue introduction in the scrollable catalogue content ahead of the reusable SkillTable, which uses a full-width Astryx Card with a divided control header and edge-to-edge table body alongside the detail sheet. Compact viewports retain the card catalog and toolbar filters; the table provides sortable columns, filtering, clearing, empty states, and pointer or keyboard row activation.",
+      "statement": "At table-width viewports, the Skills page renders its introduction above a full-width Astryx card. A padded LayoutHeader groups search and category controls above the edge-to-edge table body and an adjacent in-card detail panel; compact viewports retain the card catalogue, toolbar search, and category popover. The table provides sortable columns, filtering, clearing, empty states, and pointer or keyboard row activation.",
       "evidence": [
         {
-          "resource": "repo://apps/github.io/src/app/skills/skill-table.stories.tsx",
-          "version": "repo-file-v1:sha256:adc6fcc9145a42e71c4d727b93b203c2f91b2c265fdd882291277892c970f87d"
+          "resource": "repo://apps/github.io/src/app/skills/skill-table-detail-layout.tsx",
+          "version": "repo-file-v1:sha256:a92f45d1cdec5158cb33d331af9fede4d9f561d477a6f4a395217b5de44a6d80"
         },
         {
           "resource": "repo://apps/github.io/src/app/skills/skill-table.tsx",
-          "version": "repo-file-v1:sha256:a25bee114ba500d1b174752881030b8fc415fab2dfea27250cf3ac21dd50ebd7"
+          "version": "repo-file-v1:sha256:f31df1c1bdd34f5fbc8eec2ad6945dcd71b37213715df331badf5d9f8d19110c"
         },
         {
           "resource": "repo://apps/github.io/src/app/skills/skills-page.tsx",
-          "version": "repo-file-v1:sha256:0054ad2ba51ebdd8f52e0a85b86280938991125933dcb92547c435837c1dbce1"
+          "version": "repo-file-v1:sha256:dc8a0a68e59bdfa180b3c81c8374858837b971a0801cb31d4a7a325b63f3a78c"
         }
       ]
     },
@@ -298,15 +298,11 @@
     },
     {
       "id": "claim_e4b6d246adb74492a5f9b36baf87589d",
-      "statement": "The Home page keeps its DORA heading and Banner outside an app-owned responsive masonry that measures natural card heights, preserves source order, and packs each next card into the shortest of up to two 360 px-minimum columns with a uniform 16 px gap.",
+      "statement": "The Home page keeps its DORA heading and Banner outside app-owned responsive masonry. It initially renders one column below 736 px of available width and two equal flexible columns at or above that breakpoint; after measuring cards with ResizeObserver, it packs each next source-ordered card into the shortest column using Astryx spacing-4 for both gaps while preserving DOM source order.",
       "evidence": [
         {
           "resource": "repo://apps/github.io/src/app/home/dora-capability-masonry.tsx",
-          "version": "repo-file-v1:sha256:8a56c5e3695e3dabbf628acc6b7e1f7bdc0ce1421ead0787dd6d5e8af9ebcb24"
-        },
-        {
-          "resource": "repo://apps/github.io/src/app/home/home-page.spec.tsx",
-          "version": "repo-file-v1:sha256:cf5feabc1a98855c929c480c9bcb5fd7547047389353961f2cf99ad944510000"
+          "version": "repo-file-v1:sha256:822817ecd5b9c97792e161afcaa31e633ebc4a10fa8c0a1aa42524514f00f90e"
         },
         {
           "resource": "repo://apps/github.io/src/app/home/home-page.tsx",
@@ -317,6 +313,6 @@
   ],
   "verification": {
     "by": "openwiki/0.5.0",
-    "at": "2026-09-14T10:25:42.901Z"
+    "at": "2026-09-14T11:29:40.650Z"
   }
 }

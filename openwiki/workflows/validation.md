@@ -40,6 +40,8 @@ sources:
     resource: repo://apps/github.io/src/app/skills/skill-experience-card.stories.tsx
   - id: openwiki-source-1da2c5712de0a298fd2a580a
     resource: repo://apps/github.io/src/app/skills/skill-experience-list.spec.tsx
+  - id: openwiki-source-35c77a9dd102047c8a1b9103
+    resource: repo://apps/github.io/src/app/skills/skill-table-detail-layout.spec.tsx
   - id: openwiki-source-3cf56b0e79067d306d450611
     resource: repo://apps/github.io/src/app/skills/skill-table-responsive.ts
   - id: openwiki-source-3d04b17fb8b6c27eb59cd798
@@ -78,10 +80,10 @@ sources:
     resource: repo://scripts/setup-openwiki.test.mjs
   - id: openwiki-source-165465422a61a00b62b0f6d3
     resource: repo://scripts/sync-github-pages-artifact.test.mjs
-generated: { by: "codex", at: "2026-09-14T10:25:42.901Z" }
+generated: { by: "codex", at: "2026-09-14T11:29:40.650Z" }
 verified:
   - by: openwiki/0.5.0
-    at: 2026-09-14T10:25:42.901Z
+    at: 2026-09-14T11:29:40.650Z
 ---
 
 # Validation workflow
@@ -202,12 +204,12 @@ AND composition between search and categories, clearing, result counts, and
 both empty states, plus pointer and keyboard row activation and active-row
 semantics. The confidence test uses shuffled input and checks the
 `aria-sort` transitions so source order cannot masquerade as a successful sort.
-Page-level tests separately prove the responsive card/table switch, the
-full-width desktop card containing its controls and table, sheet detail
-selection, focus restoration, state cleanup, and bounded scrolling. Storybook
-provides explicit desktop-table and compact-card viewport stories. These DOM
-assertions still do not prove that estimated column widths fit rendered content;
-that remains a visual check.
+Page-level tests separately prove the responsive card/table switch, the page
+introduction preceding the labelled desktop toolbar, controls preceding the
+table, the bounded master-detail layout, same-page detail selection, focus
+restoration, and selection cleanup. Storybook provides explicit desktop-table
+and compact-card viewport stories. These DOM assertions still do not prove that
+estimated column widths fit rendered content; that remains a visual check.
 
 Skill experience readability is protected at both renderer boundaries. Focused
 tests cover all four collection combinations: both labels appear when both
