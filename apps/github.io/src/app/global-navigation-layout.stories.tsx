@@ -27,6 +27,21 @@ export const Default: Story = {
   ),
 };
 
+export const DesktopCenteredNavigation: Story = {
+  parameters: {
+    viewport: {
+      defaultViewport: 'desktop',
+    },
+  },
+  render: () => (
+    <Routes>
+      <Route element={<GlobalNavigationLayout />}>
+        <Route index element={<NavigationPreviewContent />} />
+      </Route>
+    </Routes>
+  ),
+};
+
 export const MobileNavigationSearch: Story = {
   parameters: {
     viewport: {

@@ -1,4 +1,5 @@
 import {
+  useEffect,
   useLayoutEffect,
   useMemo,
   useRef,
@@ -18,11 +19,13 @@ import {
 } from '@heroicons/react/24/outline';
 import { Icon } from '@astryxdesign/core/Icon';
 import { IconButton } from '@astryxdesign/core/IconButton';
+import { HStack } from '@astryxdesign/core/HStack';
 import { Layout, LayoutContent, LayoutHeader } from '@astryxdesign/core/Layout';
 import { MobileNav } from '@astryxdesign/core/MobileNav';
 import { SideNavItem } from '@astryxdesign/core/SideNav';
 import { TextInput } from '@astryxdesign/core/TextInput';
-import { TopNav } from '@astryxdesign/core/TopNav';
+import { TopNav, TopNavItem } from '@astryxdesign/core/TopNav';
+import { useMediaQuery } from '@astryxdesign/core/hooks';
 import { siGithub } from 'simple-icons';
 import {
   colorVars,
@@ -50,6 +53,15 @@ interface GlobalSearchCommandItem extends GlobalSearchResult {
 const HOME_NAVIGATION_ICON_COLOR = 'var(--color-icon-blue)';
 const GITHUB_PROFILE_URL = 'https://github.com/benkim0414';
 const SEARCH_LABEL = 'Search';
+const DESKTOP_NAVIGATION_QUERY = '(min-width: 768px)';
+
+function isSkillsRoute(pathname: string): boolean {
+  return pathname === '/skills' || pathname.startsWith('/skills/');
+}
+
+function isRoadmapRoute(pathname: string): boolean {
+  return pathname === '/roadmap';
+}
 
 function GitHubIcon(): ReactElement {
   return (
@@ -96,6 +108,7 @@ const styles = stylex.create({
 export function GlobalNavigationLayout(): ReactElement {
   const location = useLocation();
   const navigate = useNavigate();
+  const isDesktopNavigation = useMediaQuery(DESKTOP_NAVIGATION_QUERY);
   const contentRef = useRef<HTMLDivElement>(null);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [isNavigationOpen, setIsNavigationOpen] = useState(false);
@@ -147,6 +160,12 @@ export function GlobalNavigationLayout(): ReactElement {
     setMobileSkillSearch('');
   };
 
+  useEffect(() => {
+    if (isDesktopNavigation) {
+      closeMobileNavigation();
+    }
+  }, [isDesktopNavigation]);
+
   return (
     <>
       <MobileNav
@@ -163,15 +182,14 @@ export function GlobalNavigationLayout(): ReactElement {
         <SideNavItem
           href="/skills"
           isSelected={
-            location.pathname === '/skills' ||
-            location.pathname.startsWith('/skills/')
+            isSkillsRoute(location.pathname)
           }
           label="Skills"
           onClick={closeMobileNavigation}
         />
         <SideNavItem
           href="/roadmap"
-          isSelected={location.pathname === '/roadmap'}
+          isSelected={isRoadmapRoute(location.pathname)}
           label="Roadmap"
           onClick={closeMobileNavigation}
         />
@@ -261,6 +279,22 @@ export function GlobalNavigationLayout(): ReactElement {
                   ]}
                 />
               }
+              centerContent={
+                isDesktopNavigation ? (
+                  <HStack gap={1}>
+                    <TopNavItem
+                      href="/skills"
+                      isSelected={isSkillsRoute(location.pathname)}
+                      label="Skills"
+                    />
+                    <TopNavItem
+                      href="/roadmap"
+                      isSelected={isRoadmapRoute(location.pathname)}
+                      label="Roadmap"
+                    />
+                  </HStack>
+                ) : undefined
+              }
               endContent={
                 <>
                   <IconButton
@@ -296,14 +330,16 @@ export function GlobalNavigationLayout(): ReactElement {
                     tooltip="GitHub"
                     variant="ghost"
                   />
-                  <IconButton
-                    icon={<Icon color="inherit" icon="menu" size="sm" />}
-                    label="Navigation"
-                    size="sm"
-                    tooltip="Navigation"
-                    variant="ghost"
-                    onClick={() => setIsNavigationOpen(true)}
-                  />
+                  {!isDesktopNavigation && (
+                    <IconButton
+                      icon={<Icon color="inherit" icon="menu" size="sm" />}
+                      label="Navigation"
+                      size="sm"
+                      tooltip="Navigation"
+                      variant="ghost"
+                      onClick={() => setIsNavigationOpen(true)}
+                    />
+                  )}
                 </>
               }
               label="Global navigation"

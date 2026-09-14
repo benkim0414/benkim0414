@@ -1,5 +1,5 @@
 import type { ComponentProps, ReactNode } from 'react';
-import { fireEvent, render, waitFor, within } from '@testing-library/react';
+import { act, fireEvent, render, waitFor, within } from '@testing-library/react';
 import { Theme } from '@astryxdesign/core';
 import { IconButton } from '@astryxdesign/core/IconButton';
 import { LinkProvider } from '@astryxdesign/core/Link';
@@ -15,14 +15,44 @@ import { GlobalNavigationLayout } from './global-navigation-layout';
 import { RouterLink } from './router-link';
 import { ThemeModeProvider, useThemeMode } from './theme-mode';
 
+const mediaMatches = new Map<string, boolean>();
+const mediaListeners = new Map<
+  string,
+  Set<(event: MediaQueryListEvent) => void>
+>();
+
+function setMediaMatch(query: string, value: boolean) {
+  mediaMatches.set(query, value);
+
+  for (const listener of mediaListeners.get(query) ?? []) {
+    listener({ matches: value, media: query } as MediaQueryListEvent);
+  }
+}
+
 vi.stubGlobal('matchMedia', (query: string) => ({
-  addEventListener: vi.fn(),
+  addEventListener: (
+    type: string,
+    listener: (event: MediaQueryListEvent) => void,
+  ) => {
+    if (type === 'change') {
+      const listeners = mediaListeners.get(query) ?? new Set();
+      listeners.add(listener);
+      mediaListeners.set(query, listeners);
+    }
+  },
   addListener: vi.fn(),
   dispatchEvent: vi.fn(),
-  matches: false,
+  matches: mediaMatches.get(query) ?? false,
   media: query,
   onchange: null,
-  removeEventListener: vi.fn(),
+  removeEventListener: (
+    type: string,
+    listener: (event: MediaQueryListEvent) => void,
+  ) => {
+    if (type === 'change') {
+      mediaListeners.get(query)?.delete(listener);
+    }
+  },
   removeListener: vi.fn(),
 }));
 
@@ -178,6 +208,8 @@ function expectTooltipFor(control: HTMLElement, text: string) {
 describe('GlobalNavigationLayout', () => {
   beforeEach(() => {
     window.localStorage.clear();
+    mediaMatches.clear();
+    mediaListeners.clear();
   });
 
   it('renders one heading-free global nav above routed content', () => {
@@ -210,21 +242,37 @@ describe('GlobalNavigationLayout', () => {
     ).toBeTruthy();
   });
 
-  it('keeps primary page links out of the top navigation', () => {
-    const { getByRole, queryByRole } = renderGlobalLayout();
+  it('renders the primary route links in the centered top navigation', () => {
+    mediaMatches.set('(min-width: 768px)', true);
+    const { getByRole, queryByRole } = renderGlobalLayout('/skills/terraform');
     const navigation = getByRole('navigation', { name: 'Global navigation' });
 
     expect(getByRole('link', { name: 'Home' }).getAttribute('href')).toBe('/');
-    expect(queryByRole('link', { name: 'Roadmap' })).toBeNull();
-    expect(queryByRole('link', { name: 'Skills' })).toBeNull();
+    expect(getByRole('link', { name: 'Skills' }).getAttribute('href')).toBe(
+      '/skills',
+    );
+    expect(getByRole('link', { name: 'Roadmap' }).getAttribute('href')).toBe(
+      '/roadmap',
+    );
     expect(
       within(navigation).getAllByRole('link').map(
         (link) => link.getAttribute('aria-label') ?? link.textContent?.trim(),
       ),
-    ).toEqual(['Home', 'GitHub']);
+    ).toEqual(['Home', 'Skills', 'Roadmap', 'GitHub']);
+    expect(
+      within(navigation)
+        .getByRole('link', { name: 'Skills' })
+        .getAttribute('aria-current'),
+    ).toBe('page');
+    expect(
+      within(navigation)
+        .getByRole('link', { name: 'Roadmap' })
+        .getAttribute('aria-current'),
+    ).toBeNull();
     expect(getByRole('link', { name: 'GitHub' }).getAttribute('href')).toBe(
       'https://github.com/benkim0414',
     );
+    expect(queryByRole('button', { name: 'Navigation' })).toBeNull();
   });
 
   it('opens an end-side navigation drawer with the primary route links', async () => {
@@ -244,6 +292,18 @@ describe('GlobalNavigationLayout', () => {
 
     fireEvent.click(within(drawer).getByRole('button', { name: 'Close navigation' }));
     await waitFor(() => expect(drawer.hasAttribute('open')).toBe(false));
+  });
+
+  it('closes the mobile drawer when navigation switches to desktop', async () => {
+    const { getByRole } = renderGlobalLayout();
+
+    fireEvent.click(getByRole('button', { name: 'Navigation' }));
+    const drawer = getByRole('dialog', { name: 'Navigation' });
+
+    act(() => setMediaMatch('(min-width: 768px)', true));
+
+    await waitFor(() => expect(drawer.hasAttribute('open')).toBe(false));
+    expect(getByRole('link', { name: 'Skills' })).toBeTruthy();
   });
 
   it('filters skill links in the mobile drawer and navigates to a selected skill', async () => {
