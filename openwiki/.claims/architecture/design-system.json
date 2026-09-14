@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:fb826959f7a2fb356f87649cb760f39704b8b955c156b8c8681870a77a840a9d",
+  "pageVersion": "sha256:a999d3b115c302b807ace1c8745ba966cc5fabc02b8dacb11c05c7ce27d5fff7",
   "claims": [
     {
       "id": "claim_67f0a6341495404e8eefce3e45fd6173",
@@ -76,7 +76,7 @@
     },
     {
       "id": "claim_5a6f4fd739c24cd18083e6de86d9061b",
-      "statement": "App-owned visible section and popover headings use Astryx Heading at their semantic levels, and focused tests assert both accessible levels and Astryx's stable heading metadata.",
+      "statement": "App-owned visible section and popover headings use Astryx Heading at their semantic levels, and focused tests assert accessible levels plus stable Astryx heading metadata; the Skills catalogue now combines a visually hidden level-one page title with a visible level-two heading.",
       "evidence": [
         {
           "resource": "repo://apps/github.io/src/app/devops-roadmap/roadmap-page.spec.tsx",
@@ -96,11 +96,11 @@
         },
         {
           "resource": "repo://apps/github.io/src/app/skills/skills-page.spec.tsx",
-          "version": "repo-file-v1:sha256:fcca452925d715c970df949147b015c35dcef36a60e4c64ea09ea6aca7b8b730"
+          "version": "repo-file-v1:sha256:6d959e9fbca06d67a630e63cdc5f2db7c75c014c2db309c26c2b1e69a7853dcf"
         },
         {
           "resource": "repo://apps/github.io/src/app/skills/skills-page.tsx",
-          "version": "repo-file-v1:sha256:76f8dadd0d8c034049b68b1ae79aaafd1c27770732c827a47636c9ebd3bf07ab"
+          "version": "repo-file-v1:sha256:0054ad2ba51ebdd8f52e0a85b86280938991125933dcb92547c435837c1dbce1"
         }
       ]
     },
@@ -142,8 +142,12 @@
     },
     {
       "id": "claim_e60e9e0eb69646cba7b3570677531e65",
-      "statement": "At table-width viewports the Skills page integrates the reusable SkillTable with an adjacent detail sheet, while compact viewports retain the card catalog and toolbar filters. The table provides four sortable content-sized columns, confidence-descending default order, name/category filtering, result count, clearing, distinct empty states, and pointer or keyboard row activation; Storybook supplies explicit desktop-table and compact-card scenarios.",
+      "statement": "At table-width viewports the Skills page places its visible heading and explanatory introduction inside the reusable SkillTable detail layout's catalogue scroll region before the table, alongside an adjacent independently scrollable detail sheet; compact viewports retain that introduction above the card catalog and toolbar filters. The table provides four sortable content-sized columns, confidence-descending default order, name/category filtering, result count, clearing, distinct empty states, and pointer or keyboard row activation; Storybook supplies explicit desktop-table and compact-card scenarios.",
       "evidence": [
+        {
+          "resource": "repo://apps/github.io/src/app/skills/skill-table-detail-layout.tsx",
+          "version": "repo-file-v1:sha256:a52387c06f0d025fff3466fc757fed32065c0da026f20cf87bbe3e13a07a9d88"
+        },
         {
           "resource": "repo://apps/github.io/src/app/skills/skill-table.stories.tsx",
           "version": "repo-file-v1:sha256:adc6fcc9145a42e71c4d727b93b203c2f91b2c265fdd882291277892c970f87d"
@@ -153,8 +157,12 @@
           "version": "repo-file-v1:sha256:a5d3b4395dbf79f14cead5bc81a20220a9571a86f82f9682a0b77ca58a33580d"
         },
         {
+          "resource": "repo://apps/github.io/src/app/skills/skills-page.spec.tsx",
+          "version": "repo-file-v1:sha256:6d959e9fbca06d67a630e63cdc5f2db7c75c014c2db309c26c2b1e69a7853dcf"
+        },
+        {
           "resource": "repo://apps/github.io/src/app/skills/skills-page.tsx",
-          "version": "repo-file-v1:sha256:76f8dadd0d8c034049b68b1ae79aaafd1c27770732c827a47636c9ebd3bf07ab"
+          "version": "repo-file-v1:sha256:0054ad2ba51ebdd8f52e0a85b86280938991125933dcb92547c435837c1dbce1"
         }
       ]
     },
@@ -303,6 +311,6 @@
   ],
   "verification": {
     "by": "openwiki/0.5.0",
-    "at": "2026-09-14T04:46:28.639Z"
+    "at": "2026-09-14T05:38:31.406Z"
   }
 }

@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:757a493cb9831f9cc52244da152b208b5b0917818fdf1860331f3e671b19095c",
+  "pageVersion": "sha256:54b8a28ba220c11a87e21605bedb72a7884a3fce4495354809a22c92a017c9a1",
   "claims": [
     {
       "id": "claim_da9ac46eb2204e9b9a555848aea5550d",
@@ -120,7 +120,7 @@
       "evidence": [
         {
           "resource": "repo://apps/github.io/src/app/global-navigation-layout.tsx",
-          "version": "repo-file-v1:sha256:45199d140f23dbf4f491770186e9de95f348686f12ead167e7e54fa9a7edb4b6"
+          "version": "repo-file-v1:sha256:4fff12e92d9e6abc5d9511505ba0347d0d85a02afd9164b96556b1caf61548c9"
         },
         {
           "resource": "repo://apps/github.io/src/app/skills/skill-detail-page.spec.tsx",
@@ -207,6 +207,6 @@
   ],
   "verification": {
     "by": "openwiki/0.5.0",
-    "at": "2026-09-14T05:20:09.595Z"
+    "at": "2026-09-14T05:38:31.406Z"
   }
 }
