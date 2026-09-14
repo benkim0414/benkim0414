@@ -18,10 +18,12 @@ item proves
 [authored card](../../apps/github.io/src/app/skills/skill-experience-card-list.tsx),
 [capability-derived card](../../apps/github.io/src/app/skills/skill-experience-list.tsx)).
 
-Keep `Relevant skills [N]` as the label for the skill tokens inside the open
-panel. The two badges then count the items immediately associated with their
-labels; the collapsed trigger does not repeat a skill count whose section is
-not visible.
+When highlights and skills coexist, keep `Relevant skills [N]` as the label for
+the skill tokens inside the open panel. A skills-only card is the exception: its
+label and count remain in the disclosure trigger in both states, keeping the
+chevron attached to the section it controls without duplicating the label above
+the tokens. In either layout, each badge counts the items immediately associated
+with its label.
 
 ## Why the trigger needs a content label
 
@@ -99,7 +101,10 @@ This is a copy and count-placement decision, not a content-model rename:
 
 - render `Highlights` plus an outcome/fact count badge in the disclosure
   trigger;
-- render `Relevant skills` plus its own skill count badge inside the panel;
+- when highlights and skills coexist, render `Relevant skills` plus its own
+  skill count badge inside the panel;
+- when skills are the only detail, retain `Relevant skills` and its count in the
+  trigger in both states and omit a duplicate panel heading;
 - keep existing internal names such as `narrative`, `facts`, `outcomes`, and
   `outcomeCount` unless a later domain-model change is separately justified;
 - retain complete list text and existing semantic list structure.
