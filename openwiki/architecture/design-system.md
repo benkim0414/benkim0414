@@ -5,7 +5,7 @@ description: How Astryx, StyleX, theme persistence, and browser layout checks fi
 tags: [astryx, stylex, theme, layout]
 verified:
   - by: openwiki/0.5.0
-    at: 2026-09-14T02:23:05.394Z
+    at: 2026-09-14T04:06:23.871Z
 sources:
   - id: openwiki-source-45b1d77b308bd57403f55ff9
     resource: repo://apps/github.io/.storybook/story-taxonomy.spec.ts
@@ -33,6 +33,12 @@ sources:
     resource: repo://apps/github.io/src/app/home/home-page.spec.tsx
   - id: openwiki-source-0e3b0dfb231db070ffd8340f
     resource: repo://apps/github.io/src/app/home/home-page.tsx
+  - id: openwiki-source-db0dd3236892ffd2b6d11d5b
+    resource: repo://apps/github.io/src/app/skills/skill-avatar.spec.tsx
+  - id: openwiki-source-791a4b24e4a6411a3a17083a
+    resource: repo://apps/github.io/src/app/skills/skill-avatar.tsx
+  - id: openwiki-source-d0809fb265e239d8ba140589
+    resource: repo://apps/github.io/src/app/skills/skill-brand.ts
   - id: openwiki-source-0326a209b3e8f758018bcc41
     resource: repo://apps/github.io/src/app/skills/skill-detail-content.tsx
   - id: openwiki-source-2f8ff13f4c903910f3a587fc
@@ -63,7 +69,7 @@ sources:
     resource: repo://apps/github.io/src/styles.css
   - id: openwiki-source-fcfa3ced1d03143bb27d5018
     resource: repo://apps/github.io/vite.config.ts
-generated: { by: "codex", at: "2026-09-14T02:23:05.394Z" }
+generated: { by: "codex", at: "2026-09-14T04:06:23.871Z" }
 ---
 
 # Design system and layout
@@ -140,6 +146,16 @@ empty states belong to the table component. Rows support pointer and keyboard
 activation, expose the active row through `aria-current`, and open the selected
 skill in the adjacent detail layout. Storybook supplies explicit desktop-table
 and compact-card viewport scenarios for visual review.
+
+`SkillAvatar` resolves its logo source against the active Astryx theme. The
+central skill-brand catalog explicitly identifies monochrome marks with an
+approved inverse treatment: GitHub and its API and Packages aliases use the
+semantic primary icon color in dark mode and their original Simple Icons brand
+color in light mode. Unlisted Simple Icons keep their fixed brand color in both
+modes, while bundled image and multicolor assets are never recolored. Because
+the table, list, and detail surfaces share `SkillAvatar`, this policy stays
+consistent across each skill collection projection. Focused tests protect the
+GitHub light/dark pair and an unlisted low-contrast Nx mark.
 
 Text-heavy skill experience cards keep their summary as primary body copy and
 delegate repeated details to `SkillKeyOutcomes`. The shared component renders an

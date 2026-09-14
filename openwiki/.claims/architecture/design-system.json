@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:f456b075046f323cd83374158adbbedc2694eb338193802ddd9f7347d96d01db",
+  "pageVersion": "sha256:152bd4c68883cb74d1a4a050da28c858325cfb86bf5039513971531ed6b1a09e",
   "claims": [
     {
       "id": "claim_67f0a6341495404e8eefce3e45fd6173",
@@ -255,10 +255,36 @@
           "version": "repo-lines-v1:sha256:4a8eefbbdd92e49d8b68817de81a373d2a9aeb3a99a64bce216ad176efffb0fa:eyJzZWxlY3RlZExpbmVDb3VudCI6MywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMjdkN2VkNmM5ZDkxODUyZWIxZWM4ODQ3NmJlMTM0YzI4N2RhNDQ2MTEwYmVlNTc3YjVhODMxNTkxYjkyZDJjZSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiZDBkNDM2NDE3MTM3YmRlODg5YTM2ZDUxNjgxMGNiZDhlOWQ2MmI5MDlkZTNlZmNhZWMyZjdiMTYwZjZjZmE2NCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjAsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjAsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSJ9"
         }
       ]
+    },
+    {
+      "id": "claim_61e5c23a7be24962ba0d94e6c4aebec8",
+      "statement": "SkillAvatar applies the active Astryx semantic primary icon color in dark mode only to explicitly approved theme-adaptive GitHub-family marks, preserves their original Simple Icons color in light mode, and leaves unlisted Simple Icons and bundled image assets unrecolored across shared skill views.",
+      "evidence": [
+        {
+          "resource": "repo://apps/github.io/src/app/skills/skill-avatar.spec.tsx#L83-L125",
+          "version": "repo-lines-v1:sha256:4b950eac4c73208dff83e9cf30a45f7e16a33307fe7fa8a4da11c2194118038c:eyJzZWxlY3RlZExpbmVDb3VudCI6NDMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjcyM2Q1M2ZlZWQxNGVhMTY3YzFkMjE1YTRkYjVhMzYxZmUzOGQ4YjljZDdhMGQ0ZDcwOTc2ZDNiODg4Y2QwNmMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjNhM2U0NmY5NDI3NmI2ZjZmNGVkMWYwMmFmNzhiZWY2YTJlZTFjNDM5ZGQ1NTg0Yjk3Mzk0ODMxMzIxNGQyYjciLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjJkMDg1YmYxYzAxOGVkZjc0ZWVlMDA2YzkzNDM2ZDAxZTViOTQ5MzhmZmFhM2RhNzU1NDA5ZTlhNWJkN2ZhZmEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImY2MTg3MmFmMDEyYjQwYzFlMzlkODYyOTllNmI5OWU2MzE1ZWYyMTkzYWVhMmUwZmU4Nzc5MjFiNGRmMmZmNTMifQ"
+        },
+        {
+          "resource": "repo://apps/github.io/src/app/skills/skill-avatar.tsx#L62-L83",
+          "version": "repo-lines-v1:sha256:1c14a218befdfebdf12069e77c96413d55584aa38f4a81271f00c049982431d5:eyJzZWxlY3RlZExpbmVDb3VudCI6MjIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjZiOGNiYTE0YmU3YjE1Y2Q1Njg1MWMyYTFmODgwYjgwYmYwYzZlZGMwZDUyYTk1M2RjNTQzNjEyYzIwZTI3YTYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjA1YTYzYTRjNjJjYzYwMTQyMDQ3NDFkYWVlZDBhZmRlNmVlMTgyMTc3ZmU3M2MwOWM2MWI5ZmNmYTZjMzczZWQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjI2OTFjZjE3Yzc4NTNkMmU2NDY1YTE3MmVkMTI2MjY3OGJlMDdiNTg0OGU0NGE0ZGNjMGYzY2IxNWQ5OWYyNjIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImE3NDRhNDllNWE1Yzg3OWJlYThmNDhmNDY1MmNiNWMyMThiZDQ5NzFhZTE5Y2U4M2EyZWU4NzljMjUzZDE1ZTcifQ"
+        },
+        {
+          "resource": "repo://apps/github.io/src/app/skills/skill-avatar.tsx#L93-L116",
+          "version": "repo-lines-v1:sha256:a222892a8470e2c99effc5e3a0ee8689e194d5f0594153b7e571c33e820f4143:eyJzZWxlY3RlZExpbmVDb3VudCI6MjQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjM2ZjVmMjIzYmI4ODZiNzAwNGFkYTA4MDQzODIwMTQ1ZmMxMjU0NWNkZjdmOTFhOTM0NTNlNmUzZjI2ZDE5NGIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjM0OWVmMzM3MWMyNTQ2ZWNlMTY4Njk4MzBlYzhjZDJhYWU3MmFmNjcyZjJlNDkwNmY5NjFmZTI3ODc5MTM5ZjkiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjFhNDJkYWMyNTZkODk5ZWYwZDM4MjhlOGJkMzQ0OWI1N2NmZjA2ZGYzNzA3Y2MwNjRhNGZlNDk0MGFmNzA3ZWUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjM4MGZlN2U3M2JmY2YwYzVjMGRlZGFhZTNkY2YzNDE0YTg4MWJhMzI4NmE0NGE3ZmMwMzllNGE3YTM4YTlmMjYifQ"
+        },
+        {
+          "resource": "repo://apps/github.io/src/app/skills/skill-brand.ts#L251-L255",
+          "version": "repo-lines-v1:sha256:dd0164c2955f65ecbec7c03d95d0f6e0d80a71cfcc78887fdfdaa3cb84517ae1:eyJzZWxlY3RlZExpbmVDb3VudCI6NSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiYmFhYzIzOGNiYjY1M2I5NDFkYTRjMzViYTBmNWFkZTNmNTE4ZWQ5ODcxYWJiYmM5OTJhYWJlMDVhMmY1NmRhZSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNTVlMjZjZDkyMzY2ZjYwZDhlZDkyZDAyMzlmMDdmZWY3NGNhYzE0YWE2OWFkZGY5YzJjYzBkMTFlYjAwYTQ2MyIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiYmI1ZjQzM2RmMzI2NWJkMzg0Y2U2MTBjZDFiZmIwNzFkZjU4YmM4YjMwYmQwMzg2MDY0ZjcxZWE5NzM4ODg2NSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNzgwMDA5ZjNkODBiNmMyZDg1NjIxYjQzYmFkM2E1Y2VjYjNkMGQzYTkyYmU5MGY2NzA0NGJjYThmZGJiZGJhOCJ9"
+        },
+        {
+          "resource": "repo://apps/github.io/src/app/skills/skill-brand.ts#L301-L317",
+          "version": "repo-lines-v1:sha256:3e3b9b8d40b13018dcd5fc7d9979be639b0ac3979474a2fb2b20442a96bc4910:eyJzZWxlY3RlZExpbmVDb3VudCI6MTcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImM3ZWM2ZjA3NGE0N2EzZWZmZDUxNTFkOWJiZjFiMzgyYjA4MzM5OGVlNmI4YzIzYmE3MThjZGIwODcxYTg4NDkiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImIzM2Q5YjkyYjFhNGY4OGU4NTk2NzJmNWYzMTc3ZDNhZDQ5NTZiNmNiMDFmYTgyOTBjNDY0NzEwODkzOWNhYmYiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjY2MWRkNWQzOTI3MTU2ZmIxMjVlNDAyYmM2ZDI0YjFmNmRhZWI1NGU1YjY0YjZiODA2Y2IzYjQyMGFhZDE5MjgiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjM4ZmU2ZjIyZjIxNWI4NDM3OGZkZjM1ZmY4NDFiNDk3MzAwZmU2ZGFmZmUyYWY2YzdlNjA5OWVjY2FkMjU4ODgifQ"
+        }
+      ]
     }
   ],
   "verification": {
     "by": "openwiki/0.5.0",
-    "at": "2026-09-14T02:23:05.394Z"
+    "at": "2026-09-14T04:06:23.871Z"
   }
 }
