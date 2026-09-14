@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:89303d5b568ac9e8944210ca3fb9a1896115347d19be171294bb67e7acebae4a",
+  "pageVersion": "sha256:26d1810d18a6eea74577ae3239d3524409cf9f2de6165de2b259a96dfa827a75",
   "claims": [
     {
       "id": "claim_67f0a6341495404e8eefce3e45fd6173",
@@ -88,11 +88,11 @@
         },
         {
           "resource": "repo://apps/github.io/src/app/home/home-page.spec.tsx",
-          "version": "repo-file-v1:sha256:3abbd6d19846277f79190ceffcb131941c9f910234be1ccc327ade8eb829197e"
+          "version": "repo-file-v1:sha256:318285972e30af36751ea9d4b443265e237181e9b75dc74f23545b7ffd5398a9"
         },
         {
           "resource": "repo://apps/github.io/src/app/home/home-page.tsx",
-          "version": "repo-file-v1:sha256:565d028f8d3beea45942daf44804b7ea8849a0e500764b7ac3aa5e08ffb9efc3"
+          "version": "repo-file-v1:sha256:acd2206d2d2f395579e0dc2bb8d22fc426b54e2b08ea8dfc55aec228a6b5b3e4"
         },
         {
           "resource": "repo://apps/github.io/src/app/skills/skills-page.spec.tsx",
@@ -295,10 +295,28 @@
           "version": "repo-file-v1:sha256:fe6b29008071c1a35dce3ee50c7e529e8f67a95882f279dc3f23c619ea38bf72"
         }
       ]
+    },
+    {
+      "id": "claim_e4b6d246adb74492a5f9b36baf87589d",
+      "statement": "The Home page keeps its DORA heading and Banner outside a responsive Astryx Grid that preserves canonical card order, uses 360 px minimum tracks with a two-column cap and spacing token 4, and leaves each card responsible for filling its allocated track.",
+      "evidence": [
+        {
+          "resource": "repo://apps/github.io/src/app/devops-capability-evidence/dora-capability-card.tsx#L116-L149",
+          "version": "repo-lines-v1:sha256:b619c211fc47873fbd3c34e505ec0721643b6b0b9e8731fc1d736f762c441937:eyJzZWxlY3RlZExpbmVDb3VudCI6MzQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImU3MjE2ZThlOWMwYTFhNjhkMDZjMmZiYWE1ZmQyMTM5NDgyYjhlZmQwYTE5MzE1YjkxNWU2Y2NlODQ5ZDg5ZGMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImI4Y2RiNGFiYTAxMzcyNDgxZWY4OGJhY2MzYWFiMjYyZWIxMTc2NmE0MTRmNDdjNWZiNThhODM4MTUzNTA4ZTIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        },
+        {
+          "resource": "repo://apps/github.io/src/app/home/home-page.spec.tsx#L197-L246",
+          "version": "repo-lines-v1:sha256:b52718395c2b4225dd41ee551a28342e0e1c6651607162f234229641927dd434:eyJzZWxlY3RlZExpbmVDb3VudCI6NTAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjljNWJkMGFjMDZiZmYyNTRmNGUyMGUyMzVjNDdiYTMxNjVjNDQ5NjYzNjkxMDc3ZmMwZTBhYTc2Zjk3OTA2YzciLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjNhM2U0NmY5NDI3NmI2ZjZmNGVkMWYwMmFmNzhiZWY2YTJlZTFjNDM5ZGQ1NTg0Yjk3Mzk0ODMxMzIxNGQyYjciLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjZhY2NjZWJhZjYyODJhYWJkYTM1OTE1Njg2MTZmODFmNDFlMDJlOGJlYzExMmUzNDdkZjhiOTI0ODgxNGYzOGIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImMwNzM4NmM1ZjE2OTU1ZTc5OWQ1YzYwNGUyZTM0YzI5Nzc3ZGYxMDdkNzEyYzNmMTY3Yzk4ZTI0YmU3MjQ4NzUifQ"
+        },
+        {
+          "resource": "repo://apps/github.io/src/app/home/home-page.tsx#L52-L81",
+          "version": "repo-lines-v1:sha256:63406593f726578154fee000e4a637a6e206981d98bc5f509e6cff56cf1261ae:eyJzZWxlY3RlZExpbmVDb3VudCI6MzAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjMxYTg1YzExYjJjNWFjNzVkMmNjYWY5OTIzNzQ5NTFiYmE4ZTk2YmQxOTkxNjBjNzM3YTkwZWEwN2FmNTNiYzQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImEwMDdlM2ViNWRkYTZiMmVhYWFkYmEyMjZkZDRiYjk3ODk1Mjg1MDI3MmY1NGZkNmE2Yzc1YTk3ZjUzOTUwMzUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjAxMTNhODUwODcxZGIzYmEwZmQ2ZTMwZDczODc4YjMzM2YzMzY2YzgxMDQzM2U3MzNkZTNlMGUyYzUyNTAyNDUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjlmYmZlYzFhZWNhNWZlYTVhNDRkMmJlZGM4N2NlZjliMzU1NTkyZmZjYWQ2OWE4YWNhYzc1NWMzMWZkODY0YzkifQ"
+        }
+      ]
     }
   ],
   "verification": {
     "by": "openwiki/0.5.0",
-    "at": "2026-09-14T06:38:19.116Z"
+    "at": "2026-09-14T07:11:28.462Z"
   }
 }

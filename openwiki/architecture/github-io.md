@@ -8,6 +8,8 @@ sources:
     resource: repo://apps/github.io/src/app/app.spec.tsx
   - id: openwiki-source-fad285841e7c8c748f5274d9
     resource: repo://apps/github.io/src/app/app.tsx
+  - id: openwiki-source-c3b9a31667eeb1ba07c1e2e1
+    resource: repo://apps/github.io/src/app/devops-capability-evidence/dora-capability-card.tsx
   - id: openwiki-source-931cab7abf1d26363f1a35b7
     resource: repo://apps/github.io/src/app/devops-roadmap/devops-roadmap-stepper.tsx
   - id: openwiki-source-0e64d2f01d205d55b34c0576
@@ -16,6 +18,8 @@ sources:
     resource: repo://apps/github.io/src/app/devops-roadmap/roadmap-page.tsx
   - id: openwiki-source-5dbaa213d52c3aac678d1838
     resource: repo://apps/github.io/src/app/global-navigation-layout.tsx
+  - id: openwiki-source-0e3b0dfb231db070ffd8340f
+    resource: repo://apps/github.io/src/app/home/home-page.tsx
   - id: openwiki-source-bd7d75b07e3062c09dcab6e9
     resource: repo://apps/github.io/src/app/projects/project-card.tsx
   - id: openwiki-source-2afbe5e95b136e7b3bda73e7
@@ -46,10 +50,10 @@ sources:
     resource: repo://apps/github.io/src/app/skills/skill-table.tsx
   - id: openwiki-source-a845ec3d01c38967df3a4dad
     resource: repo://apps/github.io/src/app/skills/skills-page.tsx
-generated: { by: "codex", at: "2026-09-14T05:49:27.415Z" }
+generated: { by: "codex", at: "2026-09-14T07:11:28.462Z" }
 verified:
   - by: openwiki/0.5.0
-    at: 2026-09-14T06:38:19.116Z
+    at: 2026-09-14T07:11:28.462Z
 ---
 
 # Application architecture
@@ -75,6 +79,13 @@ duplicating them in each page. New top-level pages should deliberately choose
 whether to join that layout route. A skill detail's domain-level not-found
 result is different from an unmatched URL: `SkillDetailRoute` renders the
 full-width not-found component within its existing route.
+
+`HomePage` keeps its top-skills carousel and DORA capability section in normal
+page flow. The DORA section maps the canonical definitions through their
+existing evidence-backed cards, with its heading and explanatory Banner outside
+an Astryx Grid. The grid adapts from one full-width card track to at most two
+360 px-minimum tracks while preserving canonical DOM order, so responsive
+allocation changes without changing the evidence model or card semantics.
 
 `SkillsPage` owns one filter state across two responsive projections. At table
 widths it renders `SkillTableDetailLayout`, whose `SkillTable` groups its

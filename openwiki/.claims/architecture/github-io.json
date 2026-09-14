@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:cbb1dd1c1a2e28c4facc74a139fca929acbaf2d6c3df0cd19c96b541957c66a5",
+  "pageVersion": "sha256:7f8ddf071f1dbc1fc5e336b47d8b92ee23a9e729fe446dfc0e6766e5ea8438fa",
   "claims": [
     {
       "id": "claim_da9ac46eb2204e9b9a555848aea5550d",
@@ -189,10 +189,24 @@
           "version": "repo-lines-v1:sha256:9cd3765e7eb21b628befe479185f4683baf068b8416063072515d265719fd880:eyJzZWxlY3RlZExpbmVDb3VudCI6OSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiOGUxNmY5NWI3ZDdkMWI3YzI5NzQ0Nzg5YTM5NjAzNjMxMjFiM2NlOGJmYzA2NzhmZGIxMjBiNTkyZjZiMzJmNyIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNDEyY2EzNDVjY2Y3NWJmOWMwODA2YmNlNjk1YmU4ZGU4MDhiNzk5ODQyNTFhN2E1NGQyMDJjZjYxMDFkZDQ1MSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjAsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjAsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSJ9"
         }
       ]
+    },
+    {
+      "id": "claim_5c14daf227304adf8b24e5fd8405a72b",
+      "statement": "HomePage keeps the DORA heading and Banner outside an Astryx Grid that maps canonical capability definitions through their existing evidence-backed cards, adapting from one full-width track to at most two 360 px-minimum tracks without changing DOM order or card semantics.",
+      "evidence": [
+        {
+          "resource": "repo://apps/github.io/src/app/devops-capability-evidence/dora-capability-card.tsx#L116-L149",
+          "version": "repo-lines-v1:sha256:b619c211fc47873fbd3c34e505ec0721643b6b0b9e8731fc1d736f762c441937:eyJzZWxlY3RlZExpbmVDb3VudCI6MzQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImU3MjE2ZThlOWMwYTFhNjhkMDZjMmZiYWE1ZmQyMTM5NDgyYjhlZmQwYTE5MzE1YjkxNWU2Y2NlODQ5ZDg5ZGMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImI4Y2RiNGFiYTAxMzcyNDgxZWY4OGJhY2MzYWFiMjYyZWIxMTc2NmE0MTRmNDdjNWZiNThhODM4MTUzNTA4ZTIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        },
+        {
+          "resource": "repo://apps/github.io/src/app/home/home-page.tsx#L52-L81",
+          "version": "repo-lines-v1:sha256:63406593f726578154fee000e4a637a6e206981d98bc5f509e6cff56cf1261ae:eyJzZWxlY3RlZExpbmVDb3VudCI6MzAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjMxYTg1YzExYjJjNWFjNzVkMmNjYWY5OTIzNzQ5NTFiYmE4ZTk2YmQxOTkxNjBjNzM3YTkwZWEwN2FmNTNiYzQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImEwMDdlM2ViNWRkYTZiMmVhYWFkYmEyMjZkZDRiYjk3ODk1Mjg1MDI3MmY1NGZkNmE2Yzc1YTk3ZjUzOTUwMzUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjAxMTNhODUwODcxZGIzYmEwZmQ2ZTMwZDczODc4YjMzM2YzMzY2YzgxMDQzM2U3MzNkZTNlMGUyYzUyNTAyNDUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjlmYmZlYzFhZWNhNWZlYTVhNDRkMmJlZGM4N2NlZjliMzU1NTkyZmZjYWQ2OWE4YWNhYzc1NWMzMWZkODY0YzkifQ"
+        }
+      ]
     }
   ],
   "verification": {
     "by": "openwiki/0.5.0",
-    "at": "2026-09-14T06:38:19.116Z"
+    "at": "2026-09-14T07:11:28.462Z"
   }
 }

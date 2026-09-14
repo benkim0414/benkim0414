@@ -5,7 +5,7 @@ description: How Astryx, StyleX, theme persistence, and browser layout checks fi
 tags: [astryx, stylex, theme, layout]
 verified:
   - by: openwiki/0.5.0
-    at: 2026-09-14T06:38:19.116Z
+    at: 2026-09-14T07:11:28.462Z
 sources:
   - id: openwiki-source-45b1d77b308bd57403f55ff9
     resource: repo://apps/github.io/.storybook/story-taxonomy.spec.ts
@@ -17,6 +17,8 @@ sources:
     resource: repo://apps/github.io/src/app/count-badge.stories.tsx
   - id: openwiki-source-43db7fa7bd3bd05d549bdc0a
     resource: repo://apps/github.io/src/app/count-badge.tsx
+  - id: openwiki-source-c3b9a31667eeb1ba07c1e2e1
+    resource: repo://apps/github.io/src/app/devops-capability-evidence/dora-capability-card.tsx
   - id: openwiki-source-931cab7abf1d26363f1a35b7
     resource: repo://apps/github.io/src/app/devops-roadmap/devops-roadmap-stepper.tsx
   - id: openwiki-source-0e64d2f01d205d55b34c0576
@@ -77,7 +79,7 @@ sources:
     resource: repo://apps/github.io/src/styles.css
   - id: openwiki-source-fcfa3ced1d03143bb27d5018
     resource: repo://apps/github.io/vite.config.ts
-generated: { by: "codex", at: "2026-09-14T06:38:19.116Z" }
+generated: { by: "codex", at: "2026-09-14T07:11:28.462Z" }
 ---
 
 # Design system and layout
@@ -144,6 +146,14 @@ certification citations, and neutral concept tokens reuse existing components.
 The component deliberately has no active step because evidence can complete
 non-contiguous topics, so completion is represented by each step's semantic
 status rather than by a single progress cursor.
+
+The Home page keeps its DORA heading and explanatory Banner in the section
+stack, then uses Astryx `Grid` for the mapped capability-card collection. The
+grid uses 360 px minimum tracks, a two-column cap, and spacing token 4, so the
+same canonical card order remains one full-width column when the section cannot
+fit two tracks and becomes a two-column desktop layout once it can. The cards
+retain their existing full-track width and article semantics; this is a
+section-owned allocation decision rather than a card-specific width override.
 
 At table-width viewports, the Skills page integrates the reusable `SkillTable`
 in a full-width Astryx `Card` with a divided control header and edge-to-edge
