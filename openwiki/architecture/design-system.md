@@ -5,7 +5,7 @@ description: How Astryx, StyleX, theme persistence, and browser layout checks fi
 tags: [astryx, stylex, theme, layout]
 verified:
   - by: openwiki/0.5.0
-    at: 2026-09-14T00:15:24.576Z
+    at: 2026-09-14T00:43:22.692Z
 sources:
   - id: openwiki-source-45b1d77b308bd57403f55ff9
     resource: repo://apps/github.io/.storybook/story-taxonomy.spec.ts
@@ -43,8 +43,6 @@ sources:
     resource: repo://apps/github.io/src/app/skills/skill-experience-card-shell.tsx
   - id: openwiki-source-ba5c27392181e6c65798f3c4
     resource: repo://apps/github.io/src/app/skills/skill-experience-list.tsx
-  - id: openwiki-source-2944a7e4b1284a70a09ee95a
-    resource: repo://apps/github.io/src/app/skills/skill-key-outcomes.tsx
   - id: openwiki-source-a08412c702b94999bfa82651
     resource: repo://apps/github.io/src/app/skills/skill-table.stories.tsx
   - id: openwiki-source-c2ac9449940c36fc7db6b3e4
@@ -59,7 +57,7 @@ sources:
     resource: repo://apps/github.io/src/styles.css
   - id: openwiki-source-fcfa3ced1d03143bb27d5018
     resource: repo://apps/github.io/vite.config.ts
-generated: { by: "codex", at: "2026-09-14T00:15:24.576Z" }
+generated: { by: "codex", at: "2026-09-14T00:43:22.692Z" }
 ---
 
 # Design system and layout
@@ -130,9 +128,10 @@ inside Astryx `Collapsible`. Each trigger segment appears only when its
 collection is non-empty: `Highlights` counts narrative points or distinct facts,
 and `Relevant skills` counts the token projection. While both exist, the closed
 trigger shows both; expanding retains the highlight segment and restores the
-skill label and count above the accessible token list. A skills-only trigger
-keeps its sole label in both states so the disclosure remains named. The shell controls the
-Astryx disclosure so both placements switch with its open state; it relies on
+skill label and count above the accessible token list. A skills-only card makes
+the same move on expansion, leaving one visible label above the tokens; Astryx
+`VisuallyHidden` names the resulting icon-only control for assistive technology.
+The shell controls the Astryx disclosure so both placements switch with its open state; it relies on
 the component's built-in chevron transition rather than adding custom panel
 motion. It starts closed when the initial viewport is at or below 640px and open
 otherwise; because the breakpoint only seeds state, a later resize does not

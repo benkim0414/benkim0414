@@ -26,10 +26,10 @@ sources:
     resource: repo://apps/github.io/src/app/skills/skill-list.data.ts
   - id: openwiki-source-e40383c548b8395ffee31167
     resource: repo://docs/research/2026-09-14-experience-disclosure-label.md
-generated: { by: "codex", at: "2026-09-14T00:15:24.576Z" }
+generated: { by: "codex", at: "2026-09-14T00:43:22.692Z" }
 verified:
   - by: openwiki/0.5.0
-    at: 2026-09-14T00:15:24.576Z
+    at: 2026-09-14T00:43:22.692Z
 ---
 
 # Skills and capability evidence
@@ -72,8 +72,8 @@ a measured result. The disclosure labels and counts only non-empty projections.
 While both exist, the collapsed trigger names both; once expanded, it retains
 the highlight count and each renderer moves the visible `Relevant skills` label
 and count above the accessible token list. A skills-only disclosure keeps that
-sole label in its trigger, while a card with neither projection has no
-disclosure.
+sole visible label above the tokens when open; its trigger then uses a hidden
+accessible collapse name. A card with neither projection has no disclosure.
 The proof starts collapsed on small initial viewports and expanded on larger
 ones without truncating or discarding evidence. Capability facts equal to the
 summary are filtered so the

@@ -28,10 +28,10 @@ sources:
     resource: repo://apps/github.io/src/app/skills/skill-experience-card-shell.tsx
   - id: openwiki-source-ba5c27392181e6c65798f3c4
     resource: repo://apps/github.io/src/app/skills/skill-experience-list.tsx
-generated: { by: "codex", at: "2026-09-14T00:15:24.576Z" }
+generated: { by: "codex", at: "2026-09-14T00:43:22.692Z" }
 verified:
   - by: openwiki/0.5.0
-    at: 2026-09-14T00:15:24.576Z
+    at: 2026-09-14T00:43:22.692Z
 ---
 
 # Application architecture
@@ -103,7 +103,8 @@ heading and summary visible and reveals the shared list and skill tokens
 together. Its controlled trigger labels and counts only non-empty projections.
 When both exist, expansion restores the relevant-skill label and count above its
 accessible token list while the trigger retains `Highlights`; a skills-only
-trigger retains its sole label, and an entirely empty projection has no
+card also moves its sole visible label above the tokens and gives the icon-only
+collapse control a hidden accessible name. An entirely empty projection has no
 disclosure.
 This presentation reuse does not merge the underlying authored-experience and
 capability-evidence models.

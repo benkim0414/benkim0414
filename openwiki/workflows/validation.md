@@ -62,10 +62,10 @@ sources:
     resource: repo://scripts/setup-openwiki.test.mjs
   - id: openwiki-source-165465422a61a00b62b0f6d3
     resource: repo://scripts/sync-github-pages-artifact.test.mjs
-generated: { by: "codex", at: "2026-09-14T00:15:24.576Z" }
+generated: { by: "codex", at: "2026-09-14T00:43:22.692Z" }
 verified:
   - by: openwiki/0.5.0
-    at: 2026-09-14T00:15:24.576Z
+    at: 2026-09-14T00:43:22.692Z
 ---
 
 # Validation workflow
@@ -182,9 +182,10 @@ content; that remains a Storybook visual check.
 
 Skill experience readability is protected at both renderer boundaries. Focused
 tests cover all four collection combinations: both labels appear when both
-collections exist, each label is omitted when its collection is empty, a
-skills-only trigger remains named after expansion, and neither collection
-produces a disclosure or chevron. With both collections, expansion keeps only
+collections exist, each label is omitted when its collection is empty, and
+neither collection produces a disclosure or chevron. A skills-only regression
+asserts exactly one visible expanded label above the tokens and an accessible
+name for the icon-only collapse control. With both collections, expansion keeps only
 the highlight count in the trigger and moves the visible relevant-skill label
 and count above the token list. Coverage also protects absence of the former combined
 outcome/skill sentence, closed small-viewport and open large-viewport defaults,
