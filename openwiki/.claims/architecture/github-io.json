@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:4620a08dfcc2846224bd811972e7efbcb0d7c6c4120f4261bccf2b0c3046b489",
+  "pageVersion": "sha256:363674fd4e57133371e98ec1e49d63ed8d00d4c9240f90d788f0adce570bc595",
   "claims": [
     {
       "id": "claim_da9ac46eb2204e9b9a555848aea5550d",
@@ -28,11 +28,15 @@
     },
     {
       "id": "claim_ad7e625f193347f6888f9696ed7171b0",
-      "statement": "SkillDetailRoute passes authored source collections to resolveSkillDetail and chooses a full-width not-found component or SkillDetailPage based on the resolution.",
+      "statement": "SkillDetailRoute obtains the URL skill ID, resolves it against the consolidated skillDetailSources bundle, and chooses a full-width not-found component or SkillDetailPage based on the typed resolution.",
       "evidence": [
         {
           "resource": "repo://apps/github.io/src/app/skills/skill-detail-route.tsx",
-          "version": "repo-file-v1:sha256:d59af87a188308f8157b20483104b0d4fbc597e8e619d2ce00588d3aa132cf26"
+          "version": "repo-file-v1:sha256:7955b61854fcf2bda11bf2adb93b8efabc250e561d41b762122a792d7c617088"
+        },
+        {
+          "resource": "repo://apps/github.io/src/app/skills/skill-detail-sources.ts",
+          "version": "repo-file-v1:sha256:fc4b5b83a277bc079116555c4414f86e8411c5866a43a15d8532cc18d81209e0"
         }
       ]
     },
@@ -48,51 +52,51 @@
     },
     {
       "id": "claim_466cbd14839941c58399743b6191d5b5",
-      "statement": "The SkillDetailPage renders the Experience section when primary experiences or supporting evidence exist, but passes only the primary experience length to a sibling count badge so the level-two heading remains named `Experience`.",
+      "statement": "The skill-detail content renders the Experience section when authored experiences or supporting evidence exist, but passes only the authored experience length to a sibling count badge so the level-two heading remains named Experience.",
       "evidence": [
         {
-          "resource": "repo://apps/github.io/src/app/skills/skill-detail-page.spec.tsx#L401-L425",
-          "version": "repo-lines-v1:sha256:c0cfbf0f100037186c52db40ccc402892ee8fdc89a4056b7ca9a54c244650ea7:eyJzZWxlY3RlZExpbmVDb3VudCI6MjUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImJlMWEyNDgwODdiNjkwOWJjNjFjMDc3MTgyNzRkZThlYmU0Y2RjODBjMjM1MzE4N2RiNDBiYzFkMjgzMzAzZDQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjNhM2U0NmY5NDI3NmI2ZjZmNGVkMWYwMmFmNzhiZWY2YTJlZTFjNDM5ZGQ1NTg0Yjk3Mzk0ODMxMzIxNGQyYjciLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImM1YmQ5ZDdkYTJkOGI1ODllZDlhZGQyNmMyNTNmNzFjNzUyNzgxZTA2YzA5N2M1NGQ1NjgwZTkyYmU5MWE2ZWEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjZhMDg0NGM1YzA3OWYyZmFjZjhmZDNlMTU3NmJjYzc5YzIwODRmYjhiN2Y1Yjg5Yzk2YTA5OWVmYWE2ZTdjYjgifQ"
+          "resource": "repo://apps/github.io/src/app/skills/skill-detail-content.tsx",
+          "version": "repo-file-v1:sha256:20489be9beacde301347a4546269fcfc560bbd9a11aa0e3f20bac19ac62b7b08"
         },
         {
-          "resource": "repo://apps/github.io/src/app/skills/skill-detail-page.tsx#L159-L184",
-          "version": "repo-lines-v1:sha256:09ac627f10d6e9427aa407e514e23373cef45d2df2098721c0a6073713cc6acd:eyJzZWxlY3RlZExpbmVDb3VudCI6MjYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjA3NWExY2U1OGMxMTBlYzA3NWUzMmE3YWJjZmNlZTlkYTQzMzY3YWMwMzRiNWU2MjAxYjg5OGRhMzI1ODM4Y2YiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjEwMDhlYWM3NTAyNTk5ODkwZDNkYWVmMjI3ODU4OGEzZTIwYTVlYWJiYTA3YTZkNTU2MjQ0YjNkYjhkOWZlZDMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6Ijg2NTYzZGUyNzgxZTk2YTFhNGNkNTlmYTEyZmVkYmM3MWZmNjhkNzNhNTZkZjQ3MjVmNzhiZDBlZjc1OGRkYTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjBjMDBlOTEyYzY3ZmNjN2U1OTQ4YzFmMjhkN2Q4OGUyMThmZGJiYTFlNjJmNzY5OTlhYmMzNTRiZmE4NzQ3NzMifQ"
+          "resource": "repo://apps/github.io/src/app/skills/skill-detail-page.spec.tsx",
+          "version": "repo-file-v1:sha256:e5d0972f1cb40ff0eee257eacf4c36d264fadb08d879c9c2986e0fa382feb0a9"
         }
       ]
     },
     {
       "id": "claim_2f5872dd70294613a8a5d94a687b74b5",
-      "statement": "`SkillDetailPage` renders the reusable app-level `CountBadge` immediately after the Experience heading, preserving the heading's own accessible name.",
+      "statement": "SkillDetailContent renders the reusable app-level CountBadge immediately after the Experience heading, preserving the heading's own accessible name.",
       "evidence": [
         {
-          "resource": "repo://apps/github.io/src/app/skills/skill-detail-page.spec.tsx#L401-L425",
-          "version": "repo-lines-v1:sha256:c0cfbf0f100037186c52db40ccc402892ee8fdc89a4056b7ca9a54c244650ea7:eyJzZWxlY3RlZExpbmVDb3VudCI6MjUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImJlMWEyNDgwODdiNjkwOWJjNjFjMDc3MTgyNzRkZThlYmU0Y2RjODBjMjM1MzE4N2RiNDBiYzFkMjgzMzAzZDQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjNhM2U0NmY5NDI3NmI2ZjZmNGVkMWYwMmFmNzhiZWY2YTJlZTFjNDM5ZGQ1NTg0Yjk3Mzk0ODMxMzIxNGQyYjciLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImM1YmQ5ZDdkYTJkOGI1ODllZDlhZGQyNmMyNTNmNzFjNzUyNzgxZTA2YzA5N2M1NGQ1NjgwZTkyYmU5MWE2ZWEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjZhMDg0NGM1YzA3OWYyZmFjZjhmZDNlMTU3NmJjYzc5YzIwODRmYjhiN2Y1Yjg5Yzk2YTA5OWVmYWE2ZTdjYjgifQ"
+          "resource": "repo://apps/github.io/src/app/skills/skill-detail-content.tsx",
+          "version": "repo-file-v1:sha256:20489be9beacde301347a4546269fcfc560bbd9a11aa0e3f20bac19ac62b7b08"
         },
         {
-          "resource": "repo://apps/github.io/src/app/skills/skill-detail-page.tsx#L160-L167",
-          "version": "repo-lines-v1:sha256:81bcb7606150e3d0a03b2f3f2dbb7473a5ea300e77a0654ae54376177fccec35:eyJzZWxlY3RlZExpbmVDb3VudCI6OCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiM2FjMGUwYThhOTNmYjgxOGQ1MzI5ZDFhYjA4OTk2ZTU2NTAxYzNlZWViYzdmYzkyYzJiMTFiYWMzM2EwYTFiOSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiZTI1Nzk5MTk3ZDU4YWI0OWZmMzQwZWI1YjE1ZDNiYTllNWYxZmM1MzQ1ODk4YmVlYzJkZjVmMGU3MGEwYWI5YSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZjRmNmNiNDMxOTI3ZTY2NTc2NGEzMGU2YmRlZTNlZmU0YTQxOGVmNTA4ZWQ3OGMwYmU2NWY2N2MwZTdjYTc0YyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMmEyNTQwNGJlNDBjMjkyM2FjMWQ1ZmFmNjdkZjA3YTk4YjAxZGJjMmFiYWIzNGI2MmE2NDUwNmM3MjZiMzliYiJ9"
+          "resource": "repo://apps/github.io/src/app/skills/skill-detail-page.spec.tsx",
+          "version": "repo-file-v1:sha256:e5d0972f1cb40ff0eee257eacf4c36d264fadb08d879c9c2986e0fa382feb0a9"
         }
       ]
     },
     {
       "id": "claim_80d4be3846a2478cb22dc562f1658d22",
-      "statement": "RoadmapPage owns the `/roadmap` framing, explanatory introduction, roadmap.sh attribution and informational source banner, then selects DevOpsRoadmapStepper to project the curated roadmap inventory into Astryx steps with evidence-derived completed or upcoming states; the legacy React Flow component remains in source but is not rendered by the route.",
+      "statement": "RoadmapPage owns the /roadmap framing, explanatory introduction, roadmap.sh attribution and informational source banner, then selects DevOpsRoadmapStepper to project the curated roadmap inventory into Astryx steps with evidence-derived completed or upcoming states; the legacy React Flow component remains in source but is not rendered by the route.",
       "evidence": [
         {
-          "resource": "repo://apps/github.io/src/app/app.spec.tsx#L246-L332",
-          "version": "repo-lines-v1:sha256:f43e3febbcd10a4d1ba0975d0e38a21c0167fbca8e9d1f6391ce66f947939075:eyJzZWxlY3RlZExpbmVDb3VudCI6ODcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImU3OGNmYmE1M2M2MGFkNzk5NjFiYjllZTAyNDM4OTQ4OTdiMGYxOGI3NjdjMWRmZDU1N2ViZDUzYzQwYmNhZWUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjkxN2M2OGIxNjUzNjQxM2U0NTUyNmUwOTUwZTlkNGM3NzBjMjk0OTgwMDAxOTQyMTRhM2JlMzc1ZjA2MTFjNzMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImEzMGM1OGE5MTcwNWFhODYzZTdmZDIzOTJkZGE0ZGNhYzM0YjQwODQ0ZjQ2NzgxZGNjOWI2M2VlYTM3ZmRjMmUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImEzNGFlYWYwZWE5MTI4NGZkNTQ3ZjhiOTg0OGU3NjZiNTJkN2ZlMWQ0ZmVkMzY3MGJkNjhlYjNiZWFhMjRkYjUifQ"
+          "resource": "repo://apps/github.io/src/app/app.spec.tsx",
+          "version": "repo-file-v1:sha256:c3c87ed0a274239c6ae7f2e5b3c942f83a5476f212f14f3d7757f80b47750ec1"
         },
         {
-          "resource": "repo://apps/github.io/src/app/devops-roadmap/devops-roadmap-stepper.tsx#L41-L139",
-          "version": "repo-lines-v1:sha256:a4a0055ba9bfa010b5036b19fc734ac9595cdbe51ca8bd3a59d29811969fcd78:eyJzZWxlY3RlZExpbmVDb3VudCI6OTksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjZiNzA1YjkxMzA2MjRkZTkyZTYzMzcyYmNhZTA2YTVkMGQ5YzcyNTViYzVjODc4NDc0NGY0MjdkOTliYzczNWMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImQ1ZjE5ZDUxNWYxZjIzN2ZmMWM0Mzg4MzIwZmQ1Mzk1OTQ2YTU1YTgwMWVkMTg4Mzg5MmI3OTY4ZGY5ZjNhOWYiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjEzODNhYzE5OThhZDg4Mjg4NDVjNzBlZGZmOWQyNWZjYzc4OTU3ZjU1MzBhNzk4MzhkNTE4NGExZTE3MGZlNDIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjoyLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjdiOGI2MDBhNWI0NDhiMWU0ZDAyZGYwOTc0NmVkM2NhMzE3MmY3NWM0YWFiYjAxZGRlMDgwZTM2Y2FiMDc0YjQifQ"
+          "resource": "repo://apps/github.io/src/app/devops-roadmap/devops-roadmap-stepper.tsx",
+          "version": "repo-file-v1:sha256:a6f911e96e8f2f7d358a96ae7649d14a198e011b06a20c9ebc460130e54faeca"
         },
         {
-          "resource": "repo://apps/github.io/src/app/devops-roadmap/roadmap-page.spec.tsx#L40-L109",
-          "version": "repo-lines-v1:sha256:2f87c370960f43558613f73b6bedc1739ee0b869f076d83a12061342ddd40ca4:eyJzZWxlY3RlZExpbmVDb3VudCI6NzAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjIzMzUwNGIzMmE4NmQwNzA3NWIwYmI4ZDBiMjhjZWIxNDU2Yjc0NmRlMTY2M2M2ZmEyYmRmMDI0ZTZmYmQwNDMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjNhM2U0NmY5NDI3NmI2ZjZmNGVkMWYwMmFmNzhiZWY2YTJlZTFjNDM5ZGQ1NTg0Yjk3Mzk0ODMxMzIxNGQyYjciLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjQ5NzdlZmE3Y2Q5ODkxMzBkMGE0ODJkMTg0ZWRhNWI2NzhhMDI4YTQ4MjgyODhmNWYzZDhkMjQ5OGIxNzMyNzMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjoxLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImY2ZjViNDBiMTU4NDU3ZDE3ODY0ZjIxNzkwNzg2ZGQ1YTJlY2RiNjRiNjZhNjUxZjc4OGQ0ZTI1Y2QzMzAzZDIifQ"
+          "resource": "repo://apps/github.io/src/app/devops-roadmap/roadmap-page.spec.tsx",
+          "version": "repo-file-v1:sha256:7f5be0976e37e8401007954e1849b4a1f50f72a318c978af80f95f3656a9ad6e"
         },
         {
-          "resource": "repo://apps/github.io/src/app/devops-roadmap/roadmap-page.tsx#L14-L56",
-          "version": "repo-lines-v1:sha256:d0dbc760ced827dfbdea3973183ceac063733e326f0d916f5b57e181972fcc4e:eyJzZWxlY3RlZExpbmVDb3VudCI6NDMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjZlN2RiYmMxNzJlNjkzOTMzMDU4ODZlMWZiMTJmMGEyNDc0N2ViOWQzMWNlMjBkZjcwNzU2ZGIxYzNlYzYwN2EiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImE3Yzc0YWYyZDEyZDdhODQ5YTIxNTgwODFjMWE3MTU3ZTdjZjI3ZTA0ZWYwZDJjYzdhNDdhNDFhYzkwMTUwOGUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImFlMzQzY2JiODIyNzc5YWE3MzNhOGJmMGI4YzE2MjhlZjdjNGZkODQ0MGVhMzNhOGU3MzEwNzZhNjhjOTk1ODciLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjoyLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjdiOGI2MDBhNWI0NDhiMWU0ZDAyZGYwOTc0NmVkM2NhMzE3MmY3NWM0YWFiYjAxZGRlMDgwZTM2Y2FiMDc0YjQifQ"
+          "resource": "repo://apps/github.io/src/app/devops-roadmap/roadmap-page.tsx",
+          "version": "repo-file-v1:sha256:dd2bb324297dbc0ad52a8bfd2899a639cbf05dad319a0f8056e98446c737bd94"
         }
       ]
     },
@@ -101,12 +105,12 @@
       "statement": "Authored experience narratives and capability-derived facts remain distinct projections: authored narratives preserve source order, capability facts are deduplicated and summary duplicates removed, and both feed the shared unnamed outcome-list presentation before a separate relevant-skills token projection.",
       "evidence": [
         {
-          "resource": "repo://apps/github.io/src/app/skills/skill-experience-card-list.tsx#L78-L124",
-          "version": "repo-lines-v1:sha256:040a1ec419f1638b6defcfd2946ec535c344cb2072aaf965f17cebdf0194ac6f:eyJzZWxlY3RlZExpbmVDb3VudCI6NDcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImE0YTJiNGJkZjc1MjhjOGIwZDAxNDg0NmZlY2QxZWNkZjkxYjExNzYwOWYxYzdiMTkwOTY5MWE0MzFmY2RlMWEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQzYzc3OGZiMjk4YzU2MDVkZDgyYTExZGZhZmJhZmY0NjczYTQ4ODEyZWNjZWM4N2E1Mjg5MTcxNDExNzVjZTciLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjIxZWIwZTI3N2E4Yjc2ZmRhNzAyNjZkM2RmNTk5MDJiNjY3OWE5NjI1OGYzMWVmNTVkMDI5ZWI2MGIxODM3ZjgiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjVkOWQ2MDY3NzUzZTkwN2I1Yzg4NmY4MWE0NDAwNGU2ZjEwYThjY2EyZjUxMTUyY2VhZDVlMjUxOTFjZTY0OTEifQ"
+          "resource": "repo://apps/github.io/src/app/skills/skill-experience-card-list.tsx",
+          "version": "repo-file-v1:sha256:d2b33bcec788d41c414d73aad2a71969a3a3b89522ed961f6d9fc8f0059d2b70"
         },
         {
-          "resource": "repo://apps/github.io/src/app/skills/skill-experience-list.tsx#L44-L96",
-          "version": "repo-lines-v1:sha256:f3a7ae04ad925309deac0a4a24e70c5df6b18924e253e77362a658f8f9deae67:eyJzZWxlY3RlZExpbmVDb3VudCI6NTMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijc2NzI2ZDBkZjk5NGZhODA5NTJkYzdkODYwZjA4MWIxNzg0YjdmM2ViZWEwZGZiZTBiOWFmMDJlM2E4ZTQ0NmYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQ4NWYxOTVkOWJiNzU4NjEwMGI2NTcwZWI1NzViMThlMTAxZmIzODIzMDliYjQwYWJhNjIzZDk0ZThkYmRkOGQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjEzODNhYzE5OThhZDg4Mjg4NDVjNzBlZGZmOWQyNWZjYzc4OTU3ZjU1MzBhNzk4MzhkNTE4NGExZTE3MGZlNDIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjM5NmViMTNkZTNhMDNhNjAzMmMyNmM5ZDBlYzcyYWEyMzNmNzg2ZGZlZjRmNTc4YWEyMzYxOTM3NGRjZjBkYzcifQ"
+          "resource": "repo://apps/github.io/src/app/skills/skill-experience-list.tsx",
+          "version": "repo-file-v1:sha256:86a37a0576ecdb1e4bdfdbe3794ab69b354c45aab34593a18ee3250ad82beb5f"
         }
       ]
     },
@@ -115,26 +119,58 @@
       "statement": "Skill detail pages remain direct children of the shared shell scroll region; enriched details add a responsive sticky Astryx Outline explicitly bound to that Page Scroll Owner, with Overview, Experience, and Projects items following rendered section availability, while basic details omit the one-item outline.",
       "evidence": [
         {
-          "resource": "repo://apps/github.io/src/app/global-navigation-layout.tsx#L228-L233",
-          "version": "repo-lines-v1:sha256:4144e464c22053d06751fd51e4417a9af8fd55a798a2361818ab7b6201913040:eyJzZWxlY3RlZExpbmVDb3VudCI6NiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiM2ZkMmNkODQ4N2M2MjhjYjBmYTQxM2EyMWY2YzE3YWVmODBjM2VjMzM3NTBhZTdkNjBlYTg2NjI3ZGUwMGE0NSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiZDEyYTRhZWM5ZjY5MjBiNjUyMmVjODkwMmY4NTQ1OGNhYmFjMmI2MmI2MWIxZmJhNmVjM2VlYzU2OTY2MzUwYSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMjVkNGY0ZWU5NDUxZTQ1OGIyODNiZTcyNWFmZDE1ODI1MTVkZDI1MmIwOTJlOGFjZmY4ZGM4NWZiYmRhZDk3NCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiYTJiYjFjMWNiOWY3ODQ1MjFmZmFmZTQzODE4MDIwZjFjOWYzOTY0NjAzOTE2YmMyY2M0YThiOWQ1MGMzOTYyNSJ9"
+          "resource": "repo://apps/github.io/src/app/global-navigation-layout.tsx",
+          "version": "repo-file-v1:sha256:45199d140f23dbf4f491770186e9de95f348686f12ead167e7e54fa9a7edb4b6"
         },
         {
-          "resource": "repo://apps/github.io/src/app/skills/skill-detail-page.spec.tsx#L40-L107",
-          "version": "repo-lines-v1:sha256:0525df686f3f27cd9e170bf070bd80b626db7a57229f4124a50d25371d7b9255:eyJzZWxlY3RlZExpbmVDb3VudCI6NjgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImU3NTQ2YzVlYWVkNTMyN2YyY2QzMzlhNmNhMzJlMjE5ZDJkYmQyODM5NzViMmU3YTA3NzdiYzc4NzBkNjZkZTMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjNhM2U0NmY5NDI3NmI2ZjZmNGVkMWYwMmFmNzhiZWY2YTJlZTFjNDM5ZGQ1NTg0Yjk3Mzk0ODMxMzIxNGQyYjciLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImVmNWY0NzQzMjgyZjQ3NTIyNmY4MzE1NzRiZmE3NTJhZDEyZDMwOWNlYjcxZGQzNjRiMDFiNGViOWQ1MjhkMWQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImI3YzVlNTViZjZlZmVkMjhiMDhiNGEwMDQ2ODE4NTUxZWU5MmU4MjE3ZTM0YzBkMTExOTExZGIzZGNiNzY5MjcifQ"
+          "resource": "repo://apps/github.io/src/app/skills/skill-detail-page.spec.tsx",
+          "version": "repo-file-v1:sha256:e5d0972f1cb40ff0eee257eacf4c36d264fadb08d879c9c2986e0fa382feb0a9"
         },
         {
-          "resource": "repo://apps/github.io/src/app/skills/skill-detail-page.tsx#L202-L230",
-          "version": "repo-lines-v1:sha256:26d87b235d0cb310e3306979188961f7c7c1acc3d35a23eb21c7924fef044be5:eyJzZWxlY3RlZExpbmVDb3VudCI6MjksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImU3MjE2ZThlOWMwYTFhNjhkMDZjMmZiYWE1ZmQyMTM5NDgyYjhlZmQwYTE5MzE1YjkxNWU2Y2NlODQ5ZDg5ZGMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImE3Yzc0YWYyZDEyZDdhODQ5YTIxNTgwODFjMWE3MTU3ZTdjZjI3ZTA0ZWYwZDJjYzdhNDdhNDFhYzkwMTUwOGUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImQ1ZWMxNWU1NWFiMjU5ZGUzYjgwZDhkNWVmNjdhY2U3ZTA0MWYwYmJmYzc1OWVkYzFiYWI2ZGJlYTI3NzU0ZGIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjoyLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjdiOGI2MDBhNWI0NDhiMWU0ZDAyZGYwOTc0NmVkM2NhMzE3MmY3NWM0YWFiYjAxZGRlMDgwZTM2Y2FiMDc0YjQifQ"
+          "resource": "repo://apps/github.io/src/app/skills/skill-detail-page.tsx",
+          "version": "repo-file-v1:sha256:e3da33614ba3e3b200c94df78f7e66b5c5a6df1f437d7545f1303ddf91491e87"
+        }
+      ]
+    },
+    {
+      "id": "claim_ecccdf8849a14979a6b246847cfcc84d",
+      "statement": "SkillsPage owns shared query and category-filter state across a table-width SkillTableDetailLayout and a compact card catalog. Table rows support pointer and keyboard activation into an adjacent detail sheet, and selection clears when compact mode begins, filters remove the active skill, or detail resolution fails.",
+      "evidence": [
+        {
+          "resource": "repo://apps/github.io/src/app/skills/skill-table-detail-layout.tsx",
+          "version": "repo-file-v1:sha256:98a358c44337cfab2377412afe15e8f290c0174d9b8255caa419fa3fd5bae7ed"
         },
         {
-          "resource": "repo://apps/github.io/src/app/skills/skill-detail-page.tsx#L29-L83",
-          "version": "repo-lines-v1:sha256:bc5f19395a3eba02f8e595ba9342b8f1de5d8680e44ec3acee73b99eafd196ec:eyJzZWxlY3RlZExpbmVDb3VudCI6NTUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImJlMTkxYTNlN2MxNjZmZmFhYmEwZDgzNjI1Mzg2MDJmOGM4YmVkYWJjYzU1ZmQwYWI1YjIyNTA2MGRmYzNlMWMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjA0MDE5MGEzMDU4ZDliMWU3NmIzYzU1MzdlNzI3YjViYzM2ZGIwNTU0Yjg3MWU1MGRiYjhkYzk1Yjg2OTgyNjAiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjRiYTlkYzZhYmIwNmE0ZGJmYWUwOTdlOTBmZWY2M2FiOTA1NjJiNGUxYzQ2YWY2ZjM0MGJmZjgxMTJjZGQ5ODciLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImJjMTE0Yzk3YjdmYWE3ZTliNzJiODc3NzUwYTY3ZmM1MTAzYmYwMTE3MzBiM2RlMzZmMTU1ZjA5YzhmYjIwNTgifQ"
+          "resource": "repo://apps/github.io/src/app/skills/skill-table.tsx",
+          "version": "repo-file-v1:sha256:a5d3b4395dbf79f14cead5bc81a20220a9571a86f82f9682a0b77ca58a33580d"
+        },
+        {
+          "resource": "repo://apps/github.io/src/app/skills/skills-page.tsx",
+          "version": "repo-file-v1:sha256:3f3f61650fb9085fd88ba70f2936b102487ebe0e5625ce688858332f7f4581fe"
+        }
+      ]
+    },
+    {
+      "id": "claim_f90a317960e146e4bae983a38e99d06e",
+      "statement": "Both experience projections use a controlled disclosure shell: mixed cards retain Highlights in the expanded trigger and place Relevant skills above tokens, skills-only cards keep Relevant skills and its count beside the chevron in both states without a duplicate panel heading, and empty cards omit disclosure.",
+      "evidence": [
+        {
+          "resource": "repo://apps/github.io/src/app/skills/skill-experience-card-list.tsx",
+          "version": "repo-file-v1:sha256:d2b33bcec788d41c414d73aad2a71969a3a3b89522ed961f6d9fc8f0059d2b70"
+        },
+        {
+          "resource": "repo://apps/github.io/src/app/skills/skill-experience-card-shell.tsx",
+          "version": "repo-file-v1:sha256:3ec4c1c46ebca56997c14554d18662bdfe24eb80817b027f32e45b6341794762"
+        },
+        {
+          "resource": "repo://apps/github.io/src/app/skills/skill-experience-list.tsx",
+          "version": "repo-file-v1:sha256:86a37a0576ecdb1e4bdfdbe3794ab69b354c45aab34593a18ee3250ad82beb5f"
         }
       ]
     }
   ],
   "verification": {
     "by": "openwiki/0.5.0",
-    "at": "2026-09-13T12:20:31.716Z"
+    "at": "2026-09-14T01:33:39.410Z"
   }
 }

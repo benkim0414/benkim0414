@@ -18,20 +18,32 @@ sources:
     resource: repo://apps/github.io/src/app/global-navigation-layout.tsx
   - id: openwiki-source-27a9eeb6972479f50ad1d034
     resource: repo://apps/github.io/src/app/router-link.tsx
+  - id: openwiki-source-0326a209b3e8f758018bcc41
+    resource: repo://apps/github.io/src/app/skills/skill-detail-content.tsx
   - id: openwiki-source-d97b9e088d941d15580a0bd7
     resource: repo://apps/github.io/src/app/skills/skill-detail-page.spec.tsx
   - id: openwiki-source-679e425aa4dc519b0748e74d
     resource: repo://apps/github.io/src/app/skills/skill-detail-page.tsx
   - id: openwiki-source-2fe979393541d6de345e3a57
     resource: repo://apps/github.io/src/app/skills/skill-detail-route.tsx
+  - id: openwiki-source-2c64c0f3573e21fe75b82d6d
+    resource: repo://apps/github.io/src/app/skills/skill-detail-sources.ts
   - id: openwiki-source-61956fea1deed015d3bafd72
     resource: repo://apps/github.io/src/app/skills/skill-experience-card-list.tsx
+  - id: openwiki-source-6d3d436c779dec5facaf5f2d
+    resource: repo://apps/github.io/src/app/skills/skill-experience-card-shell.tsx
   - id: openwiki-source-ba5c27392181e6c65798f3c4
     resource: repo://apps/github.io/src/app/skills/skill-experience-list.tsx
-generated: { by: "codex", at: "2026-09-13T12:20:31.716Z" }
+  - id: openwiki-source-b7cc9784bea6b15d468f9f23
+    resource: repo://apps/github.io/src/app/skills/skill-table-detail-layout.tsx
+  - id: openwiki-source-c2ac9449940c36fc7db6b3e4
+    resource: repo://apps/github.io/src/app/skills/skill-table.tsx
+  - id: openwiki-source-a845ec3d01c38967df3a4dad
+    resource: repo://apps/github.io/src/app/skills/skills-page.tsx
+generated: { by: "codex", at: "2026-09-14T01:33:39.410Z" }
 verified:
   - by: openwiki/0.5.0
-    at: 2026-09-13T12:20:31.716Z
+    at: 2026-09-14T01:33:39.410Z
 ---
 
 # Application architecture
@@ -58,6 +70,13 @@ whether to join that layout route. A skill detail's domain-level not-found
 result is different from an unmatched URL: `SkillDetailRoute` renders the
 full-width not-found component within its existing route.
 
+`SkillsPage` owns one filter state across two responsive projections. At table
+widths it renders `SkillTableDetailLayout`, where pointer or keyboard row
+activation opens resolved skill detail in an adjacent sheet and returns focus to
+the originating row. Compact widths render the card catalog with toolbar search
+and category filters instead; changing to compact mode, filtering out the active
+skill, or failing detail resolution clears the table selection.
+
 `RoadmapPage` owns the `/roadmap` page framing: its heading, two explanatory
 paragraphs, roadmap.sh attribution, informational source banner, external
 DevOps roadmap action, and content spacing. The introduction explains that the
@@ -71,9 +90,10 @@ components. The earlier React Flow `DevOpsRoadmap` implementation remains in
 the codebase for compatibility and comparison, but the route no longer renders
 it.
 
-Skill detail illustrates the data boundary. The route obtains `skillId` and
-passes authored skills, detail records, evidence, projects, and experiences to
-`resolveSkillDetail`. The resolver returns a typed resolution; the route selects
+Skill detail illustrates the data boundary. `skillDetailSources` gathers the
+authored skills, detail records, evidence, projects, and experiences. The route
+obtains `skillId` and passes that source bundle to `resolveSkillDetail`. The
+resolver returns a typed resolution; the route selects
 error recovery or passes the resolved value to `SkillDetailPage`. Keep reference
 validation in the resolver rather than burying it in view components.
 
@@ -102,6 +122,13 @@ and removes facts equal to the summary first. Both then use the same unnamed
 Astryx outcome list, while relevant skills remain a separate canonical-token
 projection below it. This shared presentation does not merge the underlying
 authored-experience and capability-evidence models.
+
+Both projections then enter the same controlled experience-card shell. Mixed
+cards show both counts while closed, retain `Highlights` in the open trigger,
+and move `Relevant skills` above the token list. Skills-only cards keep the
+skill label, count, and chevron together in the trigger in both states, while
+their renderers omit the duplicate panel heading. Cards without either
+projection do not render a disclosure.
 
 Continue with [evidence semantics](../concepts/evidence.md),
 [theme and layout](design-system.md), and [validation](../workflows/validation.md).

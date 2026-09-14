@@ -5,7 +5,7 @@ description: How Astryx, StyleX, theme persistence, and browser layout checks fi
 tags: [astryx, stylex, theme, layout]
 verified:
   - by: openwiki/0.5.0
-    at: 2026-09-13T12:20:31.716Z
+    at: 2026-09-14T01:33:39.410Z
 sources:
   - id: openwiki-source-45b1d77b308bd57403f55ff9
     resource: repo://apps/github.io/.storybook/story-taxonomy.spec.ts
@@ -33,12 +33,16 @@ sources:
     resource: repo://apps/github.io/src/app/home/home-page.spec.tsx
   - id: openwiki-source-0e3b0dfb231db070ffd8340f
     resource: repo://apps/github.io/src/app/home/home-page.tsx
+  - id: openwiki-source-0326a209b3e8f758018bcc41
+    resource: repo://apps/github.io/src/app/skills/skill-detail-content.tsx
   - id: openwiki-source-2f8ff13f4c903910f3a587fc
     resource: repo://apps/github.io/src/app/skills/skill-detail-page.stories.tsx
   - id: openwiki-source-679e425aa4dc519b0748e74d
     resource: repo://apps/github.io/src/app/skills/skill-detail-page.tsx
   - id: openwiki-source-61956fea1deed015d3bafd72
     resource: repo://apps/github.io/src/app/skills/skill-experience-card-list.tsx
+  - id: openwiki-source-6d3d436c779dec5facaf5f2d
+    resource: repo://apps/github.io/src/app/skills/skill-experience-card-shell.tsx
   - id: openwiki-source-ba5c27392181e6c65798f3c4
     resource: repo://apps/github.io/src/app/skills/skill-experience-list.tsx
   - id: openwiki-source-2944a7e4b1284a70a09ee95a
@@ -57,7 +61,7 @@ sources:
     resource: repo://apps/github.io/src/styles.css
   - id: openwiki-source-fcfa3ced1d03143bb27d5018
     resource: repo://apps/github.io/vite.config.ts
-generated: { by: "codex", at: "2026-09-13T12:20:31.716Z" }
+generated: { by: "codex", at: "2026-09-14T01:33:39.410Z" }
 ---
 
 # Design system and layout
@@ -92,8 +96,10 @@ the rendered label and neutral styling to Astryx's `Badge`; its colocated
 Storybook stories are cataloged as `Components/Count Badge` and cover a
 representative populated count and zero. The skill-detail page uses this shared
 badge beside both its Experience and Projects headings. Each badge sits outside
-the heading's accessible name in the same centered horizontal layout and derives
-its value from the collection rendered by that section. This keeps pages from
+the heading's accessible name in the same centered horizontal layout. The
+Experience badge counts authored experience records, while the Projects badge
+counts project cards; capability-derived experience can still make the section
+visible independently. This keeps pages from
 recreating the design-system contract for count indicators.
 
 The roadmap page frame also stays inside Astryx's public composition surface. A
@@ -118,8 +124,9 @@ The component deliberately has no active step because evidence can complete
 non-contiguous topics, so completion is represented by each step's semantic
 status rather than by a single progress cursor.
 
-The reusable `SkillTable` is currently a Storybook component rather than a
-page-level integration. It composes Astryx's table, compact text input,
+At table-width viewports, the Skills page integrates the reusable `SkillTable`
+with a detail sheet; compact viewports retain the card catalog, toolbar search,
+and category popover. The table composes Astryx's table, compact text input,
 multi-selector, button, layout, and empty-state primitives with the app's
 smallest `SkillAvatar`, colored `SkillCategory`, and text-only
 `SkillConfidence` components. Its four columns remain sortable and derive pixel
@@ -127,9 +134,10 @@ widths from the longest supplied values; confidence starts high-to-low with name
 as a deterministic tiebreaker. Name search is case-insensitive and combines
 with an OR-across-selected-categories filter, while the category choices come
 from the supplied skill collection. The result count, clear action, and distinct
-empty states belong to this standalone component. These source contracts do not
-establish browser-rendered fit or responsive behavior, which still require a
-visual check.
+empty states belong to the table component. Rows support pointer and keyboard
+activation, expose the active row through `aria-current`, and open the selected
+skill in the adjacent detail layout. Storybook supplies explicit desktop-table
+and compact-card viewport scenarios for visual review.
 
 Text-heavy skill experience cards keep their summary as primary body copy and
 delegate repeated details to `SkillKeyOutcomes`. The shared component renders an
@@ -138,6 +146,16 @@ body `Text` as rich content so long outcomes wrap, and an empty collection
 renders nothing. The card heading and summary already identify the following
 points, so the repeated `Key outcomes` header and accessible name are omitted
 without removing the list and list-item semantics.
+
+The shared `SkillExperienceCardShell` keeps each card heading and summary
+visible while placing non-empty detail projections inside Astryx `Collapsible`.
+Closed mixed-content triggers show both `Highlights` and `Relevant skills`
+counts; opening retains `Highlights` in the trigger and places the skill label
+above its accessible token list. A skills-only card keeps `Relevant skills` and
+its count beside the chevron in both states, so each renderer omits the duplicate
+panel heading. Cards with neither projection omit the disclosure entirely. The
+initial viewport seeds the disclosure closed at or below 640px and open above
+that breakpoint without later resizing overriding the visitor's choice.
 
 Long skill detail pages use Astryx `Outline` for page-local navigation rather
 than recreating a contents list. A token-spaced Astryx `Grid` reserves a 208px

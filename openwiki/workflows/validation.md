@@ -32,8 +32,12 @@ sources:
     resource: repo://apps/github.io/src/app/skills/skill-experience-list.spec.tsx
   - id: openwiki-source-3d04b17fb8b6c27eb59cd798
     resource: repo://apps/github.io/src/app/skills/skill-table.spec.tsx
+  - id: openwiki-source-3f3dc1d4c3baeae6c2657a1d
+    resource: repo://apps/github.io/src/app/skills/skill-table.stories.spec.tsx
   - id: openwiki-source-a08412c702b94999bfa82651
     resource: repo://apps/github.io/src/app/skills/skill-table.stories.tsx
+  - id: openwiki-source-4fbf5ecc6f0c1fc5eff98141
+    resource: repo://apps/github.io/src/app/skills/skills-page.spec.tsx
   - id: openwiki-source-fcfa3ced1d03143bb27d5018
     resource: repo://apps/github.io/vite.config.ts
   - id: openwiki-source-af76a0570259ad84dd4c02ea
@@ -62,10 +66,10 @@ sources:
     resource: repo://scripts/setup-openwiki.test.mjs
   - id: openwiki-source-165465422a61a00b62b0f6d3
     resource: repo://scripts/sync-github-pages-artifact.test.mjs
-generated: { by: "codex", at: "2026-09-14T00:54:28.606Z" }
+generated: { by: "codex", at: "2026-09-14T01:33:39.410Z" }
 verified:
   - by: openwiki/0.5.0
-    at: 2026-09-14T00:54:28.606Z
+    at: 2026-09-14T01:33:39.410Z
 ---
 
 # Validation workflow
@@ -170,15 +174,19 @@ established title taxonomy and representative args. Pair those tests with the
 page-level test when the component is wired into an application page, proving
 its actual accessible and data-derived context.
 
-The standalone `SkillTable` is not yet page-integrated, so its colocated jsdom
-suite is the behavioral boundary. It verifies the four columns and display
+`SkillTable` keeps its component-level contract in a colocated jsdom suite. It
+verifies the four columns and display
 components, content-derived pixel widths, confidence-descending default order,
 all column sort paths, case-insensitive name filtering, OR category selection,
 AND composition between search and categories, clearing, result counts, and
-both empty states. The confidence test uses shuffled input and checks the
+both empty states, plus pointer and keyboard row activation and active-row
+semantics. The confidence test uses shuffled input and checks the
 `aria-sort` transitions so source order cannot masquerade as a successful sort.
-These DOM assertions do not prove that estimated column widths fit rendered
-content; that remains a Storybook visual check.
+Page-level tests separately prove the responsive card/table switch, sheet detail
+selection, focus restoration, state cleanup, and bounded scrolling. Storybook
+provides explicit desktop-table and compact-card viewport stories. These DOM
+assertions still do not prove that estimated column widths fit rendered content;
+that remains a visual check.
 
 Skill experience readability is protected at both renderer boundaries. Focused
 tests cover all four collection combinations: both labels appear when both

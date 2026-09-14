@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:af4fc0b573df4dd1354b3c00736a19ccbd3c8f85f73e7d57151e8bdff8f41582",
+  "pageVersion": "sha256:c25e9ce1020b0615c51cde9ad0fdcc2b25188d71bc729776a8aa49261664b2b0",
   "claims": [
     {
       "id": "claim_67f0a6341495404e8eefce3e45fd6173",
@@ -79,28 +79,28 @@
       "statement": "App-owned visible section and popover headings use Astryx Heading at their semantic levels, and focused tests assert both accessible levels and Astryx's stable heading metadata.",
       "evidence": [
         {
-          "resource": "repo://apps/github.io/src/app/devops-roadmap/roadmap-page.spec.tsx#L67-L76",
-          "version": "repo-lines-v1:sha256:a000c05bb4e28d24ae7c2baa3d22bc70f7d81c158f84290deb323b0afaf07a57:eyJzZWxlY3RlZExpbmVDb3VudCI6MTAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijk4MTM3ZTQxYTMyMzQ1NmVmNjgwZDY0ZDA4MGE1MWFiY2FiNTAyZGU0YzE2ODBmNmM0YWQ3ZjYwYTM4ODRjNWQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjNhM2U0NmY5NDI3NmI2ZjZmNGVkMWYwMmFmNzhiZWY2YTJlZTFjNDM5ZGQ1NTg0Yjk3Mzk0ODMxMzIxNGQyYjciLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjgxZDQwZDA4MDc4NzkzNGIyODE0M2RhOTRlYzUxMzdhMDY3MWUzNGRlNDZmOWY4YjYwMTU4OTdjNjMzZTQ5MTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6Ijk1YzQ3MTE2OGJjMjc5ZGEzYTQwZmNmMDgzY2MzMzE3ZjIzNGQ3ODc4NzY3N2ZjYmU2NTMyMTRiMDQ3YmQxNDIifQ"
+          "resource": "repo://apps/github.io/src/app/devops-roadmap/roadmap-page.spec.tsx",
+          "version": "repo-file-v1:sha256:7f5be0976e37e8401007954e1849b4a1f50f72a318c978af80f95f3656a9ad6e"
         },
         {
-          "resource": "repo://apps/github.io/src/app/devops-roadmap/roadmap-page.tsx#L16-L23",
-          "version": "repo-lines-v1:sha256:84a5a0e23d002a7130ded76810767d411c9c2ed8ae8bb4ae2136f7330f3e4c16:eyJzZWxlY3RlZExpbmVDb3VudCI6MjQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjEzNWQ1NmQ0YmFmNGNmM2M4NmEwN2Q3ZDY5ZGY0ZGYyM2RmMGFmZmZmOTliM2Q2OGVhZmI0ZjI0N2FiMDBiNTIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImIzMGE2NWMyNWE0NDhjNWVkODY1ZTNmY2Y0OGQyOGJjOTQ4MTg3NWY4YjBmZTRmZTIxNjZmNDQ1ZjQ2ZDE4NTAiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjJlOTA4ZDU3ODg3NjQ4N2E1NDQ0YTY4MGUyMmRjYWM3ZDEzOWNhMzQ5N2M5YjQ1YzY5NjdhNDc1NDNhMTljYmUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImQ5ZmZmYTg3Mzg4MzA2MWIxMzIzODhiNWE3MTcyM2IxZWFkY2I5NTBhNjgxYzc2MmY4OTk2NjVjZGE3NmUwY2EifQ"
+          "resource": "repo://apps/github.io/src/app/devops-roadmap/roadmap-page.tsx",
+          "version": "repo-file-v1:sha256:dd2bb324297dbc0ad52a8bfd2899a639cbf05dad319a0f8056e98446c737bd94"
         },
         {
-          "resource": "repo://apps/github.io/src/app/home/home-page.spec.tsx#L88-L97",
-          "version": "repo-lines-v1:sha256:184bbc4767c35bfe2e097275bdd6483a0a726da7fb2ac413cba031379680688d:eyJzZWxlY3RlZExpbmVDb3VudCI6MTAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijk1OTZiZDM2NjVjNjIxODUyM2YwNTJiM2VjMGJmZThkOGQxZjc2ZGI0MDUwMWM0YWNhOTMzOTkzZGE2ZmQwMTYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjNhM2U0NmY5NDI3NmI2ZjZmNGVkMWYwMmFmNzhiZWY2YTJlZTFjNDM5ZGQ1NTg0Yjk3Mzk0ODMxMzIxNGQyYjciLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjU2ZDM5MjQzNjdhMzUxYjU5OGU5NmJiZTZkOGE5NDljYzE2NGZkNmU3NDFiOGI4NDkzZTkzY2EwOWJiZGU5OGEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImIwMzczMDJkYzU4ZGExOGQ0YjQ4YmFhYzZhMTA2MjBhODI4NGQzNTJjMzM3N2VjNGJiM2UxODE1NTJkZWZlOTIifQ"
+          "resource": "repo://apps/github.io/src/app/home/home-page.spec.tsx",
+          "version": "repo-file-v1:sha256:3abbd6d19846277f79190ceffcb131941c9f910234be1ccc327ade8eb829197e"
         },
         {
-          "resource": "repo://apps/github.io/src/app/home/home-page.tsx#L28-L53",
-          "version": "repo-lines-v1:sha256:47a30f3d4128689733da7a904ea350b164a130b17faf78fa5180bf4989e8bed8:eyJzZWxlY3RlZExpbmVDb3VudCI6MjgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjNlZTdhMDZiZjliZDc0OWU3NWExN2E2ZGY2NTlhNGVhNTMyYTVkMGY1MmI5MzkwODY4MjZlZTJjNzM1NWZlZjAiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjEyODQwZmZhMTU2NmY3NDE0MDVjZDg0OWMxODc5YmE0NzEzODAzYWE4MTZmY2EwNDUwOTljZTI1YzU1ZTc0YzEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6Ijk2MmNkMjYzNzI0NGE0NWFjNjU1MTEyMTUwOTMwYjU3ODYxYzJkNzkzOGE1ZjUyZDVkMTAyZTUyOWIxOTVhZjkiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjkxMWQ0OGJiOWEyNjZjZDkxMWU3NjM5M2E1YTBmOTBkYzU1YzZmMzI5ZTZiNGQ3ZmZiYjE2Y2YzMTIyOTdkNjAifQ"
+          "resource": "repo://apps/github.io/src/app/home/home-page.tsx",
+          "version": "repo-file-v1:sha256:565d028f8d3beea45942daf44804b7ea8849a0e500764b7ac3aa5e08ffb9efc3"
         },
         {
-          "resource": "repo://apps/github.io/src/app/skills/skills-page.spec.tsx#L43-L59",
-          "version": "repo-lines-v1:sha256:44a04684e6080f4897e9b6c121f4f07924f5085c5dca6a4bd0820f2c702689a1:eyJzZWxlY3RlZExpbmVDb3VudCI6MTcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjYyODJkNGE4NDg3MTRjYjU4NTAwNmI4MGY4YWRhMDA1ZDhiYzE3NTk3Y2MxYzFjYTY1YTExNjQ1NGNlMDVmYjQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjNhM2U0NmY5NDI3NmI2ZjZmNGVkMWYwMmFmNzhiZWY2YTJlZTFjNDM5ZGQ1NTg0Yjk3Mzk0ODMxMzIxNGQyYjciLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjU2ZDM5MjQzNjdhMzUxYjU5OGU5NmJiZTZkOGE5NDljYzE2NGZkNmU3NDFiOGI4NDkzZTkzY2EwOWJiZGU5OGEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6Ijk4Njg1NWExYWRlZWI4MzAxODM2Njk1YTRiOWI2MTZlNGE2ZjY3NDdhNThiMDFkMTA0NThjYWI2MDY2NTFlMGMifQ"
+          "resource": "repo://apps/github.io/src/app/skills/skills-page.spec.tsx",
+          "version": "repo-file-v1:sha256:d7c33f74d9db252595d60cce2b170b170af7f0ab89d0890c65c4b6a093722eab"
         },
         {
-          "resource": "repo://apps/github.io/src/app/skills/skills-page.tsx#L57-L70",
-          "version": "repo-lines-v1:sha256:6982df625c94e766a184b9825b2c2202ff21a756164a7a161d1ba75f1a916ced:eyJzZWxlY3RlZExpbmVDb3VudCI6MTQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImU3MjE2ZThlOWMwYTFhNjhkMDZjMmZiYWE1ZmQyMTM5NDgyYjhlZmQwYTE5MzE1YjkxNWU2Y2NlODQ5ZDg5ZGMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImJiNmI5Y2NiMjBiZjM4MWRmNTk2N2QxZWFmYWUxZDY2OTEwZjEyOGNjMDRhY2E2NDFmMWJjMThlOTk3MjZlYmQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjRkY2U1MGZmOTU4NWI5ZTY0OTY5MzA0NmIwZjVhNzI4OTc2OGNhNDA2ZDM2ZjE3YjU2Y2RlYWJmNzQ2ODRkYzIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImJkYjYzODZjNjk2MjY4ZjZkNmVmYjMyNjZjM2MzMDU5NjRmMGY0ZThlYWVhNTQxMzBiZTJkMDJlMWNlMGEyM2YifQ"
+          "resource": "repo://apps/github.io/src/app/skills/skills-page.tsx",
+          "version": "repo-file-v1:sha256:3f3f61650fb9085fd88ba70f2936b102487ebe0e5625ce688858332f7f4581fe"
         }
       ]
     },
@@ -142,15 +142,19 @@
     },
     {
       "id": "claim_e60e9e0eb69646cba7b3570677531e65",
-      "statement": "The reusable SkillTable is currently exposed through Storybook and composes Astryx controls with the app's avatar, category, and confidence presentation components; it provides four sortable content-sized columns, confidence-descending default order, name/category filtering, result count, clearing, and distinct empty states without claiming responsive browser fit.",
+      "statement": "At table-width viewports the Skills page integrates the reusable SkillTable with an adjacent detail sheet, while compact viewports retain the card catalog and toolbar filters. The table provides four sortable content-sized columns, confidence-descending default order, name/category filtering, result count, clearing, distinct empty states, and pointer or keyboard row activation; Storybook supplies explicit desktop-table and compact-card scenarios.",
       "evidence": [
         {
-          "resource": "repo://apps/github.io/src/app/skills/skill-table.stories.tsx#L1-L34",
-          "version": "repo-lines-v1:sha256:d11a23a2f01b0f76bc1b1c18ec564af9aa5c27a6c0841fa02b37351fe465474f:eyJzZWxlY3RlZExpbmVDb3VudCI6MzQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAyZmQ5NDMxMDYyZGUxZjRiZjEwNTZiYzZiN2Q4ZjgwZGE3OGI0MTNjMWM2YThmMDNjMGIyMWY2Zjk5ZjJkYTgiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjRkNWNkMmZiNGYzZGY4ODQ1MTUyNTViMzk1MjNmMmY4YjU0NzJiZWVhOWY1NjZmZmNhMjA0ZGI4MDI1NjEwNDEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjoxLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImFhMWQxYTYzMzkwMjI5Yzc5ODM0N2U4M2EwNDA1NDQxYzk0MDAwMzUyODRhZDE2OGMxYmY2Y2RmMWQ3MGEzNzAifQ"
+          "resource": "repo://apps/github.io/src/app/skills/skill-table.stories.tsx",
+          "version": "repo-file-v1:sha256:adc6fcc9145a42e71c4d727b93b203c2f91b2c265fdd882291277892c970f87d"
         },
         {
-          "resource": "repo://apps/github.io/src/app/skills/skill-table.tsx#L35-L210",
-          "version": "repo-lines-v1:sha256:baeda2622d643bc0ec701e95f4e84a672655a0d02d85d7fac493b205803d2288:eyJzZWxlY3RlZExpbmVDb3VudCI6MTc2LCJmaXJzdFNlbGVjdGVkTGluZUhhc2giOiI5ZjhhN2FkODM5MTU2NWM1ODNkYWE5ZTgxZmI5NmM4NGQzYjcyMGRjZDE3OGQ3MGQwMDIzYjBkYmZmYzczOGE0IiwibGFzdFNlbGVjdGVkTGluZUhhc2giOiI2ZGE1OTNlYjgzYzc5ZmU5YzZkMjY4ZDFjMWI4Nzg3YTA5MjgxMDg2MmIyMWZlOGExZDE2MmY0ZjFkMWYzMTFhIiwicHJlY2VkaW5nQ29udGV4dExpbmVDb3VudCI6MywicHJlY2VkaW5nQ29udGV4dEhhc2giOiJmYzZkYzdlMTA0NjE2MjNkZmNkMGQzZGJjNGI1NDU2ZjZmMTY4NmMxN2U2NzYyZGZhYWQzYmU0YzRiMWVmODA1IiwiZm9sbG93aW5nQ29udGV4dExpbmVDb3VudCI6MywiZm9sbG93aW5nQ29udGV4dEhhc2giOiI2OTg1M2RiZmNiNWQ5Yzc3MjA4NmMxOGYwYzcxY2I4NWMzMGJlZTY5ZmExZDYwNWZlMmJiNGJmNTA1OGNjMDI3In0"
+          "resource": "repo://apps/github.io/src/app/skills/skill-table.tsx",
+          "version": "repo-file-v1:sha256:a5d3b4395dbf79f14cead5bc81a20220a9571a86f82f9682a0b77ca58a33580d"
+        },
+        {
+          "resource": "repo://apps/github.io/src/app/skills/skills-page.tsx",
+          "version": "repo-file-v1:sha256:3f3f61650fb9085fd88ba70f2936b102487ebe0e5625ce688858332f7f4581fe"
         }
       ]
     },
@@ -159,30 +163,26 @@
       "statement": "Skill experience details share an unnamed compact, disc-marked Astryx outcome-list component that renders primary body text, wraps rich labels, and omits empty collections; card context replaces a repeated outcome label without removing list semantics.",
       "evidence": [
         {
-          "resource": "repo://apps/github.io/src/app/skills/skill-experience-card-list.tsx#L87-L98",
-          "version": "repo-lines-v1:sha256:93ad72d0a38523e0e4104b18f4d84d4c796e53378220e90c25522b76d36d3c3d:eyJzZWxlY3RlZExpbmVDb3VudCI6MTIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImU3MjE2ZThlOWMwYTFhNjhkMDZjMmZiYWE1ZmQyMTM5NDgyYjhlZmQwYTE5MzE1YjkxNWU2Y2NlODQ5ZDg5ZGMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjNjYTA2YWZmOTI2MDdhN2VkMzg5MGJjZWU1ODgxMGEzNDZkYjIyMWVmYTllN2UyODBjZmY5NGVmYTg1ZTI0ZDMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjZlNzkzMDQzMDdjNzJjY2ExNjRjOGZkNDQ5YThiMTNmNDliMDY3MjQ4OGE0OWI5MWZmN2Q2YjFkYzhhMDQwNzkifQ"
+          "resource": "repo://apps/github.io/src/app/skills/skill-experience-card-list.tsx",
+          "version": "repo-file-v1:sha256:d2b33bcec788d41c414d73aad2a71969a3a3b89522ed961f6d9fc8f0059d2b70"
         },
         {
-          "resource": "repo://apps/github.io/src/app/skills/skill-experience-list.tsx#L57-L69",
-          "version": "repo-lines-v1:sha256:8418b80e4b859660bcdf34d9d8f95a14f9131efc5cc3e0d3a4d602e62353c303:eyJzZWxlY3RlZExpbmVDb3VudCI6MTMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImM1M2QzNzgyMWU2ZDIxY2Y0MjQxZjBjNTc3MzA5N2FmMTk2OWI1ZWM4NDY2NTI0YTBiNTk3MTg2YjgyN2M4NmEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImMwMmY5NmE0MmNlNTYwOWM5MWFmYWZjMmIxNmM2ZmFjZGYwOGU1OWFiYmFhOGU3ZDhkYzdhMzQ4Njc0Y2RjMTgiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzZGI1ZWIyYWUxMDQ4ODdhOWM3NmRiOThlYWY0NDczNTdhYjY0N2NiNTcwNmUxZGFjNDQ0YzljOWUzYjQ2ZWIifQ"
+          "resource": "repo://apps/github.io/src/app/skills/skill-experience-list.tsx",
+          "version": "repo-file-v1:sha256:86a37a0576ecdb1e4bdfdbe3794ab69b354c45aab34593a18ee3250ad82beb5f"
         },
         {
-          "resource": "repo://apps/github.io/src/app/skills/skill-key-outcomes.tsx#L5-L28",
-          "version": "repo-lines-v1:sha256:c109ba03430ba4415fe7c2c809ccfb774c3af96fe6e7c9557f9d440f435d61d5:eyJzZWxlY3RlZExpbmVDb3VudCI6MjQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImYyYjY2NzM5ZTYxMTMzM2JmMWIwMmRkYWMwMDdlMzcyYjc0NzI3N2E4MmEzNzg3YTkxM2NlYjYxMDEwMzQxNTkiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjgyYzY3MDMwODM2YjEzZmRhZThjN2QwMDhjMzI0MzczNjYxMjcwMjgyNWRiMDRhY2NhOGIyNzgyMjU4MDBlMDkiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjFlNWE3N2Q5MGQ3MTRhNDE4OTUwYmI5OTljZDY3MjdjNTczNDFjMTNmNGU5M2U5MGFjMWM0YTNkNGZkODM4YTkiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjoyLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjdiOGI2MDBhNWI0NDhiMWU0ZDAyZGYwOTc0NmVkM2NhMzE3MmY3NWM0YWFiYjAxZGRlMDgwZTM2Y2FiMDc0YjQifQ"
+          "resource": "repo://apps/github.io/src/app/skills/skill-key-outcomes.tsx",
+          "version": "repo-file-v1:sha256:5ddbc432a1c18fcdca7f5b9c27aeec1b3d9ae8ef54d0637c1195e7dae23ebacc"
         }
       ]
     },
     {
       "id": "claim_7524a8522c3049f680da2fc2cd9e07e0",
-      "statement": "Skill detail pages with enriched sections use Astryx Outline in a sticky 208px end rail at viewports 768px and wider, bind Outline to the persistent shell scroll owner through scrollContainerRef, derive items from the rendered section conditions, and omit the outline when Overview is the only item.",
+      "statement": "Skill detail pages with enriched sections use Astryx Outline in a sticky 208px end rail at viewports 768px and wider, bind Outline to the persistent shell scroll owner through scrollContainerRef, derive items from rendered section conditions, and omit the outline when Overview is the only item.",
       "evidence": [
         {
-          "resource": "repo://apps/github.io/src/app/skills/skill-detail-page.tsx#L202-L230",
-          "version": "repo-lines-v1:sha256:26d87b235d0cb310e3306979188961f7c7c1acc3d35a23eb21c7924fef044be5:eyJzZWxlY3RlZExpbmVDb3VudCI6MjksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImU3MjE2ZThlOWMwYTFhNjhkMDZjMmZiYWE1ZmQyMTM5NDgyYjhlZmQwYTE5MzE1YjkxNWU2Y2NlODQ5ZDg5ZGMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImE3Yzc0YWYyZDEyZDdhODQ5YTIxNTgwODFjMWE3MTU3ZTdjZjI3ZTA0ZWYwZDJjYzdhNDdhNDFhYzkwMTUwOGUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImQ1ZWMxNWU1NWFiMjU5ZGUzYjgwZDhkNWVmNjdhY2U3ZTA0MWYwYmJmYzc1OWVkYzFiYWI2ZGJlYTI3NzU0ZGIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjoyLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjdiOGI2MDBhNWI0NDhiMWU0ZDAyZGYwOTc0NmVkM2NhMzE3MmY3NWM0YWFiYjAxZGRlMDgwZTM2Y2FiMDc0YjQifQ"
-        },
-        {
-          "resource": "repo://apps/github.io/src/app/skills/skill-detail-page.tsx#L29-L83",
-          "version": "repo-lines-v1:sha256:bc5f19395a3eba02f8e595ba9342b8f1de5d8680e44ec3acee73b99eafd196ec:eyJzZWxlY3RlZExpbmVDb3VudCI6NTUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImJlMTkxYTNlN2MxNjZmZmFhYmEwZDgzNjI1Mzg2MDJmOGM4YmVkYWJjYzU1ZmQwYWI1YjIyNTA2MGRmYzNlMWMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjA0MDE5MGEzMDU4ZDliMWU3NmIzYzU1MzdlNzI3YjViYzM2ZGIwNTU0Yjg3MWU1MGRiYjhkYzk1Yjg2OTgyNjAiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjRiYTlkYzZhYmIwNmE0ZGJmYWUwOTdlOTBmZWY2M2FiOTA1NjJiNGUxYzQ2YWY2ZjM0MGJmZjgxMTJjZGQ5ODciLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImJjMTE0Yzk3YjdmYWE3ZTliNzJiODc3NzUwYTY3ZmM1MTAzYmYwMTE3MzBiM2RlMzZmMTU1ZjA5YzhmYjIwNTgifQ"
+          "resource": "repo://apps/github.io/src/app/skills/skill-detail-page.tsx",
+          "version": "repo-file-v1:sha256:e3da33614ba3e3b200c94df78f7e66b5c5a6df1f437d7545f1303ddf91491e87"
         }
       ]
     },
@@ -212,11 +212,11 @@
     },
     {
       "id": "claim_87627df0fb2a40caa8fa8de5218e3fc7",
-      "statement": "The skill-detail page renders shared neutral count badges beside both the Experience and Projects headings, keeps each badge outside the heading element, and derives each count from the collection rendered by that section.",
+      "statement": "The skill-detail content renders shared neutral count badges outside the accessible names of the Experience and Projects headings. The Experience badge counts authored experience records even when capability-derived evidence also makes that section visible, while the Projects badge counts the project cards rendered by its section.",
       "evidence": [
         {
-          "resource": "repo://apps/github.io/src/app/skills/skill-detail-page.tsx#L160-L201",
-          "version": "repo-lines-v1:sha256:7236e57bcb57e9da8ac6d2825d61379213ee0590e0726d5e2d02fe9081ee12b6:eyJzZWxlY3RlZExpbmVDb3VudCI6NDIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjA3NWExY2U1OGMxMTBlYzA3NWUzMmE3YWJjZmNlZTlkYTQzMzY3YWMwMzRiNWU2MjAxYjg5OGRhMzI1ODM4Y2YiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjEwMDhlYWM3NTAyNTk5ODkwZDNkYWVmMjI3ODU4OGEzZTIwYTVlYWJiYTA3YTZkNTU2MjQ0YjNkYjhkOWZlZDMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6Ijg2NTYzZGUyNzgxZTk2YTFhNGNkNTlmYTEyZmVkYmM3MWZmNjhkNzNhNTZkZjQ3MjVmNzhiZDBlZjc1OGRkYTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImQ1ZWMxNWU1NWFiMjU5ZGUzYjgwZDhkNWVmNjdhY2U3ZTA0MWYwYmJmYzc1OWVkYzFiYWI2ZGJlYTI3NzU0ZGIifQ"
+          "resource": "repo://apps/github.io/src/app/skills/skill-detail-content.tsx",
+          "version": "repo-file-v1:sha256:20489be9beacde301347a4546269fcfc560bbd9a11aa0e3f20bac19ac62b7b08"
         }
       ]
     },
@@ -225,18 +225,36 @@
       "statement": "RoadmapPage composes its heading, two secondary semantic body paragraphs, an informational roadmap.sh banner, and the default DevOpsRoadmapStepper inside a full-width Astryx VStack; its roadmap.sh attribution and DevOps source action are safe external links whose copy, ordering, and presentation are protected by focused tests.",
       "evidence": [
         {
-          "resource": "repo://apps/github.io/src/app/devops-roadmap/roadmap-page.spec.tsx#L40-L109",
-          "version": "repo-lines-v1:sha256:2f87c370960f43558613f73b6bedc1739ee0b869f076d83a12061342ddd40ca4:eyJzZWxlY3RlZExpbmVDb3VudCI6NzAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjIzMzUwNGIzMmE4NmQwNzA3NWIwYmI4ZDBiMjhjZWIxNDU2Yjc0NmRlMTY2M2M2ZmEyYmRmMDI0ZTZmYmQwNDMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjNhM2U0NmY5NDI3NmI2ZjZmNGVkMWYwMmFmNzhiZWY2YTJlZTFjNDM5ZGQ1NTg0Yjk3Mzk0ODMxMzIxNGQyYjciLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjQ5NzdlZmE3Y2Q5ODkxMzBkMGE0ODJkMTg0ZWRhNWI2NzhhMDI4YTQ4MjgyODhmNWYzZDhkMjQ5OGIxNzMyNzMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjoxLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImY2ZjViNDBiMTU4NDU3ZDE3ODY0ZjIxNzkwNzg2ZGQ1YTJlY2RiNjRiNjZhNjUxZjc4OGQ0ZTI1Y2QzMzAzZDIifQ"
+          "resource": "repo://apps/github.io/src/app/devops-roadmap/roadmap-page.spec.tsx",
+          "version": "repo-file-v1:sha256:7f5be0976e37e8401007954e1849b4a1f50f72a318c978af80f95f3656a9ad6e"
         },
         {
-          "resource": "repo://apps/github.io/src/app/devops-roadmap/roadmap-page.tsx#L14-L56",
-          "version": "repo-lines-v1:sha256:d0dbc760ced827dfbdea3973183ceac063733e326f0d916f5b57e181972fcc4e:eyJzZWxlY3RlZExpbmVDb3VudCI6NDMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjZlN2RiYmMxNzJlNjkzOTMzMDU4ODZlMWZiMTJmMGEyNDc0N2ViOWQzMWNlMjBkZjcwNzU2ZGIxYzNlYzYwN2EiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImE3Yzc0YWYyZDEyZDdhODQ5YTIxNTgwODFjMWE3MTU3ZTdjZjI3ZTA0ZWYwZDJjYzdhNDdhNDFhYzkwMTUwOGUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImFlMzQzY2JiODIyNzc5YWE3MzNhOGJmMGI4YzE2MjhlZjdjNGZkODQ0MGVhMzNhOGU3MzEwNzZhNjhjOTk1ODciLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjoyLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjdiOGI2MDBhNWI0NDhiMWU0ZDAyZGYwOTc0NmVkM2NhMzE3MmY3NWM0YWFiYjAxZGRlMDgwZTM2Y2FiMDc0YjQifQ"
+          "resource": "repo://apps/github.io/src/app/devops-roadmap/roadmap-page.tsx",
+          "version": "repo-file-v1:sha256:dd2bb324297dbc0ad52a8bfd2899a639cbf05dad319a0f8056e98446c737bd94"
+        }
+      ]
+    },
+    {
+      "id": "claim_05e7e8bb2330425eab7333cbc2b3498b",
+      "statement": "Skill experience cards share a controlled Astryx Collapsible shell that labels only non-empty projections. Mixed cards retain Highlights in the expanded trigger and place Relevant skills above the token list; skills-only cards keep Relevant skills and its count beside the chevron in both states and omit the duplicate panel heading; empty cards omit the disclosure. Initial viewport width only seeds the open state, closed at or below 640px.",
+      "evidence": [
+        {
+          "resource": "repo://apps/github.io/src/app/skills/skill-experience-card-list.tsx",
+          "version": "repo-file-v1:sha256:d2b33bcec788d41c414d73aad2a71969a3a3b89522ed961f6d9fc8f0059d2b70"
+        },
+        {
+          "resource": "repo://apps/github.io/src/app/skills/skill-experience-card-shell.tsx",
+          "version": "repo-file-v1:sha256:3ec4c1c46ebca56997c14554d18662bdfe24eb80817b027f32e45b6341794762"
+        },
+        {
+          "resource": "repo://apps/github.io/src/app/skills/skill-experience-list.tsx",
+          "version": "repo-file-v1:sha256:86a37a0576ecdb1e4bdfdbe3794ab69b354c45aab34593a18ee3250ad82beb5f"
         }
       ]
     }
   ],
   "verification": {
     "by": "openwiki/0.5.0",
-    "at": "2026-09-13T12:20:31.716Z"
+    "at": "2026-09-14T01:33:39.410Z"
   }
 }
