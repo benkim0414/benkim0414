@@ -9,6 +9,7 @@ import {
   useState,
 } from 'react';
 import { spacingVars } from '@astryxdesign/core/theme/tokens.stylex';
+import { VStack } from '@astryxdesign/core/Layout';
 import * as stylex from '@stylexjs/stylex';
 
 const MIN_CAPABILITY_CARD_WIDTH = 360;
@@ -143,8 +144,8 @@ export function DoraCapabilityMasonry({
       return;
     }
 
-    const itemHeights = itemRefs.current.map(
-      (item) => item?.getBoundingClientRect().height ?? 0,
+    const itemHeights = items.map(
+      (_, index) => itemRefs.current[index]?.getBoundingClientRect().height ?? 0,
     );
 
     if (
@@ -193,11 +194,11 @@ export function DoraCapabilityMasonry({
     : styles.fallbackGrid(columnCount);
 
   return (
-    <div
-      {...stylex.props(styles.container, containerStyle)}
+    <VStack
       aria-label="DORA capability cards"
       data-testid="dora-capability-masonry"
       ref={containerRef}
+      xstyle={[styles.container, containerStyle]}
     >
       {items.map((child, index) => {
         const position = layout?.items[index];
@@ -210,18 +211,18 @@ export function DoraCapabilityMasonry({
           : undefined;
 
         return (
-          <div
-            {...stylex.props(styles.item, itemStyle)}
+          <VStack
             data-testid="dora-capability-masonry-item"
             key={getChildKey(child)}
             ref={(item) => {
               itemRefs.current[index] = item;
             }}
+            xstyle={[styles.item, itemStyle]}
           >
             {child}
-          </div>
+          </VStack>
         );
       })}
-    </div>
+    </VStack>
   );
 }
