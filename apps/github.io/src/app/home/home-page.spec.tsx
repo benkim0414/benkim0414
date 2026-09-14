@@ -1,6 +1,7 @@
 import type { ComponentProps } from 'react';
 import { render, within } from '@testing-library/react';
 import { Theme } from '@astryxdesign/core';
+import { Grid } from '@astryxdesign/core/Grid';
 import { HStack, VStack } from '@astryxdesign/core/Layout';
 import { Text } from '@astryxdesign/core/Text';
 import { neutralTheme } from '@astryxdesign/theme-neutral/built';
@@ -217,6 +218,31 @@ describe('HomePage', () => {
       ),
     ).toBeTruthy();
     expect(within(firstCard).getByText('Relevant experience')).toBeTruthy();
+  });
+
+  it('lays out DORA cards in an adaptive two-column grid', () => {
+    const { getAllByTestId } = renderHomePage();
+    const cards = getAllByTestId('dora-capability-card');
+    const doraGrid = cards.at(0)?.parentElement?.parentElement;
+    const { getByTestId } = render(
+      <Theme theme={neutralTheme}>
+        <Grid
+          columns={{ minWidth: 360, max: 2 }}
+          data-testid="dora-capability-grid-control"
+          gap={4}
+        >
+          <span>Control</span>
+        </Grid>
+      </Theme>,
+    );
+
+    if (!(doraGrid instanceof HTMLElement)) {
+      throw new Error('Expected the DORA capability grid.');
+    }
+
+    expect(doraGrid.className).toBe(
+      getByTestId('dora-capability-grid-control').className,
+    );
   });
 
   it('uses compact skill surfaces for the carousel', () => {

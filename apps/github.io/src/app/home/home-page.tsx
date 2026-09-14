@@ -1,6 +1,7 @@
 import type { ReactElement } from 'react';
 import { Banner } from '@astryxdesign/core/Banner';
 import { Button } from '@astryxdesign/core/Button';
+import { Grid } from '@astryxdesign/core/Grid';
 import { Heading } from '@astryxdesign/core/Heading';
 import { HStack, VStack } from '@astryxdesign/core/Layout';
 
@@ -67,15 +68,17 @@ export function HomePage({
           status="info"
           title="About DORA capabilities"
         />
-        {doraCapabilityDefinitions.map((capability) => (
-          <DoraCapabilityCard
-            capability={capability}
-            description={doraCapabilityDescriptions[capability.key]}
-            evidence={devOpsCapabilityEvidenceItems}
-            key={capability.key}
-            scores={curatedDevOpsCapabilityRadarScores}
-          />
-        ))}
+        <Grid columns={{ minWidth: 360, max: 2 }} gap={4}>
+          {doraCapabilityDefinitions.map((capability) => (
+            <DoraCapabilityCard
+              capability={capability}
+              description={doraCapabilityDescriptions[capability.key]}
+              evidence={devOpsCapabilityEvidenceItems}
+              key={capability.key}
+              scores={curatedDevOpsCapabilityRadarScores}
+            />
+          ))}
+        </Grid>
       </VStack>
     </VStack>
   );
