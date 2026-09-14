@@ -5,7 +5,7 @@ description: How Astryx, StyleX, theme persistence, and browser layout checks fi
 tags: [astryx, stylex, theme, layout]
 verified:
   - by: openwiki/0.5.0
-    at: 2026-09-14T04:46:28.639Z
+    at: 2026-09-14T06:29:04.450Z
 sources:
   - id: openwiki-source-45b1d77b308bd57403f55ff9
     resource: repo://apps/github.io/.storybook/story-taxonomy.spec.ts
@@ -77,7 +77,7 @@ sources:
     resource: repo://apps/github.io/src/styles.css
   - id: openwiki-source-fcfa3ced1d03143bb27d5018
     resource: repo://apps/github.io/vite.config.ts
-generated: { by: "codex", at: "2026-09-14T04:46:28.639Z" }
+generated: { by: "codex", at: "2026-09-14T05:49:27.415Z" }
 ---
 
 # Design system and layout
@@ -141,9 +141,11 @@ non-contiguous topics, so completion is represented by each step's semantic
 status rather than by a single progress cursor.
 
 At table-width viewports, the Skills page integrates the reusable `SkillTable`
-with a detail sheet; compact viewports retain the card catalog, toolbar search,
-and category popover. The table composes Astryx's table, compact text input,
-multi-selector, button, layout, and empty-state primitives with the app's
+in a full-width Astryx `Card` with a divided control header and edge-to-edge
+table body alongside a detail sheet; compact viewports retain the card catalog,
+toolbar search, and category popover. The table composes Astryx's table,
+compact text input, multi-selector, button, card, layout, and empty-state
+primitives with the app's
 smallest `SkillAvatar`, colored `SkillCategory`, and text-only
 `SkillConfidence` components. Its four columns remain sortable and derive pixel
 widths from the longest supplied values; confidence starts high-to-low with name

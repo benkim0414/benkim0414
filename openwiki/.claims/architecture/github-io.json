@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:7edd9e3ddc078675ed53ab64916e442e6ed0ac99bce4ef9d3bc9009221f0e4a7",
+  "pageVersion": "sha256:e0d97a0c34dab78e08e4f0fd46456041a16b1722b2f55cd00239ec7abee9f66f",
   "claims": [
     {
       "id": "claim_da9ac46eb2204e9b9a555848aea5550d",
@@ -116,11 +116,11 @@
     },
     {
       "id": "claim_0ee727becf0a40ee854031f370d4ee89",
-      "statement": "Skill detail pages remain direct children of the shared shell scroll region; enriched details add a responsive sticky Astryx Outline explicitly bound to that Page Scroll Owner, with Overview, Experience, and Projects items following rendered section availability, while basic details omit the one-item outline.",
+      "statement": "Skill detail pages remain direct children of the shared shell scroll region, whose LayoutContent centers routed content in a 1440px desktop frame without constraining the global navigation; enriched details add a responsive sticky Astryx Outline explicitly bound to that Page Scroll Owner, with Overview, Experience, and Projects items following rendered section availability, while basic details omit the one-item outline.",
       "evidence": [
         {
           "resource": "repo://apps/github.io/src/app/global-navigation-layout.tsx",
-          "version": "repo-file-v1:sha256:45199d140f23dbf4f491770186e9de95f348686f12ead167e7e54fa9a7edb4b6"
+          "version": "repo-file-v1:sha256:74462192bb1b34068f74b5718c016c4a1e4ae774740196a938b40bbf98d62753"
         },
         {
           "resource": "repo://apps/github.io/src/app/skills/skill-detail-page.spec.tsx",
@@ -134,7 +134,7 @@
     },
     {
       "id": "claim_ecccdf8849a14979a6b246847cfcc84d",
-      "statement": "SkillsPage owns shared query and category-filter state across a table-width SkillTableDetailLayout and a compact card catalog. Table rows support pointer and keyboard activation into an adjacent detail sheet, and selection clears when compact mode begins, filters remove the active skill, or detail resolution fails.",
+      "statement": "SkillsPage owns shared query and category-filter state across a table-width SkillTableDetailLayout and a compact card catalog. At table width, SkillTable groups its controls and edge-to-edge table in a full-width Astryx Card; rows support pointer and keyboard activation into an adjacent detail sheet, and selection clears when compact mode begins, filters remove the active skill, or detail resolution fails.",
       "evidence": [
         {
           "resource": "repo://apps/github.io/src/app/skills/skill-table-detail-layout.tsx",
@@ -142,7 +142,7 @@
         },
         {
           "resource": "repo://apps/github.io/src/app/skills/skill-table.tsx",
-          "version": "repo-file-v1:sha256:a5d3b4395dbf79f14cead5bc81a20220a9571a86f82f9682a0b77ca58a33580d"
+          "version": "repo-file-v1:sha256:3f69945a526c4c5d491eec977ddfed11e8a88f55850d9ff565c6ed32b301a116"
         },
         {
           "resource": "repo://apps/github.io/src/app/skills/skills-page.tsx",
@@ -193,6 +193,6 @@
   ],
   "verification": {
     "by": "openwiki/0.5.0",
-    "at": "2026-09-14T04:03:57.793Z"
+    "at": "2026-09-14T06:29:04.450Z"
   }
 }

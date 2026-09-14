@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:fb826959f7a2fb356f87649cb760f39704b8b955c156b8c8681870a77a840a9d",
+  "pageVersion": "sha256:3222a02ae821551ddecb75f5ff966c7b0d9f582278029b444b6d11f5de19df92",
   "claims": [
     {
       "id": "claim_67f0a6341495404e8eefce3e45fd6173",
@@ -96,7 +96,7 @@
         },
         {
           "resource": "repo://apps/github.io/src/app/skills/skills-page.spec.tsx",
-          "version": "repo-file-v1:sha256:fcca452925d715c970df949147b015c35dcef36a60e4c64ea09ea6aca7b8b730"
+          "version": "repo-file-v1:sha256:449e8a988098be381c7d5aae6dfdbd85219ffafe9dbea0cfaf679a2b643ffcb2"
         },
         {
           "resource": "repo://apps/github.io/src/app/skills/skills-page.tsx",
@@ -142,7 +142,7 @@
     },
     {
       "id": "claim_e60e9e0eb69646cba7b3570677531e65",
-      "statement": "At table-width viewports the Skills page integrates the reusable SkillTable with an adjacent detail sheet, while compact viewports retain the card catalog and toolbar filters. The table provides four sortable content-sized columns, confidence-descending default order, name/category filtering, result count, clearing, distinct empty states, and pointer or keyboard row activation; Storybook supplies explicit desktop-table and compact-card scenarios.",
+      "statement": "At table-width viewports, the Skills page integrates the reusable SkillTable in a full-width Astryx Card with a divided control header and an edge-to-edge table body alongside the detail sheet, while compact viewports retain the card catalog and toolbar filters. The table provides four sortable content-sized columns, confidence-descending default order, name/category filtering, result count, clearing, distinct empty states, and pointer or keyboard row activation; Storybook supplies explicit desktop-table and compact-card scenarios.",
       "evidence": [
         {
           "resource": "repo://apps/github.io/src/app/skills/skill-table.stories.tsx",
@@ -150,7 +150,7 @@
         },
         {
           "resource": "repo://apps/github.io/src/app/skills/skill-table.tsx",
-          "version": "repo-file-v1:sha256:a5d3b4395dbf79f14cead5bc81a20220a9571a86f82f9682a0b77ca58a33580d"
+          "version": "repo-file-v1:sha256:3f69945a526c4c5d491eec977ddfed11e8a88f55850d9ff565c6ed32b301a116"
         },
         {
           "resource": "repo://apps/github.io/src/app/skills/skills-page.tsx",
@@ -303,6 +303,6 @@
   ],
   "verification": {
     "by": "openwiki/0.5.0",
-    "at": "2026-09-14T04:46:28.639Z"
+    "at": "2026-09-14T06:29:04.450Z"
   }
 }

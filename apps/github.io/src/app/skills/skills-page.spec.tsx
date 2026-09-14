@@ -229,6 +229,22 @@ describe('SkillsPage', () => {
     expect(queryAllByTestId('skill-card')).toHaveLength(0);
   });
 
+  it('groups the desktop skills controls and table in one full-width card', () => {
+    setMediaMatches({
+      [TABLE_QUERY]: true,
+      [COMPACT_SURFACE_QUERY]: false,
+    });
+    const { getByRole } = renderSkillsPage(tableSkills);
+    const table = getByRole('table');
+    const card = table.closest('.astryx-card');
+
+    expect(card).toBeTruthy();
+    expect(card?.style.getPropertyValue('--x-width')).toBe('100%');
+    expect(card?.contains(getByRole('textbox', { name: 'Skill name' }))).toBe(
+      true,
+    );
+  });
+
   it('gives the desktop master-detail layout the page height it needs to contain scrolling', () => {
     setMediaMatches({
       [TABLE_QUERY]: true,
