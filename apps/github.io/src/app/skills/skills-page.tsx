@@ -60,6 +60,19 @@ export function SkillsPage({
       : resolveSkillDetail(activeSkillId, skillDetailSources);
   const activeDetail =
     activeResolution?.status === 'found' ? activeResolution.value : null;
+  const pageIntroduction = (
+    <VStack gap={3} paddingBlockEnd={3}>
+      <VisuallyHidden as="h1" id="skills-page-title">
+        Skills
+      </VisuallyHidden>
+      <Heading level={2}>Skills</Heading>
+      <Text as="p" color="secondary" type="body">
+        Explore my technical skills, organised by category and linked to
+        supporting experience, outcomes, and source material. Search or filter
+        the catalogue to find a specific capability.
+      </Text>
+    </VStack>
+  );
 
   useEffect(() => {
     if (
@@ -90,16 +103,13 @@ export function SkillsPage({
       height={isTable ? '100%' : undefined}
       padding={4}
     >
-      <VisuallyHidden as="h1" id="skills-page-title">
-        Skills
-      </VisuallyHidden>
-      <Heading level={2}>Skills</Heading>
       {isTable ? (
         <StackItem size="fill">
           <SkillTableDetailLayout
             activeDetail={activeDetail}
             activeSkillId={activeSkillId}
             finalFocusRef={activeRowRef}
+            headerContent={pageIntroduction}
             query={query}
             selectedCategories={selectedCategories}
             skills={skills}
@@ -111,6 +121,7 @@ export function SkillsPage({
         </StackItem>
       ) : (
         <>
+          {pageIntroduction}
           <Toolbar
             endContent={
               <Popover

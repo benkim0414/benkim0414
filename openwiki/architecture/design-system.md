@@ -5,7 +5,7 @@ description: How Astryx, StyleX, theme persistence, and browser layout checks fi
 tags: [astryx, stylex, theme, layout]
 verified:
   - by: openwiki/0.5.0
-    at: 2026-09-14T04:03:57.793Z
+    at: 2026-09-14T05:20:09.595Z
 sources:
   - id: openwiki-source-45b1d77b308bd57403f55ff9
     resource: repo://apps/github.io/.storybook/story-taxonomy.spec.ts
@@ -53,6 +53,8 @@ sources:
     resource: repo://apps/github.io/src/app/skills/skill-experience-list.tsx
   - id: openwiki-source-2944a7e4b1284a70a09ee95a
     resource: repo://apps/github.io/src/app/skills/skill-key-outcomes.tsx
+  - id: openwiki-source-b7cc9784bea6b15d468f9f23
+    resource: repo://apps/github.io/src/app/skills/skill-table-detail-layout.tsx
   - id: openwiki-source-3cf56b0e79067d306d450611
     resource: repo://apps/github.io/src/app/skills/skill-table-responsive.ts
   - id: openwiki-source-a08412c702b94999bfa82651
@@ -69,7 +71,7 @@ sources:
     resource: repo://apps/github.io/src/styles.css
   - id: openwiki-source-fcfa3ced1d03143bb27d5018
     resource: repo://apps/github.io/vite.config.ts
-generated: { by: "codex", at: "2026-09-14T04:03:57.793Z" }
+generated: { by: "codex", at: "2026-09-14T05:20:09.595Z" }
 ---
 
 # Design system and layout
@@ -89,6 +91,13 @@ outline intact while allowing Astryx's heading type-scale tokens to determine
 their appearance. Focused page tests protect both sides of that contract by
 asserting the accessible heading level and the stable `astryx-heading` and
 `data-level` surfaces.
+
+The Skills introduction is part of the catalogue's scroll flow at table-width
+viewports: the page supplies its accessible title, visible heading, and
+secondary explanatory text to the table-detail layout before the table. It
+therefore scrolls with the catalogue instead of remaining above its local
+scroll region, while an active skill-detail panel retains its independent
+scrolling behavior.
 
 Inline technical metadata follows the same ownership rule. The global footer
 reads the application package version, renders it with Astryx `Code` inside

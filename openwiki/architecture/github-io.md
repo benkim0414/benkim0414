@@ -46,10 +46,10 @@ sources:
     resource: repo://apps/github.io/src/app/skills/skill-table.tsx
   - id: openwiki-source-a845ec3d01c38967df3a4dad
     resource: repo://apps/github.io/src/app/skills/skills-page.tsx
-generated: { by: "codex", at: "2026-09-14T04:03:57.793Z" }
+generated: { by: "codex", at: "2026-09-14T05:20:09.595Z" }
 verified:
   - by: openwiki/0.5.0
-    at: 2026-09-14T04:03:57.793Z
+    at: 2026-09-14T05:20:09.595Z
 ---
 
 # Application architecture
@@ -82,6 +82,11 @@ activation opens resolved skill detail in an adjacent sheet and returns focus to
 the originating row. Compact widths render the card catalog with toolbar search
 and category filters instead; changing to compact mode, filtering out the active
 skill, or failing detail resolution clears the table selection.
+
+At table widths, `SkillsPage` passes its accessible title and visible catalogue
+introduction into `SkillTableDetailLayout` before the table, making them part of
+the catalogue's scrollable content rather than fixed page chrome. The adjacent
+detail panel remains a separate scroll region when a skill is selected.
 
 The table/detail split and Experience disclosures consume the same shared
 compact-surface query. A compact match selects the bottom sheet and seeds newly
