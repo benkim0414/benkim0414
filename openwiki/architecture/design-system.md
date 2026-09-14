@@ -5,7 +5,7 @@ description: How Astryx, StyleX, theme persistence, and browser layout checks fi
 tags: [astryx, stylex, theme, layout]
 verified:
   - by: openwiki/0.5.0
-    at: 2026-09-14T07:11:28.462Z
+    at: 2026-09-14T10:20:53.845Z
 sources:
   - id: openwiki-source-45b1d77b308bd57403f55ff9
     resource: repo://apps/github.io/.storybook/story-taxonomy.spec.ts
@@ -17,8 +17,6 @@ sources:
     resource: repo://apps/github.io/src/app/count-badge.stories.tsx
   - id: openwiki-source-43db7fa7bd3bd05d549bdc0a
     resource: repo://apps/github.io/src/app/count-badge.tsx
-  - id: openwiki-source-c3b9a31667eeb1ba07c1e2e1
-    resource: repo://apps/github.io/src/app/devops-capability-evidence/dora-capability-card.tsx
   - id: openwiki-source-931cab7abf1d26363f1a35b7
     resource: repo://apps/github.io/src/app/devops-roadmap/devops-roadmap-stepper.tsx
   - id: openwiki-source-0e64d2f01d205d55b34c0576
@@ -31,6 +29,8 @@ sources:
     resource: repo://apps/github.io/src/app/global-navigation-footer.tsx
   - id: openwiki-source-5dbaa213d52c3aac678d1838
     resource: repo://apps/github.io/src/app/global-navigation-layout.tsx
+  - id: openwiki-source-fd1efcdf5558ec437c218583
+    resource: repo://apps/github.io/src/app/home/dora-capability-masonry.tsx
   - id: openwiki-source-9a75dff41bf8e0bd1f49b6bc
     resource: repo://apps/github.io/src/app/home/home-page.spec.tsx
   - id: openwiki-source-0e3b0dfb231db070ffd8340f
@@ -79,7 +79,7 @@ sources:
     resource: repo://apps/github.io/src/styles.css
   - id: openwiki-source-fcfa3ced1d03143bb27d5018
     resource: repo://apps/github.io/vite.config.ts
-generated: { by: "codex", at: "2026-09-14T07:11:28.462Z" }
+generated: { by: "codex", at: "2026-09-14T10:20:53.845Z" }
 ---
 
 # Design system and layout
@@ -148,12 +148,13 @@ non-contiguous topics, so completion is represented by each step's semantic
 status rather than by a single progress cursor.
 
 The Home page keeps its DORA heading and explanatory Banner in the section
-stack, then uses Astryx `Grid` for the mapped capability-card collection. The
-grid uses 360 px minimum tracks, a two-column cap, and spacing token 4, so the
-same canonical card order remains one full-width column when the section cannot
-fit two tracks and becomes a two-column desktop layout once it can. The cards
-retain their existing full-track width and article semantics; this is a
-section-owned allocation decision rather than a card-specific width override.
+stack, then passes the mapped capability-card collection to an app-owned
+responsive masonry. It keeps one column below 736 px of available width and
+uses two 360 px-minimum columns above that point. A `ResizeObserver` measures
+each card and places the next card in the shortest column with a 16 px gap;
+the same gap is used vertically and horizontally. The masonry wrappers remain
+in canonical source order, preserving the cards' existing article semantics
+and keyboard traversal while letting cards retain their natural heights.
 
 At table-width viewports, the Skills page integrates the reusable `SkillTable`
 in a full-width Astryx `Card` with a divided control header and edge-to-edge

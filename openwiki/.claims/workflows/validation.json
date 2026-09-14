@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:ab16258c571dc1bab5f42f77ac36a141024293beb26ceaaafebc414c835fa1a4",
+  "pageVersion": "sha256:3b97698ab509c97d668ce64394578ab7257efd06e66c66f86eeda49aa1dd1684",
   "claims": [
     {
       "id": "claim_6cbb6dd0080f4763aaf4dec964f7f76e",
@@ -310,25 +310,25 @@
     },
     {
       "id": "claim_d742979a1d1a4d4aa1d59e3c7ef190bc",
-      "statement": "The Home-page DORA-card layout test compares the rendered collection root with an Astryx Grid configured for 360 px minimum tracks, a two-column cap, and gap token 4, complementing the canonical-order assertion before broader application validation.",
+      "statement": "The Home-page DORA-card tests protect canonical source order through the masonry wrappers, while the colocated masonry unit test verifies shortest-column packing, a uniform 16 px gap, and the single-column fallback before broader application validation.",
       "evidence": [
         {
-          "resource": "repo://apps/github.io/project.json#L1-L19",
-          "version": "repo-lines-v1:sha256:a1649c7dfe546155201bea0f38015c84cd8e14946751a64e0f715248c2df22c4:eyJzZWxlY3RlZExpbmVDb3VudCI6MTksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImE2ZmIwOGZkYTFhY2I5NTdiNjExNmJkMzc4MTFhMWZlNDFhMDE2MTFjMDYzMWVkYmY3ODZkNjg4OWEyN2E1NWMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjFmMGNkYjk3MmE3YmZiN2VkMjQ2ZjlmZjY3MjM4NWU1NWY0OTY4ZmMxMTA0M2RjNWI2ODRkNTFkZmEzMWRiY2IiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUxNWQ5ZWRiNTM0ZmQyMmQ5ZGM2NWM2MWZjOTNiMTcyYTdmYzlmN2U2Nzc2NjUxZjQ0OGJlYzdhMTBiYzhmMjMifQ"
+          "resource": "repo://apps/github.io/src/app/home/dora-capability-masonry.spec.tsx",
+          "version": "repo-file-v1:sha256:453e10939c6abbe92b5aab6d0595072c717f5495fac59aae9900fc1a0f82273c"
         },
         {
-          "resource": "repo://apps/github.io/src/app/home/home-page.spec.tsx#L197-L246",
-          "version": "repo-lines-v1:sha256:b52718395c2b4225dd41ee551a28342e0e1c6651607162f234229641927dd434:eyJzZWxlY3RlZExpbmVDb3VudCI6NTAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjljNWJkMGFjMDZiZmYyNTRmNGUyMGUyMzVjNDdiYTMxNjVjNDQ5NjYzNjkxMDc3ZmMwZTBhYTc2Zjk3OTA2YzciLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjNhM2U0NmY5NDI3NmI2ZjZmNGVkMWYwMmFmNzhiZWY2YTJlZTFjNDM5ZGQ1NTg0Yjk3Mzk0ODMxMzIxNGQyYjciLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjZhY2NjZWJhZjYyODJhYWJkYTM1OTE1Njg2MTZmODFmNDFlMDJlOGJlYzExMmUzNDdkZjhiOTI0ODgxNGYzOGIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImMwNzM4NmM1ZjE2OTU1ZTc5OWQ1YzYwNGUyZTM0YzI5Nzc3ZGYxMDdkNzEyYzNmMTY3Yzk4ZTI0YmU3MjQ4NzUifQ"
+          "resource": "repo://apps/github.io/src/app/home/home-page.spec.tsx",
+          "version": "repo-file-v1:sha256:cf5feabc1a98855c929c480c9bcb5fd7547047389353961f2cf99ad944510000"
         },
         {
-          "resource": "repo://apps/github.io/src/app/home/home-page.tsx#L52-L81",
-          "version": "repo-lines-v1:sha256:63406593f726578154fee000e4a637a6e206981d98bc5f509e6cff56cf1261ae:eyJzZWxlY3RlZExpbmVDb3VudCI6MzAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjMxYTg1YzExYjJjNWFjNzVkMmNjYWY5OTIzNzQ5NTFiYmE4ZTk2YmQxOTkxNjBjNzM3YTkwZWEwN2FmNTNiYzQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImEwMDdlM2ViNWRkYTZiMmVhYWFkYmEyMjZkZDRiYjk3ODk1Mjg1MDI3MmY1NGZkNmE2Yzc1YTk3ZjUzOTUwMzUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjAxMTNhODUwODcxZGIzYmEwZmQ2ZTMwZDczODc4YjMzM2YzMzY2YzgxMDQzM2U3MzNkZTNlMGUyYzUyNTAyNDUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjlmYmZlYzFhZWNhNWZlYTVhNDRkMmJlZGM4N2NlZjliMzU1NTkyZmZjYWQ2OWE4YWNhYzc1NWMzMWZkODY0YzkifQ"
+          "resource": "repo://apps/github.io/src/app/home/home-page.tsx",
+          "version": "repo-file-v1:sha256:69ae85a22ae0ca027e21a64f564d07832750e217e1374ac72ea1f00051c7355c"
         }
       ]
     }
   ],
   "verification": {
     "by": "openwiki/0.5.0",
-    "at": "2026-09-14T07:11:28.462Z"
+    "at": "2026-09-14T10:20:53.845Z"
   }
 }

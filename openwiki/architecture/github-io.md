@@ -18,6 +18,8 @@ sources:
     resource: repo://apps/github.io/src/app/devops-roadmap/roadmap-page.tsx
   - id: openwiki-source-5dbaa213d52c3aac678d1838
     resource: repo://apps/github.io/src/app/global-navigation-layout.tsx
+  - id: openwiki-source-fd1efcdf5558ec437c218583
+    resource: repo://apps/github.io/src/app/home/dora-capability-masonry.tsx
   - id: openwiki-source-0e3b0dfb231db070ffd8340f
     resource: repo://apps/github.io/src/app/home/home-page.tsx
   - id: openwiki-source-bd7d75b07e3062c09dcab6e9
@@ -50,10 +52,10 @@ sources:
     resource: repo://apps/github.io/src/app/skills/skill-table.tsx
   - id: openwiki-source-a845ec3d01c38967df3a4dad
     resource: repo://apps/github.io/src/app/skills/skills-page.tsx
-generated: { by: "codex", at: "2026-09-14T07:11:28.462Z" }
+generated: { by: "codex", at: "2026-09-14T10:20:53.845Z" }
 verified:
   - by: openwiki/0.5.0
-    at: 2026-09-14T07:11:28.462Z
+    at: 2026-09-14T10:20:53.845Z
 ---
 
 # Application architecture
@@ -81,11 +83,13 @@ result is different from an unmatched URL: `SkillDetailRoute` renders the
 full-width not-found component within its existing route.
 
 `HomePage` keeps its top-skills carousel and DORA capability section in normal
-page flow. The DORA section maps the canonical definitions through their
-existing evidence-backed cards, with its heading and explanatory Banner outside
-an Astryx Grid. The grid adapts from one full-width card track to at most two
-360 px-minimum tracks while preserving canonical DOM order, so responsive
-allocation changes without changing the evidence model or card semantics.
+page flow. The DORA section maps canonical definitions through their existing
+evidence-backed cards, with its heading and explanatory Banner outside an
+app-owned masonry component. The component measures natural card heights and
+packs each next source-order card into the shortest column, switching from one
+column to two 360 px-minimum columns when space permits. This responsive
+presentation decision does not change the evidence model, card semantics, or
+DOM and keyboard order.
 
 `SkillsPage` owns one filter state across two responsive projections. At table
 widths it renders `SkillTableDetailLayout`, whose `SkillTable` groups its

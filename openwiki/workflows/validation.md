@@ -22,6 +22,8 @@ sources:
     resource: repo://apps/github.io/src/app/count-badge.stories.spec.ts
   - id: openwiki-source-5dbaa213d52c3aac678d1838
     resource: repo://apps/github.io/src/app/global-navigation-layout.tsx
+  - id: openwiki-source-2378d83f7f8fd8fc756c71f4
+    resource: repo://apps/github.io/src/app/home/dora-capability-masonry.spec.tsx
   - id: openwiki-source-9a75dff41bf8e0bd1f49b6bc
     resource: repo://apps/github.io/src/app/home/home-page.spec.tsx
   - id: openwiki-source-0e3b0dfb231db070ffd8340f
@@ -76,10 +78,10 @@ sources:
     resource: repo://scripts/setup-openwiki.test.mjs
   - id: openwiki-source-165465422a61a00b62b0f6d3
     resource: repo://scripts/sync-github-pages-artifact.test.mjs
-generated: { by: "codex", at: "2026-09-14T07:11:28.462Z" }
+generated: { by: "codex", at: "2026-09-14T10:20:53.845Z" }
 verified:
   - by: openwiki/0.5.0
-    at: 2026-09-14T07:11:28.462Z
+    at: 2026-09-14T10:20:53.845Z
 ---
 
 # Validation workflow
@@ -184,12 +186,12 @@ established title taxonomy and representative args. Pair those tests with the
 page-level test when the component is wired into an application page, proving
 its actual accessible and data-derived context.
 
-The Home-page DORA-card layout test compares the rendered collection root with
-an Astryx Grid configured for 360 px minimum tracks, a two-column cap, and gap
-token 4. It complements the canonical-order assertion: the responsive wrapper
-must not change evidence ordering or card content. Validate that page-level
-contract with the focused Home-page test before running the full `github.io`
-suite and production build.
+The Home-page DORA-card layout test confirms that the rendered masonry wrappers
+retain the canonical card order. Its colocated unit test verifies that the
+packing algorithm selects the shortest column and applies a uniform 16 px gap,
+including the single-column fallback. Validate those focused contracts before
+running the full `github.io` suite and production build; the desktop masonry
+Storybook scenario is the visual-review surface.
 
 `SkillTable` keeps its component-level contract in a colocated jsdom suite. It
 verifies the four columns and display
