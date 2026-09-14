@@ -3,7 +3,6 @@ import { Collapsible } from '@astryxdesign/core/Collapsible';
 import { Heading } from '@astryxdesign/core/Heading';
 import { HStack, VStack } from '@astryxdesign/core/Layout';
 import { Text } from '@astryxdesign/core/Text';
-import { VisuallyHidden } from '@astryxdesign/core/VisuallyHidden';
 import { useState, type ReactElement, type ReactNode } from 'react';
 
 import { CountBadge } from '../count-badge';
@@ -52,16 +51,13 @@ export function SkillExperienceCardShell({
                     <CountBadge count={outcomeCount} />
                   </>
                 ) : null}
-                {skillCount > 0 && !isOpen ? (
+                {skillCount > 0 && (!isOpen || outcomeCount === 0) ? (
                   <>
                     <Text type="supporting" color="secondary">
                       Relevant skills
                     </Text>
                     <CountBadge count={skillCount} />
                   </>
-                ) : null}
-                {skillCount > 0 && isOpen && outcomeCount === 0 ? (
-                  <VisuallyHidden>Collapse relevant skills</VisuallyHidden>
                 ) : null}
               </HStack>
             }

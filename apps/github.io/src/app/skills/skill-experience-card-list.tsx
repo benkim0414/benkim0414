@@ -95,12 +95,14 @@ export function SkillExperienceCard({
 
       {resolvedRelevantSkills.length > 0 ? (
         <VStack gap={1}>
-          <HStack gap={2} vAlign="center">
-            <Text type="supporting" color="secondary">
-              Relevant skills
-            </Text>
-            <CountBadge count={resolvedRelevantSkills.length} />
-          </HStack>
+          {experience.narrative.length > 0 ? (
+            <HStack gap={2} vAlign="center">
+              <Text type="supporting" color="secondary">
+                Relevant skills
+              </Text>
+              <CountBadge count={resolvedRelevantSkills.length} />
+            </HStack>
+          ) : null}
           <HStack
             aria-label="Relevant skills"
             as="ul"

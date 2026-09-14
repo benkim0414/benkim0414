@@ -232,4 +232,29 @@ describe('SkillExperienceList', () => {
     expect(within(card as HTMLElement).queryByRole('list')).toBeNull();
     expect(within(card as HTMLElement).queryByRole('button')).toBeNull();
   });
+
+  it('uses the relevant-skills row as the skills-only disclosure trigger', () => {
+    useSmallViewport();
+    const [evidence] = devOpsCapabilityEvidenceItems.filter(
+      (item) => item.id === 'github-actions-gitops-handoff',
+    );
+
+    expect(evidence).toBeDefined();
+
+    render(
+      <SkillExperienceList
+        evidence={[{ ...evidence, details: { facts: [] } }]}
+        skills={skills}
+      />,
+    );
+
+    const disclosure = screen.getByRole('button', {
+      name: 'Relevant skills 6',
+    });
+
+    fireEvent.click(disclosure);
+
+    expect(disclosure.getAttribute('aria-expanded')).toBe('true');
+    expect(screen.getAllByText('Relevant skills')).toHaveLength(1);
+  });
 });
