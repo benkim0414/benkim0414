@@ -16,6 +16,8 @@ sources:
     resource: repo://apps/github.io/src/app/devops-roadmap/roadmap-page.tsx
   - id: openwiki-source-5dbaa213d52c3aac678d1838
     resource: repo://apps/github.io/src/app/global-navigation-layout.tsx
+  - id: openwiki-source-2afbe5e95b136e7b3bda73e7
+    resource: repo://apps/github.io/src/app/responsive-collapsible.ts
   - id: openwiki-source-27a9eeb6972479f50ad1d034
     resource: repo://apps/github.io/src/app/router-link.tsx
   - id: openwiki-source-0326a209b3e8f758018bcc41
@@ -43,7 +45,7 @@ sources:
 generated: { by: "codex", at: "2026-09-14T01:33:39.410Z" }
 verified:
   - by: openwiki/0.5.0
-    at: 2026-09-14T01:33:39.410Z
+    at: 2026-09-14T02:21:19.563Z
 ---
 
 # Application architecture

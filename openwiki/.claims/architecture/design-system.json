@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:ee66b9f2c50cbf95a8801be3a90a94ffc695be412e5b052037bde7fd1816b0c2",
+  "pageVersion": "sha256:ffe16f8dd14d7eefe8a52f33fb317ab1165bc07c74b3d6bc51ed4fe1dc79b356",
   "claims": [
     {
       "id": "claim_67f0a6341495404e8eefce3e45fd6173",
@@ -239,12 +239,16 @@
       "statement": "Skill experience cards share a controlled Astryx Collapsible shell that labels only non-empty projections. Mixed cards retain Highlights in the expanded trigger and place Relevant skills above the token list; skills-only cards keep Relevant skills and its count beside the chevron in both states and omit the duplicate panel heading; empty cards omit the disclosure. Initial viewport width only seeds the open state, closed at or below 640px.",
       "evidence": [
         {
+          "resource": "repo://apps/github.io/src/app/responsive-collapsible.ts#L1-L9",
+          "version": "repo-lines-v1:sha256:23f185bdb2d6da515548b20d0f9c200a451aa6a56bb37cdb36a3d965cc96a4d1:eyJzZWxlY3RlZExpbmVDb3VudCI6OSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiOTg5ODAyNTg1YzFlYThkMWMxNjQ2Njk4MmE4MTljZjZlNmE1NjBlNDY2ZDYwZmU1ZDZiYWU1MGRjYzY5YTk1MiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNDEyY2EzNDVjY2Y3NWJmOWMwODA2YmNlNjk1YmU4ZGU4MDhiNzk5ODQyNTFhN2E1NGQyMDJjZjYxMDFkZDQ1MSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjAsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjAsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSJ9"
+        },
+        {
           "resource": "repo://apps/github.io/src/app/skills/skill-experience-card-list.tsx",
           "version": "repo-file-v1:sha256:d2b33bcec788d41c414d73aad2a71969a3a3b89522ed961f6d9fc8f0059d2b70"
         },
         {
-          "resource": "repo://apps/github.io/src/app/skills/skill-experience-card-shell.tsx",
-          "version": "repo-file-v1:sha256:3ec4c1c46ebca56997c14554d18662bdfe24eb80817b027f32e45b6341794762"
+          "resource": "repo://apps/github.io/src/app/skills/skill-experience-card-shell.tsx#L20-L68",
+          "version": "repo-lines-v1:sha256:c2679c29471062e68003bbec0fc560d540938c9215560f99c1b3e8644fd23301:eyJzZWxlY3RlZExpbmVDb3VudCI6NDksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjZlYmE4ZDQyMGE4MzQ0ZGRhMmNkODU0MGQ0NzY0Y2E3ZTU3MDZhMzViMmRjNGYzNDkzMWUxOWE5ZTFhOWQyMTgiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijk2ZTJkMTcwZjMxZDljODhmZDhjNGFiNGJlYzJmZGRiOGU0OWZlOWFlMTRiZjExZTQ1NDg1YmE5NGQwMjdiYTkiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjViODIwNWY5MTc2MTY0ZTlmMDZmYzkyNmEzMDY0Y2ZiZTMxZTI5NTg0ZWM3M2U5OTYxMzhkMzgyOWIzOTk5YWIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjoyLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjdiOGI2MDBhNWI0NDhiMWU0ZDAyZGYwOTc0NmVkM2NhMzE3MmY3NWM0YWFiYjAxZGRlMDgwZTM2Y2FiMDc0YjQifQ"
         },
         {
           "resource": "repo://apps/github.io/src/app/skills/skill-experience-list.tsx",
@@ -265,14 +269,18 @@
           "version": "repo-lines-v1:sha256:6d8e851e33e71ebc98f2d47330e32f446a6aaa8868929127a85dcfff3ed211fc:eyJzZWxlY3RlZExpbmVDb3VudCI6MTAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImRkMmU4OWRiZTBmNGE5NzYyMDE0NzQxZTQ5NzJmNWFlOGYyYTk3NmY0YTY3NDE1M2E0OGViZGRlYTJkNDFjYTEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImFhMWQxYTYzMzkwMjI5Yzc5ODM0N2U4M2EwNDA1NDQxYzk0MDAwMzUyODRhZDE2OGMxYmY2Y2RmMWQ3MGEzNzAiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImJhMzhlZTljYzczYzlmMWYyYzhmOGM1NmQwMGJkMDBkZTViMDczNjlmMTJlMDgwYWJiZDc5YzhjNDM3NTZjMTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
         },
         {
-          "resource": "repo://apps/github.io/src/app/projects/project-card.tsx#L54-L132",
-          "version": "repo-lines-v1:sha256:7a898562b44a1ea88ed9f2a1546d4be973527c03e2576ae9f8d8b370b777ca88:eyJzZWxlY3RlZExpbmVDb3VudCI6NzksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjVhMjBiYjA4MTdlYjBjNmM3NjQ0NDhkNGUwZjhjMjMzODE1OGYxYTFiOTM2ZmY1OWU1OWY0ODViZmNmY2ZhMzkiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImUzMWMzYjEwY2M4YWFmMzMxZmFhOWVkMjA5MGE2N2FlZWFmZWVlNDFlMWI3Yjg5ZDVhMzRhZmI2ODU0MTQwOWYiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjEzODNhYzE5OThhZDg4Mjg4NDVjNzBlZGZmOWQyNWZjYzc4OTU3ZjU1MzBhNzk4MzhkNTE4NGExZTE3MGZlNDIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjoyLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjdiOGI2MDBhNWI0NDhiMWU0ZDAyZGYwOTc0NmVkM2NhMzE3MmY3NWM0YWFiYjAxZGRlMDgwZTM2Y2FiMDc0YjQifQ"
+          "resource": "repo://apps/github.io/src/app/projects/project-card.tsx#L54-L127",
+          "version": "repo-lines-v1:sha256:890fbc448e3f2de5dbedda9062e9406960f47e3dce74ac86aa0a2bb9da9902a9:eyJzZWxlY3RlZExpbmVDb3VudCI6NzQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImVmOWM0Y2RkYmU1MjRmNWU3Y2EyOWEwZTJhMzM0YTE0YjBjNGYxNTJmOGFhNjRlY2ExOTI5ZmQ5NTE2ZDA2MjciLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjIwZDNlYWU4YmE0MmJjZDJlZGIwN2U4MDNiOGYxMGZkMTk4OWI0NWFiOTBmZGNjNDZkZDIyYWQyNTZjNzc1ZTgiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        },
+        {
+          "resource": "repo://apps/github.io/src/app/responsive-collapsible.ts#L1-L9",
+          "version": "repo-lines-v1:sha256:23f185bdb2d6da515548b20d0f9c200a451aa6a56bb37cdb36a3d965cc96a4d1:eyJzZWxlY3RlZExpbmVDb3VudCI6OSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiOTg5ODAyNTg1YzFlYThkMWMxNjQ2Njk4MmE4MTljZjZlNmE1NjBlNDY2ZDYwZmU1ZDZiYWU1MGRjYzY5YTk1MiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNDEyY2EzNDVjY2Y3NWJmOWMwODA2YmNlNjk1YmU4ZGU4MDhiNzk5ODQyNTFhN2E1NGQyMDJjZjYxMDFkZDQ1MSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjAsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjAsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSJ9"
         }
       ]
     }
   ],
   "verification": {
     "by": "openwiki/0.5.0",
-    "at": "2026-09-14T02:12:56.703Z"
+    "at": "2026-09-14T02:21:19.563Z"
   }
 }

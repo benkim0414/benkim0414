@@ -5,7 +5,7 @@ description: How Astryx, StyleX, theme persistence, and browser layout checks fi
 tags: [astryx, stylex, theme, layout]
 verified:
   - by: openwiki/0.5.0
-    at: 2026-09-14T02:12:56.703Z
+    at: 2026-09-14T02:21:19.563Z
 sources:
   - id: openwiki-source-45b1d77b308bd57403f55ff9
     resource: repo://apps/github.io/.storybook/story-taxonomy.spec.ts
@@ -39,6 +39,8 @@ sources:
     resource: repo://apps/github.io/src/app/projects/project-card.stories.tsx
   - id: openwiki-source-bd7d75b07e3062c09dcab6e9
     resource: repo://apps/github.io/src/app/projects/project-card.tsx
+  - id: openwiki-source-2afbe5e95b136e7b3bda73e7
+    resource: repo://apps/github.io/src/app/responsive-collapsible.ts
   - id: openwiki-source-0326a209b3e8f758018bcc41
     resource: repo://apps/github.io/src/app/skills/skill-detail-content.tsx
   - id: openwiki-source-2f8ff13f4c903910f3a587fc

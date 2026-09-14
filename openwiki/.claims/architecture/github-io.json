@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:363674fd4e57133371e98ec1e49d63ed8d00d4c9240f90d788f0adce570bc595",
+  "pageVersion": "sha256:ae28c5f9deb1dcbfe8870b14ff0488f9014e50e88e20d1da5c16da32d2c6ee83",
   "claims": [
     {
       "id": "claim_da9ac46eb2204e9b9a555848aea5550d",
@@ -155,12 +155,16 @@
       "statement": "Both experience projections use a controlled disclosure shell: mixed cards retain Highlights in the expanded trigger and place Relevant skills above tokens, skills-only cards keep Relevant skills and its count beside the chevron in both states without a duplicate panel heading, and empty cards omit disclosure.",
       "evidence": [
         {
+          "resource": "repo://apps/github.io/src/app/responsive-collapsible.ts#L1-L9",
+          "version": "repo-lines-v1:sha256:23f185bdb2d6da515548b20d0f9c200a451aa6a56bb37cdb36a3d965cc96a4d1:eyJzZWxlY3RlZExpbmVDb3VudCI6OSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiOTg5ODAyNTg1YzFlYThkMWMxNjQ2Njk4MmE4MTljZjZlNmE1NjBlNDY2ZDYwZmU1ZDZiYWU1MGRjYzY5YTk1MiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNDEyY2EzNDVjY2Y3NWJmOWMwODA2YmNlNjk1YmU4ZGU4MDhiNzk5ODQyNTFhN2E1NGQyMDJjZjYxMDFkZDQ1MSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjAsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjAsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSJ9"
+        },
+        {
           "resource": "repo://apps/github.io/src/app/skills/skill-experience-card-list.tsx",
           "version": "repo-file-v1:sha256:d2b33bcec788d41c414d73aad2a71969a3a3b89522ed961f6d9fc8f0059d2b70"
         },
         {
-          "resource": "repo://apps/github.io/src/app/skills/skill-experience-card-shell.tsx",
-          "version": "repo-file-v1:sha256:3ec4c1c46ebca56997c14554d18662bdfe24eb80817b027f32e45b6341794762"
+          "resource": "repo://apps/github.io/src/app/skills/skill-experience-card-shell.tsx#L20-L68",
+          "version": "repo-lines-v1:sha256:c2679c29471062e68003bbec0fc560d540938c9215560f99c1b3e8644fd23301:eyJzZWxlY3RlZExpbmVDb3VudCI6NDksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjZlYmE4ZDQyMGE4MzQ0ZGRhMmNkODU0MGQ0NzY0Y2E3ZTU3MDZhMzViMmRjNGYzNDkzMWUxOWE5ZTFhOWQyMTgiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijk2ZTJkMTcwZjMxZDljODhmZDhjNGFiNGJlYzJmZGRiOGU0OWZlOWFlMTRiZjExZTQ1NDg1YmE5NGQwMjdiYTkiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjViODIwNWY5MTc2MTY0ZTlmMDZmYzkyNmEzMDY0Y2ZiZTMxZTI5NTg0ZWM3M2U5OTYxMzhkMzgyOWIzOTk5YWIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjoyLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjdiOGI2MDBhNWI0NDhiMWU0ZDAyZGYwOTc0NmVkM2NhMzE3MmY3NWM0YWFiYjAxZGRlMDgwZTM2Y2FiMDc0YjQifQ"
         },
         {
           "resource": "repo://apps/github.io/src/app/skills/skill-experience-list.tsx",
@@ -171,6 +175,6 @@
   ],
   "verification": {
     "by": "openwiki/0.5.0",
-    "at": "2026-09-14T01:33:39.410Z"
+    "at": "2026-09-14T02:21:19.563Z"
   }
 }

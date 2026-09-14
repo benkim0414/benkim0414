@@ -14,6 +14,8 @@ sources:
     resource: repo://apps/github.io/src/app/devops-roadmap/devops-roadmap-stepper.tsx
   - id: openwiki-source-43f6485bd500f1f79408e2e3
     resource: repo://apps/github.io/src/app/devops-roadmap/devops-roadmap.data.ts
+  - id: openwiki-source-2afbe5e95b136e7b3bda73e7
+    resource: repo://apps/github.io/src/app/responsive-collapsible.ts
   - id: openwiki-source-bcd58fc33f104c190f9326be
     resource: repo://apps/github.io/src/app/skills/skill-detail-resolver.ts
   - id: openwiki-source-61956fea1deed015d3bafd72
@@ -29,7 +31,7 @@ sources:
 generated: { by: "codex", at: "2026-09-14T00:54:28.606Z" }
 verified:
   - by: openwiki/0.5.0
-    at: 2026-09-14T00:54:28.606Z
+    at: 2026-09-14T02:21:19.563Z
 ---
 
 # Skills and capability evidence
