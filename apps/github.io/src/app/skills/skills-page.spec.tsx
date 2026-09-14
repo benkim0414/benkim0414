@@ -6,10 +6,7 @@ import { vi } from 'vitest';
 import { skills } from './skill-list.data';
 import type { Skill } from './skill-list.types';
 import { SkillsPage } from './skills-page';
-import {
-  COMPACT_SURFACE_QUERY,
-  TABLE_QUERY,
-} from './skill-table-responsive';
+import { COMPACT_SURFACE_QUERY, TABLE_QUERY } from './skill-table-responsive';
 
 const mediaMatches = new Map<string, boolean>();
 const mediaListeners = new Map<
@@ -294,7 +291,7 @@ describe('SkillsPage', () => {
       [TABLE_QUERY]: true,
       [COMPACT_SURFACE_QUERY]: false,
     });
-    const { getByRole, getByText, queryByRole } = renderSkillsPage(tableSkills);
+    const { getByRole, queryByRole } = renderSkillsPage(tableSkills);
     const kubernetesRow = getByRole('row', { name: /Kubernetes/ });
 
     fireEvent.click(kubernetesRow);
@@ -314,8 +311,8 @@ describe('SkillsPage', () => {
       }),
     ).toBeTruthy();
     expect(
-      getByRole('heading', { level: 3, name: 'benkim0414/homelab' }),
-    ).toBeTruthy();
+      queryByRole('heading', { level: 3, name: 'benkim0414/homelab' }),
+    ).toBeNull();
 
     const terraformRow = getByRole('row', { name: /Terraform/ });
     fireEvent.click(terraformRow);

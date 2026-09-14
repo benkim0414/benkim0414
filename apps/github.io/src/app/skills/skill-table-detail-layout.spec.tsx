@@ -10,10 +10,7 @@ import {
   SkillTableDetailLayout,
   type SkillTableDetailLayoutProps,
 } from './skill-table-detail-layout';
-import {
-  COMPACT_SURFACE_QUERY,
-  TABLE_QUERY,
-} from './skill-table-responsive';
+import { COMPACT_SURFACE_QUERY, TABLE_QUERY } from './skill-table-responsive';
 
 const mediaMatches = new Map<string, boolean>();
 const mediaListeners = new Map<
@@ -157,6 +154,35 @@ describe('SkillTableDetailLayout', () => {
     );
   });
 
+  it('uses the compact skill inspector hierarchy', () => {
+    setMediaMatches({
+      [TABLE_QUERY]: true,
+      [COMPACT_SURFACE_QUERY]: false,
+    });
+    const { getByRole, queryByRole } = renderLayout();
+    const detailPanel = getByRole('region', { name: 'Kubernetes details' });
+
+    expect(
+      getByRole('link', { name: 'View Kubernetes details' }).getAttribute(
+        'href',
+      ),
+    ).toBe('/skills/kubernetes');
+    expect(detailPanel.querySelectorAll('.astryx-divider')).toHaveLength(2);
+    expect(queryByRole('heading', { name: 'Projects' })).toBeNull();
+  });
+
+  it('renders inspector experience as an unframed list', () => {
+    setMediaMatches({
+      [TABLE_QUERY]: true,
+      [COMPACT_SURFACE_QUERY]: false,
+    });
+    const { getByRole } = renderLayout();
+    const detailPanel = getByRole('region', { name: 'Kubernetes details' });
+
+    expect(getByRole('heading', { name: 'Experience' })).toBeTruthy();
+    expect(detailPanel.querySelectorAll('.astryx-card')).toHaveLength(0);
+  });
+
   it('keeps a long detail scroll scoped to the bounded desktop panel', () => {
     setMediaMatches({
       [TABLE_QUERY]: true,
@@ -204,9 +230,7 @@ describe('SkillTableDetailLayout', () => {
     fireEvent.keyDown(closeButton, { key: 'Escape' });
 
     expect(onClose).not.toHaveBeenCalled();
-    expect(
-      getByRole('region', { name: 'Kubernetes details' }),
-    ).toBeTruthy();
+    expect(getByRole('region', { name: 'Kubernetes details' })).toBeTruthy();
   });
 
   it('keeps an active panel open while Escape cancels text composition', () => {
@@ -219,9 +243,7 @@ describe('SkillTableDetailLayout', () => {
     fireEvent.keyDown(document, { key: 'Escape', isComposing: true });
 
     expect(onClose).not.toHaveBeenCalled();
-    expect(
-      getByRole('region', { name: 'Kubernetes details' }),
-    ).toBeTruthy();
+    expect(getByRole('region', { name: 'Kubernetes details' })).toBeTruthy();
   });
 
   it('keeps an active panel open for the legacy IME key code', () => {
@@ -234,9 +256,7 @@ describe('SkillTableDetailLayout', () => {
     fireEvent.keyDown(document, { key: 'Escape', keyCode: 229 });
 
     expect(onClose).not.toHaveBeenCalled();
-    expect(
-      getByRole('region', { name: 'Kubernetes details' }),
-    ).toBeTruthy();
+    expect(getByRole('region', { name: 'Kubernetes details' })).toBeTruthy();
   });
 
   it('uses a tall bottom sheet on compact surfaces and restores focus for each close path', () => {

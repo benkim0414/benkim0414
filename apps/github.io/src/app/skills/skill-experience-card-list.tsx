@@ -13,11 +13,13 @@ import type { Skill } from './skill-list.types';
 import { SkillToken } from './skill-token';
 
 export interface SkillExperienceCardListProps {
+  readonly appearance?: 'card' | 'plain';
   readonly experiences: readonly Experience[];
   readonly skills?: readonly Skill[];
 }
 
 export interface SkillExperienceCardProps {
+  readonly appearance?: 'card' | 'plain';
   readonly experience: Experience;
   readonly relevantSkillLabels?: readonly string[];
   readonly relevantSkills?: readonly RelevantSkill[];
@@ -53,6 +55,7 @@ const styles = stylex.create({
 });
 
 export function SkillExperienceCardList({
+  appearance = 'card',
   experiences,
   skills = [],
 }: SkillExperienceCardListProps): ReactElement {
@@ -62,6 +65,7 @@ export function SkillExperienceCardList({
         <li key={experience.id} {...stylex.props(styles.item)}>
           <VStack paddingBlock={2}>
             <SkillExperienceCard
+              appearance={appearance}
               experience={experience}
               relevantSkills={getRelevantSkills(experience, skills)}
             />
@@ -73,6 +77,7 @@ export function SkillExperienceCardList({
 }
 
 export function SkillExperienceCard({
+  appearance,
   experience,
   relevantSkillLabels = [],
   relevantSkills,
@@ -86,6 +91,7 @@ export function SkillExperienceCard({
 
   return (
     <SkillExperienceCardShell
+      appearance={appearance}
       outcomeCount={experience.narrative.length}
       skillCount={resolvedRelevantSkills.length}
       summary={experience.summary}

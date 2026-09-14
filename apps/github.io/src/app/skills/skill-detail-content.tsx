@@ -1,4 +1,5 @@
 import { Card } from '@astryxdesign/core/Card';
+import { Divider } from '@astryxdesign/core/Divider';
 import { Heading } from '@astryxdesign/core/Heading';
 import { HStack, VStack } from '@astryxdesign/core/Layout';
 import {
@@ -21,6 +22,11 @@ import { SkillConfidence } from './skill-confidence';
 
 export interface SkillDetailContentProps {
   readonly detail: ResolvedSkillDetail;
+  readonly presentation?: 'page' | 'inspector';
+}
+
+interface SkillMetadataListProps {
+  readonly detail: ResolvedSkillDetail;
 }
 
 const styles = stylex.create({
@@ -39,10 +45,61 @@ const styles = stylex.create({
   },
 });
 
+function SkillMetadataList({ detail }: SkillMetadataListProps): ReactElement {
+  const certifications = detail.skill.certifications ?? [];
+
+  return (
+    <MetadataList data-testid="skill-metadata">
+      <MetadataListItem label="Primary use">
+        <Text type="supporting">{detail.skill.primaryUse}</Text>
+      </MetadataListItem>
+
+      <MetadataListItem label="Categories">
+        <HStack
+          as="ul"
+          gap={1}
+          wrap="wrap"
+          xstyle={styles.metadataValueList}
+        >
+          {detail.skill.categories.map((category) => (
+            <li key={category} {...stylex.props(styles.metadataValueItem)}>
+              <SkillCategory name={category} />
+            </li>
+          ))}
+        </HStack>
+      </MetadataListItem>
+
+      <MetadataListItem label="Confidence">
+        <SkillConfidence confidence={detail.skill.confidence} />
+      </MetadataListItem>
+
+      {certifications.length > 0 ? (
+        <MetadataListItem label="Certifications">
+          <HStack
+            as="ul"
+            gap={2}
+            wrap="wrap"
+            xstyle={styles.metadataValueList}
+          >
+            {certifications.map((certification, index) => (
+              <li
+                key={`${certification.title}-${certification.url}-${certification.expiresAt}`}
+                {...stylex.props(styles.metadataValueItem)}
+              >
+                <CertificationCitation {...certification} number={index + 1} />
+              </li>
+            ))}
+          </HStack>
+        </MetadataListItem>
+      ) : null}
+    </MetadataList>
+  );
+}
+
 export function SkillDetailContent({
   detail,
+  presentation = 'page',
 }: SkillDetailContentProps): ReactElement {
-  const certifications = detail.skill.certifications ?? [];
   const hasExperience =
     detail.experiences.length > 0 || detail.experienceEvidence.length > 0;
   const experienceCardCount =
@@ -50,55 +107,15 @@ export function SkillDetailContent({
 
   return (
     <VStack gap={6}>
-      <Card variant="muted" width="100%" xstyle={styles.metadataCard}>
-        <MetadataList data-testid="skill-metadata">
-          <MetadataListItem label="Primary use">
-            <Text type="supporting">{detail.skill.primaryUse}</Text>
-          </MetadataListItem>
+      {presentation === 'page' ? (
+        <Card variant="muted" width="100%" xstyle={styles.metadataCard}>
+          <SkillMetadataList detail={detail} />
+        </Card>
+      ) : (
+        <SkillMetadataList detail={detail} />
+      )}
 
-          <MetadataListItem label="Categories">
-            <HStack
-              as="ul"
-              gap={1}
-              wrap="wrap"
-              xstyle={styles.metadataValueList}
-            >
-              {detail.skill.categories.map((category) => (
-                <li key={category} {...stylex.props(styles.metadataValueItem)}>
-                  <SkillCategory name={category} />
-                </li>
-              ))}
-            </HStack>
-          </MetadataListItem>
-
-          <MetadataListItem label="Confidence">
-            <SkillConfidence confidence={detail.skill.confidence} />
-          </MetadataListItem>
-
-          {certifications.length > 0 ? (
-            <MetadataListItem label="Certifications">
-              <HStack
-                as="ul"
-                gap={2}
-                wrap="wrap"
-                xstyle={styles.metadataValueList}
-              >
-                {certifications.map((certification, index) => (
-                  <li
-                    key={`${certification.title}-${certification.url}-${certification.expiresAt}`}
-                    {...stylex.props(styles.metadataValueItem)}
-                  >
-                    <CertificationCitation
-                      {...certification}
-                      number={index + 1}
-                    />
-                  </li>
-                ))}
-              </HStack>
-            </MetadataListItem>
-          ) : null}
-        </MetadataList>
-      </Card>
+      {presentation === 'inspector' && hasExperience ? <Divider /> : null}
 
       {hasExperience ? (
         <section aria-labelledby="skill-experience-narrative-heading">
@@ -112,6 +129,7 @@ export function SkillDetailContent({
 
             {detail.experiences.length > 0 ? (
               <SkillExperienceCardList
+                appearance={presentation === 'inspector' ? 'plain' : 'card'}
                 experiences={detail.experiences}
                 skills={detail.relatedSkills}
               />
@@ -119,6 +137,7 @@ export function SkillDetailContent({
 
             {detail.experienceEvidence.length > 0 ? (
               <SkillExperienceList
+                appearance={presentation === 'inspector' ? 'plain' : 'card'}
                 evidence={detail.experienceEvidence}
                 skills={detail.relatedSkills}
               />
@@ -127,7 +146,7 @@ export function SkillDetailContent({
         </section>
       ) : null}
 
-      {detail.projects.length > 0 ? (
+      {presentation === 'page' && detail.projects.length > 0 ? (
         <section aria-labelledby="skill-projects-heading">
           <VStack gap={3}>
             <HStack gap={2} vAlign="center">

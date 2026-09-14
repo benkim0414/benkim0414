@@ -1,5 +1,7 @@
 import { BottomSheet } from '@astryxdesign/core/BottomSheet';
+import { Button } from '@astryxdesign/core/Button';
 import { Card } from '@astryxdesign/core/Card';
+import { Divider } from '@astryxdesign/core/Divider';
 import { Heading } from '@astryxdesign/core/Heading';
 import { Icon } from '@astryxdesign/core/Icon';
 import { IconButton } from '@astryxdesign/core/IconButton';
@@ -14,15 +16,11 @@ import {
 import { ResizeHandle, useResizable } from '@astryxdesign/core/Resizable';
 import { Text } from '@astryxdesign/core/Text';
 import { isImeKeyEvent, useMediaQuery } from '@astryxdesign/core/hooks';
-import {
-  useEffect,
-  useRef,
-  type ReactElement,
-  type RefObject,
-} from 'react';
+import { useEffect, useRef, type ReactElement, type RefObject } from 'react';
 
 import { SkillDetailContent } from './skill-detail-content';
 import type { ResolvedSkillDetail } from './skill-detail.types';
+import { getSkillDetailPath } from './skill-route';
 import {
   SkillTableBody,
   SkillTableControls,
@@ -72,7 +70,13 @@ function SkillDetailBody({
           {detail.skill.description}
         </Text>
       </VStack>
-      <SkillDetailContent detail={detail} />
+      <Button
+        href={getSkillDetailPath(detail.skill.id)}
+        label={`View ${detail.skill.name} details`}
+        variant="secondary"
+      />
+      <Divider />
+      <SkillDetailContent detail={detail} presentation="inspector" />
     </VStack>
   );
 }
