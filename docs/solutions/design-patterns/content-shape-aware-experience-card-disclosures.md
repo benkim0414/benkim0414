@@ -1,6 +1,7 @@
 ---
 title: Make Experience Card Disclosures Content-Shape-Aware
 date: 2026-09-14
+last_updated: 2026-09-14
 category: design-patterns
 module: apps/github.io skills
 problem_type: design_pattern
@@ -10,6 +11,7 @@ applies_when:
   - Rendering compact Experience Narrative cards on small screens
   - Placing disclosure labels and chevrons for optional card sections
   - Supporting highlights-only, skills-only, mixed, and empty content shapes
+  - Choosing the initial disclosure state for compact skill-detail surfaces
 related_components:
   - Experience Narrative
   - Skill Token
@@ -55,6 +57,28 @@ toggle alone:
 | Skills only | `Relevant skills [N]` | `Relevant skills [N]` | Tokens without another heading |
 | Neither | No disclosure | No disclosure | Nothing |
 
+Treat responsive presentation as an initial condition, not an ongoing owner of
+disclosure state. The card shell imports the same semantic compact-surface
+predicate that selects the skill-detail bottom sheet, then evaluates it only in
+the `useState` initializer
+(`apps/github.io/src/app/skills/skill-table-responsive.ts:1-3`,
+`apps/github.io/src/app/skills/skill-experience-card-shell.tsx:27`,
+`apps/github.io/src/app/skills/skill-experience-card-shell.tsx:72-77`):
+
+```tsx
+const [isOpen, setIsOpen] = useState(shouldStartExpanded);
+
+function shouldStartExpanded(): boolean {
+  return !window.matchMedia(COMPACT_SURFACE_QUERY).matches;
+}
+```
+
+This starts cards collapsed anywhere the surrounding detail flow uses its
+compact presentation, including coarse-pointer tablets, while preserving an
+expanded fallback during server rendering or when `matchMedia` is unavailable.
+Because the query supplies only the mount-time default, later viewport changes
+do not overwrite a visitor's explicit open or closed choice.
+
 The shared shell owns trigger composition. It keeps the skills segment visible
 when the card is closed or when no highlight segment can identify the open
 control (`apps/github.io/src/app/skills/skill-experience-card-shell.tsx:40-66`):
@@ -91,6 +115,13 @@ derives `hasDetails` from both counts and omits the entire `Collapsible` when
 both are zero (`apps/github.io/src/app/skills/skill-experience-card-shell.tsx:27-40`).
 That prevents a chevron with nothing to reveal.
 
+Using the shared compact-surface predicate keeps information density aligned
+with the interaction surface. A private width-only breakpoint can agree on
+phones while diverging on coarse-pointer tablets, where the detail flow is a
+bottom sheet even at a wider viewport. Keeping the predicate shared prevents
+those neighboring components from assigning contradictory meanings to
+"compact."
+
 ## When to Apply
 
 - A disclosure summarizes two or more independently optional sections.
@@ -98,6 +129,8 @@ That prevents a chevron with nothing to reveal.
 - The same controlled shell accepts panel content from multiple renderers.
 - A single-section state would otherwise leave an icon or chevron without a
   visible label on the same row.
+- Responsive state should choose a disclosure's initial density without
+  controlling the visitor's later choice.
 
 ## Examples
 
@@ -121,14 +154,23 @@ expect(screen.getAllByText('Relevant skills')).toHaveLength(1);
 
 The authored-card and capability-evidence suites each exercise this contract
 through their own data path
-(`apps/github.io/src/app/skills/skill-experience-card-list.spec.tsx:166-189`,
-`apps/github.io/src/app/skills/skill-experience-list.spec.tsx:236-262`). Keep
+(`apps/github.io/src/app/skills/skill-experience-card-list.spec.tsx:184-207`,
+`apps/github.io/src/app/skills/skill-experience-list.spec.tsx:288-314`). Keep
 separate mixed-content and empty-content cases so a later placement change
 cannot satisfy one state by breaking another.
+
+For responsive initialization, cover compact and non-compact mounts at both
+renderer boundaries. Then close a card that mounted non-compact, rerender it
+through compact and back to non-compact, and assert it remains closed
+(`apps/github.io/src/app/skills/skill-experience-card-list.spec.tsx:77-154`,
+`apps/github.io/src/app/skills/skill-experience-list.spec.tsx:40-113`). Ending
+on a surface whose default is expanded makes an accidental state reset
+observable; initial-state tests alone do not protect user choice.
 
 ## Related
 
 - [Model Skill Experience As Astryx Narrative Cards](model-skill-experience-as-astryx-narrative-cards.md)
 - [Astryx Component-Owned Typography](../best-practices/astryx-component-owned-typography.md)
 - [Astryx Component API Contracts](../best-practices/astryx-component-api-contracts.md)
+- [Synchronize Skill Stories With Storybook's Responsive Runtime](../ui-bugs/sync-skill-stories-with-storybook-viewport.md)
 - [Experience disclosure label research](../../research/2026-09-14-experience-disclosure-label.md)
