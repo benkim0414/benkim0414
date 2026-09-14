@@ -46,10 +46,10 @@ sources:
     resource: repo://apps/github.io/src/app/skills/skill-table.tsx
   - id: openwiki-source-a845ec3d01c38967df3a4dad
     resource: repo://apps/github.io/src/app/skills/skills-page.tsx
-generated: { by: "codex", at: "2026-09-14T10:47:58.061Z" }
+generated: { by: "codex", at: "2026-09-14T11:19:49.136Z" }
 verified:
   - by: openwiki/0.5.0
-    at: 2026-09-14T10:51:19.005Z
+    at: 2026-09-14T11:19:49.136Z
 ---
 
 # Application architecture
@@ -77,14 +77,14 @@ result is different from an unmatched URL: `SkillDetailRoute` renders the
 full-width not-found component within its existing route.
 
 `SkillsPage` owns one filter state across two responsive projections. At table
-widths it renders `SkillTableDetailLayout`, which places search and category
-controls in a shared sticky `LayoutHeader` above the scrollable catalogue and
-the adjacent detail panel. The page introduction scrolls with the table rather
-than sticking, and pointer or keyboard row activation opens resolved skill
-detail beside it and returns focus to the originating row. Compact widths render
-the card catalog with toolbar search and category filters instead; changing to
-compact mode, filtering out the active skill, or failing detail resolution
-clears the table selection.
+widths it renders the page introduction above `SkillTableDetailLayout`. Inside
+that table card, search and category controls occupy a shared sticky
+`LayoutHeader` above the scrollable catalogue and adjacent detail panel.
+Pointer or keyboard row activation opens resolved skill detail beside the table
+and returns focus to the originating row. Compact widths render the card catalog
+with toolbar search and category filters instead; changing to compact mode,
+filtering out the active skill, or failing detail resolution clears the table
+selection.
 
 The table/detail split and Experience disclosures consume the same shared
 compact-surface query. A compact match selects the bottom sheet and seeds newly

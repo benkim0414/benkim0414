@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:6dae8ea23b35abb1758ad73443aaac5ab825006aa0e4ac0bff369e0af2bc1a8d",
+  "pageVersion": "sha256:99873a2f457795ad995452895a76698d2cf00c4fbb820ffa069bd95facb05d29",
   "claims": [
     {
       "id": "claim_6cbb6dd0080f4763aaf4dec964f7f76e",
@@ -48,20 +48,8 @@
     },
     {
       "id": "claim_d4e4d19066de4c75b1176d3f918bb857",
-      "statement": "Reusable UI changes use colocated component tests for consumer-visible behavior and colocated Storybook stories under the canonical taxonomy; page-level tests additionally protect responsive integration, shared state, and focus behavior when components such as SkillTable enter an application page.",
+      "statement": "Reusable UI changes use colocated component tests for consumer-visible behavior and colocated Storybook stories under the canonical taxonomy; page-level tests additionally protect responsive integration, shared state, focus behavior, and accessible composition when components such as SkillTable enter an application page.",
       "evidence": [
-        {
-          "resource": "repo://apps/github.io/.storybook/story-taxonomy.spec.ts",
-          "version": "repo-file-v1:sha256:38e486454f640948f06ff455f4659763291a8e9cf96f51c02e0034aad587c88c"
-        },
-        {
-          "resource": "repo://apps/github.io/src/app/count-badge.spec.tsx",
-          "version": "repo-file-v1:sha256:f9431b2f84100939b81c506f7724a1e302685fb78f3fceebecf072dd6214b342"
-        },
-        {
-          "resource": "repo://apps/github.io/src/app/count-badge.stories.spec.ts",
-          "version": "repo-file-v1:sha256:f39575c641767172ed27e501ad5a87ac2db7773d0f7e14c2db046203d916c2a3"
-        },
         {
           "resource": "repo://apps/github.io/src/app/skills/skill-table.spec.tsx",
           "version": "repo-file-v1:sha256:385bfc8b3355552efcb92d73fbd0d0a23ef8f195e87cd2da21ec769acefd34d2"
@@ -72,7 +60,7 @@
         },
         {
           "resource": "repo://apps/github.io/src/app/skills/skills-page.spec.tsx",
-          "version": "repo-file-v1:sha256:9a26c3c0c1f90938951b95b62c0ba44a433e648c2f9da4e125008fdad790b5fc"
+          "version": "repo-file-v1:sha256:f7b0367574796c29a871e3e9c5435d5917e5ee5c91f5b80f242b961ab6e85237"
         }
       ]
     },
@@ -278,7 +266,7 @@
     },
     {
       "id": "claim_e77cd36300514575ae7cfc6bbe3f3be7",
-      "statement": "SkillsPage tests protect the responsive card-to-table switch, the desktop catalogue title and introduction remaining in scrollable table content, the full-width desktop card containing table controls and table body, full-height master-detail layout, same-page detail selection, focus restoration, and selection cleanup, while SkillTable Storybook stories provide explicit desktop-table and compact-card scenarios for visual review.",
+      "statement": "SkillsPage tests protect the responsive card-to-table switch, the page introduction preceding the labelled desktop table toolbar, controls before the table, bounded master-detail layout, same-page detail selection, focus restoration, and selection cleanup, while SkillTable Storybook stories provide explicit desktop-table and compact-card scenarios for visual review.",
       "evidence": [
         {
           "resource": "repo://apps/github.io/src/app/skills/skill-table.stories.spec.tsx",
@@ -290,7 +278,7 @@
         },
         {
           "resource": "repo://apps/github.io/src/app/skills/skills-page.spec.tsx",
-          "version": "repo-file-v1:sha256:9a26c3c0c1f90938951b95b62c0ba44a433e648c2f9da4e125008fdad790b5fc"
+          "version": "repo-file-v1:sha256:f7b0367574796c29a871e3e9c5435d5917e5ee5c91f5b80f242b961ab6e85237"
         }
       ]
     },
@@ -311,6 +299,6 @@
   ],
   "verification": {
     "by": "openwiki/0.5.0",
-    "at": "2026-09-14T06:38:19.116Z"
+    "at": "2026-09-14T11:19:49.136Z"
   }
 }

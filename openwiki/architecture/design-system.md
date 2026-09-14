@@ -5,7 +5,7 @@ description: How Astryx, StyleX, theme persistence, and browser layout checks fi
 tags: [astryx, stylex, theme, layout]
 verified:
   - by: openwiki/0.5.0
-    at: 2026-09-14T10:51:19.005Z
+    at: 2026-09-14T11:19:49.136Z
 sources:
   - id: openwiki-source-45b1d77b308bd57403f55ff9
     resource: repo://apps/github.io/.storybook/story-taxonomy.spec.ts
@@ -77,7 +77,7 @@ sources:
     resource: repo://apps/github.io/src/styles.css
   - id: openwiki-source-fcfa3ced1d03143bb27d5018
     resource: repo://apps/github.io/vite.config.ts
-generated: { by: "codex", at: "2026-09-14T10:47:58.061Z" }
+generated: { by: "codex", at: "2026-09-14T11:19:49.136Z" }
 ---
 
 # Design system and layout
@@ -146,12 +146,13 @@ non-contiguous topics, so completion is represented by each step's semantic
 status rather than by a single progress cursor.
 
 At table-width viewports, the Skills page places a shared Astryx layout header
-containing the reusable skill-table controls above both the scrollable table
-body and the adjacent detail panel. `SkillTableControls` owns search, category
-selection, result count, and clearing; `SkillTableBody` owns sorting, empty
-states, and row activation. This lets the controls remain visible while either
-desktop pane scrolls, while the page introduction remains in the table content
-rather than becoming part of the toolbar. Compact viewports retain the card
+inside the table card, with spacing-scale padding around the reusable
+skill-table controls above both the scrollable table body and the adjacent
+detail panel. `SkillTableControls` owns search, category selection, result
+count, and clearing; `SkillTableBody` owns sorting, empty states, and row
+activation. This lets the controls remain visible while either desktop pane
+scrolls, while the page introduction remains above the table card and outside
+the toolbar. Compact viewports retain the card
 catalog, toolbar search, and category popover. The table composes Astryx's
 table, compact text input, multi-selector, button, card, layout, and empty-state
 primitives with the app's

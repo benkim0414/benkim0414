@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:300d0ead2f07194fa58db399d55626f411541ae591bf0b93322b26d31d30f44b",
+  "pageVersion": "sha256:d6fba165bea4cc3390d4509d89828e8ed12a6feb2579100ae18a2734e069680c",
   "claims": [
     {
       "id": "claim_67f0a6341495404e8eefce3e45fd6173",
@@ -96,11 +96,11 @@
         },
         {
           "resource": "repo://apps/github.io/src/app/skills/skills-page.spec.tsx",
-          "version": "repo-file-v1:sha256:9a26c3c0c1f90938951b95b62c0ba44a433e648c2f9da4e125008fdad790b5fc"
+          "version": "repo-file-v1:sha256:f7b0367574796c29a871e3e9c5435d5917e5ee5c91f5b80f242b961ab6e85237"
         },
         {
           "resource": "repo://apps/github.io/src/app/skills/skills-page.tsx",
-          "version": "repo-file-v1:sha256:0054ad2ba51ebdd8f52e0a85b86280938991125933dcb92547c435837c1dbce1"
+          "version": "repo-file-v1:sha256:dc8a0a68e59bdfa180b3c81c8374858837b971a0801cb31d4a7a325b63f3a78c"
         }
       ]
     },
@@ -138,19 +138,19 @@
     },
     {
       "id": "claim_e60e9e0eb69646cba7b3570677531e65",
-      "statement": "At table-width viewports, the Skills page keeps its accessible title and catalogue introduction in the scrollable catalogue content. A shared Astryx layout header contains reusable skill-table controls above both the scrollable table body and adjacent detail panel; compact viewports retain the card catalog and toolbar filters. The controls own filtering, result count, and clearing, while the body owns sorting, empty states, and pointer or keyboard row activation.",
+      "statement": "At table-width viewports, the Skills page keeps its accessible title and catalogue introduction above the table card. Inside the card, a shared Astryx LayoutHeader uses spacing-scale padding for reusable skill-table controls above both the scrollable table body and adjacent detail panel; compact viewports retain the card catalog and toolbar filters. The controls own filtering, result count, and clearing, while the body owns sorting, empty states, and pointer or keyboard row activation.",
       "evidence": [
         {
-          "resource": "repo://apps/github.io/src/app/skills/skill-table-detail-layout.tsx#L157-L184",
-          "version": "repo-lines-v1:sha256:d6f2249acd9ae2a17c3637204f2dab33e65d587fe796967753b2766d05b53d7d:eyJzZWxlY3RlZExpbmVDb3VudCI6MjgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImNlMWNkNGM5ZDA5YjA3MzlhYTFhMDRiMWYwYTE4MDRiYjc5YzJmODI1ODE2ZWJlNTY0NjE2MDEzN2YxYWU4YWUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImNlYWZmMWMwMGNiZDg5YjdkN2NkZWVhZDE1MTlhYjUxYjY3ZGQ0MzU3YmU4ZjYxZTcxOWE4Y2NkNzNlMzIzZjEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjBhZThjOTQwZDIyZGUzZjZkMmFhZmRlZWE4YWY0NjlhZDM4NTBjZWNhYThiMTdkZmI5ZTExNzZkZTlmNDMzMzkiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImFjYTY5ZWZhYzI5YzE2MTkxYjljOWEwM2MzYTdiYmU0YjZmZjM5MTAxYmQzZDcyNjQ5YmNhODg2YjczYzI4M2YifQ"
+          "resource": "repo://apps/github.io/src/app/skills/skill-table-detail-layout.tsx#L155-L189",
+          "version": "repo-lines-v1:sha256:d9d6b16c3fa4cf94ad37b6fc2a2b1ecc893dbcb20e22874cc08af4841570a2a4:eyJzZWxlY3RlZExpbmVDb3VudCI6MzUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImQ0ZmU3Y2UxYmQxNWEzMDM0NWJmMjcyNTc2ZTgyZmM4Zjg5Yzc5ZDg0OTYxZWViZjIwNmIzMmZlMDU5YWI0YjYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjY3YWZmYzVlODNmNmE2Zjg2ZjdiNzdhYjk4YzAyNzZmMjZjYWQwYjc5MzFmMjNhMWJmZGQ1NmI1NjgzYjQ4NWIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjI4NmZiYzk1Nzg3OGU3YjA5MGI3ODIxZmY1ZjZmZGQzZjg1YTVhNWFiMWZmMDA3ZjRlNDU2OGE4ZDVmYjYwN2UiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImFlMzE4NGVhMmJiMGJlYTAyZDJmNTlhZTViMzdhZTdkZDZhNjZlMTFhYzU5ODVhOTcwYTc5ZDVkZWMwYzAzMzgifQ"
         },
         {
           "resource": "repo://apps/github.io/src/app/skills/skill-table.tsx#L165-L325",
           "version": "repo-lines-v1:sha256:0d92397d2f07f146a81110fa2145275875db3c9a2e34b48dd72f7a102afe59ce:eyJzZWxlY3RlZExpbmVDb3VudCI6MTYxLCJmaXJzdFNlbGVjdGVkTGluZUhhc2giOiJlMzg0MTVjYzBlZTZhMmNjZjU0MjQxODZjNzVlZmVkZGEwZTgyMDEzMzg4NThiNGYyZGRkMjljYjc0YTEyYmVjIiwibGFzdFNlbGVjdGVkTGluZUhhc2giOiI5NmUyZDE3MGYzMWQ5Yzg4ZmQ4YzRhYjRiZWMyZmRkYjhlNDlmZTlhZTE0YmYxMWU0NTQ4NWJhOTRkMDI3YmE5IiwicHJlY2VkaW5nQ29udGV4dExpbmVDb3VudCI6MywicHJlY2VkaW5nQ29udGV4dEhhc2giOiJlNDAwNTI0ZmQyYzllMDc1YTc0NmIzNzE3NDNhMDIxZjQ2NDg5ZDY2MGEzMTYwNWI5MzUwNjI3Mjg2YzNjNjhmIiwiZm9sbG93aW5nQ29udGV4dExpbmVDb3VudCI6MiwiZm9sbG93aW5nQ29udGV4dEhhc2giOiI3YjhiNjAwYTViNDQ4YjFlNGQwMmRmMDk3NDZlZDNjYTMxNzJmNzVjNGFhYmIwMWRkZTA4MGUzNmNhYjA3NGI0In0"
         },
         {
-          "resource": "repo://apps/github.io/src/app/skills/skills-page.tsx#L63-L120",
-          "version": "repo-lines-v1:sha256:5d7800255a09a458477409bf4251134dd9307d7111d705cd9dfa1233d3a09d6f:eyJzZWxlY3RlZExpbmVDb3VudCI6NTgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImMzZGYyNTFhYzYxNGZmZDdjNmU2YWExYTE4YzE5YzljMzk1NGJlYzExM2U1ZTlkOTQ2MGU1NDhlZWY1YTk4NDMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjBiNTkyZTA3YjRjZjUzYTgzODZjNTY4MGNmYjdmM2U0ZTc1NDI5NjljODcyNmFjNWVkMzI3NTNmOGNhOTU5NzQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImQ2M2MyMzExNWE4ZTQ5MWRmNmFlYmYxYTFiYWFkM2E3NTk1Njc4NzliYmUzODZmYWZiNzI5OTJiOWY5Njk1ZTkiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjNiZjE2ODY2MTJhMzQ3NjMyZjE2ZTU5NWFiNDMxMzA4YTM1NGViYzc2YjQ5Njg2MDk2MmQ0OTFmMjc2YjkyZjIifQ"
+          "resource": "repo://apps/github.io/src/app/skills/skills-page.tsx#L63-L124",
+          "version": "repo-lines-v1:sha256:8dfe97b6a692afb4c2ca3e5b4a2ac92a1d2dcf50efb9438b47940c344d26785d:eyJzZWxlY3RlZExpbmVDb3VudCI6NjIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImMzZGYyNTFhYzYxNGZmZDdjNmU2YWExYTE4YzE5YzljMzk1NGJlYzExM2U1ZTlkOTQ2MGU1NDhlZWY1YTk4NDMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjYxZWMzYWEwYWRmOGJlZWE2YTk5MmZmZmQ4MDdhMTVjOTczZWZjNTJmY2Q2NTA1OWZlNWIzNTU4YTBkZWNkNTMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImQ2M2MyMzExNWE4ZTQ5MWRmNmFlYmYxYTFiYWFkM2E3NTk1Njc4NzliYmUzODZmYWZiNzI5OTJiOWY5Njk1ZTkiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjEzZmRiZTkxNWVlNDAxM2IzNmI2NGY1MDhlY2UzZDU1YzBkZjVkNWI5MDM0NzczODgwMTY0MWVlN2E1OTcxNDcifQ"
         }
       ]
     },
@@ -299,6 +299,6 @@
   ],
   "verification": {
     "by": "openwiki/0.5.0",
-    "at": "2026-09-14T10:51:19.005Z"
+    "at": "2026-09-14T11:19:49.136Z"
   }
 }

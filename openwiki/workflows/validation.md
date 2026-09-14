@@ -8,18 +8,12 @@ sources:
     resource: repo://.github/workflows/commit-scopes.yml
   - id: openwiki-source-e0c4e21b9bfdc3be09ed876d
     resource: repo://.github/workflows/release-github-io.yml
-  - id: openwiki-source-45b1d77b308bd57403f55ff9
-    resource: repo://apps/github.io/.storybook/story-taxonomy.spec.ts
   - id: openwiki-source-a099837b8e8614c677082a9d
     resource: repo://apps/github.io/project.json
   - id: openwiki-source-5f2ef006d9eda2b471c35da0
     resource: repo://apps/github.io/scripts/verify-global-layout-css.mjs
   - id: openwiki-source-2bfcdfa6f69acb4ddbe6f2af
     resource: repo://apps/github.io/scripts/verify-mobile-layout-browser.mjs
-  - id: openwiki-source-47aa440893a5a291d1ad1984
-    resource: repo://apps/github.io/src/app/count-badge.spec.tsx
-  - id: openwiki-source-7710c13ca861e757d9eac20c
-    resource: repo://apps/github.io/src/app/count-badge.stories.spec.ts
   - id: openwiki-source-5dbaa213d52c3aac678d1838
     resource: repo://apps/github.io/src/app/global-navigation-layout.tsx
   - id: openwiki-source-d97b9e088d941d15580a0bd7
@@ -72,10 +66,10 @@ sources:
     resource: repo://scripts/setup-openwiki.test.mjs
   - id: openwiki-source-165465422a61a00b62b0f6d3
     resource: repo://scripts/sync-github-pages-artifact.test.mjs
-generated: { by: "codex", at: "2026-09-14T06:29:04.450Z" }
+generated: { by: "codex", at: "2026-09-14T11:19:49.136Z" }
 verified:
   - by: openwiki/0.5.0
-    at: 2026-09-14T06:38:19.116Z
+    at: 2026-09-14T11:19:49.136Z
 ---
 
 # Validation workflow
@@ -189,11 +183,11 @@ both empty states, plus pointer and keyboard row activation and active-row
 semantics. The confidence test uses shuffled input and checks the
 `aria-sort` transitions so source order cannot masquerade as a successful sort.
 Page-level tests separately prove the responsive card/table switch, the
-full-width desktop card containing its controls and table, sheet detail
-selection, focus restoration, state cleanup, and bounded scrolling. Storybook
-provides explicit desktop-table and compact-card viewport stories. These DOM
-assertions still do not prove that estimated column widths fit rendered content;
-that remains a visual check.
+page introduction preceding the labelled desktop table toolbar, controls before
+the table, sheet detail selection, focus restoration, state cleanup, and bounded
+scrolling. Storybook provides explicit desktop-table and compact-card viewport
+stories. These DOM assertions still do not prove that estimated column widths
+fit rendered content or the final sticky geometry; those remain visual checks.
 
 Skill experience readability is protected at both renderer boundaries. Focused
 tests cover all four collection combinations: both labels appear when both

@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:9bed10bde2e0c0e0acc13778e7a30073ea718d405727d9941582e8274a95e788",
+  "pageVersion": "sha256:07623a08cab82a183aa2209c8f1f9464d6bc09c84e4ebafef87b1b494ddff32f",
   "claims": [
     {
       "id": "claim_da9ac46eb2204e9b9a555848aea5550d",
@@ -134,19 +134,19 @@
     },
     {
       "id": "claim_ecccdf8849a14979a6b246847cfcc84d",
-      "statement": "SkillsPage owns shared query and category-filter state across a table-width SkillTableDetailLayout and a compact card catalog. At table width, a shared sticky LayoutHeader places controls above the scrollable catalogue and adjacent detail panel, while the page introduction scrolls with the table; rows support pointer and keyboard activation into the detail view, and selection clears when compact mode begins, filters remove the active skill, or detail resolution fails.",
+      "statement": "SkillsPage owns shared query and category-filter state across a table-width SkillTableDetailLayout and a compact card catalog. At table width, the page introduction is above the table card, whose shared sticky LayoutHeader places controls above the scrollable catalogue and adjacent detail panel; rows support pointer and keyboard activation into the detail view, and selection clears when compact mode begins, filters remove the active skill, or detail resolution fails.",
       "evidence": [
         {
-          "resource": "repo://apps/github.io/src/app/skills/skill-table-detail-layout.tsx#L127-L205",
-          "version": "repo-lines-v1:sha256:ed925c30dbef563a234c2ec62747538de056fafef53bdedd48d1904bb31e3c1d:eyJzZWxlY3RlZExpbmVDb3VudCI6NzksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjZjMDk4ZjRmYTJhZjU2NGVmMmIxNDBmYmMxMTRmNzEzNmJhYzI3Y2YzMmI0Njk0MTk3YWFmYzAyZWIyMTE2MzEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijk1ZWYwMWJjMDhkYmMzYjYzZTRlNzVlYTNkMjZhNWI5NDE4OTE4NzdlMjdhZDg5MTMyOWM4NDExZDdkOGRjNGQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjExYjBmYTE3ODM1MmMzNWM0ZjgxY2Q4ZmRmYjA3Yzc3Zjk5OThiZDhhN2ViNjM3NzVhNWIwNTMxMzczOTRiZWMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjoxLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEifQ"
+          "resource": "repo://apps/github.io/src/app/skills/skill-table-detail-layout.tsx",
+          "version": "repo-file-v1:sha256:a92f45d1cdec5158cb33d331af9fede4d9f561d477a6f4a395217b5de44a6d80"
         },
         {
-          "resource": "repo://apps/github.io/src/app/skills/skill-table.tsx#L165-L325",
-          "version": "repo-lines-v1:sha256:0d92397d2f07f146a81110fa2145275875db3c9a2e34b48dd72f7a102afe59ce:eyJzZWxlY3RlZExpbmVDb3VudCI6MTYxLCJmaXJzdFNlbGVjdGVkTGluZUhhc2giOiJlMzg0MTVjYzBlZTZhMmNjZjU0MjQxODZjNzVlZmVkZGEwZTgyMDEzMzg4NThiNGYyZGRkMjljYjc0YTEyYmVjIiwibGFzdFNlbGVjdGVkTGluZUhhc2giOiI5NmUyZDE3MGYzMWQ5Yzg4ZmQ4YzRhYjRiZWMyZmRkYjhlNDlmZTlhZTE0YmYxMWU0NTQ4NWJhOTRkMDI3YmE5IiwicHJlY2VkaW5nQ29udGV4dExpbmVDb3VudCI6MywicHJlY2VkaW5nQ29udGV4dEhhc2giOiJlNDAwNTI0ZmQyYzllMDc1YTc0NmIzNzE3NDNhMDIxZjQ2NDg5ZDY2MGEzMTYwNWI5MzUwNjI3Mjg2YzNjNjhmIiwiZm9sbG93aW5nQ29udGV4dExpbmVDb3VudCI6MiwiZm9sbG93aW5nQ29udGV4dEhhc2giOiI3YjhiNjAwYTViNDQ4YjFlNGQwMmRmMDk3NDZlZDNjYTMxNzJmNzVjNGFhYmIwMWRkZTA4MGUzNmNhYjA3NGI0In0"
+          "resource": "repo://apps/github.io/src/app/skills/skill-table.tsx",
+          "version": "repo-file-v1:sha256:f31df1c1bdd34f5fbc8eec2ad6945dcd71b37213715df331badf5d9f8d19110c"
         },
         {
-          "resource": "repo://apps/github.io/src/app/skills/skills-page.tsx#L37-L120",
-          "version": "repo-lines-v1:sha256:b88ab5b4ef9b9f4cacc28a8caeac81a13ff986f9a815d1f50e397646b865a98e:eyJzZWxlY3RlZExpbmVDb3VudCI6ODQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImJhYTgzNzgyMDY2YzdiYzQxNzU4YmExY2UwNTFkMzc3MDg0ZTM0ZWY1NDUzYWQ4MTZiNDRlNWVjNTI4MWFjN2EiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjBiNTkyZTA3YjRjZjUzYTgzODZjNTY4MGNmYjdmM2U0ZTc1NDI5NjljODcyNmFjNWVkMzI3NTNmOGNhOTU5NzQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjY1MjkzNDgzMWJiMTNiN2ZjYTEwZTNkYjdlMjZiODNlZDE4OGZiZDc0ODVmYTllZTdmNTY5OThiMTdmZTExMTgiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjNiZjE2ODY2MTJhMzQ3NjMyZjE2ZTU5NWFiNDMxMzA4YTM1NGViYzc2YjQ5Njg2MDk2MmQ0OTFmMjc2YjkyZjIifQ"
+          "resource": "repo://apps/github.io/src/app/skills/skills-page.tsx",
+          "version": "repo-file-v1:sha256:dc8a0a68e59bdfa180b3c81c8374858837b971a0801cb31d4a7a325b63f3a78c"
         }
       ]
     },
@@ -193,6 +193,6 @@
   ],
   "verification": {
     "by": "openwiki/0.5.0",
-    "at": "2026-09-14T10:51:19.005Z"
+    "at": "2026-09-14T11:19:49.136Z"
   }
 }
