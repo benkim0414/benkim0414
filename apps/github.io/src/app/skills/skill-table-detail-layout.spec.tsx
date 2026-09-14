@@ -123,6 +123,22 @@ describe('SkillTableDetailLayout', () => {
     ).toHaveLength(1);
   });
 
+  it('places the table controls in the shared header above the detail panel', () => {
+    setMediaMatches({
+      [TABLE_QUERY]: true,
+      [COMPACT_SURFACE_QUERY]: false,
+    });
+    const { getByRole } = renderLayout();
+    const controls = getByRole('textbox', { name: 'Skill name' });
+    const header = getByRole('toolbar', { name: 'Skill table controls' });
+    const detailPanel = getByRole('region', { name: 'Kubernetes details' });
+
+    expect(header.contains(controls)).toBe(true);
+    expect(header.compareDocumentPosition(detailPanel)).toBe(
+      Node.DOCUMENT_POSITION_FOLLOWING,
+    );
+  });
+
   it('keeps the close control in a separate top-right header row', () => {
     setMediaMatches({
       [TABLE_QUERY]: true,

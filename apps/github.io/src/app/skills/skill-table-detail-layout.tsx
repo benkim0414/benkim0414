@@ -1,4 +1,5 @@
 import { BottomSheet } from '@astryxdesign/core/BottomSheet';
+import { Card } from '@astryxdesign/core/Card';
 import { Heading } from '@astryxdesign/core/Heading';
 import { Icon } from '@astryxdesign/core/Icon';
 import { IconButton } from '@astryxdesign/core/IconButton';
@@ -6,6 +7,7 @@ import {
   HStack,
   Layout,
   LayoutContent,
+  LayoutHeader,
   LayoutPanel,
   VStack,
 } from '@astryxdesign/core/Layout';
@@ -16,15 +18,14 @@ import {
   useEffect,
   useRef,
   type ReactElement,
-  type ReactNode,
   type RefObject,
 } from 'react';
 
 import { SkillDetailContent } from './skill-detail-content';
 import type { ResolvedSkillDetail } from './skill-detail.types';
-import type { SkillCategory } from './skill-list.types';
 import {
-  SkillTable,
+  SkillTableBody,
+  SkillTableControls,
   type SkillRowActivation,
   type SkillTableProps,
 } from './skill-table';
@@ -41,7 +42,6 @@ export interface SkillTableDetailLayoutProps extends Pick<
 > {
   readonly activeDetail: ResolvedSkillDetail | null;
   readonly finalFocusRef?: RefObject<HTMLElement | null>;
-  readonly headerContent?: ReactNode;
   readonly onSkillActivate: (activation: SkillRowActivation) => void;
   readonly onClose: (restoreFocus: boolean) => void;
 }
@@ -84,7 +84,6 @@ export function SkillTableDetailLayout({
   activeSkillId,
   activeDetail,
   finalFocusRef,
-  headerContent,
   onQueryChange,
   onSelectedCategoriesChange,
   onSkillActivate,
@@ -152,24 +151,39 @@ export function SkillTableDetailLayout({
 
   return (
     <>
-      <Layout
-        end={isCompactSurface ? undefined : detailPanel}
-        height="fill"
-        padding={0}
-      >
-        <LayoutContent isScrollable padding={0}>
-          {headerContent}
-          <SkillTable
-            activeSkillId={activeSkillId}
-            query={query}
-            selectedCategories={selectedCategories}
-            skills={skills}
-            onQueryChange={onQueryChange}
-            onSelectedCategoriesChange={onSelectedCategoriesChange}
-            onSkillActivate={onSkillActivate}
-          />
-        </LayoutContent>
-      </Layout>
+      <Card height="100%" padding={0} width="100%">
+        <Layout
+          end={isCompactSurface ? undefined : detailPanel}
+          header={
+            <LayoutHeader
+              hasDivider
+              label="Skill table controls"
+              padding={4}
+              role="toolbar"
+            >
+              <SkillTableControls
+                query={query}
+                selectedCategories={selectedCategories}
+                skills={skills}
+                onQueryChange={onQueryChange}
+                onSelectedCategoriesChange={onSelectedCategoriesChange}
+              />
+            </LayoutHeader>
+          }
+          height="fill"
+          padding={0}
+        >
+          <LayoutContent isScrollable padding={0}>
+            <SkillTableBody
+              activeSkillId={activeSkillId}
+              query={query}
+              selectedCategories={selectedCategories}
+              skills={skills}
+              onSkillActivate={onSkillActivate}
+            />
+          </LayoutContent>
+        </Layout>
+      </Card>
       <BottomSheet
         finalFocusRef={finalFocusRef}
         height="tall"

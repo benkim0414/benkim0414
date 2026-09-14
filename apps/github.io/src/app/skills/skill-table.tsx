@@ -53,6 +53,20 @@ export interface SkillRowActivation {
   readonly row: HTMLTableRowElement;
 }
 
+type SkillTableControlsProps = Pick<
+  SkillTableProps,
+  | 'skills'
+  | 'query'
+  | 'selectedCategories'
+  | 'onQueryChange'
+  | 'onSelectedCategoriesChange'
+>;
+
+type SkillTableBodyProps = Pick<
+  SkillTableProps,
+  'skills' | 'query' | 'selectedCategories' | 'activeSkillId' | 'onSkillActivate'
+>;
+
 const CHARACTER_WIDTH = 8;
 const CELL_INLINE_PADDING = 32;
 const NAME_MEDIA_WIDTH = 28;
@@ -148,19 +162,71 @@ function createColumns(skills: readonly Skill[]): TableColumn<SkillTableRow>[] {
   ];
 }
 
-export function SkillTable({
+export function SkillTableControls({
+  skills,
+  query,
+  selectedCategories,
+  onQueryChange,
+  onSelectedCategoriesChange,
+}: SkillTableControlsProps): ReactElement {
+  const categoryOptions = [
+    ...new Set(skills.flatMap((skill) => skill.categories)),
+  ].sort();
+  const filteredSkills = filterSkills(skills, query, selectedCategories);
+
+  const hasActiveFilters =
+    query.length > 0 || selectedCategories.length > 0;
+  const resultLabel = `${filteredSkills.length} ${
+    filteredSkills.length === 1 ? 'skill' : 'skills'
+  }`;
+
+  return (
+    <HStack align="center" gap={2}>
+      <TextInput
+        isLabelHidden
+        label="Skill name"
+        placeholder="Skill name"
+        size="sm"
+        startIcon="search"
+        value={query}
+        onChange={(nextQuery) => onQueryChange(nextQuery)}
+      />
+      <MultiSelector
+        hasClear
+        isLabelHidden
+        label="Categories"
+        options={categoryOptions}
+        placeholder="Categories"
+        size="sm"
+        triggerDisplay="labels"
+        value={selectedCategories}
+        onChange={(categories) =>
+          onSelectedCategoriesChange(categories as SkillCategory[])
+        }
+      />
+      <Text>{resultLabel}</Text>
+      {hasActiveFilters ? (
+        <Button
+          label="Clear all"
+          variant="ghost"
+          onClick={() => {
+            onQueryChange('');
+            onSelectedCategoriesChange([]);
+          }}
+        />
+      ) : null}
+    </HStack>
+  );
+}
+
+export function SkillTableBody({
   skills,
   query,
   selectedCategories,
   activeSkillId,
-  onQueryChange,
-  onSelectedCategoriesChange,
   onSkillActivate,
-}: SkillTableProps): ReactElement {
+}: SkillTableBodyProps): ReactElement {
   const columns = createColumns(skills);
-  const categoryOptions = [
-    ...new Set(skills.flatMap((skill) => skill.categories)),
-  ].sort();
   const filteredSkills = filterSkills(skills, query, selectedCategories);
   const rows: SkillTableRow[] = filteredSkills.map((skill) => ({
     id: skill.id,
@@ -222,73 +288,39 @@ export function SkillTable({
     }),
     [activeSkillId, onSkillActivate],
   );
-  const hasActiveFilters =
-    query.length > 0 || selectedCategories.length > 0;
-  const resultLabel = `${filteredSkills.length} ${
-    filteredSkills.length === 1 ? 'skill' : 'skills'
-  }`;
+  return (
+    filteredSkills.length === 0 ? (
+      <EmptyState
+        headingLevel={3}
+        isCompact
+        title={
+          skills.length === 0
+            ? 'No skills have been supplied.'
+            : 'No skills match your search or filters.'
+        }
+      />
+    ) : (
+      <Table
+        columns={columns}
+        data={sortedData}
+        hasHover
+        idKey="id"
+        plugins={{ sortable, rowActivation }}
+        verticalAlign="middle"
+      />
+    )
+  );
+}
 
+export function SkillTable(props: SkillTableProps): ReactElement {
   return (
     <Card padding={0} width="100%">
       <VStack gap={0}>
         <VStack padding={4}>
-            <HStack align="center" gap={2}>
-              <TextInput
-                isLabelHidden
-                label="Skill name"
-                placeholder="Skill name"
-                size="sm"
-                startIcon="search"
-                value={query}
-                onChange={(nextQuery) => onQueryChange(nextQuery)}
-              />
-              <MultiSelector
-                hasClear
-                isLabelHidden
-                label="Categories"
-                options={categoryOptions}
-                placeholder="Categories"
-                size="sm"
-                triggerDisplay="labels"
-                value={selectedCategories}
-                onChange={(categories) =>
-                  onSelectedCategoriesChange(categories as SkillCategory[])
-                }
-              />
-              <Text>{resultLabel}</Text>
-              {hasActiveFilters ? (
-                <Button
-                  label="Clear all"
-                  variant="ghost"
-                  onClick={() => {
-                    onQueryChange('');
-                    onSelectedCategoriesChange([]);
-                  }}
-                />
-              ) : null}
-            </HStack>
+          <SkillTableControls {...props} />
         </VStack>
         <Divider />
-        {filteredSkills.length === 0 ? (
-          <EmptyState
-            headingLevel={3}
-            isCompact
-            title={
-              skills.length === 0
-                ? 'No skills have been supplied.'
-                : 'No skills match your search or filters.'
-            }
-          />
-        ) : (
-          <Table
-            columns={columns}
-            data={sortedData}
-            hasHover
-            idKey="id"
-            plugins={{ sortable, rowActivation }}
-            verticalAlign="middle"
-          />
-        )}
+        <SkillTableBody {...props} />
       </VStack>
     </Card>
   );

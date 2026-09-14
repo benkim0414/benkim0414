@@ -239,19 +239,20 @@ describe('SkillsPage', () => {
     expect(queryAllByTestId('skill-card')).toHaveLength(0);
   });
 
-  it('groups the desktop skills controls and table in one full-width card', () => {
+  it('places the desktop skills controls before the table in a labelled toolbar', () => {
     setMediaMatches({
       [TABLE_QUERY]: true,
       [COMPACT_SURFACE_QUERY]: false,
     });
     const { getByRole } = renderSkillsPage(tableSkills);
+    const toolbar = getByRole('toolbar', { name: 'Skill table controls' });
     const table = getByRole('table');
-    const card = table.closest('.astryx-card');
 
-    expect(card).toBeTruthy();
-    expect(card?.style.getPropertyValue('--x-width')).toBe('100%');
-    expect(card?.contains(getByRole('textbox', { name: 'Skill name' }))).toBe(
+    expect(toolbar.contains(getByRole('textbox', { name: 'Skill name' }))).toBe(
       true,
+    );
+    expect(toolbar.compareDocumentPosition(table)).toBe(
+      Node.DOCUMENT_POSITION_FOLLOWING,
     );
   });
 
@@ -268,25 +269,24 @@ describe('SkillsPage', () => {
     ).toBe('fill');
   });
 
-  it('scrolls the desktop page introduction with the skills catalogue', () => {
+  it('keeps the desktop page introduction above the table card', () => {
     setMediaMatches({
       [TABLE_QUERY]: true,
       [COMPACT_SURFACE_QUERY]: false,
     });
     const { getByRole, getByText } = renderSkillsPage(tableSkills);
 
-    const catalogueScrollRegion = getByRole('table').closest(
-      '.astryx-layout-content',
+    const toolbar = getByRole('toolbar', { name: 'Skill table controls' });
+    const skillsHeading = getByRole('heading', { level: 2, name: 'Skills' });
+    const introduction = getByText(
+      'Explore my technical skills, organised by category and linked to supporting experience, outcomes, and source material. Search or filter the catalogue to find a specific capability.',
     );
 
-    expect(getByRole('heading', { level: 2, name: 'Skills' }).closest(
-      '.astryx-layout-content',
-    )).toBe(catalogueScrollRegion);
-    expect(
-      getByText(
-        'Explore my technical skills, organised by category and linked to supporting experience, outcomes, and source material. Search or filter the catalogue to find a specific capability.',
-      ).closest('.astryx-layout-content'),
-    ).toBe(catalogueScrollRegion);
+    expect(toolbar.contains(skillsHeading)).toBe(false);
+    expect(toolbar.contains(introduction)).toBe(false);
+    expect(skillsHeading.compareDocumentPosition(toolbar)).toBe(
+      Node.DOCUMENT_POSITION_FOLLOWING,
+    );
   });
 
   it('keeps table selection in page state, swaps reusable details, and restores row focus on close', async () => {
