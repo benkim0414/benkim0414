@@ -6,8 +6,7 @@ import { Text } from '@astryxdesign/core/Text';
 import { useState, type ReactElement, type ReactNode } from 'react';
 
 import { CountBadge } from '../count-badge';
-
-const SMALL_VIEWPORT_QUERY = '(max-width: 640px)';
+import { shouldStartCollapsibleExpanded } from '../responsive-collapsible';
 
 export interface SkillExperienceCardShellProps {
   readonly children: ReactNode;
@@ -25,7 +24,7 @@ export function SkillExperienceCardShell({
   title,
 }: SkillExperienceCardShellProps): ReactElement {
   const hasDetails = outcomeCount > 0 || skillCount > 0;
-  const [isOpen, setIsOpen] = useState(shouldStartExpanded);
+  const [isOpen, setIsOpen] = useState(shouldStartCollapsibleExpanded);
 
   return (
     <Card padding={4} width="100%">
@@ -67,13 +66,5 @@ export function SkillExperienceCardShell({
         ) : null}
       </VStack>
     </Card>
-  );
-}
-
-function shouldStartExpanded(): boolean {
-  return (
-    typeof window === 'undefined' ||
-    typeof window.matchMedia !== 'function' ||
-    !window.matchMedia(SMALL_VIEWPORT_QUERY).matches
   );
 }

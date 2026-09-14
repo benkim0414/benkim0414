@@ -9,11 +9,10 @@ import * as stylex from '@stylexjs/stylex';
 import { useId, useState, type ReactElement } from 'react';
 
 import { CountBadge } from '../count-badge';
+import { shouldStartCollapsibleExpanded } from '../responsive-collapsible';
 import { getSkillBrand } from '../skills/skill-brand';
 import { SkillToken } from '../skills/skill-token';
 import type { Project } from './project-list.types';
-
-const SMALL_VIEWPORT_QUERY = '(max-width: 640px)';
 
 export interface ProjectCardProps {
   isFullWidth?: boolean;
@@ -55,7 +54,9 @@ export function ProjectCard({
   project,
 }: ProjectCardProps): ReactElement {
   const titleId = useId();
-  const [areSkillsOpen, setAreSkillsOpen] = useState(shouldStartExpanded);
+  const [areSkillsOpen, setAreSkillsOpen] = useState(
+    shouldStartCollapsibleExpanded,
+  );
   const githubBrand = getSkillBrand('GitHub');
   const repositoryLinkLabel = `Open ${project.title} on GitHub`;
 
@@ -122,13 +123,5 @@ export function ProjectCard({
         </VStack>
       </article>
     </Card>
-  );
-}
-
-function shouldStartExpanded(): boolean {
-  return (
-    typeof window === 'undefined' ||
-    typeof window.matchMedia !== 'function' ||
-    !window.matchMedia(SMALL_VIEWPORT_QUERY).matches
   );
 }
