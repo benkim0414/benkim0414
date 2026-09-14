@@ -152,6 +152,49 @@ describe('SkillExperienceCard', () => {
     ).toBeTruthy();
   });
 
+  it('omits the relevant-skills label when the card has no skills', () => {
+    setSmallViewport(true);
+
+    render(<SkillExperienceCard experience={ciCdExperience} />);
+
+    expect(
+      screen.getByRole('button', { name: 'Highlights 2' }),
+    ).toBeTruthy();
+    expect(screen.queryByText('Relevant skills')).toBeNull();
+  });
+
+  it('omits the highlights label when the card has no highlights', () => {
+    setSmallViewport(true);
+
+    render(
+      <SkillExperienceCard
+        experience={{ ...ciCdExperience, narrative: [] }}
+        relevantSkillLabels={['AWS CodePipeline']}
+      />,
+    );
+
+    const disclosure = screen.getByRole('button', {
+      name: 'Relevant skills 1',
+    });
+
+    fireEvent.click(disclosure);
+
+    expect(disclosure.getAttribute('aria-expanded')).toBe('true');
+    expect(disclosure.textContent).toContain('Relevant skills1');
+    expect(disclosure.textContent).not.toContain('Highlights');
+  });
+
+  it('omits the disclosure when the card has no details', () => {
+    render(
+      <SkillExperienceCard
+        experience={{ ...ciCdExperience, narrative: [] }}
+      />,
+    );
+
+    expect(screen.queryByRole('button')).toBeNull();
+    expect(screen.getByText(ciCdExperience.summary)).toBeTruthy();
+  });
+
   it('renders experience text through Astryx typography components', () => {
     render(
       <SkillExperienceCard

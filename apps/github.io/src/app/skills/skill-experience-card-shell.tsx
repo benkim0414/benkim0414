@@ -43,11 +43,15 @@ export function SkillExperienceCardShell({
             onOpenChange={setIsOpen}
             trigger={
               <HStack gap={2} vAlign="center">
-                <Text type="supporting" color="secondary">
-                  Highlights
-                </Text>
-                <CountBadge count={outcomeCount} />
-                {!isOpen ? (
+                {outcomeCount > 0 ? (
+                  <>
+                    <Text type="supporting" color="secondary">
+                      Highlights
+                    </Text>
+                    <CountBadge count={outcomeCount} />
+                  </>
+                ) : null}
+                {skillCount > 0 && (!isOpen || outcomeCount === 0) ? (
                   <>
                     <Text type="supporting" color="secondary">
                       Relevant skills
