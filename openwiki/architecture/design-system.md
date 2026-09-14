@@ -5,7 +5,7 @@ description: How Astryx, StyleX, theme persistence, and browser layout checks fi
 tags: [astryx, stylex, theme, layout]
 verified:
   - by: openwiki/0.5.0
-    at: 2026-09-14T02:21:19.563Z
+    at: 2026-09-14T02:42:51.138Z
 sources:
   - id: openwiki-source-45b1d77b308bd57403f55ff9
     resource: repo://apps/github.io/.storybook/story-taxonomy.spec.ts
@@ -35,8 +35,6 @@ sources:
     resource: repo://apps/github.io/src/app/home/home-page.tsx
   - id: openwiki-source-e15aaceb559c1219a1e6667c
     resource: repo://apps/github.io/src/app/projects/project-card.spec.tsx
-  - id: openwiki-source-3796c3fa1eb5ecd3516a1db4
-    resource: repo://apps/github.io/src/app/projects/project-card.stories.tsx
   - id: openwiki-source-bd7d75b07e3062c09dcab6e9
     resource: repo://apps/github.io/src/app/projects/project-card.tsx
   - id: openwiki-source-2afbe5e95b136e7b3bda73e7
@@ -69,7 +67,7 @@ sources:
     resource: repo://apps/github.io/src/styles.css
   - id: openwiki-source-fcfa3ced1d03143bb27d5018
     resource: repo://apps/github.io/vite.config.ts
-generated: { by: "codex", at: "2026-09-14T02:09:47.560Z" }
+generated: { by: "codex", at: "2026-09-14T02:42:51.138Z" }
 ---
 
 # Design system and layout
@@ -116,8 +114,9 @@ the skill tokens inside an Astryx `Collapsible`, and shows the token count besid
 the `Skills used` trigger label. The initial viewport seeds that disclosure
 closed at or below 640px and open above the breakpoint, while later toggles stay
 under visitor control. Repository navigation remains a separate icon-only
-Astryx icon-only ghost `Button` rendered as a link in the card header: its GitHub
-brand mark has a destination-specific accessible label and tooltip, opens safely
+Astryx ghost `IconButton` rendered as a link in the card header. It reuses the
+top navigation's `currentColor` GitHub SVG so the icon follows the active theme;
+the control has a destination-specific accessible label and tooltip, opens safely
 in a new tab, and avoids making the whole card compete with its disclosure and
 linked skill tokens. Focused tests
 cover both initial viewport states, disclosure interaction, count rendering,

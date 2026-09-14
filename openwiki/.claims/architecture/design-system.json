@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:ffe16f8dd14d7eefe8a52f33fb317ab1165bc07c74b3d6bc51ed4fe1dc79b356",
+  "pageVersion": "sha256:79e819693860f16a2f6b28aa915edc1c709977510c78dcdf479438ec8132749a",
   "claims": [
     {
       "id": "claim_67f0a6341495404e8eefce3e45fd6173",
@@ -258,19 +258,19 @@
     },
     {
       "id": "claim_699bb196872a46c089e0c1f724f48f08",
-      "statement": "Project cards keep the project heading and description visible, place skill tokens behind a responsive Astryx Collapsible with a CountBadge, and use a separately labeled GitHub icon-only ghost Button rendered as a link rather than making the whole card interactive.",
+      "statement": "Project cards keep the project heading and description visible, place skill tokens behind a responsive Astryx Collapsible with a CountBadge, and use a separately labeled GitHub ghost IconButton rendered as a link with the global navigation's theme-aware currentColor SVG rather than making the whole card interactive.",
       "evidence": [
         {
-          "resource": "repo://apps/github.io/src/app/projects/project-card.spec.tsx#L132-L218",
-          "version": "repo-lines-v1:sha256:6f0f0492c74d8e0413fa2fbc905167b7e8e51ac0fec0e303a260b39c21c73c38:eyJzZWxlY3RlZExpbmVDb3VudCI6ODcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijk2MGYzZjQyMWIwYzYyNWU2OWM4ZDc0OTJlYWYxMDU2MDhmN2QzYTFkMzY4ZWRjMTI0NWRkZmU2Nzk1MDdhOTIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImY2ZjViNDBiMTU4NDU3ZDE3ODY0ZjIxNzkwNzg2ZGQ1YTJlY2RiNjRiNjZhNjUxZjc4OGQ0ZTI1Y2QzMzAzZDIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjU2ZDM5MjQzNjdhMzUxYjU5OGU5NmJiZTZkOGE5NDljYzE2NGZkNmU3NDFiOGI4NDkzZTkzY2EwOWJiZGU5OGEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjI3MGIwNmFkZDc4ZTc1ZTI2NTU3YWEzYWFiNjI1NzMwOTdkMjU3ZmZiODU5MmQwOWNiNzY5YjdjMjFiMDg3OGYifQ"
+          "resource": "repo://apps/github.io/src/app/global-navigation-layout.tsx#L51-L65",
+          "version": "repo-lines-v1:sha256:fa8a9c7691cb95b1b452ee0a60d61088d31a951fb2d0a81fa682a1751f5f436c:eyJzZWxlY3RlZExpbmVDb3VudCI6MTUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjdjNmE3NGQ1MTdmZjE5MmQ2NzU0Y2MwODMzMWE5ZjE5NDc0ZjRjZDliYmFmYjQ4ODU3MWY4OWY4NzNlMmM4Y2QiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjMwZDRiY2IwYmQ2OWQxYjFmMTc1ZTU3ODhlOGU4ZGJhMGUyNmViMGRkZTMxZjFkYmZkNzM0NGI5MWI5OTRmM2MiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjkwYjU0NWNkZWRhOGEyYzMzYWJjZDAwNDNiZGQxYTA4YmExMGFmODU4ZTQzOWNkNGVhNTNlZGE2ODdhNTIzOGQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjA5NGZjMGMxNzNkMWVjM2ZjNTAxZDdkZmE5Mjg1NTAxYzUyN2NmYjQ3MTI1ODNkYTNjYzM2MTgwNTY2YjRiZTMifQ"
         },
         {
-          "resource": "repo://apps/github.io/src/app/projects/project-card.stories.tsx#L86-L95",
-          "version": "repo-lines-v1:sha256:6d8e851e33e71ebc98f2d47330e32f446a6aaa8868929127a85dcfff3ed211fc:eyJzZWxlY3RlZExpbmVDb3VudCI6MTAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImRkMmU4OWRiZTBmNGE5NzYyMDE0NzQxZTQ5NzJmNWFlOGYyYTk3NmY0YTY3NDE1M2E0OGViZGRlYTJkNDFjYTEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImFhMWQxYTYzMzkwMjI5Yzc5ODM0N2U4M2EwNDA1NDQxYzk0MDAwMzUyODRhZDE2OGMxYmY2Y2RmMWQ3MGEzNzAiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImJhMzhlZTljYzczYzlmMWYyYzhmOGM1NmQwMGJkMDBkZTViMDczNjlmMTJlMDgwYWJiZDc5YzhjNDM3NTZjMTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+          "resource": "repo://apps/github.io/src/app/projects/project-card.spec.tsx#L132-L220",
+          "version": "repo-lines-v1:sha256:a351a5e6104db3dacf93a6bdea48a621c072b6c86c9cf4d08cc67cf4ab7da35c:eyJzZWxlY3RlZExpbmVDb3VudCI6ODksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijk2MGYzZjQyMWIwYzYyNWU2OWM4ZDc0OTJlYWYxMDU2MDhmN2QzYTFkMzY4ZWRjMTI0NWRkZmU2Nzk1MDdhOTIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjgxYmEyYjJiOWMwOGYzZTE1NmEzNjQ2NWRmMmNlYWM2YjExYjhkNWM0ZTc4OWI2NTgzZGZkMTZkZGQwOGE2ZmYiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjU2ZDM5MjQzNjdhMzUxYjU5OGU5NmJiZTZkOGE5NDljYzE2NGZkNmU3NDFiOGI4NDkzZTkzY2EwOWJiZGU5OGEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImI3NzlkMTE4ZDZlM2NiZjQ1MDUzOTc0OGRlZTdhNDMwN2FjYmU2NDQ2Y2JhMjk3ZjI3NjBmYTVkMGJiYTFiYzIifQ"
         },
         {
-          "resource": "repo://apps/github.io/src/app/projects/project-card.tsx#L54-L127",
-          "version": "repo-lines-v1:sha256:890fbc448e3f2de5dbedda9062e9406960f47e3dce74ac86aa0a2bb9da9902a9:eyJzZWxlY3RlZExpbmVDb3VudCI6NzQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImVmOWM0Y2RkYmU1MjRmNWU3Y2EyOWEwZTJhMzM0YTE0YjBjNGYxNTJmOGFhNjRlY2ExOTI5ZmQ5NTE2ZDA2MjciLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjIwZDNlYWU4YmE0MmJjZDJlZGIwN2U4MDNiOGYxMGZkMTk4OWI0NWFiOTBmZGNjNDZkZDIyYWQyNTZjNzc1ZTgiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+          "resource": "repo://apps/github.io/src/app/projects/project-card.tsx#L48-L129",
+          "version": "repo-lines-v1:sha256:8e0f4b8133d7463fab9d96ee1c30d2874e456be4395c867f522447bdabc25733:eyJzZWxlY3RlZExpbmVDb3VudCI6ODIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjVhMjBiYjA4MTdlYjBjNmM3NjQ0NDhkNGUwZjhjMjMzODE1OGYxYTFiOTM2ZmY1OWU1OWY0ODViZmNmY2ZhMzkiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjEzODNhYzE5OThhZDg4Mjg4NDVjNzBlZGZmOWQyNWZjYzc4OTU3ZjU1MzBhNzk4MzhkNTE4NGExZTE3MGZlNDIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
         },
         {
           "resource": "repo://apps/github.io/src/app/responsive-collapsible.ts#L1-L9",
@@ -281,6 +281,6 @@
   ],
   "verification": {
     "by": "openwiki/0.5.0",
-    "at": "2026-09-14T02:21:19.563Z"
+    "at": "2026-09-14T02:42:51.138Z"
   }
 }
