@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:c25e9ce1020b0615c51cde9ad0fdcc2b25188d71bc729776a8aa49261664b2b0",
+  "pageVersion": "sha256:ee66b9f2c50cbf95a8801be3a90a94ffc695be412e5b052037bde7fd1816b0c2",
   "claims": [
     {
       "id": "claim_67f0a6341495404e8eefce3e45fd6173",
@@ -251,10 +251,28 @@
           "version": "repo-file-v1:sha256:86a37a0576ecdb1e4bdfdbe3794ab69b354c45aab34593a18ee3250ad82beb5f"
         }
       ]
+    },
+    {
+      "id": "claim_699bb196872a46c089e0c1f724f48f08",
+      "statement": "Project cards keep the project heading and description visible, place skill tokens behind a responsive Astryx Collapsible with a CountBadge, and use a separately labeled GitHub icon-only ghost Button rendered as a link rather than making the whole card interactive.",
+      "evidence": [
+        {
+          "resource": "repo://apps/github.io/src/app/projects/project-card.spec.tsx#L132-L218",
+          "version": "repo-lines-v1:sha256:6f0f0492c74d8e0413fa2fbc905167b7e8e51ac0fec0e303a260b39c21c73c38:eyJzZWxlY3RlZExpbmVDb3VudCI6ODcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijk2MGYzZjQyMWIwYzYyNWU2OWM4ZDc0OTJlYWYxMDU2MDhmN2QzYTFkMzY4ZWRjMTI0NWRkZmU2Nzk1MDdhOTIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImY2ZjViNDBiMTU4NDU3ZDE3ODY0ZjIxNzkwNzg2ZGQ1YTJlY2RiNjRiNjZhNjUxZjc4OGQ0ZTI1Y2QzMzAzZDIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjU2ZDM5MjQzNjdhMzUxYjU5OGU5NmJiZTZkOGE5NDljYzE2NGZkNmU3NDFiOGI4NDkzZTkzY2EwOWJiZGU5OGEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjI3MGIwNmFkZDc4ZTc1ZTI2NTU3YWEzYWFiNjI1NzMwOTdkMjU3ZmZiODU5MmQwOWNiNzY5YjdjMjFiMDg3OGYifQ"
+        },
+        {
+          "resource": "repo://apps/github.io/src/app/projects/project-card.stories.tsx#L86-L95",
+          "version": "repo-lines-v1:sha256:6d8e851e33e71ebc98f2d47330e32f446a6aaa8868929127a85dcfff3ed211fc:eyJzZWxlY3RlZExpbmVDb3VudCI6MTAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImRkMmU4OWRiZTBmNGE5NzYyMDE0NzQxZTQ5NzJmNWFlOGYyYTk3NmY0YTY3NDE1M2E0OGViZGRlYTJkNDFjYTEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImFhMWQxYTYzMzkwMjI5Yzc5ODM0N2U4M2EwNDA1NDQxYzk0MDAwMzUyODRhZDE2OGMxYmY2Y2RmMWQ3MGEzNzAiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImJhMzhlZTljYzczYzlmMWYyYzhmOGM1NmQwMGJkMDBkZTViMDczNjlmMTJlMDgwYWJiZDc5YzhjNDM3NTZjMTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        },
+        {
+          "resource": "repo://apps/github.io/src/app/projects/project-card.tsx#L54-L132",
+          "version": "repo-lines-v1:sha256:7a898562b44a1ea88ed9f2a1546d4be973527c03e2576ae9f8d8b370b777ca88:eyJzZWxlY3RlZExpbmVDb3VudCI6NzksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjVhMjBiYjA4MTdlYjBjNmM3NjQ0NDhkNGUwZjhjMjMzODE1OGYxYTFiOTM2ZmY1OWU1OWY0ODViZmNmY2ZhMzkiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImUzMWMzYjEwY2M4YWFmMzMxZmFhOWVkMjA5MGE2N2FlZWFmZWVlNDFlMWI3Yjg5ZDVhMzRhZmI2ODU0MTQwOWYiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjEzODNhYzE5OThhZDg4Mjg4NDVjNzBlZGZmOWQyNWZjYzc4OTU3ZjU1MzBhNzk4MzhkNTE4NGExZTE3MGZlNDIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjoyLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjdiOGI2MDBhNWI0NDhiMWU0ZDAyZGYwOTc0NmVkM2NhMzE3MmY3NWM0YWFiYjAxZGRlMDgwZTM2Y2FiMDc0YjQifQ"
+        }
+      ]
     }
   ],
   "verification": {
     "by": "openwiki/0.5.0",
-    "at": "2026-09-14T01:33:39.410Z"
+    "at": "2026-09-14T02:12:56.703Z"
   }
 }

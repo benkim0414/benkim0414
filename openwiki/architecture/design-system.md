@@ -5,7 +5,7 @@ description: How Astryx, StyleX, theme persistence, and browser layout checks fi
 tags: [astryx, stylex, theme, layout]
 verified:
   - by: openwiki/0.5.0
-    at: 2026-09-14T01:33:39.410Z
+    at: 2026-09-14T02:12:56.703Z
 sources:
   - id: openwiki-source-45b1d77b308bd57403f55ff9
     resource: repo://apps/github.io/.storybook/story-taxonomy.spec.ts
@@ -33,6 +33,12 @@ sources:
     resource: repo://apps/github.io/src/app/home/home-page.spec.tsx
   - id: openwiki-source-0e3b0dfb231db070ffd8340f
     resource: repo://apps/github.io/src/app/home/home-page.tsx
+  - id: openwiki-source-e15aaceb559c1219a1e6667c
+    resource: repo://apps/github.io/src/app/projects/project-card.spec.tsx
+  - id: openwiki-source-3796c3fa1eb5ecd3516a1db4
+    resource: repo://apps/github.io/src/app/projects/project-card.stories.tsx
+  - id: openwiki-source-bd7d75b07e3062c09dcab6e9
+    resource: repo://apps/github.io/src/app/projects/project-card.tsx
   - id: openwiki-source-0326a209b3e8f758018bcc41
     resource: repo://apps/github.io/src/app/skills/skill-detail-content.tsx
   - id: openwiki-source-2f8ff13f4c903910f3a587fc
@@ -61,7 +67,7 @@ sources:
     resource: repo://apps/github.io/src/styles.css
   - id: openwiki-source-fcfa3ced1d03143bb27d5018
     resource: repo://apps/github.io/vite.config.ts
-generated: { by: "codex", at: "2026-09-14T01:33:39.410Z" }
+generated: { by: "codex", at: "2026-09-14T02:09:47.560Z" }
 ---
 
 # Design system and layout
@@ -101,6 +107,20 @@ Experience badge counts authored experience records, while the Projects badge
 counts project cards; capability-derived experience can still make the section
 visible independently. This keeps pages from
 recreating the design-system contract for count indicators.
+
+Project cards reuse the same count and disclosure conventions for dense skill
+evidence. Each card keeps its project heading and description visible, places
+the skill tokens inside an Astryx `Collapsible`, and shows the token count beside
+the `Skills used` trigger label. The initial viewport seeds that disclosure
+closed at or below 640px and open above the breakpoint, while later toggles stay
+under visitor control. Repository navigation remains a separate icon-only
+Astryx icon-only ghost `Button` rendered as a link in the card header: its GitHub
+brand mark has a destination-specific accessible label and tooltip, opens safely
+in a new tab, and avoids making the whole card compete with its disclosure and
+linked skill tokens. Focused tests
+cover both initial viewport states, disclosure interaction, count rendering,
+and the external-link contract; a mobile many-skills story keeps the compact
+state available for visual review.
 
 The roadmap page frame also stays inside Astryx's public composition surface. A
 full-width `VStack` orders the level-two heading, two semantic body `Text`
