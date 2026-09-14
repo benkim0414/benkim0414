@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:0120f84b6e0fa0c2d05adcf0ab8aca4180396606512544bc6dccead3e03fb722",
+  "pageVersion": "sha256:ae72ce40e91c7b0524d2d0ca24dbaed5481cadd05bc1a03832462f578dfd7af5",
   "claims": [
     {
       "id": "claim_da9ac46eb2204e9b9a555848aea5550d",
@@ -200,7 +200,7 @@
         },
         {
           "resource": "repo://apps/github.io/src/app/home/dora-capability-masonry.tsx",
-          "version": "repo-file-v1:sha256:6f7636352d48ac589542e3c8371d5ffe36a2c2652b3f6d3d510b9785345db9f3"
+          "version": "repo-file-v1:sha256:8a56c5e3695e3dabbf628acc6b7e1f7bdc0ce1421ead0787dd6d5e8af9ebcb24"
         },
         {
           "resource": "repo://apps/github.io/src/app/home/home-page.tsx",
@@ -211,6 +211,6 @@
   ],
   "verification": {
     "by": "openwiki/0.5.0",
-    "at": "2026-09-14T10:20:53.845Z"
+    "at": "2026-09-14T10:25:42.901Z"
   }
 }

@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:3b97698ab509c97d668ce64394578ab7257efd06e66c66f86eeda49aa1dd1684",
+  "pageVersion": "sha256:2e98b3e6b057da3ecb7a5d5ac55992fe9ef1fd05613856b405f34359796b9832",
   "claims": [
     {
       "id": "claim_6cbb6dd0080f4763aaf4dec964f7f76e",
@@ -310,11 +310,11 @@
     },
     {
       "id": "claim_d742979a1d1a4d4aa1d59e3c7ef190bc",
-      "statement": "The Home-page DORA-card tests protect canonical source order through the masonry wrappers, while the colocated masonry unit test verifies shortest-column packing, a uniform 16 px gap, and the single-column fallback before broader application validation.",
+      "statement": "The Home-page DORA-card tests protect canonical source order through the masonry wrappers, while the colocated masonry unit test verifies shortest-column packing, a uniform 16 px gap, the single-column fallback, and the 736 px two-column capacity threshold before broader application validation.",
       "evidence": [
         {
           "resource": "repo://apps/github.io/src/app/home/dora-capability-masonry.spec.tsx",
-          "version": "repo-file-v1:sha256:453e10939c6abbe92b5aab6d0595072c717f5495fac59aae9900fc1a0f82273c"
+          "version": "repo-file-v1:sha256:2f56d47769bf99504b550029b602758995cb3f026d7f12e64863c1d01f217782"
         },
         {
           "resource": "repo://apps/github.io/src/app/home/home-page.spec.tsx",
@@ -329,6 +329,6 @@
   ],
   "verification": {
     "by": "openwiki/0.5.0",
-    "at": "2026-09-14T10:20:53.845Z"
+    "at": "2026-09-14T10:25:42.901Z"
   }
 }

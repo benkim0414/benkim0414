@@ -55,7 +55,7 @@ sources:
 generated: { by: "codex", at: "2026-09-14T10:20:53.845Z" }
 verified:
   - by: openwiki/0.5.0
-    at: 2026-09-14T10:20:53.845Z
+    at: 2026-09-14T10:25:42.901Z
 ---
 
 # Application architecture

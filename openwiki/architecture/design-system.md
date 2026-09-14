@@ -5,7 +5,7 @@ description: How Astryx, StyleX, theme persistence, and browser layout checks fi
 tags: [astryx, stylex, theme, layout]
 verified:
   - by: openwiki/0.5.0
-    at: 2026-09-14T10:20:53.845Z
+    at: 2026-09-14T10:25:42.901Z
 sources:
   - id: openwiki-source-45b1d77b308bd57403f55ff9
     resource: repo://apps/github.io/.storybook/story-taxonomy.spec.ts
