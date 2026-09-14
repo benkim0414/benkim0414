@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:ec90aebe55c9577cad942c192af77fcde4f498beee9c7f7550b3f770cf183753",
+  "pageVersion": "sha256:46827a63b102bece351d06c35495cbace37602ff688e5657445a5088500b913e",
   "claims": [
     {
       "id": "claim_67f0a6341495404e8eefce3e45fd6173",
@@ -208,11 +208,11 @@
     },
     {
       "id": "claim_87627df0fb2a40caa8fa8de5218e3fc7",
-      "statement": "The skill-detail content renders shared neutral count badges outside the accessible names of the Experience and Projects headings. The Experience badge counts authored experience records even when capability-derived evidence also makes that section visible, while the Projects badge counts the project cards rendered by its section.",
+      "statement": "The skill-detail content renders shared neutral count badges outside the accessible names of the Experience and Projects headings. The Experience badge counts every rendered authored and supporting-experience card, while the Projects badge counts the project cards rendered by its section.",
       "evidence": [
         {
           "resource": "repo://apps/github.io/src/app/skills/skill-detail-content.tsx",
-          "version": "repo-file-v1:sha256:20489be9beacde301347a4546269fcfc560bbd9a11aa0e3f20bac19ac62b7b08"
+          "version": "repo-file-v1:sha256:4c2e2feb6a828339d2aeb4fa45c999a946b02b2d36b961e4b46acdf33df20269"
         }
       ]
     },
@@ -302,7 +302,7 @@
       "evidence": [
         {
           "resource": "repo://apps/github.io/src/app/home/dora-capability-masonry.tsx",
-          "version": "repo-file-v1:sha256:8a56c5e3695e3dabbf628acc6b7e1f7bdc0ce1421ead0787dd6d5e8af9ebcb24"
+          "version": "repo-file-v1:sha256:822817ecd5b9c97792e161afcaa31e633ebc4a10fa8c0a1aa42524514f00f90e"
         },
         {
           "resource": "repo://apps/github.io/src/app/home/home-page.spec.tsx",
@@ -317,6 +317,6 @@
   ],
   "verification": {
     "by": "openwiki/0.5.0",
-    "at": "2026-09-14T10:25:42.901Z"
+    "at": "2026-09-14T11:23:58.958Z"
   }
 }

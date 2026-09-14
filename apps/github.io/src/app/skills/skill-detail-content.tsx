@@ -45,6 +45,8 @@ export function SkillDetailContent({
   const certifications = detail.skill.certifications ?? [];
   const hasExperience =
     detail.experiences.length > 0 || detail.experienceEvidence.length > 0;
+  const experienceCardCount =
+    detail.experiences.length + detail.experienceEvidence.length;
 
   return (
     <VStack gap={6}>
@@ -105,7 +107,7 @@ export function SkillDetailContent({
               <Heading id="skill-experience-narrative-heading" level={2}>
                 Experience
               </Heading>
-              <CountBadge count={detail.experiences.length} />
+              <CountBadge count={experienceCardCount} />
             </HStack>
 
             {detail.experiences.length > 0 ? (

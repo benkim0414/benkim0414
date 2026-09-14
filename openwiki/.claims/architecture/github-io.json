@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:ae72ce40e91c7b0524d2d0ca24dbaed5481cadd05bc1a03832462f578dfd7af5",
+  "pageVersion": "sha256:c03ec0828366dd7787db28b3ae45616993236b597317d35114527eef1d3a3a92",
   "claims": [
     {
       "id": "claim_da9ac46eb2204e9b9a555848aea5550d",
@@ -52,15 +52,15 @@
     },
     {
       "id": "claim_466cbd14839941c58399743b6191d5b5",
-      "statement": "The skill-detail content renders the Experience section when authored experiences or supporting evidence exist, but passes only the authored experience length to a sibling count badge so the level-two heading remains named Experience.",
+      "statement": "The skill-detail content renders the Experience section when authored experiences or supporting evidence exist, and passes their combined rendered-card count to a sibling CountBadge so the level-two heading remains named Experience.",
       "evidence": [
         {
           "resource": "repo://apps/github.io/src/app/skills/skill-detail-content.tsx",
-          "version": "repo-file-v1:sha256:20489be9beacde301347a4546269fcfc560bbd9a11aa0e3f20bac19ac62b7b08"
+          "version": "repo-file-v1:sha256:4c2e2feb6a828339d2aeb4fa45c999a946b02b2d36b961e4b46acdf33df20269"
         },
         {
           "resource": "repo://apps/github.io/src/app/skills/skill-detail-page.spec.tsx",
-          "version": "repo-file-v1:sha256:e5d0972f1cb40ff0eee257eacf4c36d264fadb08d879c9c2986e0fa382feb0a9"
+          "version": "repo-file-v1:sha256:76f20617e4e567a07ae2f55a5e827e6dd9966427f8dcbd0345459c1b52e0d5f9"
         }
       ]
     },
@@ -70,11 +70,11 @@
       "evidence": [
         {
           "resource": "repo://apps/github.io/src/app/skills/skill-detail-content.tsx",
-          "version": "repo-file-v1:sha256:20489be9beacde301347a4546269fcfc560bbd9a11aa0e3f20bac19ac62b7b08"
+          "version": "repo-file-v1:sha256:4c2e2feb6a828339d2aeb4fa45c999a946b02b2d36b961e4b46acdf33df20269"
         },
         {
           "resource": "repo://apps/github.io/src/app/skills/skill-detail-page.spec.tsx",
-          "version": "repo-file-v1:sha256:e5d0972f1cb40ff0eee257eacf4c36d264fadb08d879c9c2986e0fa382feb0a9"
+          "version": "repo-file-v1:sha256:76f20617e4e567a07ae2f55a5e827e6dd9966427f8dcbd0345459c1b52e0d5f9"
         }
       ]
     },
@@ -124,7 +124,7 @@
         },
         {
           "resource": "repo://apps/github.io/src/app/skills/skill-detail-page.spec.tsx",
-          "version": "repo-file-v1:sha256:e5d0972f1cb40ff0eee257eacf4c36d264fadb08d879c9c2986e0fa382feb0a9"
+          "version": "repo-file-v1:sha256:76f20617e4e567a07ae2f55a5e827e6dd9966427f8dcbd0345459c1b52e0d5f9"
         },
         {
           "resource": "repo://apps/github.io/src/app/skills/skill-detail-page.tsx",
@@ -200,7 +200,7 @@
         },
         {
           "resource": "repo://apps/github.io/src/app/home/dora-capability-masonry.tsx",
-          "version": "repo-file-v1:sha256:8a56c5e3695e3dabbf628acc6b7e1f7bdc0ce1421ead0787dd6d5e8af9ebcb24"
+          "version": "repo-file-v1:sha256:822817ecd5b9c97792e161afcaa31e633ebc4a10fa8c0a1aa42524514f00f90e"
         },
         {
           "resource": "repo://apps/github.io/src/app/home/home-page.tsx",
@@ -211,6 +211,6 @@
   ],
   "verification": {
     "by": "openwiki/0.5.0",
-    "at": "2026-09-14T10:25:42.901Z"
+    "at": "2026-09-14T11:23:58.958Z"
   }
 }

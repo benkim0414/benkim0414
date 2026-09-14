@@ -52,10 +52,10 @@ sources:
     resource: repo://apps/github.io/src/app/skills/skill-table.tsx
   - id: openwiki-source-a845ec3d01c38967df3a4dad
     resource: repo://apps/github.io/src/app/skills/skills-page.tsx
-generated: { by: "codex", at: "2026-09-14T10:20:53.845Z" }
+generated: { by: "codex", at: "2026-09-14T11:23:58.958Z" }
 verified:
   - by: openwiki/0.5.0
-    at: 2026-09-14T10:25:42.901Z
+    at: 2026-09-14T11:23:58.958Z
 ---
 
 # Application architecture
@@ -144,11 +144,11 @@ as the rendered sections. A basic detail with no enriched sections stays
 single-column and does not render a one-item outline.
 
 Within the detail surface, the Experience section appears when either primary
-experience cards or supporting evidence exists, but its adjacent app-level
-`CountBadge` reports only the primary-card array length. The badge is a sibling
-of the level-two heading so the section's accessible heading name remains
-`Experience`; an evidence-only section therefore communicates a count of zero
-without hiding its supporting records.
+experience cards or supporting evidence exists. Its adjacent app-level
+`CountBadge` reports the combined primary-card and supporting-evidence count,
+matching every card the section renders. The badge is a sibling of the
+level-two heading so the section's accessible heading name remains
+`Experience`.
 
 The two experience renderers keep their source-specific projection work at the
 boundary. Authored records pass ordered narrative strings to the shared
