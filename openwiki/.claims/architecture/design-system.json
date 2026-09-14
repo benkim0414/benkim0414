@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:89303d5b568ac9e8944210ca3fb9a1896115347d19be171294bb67e7acebae4a",
+  "pageVersion": "sha256:300d0ead2f07194fa58db399d55626f411541ae591bf0b93322b26d31d30f44b",
   "claims": [
     {
       "id": "claim_67f0a6341495404e8eefce3e45fd6173",
@@ -138,19 +138,19 @@
     },
     {
       "id": "claim_e60e9e0eb69646cba7b3570677531e65",
-      "statement": "At table-width viewports, the Skills page keeps its accessible title and catalogue introduction in the scrollable catalogue content ahead of the reusable SkillTable, which uses a full-width Astryx Card with a divided control header and edge-to-edge table body alongside the detail sheet. Compact viewports retain the card catalog and toolbar filters; the table provides sortable columns, filtering, clearing, empty states, and pointer or keyboard row activation.",
+      "statement": "At table-width viewports, the Skills page keeps its accessible title and catalogue introduction in the scrollable catalogue content. A shared Astryx layout header contains reusable skill-table controls above both the scrollable table body and adjacent detail panel; compact viewports retain the card catalog and toolbar filters. The controls own filtering, result count, and clearing, while the body owns sorting, empty states, and pointer or keyboard row activation.",
       "evidence": [
         {
-          "resource": "repo://apps/github.io/src/app/skills/skill-table.stories.tsx",
-          "version": "repo-file-v1:sha256:adc6fcc9145a42e71c4d727b93b203c2f91b2c265fdd882291277892c970f87d"
+          "resource": "repo://apps/github.io/src/app/skills/skill-table-detail-layout.tsx#L157-L184",
+          "version": "repo-lines-v1:sha256:d6f2249acd9ae2a17c3637204f2dab33e65d587fe796967753b2766d05b53d7d:eyJzZWxlY3RlZExpbmVDb3VudCI6MjgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImNlMWNkNGM5ZDA5YjA3MzlhYTFhMDRiMWYwYTE4MDRiYjc5YzJmODI1ODE2ZWJlNTY0NjE2MDEzN2YxYWU4YWUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImNlYWZmMWMwMGNiZDg5YjdkN2NkZWVhZDE1MTlhYjUxYjY3ZGQ0MzU3YmU4ZjYxZTcxOWE4Y2NkNzNlMzIzZjEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjBhZThjOTQwZDIyZGUzZjZkMmFhZmRlZWE4YWY0NjlhZDM4NTBjZWNhYThiMTdkZmI5ZTExNzZkZTlmNDMzMzkiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImFjYTY5ZWZhYzI5YzE2MTkxYjljOWEwM2MzYTdiYmU0YjZmZjM5MTAxYmQzZDcyNjQ5YmNhODg2YjczYzI4M2YifQ"
         },
         {
-          "resource": "repo://apps/github.io/src/app/skills/skill-table.tsx",
-          "version": "repo-file-v1:sha256:a25bee114ba500d1b174752881030b8fc415fab2dfea27250cf3ac21dd50ebd7"
+          "resource": "repo://apps/github.io/src/app/skills/skill-table.tsx#L165-L325",
+          "version": "repo-lines-v1:sha256:0d92397d2f07f146a81110fa2145275875db3c9a2e34b48dd72f7a102afe59ce:eyJzZWxlY3RlZExpbmVDb3VudCI6MTYxLCJmaXJzdFNlbGVjdGVkTGluZUhhc2giOiJlMzg0MTVjYzBlZTZhMmNjZjU0MjQxODZjNzVlZmVkZGEwZTgyMDEzMzg4NThiNGYyZGRkMjljYjc0YTEyYmVjIiwibGFzdFNlbGVjdGVkTGluZUhhc2giOiI5NmUyZDE3MGYzMWQ5Yzg4ZmQ4YzRhYjRiZWMyZmRkYjhlNDlmZTlhZTE0YmYxMWU0NTQ4NWJhOTRkMDI3YmE5IiwicHJlY2VkaW5nQ29udGV4dExpbmVDb3VudCI6MywicHJlY2VkaW5nQ29udGV4dEhhc2giOiJlNDAwNTI0ZmQyYzllMDc1YTc0NmIzNzE3NDNhMDIxZjQ2NDg5ZDY2MGEzMTYwNWI5MzUwNjI3Mjg2YzNjNjhmIiwiZm9sbG93aW5nQ29udGV4dExpbmVDb3VudCI6MiwiZm9sbG93aW5nQ29udGV4dEhhc2giOiI3YjhiNjAwYTViNDQ4YjFlNGQwMmRmMDk3NDZlZDNjYTMxNzJmNzVjNGFhYmIwMWRkZTA4MGUzNmNhYjA3NGI0In0"
         },
         {
-          "resource": "repo://apps/github.io/src/app/skills/skills-page.tsx",
-          "version": "repo-file-v1:sha256:0054ad2ba51ebdd8f52e0a85b86280938991125933dcb92547c435837c1dbce1"
+          "resource": "repo://apps/github.io/src/app/skills/skills-page.tsx#L63-L120",
+          "version": "repo-lines-v1:sha256:5d7800255a09a458477409bf4251134dd9307d7111d705cd9dfa1233d3a09d6f:eyJzZWxlY3RlZExpbmVDb3VudCI6NTgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImMzZGYyNTFhYzYxNGZmZDdjNmU2YWExYTE4YzE5YzljMzk1NGJlYzExM2U1ZTlkOTQ2MGU1NDhlZWY1YTk4NDMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjBiNTkyZTA3YjRjZjUzYTgzODZjNTY4MGNmYjdmM2U0ZTc1NDI5NjljODcyNmFjNWVkMzI3NTNmOGNhOTU5NzQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImQ2M2MyMzExNWE4ZTQ5MWRmNmFlYmYxYTFiYWFkM2E3NTk1Njc4NzliYmUzODZmYWZiNzI5OTJiOWY5Njk1ZTkiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjNiZjE2ODY2MTJhMzQ3NjMyZjE2ZTU5NWFiNDMxMzA4YTM1NGViYzc2YjQ5Njg2MDk2MmQ0OTFmMjc2YjkyZjIifQ"
         }
       ]
     },
@@ -299,6 +299,6 @@
   ],
   "verification": {
     "by": "openwiki/0.5.0",
-    "at": "2026-09-14T06:38:19.116Z"
+    "at": "2026-09-14T10:51:19.005Z"
   }
 }

@@ -5,7 +5,7 @@ description: How Astryx, StyleX, theme persistence, and browser layout checks fi
 tags: [astryx, stylex, theme, layout]
 verified:
   - by: openwiki/0.5.0
-    at: 2026-09-14T06:38:19.116Z
+    at: 2026-09-14T10:51:19.005Z
 sources:
   - id: openwiki-source-45b1d77b308bd57403f55ff9
     resource: repo://apps/github.io/.storybook/story-taxonomy.spec.ts
@@ -61,10 +61,10 @@ sources:
     resource: repo://apps/github.io/src/app/skills/skill-experience-list.tsx
   - id: openwiki-source-2944a7e4b1284a70a09ee95a
     resource: repo://apps/github.io/src/app/skills/skill-key-outcomes.tsx
+  - id: openwiki-source-b7cc9784bea6b15d468f9f23
+    resource: repo://apps/github.io/src/app/skills/skill-table-detail-layout.tsx
   - id: openwiki-source-3cf56b0e79067d306d450611
     resource: repo://apps/github.io/src/app/skills/skill-table-responsive.ts
-  - id: openwiki-source-a08412c702b94999bfa82651
-    resource: repo://apps/github.io/src/app/skills/skill-table.stories.tsx
   - id: openwiki-source-c2ac9449940c36fc7db6b3e4
     resource: repo://apps/github.io/src/app/skills/skill-table.tsx
   - id: openwiki-source-4fbf5ecc6f0c1fc5eff98141
@@ -77,7 +77,7 @@ sources:
     resource: repo://apps/github.io/src/styles.css
   - id: openwiki-source-fcfa3ced1d03143bb27d5018
     resource: repo://apps/github.io/vite.config.ts
-generated: { by: "codex", at: "2026-09-14T06:38:19.116Z" }
+generated: { by: "codex", at: "2026-09-14T10:47:58.061Z" }
 ---
 
 # Design system and layout
@@ -145,11 +145,15 @@ The component deliberately has no active step because evidence can complete
 non-contiguous topics, so completion is represented by each step's semantic
 status rather than by a single progress cursor.
 
-At table-width viewports, the Skills page integrates the reusable `SkillTable`
-in a full-width Astryx `Card` with a divided control header and edge-to-edge
-table body alongside a detail sheet; compact viewports retain the card catalog,
-toolbar search, and category popover. The table composes Astryx's table,
-compact text input, multi-selector, button, card, layout, and empty-state
+At table-width viewports, the Skills page places a shared Astryx layout header
+containing the reusable skill-table controls above both the scrollable table
+body and the adjacent detail panel. `SkillTableControls` owns search, category
+selection, result count, and clearing; `SkillTableBody` owns sorting, empty
+states, and row activation. This lets the controls remain visible while either
+desktop pane scrolls, while the page introduction remains in the table content
+rather than becoming part of the toolbar. Compact viewports retain the card
+catalog, toolbar search, and category popover. The table composes Astryx's
+table, compact text input, multi-selector, button, card, layout, and empty-state
 primitives with the app's
 smallest `SkillAvatar`, colored `SkillCategory`, and text-only
 `SkillConfidence` components. Its four columns remain sortable and derive pixel
