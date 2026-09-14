@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:66fc50bd10c5fe26a58944217c4142c7675faed00985599f371ff7dc6e8aed28",
+  "pageVersion": "sha256:4b2166d587f0ea63ce4ab09be0d6c94bf27a4c66133699d295b8b2b531646181",
   "claims": [
     {
       "id": "claim_67f0a6341495404e8eefce3e45fd6173",
@@ -208,11 +208,11 @@
     },
     {
       "id": "claim_87627df0fb2a40caa8fa8de5218e3fc7",
-      "statement": "The skill-detail content renders shared neutral count badges outside the accessible names of the Experience and Projects headings. The Experience badge counts authored experience records even when capability-derived evidence also makes that section visible, while the Projects badge counts the project cards rendered by its section.",
+      "statement": "The skill-detail content renders shared neutral count badges outside the accessible names of the Experience and Projects headings. The Experience badge counts every rendered authored and supporting-experience card, while the Projects badge counts the project cards rendered by its section.",
       "evidence": [
         {
           "resource": "repo://apps/github.io/src/app/skills/skill-detail-content.tsx",
-          "version": "repo-file-v1:sha256:20489be9beacde301347a4546269fcfc560bbd9a11aa0e3f20bac19ac62b7b08"
+          "version": "repo-file-v1:sha256:4c2e2feb6a828339d2aeb4fa45c999a946b02b2d36b961e4b46acdf33df20269"
         }
       ]
     },
@@ -313,6 +313,6 @@
   ],
   "verification": {
     "by": "openwiki/0.5.0",
-    "at": "2026-09-14T11:29:40.650Z"
+    "at": "2026-09-14T11:34:53.838Z"
   }
 }

@@ -419,32 +419,36 @@ describe('SkillDetailPage', () => {
     ).toBeNull();
   });
 
-  it('shows the primary experience count without including supporting evidence', () => {
+  it('counts every rendered experience card in the Experience badge', () => {
     const detail = getResolvedDetail('kubernetes');
     const { getByRole } = render(
       <SkillDetailPage detail={detail} />,
     );
     const heading = getByRole('heading', { level: 2, name: 'Experience' });
     const header = heading.parentElement as HTMLElement;
-    const badgeLabel = within(header).getByText('4');
-    const badge = badgeLabel.closest('.astryx-badge');
+    const badge = header.querySelector('.astryx-badge');
+    const experienceSection = heading.closest('section') as HTMLElement;
 
     expect(badge).toBeTruthy();
-    expect(heading.contains(badgeLabel)).toBe(false);
+    expect(badge?.getAttribute('title')).toBe(
+      String(experienceSection.querySelectorAll('.astryx-card').length),
+    );
   });
 
-  it('shows a zero count when supporting evidence is the only experience content', () => {
+  it('counts supporting evidence when it is the only experience content', () => {
     const detail = getResolvedDetail('kubernetes');
     const { getByRole } = render(
       <SkillDetailPage detail={{ ...detail, experiences: [] }} />,
     );
     const heading = getByRole('heading', { level: 2, name: 'Experience' });
     const header = heading.parentElement as HTMLElement;
-    const badgeLabel = within(header).getByText('0');
-    const badge = badgeLabel.closest('.astryx-badge');
+    const badge = header.querySelector('.astryx-badge');
+    const experienceSection = heading.closest('section') as HTMLElement;
 
     expect(badge).toBeTruthy();
-    expect(heading.contains(badgeLabel)).toBe(false);
+    expect(badge?.getAttribute('title')).toBe(
+      String(experienceSection.querySelectorAll('.astryx-card').length),
+    );
   });
 
   it('shows the rendered project count without including it in the heading name', () => {

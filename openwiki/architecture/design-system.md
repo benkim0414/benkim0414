@@ -5,7 +5,7 @@ description: How Astryx, StyleX, theme persistence, and browser layout checks fi
 tags: [astryx, stylex, theme, layout]
 verified:
   - by: openwiki/0.5.0
-    at: 2026-09-14T11:29:40.650Z
+    at: 2026-09-14T11:34:53.838Z
 sources:
   - id: openwiki-source-45b1d77b308bd57403f55ff9
     resource: repo://apps/github.io/.storybook/story-taxonomy.spec.ts
@@ -79,7 +79,7 @@ sources:
     resource: repo://apps/github.io/src/styles.css
   - id: openwiki-source-fcfa3ced1d03143bb27d5018
     resource: repo://apps/github.io/vite.config.ts
-generated: { by: "codex", at: "2026-09-14T11:29:40.650Z" }
+generated: { by: "codex", at: "2026-09-14T11:34:53.838Z" }
 ---
 
 # Design system and layout
@@ -120,9 +120,8 @@ Storybook stories are cataloged as `Components/Count Badge` and cover a
 representative populated count and zero. The skill-detail page uses this shared
 badge beside both its Experience and Projects headings. Each badge sits outside
 the heading's accessible name in the same centered horizontal layout. The
-Experience badge counts authored experience records, while the Projects badge
-counts project cards; capability-derived experience can still make the section
-visible independently. This keeps pages from
+Experience badge counts every rendered authored and supporting-experience card,
+while the Projects badge counts project cards. This keeps pages from
 recreating the design-system contract for count indicators.
 
 The roadmap page frame also stays inside Astryx's public composition surface. A
