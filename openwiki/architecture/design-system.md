@@ -5,7 +5,7 @@ description: How Astryx, StyleX, theme persistence, and browser layout checks fi
 tags: [astryx, stylex, theme, layout]
 verified:
   - by: openwiki/0.5.0
-    at: 2026-09-14T04:03:57.793Z
+    at: 2026-09-14T04:46:28.639Z
 sources:
   - id: openwiki-source-45b1d77b308bd57403f55ff9
     resource: repo://apps/github.io/.storybook/story-taxonomy.spec.ts
@@ -39,6 +39,14 @@ sources:
     resource: repo://apps/github.io/src/app/projects/project-card.tsx
   - id: openwiki-source-2afbe5e95b136e7b3bda73e7
     resource: repo://apps/github.io/src/app/responsive-collapsible.ts
+  - id: openwiki-source-db0dd3236892ffd2b6d11d5b
+    resource: repo://apps/github.io/src/app/skills/skill-avatar.spec.tsx
+  - id: openwiki-source-d591028767e0bcfbc12b6842
+    resource: repo://apps/github.io/src/app/skills/skill-avatar.stories.tsx
+  - id: openwiki-source-791a4b24e4a6411a3a17083a
+    resource: repo://apps/github.io/src/app/skills/skill-avatar.tsx
+  - id: openwiki-source-d0809fb265e239d8ba140589
+    resource: repo://apps/github.io/src/app/skills/skill-brand.ts
   - id: openwiki-source-0326a209b3e8f758018bcc41
     resource: repo://apps/github.io/src/app/skills/skill-detail-content.tsx
   - id: openwiki-source-2f8ff13f4c903910f3a587fc
@@ -69,7 +77,7 @@ sources:
     resource: repo://apps/github.io/src/styles.css
   - id: openwiki-source-fcfa3ced1d03143bb27d5018
     resource: repo://apps/github.io/vite.config.ts
-generated: { by: "codex", at: "2026-09-14T04:03:57.793Z" }
+generated: { by: "codex", at: "2026-09-14T04:46:28.639Z" }
 ---
 
 # Design system and layout
@@ -146,6 +154,14 @@ empty states belong to the table component. Rows support pointer and keyboard
 activation, expose the active row through `aria-current`, and open the selected
 skill in the adjacent detail layout. Storybook supplies explicit desktop-table
 and compact-card viewport scenarios for visual review.
+
+`SkillAvatar` resolves the active Astryx theme and applies its semantic primary
+icon color only to an explicit allowlist of monochrome marks, including the
+GitHub family. Those marks therefore remain legible when the skill table moves
+between light and dark themes, while unlisted logos such as Nx retain their
+official fixed brand colors. Focused GitHub light/dark Storybook stories expose
+the visual contract, and component tests cover both the adaptive GitHub mark and
+the fixed-color fallback.
 
 Text-heavy skill experience cards keep their summary as primary body copy and
 delegate repeated details to `SkillKeyOutcomes`. The shared component renders an

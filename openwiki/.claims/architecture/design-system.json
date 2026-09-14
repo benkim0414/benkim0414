@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:ac2c96a0d272f6f29cf09135bec100dc60a5b02d66da901695b9a7eebbf77371",
+  "pageVersion": "sha256:fb826959f7a2fb356f87649cb760f39704b8b955c156b8c8681870a77a840a9d",
   "claims": [
     {
       "id": "claim_67f0a6341495404e8eefce3e45fd6173",
@@ -277,10 +277,32 @@
           "version": "repo-lines-v1:sha256:9cd3765e7eb21b628befe479185f4683baf068b8416063072515d265719fd880:eyJzZWxlY3RlZExpbmVDb3VudCI6OSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiOGUxNmY5NWI3ZDdkMWI3YzI5NzQ0Nzg5YTM5NjAzNjMxMjFiM2NlOGJmYzA2NzhmZGIxMjBiNTkyZjZiMzJmNyIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNDEyY2EzNDVjY2Y3NWJmOWMwODA2YmNlNjk1YmU4ZGU4MDhiNzk5ODQyNTFhN2E1NGQyMDJjZjYxMDFkZDQ1MSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjAsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjAsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSJ9"
         }
       ]
+    },
+    {
+      "id": "claim_40f614679fc14f45b331525130e35aae",
+      "statement": "SkillAvatar uses the active Astryx theme's semantic primary icon color only for explicitly eligible monochrome brand marks, while unlisted logos retain their fixed brand colors; focused tests and Storybook stories cover GitHub light/dark behavior and the fixed-color fallback.",
+      "evidence": [
+        {
+          "resource": "repo://apps/github.io/src/app/skills/skill-avatar.spec.tsx",
+          "version": "repo-file-v1:sha256:3ca95dde0a7b65816a9ad980375a5b910fea2216f05a61db2f3e303dc333eb72"
+        },
+        {
+          "resource": "repo://apps/github.io/src/app/skills/skill-avatar.stories.tsx",
+          "version": "repo-file-v1:sha256:6d65bf90af7692267ff9c4a0c871deb73128f188d72a969c89d5931498be77a3"
+        },
+        {
+          "resource": "repo://apps/github.io/src/app/skills/skill-avatar.tsx",
+          "version": "repo-file-v1:sha256:6eadd9f5ce3f0c05ddce6b690e89188180050fde55be332d3f5b7418ee872011"
+        },
+        {
+          "resource": "repo://apps/github.io/src/app/skills/skill-brand.ts",
+          "version": "repo-file-v1:sha256:fe6b29008071c1a35dce3ee50c7e529e8f67a95882f279dc3f23c619ea38bf72"
+        }
+      ]
     }
   ],
   "verification": {
     "by": "openwiki/0.5.0",
-    "at": "2026-09-14T04:03:57.793Z"
+    "at": "2026-09-14T04:46:28.639Z"
   }
 }

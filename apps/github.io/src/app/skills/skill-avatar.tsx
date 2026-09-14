@@ -3,6 +3,7 @@ import {
   type AvatarProps,
   type AvatarSize,
 } from '@astryxdesign/core/Avatar';
+import { resolveThemeToken, ThemeContext } from '@astryxdesign/core/theme';
 import {
   siArgo,
   siClaudecode,
@@ -23,9 +24,10 @@ import {
   siZsh,
   type SimpleIcon,
 } from 'simple-icons';
+import { use } from 'react';
 
 import type { Skill } from './skill-list.types';
-import { getSkillBrand } from './skill-brand';
+import { getSkillBrandIconDataUrl } from './skill-brand';
 
 function svgDataUrl(content: string) {
   return `data:image/svg+xml,${encodeURIComponent(content)}`;
@@ -57,8 +59,16 @@ const simpleIconSources: Readonly<Record<string, SimpleIcon>> = {
   expo: siExpo,
 };
 
-function skillAvatarPresentation(skill: Skill) {
-  const brandSource = getSkillBrand(skill.name)?.iconDataUrl;
+function skillAvatarPresentation(
+  skill: Skill,
+  mode: 'light' | 'dark',
+  inverseIconColor: string,
+) {
+  const brandSource = getSkillBrandIconDataUrl(
+    skill.name,
+    mode,
+    inverseIconColor,
+  );
 
   if (brandSource) {
     return brandSource;
@@ -86,6 +96,14 @@ export function SkillAvatar({
   size = 'lg',
   tooltip,
 }: SkillAvatarProps) {
+  const theme = use(ThemeContext);
+  const mode = theme?.mode === 'dark' ? 'dark' : 'light';
+  const inverseIconColor = resolveThemeToken(
+    theme?.theme,
+    '--color-icon-primary',
+    { mode },
+  );
+
   return (
     <Avatar
       aria-hidden={isDecorative || undefined}
@@ -94,7 +112,7 @@ export function SkillAvatar({
       name={skill.name}
       role={isDecorative ? 'presentation' : 'img'}
       size={size}
-      src={skillAvatarPresentation(skill)}
+      src={skillAvatarPresentation(skill, mode, inverseIconColor)}
       tooltip={tooltip}
     />
   );
