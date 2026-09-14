@@ -1,4 +1,5 @@
-import { render, screen, within } from '@testing-library/react';
+import { fireEvent, render, screen, within } from '@testing-library/react';
+import { afterEach, vi } from 'vitest';
 
 import type { Experience } from '../experience/experience.types';
 import type { Skill } from './skill-list.types';
@@ -49,7 +50,155 @@ const ciCdSkills: readonly Skill[] = [
   },
 ];
 
+const originalMatchMedia = window.matchMedia;
+
+afterEach(() => {
+  window.matchMedia = originalMatchMedia;
+});
+
+function setSmallViewport(isSmall: boolean): void {
+  window.matchMedia = vi.fn().mockImplementation((query: string) => ({
+    matches: query === '(max-width: 640px)' ? isSmall : false,
+    media: query,
+    onchange: null,
+    addEventListener: vi.fn(),
+    removeEventListener: vi.fn(),
+    addListener: vi.fn(),
+    removeListener: vi.fn(),
+    dispatchEvent: vi.fn(),
+  }));
+}
+
 describe('SkillExperienceCard', () => {
+  it('starts compact on small screens and reveals details on request', () => {
+    setSmallViewport(true);
+
+    render(
+      <SkillExperienceCard
+        experience={ciCdExperience}
+        relevantSkillLabels={['AWS CodePipeline', 'AWS CodeBuild']}
+      />,
+    );
+
+    const disclosure = screen.getByRole('button', {
+      name: 'Highlights 2 Relevant skills 2',
+    });
+
+    expect(disclosure.getAttribute('aria-expanded')).toBe('false');
+    expect(screen.queryByText('2 outcomes · 2 skills')).toBeNull();
+
+    fireEvent.click(disclosure);
+
+    expect(disclosure.getAttribute('aria-expanded')).toBe('true');
+    expect(disclosure.getAttribute('aria-label')).toBeNull();
+    expect(disclosure.textContent).toContain('Highlights2');
+    expect(disclosure.textContent).not.toContain('Relevant skills');
+    expect(screen.getAllByRole('list')).toHaveLength(2);
+    expect(screen.getByText(ciCdExperience.narrative[0])).toBeTruthy();
+    expect(screen.getByRole('list', { name: 'Relevant skills' })).toBeTruthy();
+    expect(screen.getByText('Relevant skills').parentElement?.textContent).toBe(
+      'Relevant skills2',
+    );
+  });
+
+  it('starts expanded above the small-screen breakpoint', () => {
+    setSmallViewport(false);
+
+    render(<SkillExperienceCard experience={ciCdExperience} />);
+
+    expect(
+      screen
+        .getByRole('button', {
+          name: 'Highlights 2',
+        })
+        .getAttribute('aria-expanded'),
+    ).toBe('true');
+    expect(screen.getByRole('list')).toBeTruthy();
+  });
+
+  it('preserves the user choice when the viewport changes', () => {
+    setSmallViewport(false);
+
+    const { rerender } = render(
+      <SkillExperienceCard experience={ciCdExperience} />,
+    );
+    const disclosure = screen.getByRole('button', {
+      name: 'Highlights 2',
+    });
+
+    fireEvent.click(disclosure);
+    expect(disclosure.getAttribute('aria-expanded')).toBe('false');
+
+    setSmallViewport(true);
+    rerender(<SkillExperienceCard experience={ciCdExperience} />);
+
+    expect(disclosure.getAttribute('aria-expanded')).toBe('false');
+  });
+
+  it('keeps both detail counts visible in the disclosure label', () => {
+    setSmallViewport(true);
+
+    render(
+      <SkillExperienceCard
+        experience={ciCdExperience}
+        relevantSkillLabels={['AWS CodePipeline']}
+      />,
+    );
+
+    expect(
+      screen.getByRole('button', {
+        name: 'Highlights 2 Relevant skills 1',
+      }),
+    ).toBeTruthy();
+  });
+
+  it('omits the relevant-skills label when the card has no skills', () => {
+    setSmallViewport(true);
+
+    render(<SkillExperienceCard experience={ciCdExperience} />);
+
+    expect(
+      screen.getByRole('button', { name: 'Highlights 2' }),
+    ).toBeTruthy();
+    expect(screen.queryByText('Relevant skills')).toBeNull();
+  });
+
+  it('omits the highlights label when the card has no highlights', () => {
+    setSmallViewport(true);
+
+    render(
+      <SkillExperienceCard
+        experience={{ ...ciCdExperience, narrative: [] }}
+        relevantSkillLabels={['AWS CodePipeline']}
+      />,
+    );
+
+    const disclosure = screen.getByRole('button', {
+      name: 'Relevant skills 1',
+    });
+
+    fireEvent.click(disclosure);
+
+    expect(disclosure.getAttribute('aria-expanded')).toBe('true');
+    expect(screen.getByRole('button', { name: 'Relevant skills 1' })).toBe(
+      disclosure,
+    );
+    expect(disclosure.textContent).toContain('Relevant skills1');
+    expect(disclosure.textContent).not.toContain('Highlights');
+    expect(screen.getAllByText('Relevant skills')).toHaveLength(1);
+  });
+
+  it('omits the disclosure when the card has no details', () => {
+    render(
+      <SkillExperienceCard
+        experience={{ ...ciCdExperience, narrative: [] }}
+      />,
+    );
+
+    expect(screen.queryByRole('button')).toBeNull();
+    expect(screen.getByText(ciCdExperience.summary)).toBeTruthy();
+  });
+
   it('renders experience text through Astryx typography components', () => {
     render(
       <SkillExperienceCard
@@ -66,7 +215,7 @@ describe('SkillExperienceCard', () => {
       .closest('.astryx-card');
 
     expect(card).not.toBeNull();
-    expect(card?.querySelectorAll('.astryx-text')).toHaveLength(4);
+    expect(card?.querySelectorAll('.astryx-text')).toHaveLength(5);
   });
 
   it('presents narrative details as readable key outcomes', () => {
@@ -111,6 +260,7 @@ describe('SkillExperienceCard', () => {
     });
 
     expect(screen.getByText('Relevant skills')).toBeTruthy();
+    expect(screen.getAllByText('Relevant skills')).toHaveLength(1);
     expect(within(relevantSkills).getByText('AWS CodePipeline')).toBeTruthy();
     expect(within(relevantSkills).getByText('AWS CodeBuild')).toBeTruthy();
     expect(

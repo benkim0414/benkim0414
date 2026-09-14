@@ -1,4 +1,5 @@
-import { render, screen, within } from '@testing-library/react';
+import { fireEvent, render, screen, within } from '@testing-library/react';
+import { afterEach, vi } from 'vitest';
 
 import { devOpsCapabilityEvidenceItems } from '../devops-capability-evidence/devops-capability-evidence.data';
 import { skills } from './skill-list.data';
@@ -11,7 +12,54 @@ const experienceFixtures = devOpsCapabilityEvidenceItems.filter((item) =>
   ].includes(item.id),
 );
 
+const originalMatchMedia = window.matchMedia;
+
+afterEach(() => {
+  window.matchMedia = originalMatchMedia;
+});
+
+function useSmallViewport(): void {
+  window.matchMedia = vi.fn().mockImplementation((query: string) => ({
+    matches: query === '(max-width: 640px)',
+    media: query,
+    onchange: null,
+    addEventListener: vi.fn(),
+    removeEventListener: vi.fn(),
+    addListener: vi.fn(),
+    removeListener: vi.fn(),
+    dispatchEvent: vi.fn(),
+  }));
+}
+
 describe('SkillExperienceList', () => {
+  it('labels distinct outcomes as highlights in its compact state', () => {
+    useSmallViewport();
+    const [evidence] = devOpsCapabilityEvidenceItems.filter(
+      (item) => item.id === 'github-actions-gitops-handoff',
+    );
+
+    expect(evidence).toBeDefined();
+
+    render(<SkillExperienceList evidence={[evidence]} skills={skills} />);
+
+    const disclosure = screen.getByRole('button', {
+      name: 'Highlights 1 Relevant skills 6',
+    });
+
+    expect(disclosure.getAttribute('aria-expanded')).toBe('false');
+    expect(screen.queryByText('1 outcome · 6 skills')).toBeNull();
+
+    fireEvent.click(disclosure);
+
+    expect(disclosure.getAttribute('aria-expanded')).toBe('true');
+    expect(disclosure.textContent).toContain('Highlights1');
+    expect(disclosure.textContent).not.toContain('Relevant skills');
+    expect(screen.getByRole('list', { name: 'Relevant skills' })).toBeTruthy();
+    expect(screen.getByText('Relevant skills').parentElement?.textContent).toBe(
+      'Relevant skills6',
+    );
+  });
+
   it('renders every evidence summary as an Astryx Card', () => {
     expect(experienceFixtures).toHaveLength(2);
 
@@ -109,6 +157,7 @@ describe('SkillExperienceList', () => {
 
     expect(screen.getByText('GitHub Actions')).toBeTruthy();
     expect(screen.getByText('Argo CD')).toBeTruthy();
+    expect(screen.getAllByText('Relevant skills')).toHaveLength(1);
     expect(tokens).toHaveLength(6);
     expect(tokens.every((token) => token.getAttribute('style') === null)).toBe(
       true,
@@ -181,5 +230,34 @@ describe('SkillExperienceList', () => {
 
     expect(card).not.toBeNull();
     expect(within(card as HTMLElement).queryByRole('list')).toBeNull();
+    expect(within(card as HTMLElement).queryByRole('button')).toBeNull();
+  });
+
+  it('uses the relevant-skills row as the skills-only disclosure trigger', () => {
+    useSmallViewport();
+    const [evidence] = devOpsCapabilityEvidenceItems.filter(
+      (item) => item.id === 'github-actions-gitops-handoff',
+    );
+
+    expect(evidence).toBeDefined();
+
+    render(
+      <SkillExperienceList
+        evidence={[{ ...evidence, details: { facts: [] } }]}
+        skills={skills}
+      />,
+    );
+
+    const disclosure = screen.getByRole('button', {
+      name: 'Relevant skills 6',
+    });
+
+    fireEvent.click(disclosure);
+
+    expect(disclosure.getAttribute('aria-expanded')).toBe('true');
+    expect(screen.getByRole('button', { name: 'Relevant skills 6' })).toBe(
+      disclosure,
+    );
+    expect(screen.getAllByText('Relevant skills')).toHaveLength(1);
   });
 });
