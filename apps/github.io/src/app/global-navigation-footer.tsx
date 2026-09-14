@@ -15,6 +15,11 @@ const ASTRYX_URL = 'https://astryx.atmeta.com';
 const ASTRYX_LOGO_COLOR = '#225BFF';
 const REACT_LOGO_COLOR = '#61DAFB';
 
+const spinLogo = stylex.keyframes({
+  from: { transform: 'rotate(0deg)' },
+  to: { transform: 'rotate(360deg)' },
+});
+
 function ReactLogo(): ReactElement {
   return (
     <svg
@@ -71,6 +76,24 @@ const styles = stylex.create({
     display: 'inline-flex',
     flexShrink: 0,
   },
+  spinningLogoLink: {
+    ':focus-visible': {
+      '@media (prefers-reduced-motion: no-preference)': {
+        animationDuration: '1s',
+        animationIterationCount: 'infinite',
+        animationName: spinLogo,
+        animationTimingFunction: 'linear',
+      },
+    },
+    ':hover': {
+      '@media (prefers-reduced-motion: no-preference)': {
+        animationDuration: '1s',
+        animationIterationCount: 'infinite',
+        animationName: spinLogo,
+        animationTimingFunction: 'linear',
+      },
+    },
+  },
 });
 
 export function GlobalNavigationFooter(): ReactElement {
@@ -92,6 +115,7 @@ export function GlobalNavigationFooter(): ReactElement {
               isStandalone
               label="React"
               target="_blank"
+              xstyle={styles.spinningLogoLink}
             >
               <ReactLogo />
             </Link>
@@ -104,6 +128,7 @@ export function GlobalNavigationFooter(): ReactElement {
               isStandalone
               label="Astryx"
               target="_blank"
+              xstyle={styles.spinningLogoLink}
             >
               <AstryxLogo />
             </Link>

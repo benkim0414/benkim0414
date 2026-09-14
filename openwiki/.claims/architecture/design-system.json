@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:1bc3d20d562e82e58e76b1eb7ce8a1fec1ed36d64ba3ce101e16aab87c5def40",
+  "pageVersion": "sha256:89303d5b568ac9e8944210ca3fb9a1896115347d19be171294bb67e7acebae4a",
   "claims": [
     {
       "id": "claim_67f0a6341495404e8eefce3e45fd6173",
@@ -106,7 +106,7 @@
     },
     {
       "id": "claim_f8e95311e76f400b8189c3b605818f6e",
-      "statement": "The global footer derives its displayed semantic version from the github.io package manifest, renders it as Astryx Code inheriting supporting-text size and color in the leading region, and keeps the existing attribution in an end-aligned wrapping region.",
+      "statement": "The global footer derives its displayed semantic version from the github.io package manifest, renders it as Astryx Code inheriting supporting-text size and color in the leading region, keeps React/Astryx attribution in an end-aligned wrapping region, and rotates the two focusable logo links continuously while hovered or keyboard-focus-visible when reduced motion is not requested.",
       "evidence": [
         {
           "resource": "repo://apps/github.io/src/app/global-navigation-footer.spec.tsx#L15-L40",
@@ -114,15 +114,11 @@
         },
         {
           "resource": "repo://apps/github.io/src/app/global-navigation-footer.tsx#L1-L15",
-          "version": "repo-lines-v1:sha256:5c77c8e7828a37d8a372ca06a46827619e26596387b5bd630e8f989b765ae385:eyJzZWxlY3RlZExpbmVDb3VudCI6MTUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijc0MTE1MzcwYmZjNjk5NTE4ZTZkZDhlODQ4ZTVmODY3ODA1NTg5OTJiMGIzOTRmMmIyOTg3OTU4YTIxYWI4ZGYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjVhNjQ5YWYyYWI4NmE2YjJjOThmYzYwMWNiYzU4YjUwNzU1YWU0NmYyZDQzODE1NjBkMWE2OThlOWYwNTE0OTMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjZkMWU5YTBiOWIyNTNmNjMzNTIzM2MyZWQyYzEwNzRhZTMzMWI4OGUzNjM1Y2IwODk3MDljNDZlNGQ4ZTA5NWUifQ"
+          "version": "repo-lines-v1:sha256:5c77c8e7828a37d8a372ca06a46827619e26596387b5bd630e8f989b765ae385:eyJzZWxlY3RlZExpbmVDb3VudCI6MTUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijc0MTE1MzcwYmZjNjk5NTE4ZTZkZDhlODQ4ZTVmODY3ODA1NTg5OTJiMGIzOTRmMmIyOTg3OTU4YTIxYWI4ZGYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjVhNjQ5YWYyYWI4NmE2YjJjOThmYzYwMWNiYzU4YjUwNzU1YWU0NmYyZDQzODE1NjBkMWE2OThlOWYwNTE0OTMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjBkZThhMzEyZmIzMzM5MGIyYmY3MTY0YmQ2MGU5MTI3NWM1Y2ZiNWNiNWY1MGJhZGIwMTc0MGY5Nzk0NWY3OGYifQ"
         },
         {
-          "resource": "repo://apps/github.io/src/app/global-navigation-footer.tsx#L52-L74",
-          "version": "repo-lines-v1:sha256:c3d5e73d0d6b95021b305716d988a88c5eff3fd621f70594ba58385f92b98334:eyJzZWxlY3RlZExpbmVDb3VudCI6MjMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjU5ZGRlNTVmNzgxMWZjNDUyZjllZjQzNzk4MjkxOGVkMjE5NmQ3YTkyMWRlNDMzMmM0MTYzNDQ1ODZiZDU3MGUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImY2ZjViNDBiMTU4NDU3ZDE3ODY0ZjIxNzkwNzg2ZGQ1YTJlY2RiNjRiNjZhNjUxZjc4OGQ0ZTI1Y2QzMzAzZDIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjA5NGZjMGMxNzNkMWVjM2ZjNTAxZDdkZmE5Mjg1NTAxYzUyN2NmYjQ3MTI1ODNkYTNjYzM2MTgwNTY2YjRiZTMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImVlNmExYTMzZTFlYTk2NmEyNGYwODc2MmU3YTA4N2FlZTQxZGUwODJjNDFmZGU3MzA0YTUxYzExNDU1NDFiMTYifQ"
-        },
-        {
-          "resource": "repo://apps/github.io/src/app/global-navigation-footer.tsx#L76-L124",
-          "version": "repo-lines-v1:sha256:c6651712c50fb2e321edf29702448beb54fe16fe8769865fb0131e2a019a0741:eyJzZWxlY3RlZExpbmVDb3VudCI6NDksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImZjOWFjM2U0MWQ1YjA4YTBjZWUzYTRlMjVmZWZhMTdhNjg1M2U2MTBkOGZhZGJjZDBkMGYwMjI0ZDNjZjVhMWYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijk1ZWYwMWJjMDhkYmMzYjYzZTRlNzVlYTNkMjZhNWI5NDE4OTE4NzdlMjdhZDg5MTMyOWM4NDExZDdkOGRjNGQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjEzODNhYzE5OThhZDg4Mjg4NDVjNzBlZGZmOWQyNWZjYzc4OTU3ZjU1MzBhNzk4MzhkNTE4NGExZTE3MGZlNDIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjoxLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEifQ"
+          "resource": "repo://apps/github.io/src/app/global-navigation-footer.tsx#L76-L136",
+          "version": "repo-lines-v1:sha256:1735de001dfc22cc04b8f67fe44f87082fcffd839e1c8166504b10e1ccbb77e2:eyJzZWxlY3RlZExpbmVDb3VudCI6NjEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjU5NmQxMTYxZTk4ZjhjYTM1M2E5NDAyYjAwYjgyZmEwMDIyNjg5NmQ4OTRjN2U2NGJkMjRiZDdlNTJiNjk4OTAiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjA1MGU0MGFhYTNkMzYxZmY0NDM0MjE4ZTJkNDA4ZjBlNzA0Y2IzYWYwZDM2M2UzY2JmNjI4NjA3MDJlNTAyZTYiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjU3ZmMyNTI0MTIyMWVhM2ZlZWU2ZTgzNGIxNjNkYzhiNzEzYzgwN2YwODg0ZDM5ZjFmMDQ0YTkzOTA1YTkzNDkiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjQ5Mzc0ODE4NDFiMmFhMTdiZjZlOWU2YWE5MWQxMjExOWVjNGFjMjY3MmY0ZDg5ZGVjMDFlOGI0OGFlYWExMWUifQ"
         }
       ]
     },
@@ -150,7 +146,7 @@
         },
         {
           "resource": "repo://apps/github.io/src/app/skills/skill-table.tsx",
-          "version": "repo-file-v1:sha256:3f69945a526c4c5d491eec977ddfed11e8a88f55850d9ff565c6ed32b301a116"
+          "version": "repo-file-v1:sha256:a25bee114ba500d1b174752881030b8fc415fab2dfea27250cf3ac21dd50ebd7"
         },
         {
           "resource": "repo://apps/github.io/src/app/skills/skills-page.tsx",
@@ -303,6 +299,6 @@
   ],
   "verification": {
     "by": "openwiki/0.5.0",
-    "at": "2026-09-14T06:31:45.986Z"
+    "at": "2026-09-14T06:38:19.116Z"
   }
 }

@@ -5,7 +5,7 @@ description: How Astryx, StyleX, theme persistence, and browser layout checks fi
 tags: [astryx, stylex, theme, layout]
 verified:
   - by: openwiki/0.5.0
-    at: 2026-09-14T06:31:45.986Z
+    at: 2026-09-14T06:38:19.116Z
 sources:
   - id: openwiki-source-45b1d77b308bd57403f55ff9
     resource: repo://apps/github.io/.storybook/story-taxonomy.spec.ts
@@ -77,7 +77,7 @@ sources:
     resource: repo://apps/github.io/src/styles.css
   - id: openwiki-source-fcfa3ced1d03143bb27d5018
     resource: repo://apps/github.io/vite.config.ts
-generated: { by: "codex", at: "2026-09-14T05:49:27.415Z" }
+generated: { by: "codex", at: "2026-09-14T06:38:19.116Z" }
 ---
 
 # Design system and layout
@@ -105,6 +105,11 @@ flex layout keeps that version in the leading region and moves the existing
 React/Astryx attribution to an end-aligned region that can wrap on narrower
 viewports. The focused footer test protects the semantic `code` element,
 package-version output, region order, and supporting-text boundary.
+
+The React and Astryx logo links rotate continuously only while hovered or
+keyboard-focus-visible, and only when the visitor has not requested reduced
+motion. A shared StyleX keyframe rotates each focusable link in a linear
+one-second cycle; React's SVG retains its enlarged resting scale inside it.
 
 Small repeated presentation values belong in reusable app components. For
 example, the app-level `CountBadge` exposes a numeric `count` prop and delegates
