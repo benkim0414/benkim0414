@@ -1,6 +1,14 @@
-import { assignMasonryItems } from './dora-capability-masonry';
+import {
+  assignMasonryItems,
+  getMasonryColumnCount,
+} from './dora-capability-masonry';
 
 describe('assignMasonryItems', () => {
+  it('uses two columns only when two 360px cards and their token gap fit', () => {
+    expect(getMasonryColumnCount(735)).toBe(1);
+    expect(getMasonryColumnCount(736)).toBe(2);
+  });
+
   it('places each next card in the shortest column with a uniform gap', () => {
     expect(assignMasonryItems([100, 200, 100, 100], 2, 16)).toEqual({
       height: 316,

@@ -1,6 +1,6 @@
 import {
   Children,
-  type CSSProperties,
+  isValidElement,
   type ReactElement,
   type ReactNode,
   useCallback,
@@ -8,12 +8,12 @@ import {
   useRef,
   useState,
 } from 'react';
+import { spacingVars } from '@astryxdesign/core/theme/tokens.stylex';
 import * as stylex from '@stylexjs/stylex';
 
-const CARD_GAP = 16;
-const MIN_CARD_WIDTH = 360;
+const MIN_CAPABILITY_CARD_WIDTH = 360;
 const MASONRY_COLUMNS = 2;
-const TWO_COLUMN_MIN_WIDTH = MIN_CARD_WIDTH * MASONRY_COLUMNS + CARD_GAP;
+const TWO_COLUMN_MIN_WIDTH = MIN_CAPABILITY_CARD_WIDTH * MASONRY_COLUMNS + 16;
 
 export interface MasonryItemPosition {
   column: number;
@@ -25,17 +25,34 @@ export interface MasonryLayout {
   items: MasonryItemPosition[];
 }
 
+export function getMasonryColumnCount(containerWidth: number) {
+  return containerWidth >= TWO_COLUMN_MIN_WIDTH ? MASONRY_COLUMNS : 1;
+}
+
 const styles = stylex.create({
   container: {
     alignItems: 'start',
     display: 'grid',
-    gap: CARD_GAP,
+    gap: spacingVars['--spacing-4'],
     position: 'relative',
   },
+  fallbackGrid: (columnCount: number) => ({
+    gridTemplateColumns: `repeat(${columnCount}, minmax(0, 1fr))`,
+  }),
+  measuredContainer: (height: number) => ({
+    display: 'block',
+    height,
+  }),
   item: {
     minWidth: 0,
     width: '100%',
   },
+  positionedItem: (left: number, top: number, width: number) => ({
+    left,
+    position: 'absolute',
+    top,
+    width,
+  }),
 });
 
 export function assignMasonryItems(
@@ -78,6 +95,14 @@ function areLayoutsEqual(
   );
 }
 
+function getChildKey(child: ReactNode) {
+  if (!isValidElement(child) || child.key === null) {
+    throw new Error('DORA masonry children must have stable React keys.');
+  }
+
+  return child.key;
+}
+
 export function DoraCapabilityMasonry({
   children,
 }: {
@@ -89,21 +114,28 @@ export function DoraCapabilityMasonry({
   const [columnCount, setColumnCount] = useState(1);
   const [layout, setLayout] = useState<MasonryLayout>();
   const [measuredWidth, setMeasuredWidth] = useState(0);
+  const [measuredGap, setMeasuredGap] = useState(0);
 
   const updateLayout = useCallback(() => {
     const container = containerRef.current;
     const containerWidth = container?.getBoundingClientRect().width ?? 0;
 
-    if (containerWidth === 0) {
+    if (container === null || containerWidth === 0) {
+      return;
+    }
+
+    const gap = Number.parseFloat(getComputedStyle(container).rowGap);
+
+    if (gap === 0 || Number.isNaN(gap)) {
       return;
     }
 
     setMeasuredWidth((current) =>
       current === containerWidth ? current : containerWidth,
     );
+    setMeasuredGap((current) => (current === gap ? current : gap));
 
-    const nextColumnCount =
-      containerWidth >= TWO_COLUMN_MIN_WIDTH ? MASONRY_COLUMNS : 1;
+    const nextColumnCount = getMasonryColumnCount(containerWidth);
 
     if (nextColumnCount !== columnCount) {
       setColumnCount(nextColumnCount);
@@ -122,7 +154,7 @@ export function DoraCapabilityMasonry({
       return;
     }
 
-    const nextLayout = assignMasonryItems(itemHeights, columnCount, CARD_GAP);
+    const nextLayout = assignMasonryItems(itemHeights, columnCount, gap);
 
     setLayout((current) =>
       areLayoutsEqual(current, nextLayout) ? current : nextLayout,
@@ -152,42 +184,39 @@ export function DoraCapabilityMasonry({
     return () => observer.disconnect();
   }, [updateLayout]);
 
-  const containerStyle: CSSProperties = layout
-    ? { display: 'block', height: layout.height }
-    : { gridTemplateColumns: `repeat(${columnCount}, minmax(0, 1fr))` };
   const columnWidth =
     columnCount === 1
       ? measuredWidth
-      : (measuredWidth - CARD_GAP) / columnCount;
+      : (measuredWidth - measuredGap) / columnCount;
+  const containerStyle = layout
+    ? styles.measuredContainer(layout.height)
+    : styles.fallbackGrid(columnCount);
 
   return (
     <div
-      {...stylex.props(styles.container)}
+      {...stylex.props(styles.container, containerStyle)}
       aria-label="DORA capability cards"
       data-testid="dora-capability-masonry"
       ref={containerRef}
-      style={containerStyle}
     >
       {items.map((child, index) => {
         const position = layout?.items[index];
-        const itemStyle: CSSProperties = position
-          ? {
-              left: position.column * (columnWidth + CARD_GAP),
-              position: 'absolute',
-              top: position.top,
-              width: columnWidth,
-            }
+        const itemStyle = position
+          ? styles.positionedItem(
+              position.column * (columnWidth + measuredGap),
+              position.top,
+              columnWidth,
+            )
           : undefined;
 
         return (
           <div
-            {...stylex.props(styles.item)}
+            {...stylex.props(styles.item, itemStyle)}
             data-testid="dora-capability-masonry-item"
-            key={(child as ReactElement).key ?? index}
+            key={getChildKey(child)}
             ref={(item) => {
               itemRefs.current[index] = item;
             }}
-            style={itemStyle}
           >
             {child}
           </div>

@@ -33,6 +33,23 @@ common *page* content width for mixed content, so a later readability review
 may choose a 960 px region-level cap, but that would be a separate page-layout
 decision rather than a per-card fix.
 
+## Approved masonry refinement
+
+After the initial grid implementation, the approved product direction changed:
+the DORA cards should retain their natural heights and use a Masonry-like
+shortest-column packing rule, rather than leaving unused space beneath a
+shorter card in a grid row. Astryx has no masonry primitive, so the Home
+section uses a small app-owned measured layout. It uses the Astryx spacing-4
+CSS token for the visible gap, reads that computed gap for positioning, and
+keeps the existing 360 px content threshold. The 360 px threshold remains a
+documented card-content requirement rather than a general spacing token.
+
+The wrappers are rendered in canonical source order and only their visual
+positions are measured, preserving the card articles, reading order, and
+keyboard traversal. Focused tests cover the below/at-threshold column choice
+and shortest-column positions with the same 16 px horizontal and vertical
+gutter; the desktop Storybook scenario remains the visual review surface.
+
 ## Evidence and constraints
 
 - Material Design 3 identifies a feed as the canonical layout for card
