@@ -158,7 +158,7 @@ export function SkillTableDetailLayout({
         <Layout
           end={isCompactSurface ? undefined : detailPanel}
           header={
-            <LayoutHeader hasDivider>
+            <LayoutHeader hasDivider label="Skill table controls" role="toolbar">
               <SkillTableControls
                 query={query}
                 selectedCategories={selectedCategories}

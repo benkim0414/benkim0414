@@ -130,11 +130,11 @@ describe('SkillTableDetailLayout', () => {
     });
     const { getByRole } = renderLayout();
     const controls = getByRole('textbox', { name: 'Skill name' });
-    const header = controls.closest('.astryx-layout-header');
+    const header = getByRole('toolbar', { name: 'Skill table controls' });
     const detailPanel = getByRole('region', { name: 'Kubernetes details' });
 
-    expect(header).toBeTruthy();
-    expect(header?.compareDocumentPosition(detailPanel)).toBe(
+    expect(header.contains(controls)).toBe(true);
+    expect(header.compareDocumentPosition(detailPanel)).toBe(
       Node.DOCUMENT_POSITION_FOLLOWING,
     );
   });
