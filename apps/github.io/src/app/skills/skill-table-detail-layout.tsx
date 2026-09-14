@@ -18,7 +18,6 @@ import {
   useEffect,
   useRef,
   type ReactElement,
-  type ReactNode,
   type RefObject,
 } from 'react';
 
@@ -43,7 +42,6 @@ export interface SkillTableDetailLayoutProps extends Pick<
 > {
   readonly activeDetail: ResolvedSkillDetail | null;
   readonly finalFocusRef?: RefObject<HTMLElement | null>;
-  readonly headerContent?: ReactNode;
   readonly onSkillActivate: (activation: SkillRowActivation) => void;
   readonly onClose: (restoreFocus: boolean) => void;
 }
@@ -86,7 +84,6 @@ export function SkillTableDetailLayout({
   activeSkillId,
   activeDetail,
   finalFocusRef,
-  headerContent,
   onQueryChange,
   onSelectedCategoriesChange,
   onSkillActivate,
@@ -158,7 +155,12 @@ export function SkillTableDetailLayout({
         <Layout
           end={isCompactSurface ? undefined : detailPanel}
           header={
-            <LayoutHeader hasDivider label="Skill table controls" role="toolbar">
+            <LayoutHeader
+              hasDivider
+              label="Skill table controls"
+              padding={4}
+              role="toolbar"
+            >
               <SkillTableControls
                 query={query}
                 selectedCategories={selectedCategories}
@@ -172,7 +174,6 @@ export function SkillTableDetailLayout({
           padding={0}
         >
           <LayoutContent isScrollable padding={0}>
-            {headerContent}
             <SkillTableBody
               activeSkillId={activeSkillId}
               query={query}

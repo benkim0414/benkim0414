@@ -268,25 +268,25 @@ describe('SkillsPage', () => {
     ).toBe('fill');
   });
 
-  it('scrolls the desktop page introduction with the skills catalogue', () => {
+  it('keeps the desktop page introduction above the table card', () => {
     setMediaMatches({
       [TABLE_QUERY]: true,
       [COMPACT_SURFACE_QUERY]: false,
     });
     const { getByRole, getByText } = renderSkillsPage(tableSkills);
 
-    const catalogueScrollRegion = getByRole('table').closest(
-      '.astryx-layout-content',
+    const tableCard = getByRole('table').closest('.astryx-card');
+    const skillsHeading = getByRole('heading', { level: 2, name: 'Skills' });
+    const introduction = getByText(
+      'Explore my technical skills, organised by category and linked to supporting experience, outcomes, and source material. Search or filter the catalogue to find a specific capability.',
     );
 
-    expect(getByRole('heading', { level: 2, name: 'Skills' }).closest(
-      '.astryx-layout-content',
-    )).toBe(catalogueScrollRegion);
-    expect(
-      getByText(
-        'Explore my technical skills, organised by category and linked to supporting experience, outcomes, and source material. Search or filter the catalogue to find a specific capability.',
-      ).closest('.astryx-layout-content'),
-    ).toBe(catalogueScrollRegion);
+    expect(tableCard).toBeTruthy();
+    expect(tableCard?.contains(skillsHeading)).toBe(false);
+    expect(tableCard?.contains(introduction)).toBe(false);
+    expect(skillsHeading.compareDocumentPosition(tableCard!)).toBe(
+      Node.DOCUMENT_POSITION_FOLLOWING,
+    );
   });
 
   it('keeps table selection in page state, swaps reusable details, and restores row focus on close', async () => {

@@ -104,21 +104,23 @@ export function SkillsPage({
       padding={4}
     >
       {isTable ? (
-        <StackItem size="fill">
-          <SkillTableDetailLayout
-            activeDetail={activeDetail}
-            activeSkillId={activeSkillId}
-            finalFocusRef={activeRowRef}
-            headerContent={pageIntroduction}
-            query={query}
-            selectedCategories={selectedCategories}
-            skills={skills}
-            onClose={closeActiveSkill}
-            onQueryChange={setQuery}
-            onSelectedCategoriesChange={setSelectedCategories}
-            onSkillActivate={handleSkillActivate}
-          />
-        </StackItem>
+        <>
+          {pageIntroduction}
+          <StackItem size="fill">
+            <SkillTableDetailLayout
+              activeDetail={activeDetail}
+              activeSkillId={activeSkillId}
+              finalFocusRef={activeRowRef}
+              query={query}
+              selectedCategories={selectedCategories}
+              skills={skills}
+              onClose={closeActiveSkill}
+              onQueryChange={setQuery}
+              onSelectedCategoriesChange={setSelectedCategories}
+              onSkillActivate={handleSkillActivate}
+            />
+          </StackItem>
+        </>
       ) : (
         <>
           {pageIntroduction}
