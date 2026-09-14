@@ -15,11 +15,13 @@ import { GlobalNavigationLayout } from './global-navigation-layout';
 import { RouterLink } from './router-link';
 import { ThemeModeProvider, useThemeMode } from './theme-mode';
 
+const mediaMatches = new Map<string, boolean>();
+
 vi.stubGlobal('matchMedia', (query: string) => ({
   addEventListener: vi.fn(),
   addListener: vi.fn(),
   dispatchEvent: vi.fn(),
-  matches: false,
+  matches: mediaMatches.get(query) ?? false,
   media: query,
   onchange: null,
   removeEventListener: vi.fn(),
@@ -178,6 +180,7 @@ function expectTooltipFor(control: HTMLElement, text: string) {
 describe('GlobalNavigationLayout', () => {
   beforeEach(() => {
     window.localStorage.clear();
+    mediaMatches.clear();
   });
 
   it('renders one heading-free global nav above routed content', () => {
@@ -211,6 +214,7 @@ describe('GlobalNavigationLayout', () => {
   });
 
   it('renders the primary route links in the centered top navigation', () => {
+    mediaMatches.set('(min-width: 768px)', true);
     const { getByRole, queryByRole } = renderGlobalLayout('/skills/terraform');
     const navigation = getByRole('navigation', { name: 'Global navigation' });
 
@@ -239,7 +243,7 @@ describe('GlobalNavigationLayout', () => {
     expect(getByRole('link', { name: 'GitHub' }).getAttribute('href')).toBe(
       'https://github.com/benkim0414',
     );
-    expect(queryByRole('button', { name: 'Navigation' })).toBeTruthy();
+    expect(queryByRole('button', { name: 'Navigation' })).toBeNull();
   });
 
   it('opens an end-side navigation drawer with the primary route links', async () => {

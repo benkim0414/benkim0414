@@ -18,11 +18,13 @@ import {
 } from '@heroicons/react/24/outline';
 import { Icon } from '@astryxdesign/core/Icon';
 import { IconButton } from '@astryxdesign/core/IconButton';
+import { HStack } from '@astryxdesign/core/HStack';
 import { Layout, LayoutContent, LayoutHeader } from '@astryxdesign/core/Layout';
 import { MobileNav } from '@astryxdesign/core/MobileNav';
 import { SideNavItem } from '@astryxdesign/core/SideNav';
 import { TextInput } from '@astryxdesign/core/TextInput';
 import { TopNav, TopNavItem } from '@astryxdesign/core/TopNav';
+import { useMediaQuery } from '@astryxdesign/core/hooks';
 import { siGithub } from 'simple-icons';
 import {
   colorVars,
@@ -50,6 +52,15 @@ interface GlobalSearchCommandItem extends GlobalSearchResult {
 const HOME_NAVIGATION_ICON_COLOR = 'var(--color-icon-blue)';
 const GITHUB_PROFILE_URL = 'https://github.com/benkim0414';
 const SEARCH_LABEL = 'Search';
+const DESKTOP_NAVIGATION_QUERY = '(min-width: 768px)';
+
+function isSkillsRoute(pathname: string): boolean {
+  return pathname === '/skills' || pathname.startsWith('/skills/');
+}
+
+function isRoadmapRoute(pathname: string): boolean {
+  return pathname === '/roadmap';
+}
 
 function GitHubIcon(): ReactElement {
   return (
@@ -91,22 +102,12 @@ const styles = stylex.create({
   mobileNavigationSearch: {
     marginBlockEnd: spacingVars['--spacing-2'],
   },
-  desktopPrimaryNavigation: {
-    display: {
-      default: 'none',
-      '@media (min-width: 768px)': 'flex',
-    },
-  },
-  mobileNavigationTrigger: {
-    display: {
-      '@media (min-width: 768px)': 'none',
-    },
-  },
 });
 
 export function GlobalNavigationLayout(): ReactElement {
   const location = useLocation();
   const navigate = useNavigate();
+  const isDesktopNavigation = useMediaQuery(DESKTOP_NAVIGATION_QUERY);
   const contentRef = useRef<HTMLDivElement>(null);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [isNavigationOpen, setIsNavigationOpen] = useState(false);
@@ -174,15 +175,14 @@ export function GlobalNavigationLayout(): ReactElement {
         <SideNavItem
           href="/skills"
           isSelected={
-            location.pathname === '/skills' ||
-            location.pathname.startsWith('/skills/')
+            isSkillsRoute(location.pathname)
           }
           label="Skills"
           onClick={closeMobileNavigation}
         />
         <SideNavItem
           href="/roadmap"
-          isSelected={location.pathname === '/roadmap'}
+          isSelected={isRoadmapRoute(location.pathname)}
           label="Roadmap"
           onClick={closeMobileNavigation}
         />
@@ -273,21 +273,20 @@ export function GlobalNavigationLayout(): ReactElement {
                 />
               }
               centerContent={
-                <div {...stylex.props(styles.desktopPrimaryNavigation)}>
-                  <TopNavItem
-                    href="/skills"
-                    isSelected={
-                      location.pathname === '/skills' ||
-                      location.pathname.startsWith('/skills/')
-                    }
-                    label="Skills"
-                  />
-                  <TopNavItem
-                    href="/roadmap"
-                    isSelected={location.pathname === '/roadmap'}
-                    label="Roadmap"
-                  />
-                </div>
+                isDesktopNavigation ? (
+                  <HStack gap={1}>
+                    <TopNavItem
+                      href="/skills"
+                      isSelected={isSkillsRoute(location.pathname)}
+                      label="Skills"
+                    />
+                    <TopNavItem
+                      href="/roadmap"
+                      isSelected={isRoadmapRoute(location.pathname)}
+                      label="Roadmap"
+                    />
+                  </HStack>
+                ) : undefined
               }
               endContent={
                 <>
@@ -324,15 +323,16 @@ export function GlobalNavigationLayout(): ReactElement {
                     tooltip="GitHub"
                     variant="ghost"
                   />
-                  <IconButton
-                    icon={<Icon color="inherit" icon="menu" size="sm" />}
-                    label="Navigation"
-                    size="sm"
-                    tooltip="Navigation"
-                    variant="ghost"
-                    xstyle={styles.mobileNavigationTrigger}
-                    onClick={() => setIsNavigationOpen(true)}
-                  />
+                  {!isDesktopNavigation && (
+                    <IconButton
+                      icon={<Icon color="inherit" icon="menu" size="sm" />}
+                      label="Navigation"
+                      size="sm"
+                      tooltip="Navigation"
+                      variant="ghost"
+                      onClick={() => setIsNavigationOpen(true)}
+                    />
+                  )}
                 </>
               }
               label="Global navigation"
