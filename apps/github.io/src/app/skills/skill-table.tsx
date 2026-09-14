@@ -1,11 +1,10 @@
 import {
   HStack,
-  Layout,
-  LayoutContent,
-  LayoutHeader,
+  VStack,
 } from '@astryxdesign/core/Layout';
 import { Button } from '@astryxdesign/core/Button';
 import { Card } from '@astryxdesign/core/Card';
+import { Divider } from '@astryxdesign/core/Divider';
 import { EmptyState } from '@astryxdesign/core/EmptyState';
 import { MultiSelector } from '@astryxdesign/core/MultiSelector';
 import {
@@ -231,9 +230,8 @@ export function SkillTable({
 
   return (
     <Card padding={0} width="100%">
-      <Layout
-        header={
-          <LayoutHeader hasDivider padding={4}>
+      <VStack gap={0}>
+        <VStack padding={4}>
             <HStack align="center" gap={2}>
               <TextInput
                 isLabelHidden
@@ -269,33 +267,29 @@ export function SkillTable({
                 />
               ) : null}
             </HStack>
-          </LayoutHeader>
-        }
-        height="fill"
-      >
-        <LayoutContent padding={0}>
-          {filteredSkills.length === 0 ? (
-            <EmptyState
-              headingLevel={3}
-              isCompact
-              title={
-                skills.length === 0
-                  ? 'No skills have been supplied.'
-                  : 'No skills match your search or filters.'
-              }
-            />
-          ) : (
-            <Table
-              columns={columns}
-              data={sortedData}
-              hasHover
-              idKey="id"
-              plugins={{ sortable, rowActivation }}
-              verticalAlign="middle"
-            />
-          )}
-        </LayoutContent>
-      </Layout>
+        </VStack>
+        <Divider />
+        {filteredSkills.length === 0 ? (
+          <EmptyState
+            headingLevel={3}
+            isCompact
+            title={
+              skills.length === 0
+                ? 'No skills have been supplied.'
+                : 'No skills match your search or filters.'
+            }
+          />
+        ) : (
+          <Table
+            columns={columns}
+            data={sortedData}
+            hasHover
+            idKey="id"
+            plugins={{ sortable, rowActivation }}
+            verticalAlign="middle"
+          />
+        )}
+      </VStack>
     </Card>
   );
 }
