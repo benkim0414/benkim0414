@@ -5,7 +5,7 @@ description: How Astryx, StyleX, theme persistence, and browser layout checks fi
 tags: [astryx, stylex, theme, layout]
 verified:
   - by: openwiki/0.5.0
-    at: 2026-09-14T00:43:22.692Z
+    at: 2026-09-14T00:54:28.606Z
 sources:
   - id: openwiki-source-45b1d77b308bd57403f55ff9
     resource: repo://apps/github.io/.storybook/story-taxonomy.spec.ts
@@ -57,7 +57,7 @@ sources:
     resource: repo://apps/github.io/src/styles.css
   - id: openwiki-source-fcfa3ced1d03143bb27d5018
     resource: repo://apps/github.io/vite.config.ts
-generated: { by: "codex", at: "2026-09-14T00:43:22.692Z" }
+generated: { by: "codex", at: "2026-09-14T00:54:28.606Z" }
 ---
 
 # Design system and layout
@@ -128,10 +128,11 @@ inside Astryx `Collapsible`. Each trigger segment appears only when its
 collection is non-empty: `Highlights` counts narrative points or distinct facts,
 and `Relevant skills` counts the token projection. While both exist, the closed
 trigger shows both; expanding retains the highlight segment and restores the
-skill label and count above the accessible token list. A skills-only card makes
-the same move on expansion, leaving one visible label above the tokens; Astryx
-`VisuallyHidden` names the resulting icon-only control for assistive technology.
-The shell controls the Astryx disclosure so both placements switch with its open state; it relies on
+skill label and count above the accessible token list. A skills-only card keeps
+its `Relevant skills` label and count in the trigger in both states, so the
+chevron remains on that row; each renderer omits the duplicate panel heading and
+renders only the accessible token list beneath it. The shell controls the Astryx
+disclosure so the mixed-content placements switch with its open state; it relies on
 the component's built-in chevron transition rather than adding custom panel
 motion. It starts closed when the initial viewport is at or below 640px and open
 otherwise; because the breakpoint only seeds state, a later resize does not

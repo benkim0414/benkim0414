@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:e5657cc58ff4be5226d35645f083f6eb619958411f915d1bb84e04a8b46c6dfe",
+  "pageVersion": "sha256:fe878ff5b6c36a143afeaf14ea7befda87f7aebabd9a3cb55626a1dbf19c11a2",
   "claims": [
     {
       "id": "claim_41253c1ed05946c38b803e4b8b5d55dc",
@@ -104,19 +104,19 @@
     },
     {
       "id": "claim_ab095bf1773b445c8515b8d44168e5da",
-      "statement": "Skill-detail cards keep source summaries visible and label only non-empty evidence projections: narratives or deduplicated capability facts are `Highlights`, and skill tokens receive their own count. Closed triggers name each available projection; open cards place the relevant-skill label once above the accessible token list, with skills-only cards using a hidden accessible name for the icon-only collapse control. Cards with neither projection have no disclosure, and source-model boundaries remain unchanged.",
+      "statement": "Skill-detail cards keep source summaries visible and label only non-empty evidence projections: narratives or deduplicated capability facts are Highlights, and skill tokens receive their own count. Closed triggers name each available projection. With both projections, open cards place Relevant skills once above the accessible token list; skills-only cards keep that label and count in the trigger beside the chevron in both states and omit the duplicate panel heading. Cards with neither projection have no disclosure, and source-model boundaries remain unchanged.",
       "evidence": [
         {
-          "resource": "repo://apps/github.io/src/app/skills/skill-experience-card-list.tsx#L80-L127",
-          "version": "repo-lines-v1:sha256:2cfe18e8633ec4a76f22aeebd8006c7aad991f0b16b29925145ad06ad3b326d2:eyJzZWxlY3RlZExpbmVDb3VudCI6NDgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImNiY2NmMWRiNWMxNDZmNTJkMTFiYTFhYmI5MGIwNWRiNTI4MzhhZGM4MTYwODI1NTg4NjAyYWQzYWIxY2MwY2MiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjgzMjNkMDFmZDIyMmI2Y2MyZDQ3NjI5ODQ2OWQzYjAxMGJhMTEyZjEyODU0MWExNGFhZGFmZjI3MGEyNjc1ZDYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImZmOTBiYWQyYWYzMTlmNjhmMzZlNGFmZmMwNDJkY2U2OGQ2YjY4NDc1Yzg1MTI2MDQxYmYwODkyMzFmMTAzZjUifQ"
+          "resource": "repo://apps/github.io/src/app/skills/skill-experience-card-list.tsx#L80-L129",
+          "version": "repo-lines-v1:sha256:8f22ba78d534b05d6c2471ea73e83f968e7ae3c9cf883c57b52ad2948bf0447c:eyJzZWxlY3RlZExpbmVDb3VudCI6NTAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImNiY2NmMWRiNWMxNDZmNTJkMTFiYTFhYmI5MGIwNWRiNTI4MzhhZGM4MTYwODI1NTg4NjAyYWQzYWIxY2MwY2MiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjgzMjNkMDFmZDIyMmI2Y2MyZDQ3NjI5ODQ2OWQzYjAxMGJhMTEyZjEyODU0MWExNGFhZGFmZjI3MGEyNjc1ZDYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImZmOTBiYWQyYWYzMTlmNjhmMzZlNGFmZmMwNDJkY2U2OGQ2YjY4NDc1Yzg1MTI2MDQxYmYwODkyMzFmMTAzZjUifQ"
         },
         {
-          "resource": "repo://apps/github.io/src/app/skills/skill-experience-card-shell.tsx#L21-L83",
-          "version": "repo-lines-v1:sha256:139a0e2cde3ff68428a2b5bf4fedfbc5af5b469e4efd8bb21295b9b4193ddf50:eyJzZWxlY3RlZExpbmVDb3VudCI6NjMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg5MTI3Njg3MzhlOTlkZDhlOTY3OGExNWEyZGMwYjE3NmM3MTdlOGRjMDZhYjBhZTM5MmE3OTU3YjdmMjJjOGIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImQwYWE4ZTU2YzMyNDBhZjgzN2Q0YTNmNGJmMWU2OWM2ZjNhODdiZmI3MzNkMmYzYjQ1NGEzYTFhYWJmYWU2NjIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+          "resource": "repo://apps/github.io/src/app/skills/skill-experience-card-shell.tsx#L20-L79",
+          "version": "repo-lines-v1:sha256:b92ac37b43aaf145282f93107ac3de0df20582aa84f2b23ec170bce3457d8df7:eyJzZWxlY3RlZExpbmVDb3VudCI6NjAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg5MTI3Njg3MzhlOTlkZDhlOTY3OGExNWEyZGMwYjE3NmM3MTdlOGRjMDZhYjBhZTM5MmE3OTU3YjdmMjJjOGIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImQwYWE4ZTU2YzMyNDBhZjgzN2Q0YTNmNGJmMWU2OWM2ZjNhODdiZmI3MzNkMmYzYjQ1NGEzYTFhYWJmYWU2NjIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
         },
         {
-          "resource": "repo://apps/github.io/src/app/skills/skill-experience-list.tsx#L50-L101",
-          "version": "repo-lines-v1:sha256:7d183526c9f195a7ed671c40bb32652d1de5e7c419b5c029d9dc54069482fd72:eyJzZWxlY3RlZExpbmVDb3VudCI6NTIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjhjYTAxN2IxZTlhYzllMWQ4MGNkY2RmODgxOGFkZmVmYjYzMGMxOGM4ZTA2MzM1ZTk0YmI0OGU3ZWQxMjZlYzIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImJhNzU2OGFkNmRiMWEzZGZjMDhlYTExZTc4YWM1OGI1ZmY5ZTI2MjViY2E1YTM3NzE5OGJhNDc5MmVmYWE5MjEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjVlOTU3Nzg5MDRhZjAwNjI3ZjQwZDUzODVkYzFhM2M1N2I2NmMxMTgxOTNmYzUyZTc3OTgyNjk5MjU5YWYzNzAifQ"
+          "resource": "repo://apps/github.io/src/app/skills/skill-experience-list.tsx#L50-L103",
+          "version": "repo-lines-v1:sha256:92eea10d53eede5a30c7ce2c6885b3021fd567ce0cde99d614414934fb926fa5:eyJzZWxlY3RlZExpbmVDb3VudCI6NTQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjhjYTAxN2IxZTlhYzllMWQ4MGNkY2RmODgxOGFkZmVmYjYzMGMxOGM4ZTA2MzM1ZTk0YmI0OGU3ZWQxMjZlYzIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImJhNzU2OGFkNmRiMWEzZGZjMDhlYTExZTc4YWM1OGI1ZmY5ZTI2MjViY2E1YTM3NzE5OGJhNDc5MmVmYWE5MjEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjVlOTU3Nzg5MDRhZjAwNjI3ZjQwZDUzODVkYzFhM2M1N2I2NmMxMTgxOTNmYzUyZTc3OTgyNjk5MjU5YWYzNzAifQ"
         },
         {
           "resource": "repo://docs/research/2026-09-14-experience-disclosure-label.md#L5-L16",
@@ -127,6 +127,6 @@
   ],
   "verification": {
     "by": "openwiki/0.5.0",
-    "at": "2026-09-14T00:43:22.692Z"
+    "at": "2026-09-14T00:54:28.606Z"
   }
 }
