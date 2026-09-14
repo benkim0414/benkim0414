@@ -5,7 +5,7 @@ description: How Astryx, StyleX, theme persistence, and browser layout checks fi
 tags: [astryx, stylex, theme, layout]
 verified:
   - by: openwiki/0.5.0
-    at: 2026-09-14T01:33:39.410Z
+    at: 2026-09-14T02:23:05.394Z
 sources:
   - id: openwiki-source-45b1d77b308bd57403f55ff9
     resource: repo://apps/github.io/.storybook/story-taxonomy.spec.ts
@@ -47,6 +47,8 @@ sources:
     resource: repo://apps/github.io/src/app/skills/skill-experience-list.tsx
   - id: openwiki-source-2944a7e4b1284a70a09ee95a
     resource: repo://apps/github.io/src/app/skills/skill-key-outcomes.tsx
+  - id: openwiki-source-3cf56b0e79067d306d450611
+    resource: repo://apps/github.io/src/app/skills/skill-table-responsive.ts
   - id: openwiki-source-a08412c702b94999bfa82651
     resource: repo://apps/github.io/src/app/skills/skill-table.stories.tsx
   - id: openwiki-source-c2ac9449940c36fc7db6b3e4
@@ -61,7 +63,7 @@ sources:
     resource: repo://apps/github.io/src/styles.css
   - id: openwiki-source-fcfa3ced1d03143bb27d5018
     resource: repo://apps/github.io/vite.config.ts
-generated: { by: "codex", at: "2026-09-14T01:33:39.410Z" }
+generated: { by: "codex", at: "2026-09-14T02:23:05.394Z" }
 ---
 
 # Design system and layout
@@ -154,8 +156,9 @@ counts; opening retains `Highlights` in the trigger and places the skill label
 above its accessible token list. A skills-only card keeps `Relevant skills` and
 its count beside the chevron in both states, so each renderer omits the duplicate
 panel heading. Cards with neither projection omit the disclosure entirely. The
-initial viewport seeds the disclosure closed at or below 640px and open above
-that breakpoint without later resizing overriding the visitor's choice.
+initial viewport seeds the disclosure closed whenever the shared compact-surface
+query selects the bottom-sheet detail treatment, and open otherwise. Later
+viewport changes do not override the visitor's disclosure choice.
 
 Long skill detail pages use Astryx `Outline` for page-local navigation rather
 than recreating a contents list. A token-spaced Astryx `Grid` reserves a 208px

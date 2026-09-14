@@ -24,12 +24,14 @@ sources:
     resource: repo://apps/github.io/src/app/skills/skill-experience-list.tsx
   - id: openwiki-source-b4039a7397de0bc8565df5e3
     resource: repo://apps/github.io/src/app/skills/skill-list.data.ts
+  - id: openwiki-source-3cf56b0e79067d306d450611
+    resource: repo://apps/github.io/src/app/skills/skill-table-responsive.ts
   - id: openwiki-source-e40383c548b8395ffee31167
     resource: repo://docs/research/2026-09-14-experience-disclosure-label.md
-generated: { by: "codex", at: "2026-09-14T00:54:28.606Z" }
+generated: { by: "codex", at: "2026-09-14T02:23:05.394Z" }
 verified:
   - by: openwiki/0.5.0
-    at: 2026-09-14T00:54:28.606Z
+    at: 2026-09-14T02:23:05.394Z
 ---
 
 # Skills and capability evidence
@@ -75,9 +77,10 @@ and count above the accessible token list. A skills-only disclosure instead
 keeps that label and count in its trigger beside the chevron in both states, and
 omits a duplicate heading above the tokens. A card with neither projection has
 no disclosure.
-The proof starts collapsed on small initial viewports and expanded on larger
-ones without truncating or discarding evidence. Capability facts equal to the
-summary are filtered so the
+The proof starts collapsed when the initial viewport selects the shared compact
+bottom-sheet surface and expanded on the non-compact adjacent-panel surface.
+Later viewport changes preserve the visitor's choice without truncating or
+discarding evidence. Capability facts equal to the summary are filtered so the
 same claim is not repeated. Internal names such as `outcomeCount` and
 `SkillKeyOutcomes` remain implementation vocabulary; the shared presentation
 does not collapse the two source models or move projection rules into the

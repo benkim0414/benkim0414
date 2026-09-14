@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:363674fd4e57133371e98ec1e49d63ed8d00d4c9240f90d788f0adce570bc595",
+  "pageVersion": "sha256:a576bf0dcc37c7a1c32e468f3b20c3e151f647e2881990ea9c1668e1c022964a",
   "claims": [
     {
       "id": "claim_da9ac46eb2204e9b9a555848aea5550d",
@@ -138,7 +138,7 @@
       "evidence": [
         {
           "resource": "repo://apps/github.io/src/app/skills/skill-table-detail-layout.tsx",
-          "version": "repo-file-v1:sha256:98a358c44337cfab2377412afe15e8f290c0174d9b8255caa419fa3fd5bae7ed"
+          "version": "repo-file-v1:sha256:83eb75dcb8b7d96da880522357a589475ecd94c338f3ac19331218d429240817"
         },
         {
           "resource": "repo://apps/github.io/src/app/skills/skill-table.tsx",
@@ -146,31 +146,39 @@
         },
         {
           "resource": "repo://apps/github.io/src/app/skills/skills-page.tsx",
-          "version": "repo-file-v1:sha256:3f3f61650fb9085fd88ba70f2936b102487ebe0e5625ce688858332f7f4581fe"
+          "version": "repo-file-v1:sha256:76f8dadd0d8c034049b68b1ae79aaafd1c27770732c827a47636c9ebd3bf07ab"
         }
       ]
     },
     {
       "id": "claim_f90a317960e146e4bae983a38e99d06e",
-      "statement": "Both experience projections use a controlled disclosure shell: mixed cards retain Highlights in the expanded trigger and place Relevant skills above tokens, skills-only cards keep Relevant skills and its count beside the chevron in both states without a duplicate panel heading, and empty cards omit disclosure.",
+      "statement": "Both experience projections use a controlled disclosure shell: mixed cards retain Highlights in the expanded trigger and place Relevant skills above tokens, skills-only cards keep Relevant skills and its count beside the chevron in both states without a duplicate panel heading, and empty cards omit disclosure. The shell shares the detail layout's compact-surface query, seeding new cards closed for the bottom-sheet surface and open for the adjacent panel while preserving user choice across later viewport changes.",
       "evidence": [
         {
           "resource": "repo://apps/github.io/src/app/skills/skill-experience-card-list.tsx",
           "version": "repo-file-v1:sha256:d2b33bcec788d41c414d73aad2a71969a3a3b89522ed961f6d9fc8f0059d2b70"
         },
         {
-          "resource": "repo://apps/github.io/src/app/skills/skill-experience-card-shell.tsx",
-          "version": "repo-file-v1:sha256:3ec4c1c46ebca56997c14554d18662bdfe24eb80817b027f32e45b6341794762"
+          "resource": "repo://apps/github.io/src/app/skills/skill-experience-card-shell.tsx#L19-L78",
+          "version": "repo-lines-v1:sha256:58b46690ed2c17d0fc959cf99e70defc9a215f52ade5babd4e2b22ed55a4272a:eyJzZWxlY3RlZExpbmVDb3VudCI6NjAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg5MTI3Njg3MzhlOTlkZDhlOTY3OGExNWEyZGMwYjE3NmM3MTdlOGRjMDZhYjBhZTM5MmE3OTU3YjdmMjJjOGIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImQwYWE4ZTU2YzMyNDBhZjgzN2Q0YTNmNGJmMWU2OWM2ZjNhODdiZmI3MzNkMmYzYjQ1NGEzYTFhYWJmYWU2NjIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
         },
         {
           "resource": "repo://apps/github.io/src/app/skills/skill-experience-list.tsx",
           "version": "repo-file-v1:sha256:86a37a0576ecdb1e4bdfdbe3794ab69b354c45aab34593a18ee3250ad82beb5f"
+        },
+        {
+          "resource": "repo://apps/github.io/src/app/skills/skill-table-detail-layout.tsx",
+          "version": "repo-file-v1:sha256:83eb75dcb8b7d96da880522357a589475ecd94c338f3ac19331218d429240817"
+        },
+        {
+          "resource": "repo://apps/github.io/src/app/skills/skill-table-responsive.ts#L1-L3",
+          "version": "repo-lines-v1:sha256:4a8eefbbdd92e49d8b68817de81a373d2a9aeb3a99a64bce216ad176efffb0fa:eyJzZWxlY3RlZExpbmVDb3VudCI6MywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMjdkN2VkNmM5ZDkxODUyZWIxZWM4ODQ3NmJlMTM0YzI4N2RhNDQ2MTEwYmVlNTc3YjVhODMxNTkxYjkyZDJjZSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiZDBkNDM2NDE3MTM3YmRlODg5YTM2ZDUxNjgxMGNiZDhlOWQ2MmI5MDlkZTNlZmNhZWMyZjdiMTYwZjZjZmE2NCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjAsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjAsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSJ9"
         }
       ]
     }
   ],
   "verification": {
     "by": "openwiki/0.5.0",
-    "at": "2026-09-14T01:33:39.410Z"
+    "at": "2026-09-14T02:23:05.394Z"
   }
 }

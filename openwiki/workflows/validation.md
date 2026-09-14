@@ -30,6 +30,8 @@ sources:
     resource: repo://apps/github.io/src/app/skills/skill-experience-card.stories.tsx
   - id: openwiki-source-1da2c5712de0a298fd2a580a
     resource: repo://apps/github.io/src/app/skills/skill-experience-list.spec.tsx
+  - id: openwiki-source-3cf56b0e79067d306d450611
+    resource: repo://apps/github.io/src/app/skills/skill-table-responsive.ts
   - id: openwiki-source-3d04b17fb8b6c27eb59cd798
     resource: repo://apps/github.io/src/app/skills/skill-table.spec.tsx
   - id: openwiki-source-3f3dc1d4c3baeae6c2657a1d
@@ -66,10 +68,10 @@ sources:
     resource: repo://scripts/setup-openwiki.test.mjs
   - id: openwiki-source-165465422a61a00b62b0f6d3
     resource: repo://scripts/sync-github-pages-artifact.test.mjs
-generated: { by: "codex", at: "2026-09-14T01:33:39.410Z" }
+generated: { by: "codex", at: "2026-09-14T02:23:05.394Z" }
 verified:
   - by: openwiki/0.5.0
-    at: 2026-09-14T01:33:39.410Z
+    at: 2026-09-14T02:23:05.394Z
 ---
 
 # Validation workflow
@@ -197,10 +199,13 @@ remain the disclosure trigger after expansion and that no duplicate panel
 heading appears. With both collections, expansion keeps only
 the highlight count in the trigger and moves the visible relevant-skill label
 and count above the token list. Coverage also protects absence of the former combined
-outcome/skill sentence, closed small-viewport and open large-viewport defaults,
-user expansion and retained choice across resize, complete authored and
-capability list text, capability-fact deduplication, and omission when there is
-nothing to disclose. The authored stories include a mobile viewport for the
+outcome/skill sentence and the shared compact-surface versus non-compact
+defaults, including the coarse-tablet compact case beyond the former phone-only
+breakpoint. Round-trip tests cross from non-compact to compact and back,
+re-querying the disclosure to prove later viewport changes retain the user's
+choice. Coverage also protects user expansion, complete authored and capability
+list text, capability-fact deduplication, and omission when there is nothing to
+disclose. The authored stories include a mobile viewport for the
 long wrapping narrative, selecting Storybook's `mobile1` viewport through the
 Storybook 10 `globals.viewport` contract with rotation disabled. Its story-module
 test protects both values. The capability story supplies multiple facts for

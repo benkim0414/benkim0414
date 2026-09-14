@@ -36,14 +36,16 @@ sources:
     resource: repo://apps/github.io/src/app/skills/skill-experience-list.tsx
   - id: openwiki-source-b7cc9784bea6b15d468f9f23
     resource: repo://apps/github.io/src/app/skills/skill-table-detail-layout.tsx
+  - id: openwiki-source-3cf56b0e79067d306d450611
+    resource: repo://apps/github.io/src/app/skills/skill-table-responsive.ts
   - id: openwiki-source-c2ac9449940c36fc7db6b3e4
     resource: repo://apps/github.io/src/app/skills/skill-table.tsx
   - id: openwiki-source-a845ec3d01c38967df3a4dad
     resource: repo://apps/github.io/src/app/skills/skills-page.tsx
-generated: { by: "codex", at: "2026-09-14T01:33:39.410Z" }
+generated: { by: "codex", at: "2026-09-14T02:23:05.394Z" }
 verified:
   - by: openwiki/0.5.0
-    at: 2026-09-14T01:33:39.410Z
+    at: 2026-09-14T02:23:05.394Z
 ---
 
 # Application architecture
@@ -76,6 +78,12 @@ activation opens resolved skill detail in an adjacent sheet and returns focus to
 the originating row. Compact widths render the card catalog with toolbar search
 and category filters instead; changing to compact mode, filtering out the active
 skill, or failing detail resolution clears the table selection.
+
+The table/detail split and Experience disclosures consume the same shared
+compact-surface query. A compact match selects the bottom sheet and seeds newly
+mounted Experience cards closed; a non-compact match selects the adjacent panel
+and seeds them open. The seed is not synchronized after mount, so later viewport
+changes preserve each visitor's disclosure choice.
 
 `RoadmapPage` owns the `/roadmap` page framing: its heading, two explanatory
 paragraphs, roadmap.sh attribution, informational source banner, external
