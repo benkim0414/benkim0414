@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:1baee6062e7bac1650af027f45eb34fc0c8ffdee93db49be166c20590db567fd",
+  "pageVersion": "sha256:971f92c6d4340115ef21bcd02d3836379308b1607bff6f9e5079d883daf7924e",
   "claims": [
     {
       "id": "claim_6cbb6dd0080f4763aaf4dec964f7f76e",
@@ -72,7 +72,7 @@
         },
         {
           "resource": "repo://apps/github.io/src/app/skills/skills-page.spec.tsx",
-          "version": "repo-file-v1:sha256:fcca452925d715c970df949147b015c35dcef36a60e4c64ea09ea6aca7b8b730"
+          "version": "repo-file-v1:sha256:6d959e9fbca06d67a630e63cdc5f2db7c75c014c2db309c26c2b1e69a7853dcf"
         }
       ]
     },
@@ -290,13 +290,23 @@
         },
         {
           "resource": "repo://apps/github.io/src/app/skills/skills-page.spec.tsx",
-          "version": "repo-file-v1:sha256:fcca452925d715c970df949147b015c35dcef36a60e4c64ea09ea6aca7b8b730"
+          "version": "repo-file-v1:sha256:6d959e9fbca06d67a630e63cdc5f2db7c75c014c2db309c26c2b1e69a7853dcf"
+        }
+      ]
+    },
+    {
+      "id": "claim_48d6cde939fe45d99b868037dcbc98d4",
+      "statement": "SkillsPage tests assert that the desktop accessible title and explanatory introduction share the catalogue's scroll region with the table.",
+      "evidence": [
+        {
+          "resource": "repo://apps/github.io/src/app/skills/skills-page.spec.tsx",
+          "version": "repo-file-v1:sha256:6d959e9fbca06d67a630e63cdc5f2db7c75c014c2db309c26c2b1e69a7853dcf"
         }
       ]
     }
   ],
   "verification": {
     "by": "openwiki/0.5.0",
-    "at": "2026-09-14T02:23:05.394Z"
+    "at": "2026-09-14T05:20:09.595Z"
   }
 }

@@ -12,7 +12,13 @@ import {
 import { ResizeHandle, useResizable } from '@astryxdesign/core/Resizable';
 import { Text } from '@astryxdesign/core/Text';
 import { isImeKeyEvent, useMediaQuery } from '@astryxdesign/core/hooks';
-import { useEffect, useRef, type ReactElement, type RefObject } from 'react';
+import {
+  useEffect,
+  useRef,
+  type ReactElement,
+  type ReactNode,
+  type RefObject,
+} from 'react';
 
 import { SkillDetailContent } from './skill-detail-content';
 import type { ResolvedSkillDetail } from './skill-detail.types';
@@ -35,6 +41,7 @@ export interface SkillTableDetailLayoutProps extends Pick<
 > {
   readonly activeDetail: ResolvedSkillDetail | null;
   readonly finalFocusRef?: RefObject<HTMLElement | null>;
+  readonly headerContent?: ReactNode;
   readonly onSkillActivate: (activation: SkillRowActivation) => void;
   readonly onClose: (restoreFocus: boolean) => void;
 }
@@ -77,6 +84,7 @@ export function SkillTableDetailLayout({
   activeSkillId,
   activeDetail,
   finalFocusRef,
+  headerContent,
   onQueryChange,
   onSelectedCategoriesChange,
   onSkillActivate,
@@ -150,6 +158,7 @@ export function SkillTableDetailLayout({
         padding={0}
       >
         <LayoutContent isScrollable padding={0}>
+          {headerContent}
           <SkillTable
             activeSkillId={activeSkillId}
             query={query}

@@ -117,6 +117,16 @@ describe('SkillsPage', () => {
     expect(filterHeading.getAttribute('data-level')).toBe('3');
   });
 
+  it('explains what users can explore in the skills catalogue', () => {
+    const { getByText } = renderSkillsPage();
+
+    expect(
+      getByText(
+        'Explore my technical skills, organised by category and linked to supporting experience, outcomes, and source material. Search or filter the catalogue to find a specific capability.',
+      ),
+    ).toBeTruthy();
+  });
+
   it('sorts a copy of supplied skills and links every card to its detail route', () => {
     const suppliedSkills = ['typescript', 'argo-cd', 'docker'].map((id) => {
       const skill = skills.find((candidate) => candidate.id === id);
@@ -240,6 +250,27 @@ describe('SkillsPage', () => {
     expect(
       getByRole('table').closest('[data-height]')?.getAttribute('data-height'),
     ).toBe('fill');
+  });
+
+  it('scrolls the desktop page introduction with the skills catalogue', () => {
+    setMediaMatches({
+      [TABLE_QUERY]: true,
+      [COMPACT_SURFACE_QUERY]: false,
+    });
+    const { getByRole, getByText } = renderSkillsPage(tableSkills);
+
+    const catalogueScrollRegion = getByRole('table').closest(
+      '.astryx-layout-content',
+    );
+
+    expect(getByRole('heading', { level: 2, name: 'Skills' }).closest(
+      '.astryx-layout-content',
+    )).toBe(catalogueScrollRegion);
+    expect(
+      getByText(
+        'Explore my technical skills, organised by category and linked to supporting experience, outcomes, and source material. Search or filter the catalogue to find a specific capability.',
+      ).closest('.astryx-layout-content'),
+    ).toBe(catalogueScrollRegion);
   });
 
   it('keeps table selection in page state, swaps reusable details, and restores row focus on close', async () => {

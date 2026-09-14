@@ -68,10 +68,10 @@ sources:
     resource: repo://scripts/setup-openwiki.test.mjs
   - id: openwiki-source-165465422a61a00b62b0f6d3
     resource: repo://scripts/sync-github-pages-artifact.test.mjs
-generated: { by: "codex", at: "2026-09-14T02:23:05.394Z" }
+generated: { by: "codex", at: "2026-09-14T05:20:09.595Z" }
 verified:
   - by: openwiki/0.5.0
-    at: 2026-09-14T02:23:05.394Z
+    at: 2026-09-14T05:20:09.595Z
 ---
 
 # Validation workflow
@@ -185,7 +185,9 @@ both empty states, plus pointer and keyboard row activation and active-row
 semantics. The confidence test uses shuffled input and checks the
 `aria-sort` transitions so source order cannot masquerade as a successful sort.
 Page-level tests separately prove the responsive card/table switch, sheet detail
-selection, focus restoration, state cleanup, and bounded scrolling. Storybook
+selection, focus restoration, state cleanup, and bounded scrolling. They also
+assert that the desktop heading and explanatory introduction share the table
+catalogue's scroll region rather than remaining fixed above it. Storybook
 provides explicit desktop-table and compact-card viewport stories. These DOM
 assertions still do not prove that estimated column widths fit rendered content;
 that remains a visual check.

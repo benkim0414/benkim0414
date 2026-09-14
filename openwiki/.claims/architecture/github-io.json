@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:7edd9e3ddc078675ed53ab64916e442e6ed0ac99bce4ef9d3bc9009221f0e4a7",
+  "pageVersion": "sha256:757a493cb9831f9cc52244da152b208b5b0917818fdf1860331f3e671b19095c",
   "claims": [
     {
       "id": "claim_da9ac46eb2204e9b9a555848aea5550d",
@@ -138,7 +138,7 @@
       "evidence": [
         {
           "resource": "repo://apps/github.io/src/app/skills/skill-table-detail-layout.tsx",
-          "version": "repo-file-v1:sha256:83eb75dcb8b7d96da880522357a589475ecd94c338f3ac19331218d429240817"
+          "version": "repo-file-v1:sha256:a52387c06f0d025fff3466fc757fed32065c0da026f20cf87bbe3e13a07a9d88"
         },
         {
           "resource": "repo://apps/github.io/src/app/skills/skill-table.tsx",
@@ -146,7 +146,7 @@
         },
         {
           "resource": "repo://apps/github.io/src/app/skills/skills-page.tsx",
-          "version": "repo-file-v1:sha256:76f8dadd0d8c034049b68b1ae79aaafd1c27770732c827a47636c9ebd3bf07ab"
+          "version": "repo-file-v1:sha256:0054ad2ba51ebdd8f52e0a85b86280938991125933dcb92547c435837c1dbce1"
         }
       ]
     },
@@ -189,10 +189,24 @@
           "version": "repo-lines-v1:sha256:9cd3765e7eb21b628befe479185f4683baf068b8416063072515d265719fd880:eyJzZWxlY3RlZExpbmVDb3VudCI6OSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiOGUxNmY5NWI3ZDdkMWI3YzI5NzQ0Nzg5YTM5NjAzNjMxMjFiM2NlOGJmYzA2NzhmZGIxMjBiNTkyZjZiMzJmNyIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNDEyY2EzNDVjY2Y3NWJmOWMwODA2YmNlNjk1YmU4ZGU4MDhiNzk5ODQyNTFhN2E1NGQyMDJjZjYxMDFkZDQ1MSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjAsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjAsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSJ9"
         }
       ]
+    },
+    {
+      "id": "claim_5affee2d074a4050a2e74c93e19944b6",
+      "statement": "At table widths, SkillsPage passes its accessible title and catalogue introduction into SkillTableDetailLayout's scrollable table content, while the active skill-detail panel remains independently scrollable.",
+      "evidence": [
+        {
+          "resource": "repo://apps/github.io/src/app/skills/skill-table-detail-layout.tsx",
+          "version": "repo-file-v1:sha256:a52387c06f0d025fff3466fc757fed32065c0da026f20cf87bbe3e13a07a9d88"
+        },
+        {
+          "resource": "repo://apps/github.io/src/app/skills/skills-page.tsx",
+          "version": "repo-file-v1:sha256:0054ad2ba51ebdd8f52e0a85b86280938991125933dcb92547c435837c1dbce1"
+        }
+      ]
     }
   ],
   "verification": {
     "by": "openwiki/0.5.0",
-    "at": "2026-09-14T04:03:57.793Z"
+    "at": "2026-09-14T05:20:09.595Z"
   }
 }
