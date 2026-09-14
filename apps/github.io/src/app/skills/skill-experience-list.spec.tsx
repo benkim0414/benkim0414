@@ -255,6 +255,9 @@ describe('SkillExperienceList', () => {
     fireEvent.click(disclosure);
 
     expect(disclosure.getAttribute('aria-expanded')).toBe('true');
+    expect(screen.getByRole('button', { name: 'Relevant skills 6' })).toBe(
+      disclosure,
+    );
     expect(screen.getAllByText('Relevant skills')).toHaveLength(1);
   });
 });
