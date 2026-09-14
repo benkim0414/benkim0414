@@ -22,7 +22,7 @@ import { Layout, LayoutContent, LayoutHeader } from '@astryxdesign/core/Layout';
 import { MobileNav } from '@astryxdesign/core/MobileNav';
 import { SideNavItem } from '@astryxdesign/core/SideNav';
 import { TextInput } from '@astryxdesign/core/TextInput';
-import { TopNav } from '@astryxdesign/core/TopNav';
+import { TopNav, TopNavItem } from '@astryxdesign/core/TopNav';
 import { siGithub } from 'simple-icons';
 import {
   colorVars,
@@ -90,6 +90,17 @@ const styles = stylex.create({
   },
   mobileNavigationSearch: {
     marginBlockEnd: spacingVars['--spacing-2'],
+  },
+  desktopPrimaryNavigation: {
+    display: {
+      default: 'none',
+      '@media (min-width: 768px)': 'flex',
+    },
+  },
+  mobileNavigationTrigger: {
+    display: {
+      '@media (min-width: 768px)': 'none',
+    },
   },
 });
 
@@ -261,6 +272,23 @@ export function GlobalNavigationLayout(): ReactElement {
                   ]}
                 />
               }
+              centerContent={
+                <div {...stylex.props(styles.desktopPrimaryNavigation)}>
+                  <TopNavItem
+                    href="/skills"
+                    isSelected={
+                      location.pathname === '/skills' ||
+                      location.pathname.startsWith('/skills/')
+                    }
+                    label="Skills"
+                  />
+                  <TopNavItem
+                    href="/roadmap"
+                    isSelected={location.pathname === '/roadmap'}
+                    label="Roadmap"
+                  />
+                </div>
+              }
               endContent={
                 <>
                   <IconButton
@@ -302,6 +330,7 @@ export function GlobalNavigationLayout(): ReactElement {
                     size="sm"
                     tooltip="Navigation"
                     variant="ghost"
+                    xstyle={styles.mobileNavigationTrigger}
                     onClick={() => setIsNavigationOpen(true)}
                   />
                 </>

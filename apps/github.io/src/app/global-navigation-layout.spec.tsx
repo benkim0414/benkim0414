@@ -210,21 +210,36 @@ describe('GlobalNavigationLayout', () => {
     ).toBeTruthy();
   });
 
-  it('keeps primary page links out of the top navigation', () => {
-    const { getByRole, queryByRole } = renderGlobalLayout();
+  it('renders the primary route links in the centered top navigation', () => {
+    const { getByRole, queryByRole } = renderGlobalLayout('/skills/terraform');
     const navigation = getByRole('navigation', { name: 'Global navigation' });
 
     expect(getByRole('link', { name: 'Home' }).getAttribute('href')).toBe('/');
-    expect(queryByRole('link', { name: 'Roadmap' })).toBeNull();
-    expect(queryByRole('link', { name: 'Skills' })).toBeNull();
+    expect(getByRole('link', { name: 'Skills' }).getAttribute('href')).toBe(
+      '/skills',
+    );
+    expect(getByRole('link', { name: 'Roadmap' }).getAttribute('href')).toBe(
+      '/roadmap',
+    );
     expect(
       within(navigation).getAllByRole('link').map(
         (link) => link.getAttribute('aria-label') ?? link.textContent?.trim(),
       ),
-    ).toEqual(['Home', 'GitHub']);
+    ).toEqual(['Home', 'Skills', 'Roadmap', 'GitHub']);
+    expect(
+      within(navigation)
+        .getByRole('link', { name: 'Skills' })
+        .getAttribute('aria-current'),
+    ).toBe('page');
+    expect(
+      within(navigation)
+        .getByRole('link', { name: 'Roadmap' })
+        .getAttribute('aria-current'),
+    ).toBeNull();
     expect(getByRole('link', { name: 'GitHub' }).getAttribute('href')).toBe(
       'https://github.com/benkim0414',
     );
+    expect(queryByRole('button', { name: 'Navigation' })).toBeTruthy();
   });
 
   it('opens an end-side navigation drawer with the primary route links', async () => {
