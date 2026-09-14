@@ -80,7 +80,7 @@ describe('SkillExperienceList', () => {
     ).toBe('true');
   });
 
-  it('preserves a disclosure choice after the compact-surface match changes', () => {
+  it('preserves a disclosure choice through a compact-surface round trip', () => {
     setCompactSurface(false);
     const [evidence] = devOpsCapabilityEvidenceItems.filter(
       (item) => item.id === 'github-actions-gitops-handoff',
@@ -96,7 +96,20 @@ describe('SkillExperienceList', () => {
     setCompactSurface(true);
     rerender(<SkillExperienceList evidence={[evidence]} skills={skills} />);
 
-    expect(disclosure.getAttribute('aria-expanded')).toBe('false');
+    expect(
+      screen
+        .getByRole('button', { name: 'Highlights 1 Relevant skills 6' })
+        .getAttribute('aria-expanded'),
+    ).toBe('false');
+
+    setCompactSurface(false);
+    rerender(<SkillExperienceList evidence={[evidence]} skills={skills} />);
+
+    expect(
+      screen
+        .getByRole('button', { name: 'Highlights 1 Relevant skills 6' })
+        .getAttribute('aria-expanded'),
+    ).toBe('false');
   });
 
   it('renders every evidence summary as an Astryx Card', () => {

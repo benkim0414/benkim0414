@@ -121,7 +121,7 @@ describe('SkillExperienceCard', () => {
     expect(screen.getByRole('list')).toBeTruthy();
   });
 
-  it('preserves the user choice when the viewport changes', () => {
+  it('preserves the user choice through a compact-surface round trip', () => {
     setCompactSurface(false);
 
     const { rerender } = render(
@@ -137,7 +137,20 @@ describe('SkillExperienceCard', () => {
     setCompactSurface(true);
     rerender(<SkillExperienceCard experience={ciCdExperience} />);
 
-    expect(disclosure.getAttribute('aria-expanded')).toBe('false');
+    expect(
+      screen
+        .getByRole('button', { name: 'Highlights 2' })
+        .getAttribute('aria-expanded'),
+    ).toBe('false');
+
+    setCompactSurface(false);
+    rerender(<SkillExperienceCard experience={ciCdExperience} />);
+
+    expect(
+      screen
+        .getByRole('button', { name: 'Highlights 2' })
+        .getAttribute('aria-expanded'),
+    ).toBe('false');
   });
 
   it('keeps both detail counts visible in the disclosure label', () => {
