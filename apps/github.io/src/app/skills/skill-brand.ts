@@ -248,6 +248,11 @@ const ASTRYX_NEUTRAL_FOREGROUND = 'var(--color-on-light)';
 const ASTRYX_INVERSE_FOREGROUND = 'var(--color-on-dark)';
 const NEUTRAL_FOREGROUND_HEX = '000000';
 const INVERSE_FOREGROUND_HEX = 'FFFFFF';
+const themeAdaptiveSkillIcons = new Set([
+  'GitHub',
+  'GitHub API',
+  'GitHub Packages',
+]);
 
 function relativeLuminance(hex: string) {
   const channels = [0, 2, 4].map(
@@ -291,6 +296,25 @@ function toIconDataUrl(icon: SimpleIcon, color: string) {
   const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><title>${icon.title}</title><path fill="${color}" d="${icon.path}"/></svg>`;
 
   return `data:image/svg+xml;utf8,${encodeURIComponent(svg)}`;
+}
+
+export function getSkillBrandIconDataUrl(
+  label: string,
+  mode: 'light' | 'dark',
+  inverseIconColor: string,
+): string | undefined {
+  const icon = skillIcons[label];
+
+  if (icon) {
+    return toIconDataUrl(
+      icon,
+      mode === 'dark' && themeAdaptiveSkillIcons.has(label)
+        ? inverseIconColor
+        : `#${icon.hex}`,
+    );
+  }
+
+  return skillIconAssets[label];
 }
 
 export function getSkillBrand(label: string): SkillBrand | undefined {

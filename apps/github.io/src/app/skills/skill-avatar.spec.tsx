@@ -1,4 +1,6 @@
 import { fireEvent, render } from '@testing-library/react';
+import { Theme } from '@astryxdesign/core';
+import { neutralTheme } from '@astryxdesign/theme-neutral/built';
 
 import { sampleSkills, skills } from './skill-list.data';
 import { SkillAvatar } from './skill-avatar';
@@ -76,6 +78,50 @@ describe('SkillAvatar', () => {
         githubActionsAvatar.container.querySelector('img')?.getAttribute('src'),
       ),
     ).toContain('<title>GitHub Actions</title>');
+  });
+
+  it('uses an inverted GitHub mark in dark mode and its brand mark in light mode', () => {
+    const github = skills.find((skill) => skill.id === 'github');
+
+    expect(github).toBeTruthy();
+
+    const darkAvatar = render(
+      <Theme mode="dark" theme={neutralTheme}>
+        <SkillAvatar skill={github!} />
+      </Theme>,
+    );
+    const lightAvatar = render(
+      <Theme mode="light" theme={neutralTheme}>
+        <SkillAvatar skill={github!} />
+      </Theme>,
+    );
+
+    expect(
+      svgContent(
+        darkAvatar.container.querySelector('img')?.getAttribute('src'),
+      ),
+    ).toContain('fill="#ffffff"');
+    expect(
+      svgContent(
+        lightAvatar.container.querySelector('img')?.getAttribute('src'),
+      ),
+    ).toContain('fill="#181717"');
+  });
+
+  it('preserves unapproved low-contrast brand colors in dark mode', () => {
+    const nx = skills.find((skill) => skill.id === 'nx');
+
+    expect(nx).toBeTruthy();
+
+    const { container } = render(
+      <Theme mode="dark" theme={neutralTheme}>
+        <SkillAvatar skill={nx!} />
+      </Theme>,
+    );
+
+    expect(
+      svgContent(container.querySelector('img')?.getAttribute('src')),
+    ).toContain('fill="#143055"');
   });
 
   it('uses official Simple Icons art for new local tool skills', () => {
