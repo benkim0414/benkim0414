@@ -171,12 +171,16 @@ describe('ProjectCard', () => {
     expect(badge.closest('.astryx-badge')).toBeTruthy();
   });
 
-  it('uses the GitHub brand icon for the repository action', () => {
-    const { container } = render(<ProjectCard project={project} />);
+  it('uses the theme-aware GitHub SVG for the repository action', () => {
+    render(<ProjectCard project={project} />);
 
-    const githubIcon = container.querySelector('img[src^="data:image/svg+xml"]');
+    const repositoryLink = screen.getByRole('link', {
+      name: `Open ${project.title} on GitHub`,
+    });
+    const githubIcon = repositoryLink.querySelector('svg');
 
     expect(githubIcon).toBeTruthy();
+    expect(githubIcon?.getAttribute('fill')).toBe('currentColor');
   });
 
   it('starts collapsed on small screens and reveals skills on request', () => {

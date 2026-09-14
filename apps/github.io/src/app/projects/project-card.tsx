@@ -1,16 +1,16 @@
-import { Button } from '@astryxdesign/core/Button';
 import { Card } from '@astryxdesign/core/Card';
 import { Collapsible } from '@astryxdesign/core/Collapsible';
 import { Heading } from '@astryxdesign/core/Heading';
+import { IconButton } from '@astryxdesign/core/IconButton';
 import { HStack, VStack } from '@astryxdesign/core/Layout';
 import { Text } from '@astryxdesign/core/Text';
 import { spacingVars } from '@astryxdesign/core/theme/tokens.stylex';
 import * as stylex from '@stylexjs/stylex';
 import { useId, useState, type ReactElement } from 'react';
+import { siGithub } from 'simple-icons';
 
 import { CountBadge } from '../count-badge';
 import { shouldStartCollapsibleExpanded } from '../responsive-collapsible';
-import { getSkillBrand } from '../skills/skill-brand';
 import { SkillToken } from '../skills/skill-token';
 import type { Project } from './project-list.types';
 
@@ -30,11 +30,6 @@ const styles = stylex.create({
   },
   headingCopy: {
     minWidth: 0,
-  },
-  githubIcon: {
-    display: 'block',
-    width: spacingVars['--spacing-5'],
-    height: spacingVars['--spacing-5'],
   },
   skillList: {
     display: 'flex',
@@ -57,7 +52,6 @@ export function ProjectCard({
   const [areSkillsOpen, setAreSkillsOpen] = useState(
     shouldStartCollapsibleExpanded,
   );
-  const githubBrand = getSkillBrand('GitHub');
   const repositoryLinkLabel = `Open ${project.title} on GitHub`;
 
   return (
@@ -77,17 +71,10 @@ export function ProjectCard({
                 {project.description}
               </Text>
             </VStack>
-            <Button
+            <IconButton
+              as="a"
               href={project.githubUrl}
-              icon={
-                <img
-                  alt=""
-                  aria-hidden="true"
-                  src={githubBrand?.iconDataUrl}
-                  {...stylex.props(styles.githubIcon)}
-                />
-              }
-              isIconOnly
+              icon={<GitHubIcon />}
               label={repositoryLinkLabel}
               rel="noopener noreferrer"
               size="sm"
@@ -123,5 +110,20 @@ export function ProjectCard({
         </VStack>
       </article>
     </Card>
+  );
+}
+
+function GitHubIcon(): ReactElement {
+  return (
+    <svg
+      aria-hidden
+      fill="currentColor"
+      height={16}
+      viewBox="0 0 24 24"
+      width={16}
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path d={siGithub.path} />
+    </svg>
   );
 }
