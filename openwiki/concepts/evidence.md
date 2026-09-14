@@ -18,24 +18,22 @@ sources:
     resource: repo://apps/github.io/src/app/projects/project-card.spec.tsx
   - id: openwiki-source-bd7d75b07e3062c09dcab6e9
     resource: repo://apps/github.io/src/app/projects/project-card.tsx
-  - id: openwiki-source-2afbe5e95b136e7b3bda73e7
-    resource: repo://apps/github.io/src/app/responsive-collapsible.ts
   - id: openwiki-source-bcd58fc33f104c190f9326be
     resource: repo://apps/github.io/src/app/skills/skill-detail-resolver.ts
   - id: openwiki-source-61956fea1deed015d3bafd72
     resource: repo://apps/github.io/src/app/skills/skill-experience-card-list.tsx
   - id: openwiki-source-6d3d436c779dec5facaf5f2d
     resource: repo://apps/github.io/src/app/skills/skill-experience-card-shell.tsx
+  - id: openwiki-source-ba5c27392181e6c65798f3c4
+    resource: repo://apps/github.io/src/app/skills/skill-experience-list.tsx
   - id: openwiki-source-b4039a7397de0bc8565df5e3
     resource: repo://apps/github.io/src/app/skills/skill-list.data.ts
   - id: openwiki-source-3cf56b0e79067d306d450611
     resource: repo://apps/github.io/src/app/skills/skill-table-responsive.ts
-  - id: openwiki-source-e40383c548b8395ffee31167
-    resource: repo://docs/research/2026-09-14-experience-disclosure-label.md
-generated: { by: "codex", at: "2026-09-14T04:03:57.793Z" }
+generated: { by: "codex", at: "2026-09-14T12:03:13.338Z" }
 verified:
   - by: openwiki/0.5.0
-    at: 2026-09-14T06:38:19.116Z
+    at: 2026-09-14T12:03:13.338Z
 ---
 
 # Skills and capability evidence
@@ -69,7 +67,7 @@ and of type `experience`. Broken references throw, distinguishing invalid author
 data from a visitor's unknown URL.
 
 The rendered detail projection keeps orientation and proof separate. Each
-experience card keeps its source summary visible, then places ordered authored
+experience entry keeps its source summary visible, then places ordered authored
 narratives or distinct capability facts and relevant-skill tokens behind one
 disclosure. The UI calls the mixed narrative points and facts `Highlights`
 rather than `Outcomes`: the collection includes actions, methods, context, and
@@ -79,8 +77,9 @@ While both exist, the collapsed trigger names both; once expanded, it retains
 the highlight count and each renderer moves the visible `Relevant skills` label
 and count above the accessible token list. A skills-only disclosure instead
 keeps that label and count in its trigger beside the chevron in both states, and
-omits a duplicate heading above the tokens. A card with neither projection has
-no disclosure.
+omits a duplicate heading above the tokens. An entry with neither projection has
+no disclosure. The standalone detail route presents entries in cards, whereas
+the table inspector uses the same disclosure and labels in an unframed list.
 The proof starts collapsed when the initial viewport selects the shared compact
 bottom-sheet surface and expanded on the non-compact adjacent-panel surface.
 Later viewport changes preserve the visitor's choice without truncating or

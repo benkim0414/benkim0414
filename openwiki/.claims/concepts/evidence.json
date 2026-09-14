@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:e09a478f04b20fab20bc9a01c51b900cf14c0894f874b8225665b735532e3e87",
+  "pageVersion": "sha256:ca3cda7d1bdec7962c69817d17dcaacb0a0aaff7cf52179eb4a67b965d042c35",
   "claims": [
     {
       "id": "claim_41253c1ed05946c38b803e4b8b5d55dc",
@@ -104,27 +104,23 @@
     },
     {
       "id": "claim_ab095bf1773b445c8515b8d44168e5da",
-      "statement": "Skill-detail cards keep source summaries visible and label only non-empty evidence projections: narratives or deduplicated capability facts are Highlights, and skill tokens receive their own count. Closed triggers name each available projection. With both projections, open cards place Relevant skills once above the accessible token list; skills-only cards keep that label and count in the trigger beside the chevron in both states and omit the duplicate panel heading. Cards with neither projection have no disclosure. New cards start closed on the shared compact bottom-sheet surface and open on the non-compact adjacent-panel surface, while later viewport changes preserve the visitor's choice and source-model boundaries remain unchanged.",
+      "statement": "Skill-detail entries keep source summaries visible and label only non-empty evidence projections: narratives or deduplicated capability facts are Highlights, and skill tokens receive their own count. Closed triggers name each available projection. With both projections, open entries place Relevant skills once above the accessible token list; skills-only entries keep that label and count in the trigger beside the chevron in both states and omit the duplicate panel heading. Entries with neither projection have no disclosure. The standalone route frames entries as cards while the table inspector presents the same disclosures unframed. New entries start closed on the shared compact bottom-sheet surface and open on the non-compact adjacent-panel surface, while later viewport changes preserve the visitor's choice and source-model boundaries remain unchanged.",
       "evidence": [
         {
-          "resource": "repo://apps/github.io/src/app/responsive-collapsible.ts#L1-L9",
-          "version": "repo-lines-v1:sha256:9cd3765e7eb21b628befe479185f4683baf068b8416063072515d265719fd880:eyJzZWxlY3RlZExpbmVDb3VudCI6OSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiOGUxNmY5NWI3ZDdkMWI3YzI5NzQ0Nzg5YTM5NjAzNjMxMjFiM2NlOGJmYzA2NzhmZGIxMjBiNTkyZjZiMzJmNyIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNDEyY2EzNDVjY2Y3NWJmOWMwODA2YmNlNjk1YmU4ZGU4MDhiNzk5ODQyNTFhN2E1NGQyMDJjZjYxMDFkZDQ1MSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjAsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjAsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSJ9"
+          "resource": "repo://apps/github.io/src/app/skills/skill-experience-card-list.tsx",
+          "version": "repo-file-v1:sha256:3cae7f4e2ae522330719db37c13aeef0d4f532a91c40afa9088438ffc6362fdb"
         },
         {
-          "resource": "repo://apps/github.io/src/app/skills/skill-experience-card-list.tsx#L80-L129",
-          "version": "repo-lines-v1:sha256:8f22ba78d534b05d6c2471ea73e83f968e7ae3c9cf883c57b52ad2948bf0447c:eyJzZWxlY3RlZExpbmVDb3VudCI6NTAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImNiY2NmMWRiNWMxNDZmNTJkMTFiYTFhYmI5MGIwNWRiNTI4MzhhZGM4MTYwODI1NTg4NjAyYWQzYWIxY2MwY2MiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjgzMjNkMDFmZDIyMmI2Y2MyZDQ3NjI5ODQ2OWQzYjAxMGJhMTEyZjEyODU0MWExNGFhZGFmZjI3MGEyNjc1ZDYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImZmOTBiYWQyYWYzMTlmNjhmMzZlNGFmZmMwNDJkY2U2OGQ2YjY4NDc1Yzg1MTI2MDQxYmYwODkyMzFmMTAzZjUifQ"
+          "resource": "repo://apps/github.io/src/app/skills/skill-experience-card-shell.tsx",
+          "version": "repo-file-v1:sha256:e29d8815fd8578b08c7a6e4083e6e8c53a230f8f38855190c02b0a1c2dbe0272"
         },
         {
-          "resource": "repo://apps/github.io/src/app/skills/skill-experience-card-shell.tsx#L19-L70",
-          "version": "repo-lines-v1:sha256:a77f5b0f6004c50a0e04bbb7e67e3cf15bcbb9e1ddca22455ec76770bde047fa:eyJzZWxlY3RlZExpbmVDb3VudCI6NTIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg5MTI3Njg3MzhlOTlkZDhlOTY3OGExNWEyZGMwYjE3NmM3MTdlOGRjMDZhYjBhZTM5MmE3OTU3YjdmMjJjOGIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImQwYWE4ZTU2YzMyNDBhZjgzN2Q0YTNmNGJmMWU2OWM2ZjNhODdiZmI3MzNkMmYzYjQ1NGEzYTFhYWJmYWU2NjIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+          "resource": "repo://apps/github.io/src/app/skills/skill-experience-list.tsx",
+          "version": "repo-file-v1:sha256:8bcf8612474d78514e23bf845adeb693cda213a2b00ea8a053873110d2a6e049"
         },
         {
-          "resource": "repo://apps/github.io/src/app/skills/skill-table-responsive.ts#L1-L3",
-          "version": "repo-lines-v1:sha256:4a8eefbbdd92e49d8b68817de81a373d2a9aeb3a99a64bce216ad176efffb0fa:eyJzZWxlY3RlZExpbmVDb3VudCI6MywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMjdkN2VkNmM5ZDkxODUyZWIxZWM4ODQ3NmJlMTM0YzI4N2RhNDQ2MTEwYmVlNTc3YjVhODMxNTkxYjkyZDJjZSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiZDBkNDM2NDE3MTM3YmRlODg5YTM2ZDUxNjgxMGNiZDhlOWQ2MmI5MDlkZTNlZmNhZWMyZjdiMTYwZjZjZmE2NCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjAsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjAsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSJ9"
-        },
-        {
-          "resource": "repo://docs/research/2026-09-14-experience-disclosure-label.md#L5-L16",
-          "version": "repo-lines-v1:sha256:9ba3e7d20dc305906d14346c9b83239bf603bdbe519ca3a56b4f425ee2e326d0:eyJzZWxlY3RlZExpbmVDb3VudCI6MTIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjlmYjFjMDc5Mjg1MzNkNjlmZDUxMWQ1Y2U1ZTNiYTdhZmM5ZTExYWE3YmI4NWIwN2E3Y2YyOThkNmVkMjhiYzkiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjE4YTU4ZWEyNDVhNGQyZTgxMDQzZmI2YjNhYmNiMTVmYTM3YWYxMDFhMmFjNzk0MjIyYWNlMjA4OTE0NzRkNzEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjNlMjAwMzNmMzE1ZjUwMzc4NTE1OWFmZjY1NzhmZGNkM2Q0MzhkMjBlZGQ1NWIxNTMxNmFiZDhiNWViMzZiNWMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjdmMTI5MTNlODAyNmMwODFiOWJmYzQyZDYyZGQzZTU0ZjQxYWVkZjNhYTg2MGNhZTc5ZDFmYTA1MWM5MGY5MDMifQ"
+          "resource": "repo://apps/github.io/src/app/skills/skill-table-responsive.ts",
+          "version": "repo-file-v1:sha256:4a8eefbbdd92e49d8b68817de81a373d2a9aeb3a99a64bce216ad176efffb0fa"
         }
       ]
     },
@@ -145,6 +141,6 @@
   ],
   "verification": {
     "by": "openwiki/0.5.0",
-    "at": "2026-09-14T06:38:19.116Z"
+    "at": "2026-09-14T12:03:13.338Z"
   }
 }

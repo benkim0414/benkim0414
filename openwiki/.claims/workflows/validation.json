@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:6fbe5ee861a397cab59a4c4be73c6260d27980a0f2cf386e27c19630bcd4b4a4",
+  "pageVersion": "sha256:739d5d65b394a64057250617f53f5bc7849e5b57f76a0a1d090ecf90808ebc36",
   "claims": [
     {
       "id": "claim_6cbb6dd0080f4763aaf4dec964f7f76e",
@@ -72,7 +72,7 @@
         },
         {
           "resource": "repo://apps/github.io/src/app/skills/skills-page.spec.tsx",
-          "version": "repo-file-v1:sha256:f7b0367574796c29a871e3e9c5435d5917e5ee5c91f5b80f242b961ab6e85237"
+          "version": "repo-file-v1:sha256:65fde5b796c45d27465f3a93c76818619da534d780df56f70f879ad193fd1745"
         }
       ]
     },
@@ -278,11 +278,11 @@
     },
     {
       "id": "claim_e77cd36300514575ae7cfc6bbe3f3be7",
-      "statement": "SkillsPage tests protect the responsive card-to-table switch, the page introduction preceding the labelled desktop toolbar, controls preceding the table, the bounded master-detail layout, same-page detail selection, focus restoration, and selection cleanup. SkillTable Storybook stories provide explicit desktop-table and compact-card scenarios for visual review.",
+      "statement": "SkillsPage tests protect the responsive card-to-table switch, the page introduction preceding the labelled desktop toolbar, controls preceding the table, the bounded master-detail layout, same-page detail selection, focus restoration, and selection cleanup. The detail-layout suite protects the inspector's named same-tab detail link, divider hierarchy, omission of Projects, and unframed experience entries. SkillTable Storybook stories provide explicit desktop-table and compact-card scenarios for visual review.",
       "evidence": [
         {
           "resource": "repo://apps/github.io/src/app/skills/skill-table-detail-layout.spec.tsx",
-          "version": "repo-file-v1:sha256:292a36832759c06c3d22ed750fdd6877724bcb8dbfa21ce9f34314d78751cdce"
+          "version": "repo-file-v1:sha256:db1bd27424d0aebed3fb9cd96b1bc4cd92e703f9e72eb87d17eb0384c3b77f48"
         },
         {
           "resource": "repo://apps/github.io/src/app/skills/skill-table.stories.spec.tsx",
@@ -294,7 +294,7 @@
         },
         {
           "resource": "repo://apps/github.io/src/app/skills/skills-page.spec.tsx",
-          "version": "repo-file-v1:sha256:f7b0367574796c29a871e3e9c5435d5917e5ee5c91f5b80f242b961ab6e85237"
+          "version": "repo-file-v1:sha256:65fde5b796c45d27465f3a93c76818619da534d780df56f70f879ad193fd1745"
         }
       ]
     },
@@ -333,6 +333,6 @@
   ],
   "verification": {
     "by": "openwiki/0.5.0",
-    "at": "2026-09-14T11:29:40.650Z"
+    "at": "2026-09-14T12:03:13.338Z"
   }
 }

@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:4b2166d587f0ea63ce4ab09be0d6c94bf27a4c66133699d295b8b2b531646181",
+  "pageVersion": "sha256:fe676b4f5a6d1efb31a2c15a58cf4fc66d2fd61be256deb9a36022f5d8db98d2",
   "claims": [
     {
       "id": "claim_67f0a6341495404e8eefce3e45fd6173",
@@ -96,7 +96,7 @@
         },
         {
           "resource": "repo://apps/github.io/src/app/skills/skills-page.spec.tsx",
-          "version": "repo-file-v1:sha256:f7b0367574796c29a871e3e9c5435d5917e5ee5c91f5b80f242b961ab6e85237"
+          "version": "repo-file-v1:sha256:65fde5b796c45d27465f3a93c76818619da534d780df56f70f879ad193fd1745"
         },
         {
           "resource": "repo://apps/github.io/src/app/skills/skills-page.tsx",
@@ -138,19 +138,15 @@
     },
     {
       "id": "claim_e60e9e0eb69646cba7b3570677531e65",
-      "statement": "At table-width viewports, the Skills page renders its introduction above a full-width Astryx card. A padded LayoutHeader groups search and category controls above the edge-to-edge table body and an adjacent in-card detail panel; compact viewports retain the card catalogue, toolbar search, and category popover. The table provides sortable columns, filtering, clearing, empty states, and pointer or keyboard row activation.",
+      "statement": "At table-width viewports, the Skills page renders its introduction above a full-width Astryx card. A padded LayoutHeader groups search and category controls above the edge-to-edge table body and an adjacent in-card inspector. That inspector supplies a close control, skill name and description, a same-tab detail link, a divider, direct metadata, and an unframed experience list; compact viewports retain the card catalogue, toolbar search, and category popover. The table provides sortable columns, filtering, clearing, empty states, and pointer or keyboard row activation.",
       "evidence": [
         {
+          "resource": "repo://apps/github.io/src/app/skills/skill-detail-content.tsx",
+          "version": "repo-file-v1:sha256:a3e0aa6591195753fae7bf8a2f8bf71fce8f78e75c38d5f210289b74d32b2b49"
+        },
+        {
           "resource": "repo://apps/github.io/src/app/skills/skill-table-detail-layout.tsx",
-          "version": "repo-file-v1:sha256:a92f45d1cdec5158cb33d331af9fede4d9f561d477a6f4a395217b5de44a6d80"
-        },
-        {
-          "resource": "repo://apps/github.io/src/app/skills/skill-table.tsx",
-          "version": "repo-file-v1:sha256:f31df1c1bdd34f5fbc8eec2ad6945dcd71b37213715df331badf5d9f8d19110c"
-        },
-        {
-          "resource": "repo://apps/github.io/src/app/skills/skills-page.tsx",
-          "version": "repo-file-v1:sha256:dc8a0a68e59bdfa180b3c81c8374858837b971a0801cb31d4a7a325b63f3a78c"
+          "version": "repo-file-v1:sha256:e5e48974bd6c69d973e3e0e7d40dd05b9be2df884afc7198b57ad1d318e9176b"
         }
       ]
     },
@@ -160,11 +156,11 @@
       "evidence": [
         {
           "resource": "repo://apps/github.io/src/app/skills/skill-experience-card-list.tsx",
-          "version": "repo-file-v1:sha256:d2b33bcec788d41c414d73aad2a71969a3a3b89522ed961f6d9fc8f0059d2b70"
+          "version": "repo-file-v1:sha256:3cae7f4e2ae522330719db37c13aeef0d4f532a91c40afa9088438ffc6362fdb"
         },
         {
           "resource": "repo://apps/github.io/src/app/skills/skill-experience-list.tsx",
-          "version": "repo-file-v1:sha256:86a37a0576ecdb1e4bdfdbe3794ab69b354c45aab34593a18ee3250ad82beb5f"
+          "version": "repo-file-v1:sha256:8bcf8612474d78514e23bf845adeb693cda213a2b00ea8a053873110d2a6e049"
         },
         {
           "resource": "repo://apps/github.io/src/app/skills/skill-key-outcomes.tsx",
@@ -208,11 +204,11 @@
     },
     {
       "id": "claim_87627df0fb2a40caa8fa8de5218e3fc7",
-      "statement": "The skill-detail content renders shared neutral count badges outside the accessible names of the Experience and Projects headings. The Experience badge counts every rendered authored and supporting-experience card, while the Projects badge counts the project cards rendered by its section.",
+      "statement": "The shared detail content renders neutral count badges outside the accessible names of its headings. The standalone page renders Experience and Projects badges, while the table inspector renders only Experience; the Experience badge counts every rendered authored and supporting-experience item, and the page's Projects badge counts rendered project cards.",
       "evidence": [
         {
           "resource": "repo://apps/github.io/src/app/skills/skill-detail-content.tsx",
-          "version": "repo-file-v1:sha256:4c2e2feb6a828339d2aeb4fa45c999a946b02b2d36b961e4b46acdf33df20269"
+          "version": "repo-file-v1:sha256:a3e0aa6591195753fae7bf8a2f8bf71fce8f78e75c38d5f210289b74d32b2b49"
         }
       ]
     },
@@ -232,23 +228,23 @@
     },
     {
       "id": "claim_05e7e8bb2330425eab7333cbc2b3498b",
-      "statement": "Skill experience cards share a controlled Astryx Collapsible shell that labels only non-empty projections. Mixed cards retain Highlights in the expanded trigger and place Relevant skills above the token list; skills-only cards keep Relevant skills and its count beside the chevron in both states and omit the duplicate panel heading; empty cards omit the disclosure. The initial viewport seeds the open state from the shared compact-surface query, closed for the bottom-sheet treatment and open otherwise, without later viewport changes overriding the visitor's choice.",
+      "statement": "Skill experience entries share a controlled Astryx Collapsible shell that labels only non-empty projections. Its appearance can be card-framed for the standalone detail page or plain for the table inspector. Mixed entries retain Highlights in the expanded trigger and place Relevant skills above the token list; skills-only entries keep Relevant skills and its count beside the chevron in both states and omit the duplicate panel heading; empty entries omit the disclosure. The initial viewport seeds the open state from the shared compact-surface query, closed for the bottom-sheet treatment and open otherwise, without later viewport changes overriding the visitor's choice.",
       "evidence": [
         {
-          "resource": "repo://apps/github.io/src/app/responsive-collapsible.ts#L1-L9",
-          "version": "repo-lines-v1:sha256:9cd3765e7eb21b628befe479185f4683baf068b8416063072515d265719fd880:eyJzZWxlY3RlZExpbmVDb3VudCI6OSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiOGUxNmY5NWI3ZDdkMWI3YzI5NzQ0Nzg5YTM5NjAzNjMxMjFiM2NlOGJmYzA2NzhmZGIxMjBiNTkyZjZiMzJmNyIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNDEyY2EzNDVjY2Y3NWJmOWMwODA2YmNlNjk1YmU4ZGU4MDhiNzk5ODQyNTFhN2E1NGQyMDJjZjYxMDFkZDQ1MSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjAsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjAsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSJ9"
+          "resource": "repo://apps/github.io/src/app/skills/skill-experience-card-list.tsx",
+          "version": "repo-file-v1:sha256:3cae7f4e2ae522330719db37c13aeef0d4f532a91c40afa9088438ffc6362fdb"
         },
         {
-          "resource": "repo://apps/github.io/src/app/skills/skill-experience-card-list.tsx#L80-L129",
-          "version": "repo-lines-v1:sha256:8f22ba78d534b05d6c2471ea73e83f968e7ae3c9cf883c57b52ad2948bf0447c:eyJzZWxlY3RlZExpbmVDb3VudCI6NTAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImNiY2NmMWRiNWMxNDZmNTJkMTFiYTFhYmI5MGIwNWRiNTI4MzhhZGM4MTYwODI1NTg4NjAyYWQzYWIxY2MwY2MiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjgzMjNkMDFmZDIyMmI2Y2MyZDQ3NjI5ODQ2OWQzYjAxMGJhMTEyZjEyODU0MWExNGFhZGFmZjI3MGEyNjc1ZDYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImZmOTBiYWQyYWYzMTlmNjhmMzZlNGFmZmMwNDJkY2U2OGQ2YjY4NDc1Yzg1MTI2MDQxYmYwODkyMzFmMTAzZjUifQ"
+          "resource": "repo://apps/github.io/src/app/skills/skill-experience-card-shell.tsx",
+          "version": "repo-file-v1:sha256:e29d8815fd8578b08c7a6e4083e6e8c53a230f8f38855190c02b0a1c2dbe0272"
         },
         {
-          "resource": "repo://apps/github.io/src/app/skills/skill-experience-card-shell.tsx#L19-L70",
-          "version": "repo-lines-v1:sha256:a77f5b0f6004c50a0e04bbb7e67e3cf15bcbb9e1ddca22455ec76770bde047fa:eyJzZWxlY3RlZExpbmVDb3VudCI6NTIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg5MTI3Njg3MzhlOTlkZDhlOTY3OGExNWEyZGMwYjE3NmM3MTdlOGRjMDZhYjBhZTM5MmE3OTU3YjdmMjJjOGIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImQwYWE4ZTU2YzMyNDBhZjgzN2Q0YTNmNGJmMWU2OWM2ZjNhODdiZmI3MzNkMmYzYjQ1NGEzYTFhYWJmYWU2NjIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+          "resource": "repo://apps/github.io/src/app/skills/skill-experience-list.tsx",
+          "version": "repo-file-v1:sha256:8bcf8612474d78514e23bf845adeb693cda213a2b00ea8a053873110d2a6e049"
         },
         {
-          "resource": "repo://apps/github.io/src/app/skills/skill-table-responsive.ts#L1-L3",
-          "version": "repo-lines-v1:sha256:4a8eefbbdd92e49d8b68817de81a373d2a9aeb3a99a64bce216ad176efffb0fa:eyJzZWxlY3RlZExpbmVDb3VudCI6MywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMjdkN2VkNmM5ZDkxODUyZWIxZWM4ODQ3NmJlMTM0YzI4N2RhNDQ2MTEwYmVlNTc3YjVhODMxNTkxYjkyZDJjZSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiZDBkNDM2NDE3MTM3YmRlODg5YTM2ZDUxNjgxMGNiZDhlOWQ2MmI5MDlkZTNlZmNhZWMyZjdiMTYwZjZjZmE2NCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjAsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjAsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSJ9"
+          "resource": "repo://apps/github.io/src/app/skills/skill-table-responsive.ts",
+          "version": "repo-file-v1:sha256:4a8eefbbdd92e49d8b68817de81a373d2a9aeb3a99a64bce216ad176efffb0fa"
         }
       ]
     },
@@ -313,6 +309,6 @@
   ],
   "verification": {
     "by": "openwiki/0.5.0",
-    "at": "2026-09-14T11:34:53.838Z"
+    "at": "2026-09-14T12:03:13.338Z"
   }
 }

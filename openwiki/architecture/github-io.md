@@ -46,16 +46,12 @@ sources:
     resource: repo://apps/github.io/src/app/skills/skill-experience-list.tsx
   - id: openwiki-source-b7cc9784bea6b15d468f9f23
     resource: repo://apps/github.io/src/app/skills/skill-table-detail-layout.tsx
-  - id: openwiki-source-3cf56b0e79067d306d450611
-    resource: repo://apps/github.io/src/app/skills/skill-table-responsive.ts
-  - id: openwiki-source-c2ac9449940c36fc7db6b3e4
-    resource: repo://apps/github.io/src/app/skills/skill-table.tsx
   - id: openwiki-source-a845ec3d01c38967df3a4dad
     resource: repo://apps/github.io/src/app/skills/skills-page.tsx
-generated: { by: "codex", at: "2026-09-14T11:34:53.838Z" }
+generated: { by: "codex", at: "2026-09-14T12:03:13.338Z" }
 verified:
   - by: openwiki/0.5.0
-    at: 2026-09-14T11:34:53.838Z
+    at: 2026-09-14T12:03:13.338Z
 ---
 
 # Application architecture
@@ -95,8 +91,11 @@ semantics, or DOM and keyboard order.
 `SkillsPage` owns one filter state across two responsive projections. At table
 widths it renders the page introduction above `SkillTableDetailLayout`; inside
 the full-width Astryx card, a padded `LayoutHeader` groups controls above the
-edge-to-edge table and adjacent in-card detail panel. Pointer or keyboard row
-activation opens resolved skill detail and returns focus to the originating row.
+edge-to-edge table and adjacent in-card inspector. The inspector presents a
+close control, name, description, same-tab detail link, metadata, and
+Experience only; Projects remain on the standalone detail route. Pointer or
+keyboard row activation opens resolved skill detail and returns focus to the
+originating row.
 Compact widths render the card catalog with toolbar search and category filters
 instead; changing to compact mode, filtering out the active skill, or failing
 detail resolution clears the table selection.
@@ -144,12 +143,11 @@ and conditionally follows the same Experience and Projects availability checks
 as the rendered sections. A basic detail with no enriched sections stays
 single-column and does not render a one-item outline.
 
-Within the detail surface, the Experience section appears when either primary
-experience cards or supporting evidence exists. Its adjacent app-level
-`CountBadge` reports the combined primary-card and supporting-evidence count,
-matching every card the section renders. The badge is a sibling of the
-level-two heading so the section's accessible heading name remains
-`Experience`.
+Within either detail presentation, the Experience section appears when either
+primary experiences or supporting evidence exists. Its adjacent app-level
+`CountBadge` reports their combined rendered-item count. The badge is a sibling
+of the level-two heading so the section's accessible heading name remains
+`Experience`; only the standalone route also renders Projects.
 
 The two experience renderers keep their source-specific projection work at the
 boundary. Authored records pass ordered narrative strings to the shared
@@ -159,11 +157,13 @@ Astryx outcome list, while relevant skills remain a separate canonical-token
 projection below it. This shared presentation does not merge the underlying
 authored-experience and capability-evidence models.
 
-Both projections then enter the same controlled experience-card shell. Mixed
-cards show both counts while closed, retain `Highlights` in the open trigger,
+Both projections then enter the same controlled experience shell. The
+standalone route uses its card-framed appearance, while the table inspector uses
+an unframed appearance. Mixed entries show both counts while closed, retain
+`Highlights` in the open trigger,
 and move `Relevant skills` above the token list. Skills-only cards keep the
 skill label, count, and chevron together in the trigger in both states, while
-their renderers omit the duplicate panel heading. Cards without either
+their renderers omit the duplicate panel heading. Entries without either
 projection do not render a disclosure.
 
 Continue with [evidence semantics](../concepts/evidence.md),

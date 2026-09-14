@@ -80,10 +80,10 @@ sources:
     resource: repo://scripts/setup-openwiki.test.mjs
   - id: openwiki-source-165465422a61a00b62b0f6d3
     resource: repo://scripts/sync-github-pages-artifact.test.mjs
-generated: { by: "codex", at: "2026-09-14T11:29:40.650Z" }
+generated: { by: "codex", at: "2026-09-14T12:03:13.338Z" }
 verified:
   - by: openwiki/0.5.0
-    at: 2026-09-14T11:29:40.650Z
+    at: 2026-09-14T12:03:13.338Z
 ---
 
 # Validation workflow
@@ -207,8 +207,10 @@ semantics. The confidence test uses shuffled input and checks the
 Page-level tests separately prove the responsive card/table switch, the page
 introduction preceding the labelled desktop toolbar, controls preceding the
 table, the bounded master-detail layout, same-page detail selection, focus
-restoration, and selection cleanup. Storybook provides explicit desktop-table
-and compact-card viewport stories. These DOM assertions still do not prove that
+restoration, and selection cleanup. The detail-layout suite also asserts the
+inspector's named same-tab detail link, divider hierarchy, omission of Projects,
+and unframed experience entries. Storybook provides explicit desktop-table and
+compact-card viewport stories. These DOM assertions still do not prove that
 estimated column widths fit rendered content; that remains a visual check.
 
 Skill experience readability is protected at both renderer boundaries. Focused
