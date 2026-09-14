@@ -1,15 +1,19 @@
+import { Button } from '@astryxdesign/core/Button';
 import { Card } from '@astryxdesign/core/Card';
-import { Citation } from '@astryxdesign/core/Citation';
+import { Collapsible } from '@astryxdesign/core/Collapsible';
 import { Heading } from '@astryxdesign/core/Heading';
-import { VStack } from '@astryxdesign/core/Layout';
+import { HStack, VStack } from '@astryxdesign/core/Layout';
 import { Text } from '@astryxdesign/core/Text';
 import { spacingVars } from '@astryxdesign/core/theme/tokens.stylex';
 import * as stylex from '@stylexjs/stylex';
-import { useId, type ReactElement } from 'react';
+import { useId, useState, type ReactElement } from 'react';
 
+import { CountBadge } from '../count-badge';
 import { getSkillBrand } from '../skills/skill-brand';
 import { SkillToken } from '../skills/skill-token';
 import type { Project } from './project-list.types';
+
+const SMALL_VIEWPORT_QUERY = '(max-width: 640px)';
 
 export interface ProjectCardProps {
   isFullWidth?: boolean;
@@ -19,6 +23,19 @@ export interface ProjectCardProps {
 const styles = stylex.create({
   root: {
     display: 'block',
+  },
+  header: {
+    alignItems: 'flex-start',
+    justifyContent: 'space-between',
+    width: '100%',
+  },
+  headingCopy: {
+    minWidth: 0,
+  },
+  githubIcon: {
+    display: 'block',
+    width: spacingVars['--spacing-5'],
+    height: spacingVars['--spacing-5'],
   },
   skillList: {
     display: 'flex',
@@ -38,12 +55,9 @@ export function ProjectCard({
   project,
 }: ProjectCardProps): ReactElement {
   const titleId = useId();
+  const [areSkillsOpen, setAreSkillsOpen] = useState(shouldStartExpanded);
   const githubBrand = getSkillBrand('GitHub');
-  const githubSource = {
-    title: 'GitHub',
-    url: project.githubUrl,
-    icon: githubBrand?.iconDataUrl,
-  };
+  const repositoryLinkLabel = `Open ${project.title} on GitHub`;
 
   return (
     <Card
@@ -53,19 +67,47 @@ export function ProjectCard({
     >
       <article aria-labelledby={titleId} data-testid="project-card">
         <VStack gap={4}>
-          <VStack gap={2} hAlign="start">
-            <Heading id={titleId} level={3}>
-              {project.title}
-            </Heading>
-            <Text type="body" color="secondary" as="p">
-              {project.description}
-            </Text>
-          </VStack>
+          <HStack gap={3} xstyle={styles.header}>
+            <VStack gap={2} hAlign="start" xstyle={styles.headingCopy}>
+              <Heading id={titleId} level={3}>
+                {project.title}
+              </Heading>
+              <Text type="body" color="secondary" as="p">
+                {project.description}
+              </Text>
+            </VStack>
+            <Button
+              href={project.githubUrl}
+              icon={
+                <img
+                  alt=""
+                  aria-hidden="true"
+                  src={githubBrand?.iconDataUrl}
+                  {...stylex.props(styles.githubIcon)}
+                />
+              }
+              isIconOnly
+              label={repositoryLinkLabel}
+              rel="noopener noreferrer"
+              size="sm"
+              target="_blank"
+              tooltip={repositoryLinkLabel}
+              variant="ghost"
+            />
+          </HStack>
 
-          <VStack gap={2} hAlign="start">
-            <Text type="supporting" color="secondary" as="p">
-              Skills used
-            </Text>
+          <Collapsible
+            isOpen={areSkillsOpen}
+            onOpenChange={setAreSkillsOpen}
+            trigger={
+              <HStack gap={2} vAlign="center">
+                <Text type="supporting" color="secondary">
+                  Skills used
+                </Text>
+                <CountBadge count={project.skills.length} />
+              </HStack>
+            }
+          >
             <ul aria-label="Skills used" {...stylex.props(styles.skillList)}>
               {project.skills.map((skill) => (
                 <li
@@ -76,16 +118,17 @@ export function ProjectCard({
                 </li>
               ))}
             </ul>
-          </VStack>
-
-          <VStack gap={2} hAlign="start">
-            <Text type="supporting" color="secondary" as="p">
-              Source
-            </Text>
-            <Citation number={1} source={githubSource} variant="label" />
-          </VStack>
+          </Collapsible>
         </VStack>
       </article>
     </Card>
+  );
+}
+
+function shouldStartExpanded(): boolean {
+  return (
+    typeof window === 'undefined' ||
+    typeof window.matchMedia !== 'function' ||
+    !window.matchMedia(SMALL_VIEWPORT_QUERY).matches
   );
 }

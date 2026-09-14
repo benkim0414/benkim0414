@@ -1,9 +1,28 @@
-import { render, screen, within } from '@testing-library/react';
-import { describe, expect, it } from 'vitest';
+import { fireEvent, render, screen, within } from '@testing-library/react';
+import { afterEach, describe, expect, it, vi } from 'vitest';
 
 import { sampleProjects } from './project-list.data';
 import { ProjectCard } from './project-card';
 import * as stories from './project-card.stories';
+
+const originalMatchMedia = window.matchMedia;
+
+afterEach(() => {
+  window.matchMedia = originalMatchMedia;
+});
+
+function setSmallViewport(matches: boolean): void {
+  window.matchMedia = vi.fn().mockImplementation((query: string) => ({
+    matches,
+    media: query,
+    onchange: null,
+    addEventListener: vi.fn(),
+    removeEventListener: vi.fn(),
+    addListener: vi.fn(),
+    removeListener: vi.fn(),
+    dispatchEvent: vi.fn(),
+  }));
+}
 
 describe('project data', () => {
   it('provides stable project data for ProjectCard surfaces', () => {
@@ -110,7 +129,8 @@ describe('ProjectCard', () => {
     );
   });
 
-  it('renders the project title, description, skills, and GitHub source', () => {
+  it('renders the project title, description, skills, and GitHub repository link', async () => {
+    setSmallViewport(false);
     render(<ProjectCard project={project} />);
 
     expect(screen.getByRole('article', { name: project.title })).toBeTruthy();
@@ -124,28 +144,34 @@ describe('ProjectCard', () => {
       expect(within(skills).getByText(skill.label)).toBeTruthy();
     }
 
-    const source = screen.getByRole('doc-noteref', {
-      name: 'Citation 1: GitHub',
+    const repositoryLink = screen.getByRole('link', {
+      name: `Open ${project.title} on GitHub`,
     });
-    expect(source.getAttribute('href')).toBe(project.githubUrl);
+    expect(repositoryLink.getAttribute('href')).toBe(project.githubUrl);
+    expect(repositoryLink.getAttribute('target')).toBe('_blank');
+    expect(repositoryLink.getAttribute('rel')).toContain('noopener');
+    expect(repositoryLink.getAttribute('rel')).toContain('noreferrer');
+    expect(repositoryLink.className).toContain('astryx-button');
+    expect(repositoryLink.getAttribute('data-variant')).toBe('ghost');
+    fireEvent.mouseEnter(repositoryLink);
+    expect(
+      await screen.findByRole('tooltip', { name: repositoryLinkLabel(project) }),
+    ).toBeTruthy();
   });
 
-  it('renders card section labels as supporting secondary text', () => {
+  it('shows the skill count beside its supporting label', () => {
     const { container } = render(<ProjectCard project={project} />);
 
-    const labels = Array.from(container.querySelectorAll('p')).filter((node) =>
-      ['Skills used', 'Source'].includes(node.textContent ?? ''),
-    );
+    const label = screen.getByText('Skills used');
+    const badge = screen.getByText(String(project.skills.length));
 
-    expect(labels).toHaveLength(2);
-    for (const label of labels) {
-      expect(label.className).toContain('astryx-text');
-      expect(label.getAttribute('data-type')).toBe('supporting');
-      expect(label.getAttribute('data-color')).toBe('secondary');
-    }
+    expect(label.className).toContain('astryx-text');
+    expect(label.getAttribute('data-type')).toBe('supporting');
+    expect(label.getAttribute('data-color')).toBe('secondary');
+    expect(badge.closest('.astryx-badge')).toBeTruthy();
   });
 
-  it('uses the GitHub brand icon for the repository citation', () => {
+  it('uses the GitHub brand icon for the repository action', () => {
     const { container } = render(<ProjectCard project={project} />);
 
     const githubIcon = container.querySelector('img[src^="data:image/svg+xml"]');
@@ -153,18 +179,47 @@ describe('ProjectCard', () => {
     expect(githubIcon).toBeTruthy();
   });
 
+  it('starts collapsed on small screens and reveals skills on request', () => {
+    setSmallViewport(true);
+    render(<ProjectCard project={project} />);
+
+    const disclosure = screen.getByRole('button', { name: /Skills used/ });
+
+    expect(disclosure.getAttribute('aria-expanded')).toBe('false');
+    fireEvent.click(disclosure);
+    expect(disclosure.getAttribute('aria-expanded')).toBe('true');
+    expect(screen.getByRole('list', { name: 'Skills used' })).toBeTruthy();
+  });
+
+  it('starts expanded above the small-screen breakpoint', () => {
+    setSmallViewport(false);
+    render(<ProjectCard project={project} />);
+
+    expect(
+      screen
+        .getByRole('button', { name: /Skills used/ })
+        .getAttribute('aria-expanded'),
+    ).toBe('true');
+  });
+
   it('supports full-width cards without changing content', () => {
+    setSmallViewport(false);
     render(<ProjectCard isFullWidth project={project} />);
 
     expect(
       screen.getByRole('heading', { name: project.title, level: 3 }),
     ).toBeTruthy();
-    const source = screen.getByRole('doc-noteref', {
-      name: 'Citation 1: GitHub',
+    const repositoryLink = screen.getByRole('link', {
+      name: `Open ${project.title} on GitHub`,
     });
-    expect(source.getAttribute('href')).toBe(project.githubUrl);
+    expect(repositoryLink.getAttribute('href')).toBe(project.githubUrl);
+    expect(screen.queryByText('Source')).toBeNull();
   });
 });
+
+function repositoryLinkLabel(project: { title: string }): string {
+  return `Open ${project.title} on GitHub`;
+}
 
 describe('ProjectCard stories', () => {
   it('exports the expected story fixtures', () => {
@@ -175,6 +230,9 @@ describe('ProjectCard stories', () => {
     expect(stories.ManySkills.args?.project?.skills.length).toBeGreaterThan(8);
     expect(stories.LongCopy.args?.project?.title).toContain('observability');
     expect(stories.FullWidth.parameters?.viewport?.defaultViewport).toBe(
+      'mobile1',
+    );
+    expect(stories.MobileCollapsed.parameters?.viewport?.defaultViewport).toBe(
       'mobile1',
     );
   });

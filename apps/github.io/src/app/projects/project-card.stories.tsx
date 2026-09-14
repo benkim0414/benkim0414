@@ -82,3 +82,14 @@ export const FullWidth: Story = {
     },
   },
 };
+
+export const MobileCollapsed: Story = {
+  args: {
+    project: manySkillsProject,
+  },
+  parameters: {
+    viewport: {
+      defaultViewport: 'mobile1',
+    },
+  },
+};
