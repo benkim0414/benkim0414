@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:971f92c6d4340115ef21bcd02d3836379308b1607bff6f9e5079d883daf7924e",
+  "pageVersion": "sha256:dba6a966316ecf897a3f9b5118cb3387169903c7c1a0197898ac029a1db58dc6",
   "claims": [
     {
       "id": "claim_6cbb6dd0080f4763aaf4dec964f7f76e",
@@ -72,7 +72,7 @@
         },
         {
           "resource": "repo://apps/github.io/src/app/skills/skills-page.spec.tsx",
-          "version": "repo-file-v1:sha256:6d959e9fbca06d67a630e63cdc5f2db7c75c014c2db309c26c2b1e69a7853dcf"
+          "version": "repo-file-v1:sha256:9a26c3c0c1f90938951b95b62c0ba44a433e648c2f9da4e125008fdad790b5fc"
         }
       ]
     },
@@ -278,7 +278,7 @@
     },
     {
       "id": "claim_e77cd36300514575ae7cfc6bbe3f3be7",
-      "statement": "SkillsPage tests protect the responsive card-to-table switch, full-height master-detail layout, same-page detail selection, focus restoration, and selection cleanup, while SkillTable Storybook stories provide explicit desktop-table and compact-card scenarios for visual review.",
+      "statement": "SkillsPage tests protect the responsive card-to-table switch, the desktop catalogue title and introduction remaining in scrollable table content, the full-width desktop card containing table controls and table body, full-height master-detail layout, same-page detail selection, focus restoration, and selection cleanup, while SkillTable Storybook stories provide explicit desktop-table and compact-card scenarios for visual review.",
       "evidence": [
         {
           "resource": "repo://apps/github.io/src/app/skills/skill-table.stories.spec.tsx",
@@ -290,23 +290,27 @@
         },
         {
           "resource": "repo://apps/github.io/src/app/skills/skills-page.spec.tsx",
-          "version": "repo-file-v1:sha256:6d959e9fbca06d67a630e63cdc5f2db7c75c014c2db309c26c2b1e69a7853dcf"
+          "version": "repo-file-v1:sha256:9a26c3c0c1f90938951b95b62c0ba44a433e648c2f9da4e125008fdad790b5fc"
         }
       ]
     },
     {
-      "id": "claim_48d6cde939fe45d99b868037dcbc98d4",
-      "statement": "SkillsPage tests assert that the desktop accessible title and explanatory introduction share the catalogue's scroll region with the table.",
+      "id": "claim_c0200d49edac4b63966d71dad6f07a67",
+      "statement": "The compiled CSS verifier requires the shared pageContent StyleX rule to emit and apply full width, a 1440-pixel cap, and auto inline margins, preventing the desktop content frame from becoming a source-only contract.",
       "evidence": [
         {
-          "resource": "repo://apps/github.io/src/app/skills/skills-page.spec.tsx",
-          "version": "repo-file-v1:sha256:6d959e9fbca06d67a630e63cdc5f2db7c75c014c2db309c26c2b1e69a7853dcf"
+          "resource": "repo://apps/github.io/scripts/verify-global-layout-css.mjs#L1035-L1046",
+          "version": "repo-lines-v1:sha256:04235b268055978b70b2f30c3a4dca7e29f9f258f089c740307b99a54f57b17f:eyJzZWxlY3RlZExpbmVDb3VudCI6MTIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjFjZWRiYTc0NWNkMmFjYWIzMjYxMDRiZGYyMDU4MjMyZmRkMTdkZGUzZmM1NjA1YTA4MTU3N2E5NTIyMTIwN2IiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImVlYTYzYTQ4MzMwZjBlOGRjZGNlNmY4MmJlYzdjODM3ZDlhNTE1Yjc1OTY1ZGE0ZGY0ZTdlYjFjNWNkZDY2OTgiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImY4ZDFkOTYxMTI2NGMzMjFlMTc5MWZkNDY4MzRhMmZmZjlhN2EwNmNiMjE0OWYzMjM2OGY5NTJlZDQ3Y2NhOGYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImE2MWIzMmMyNWRkMWMzZWVjYjAzMzBlNzVjMWFlMzcwYTYzMzA4ZGVhZTc2MDgwMjU0N2QwMjFkODFkNDFiMWQifQ"
+        },
+        {
+          "resource": "repo://apps/github.io/src/app/global-navigation-layout.tsx#L85-L95",
+          "version": "repo-lines-v1:sha256:1b13a38a2e22c234e7e1d4ddf3a40032ebd78859c1f67d7d03ac77736cdb51b2:eyJzZWxlY3RlZExpbmVDb3VudCI6MTEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjU5ZGRlNTVmNzgxMWZjNDUyZjllZjQzNzk4MjkxOGVkMjE5NmQ3YTkyMWRlNDMzMmM0MTYzNDQ1ODZiZDU3MGUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjRkNWNkMmZiNGYzZGY4ODQ1MTUyNTViMzk1MjNmMmY4YjU0NzJiZWVhOWY1NjZmZmNhMjA0ZGI4MDI1NjEwNDEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjA5NGZjMGMxNzNkMWVjM2ZjNTAxZDdkZmE5Mjg1NTAxYzUyN2NmYjQ3MTI1ODNkYTNjYzM2MTgwNTY2YjRiZTMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjllNDI4NDE1Y2VjMjI1NWI1ZDJlZWQ2YTdhNTliNWYyMjliMzIxMGU5OTJkMmU1MGY3N2FmMzMyZDhjMzAyNDcifQ"
         }
       ]
     }
   ],
   "verification": {
     "by": "openwiki/0.5.0",
-    "at": "2026-09-14T05:20:09.595Z"
+    "at": "2026-09-14T06:31:45.986Z"
   }
 }

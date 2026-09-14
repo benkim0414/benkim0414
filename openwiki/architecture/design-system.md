@@ -5,7 +5,7 @@ description: How Astryx, StyleX, theme persistence, and browser layout checks fi
 tags: [astryx, stylex, theme, layout]
 verified:
   - by: openwiki/0.5.0
-    at: 2026-09-14T05:38:31.406Z
+    at: 2026-09-14T06:31:45.986Z
 sources:
   - id: openwiki-source-45b1d77b308bd57403f55ff9
     resource: repo://apps/github.io/.storybook/story-taxonomy.spec.ts
@@ -61,8 +61,6 @@ sources:
     resource: repo://apps/github.io/src/app/skills/skill-experience-list.tsx
   - id: openwiki-source-2944a7e4b1284a70a09ee95a
     resource: repo://apps/github.io/src/app/skills/skill-key-outcomes.tsx
-  - id: openwiki-source-b7cc9784bea6b15d468f9f23
-    resource: repo://apps/github.io/src/app/skills/skill-table-detail-layout.tsx
   - id: openwiki-source-3cf56b0e79067d306d450611
     resource: repo://apps/github.io/src/app/skills/skill-table-responsive.ts
   - id: openwiki-source-a08412c702b94999bfa82651
@@ -79,7 +77,7 @@ sources:
     resource: repo://apps/github.io/src/styles.css
   - id: openwiki-source-fcfa3ced1d03143bb27d5018
     resource: repo://apps/github.io/vite.config.ts
-generated: { by: "codex", at: "2026-09-14T05:38:31.406Z" }
+generated: { by: "codex", at: "2026-09-14T05:49:27.415Z" }
 ---
 
 # Design system and layout
@@ -143,9 +141,11 @@ non-contiguous topics, so completion is represented by each step's semantic
 status rather than by a single progress cursor.
 
 At table-width viewports, the Skills page integrates the reusable `SkillTable`
-with a detail sheet; compact viewports retain the card catalog, toolbar search,
-and category popover. The table composes Astryx's table, compact text input,
-multi-selector, button, layout, and empty-state primitives with the app's
+in a full-width Astryx `Card` with a divided control header and edge-to-edge
+table body alongside a detail sheet; compact viewports retain the card catalog,
+toolbar search, and category popover. The table composes Astryx's table,
+compact text input, multi-selector, button, card, layout, and empty-state
+primitives with the app's
 smallest `SkillAvatar`, colored `SkillCategory`, and text-only
 `SkillConfidence` components. Its four columns remain sortable and derive pixel
 widths from the longest supplied values; confidence starts high-to-low with name
@@ -156,14 +156,6 @@ empty states belong to the table component. Rows support pointer and keyboard
 activation, expose the active row through `aria-current`, and open the selected
 skill in the adjacent detail layout. Storybook supplies explicit desktop-table
 and compact-card viewport scenarios for visual review.
-
-The Skills catalogue uses a visually hidden level-one page title with a visible
-level-two `Skills` heading and secondary explanatory copy. On table-width
-layouts, that introduction is rendered inside the `LayoutContent` scroll owner
-before the table, so it scrolls with the catalogue while the adjacent detail
-sheet retains its independent scroll region. Compact layouts render the same
-introduction above the toolbar and cards. Focused page tests protect both the
-accessible heading level and the desktop scroll-owner relationship.
 
 `SkillAvatar` resolves the active Astryx theme and applies its semantic primary
 icon color only to an explicit allowlist of monochrome marks, including the

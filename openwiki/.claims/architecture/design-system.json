@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:a999d3b115c302b807ace1c8745ba966cc5fabc02b8dacb11c05c7ce27d5fff7",
+  "pageVersion": "sha256:1bc3d20d562e82e58e76b1eb7ce8a1fec1ed36d64ba3ce101e16aab87c5def40",
   "claims": [
     {
       "id": "claim_67f0a6341495404e8eefce3e45fd6173",
@@ -76,7 +76,7 @@
     },
     {
       "id": "claim_5a6f4fd739c24cd18083e6de86d9061b",
-      "statement": "App-owned visible section and popover headings use Astryx Heading at their semantic levels, and focused tests assert accessible levels plus stable Astryx heading metadata; the Skills catalogue now combines a visually hidden level-one page title with a visible level-two heading.",
+      "statement": "App-owned visible section and popover headings use Astryx Heading at their semantic levels, and focused tests assert both accessible levels and Astryx's stable heading metadata.",
       "evidence": [
         {
           "resource": "repo://apps/github.io/src/app/devops-roadmap/roadmap-page.spec.tsx",
@@ -96,7 +96,7 @@
         },
         {
           "resource": "repo://apps/github.io/src/app/skills/skills-page.spec.tsx",
-          "version": "repo-file-v1:sha256:6d959e9fbca06d67a630e63cdc5f2db7c75c014c2db309c26c2b1e69a7853dcf"
+          "version": "repo-file-v1:sha256:9a26c3c0c1f90938951b95b62c0ba44a433e648c2f9da4e125008fdad790b5fc"
         },
         {
           "resource": "repo://apps/github.io/src/app/skills/skills-page.tsx",
@@ -142,23 +142,15 @@
     },
     {
       "id": "claim_e60e9e0eb69646cba7b3570677531e65",
-      "statement": "At table-width viewports the Skills page places its visible heading and explanatory introduction inside the reusable SkillTable detail layout's catalogue scroll region before the table, alongside an adjacent independently scrollable detail sheet; compact viewports retain that introduction above the card catalog and toolbar filters. The table provides four sortable content-sized columns, confidence-descending default order, name/category filtering, result count, clearing, distinct empty states, and pointer or keyboard row activation; Storybook supplies explicit desktop-table and compact-card scenarios.",
+      "statement": "At table-width viewports, the Skills page keeps its accessible title and catalogue introduction in the scrollable catalogue content ahead of the reusable SkillTable, which uses a full-width Astryx Card with a divided control header and edge-to-edge table body alongside the detail sheet. Compact viewports retain the card catalog and toolbar filters; the table provides sortable columns, filtering, clearing, empty states, and pointer or keyboard row activation.",
       "evidence": [
-        {
-          "resource": "repo://apps/github.io/src/app/skills/skill-table-detail-layout.tsx",
-          "version": "repo-file-v1:sha256:a52387c06f0d025fff3466fc757fed32065c0da026f20cf87bbe3e13a07a9d88"
-        },
         {
           "resource": "repo://apps/github.io/src/app/skills/skill-table.stories.tsx",
           "version": "repo-file-v1:sha256:adc6fcc9145a42e71c4d727b93b203c2f91b2c265fdd882291277892c970f87d"
         },
         {
           "resource": "repo://apps/github.io/src/app/skills/skill-table.tsx",
-          "version": "repo-file-v1:sha256:a5d3b4395dbf79f14cead5bc81a20220a9571a86f82f9682a0b77ca58a33580d"
-        },
-        {
-          "resource": "repo://apps/github.io/src/app/skills/skills-page.spec.tsx",
-          "version": "repo-file-v1:sha256:6d959e9fbca06d67a630e63cdc5f2db7c75c014c2db309c26c2b1e69a7853dcf"
+          "version": "repo-file-v1:sha256:3f69945a526c4c5d491eec977ddfed11e8a88f55850d9ff565c6ed32b301a116"
         },
         {
           "resource": "repo://apps/github.io/src/app/skills/skills-page.tsx",
@@ -311,6 +303,6 @@
   ],
   "verification": {
     "by": "openwiki/0.5.0",
-    "at": "2026-09-14T05:38:31.406Z"
+    "at": "2026-09-14T06:31:45.986Z"
   }
 }

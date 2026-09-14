@@ -20,7 +20,11 @@ import {
 import { Icon } from '@astryxdesign/core/Icon';
 import { IconButton } from '@astryxdesign/core/IconButton';
 import { HStack } from '@astryxdesign/core/HStack';
-import { Layout, LayoutContent, LayoutHeader } from '@astryxdesign/core/Layout';
+import {
+  Layout,
+  LayoutContent,
+  LayoutHeader,
+} from '@astryxdesign/core/Layout';
 import { MobileNav } from '@astryxdesign/core/MobileNav';
 import { SideNavItem } from '@astryxdesign/core/SideNav';
 import { TextInput } from '@astryxdesign/core/TextInput';
@@ -83,6 +87,11 @@ const styles = stylex.create({
     width: '100%',
     height: '100dvh',
     overflow: 'hidden',
+  },
+  pageContent: {
+    width: '100%',
+    maxWidth: '1440px',
+    marginInline: 'auto',
   },
   homeNavigationLink: {
     color: colorVars['--color-icon-blue'],
@@ -245,7 +254,13 @@ export function GlobalNavigationLayout(): ReactElement {
       />
       <Layout
         content={
-          <LayoutContent ref={contentRef} padding={0}>
+          <LayoutContent
+            data-content-width="wide"
+            data-testid="page-content-frame"
+            ref={contentRef}
+            padding={0}
+            xstyle={styles.pageContent}
+          >
             <Outlet />
             <GlobalNavigationFooter />
           </LayoutContent>

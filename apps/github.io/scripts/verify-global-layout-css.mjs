@@ -1037,6 +1037,11 @@ function verifyBuiltLayout() {
     'height:100dvh',
     'overflow:hidden',
   ]);
+  assertStyle('pageContent', [
+    'width:100%',
+    'max-width:1440px',
+    'margin-inline:auto',
+  ]);
 
   assertNoForbiddenCompiledDeclarations(frame, 'Global frame');
 

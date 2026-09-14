@@ -242,6 +242,16 @@ describe('GlobalNavigationLayout', () => {
     ).toBeTruthy();
   });
 
+  it('centers routed page content in a wide desktop frame without constraining navigation', () => {
+    const { getByTestId, getByRole } = renderGlobalLayout();
+    const pageFrame = getByTestId('page-content-frame');
+    const navigation = getByRole('navigation', { name: 'Global navigation' });
+
+    expect(pageFrame.getAttribute('data-content-width')).toBe('wide');
+    expect(pageFrame.className).toContain('astryx-layout-content');
+    expect(pageFrame.contains(navigation)).toBe(false);
+  });
+
   it('renders the primary route links in the centered top navigation', () => {
     mediaMatches.set('(min-width: 768px)', true);
     const { getByRole, queryByRole } = renderGlobalLayout('/skills/terraform');

@@ -1,7 +1,7 @@
 ---
 title: Keep Routed Pages Under One Shell Scroll Owner
 date: 2026-08-14
-last_updated: 2026-08-15
+last_updated: 2026-09-14
 category: design-patterns
 module: apps/github.io global navigation shell
 problem_type: design_pattern
@@ -10,6 +10,7 @@ severity: medium
 applies_when:
   - "Rendering multiple React Router pages below persistent global navigation"
   - "Keeping one vertical scroll owner across client-side route transitions"
+  - "Capping and centering routed content on wide screens beneath full-width navigation"
   - "Resetting a reused shell scroller before the destination paints"
   - "Rendering routed app stories without nested routers"
   - "Verifying scroll ownership and SPA transitions in a real browser"
@@ -72,6 +73,39 @@ content, but no page-local scroll container
 (`apps/github.io/src/app/devops-roadmap/roadmap-page.tsx:12`). Nested horizontal
 components, such as the skills carousel, can retain their independent axis.
 
+### Apply wide page frames to the existing owner
+
+When routed content needs a maximum width on wide screens, apply that style to
+the existing shell `LayoutContent` rather than adding a wrapper around its
+`Outlet`. The direct child relationship between `LayoutContent` and each routed
+page's semantic `main` is part of the browser verifier's scroll-owner contract:
+it selects `.astryx-layout-content:has(> main)`
+(`apps/github.io/scripts/verify-mobile-layout-browser.mjs:19`). A wrapper
+between those elements makes the intended owner invisible to that selector.
+
+Keep the global `LayoutHeader` outside this cap so navigation continues to span
+the shell. The content owner can carry the frame directly through `xstyle`:
+
+```tsx
+const styles = stylex.create({
+  pageContent: {
+    width: '100%',
+    maxWidth: '1440px',
+    marginInline: 'auto',
+  },
+});
+
+<LayoutContent ref={contentRef} padding={0} xstyle={styles.pageContent}>
+  <Outlet />
+  <GlobalNavigationFooter />
+</LayoutContent>
+```
+
+This keeps one DOM and scroll owner while constraining routed content and the
+global footer. The compiled-layout verifier protects the style's width, cap,
+centering, and compiled `xstyle` binding
+(`apps/github.io/scripts/verify-global-layout-css.mjs:1035-1046`).
+
 ### Reset the reused owner before a new route paints
 
 Because React Router swaps the outlet while retaining the shell, reset the
@@ -88,8 +122,9 @@ useLayoutEffect(() => {
 ```
 
 A focused integration test first sets a nonzero shell offset, follows the real
-Roadmap link, observes the new pathname, and requires the same shell node to be
-back at zero (`apps/github.io/src/app/global-navigation-layout.spec.tsx:181`).
+Roadmap link, observes the new pathname, and requires the original shell
+element reference to be back at zero
+(`apps/github.io/src/app/global-navigation-layout.spec.tsx:524-541`).
 
 ### Give Storybook exactly one routing owner
 
@@ -151,6 +186,8 @@ navigation, document continuity, and visible scroll position.
 - Storybook needs to render production routes as well as isolated components.
 - Layout correctness depends on overflow and DOM persistence that jsdom cannot
   model.
+- Routed content needs a desktop width cap while global navigation remains
+  full-width.
 
 ## Examples
 
@@ -173,6 +210,19 @@ function RoadmapPage() {
   return <VStack as="main">{/* route content */}</VStack>;
 }
 ```
+
+Avoid introducing a centering wrapper between the shell owner and its route:
+
+```tsx
+<LayoutContent padding={0}>
+  <div className="page-frame">
+    <Outlet />
+  </div>
+</LayoutContent>
+```
+
+Prefer applying the page-frame style to `LayoutContent` itself, retaining the
+direct `LayoutContent` → routed `main` relationship.
 
 For browser verification, URL and zero offset are insufficient on their own.
 Require a value stored on the original document to survive the pointer-driven

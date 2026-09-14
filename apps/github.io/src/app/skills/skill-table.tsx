@@ -1,5 +1,11 @@
-import { HStack } from '@astryxdesign/core/Layout';
+import {
+  HStack,
+  Layout,
+  LayoutContent,
+  LayoutHeader,
+} from '@astryxdesign/core/Layout';
 import { Button } from '@astryxdesign/core/Button';
+import { Card } from '@astryxdesign/core/Card';
 import { EmptyState } from '@astryxdesign/core/EmptyState';
 import { MultiSelector } from '@astryxdesign/core/MultiSelector';
 import {
@@ -224,62 +230,72 @@ export function SkillTable({
   }`;
 
   return (
-    <>
-      <HStack align="center" gap={2}>
-        <TextInput
-          isLabelHidden
-          label="Skill name"
-          placeholder="Skill name"
-          size="sm"
-          startIcon="search"
-          value={query}
-          onChange={(nextQuery) => onQueryChange(nextQuery)}
-        />
-        <MultiSelector
-          hasClear
-          isLabelHidden
-          label="Categories"
-          options={categoryOptions}
-          placeholder="Categories"
-          size="sm"
-          triggerDisplay="labels"
-          value={selectedCategories}
-          onChange={(categories) =>
-            onSelectedCategoriesChange(categories as SkillCategory[])
-          }
-        />
-        <Text>{resultLabel}</Text>
-        {hasActiveFilters ? (
-          <Button
-            label="Clear all"
-            variant="ghost"
-            onClick={() => {
-              onQueryChange('');
-              onSelectedCategoriesChange([]);
-            }}
-          />
-        ) : null}
-      </HStack>
-      {filteredSkills.length === 0 ? (
-        <EmptyState
-          headingLevel={3}
-          isCompact
-          title={
-            skills.length === 0
-              ? 'No skills have been supplied.'
-              : 'No skills match your search or filters.'
-          }
-        />
-      ) : (
-        <Table
-          columns={columns}
-          data={sortedData}
-          hasHover
-          idKey="id"
-          plugins={{ sortable, rowActivation }}
-          verticalAlign="middle"
-        />
-      )}
-    </>
+    <Card padding={0} width="100%">
+      <Layout
+        header={
+          <LayoutHeader hasDivider padding={4}>
+            <HStack align="center" gap={2}>
+              <TextInput
+                isLabelHidden
+                label="Skill name"
+                placeholder="Skill name"
+                size="sm"
+                startIcon="search"
+                value={query}
+                onChange={(nextQuery) => onQueryChange(nextQuery)}
+              />
+              <MultiSelector
+                hasClear
+                isLabelHidden
+                label="Categories"
+                options={categoryOptions}
+                placeholder="Categories"
+                size="sm"
+                triggerDisplay="labels"
+                value={selectedCategories}
+                onChange={(categories) =>
+                  onSelectedCategoriesChange(categories as SkillCategory[])
+                }
+              />
+              <Text>{resultLabel}</Text>
+              {hasActiveFilters ? (
+                <Button
+                  label="Clear all"
+                  variant="ghost"
+                  onClick={() => {
+                    onQueryChange('');
+                    onSelectedCategoriesChange([]);
+                  }}
+                />
+              ) : null}
+            </HStack>
+          </LayoutHeader>
+        }
+        height="fill"
+      >
+        <LayoutContent padding={0}>
+          {filteredSkills.length === 0 ? (
+            <EmptyState
+              headingLevel={3}
+              isCompact
+              title={
+                skills.length === 0
+                  ? 'No skills have been supplied.'
+                  : 'No skills match your search or filters.'
+              }
+            />
+          ) : (
+            <Table
+              columns={columns}
+              data={sortedData}
+              hasHover
+              idKey="id"
+              plugins={{ sortable, rowActivation }}
+              verticalAlign="middle"
+            />
+          )}
+        </LayoutContent>
+      </Layout>
+    </Card>
   );
 }

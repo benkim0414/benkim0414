@@ -46,10 +46,10 @@ sources:
     resource: repo://apps/github.io/src/app/skills/skill-table.tsx
   - id: openwiki-source-a845ec3d01c38967df3a4dad
     resource: repo://apps/github.io/src/app/skills/skills-page.tsx
-generated: { by: "codex", at: "2026-09-14T05:20:09.595Z" }
+generated: { by: "codex", at: "2026-09-14T05:49:27.415Z" }
 verified:
   - by: openwiki/0.5.0
-    at: 2026-09-14T05:38:31.406Z
+    at: 2026-09-14T06:31:45.986Z
 ---
 
 # Application architecture
@@ -77,16 +77,13 @@ result is different from an unmatched URL: `SkillDetailRoute` renders the
 full-width not-found component within its existing route.
 
 `SkillsPage` owns one filter state across two responsive projections. At table
-widths it renders `SkillTableDetailLayout`, where pointer or keyboard row
-activation opens resolved skill detail in an adjacent sheet and returns focus to
-the originating row. Compact widths render the card catalog with toolbar search
-and category filters instead; changing to compact mode, filtering out the active
-skill, or failing detail resolution clears the table selection.
-
-At table widths, `SkillsPage` passes its accessible title and visible catalogue
-introduction into `SkillTableDetailLayout` before the table, making them part of
-the catalogue's scrollable content rather than fixed page chrome. The adjacent
-detail panel remains a separate scroll region when a skill is selected.
+widths it renders `SkillTableDetailLayout`, whose `SkillTable` groups its
+controls and edge-to-edge table in a full-width Astryx card; pointer or keyboard
+row activation opens resolved skill detail in an adjacent sheet and returns
+focus to the originating row. Compact widths render the card catalog with
+toolbar search and category filters instead; changing to compact mode,
+filtering out the active skill, or failing detail resolution clears the table
+selection.
 
 The table/detail split and Experience disclosures consume the same shared
 compact-surface query. A compact match selects the bottom sheet and seeds newly
@@ -119,8 +116,10 @@ error recovery or passes the resolved value to `SkillDetailPage`. Keep reference
 validation in the resolver rather than burying it in view components.
 
 The detail page remains a direct child of the shared shell's sole scrollable
-`LayoutContent`; its responsive two-column grid does not introduce another
-scroll owner. Enriched details add an Astryx `Outline` labeled `On this page`
+`LayoutContent`, which caps routed content at 1440 pixels and centers it on
+wide viewports without constraining the global navigation; its responsive
+two-column grid does not introduce another scroll owner. Enriched details add
+an Astryx `Outline` labeled `On this page`
 in a sticky end rail on tablet and desktop widths. The page resolves the shared
 `LayoutContent` from its mounted `main` and supplies it as Outline's explicit
 `scrollContainerRef`, aligning fragment navigation and active-section tracking
