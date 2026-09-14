@@ -180,8 +180,12 @@ describe('SkillExperienceCard', () => {
     fireEvent.click(disclosure);
 
     expect(disclosure.getAttribute('aria-expanded')).toBe('true');
-    expect(disclosure.textContent).toContain('Relevant skills1');
+    expect(
+      screen.getByRole('button', { name: 'Collapse relevant skills' }),
+    ).toBe(disclosure);
+    expect(disclosure.textContent).not.toContain('Relevant skills');
     expect(disclosure.textContent).not.toContain('Highlights');
+    expect(screen.getAllByText('Relevant skills')).toHaveLength(1);
   });
 
   it('omits the disclosure when the card has no details', () => {
