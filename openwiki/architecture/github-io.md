@@ -28,10 +28,10 @@ sources:
     resource: repo://apps/github.io/src/app/skills/skill-experience-card-shell.tsx
   - id: openwiki-source-ba5c27392181e6c65798f3c4
     resource: repo://apps/github.io/src/app/skills/skill-experience-list.tsx
-generated: { by: "codex", at: "2026-09-13T23:51:20.961Z" }
+generated: { by: "codex", at: "2026-09-14T00:15:24.576Z" }
 verified:
   - by: openwiki/0.5.0
-    at: 2026-09-13T23:51:20.961Z
+    at: 2026-09-14T00:15:24.576Z
 ---
 
 # Application architecture
@@ -99,11 +99,12 @@ boundary. Authored records pass ordered narrative strings onward; capability
 evidence deduplicates detail facts and removes facts equal to the summary first.
 Both provide those narrative points or facts and a separate canonical
 relevant-skill projection to `SkillExperienceCardShell`. The shell keeps the
-heading and summary visible, labels the point count as `Highlights` in its
-disclosure trigger, and reveals the shared list and skill tokens together. The
-controlled trigger also labels and counts relevant skills while collapsed. When
-expanded, each renderer restores that visible label and count immediately above
-its accessible token list while the trigger returns to the `Highlights` count.
+heading and summary visible and reveals the shared list and skill tokens
+together. Its controlled trigger labels and counts only non-empty projections.
+When both exist, expansion restores the relevant-skill label and count above its
+accessible token list while the trigger retains `Highlights`; a skills-only
+trigger retains its sole label, and an entirely empty projection has no
+disclosure.
 This presentation reuse does not merge the underlying authored-experience and
 capability-evidence models.
 

@@ -5,7 +5,7 @@ description: How Astryx, StyleX, theme persistence, and browser layout checks fi
 tags: [astryx, stylex, theme, layout]
 verified:
   - by: openwiki/0.5.0
-    at: 2026-09-13T23:51:20.961Z
+    at: 2026-09-14T00:15:24.576Z
 sources:
   - id: openwiki-source-45b1d77b308bd57403f55ff9
     resource: repo://apps/github.io/.storybook/story-taxonomy.spec.ts
@@ -59,7 +59,7 @@ sources:
     resource: repo://apps/github.io/src/styles.css
   - id: openwiki-source-fcfa3ced1d03143bb27d5018
     resource: repo://apps/github.io/vite.config.ts
-generated: { by: "codex", at: "2026-09-13T23:51:20.961Z" }
+generated: { by: "codex", at: "2026-09-14T00:15:24.576Z" }
 ---
 
 # Design system and layout
@@ -126,12 +126,12 @@ visual check.
 
 Text-heavy skill experience cards use `SkillExperienceCardShell` to keep the
 semantic heading and primary-body summary visible while placing optional proof
-inside Astryx `Collapsible`. Its `Highlights` trigger pairs supporting text with
-the shared neutral `CountBadge`, counting only the card's narrative points or
-distinct evidence facts. While collapsed, the trigger also shows `Relevant
-skills` with its own count badge, so both hidden collections remain legible.
-Expanding removes that segment from the trigger and restores the same visible
-label and count above the accessible skill-token list. The shell controls the
+inside Astryx `Collapsible`. Each trigger segment appears only when its
+collection is non-empty: `Highlights` counts narrative points or distinct facts,
+and `Relevant skills` counts the token projection. While both exist, the closed
+trigger shows both; expanding retains the highlight segment and restores the
+skill label and count above the accessible token list. A skills-only trigger
+keeps its sole label in both states so the disclosure remains named. The shell controls the
 Astryx disclosure so both placements switch with its open state; it relies on
 the component's built-in chevron transition rather than adding custom panel
 motion. It starts closed when the initial viewport is at or below 640px and open

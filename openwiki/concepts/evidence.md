@@ -26,10 +26,10 @@ sources:
     resource: repo://apps/github.io/src/app/skills/skill-list.data.ts
   - id: openwiki-source-e40383c548b8395ffee31167
     resource: repo://docs/research/2026-09-14-experience-disclosure-label.md
-generated: { by: "codex", at: "2026-09-13T23:51:20.961Z" }
+generated: { by: "codex", at: "2026-09-14T00:15:24.576Z" }
 verified:
   - by: openwiki/0.5.0
-    at: 2026-09-13T23:51:20.961Z
+    at: 2026-09-14T00:15:24.576Z
 ---
 
 # Skills and capability evidence
@@ -68,10 +68,12 @@ narratives or distinct capability facts and relevant-skill tokens behind one
 disclosure. The UI calls the mixed narrative points and facts `Highlights`
 rather than `Outcomes`: the collection includes actions, methods, context, and
 effects, so the broader presentation label avoids implying that every point is
-a measured result. While collapsed, the disclosure trigger labels and counts
-both `Highlights` and `Relevant skills`, so either projection remains legible.
-Once expanded, the trigger retains the highlight count and each renderer moves
-the visible `Relevant skills` label and count above the accessible token list.
+a measured result. The disclosure labels and counts only non-empty projections.
+While both exist, the collapsed trigger names both; once expanded, it retains
+the highlight count and each renderer moves the visible `Relevant skills` label
+and count above the accessible token list. A skills-only disclosure keeps that
+sole label in its trigger, while a card with neither projection has no
+disclosure.
 The proof starts collapsed on small initial viewports and expanded on larger
 ones without truncating or discarding evidence. Capability facts equal to the
 summary are filtered so the

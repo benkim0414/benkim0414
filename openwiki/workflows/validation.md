@@ -30,8 +30,6 @@ sources:
     resource: repo://apps/github.io/src/app/skills/skill-experience-card.stories.tsx
   - id: openwiki-source-1da2c5712de0a298fd2a580a
     resource: repo://apps/github.io/src/app/skills/skill-experience-list.spec.tsx
-  - id: openwiki-source-f836c5cc4931cfb5c1d0b9ee
-    resource: repo://apps/github.io/src/app/skills/skill-experience-list.stories.tsx
   - id: openwiki-source-3d04b17fb8b6c27eb59cd798
     resource: repo://apps/github.io/src/app/skills/skill-table.spec.tsx
   - id: openwiki-source-a08412c702b94999bfa82651
@@ -64,10 +62,10 @@ sources:
     resource: repo://scripts/setup-openwiki.test.mjs
   - id: openwiki-source-165465422a61a00b62b0f6d3
     resource: repo://scripts/sync-github-pages-artifact.test.mjs
-generated: { by: "codex", at: "2026-09-13T23:51:20.961Z" }
+generated: { by: "codex", at: "2026-09-14T00:15:24.576Z" }
 verified:
   - by: openwiki/0.5.0
-    at: 2026-09-13T23:51:20.961Z
+    at: 2026-09-14T00:15:24.576Z
 ---
 
 # Validation workflow
@@ -183,10 +181,12 @@ These DOM assertions do not prove that estimated column widths fit rendered
 content; that remains a Storybook visual check.
 
 Skill experience readability is protected at both renderer boundaries. Focused
-tests verify that the collapsed disclosure's accessible name includes labeled
-counts for both `Highlights` and `Relevant skills`; after expansion the trigger
-keeps only the highlight count and the visible relevant-skill label and count
-move above the token list. Coverage also protects absence of the former combined
+tests cover all four collection combinations: both labels appear when both
+collections exist, each label is omitted when its collection is empty, a
+skills-only trigger remains named after expansion, and neither collection
+produces a disclosure or chevron. With both collections, expansion keeps only
+the highlight count in the trigger and moves the visible relevant-skill label
+and count above the token list. Coverage also protects absence of the former combined
 outcome/skill sentence, closed small-viewport and open large-viewport defaults,
 user expansion and retained choice across resize, complete authored and
 capability list text, capability-fact deduplication, and omission when there is
