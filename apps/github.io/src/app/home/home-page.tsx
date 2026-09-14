@@ -69,6 +69,7 @@ export function HomePage({
           title="About DORA capabilities"
         />
         <Grid
+          align="start"
           columns={{ minWidth: 360, max: 2 }}
           data-testid="dora-capability-grid"
           gap={4}

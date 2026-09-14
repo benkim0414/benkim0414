@@ -225,6 +225,7 @@ describe('HomePage', () => {
     const doraGrid = getByTestId('dora-capability-grid');
 
     expect(doraGrid.className).toContain('astryx-grid');
+    expect(doraGrid.getAttribute('data-align')).toBe('start');
     expect(doraGrid.children).toHaveLength(cards.length);
   });
 
