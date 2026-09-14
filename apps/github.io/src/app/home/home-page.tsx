@@ -68,7 +68,11 @@ export function HomePage({
           status="info"
           title="About DORA capabilities"
         />
-        <Grid columns={{ minWidth: 360, max: 2 }} gap={4}>
+        <Grid
+          columns={{ minWidth: 360, max: 2 }}
+          data-testid="dora-capability-grid"
+          gap={4}
+        >
           {doraCapabilityDefinitions.map((capability) => (
             <DoraCapabilityCard
               capability={capability}
