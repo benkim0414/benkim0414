@@ -1,4 +1,5 @@
 import {
+  useEffect,
   useLayoutEffect,
   useMemo,
   useRef,
@@ -158,6 +159,12 @@ export function GlobalNavigationLayout(): ReactElement {
     setIsNavigationOpen(false);
     setMobileSkillSearch('');
   };
+
+  useEffect(() => {
+    if (isDesktopNavigation) {
+      closeMobileNavigation();
+    }
+  }, [isDesktopNavigation]);
 
   return (
     <>
