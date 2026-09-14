@@ -239,19 +239,20 @@ describe('SkillsPage', () => {
     expect(queryAllByTestId('skill-card')).toHaveLength(0);
   });
 
-  it('groups the desktop skills controls and table in one full-width card', () => {
+  it('places the desktop skills controls before the table in a labelled toolbar', () => {
     setMediaMatches({
       [TABLE_QUERY]: true,
       [COMPACT_SURFACE_QUERY]: false,
     });
     const { getByRole } = renderSkillsPage(tableSkills);
+    const toolbar = getByRole('toolbar', { name: 'Skill table controls' });
     const table = getByRole('table');
-    const card = table.closest('.astryx-card');
 
-    expect(card).toBeTruthy();
-    expect(card?.style.getPropertyValue('--x-width')).toBe('100%');
-    expect(card?.contains(getByRole('textbox', { name: 'Skill name' }))).toBe(
+    expect(toolbar.contains(getByRole('textbox', { name: 'Skill name' }))).toBe(
       true,
+    );
+    expect(toolbar.compareDocumentPosition(table)).toBe(
+      Node.DOCUMENT_POSITION_FOLLOWING,
     );
   });
 
@@ -275,16 +276,15 @@ describe('SkillsPage', () => {
     });
     const { getByRole, getByText } = renderSkillsPage(tableSkills);
 
-    const tableCard = getByRole('table').closest('.astryx-card');
+    const toolbar = getByRole('toolbar', { name: 'Skill table controls' });
     const skillsHeading = getByRole('heading', { level: 2, name: 'Skills' });
     const introduction = getByText(
       'Explore my technical skills, organised by category and linked to supporting experience, outcomes, and source material. Search or filter the catalogue to find a specific capability.',
     );
 
-    expect(tableCard).toBeTruthy();
-    expect(tableCard?.contains(skillsHeading)).toBe(false);
-    expect(tableCard?.contains(introduction)).toBe(false);
-    expect(skillsHeading.compareDocumentPosition(tableCard!)).toBe(
+    expect(toolbar.contains(skillsHeading)).toBe(false);
+    expect(toolbar.contains(introduction)).toBe(false);
+    expect(skillsHeading.compareDocumentPosition(toolbar)).toBe(
       Node.DOCUMENT_POSITION_FOLLOWING,
     );
   });
