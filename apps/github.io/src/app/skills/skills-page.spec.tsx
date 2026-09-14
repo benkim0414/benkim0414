@@ -9,7 +9,7 @@ import { SkillsPage } from './skills-page';
 import {
   COMPACT_SURFACE_QUERY,
   TABLE_QUERY,
-} from './skill-table-detail-layout';
+} from './skill-table-responsive';
 
 const mediaMatches = new Map<string, boolean>();
 const mediaListeners = new Map<

@@ -26,11 +26,9 @@ import {
   type Skill,
   type SkillCategory,
 } from './skill-list.types';
-import {
-  SkillTableDetailLayout,
-  TABLE_QUERY,
-} from './skill-table-detail-layout';
+import { SkillTableDetailLayout } from './skill-table-detail-layout';
 import type { SkillRowActivation } from './skill-table';
+import { TABLE_QUERY } from './skill-table-responsive';
 
 export interface SkillsPageProps {
   skills?: readonly Skill[];

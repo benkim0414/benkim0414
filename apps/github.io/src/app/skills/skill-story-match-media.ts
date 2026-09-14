@@ -1,4 +1,4 @@
-import { COMPACT_SURFACE_QUERY } from './skill-table-detail-layout';
+import { COMPACT_SURFACE_QUERY } from './skill-table-responsive';
 
 const originalMatchMediaKey = Symbol('skillStoryOriginalMatchMedia');
 type StoryMatchMedia = typeof window.matchMedia & {

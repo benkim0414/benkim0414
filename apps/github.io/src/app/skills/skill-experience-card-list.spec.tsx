@@ -7,6 +7,7 @@ import {
   SkillExperienceCard,
   SkillExperienceCardList,
 } from './skill-experience-card-list';
+import { COMPACT_SURFACE_QUERY } from './skill-table-responsive';
 
 const ciCdExperience: Experience = {
   id: 'aws-codepipeline-codebuild-multistage-delivery',
@@ -56,9 +57,13 @@ afterEach(() => {
   window.matchMedia = originalMatchMedia;
 });
 
-function setSmallViewport(isSmall: boolean): void {
+function setCompactSurface(isCompact: boolean): void {
   window.matchMedia = vi.fn().mockImplementation((query: string) => ({
-    matches: query === '(max-width: 640px)' ? isSmall : false,
+    matches:
+      query ===
+      COMPACT_SURFACE_QUERY
+        ? isCompact
+        : false,
     media: query,
     onchange: null,
     addEventListener: vi.fn(),
@@ -70,8 +75,8 @@ function setSmallViewport(isSmall: boolean): void {
 }
 
 describe('SkillExperienceCard', () => {
-  it('starts compact on small screens and reveals details on request', () => {
-    setSmallViewport(true);
+  it('starts collapsed on a coarse tablet compact surface and reveals details on request', () => {
+    setCompactSurface(true);
 
     render(
       <SkillExperienceCard
@@ -101,8 +106,8 @@ describe('SkillExperienceCard', () => {
     );
   });
 
-  it('starts expanded above the small-screen breakpoint', () => {
-    setSmallViewport(false);
+  it('starts expanded on a non-compact surface', () => {
+    setCompactSurface(false);
 
     render(<SkillExperienceCard experience={ciCdExperience} />);
 
@@ -117,7 +122,7 @@ describe('SkillExperienceCard', () => {
   });
 
   it('preserves the user choice when the viewport changes', () => {
-    setSmallViewport(false);
+    setCompactSurface(false);
 
     const { rerender } = render(
       <SkillExperienceCard experience={ciCdExperience} />,
@@ -129,14 +134,14 @@ describe('SkillExperienceCard', () => {
     fireEvent.click(disclosure);
     expect(disclosure.getAttribute('aria-expanded')).toBe('false');
 
-    setSmallViewport(true);
+    setCompactSurface(true);
     rerender(<SkillExperienceCard experience={ciCdExperience} />);
 
     expect(disclosure.getAttribute('aria-expanded')).toBe('false');
   });
 
   it('keeps both detail counts visible in the disclosure label', () => {
-    setSmallViewport(true);
+    setCompactSurface(true);
 
     render(
       <SkillExperienceCard
@@ -153,7 +158,7 @@ describe('SkillExperienceCard', () => {
   });
 
   it('omits the relevant-skills label when the card has no skills', () => {
-    setSmallViewport(true);
+    setCompactSurface(true);
 
     render(<SkillExperienceCard experience={ciCdExperience} />);
 
@@ -164,7 +169,7 @@ describe('SkillExperienceCard', () => {
   });
 
   it('omits the highlights label when the card has no highlights', () => {
-    setSmallViewport(true);
+    setCompactSurface(true);
 
     render(
       <SkillExperienceCard

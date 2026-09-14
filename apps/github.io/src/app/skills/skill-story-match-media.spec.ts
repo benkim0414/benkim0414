@@ -7,7 +7,7 @@ import {
 import {
   COMPACT_SURFACE_QUERY,
   TABLE_QUERY,
-} from './skill-table-detail-layout';
+} from './skill-table-responsive';
 
 describe('getSkillStoryCompactOverride', () => {
   it.each(['tablet', 'mobile1', 'mobile2'])(

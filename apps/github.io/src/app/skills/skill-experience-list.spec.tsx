@@ -4,6 +4,7 @@ import { afterEach, vi } from 'vitest';
 import { devOpsCapabilityEvidenceItems } from '../devops-capability-evidence/devops-capability-evidence.data';
 import { skills } from './skill-list.data';
 import { SkillExperienceList } from './skill-experience-list';
+import { COMPACT_SURFACE_QUERY } from './skill-table-responsive';
 
 const experienceFixtures = devOpsCapabilityEvidenceItems.filter((item) =>
   [
@@ -18,9 +19,13 @@ afterEach(() => {
   window.matchMedia = originalMatchMedia;
 });
 
-function useSmallViewport(): void {
+function setCompactSurface(isCompact: boolean): void {
   window.matchMedia = vi.fn().mockImplementation((query: string) => ({
-    matches: query === '(max-width: 640px)',
+    matches:
+      query ===
+      COMPACT_SURFACE_QUERY
+        ? isCompact
+        : false,
     media: query,
     onchange: null,
     addEventListener: vi.fn(),
@@ -32,8 +37,8 @@ function useSmallViewport(): void {
 }
 
 describe('SkillExperienceList', () => {
-  it('labels distinct outcomes as highlights in its compact state', () => {
-    useSmallViewport();
+  it('starts collapsed on a coarse tablet compact surface and reveals distinct outcomes on request', () => {
+    setCompactSurface(true);
     const [evidence] = devOpsCapabilityEvidenceItems.filter(
       (item) => item.id === 'github-actions-gitops-handoff',
     );
@@ -58,6 +63,40 @@ describe('SkillExperienceList', () => {
     expect(screen.getByText('Relevant skills').parentElement?.textContent).toBe(
       'Relevant skills6',
     );
+  });
+
+  it('starts expanded on a non-compact surface', () => {
+    setCompactSurface(false);
+    const [evidence] = devOpsCapabilityEvidenceItems.filter(
+      (item) => item.id === 'github-actions-gitops-handoff',
+    );
+
+    render(<SkillExperienceList evidence={[evidence]} skills={skills} />);
+
+    expect(
+      screen
+        .getByRole('button', { name: 'Highlights 1' })
+        .getAttribute('aria-expanded'),
+    ).toBe('true');
+  });
+
+  it('preserves a disclosure choice after the compact-surface match changes', () => {
+    setCompactSurface(false);
+    const [evidence] = devOpsCapabilityEvidenceItems.filter(
+      (item) => item.id === 'github-actions-gitops-handoff',
+    );
+    const { rerender } = render(
+      <SkillExperienceList evidence={[evidence]} skills={skills} />,
+    );
+    const disclosure = screen.getByRole('button', {
+      name: 'Highlights 1',
+    });
+
+    fireEvent.click(disclosure);
+    setCompactSurface(true);
+    rerender(<SkillExperienceList evidence={[evidence]} skills={skills} />);
+
+    expect(disclosure.getAttribute('aria-expanded')).toBe('false');
   });
 
   it('renders every evidence summary as an Astryx Card', () => {
@@ -234,7 +273,7 @@ describe('SkillExperienceList', () => {
   });
 
   it('uses the relevant-skills row as the skills-only disclosure trigger', () => {
-    useSmallViewport();
+    setCompactSurface(true);
     const [evidence] = devOpsCapabilityEvidenceItems.filter(
       (item) => item.id === 'github-actions-gitops-handoff',
     );

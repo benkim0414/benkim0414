@@ -7,11 +7,13 @@ import { resolveSkillDetail } from './skill-detail-resolver';
 import { skillDetailSources } from './skill-detail-sources';
 import type { ResolvedSkillDetail } from './skill-detail.types';
 import {
-  COMPACT_SURFACE_QUERY,
   SkillTableDetailLayout,
-  TABLE_QUERY,
   type SkillTableDetailLayoutProps,
 } from './skill-table-detail-layout';
+import {
+  COMPACT_SURFACE_QUERY,
+  TABLE_QUERY,
+} from './skill-table-responsive';
 
 const mediaMatches = new Map<string, boolean>();
 const mediaListeners = new Map<

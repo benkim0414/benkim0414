@@ -22,10 +22,7 @@ import {
   type SkillRowActivation,
   type SkillTableProps,
 } from './skill-table';
-
-export const TABLE_QUERY = '(min-width: 768px)';
-export const COMPACT_SURFACE_QUERY =
-  '(max-width: 768px), (max-width: 1024px) and (pointer: coarse) and (hover: none)';
+import { COMPACT_SURFACE_QUERY } from './skill-table-responsive';
 
 export interface SkillTableDetailLayoutProps extends Pick<
   SkillTableProps,

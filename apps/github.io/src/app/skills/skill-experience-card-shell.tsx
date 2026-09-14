@@ -6,8 +6,7 @@ import { Text } from '@astryxdesign/core/Text';
 import { useState, type ReactElement, type ReactNode } from 'react';
 
 import { CountBadge } from '../count-badge';
-
-const SMALL_VIEWPORT_QUERY = '(max-width: 640px)';
+import { COMPACT_SURFACE_QUERY } from './skill-table-responsive';
 
 export interface SkillExperienceCardShellProps {
   readonly children: ReactNode;
@@ -74,6 +73,6 @@ function shouldStartExpanded(): boolean {
   return (
     typeof window === 'undefined' ||
     typeof window.matchMedia !== 'function' ||
-    !window.matchMedia(SMALL_VIEWPORT_QUERY).matches
+    !window.matchMedia(COMPACT_SURFACE_QUERY).matches
   );
 }

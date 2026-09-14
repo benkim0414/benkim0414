@@ -3,13 +3,13 @@ import { VStack } from '@astryxdesign/core/Layout';
 import { expect, userEvent } from 'storybook/test';
 
 import { SkillsPage } from './skills-page';
-import { TABLE_QUERY } from './skill-table-detail-layout';
 import {
   createSkillStoryMatchMedia,
   getSkillStoryCompactOverride,
   getSkillStoryOriginalMatchMedia,
   getSkillStoryViewportKey,
 } from './skill-story-match-media';
+import { TABLE_QUERY } from './skill-table-responsive';
 
 const meta: Meta<typeof SkillsPage> = {
   component: SkillsPage,
