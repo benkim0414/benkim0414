@@ -25,49 +25,22 @@ export interface SkillExperienceCardShellProps {
 
 interface InspectorExperienceItemProps {
   readonly href: string;
-  readonly outcomeCount: number;
-  readonly skillCount: number;
   readonly summary: string;
   readonly title: string;
 }
 
 function InspectorExperienceItem({
   href,
-  outcomeCount,
-  skillCount,
   summary,
   title,
 }: InspectorExperienceItemProps): ReactElement {
   const navigate = useNavigate();
-  const hasDetails = outcomeCount > 0 || skillCount > 0;
 
   return (
     <LinkProvider component={RouterLink}>
       <Item
         align="center"
         description={summary}
-        endContent={
-          hasDetails ? (
-            <HStack gap={2} wrap="wrap" vAlign="center">
-              {outcomeCount > 0 ? (
-                <>
-                  <Text type="supporting" color="secondary">
-                    Highlights
-                  </Text>
-                  <CountBadge count={outcomeCount} />
-                </>
-              ) : null}
-              {skillCount > 0 ? (
-                <>
-                  <Text type="supporting" color="secondary">
-                    Relevant skills
-                  </Text>
-                  <CountBadge count={skillCount} />
-                </>
-              ) : null}
-            </HStack>
-          ) : undefined
-        }
         href={href}
         label={title}
         labelLines={2}
@@ -163,8 +136,6 @@ export function SkillExperienceCardShell({
   return href ? (
     <InspectorExperienceItem
       href={href}
-      outcomeCount={outcomeCount}
-      skillCount={skillCount}
       summary={summary}
       title={title}
     />
