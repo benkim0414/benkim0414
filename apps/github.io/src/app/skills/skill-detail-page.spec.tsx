@@ -501,4 +501,21 @@ describe('SkillDetailPage', () => {
       document.activeElement,
     );
   });
+
+  it('focuses the experience card addressed by the route fragment', () => {
+    const detail = getResolvedDetail('kubernetes');
+    const experience = detail.experiences[0];
+    window.history.replaceState(
+      null,
+      '',
+      `/skills/kubernetes#experience-${experience.id}`,
+    );
+    const { container } = render(<SkillDetailPage detail={detail} />);
+    const experienceCard = container.querySelector(
+      `#experience-${experience.id}`,
+    );
+
+    expect(experienceCard).toBe(document.activeElement);
+    window.history.replaceState(null, '', '/');
+  });
 });

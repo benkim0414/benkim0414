@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:80e1f0f02ab6c604975c0fbdac119df1117ce2fec0e368a6ca482a652e1453d5",
+  "pageVersion": "sha256:7886b3e97ed4953a1a64fd4c6cbb751848de2c407d0266f2b91b28602e363e6f",
   "claims": [
     {
       "id": "claim_67f0a6341495404e8eefce3e45fd6173",
@@ -174,7 +174,7 @@
       "evidence": [
         {
           "resource": "repo://apps/github.io/src/app/skills/skill-detail-page.tsx",
-          "version": "repo-file-v1:sha256:e3da33614ba3e3b200c94df78f7e66b5c5a6df1f437d7545f1303ddf91491e87"
+          "version": "repo-file-v1:sha256:14dd35cc4a8f3399dfacaa8fc0b9c3249ab820286278ef49c02776850334e59a"
         }
       ]
     },
@@ -228,15 +228,19 @@
     },
     {
       "id": "claim_05e7e8bb2330425eab7333cbc2b3498b",
-      "statement": "Skill experience entries share a presentation shell. The standalone page uses controlled Astryx Collapsible cards; the table inspector uses unframed, router-aware Astryx Item rows whose title and summary occupy primary slots without an end slot or chevrons. Authored and supporting Item lists use zero-gap VStacks. Each Item's whole row activates the corresponding standalone card fragment. The standalone disclosure preserves its responsive initial state and visitor choice.",
+      "statement": "Skill experience entries share a presentation shell. The standalone page uses controlled Astryx Collapsible cards; the table inspector uses unframed, router-aware Astryx Item rows whose title and summary occupy primary slots without an end slot or chevrons. Authored and supporting Item lists use zero-gap VStacks. Each Item's whole row activates the corresponding standalone card fragment; on arrival, the matching card scrolls into view and receives focus. The standalone disclosure preserves its responsive initial state and visitor choice.",
       "evidence": [
+        {
+          "resource": "repo://apps/github.io/src/app/skills/skill-detail-page.tsx",
+          "version": "repo-file-v1:sha256:14dd35cc4a8f3399dfacaa8fc0b9c3249ab820286278ef49c02776850334e59a"
+        },
         {
           "resource": "repo://apps/github.io/src/app/skills/skill-experience-card-list.tsx",
           "version": "repo-file-v1:sha256:10dc140a5f68513cf9cdb0965e6d3c1ae872d1ce40ddefd38df4ffac2b088a06"
         },
         {
           "resource": "repo://apps/github.io/src/app/skills/skill-experience-card-shell.tsx",
-          "version": "repo-file-v1:sha256:fb9c289865b5e6cb4f6cc863b40dbd429ea47d24b06e5cc47f08d8a3f2204fb3"
+          "version": "repo-file-v1:sha256:7bf6be49d89d48c2e61d10344ad8e28113c012bc0d4034a6c86e6b9c4ab6d076"
         },
         {
           "resource": "repo://apps/github.io/src/app/skills/skill-experience-list.tsx",
@@ -305,6 +309,6 @@
   ],
   "verification": {
     "by": "openwiki/0.5.0",
-    "at": "2026-09-15T04:37:16.458Z"
+    "at": "2026-09-15T04:53:14.676Z"
   }
 }

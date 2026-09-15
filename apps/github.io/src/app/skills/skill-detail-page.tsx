@@ -57,6 +57,18 @@ export function SkillDetailPage({
   ];
 
   useEffect(() => {
+    const hash = window.location.hash;
+
+    if (hash.startsWith('#experience-')) {
+      const target = document.getElementById(hash.slice(1));
+
+      if (target instanceof HTMLElement) {
+        target.scrollIntoView?.({ block: 'start' });
+        target.focus();
+        return;
+      }
+    }
+
     headingRef.current?.focus();
   }, [detail.skill.id]);
 

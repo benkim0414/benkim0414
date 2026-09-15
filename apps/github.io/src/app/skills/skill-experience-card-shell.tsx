@@ -127,7 +127,7 @@ export function SkillExperienceCardShell({
 
   if (appearance === 'card') {
     return (
-      <Card id={anchorId} padding={4} width="100%">
+      <Card id={anchorId} padding={4} tabIndex={anchorId ? -1 : undefined} width="100%">
         {content}
       </Card>
     );
