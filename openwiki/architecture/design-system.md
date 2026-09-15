@@ -5,7 +5,7 @@ description: How Astryx, StyleX, theme persistence, and browser layout checks fi
 tags: [astryx, stylex, theme, layout]
 verified:
   - by: openwiki/0.5.0
-    at: 2026-09-14T12:03:13.338Z
+    at: 2026-09-15T03:04:17.043Z
 sources:
   - id: openwiki-source-45b1d77b308bd57403f55ff9
     resource: repo://apps/github.io/.storybook/story-taxonomy.spec.ts
@@ -65,8 +65,6 @@ sources:
     resource: repo://apps/github.io/src/app/skills/skill-key-outcomes.tsx
   - id: openwiki-source-b7cc9784bea6b15d468f9f23
     resource: repo://apps/github.io/src/app/skills/skill-table-detail-layout.tsx
-  - id: openwiki-source-3cf56b0e79067d306d450611
-    resource: repo://apps/github.io/src/app/skills/skill-table-responsive.ts
   - id: openwiki-source-4fbf5ecc6f0c1fc5eff98141
     resource: repo://apps/github.io/src/app/skills/skills-page.spec.tsx
   - id: openwiki-source-a845ec3d01c38967df3a4dad
@@ -77,7 +75,7 @@ sources:
     resource: repo://apps/github.io/src/styles.css
   - id: openwiki-source-fcfa3ced1d03143bb27d5018
     resource: repo://apps/github.io/vite.config.ts
-generated: { by: "codex", at: "2026-09-14T12:03:13.338Z" }
+generated: { by: "codex", at: "2026-09-15T03:04:17.043Z" }
 ---
 
 # Design system and layout
@@ -161,8 +159,8 @@ At table-width viewports, the Skills page renders its introduction above the
 reusable `SkillTableDetailLayout`. Inside its full-width Astryx `Card`, a padded
 `LayoutHeader` groups the search and category controls above the edge-to-edge
 table body and adjacent in-card detail panel. The inspector begins with a close
-control, skill name and description, then a same-tab `View {skill name} details`
-link before a divider, direct metadata list, and plain experience list; compact
+control beside the skill name, description, then a same-tab `View {skill name} details`
+link before full-width dividers, direct metadata list, and an always-visible plain experience list; compact
 viewports retain the card catalog, toolbar search, and category popover. The
 table composes Astryx's table,
 compact text input, multi-selector, button, card, layout, and empty-state
@@ -196,9 +194,9 @@ without removing the list and list-item semantics.
 
 The shared `SkillExperienceCardShell` keeps each experience heading and summary
 visible while placing non-empty detail projections inside Astryx `Collapsible`.
-Its `appearance` option wraps standalone-detail entries in cards but leaves
-table-inspector entries unframed, avoiding a nested-card surface while retaining
-the same information architecture.
+Its `appearance` option wraps standalone-detail entries in cards and disclosures,
+but leaves table-inspector entries unframed and expanded with visible labels and
+count badges, avoiding nested surfaces and chevrons.
 Closed mixed-content triggers show both `Highlights` and `Relevant skills`
 counts; opening retains `Highlights` in the trigger and places the skill label
 above its accessible token list. A skills-only card keeps `Relevant skills` and

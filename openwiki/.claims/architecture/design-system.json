@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:fe676b4f5a6d1efb31a2c15a58cf4fc66d2fd61be256deb9a36022f5d8db98d2",
+  "pageVersion": "sha256:8636273a9e38aa40d1cebccfb8564a0e4921e7018c832fe5bf832229e580e776",
   "claims": [
     {
       "id": "claim_67f0a6341495404e8eefce3e45fd6173",
@@ -138,15 +138,15 @@
     },
     {
       "id": "claim_e60e9e0eb69646cba7b3570677531e65",
-      "statement": "At table-width viewports, the Skills page renders its introduction above a full-width Astryx card. A padded LayoutHeader groups search and category controls above the edge-to-edge table body and an adjacent in-card inspector. That inspector supplies a close control, skill name and description, a same-tab detail link, a divider, direct metadata, and an unframed experience list; compact viewports retain the card catalogue, toolbar search, and category popover. The table provides sortable columns, filtering, clearing, empty states, and pointer or keyboard row activation.",
+      "statement": "At table-width viewports, the Skills page renders its introduction above a full-width Astryx card. A padded LayoutHeader groups controls above the edge-to-edge table body and an adjacent in-card inspector. The inspector supplies a close control beside the skill name, description, same-tab detail link, full-width dividers, direct metadata, and an always-visible unframed experience list; compact viewports retain the card catalogue, toolbar search, and category popover.",
       "evidence": [
         {
           "resource": "repo://apps/github.io/src/app/skills/skill-detail-content.tsx",
-          "version": "repo-file-v1:sha256:a3e0aa6591195753fae7bf8a2f8bf71fce8f78e75c38d5f210289b74d32b2b49"
+          "version": "repo-file-v1:sha256:fa85e7948c5068fcfe65411ad193c0df03a4c3ec3923194211e8ce7917a39803"
         },
         {
           "resource": "repo://apps/github.io/src/app/skills/skill-table-detail-layout.tsx",
-          "version": "repo-file-v1:sha256:e5e48974bd6c69d973e3e0e7d40dd05b9be2df884afc7198b57ad1d318e9176b"
+          "version": "repo-file-v1:sha256:e6ba376f3b11a02aa9a3df9ee9509f18a86e4b11c1ec820eec1c316cbfa02293"
         }
       ]
     },
@@ -156,11 +156,11 @@
       "evidence": [
         {
           "resource": "repo://apps/github.io/src/app/skills/skill-experience-card-list.tsx",
-          "version": "repo-file-v1:sha256:3cae7f4e2ae522330719db37c13aeef0d4f532a91c40afa9088438ffc6362fdb"
+          "version": "repo-file-v1:sha256:a7399c8a465d94ed6d55c84dd0e8959341111d1afd378279ea4095439b4797d3"
         },
         {
           "resource": "repo://apps/github.io/src/app/skills/skill-experience-list.tsx",
-          "version": "repo-file-v1:sha256:8bcf8612474d78514e23bf845adeb693cda213a2b00ea8a053873110d2a6e049"
+          "version": "repo-file-v1:sha256:95619ea094a31cf3bb51a5bbc5102099c53a337e9ef67c46850eacfaf35443ae"
         },
         {
           "resource": "repo://apps/github.io/src/app/skills/skill-key-outcomes.tsx",
@@ -208,7 +208,7 @@
       "evidence": [
         {
           "resource": "repo://apps/github.io/src/app/skills/skill-detail-content.tsx",
-          "version": "repo-file-v1:sha256:a3e0aa6591195753fae7bf8a2f8bf71fce8f78e75c38d5f210289b74d32b2b49"
+          "version": "repo-file-v1:sha256:fa85e7948c5068fcfe65411ad193c0df03a4c3ec3923194211e8ce7917a39803"
         }
       ]
     },
@@ -228,23 +228,19 @@
     },
     {
       "id": "claim_05e7e8bb2330425eab7333cbc2b3498b",
-      "statement": "Skill experience entries share a controlled Astryx Collapsible shell that labels only non-empty projections. Its appearance can be card-framed for the standalone detail page or plain for the table inspector. Mixed entries retain Highlights in the expanded trigger and place Relevant skills above the token list; skills-only entries keep Relevant skills and its count beside the chevron in both states and omit the duplicate panel heading; empty entries omit the disclosure. The initial viewport seeds the open state from the shared compact-surface query, closed for the bottom-sheet treatment and open otherwise, without later viewport changes overriding the visitor's choice.",
+      "statement": "Skill experience entries share a presentation shell. The standalone page uses controlled Astryx Collapsible cards; the table inspector uses plain always-visible entries with Highlights and Relevant skills labels and count badges, without chevrons. The standalone disclosure preserves its responsive initial state and visitor choice.",
       "evidence": [
         {
           "resource": "repo://apps/github.io/src/app/skills/skill-experience-card-list.tsx",
-          "version": "repo-file-v1:sha256:3cae7f4e2ae522330719db37c13aeef0d4f532a91c40afa9088438ffc6362fdb"
+          "version": "repo-file-v1:sha256:a7399c8a465d94ed6d55c84dd0e8959341111d1afd378279ea4095439b4797d3"
         },
         {
           "resource": "repo://apps/github.io/src/app/skills/skill-experience-card-shell.tsx",
-          "version": "repo-file-v1:sha256:e29d8815fd8578b08c7a6e4083e6e8c53a230f8f38855190c02b0a1c2dbe0272"
+          "version": "repo-file-v1:sha256:81a308e446c949a894cff6bc6785f425c0ad2fcb51c43e1455a652e3b2778084"
         },
         {
           "resource": "repo://apps/github.io/src/app/skills/skill-experience-list.tsx",
-          "version": "repo-file-v1:sha256:8bcf8612474d78514e23bf845adeb693cda213a2b00ea8a053873110d2a6e049"
-        },
-        {
-          "resource": "repo://apps/github.io/src/app/skills/skill-table-responsive.ts",
-          "version": "repo-file-v1:sha256:4a8eefbbdd92e49d8b68817de81a373d2a9aeb3a99a64bce216ad176efffb0fa"
+          "version": "repo-file-v1:sha256:95619ea094a31cf3bb51a5bbc5102099c53a337e9ef67c46850eacfaf35443ae"
         }
       ]
     },
@@ -309,6 +305,6 @@
   ],
   "verification": {
     "by": "openwiki/0.5.0",
-    "at": "2026-09-14T12:03:13.338Z"
+    "at": "2026-09-15T03:04:17.043Z"
   }
 }

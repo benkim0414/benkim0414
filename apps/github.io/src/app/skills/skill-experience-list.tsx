@@ -69,7 +69,7 @@ export function SkillExperienceList({
 
                 {relevantSkills.length > 0 ? (
                   <VStack gap={1}>
-                    {facts.length > 0 ? (
+                    {appearance === 'card' && facts.length > 0 ? (
                       <HStack gap={2} vAlign="center">
                         <Text type="supporting" color="secondary">
                           Relevant skills

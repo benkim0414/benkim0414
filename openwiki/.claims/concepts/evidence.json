@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:ca3cda7d1bdec7962c69817d17dcaacb0a0aaff7cf52179eb4a67b965d042c35",
+  "pageVersion": "sha256:93e2f4da1783703a296eb743fedd9f35313cf6873574a61eca95a178f2826c14",
   "claims": [
     {
       "id": "claim_41253c1ed05946c38b803e4b8b5d55dc",
@@ -104,23 +104,19 @@
     },
     {
       "id": "claim_ab095bf1773b445c8515b8d44168e5da",
-      "statement": "Skill-detail entries keep source summaries visible and label only non-empty evidence projections: narratives or deduplicated capability facts are Highlights, and skill tokens receive their own count. Closed triggers name each available projection. With both projections, open entries place Relevant skills once above the accessible token list; skills-only entries keep that label and count in the trigger beside the chevron in both states and omit the duplicate panel heading. Entries with neither projection have no disclosure. The standalone route frames entries as cards while the table inspector presents the same disclosures unframed. New entries start closed on the shared compact bottom-sheet surface and open on the non-compact adjacent-panel surface, while later viewport changes preserve the visitor's choice and source-model boundaries remain unchanged.",
+      "statement": "Skill-detail entries keep source summaries visible and label only non-empty evidence projections. The standalone route frames entries in cards and disclosures, while the table inspector presents the same labels and count badges in an unframed always-visible list without chevrons.",
       "evidence": [
         {
           "resource": "repo://apps/github.io/src/app/skills/skill-experience-card-list.tsx",
-          "version": "repo-file-v1:sha256:3cae7f4e2ae522330719db37c13aeef0d4f532a91c40afa9088438ffc6362fdb"
+          "version": "repo-file-v1:sha256:a7399c8a465d94ed6d55c84dd0e8959341111d1afd378279ea4095439b4797d3"
         },
         {
           "resource": "repo://apps/github.io/src/app/skills/skill-experience-card-shell.tsx",
-          "version": "repo-file-v1:sha256:e29d8815fd8578b08c7a6e4083e6e8c53a230f8f38855190c02b0a1c2dbe0272"
+          "version": "repo-file-v1:sha256:81a308e446c949a894cff6bc6785f425c0ad2fcb51c43e1455a652e3b2778084"
         },
         {
           "resource": "repo://apps/github.io/src/app/skills/skill-experience-list.tsx",
-          "version": "repo-file-v1:sha256:8bcf8612474d78514e23bf845adeb693cda213a2b00ea8a053873110d2a6e049"
-        },
-        {
-          "resource": "repo://apps/github.io/src/app/skills/skill-table-responsive.ts",
-          "version": "repo-file-v1:sha256:4a8eefbbdd92e49d8b68817de81a373d2a9aeb3a99a64bce216ad176efffb0fa"
+          "version": "repo-file-v1:sha256:95619ea094a31cf3bb51a5bbc5102099c53a337e9ef67c46850eacfaf35443ae"
         }
       ]
     },
@@ -141,6 +137,6 @@
   ],
   "verification": {
     "by": "openwiki/0.5.0",
-    "at": "2026-09-14T12:03:13.338Z"
+    "at": "2026-09-15T03:04:17.043Z"
   }
 }

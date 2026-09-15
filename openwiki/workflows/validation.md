@@ -46,8 +46,6 @@ sources:
     resource: repo://apps/github.io/src/app/skills/skill-table-responsive.ts
   - id: openwiki-source-3d04b17fb8b6c27eb59cd798
     resource: repo://apps/github.io/src/app/skills/skill-table.spec.tsx
-  - id: openwiki-source-3f3dc1d4c3baeae6c2657a1d
-    resource: repo://apps/github.io/src/app/skills/skill-table.stories.spec.tsx
   - id: openwiki-source-a08412c702b94999bfa82651
     resource: repo://apps/github.io/src/app/skills/skill-table.stories.tsx
   - id: openwiki-source-4fbf5ecc6f0c1fc5eff98141
@@ -80,10 +78,10 @@ sources:
     resource: repo://scripts/setup-openwiki.test.mjs
   - id: openwiki-source-165465422a61a00b62b0f6d3
     resource: repo://scripts/sync-github-pages-artifact.test.mjs
-generated: { by: "codex", at: "2026-09-14T12:03:13.338Z" }
+generated: { by: "codex", at: "2026-09-15T03:04:17.043Z" }
 verified:
   - by: openwiki/0.5.0
-    at: 2026-09-14T12:03:13.338Z
+    at: 2026-09-15T03:04:17.043Z
 ---
 
 # Validation workflow
@@ -208,8 +206,9 @@ Page-level tests separately prove the responsive card/table switch, the page
 introduction preceding the labelled desktop toolbar, controls preceding the
 table, the bounded master-detail layout, same-page detail selection, focus
 restoration, and selection cleanup. The detail-layout suite also asserts the
-inspector's named same-tab detail link, divider hierarchy, omission of Projects,
-and unframed experience entries. Storybook provides explicit desktop-table and
+inspector's named same-tab detail link, full-width divider hierarchy, title-row
+close control, omission of Projects, and unframed always-visible experience
+entries. Storybook provides explicit desktop-table and
 compact-card viewport stories. These DOM assertions still do not prove that
 estimated column widths fit rendered content; that remains a visual check.
 

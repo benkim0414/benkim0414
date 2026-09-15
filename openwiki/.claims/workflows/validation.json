@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:739d5d65b394a64057250617f53f5bc7849e5b57f76a0a1d090ecf90808ebc36",
+  "pageVersion": "sha256:c0db72445b707e1170f9481ac4321230df89be0eec693eea1a40dc35cb6c8bad",
   "claims": [
     {
       "id": "claim_6cbb6dd0080f4763aaf4dec964f7f76e",
@@ -278,15 +278,11 @@
     },
     {
       "id": "claim_e77cd36300514575ae7cfc6bbe3f3be7",
-      "statement": "SkillsPage tests protect the responsive card-to-table switch, the page introduction preceding the labelled desktop toolbar, controls preceding the table, the bounded master-detail layout, same-page detail selection, focus restoration, and selection cleanup. The detail-layout suite protects the inspector's named same-tab detail link, divider hierarchy, omission of Projects, and unframed experience entries. SkillTable Storybook stories provide explicit desktop-table and compact-card scenarios for visual review.",
+      "statement": "SkillsPage tests protect the responsive card-to-table switch, bounded master-detail layout, selection and focus behavior. The detail-layout suite protects the inspector's same-tab detail link, full-width dividers, title-row close control, omission of Projects, and unframed always-visible experience entries. SkillTable Storybook stories provide desktop-table and compact-card visual scenarios.",
       "evidence": [
         {
           "resource": "repo://apps/github.io/src/app/skills/skill-table-detail-layout.spec.tsx",
-          "version": "repo-file-v1:sha256:db1bd27424d0aebed3fb9cd96b1bc4cd92e703f9e72eb87d17eb0384c3b77f48"
-        },
-        {
-          "resource": "repo://apps/github.io/src/app/skills/skill-table.stories.spec.tsx",
-          "version": "repo-file-v1:sha256:cf05cdfd533396b606b2ba48144ac18c669d1af6ba0e32af08174594b8330fa6"
+          "version": "repo-file-v1:sha256:cf8c11508ffd7bf378563e2635915b4e5f1bb62dfa90134b7e92c1479b076bc4"
         },
         {
           "resource": "repo://apps/github.io/src/app/skills/skill-table.stories.tsx",
@@ -333,6 +329,6 @@
   ],
   "verification": {
     "by": "openwiki/0.5.0",
-    "at": "2026-09-14T12:03:13.338Z"
+    "at": "2026-09-15T03:04:17.043Z"
   }
 }

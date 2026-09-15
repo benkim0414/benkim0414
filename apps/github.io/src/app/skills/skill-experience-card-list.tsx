@@ -77,7 +77,7 @@ export function SkillExperienceCardList({
 }
 
 export function SkillExperienceCard({
-  appearance,
+  appearance = 'card',
   experience,
   relevantSkillLabels = [],
   relevantSkills,
@@ -101,7 +101,7 @@ export function SkillExperienceCard({
 
       {resolvedRelevantSkills.length > 0 ? (
         <VStack gap={1}>
-          {experience.narrative.length > 0 ? (
+          {appearance === 'card' && experience.narrative.length > 0 ? (
             <HStack gap={2} vAlign="center">
               <Text type="supporting" color="secondary">
                 Relevant skills

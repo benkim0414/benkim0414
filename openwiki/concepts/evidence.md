@@ -28,12 +28,10 @@ sources:
     resource: repo://apps/github.io/src/app/skills/skill-experience-list.tsx
   - id: openwiki-source-b4039a7397de0bc8565df5e3
     resource: repo://apps/github.io/src/app/skills/skill-list.data.ts
-  - id: openwiki-source-3cf56b0e79067d306d450611
-    resource: repo://apps/github.io/src/app/skills/skill-table-responsive.ts
-generated: { by: "codex", at: "2026-09-14T12:03:13.338Z" }
+generated: { by: "codex", at: "2026-09-15T03:04:17.043Z" }
 verified:
   - by: openwiki/0.5.0
-    at: 2026-09-14T12:03:13.338Z
+    at: 2026-09-15T03:04:17.043Z
 ---
 
 # Skills and capability evidence
@@ -78,8 +76,9 @@ the highlight count and each renderer moves the visible `Relevant skills` label
 and count above the accessible token list. A skills-only disclosure instead
 keeps that label and count in its trigger beside the chevron in both states, and
 omits a duplicate heading above the tokens. An entry with neither projection has
-no disclosure. The standalone detail route presents entries in cards, whereas
-the table inspector uses the same disclosure and labels in an unframed list.
+no disclosure. The standalone detail route presents entries in cards and
+disclosures, whereas the table inspector uses an unframed always-visible list
+with the same labels and count badges.
 The proof starts collapsed when the initial viewport selects the shared compact
 bottom-sheet surface and expanded on the non-compact adjacent-panel surface.
 Later viewport changes preserve the visitor's choice without truncating or

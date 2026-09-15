@@ -46,12 +46,10 @@ sources:
     resource: repo://apps/github.io/src/app/skills/skill-experience-list.tsx
   - id: openwiki-source-b7cc9784bea6b15d468f9f23
     resource: repo://apps/github.io/src/app/skills/skill-table-detail-layout.tsx
-  - id: openwiki-source-a845ec3d01c38967df3a4dad
-    resource: repo://apps/github.io/src/app/skills/skills-page.tsx
-generated: { by: "codex", at: "2026-09-14T12:03:13.338Z" }
+generated: { by: "codex", at: "2026-09-15T03:04:17.043Z" }
 verified:
   - by: openwiki/0.5.0
-    at: 2026-09-14T12:03:13.338Z
+    at: 2026-09-15T03:04:17.043Z
 ---
 
 # Application architecture
@@ -92,8 +90,8 @@ semantics, or DOM and keyboard order.
 widths it renders the page introduction above `SkillTableDetailLayout`; inside
 the full-width Astryx card, a padded `LayoutHeader` groups controls above the
 edge-to-edge table and adjacent in-card inspector. The inspector presents a
-close control, name, description, same-tab detail link, metadata, and
-Experience only; Projects remain on the standalone detail route. Pointer or
+close control beside its name, description, same-tab detail link, full-width
+dividers, metadata, and always-visible Experience only; Projects remain on the standalone detail route. Pointer or
 keyboard row activation opens resolved skill detail and returns focus to the
 originating row.
 Compact widths render the card catalog with toolbar search and category filters
@@ -158,8 +156,8 @@ projection below it. This shared presentation does not merge the underlying
 authored-experience and capability-evidence models.
 
 Both projections then enter the same controlled experience shell. The
-standalone route uses its card-framed appearance, while the table inspector uses
-an unframed appearance. Mixed entries show both counts while closed, retain
+standalone route uses its card-framed disclosures, while the table inspector uses
+an unframed always-visible appearance with labels and count badges. Mixed entries show both counts while closed, retain
 `Highlights` in the open trigger,
 and move `Relevant skills` above the token list. Skills-only cards keep the
 skill label, count, and chevron together in the trigger in both states, while

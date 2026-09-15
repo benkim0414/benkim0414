@@ -105,48 +105,56 @@ export function SkillDetailContent({
   const experienceCardCount =
     detail.experiences.length + detail.experienceEvidence.length;
 
+  const experience = hasExperience ? (
+    <section aria-labelledby="skill-experience-narrative-heading">
+      <VStack gap={3}>
+        <HStack gap={2} vAlign="center">
+          <Heading id="skill-experience-narrative-heading" level={2}>
+            Experience
+          </Heading>
+          <CountBadge count={experienceCardCount} />
+        </HStack>
+
+        {detail.experiences.length > 0 ? (
+          <SkillExperienceCardList
+            appearance={presentation === 'inspector' ? 'plain' : 'card'}
+            experiences={detail.experiences}
+            skills={detail.relatedSkills}
+          />
+        ) : null}
+
+        {detail.experienceEvidence.length > 0 ? (
+          <SkillExperienceList
+            appearance={presentation === 'inspector' ? 'plain' : 'card'}
+            evidence={detail.experienceEvidence}
+            skills={detail.relatedSkills}
+          />
+        ) : null}
+      </VStack>
+    </section>
+  ) : null;
+
+  if (presentation === 'inspector') {
+    return (
+      <VStack gap={6}>
+        <VStack paddingInline={4}>
+          <SkillMetadataList detail={detail} />
+        </VStack>
+        {hasExperience ? <Divider /> : null}
+        {hasExperience ? <VStack paddingInline={4}>{experience}</VStack> : null}
+      </VStack>
+    );
+  }
+
   return (
     <VStack gap={6}>
-      {presentation === 'page' ? (
-        <Card variant="muted" width="100%" xstyle={styles.metadataCard}>
-          <SkillMetadataList detail={detail} />
-        </Card>
-      ) : (
+      <Card variant="muted" width="100%" xstyle={styles.metadataCard}>
         <SkillMetadataList detail={detail} />
-      )}
+      </Card>
 
-      {presentation === 'inspector' && hasExperience ? <Divider /> : null}
+      {experience}
 
-      {hasExperience ? (
-        <section aria-labelledby="skill-experience-narrative-heading">
-          <VStack gap={3}>
-            <HStack gap={2} vAlign="center">
-              <Heading id="skill-experience-narrative-heading" level={2}>
-                Experience
-              </Heading>
-              <CountBadge count={experienceCardCount} />
-            </HStack>
-
-            {detail.experiences.length > 0 ? (
-              <SkillExperienceCardList
-                appearance={presentation === 'inspector' ? 'plain' : 'card'}
-                experiences={detail.experiences}
-                skills={detail.relatedSkills}
-              />
-            ) : null}
-
-            {detail.experienceEvidence.length > 0 ? (
-              <SkillExperienceList
-                appearance={presentation === 'inspector' ? 'plain' : 'card'}
-                evidence={detail.experienceEvidence}
-                skills={detail.relatedSkills}
-              />
-            ) : null}
-          </VStack>
-        </section>
-      ) : null}
-
-      {presentation === 'page' && detail.projects.length > 0 ? (
+      {detail.projects.length > 0 ? (
         <section aria-labelledby="skill-projects-heading">
           <VStack gap={3}>
             <HStack gap={2} vAlign="center">

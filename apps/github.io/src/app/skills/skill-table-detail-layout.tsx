@@ -54,8 +54,10 @@ function SkillDetailBody({
   onClose,
 }: SkillDetailBodyProps): ReactElement {
   return (
-    <VStack gap={6} padding={4}>
-      <HStack hAlign="end">
+    <VStack gap={6}>
+      <VStack gap={6} paddingInline={4} paddingBlockStart={4}>
+        <HStack hAlign="space-between" vAlign="center">
+          <Heading level={2}>{detail.skill.name}</Heading>
         <IconButton
           icon={<Icon icon="close" size="sm" />}
           label={`Close ${detail.skill.name} details`}
@@ -63,18 +65,18 @@ function SkillDetailBody({
           variant="ghost"
           onClick={onClose}
         />
-      </HStack>
-      <VStack gap={2} hAlign="start">
-        <Heading level={2}>{detail.skill.name}</Heading>
-        <Text as="p" color="secondary" type="body">
-          {detail.skill.description}
-        </Text>
+        </HStack>
+        <VStack gap={2} hAlign="start">
+          <Text as="p" color="secondary" type="body">
+            {detail.skill.description}
+          </Text>
+        </VStack>
+        <Button
+          href={getSkillDetailPath(detail.skill.id)}
+          label={`View ${detail.skill.name} details`}
+          variant="secondary"
+        />
       </VStack>
-      <Button
-        href={getSkillDetailPath(detail.skill.id)}
-        label={`View ${detail.skill.name} details`}
-        variant="secondary"
-      />
       <Divider />
       <SkillDetailContent detail={detail} presentation="inspector" />
     </VStack>

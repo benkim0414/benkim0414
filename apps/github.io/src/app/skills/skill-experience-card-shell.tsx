@@ -26,6 +26,7 @@ export function SkillExperienceCardShell({
   title,
 }: SkillExperienceCardShellProps): ReactElement {
   const hasDetails = outcomeCount > 0 || skillCount > 0;
+  const isCollapsible = appearance === 'card';
   const [isOpen, setIsOpen] = useState(shouldStartCollapsibleExpanded);
 
   const content = (
@@ -37,7 +38,28 @@ export function SkillExperienceCardShell({
         </Text>
       </VStack>
 
-      {hasDetails ? (
+      {!isCollapsible && hasDetails ? (
+        <HStack gap={2} wrap="wrap" vAlign="center">
+          {outcomeCount > 0 ? (
+            <>
+              <Text type="supporting" color="secondary">
+                Highlights
+              </Text>
+              <CountBadge count={outcomeCount} />
+            </>
+          ) : null}
+          {skillCount > 0 ? (
+            <>
+              <Text type="supporting" color="secondary">
+                Relevant skills
+              </Text>
+              <CountBadge count={skillCount} />
+            </>
+          ) : null}
+        </HStack>
+      ) : null}
+
+      {isCollapsible && hasDetails ? (
         <Collapsible
           isOpen={isOpen}
           onOpenChange={setIsOpen}
@@ -64,6 +86,8 @@ export function SkillExperienceCardShell({
         >
           <VStack gap={3}>{children}</VStack>
         </Collapsible>
+      ) : !isCollapsible ? (
+        <VStack gap={3}>{children}</VStack>
       ) : null}
     </VStack>
   );
