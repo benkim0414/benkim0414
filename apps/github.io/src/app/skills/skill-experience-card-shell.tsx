@@ -1,11 +1,12 @@
 import { Card } from '@astryxdesign/core/Card';
 import { Collapsible } from '@astryxdesign/core/Collapsible';
 import { Heading } from '@astryxdesign/core/Heading';
+import { Item } from '@astryxdesign/core/Item';
 import { HStack, VStack } from '@astryxdesign/core/Layout';
+import { LinkProvider } from '@astryxdesign/core/Link';
 import { Text } from '@astryxdesign/core/Text';
-import { colorVars } from '@astryxdesign/core/theme/tokens.stylex';
-import * as stylex from '@stylexjs/stylex';
 import { useState, type ReactElement, type ReactNode } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 import { CountBadge } from '../count-badge';
 import { shouldStartCollapsibleExpanded } from '../responsive-collapsible';
@@ -22,14 +23,59 @@ export interface SkillExperienceCardShellProps {
   readonly title: string;
 }
 
-const styles = stylex.create({
-  summaryLink: {
-    color: colorVars['--color-text-primary'],
-    display: 'flex',
-    textDecoration: 'none',
-    width: '100%',
-  },
-});
+interface InspectorExperienceItemProps {
+  readonly href: string;
+  readonly outcomeCount: number;
+  readonly skillCount: number;
+  readonly summary: string;
+  readonly title: string;
+}
+
+function InspectorExperienceItem({
+  href,
+  outcomeCount,
+  skillCount,
+  summary,
+  title,
+}: InspectorExperienceItemProps): ReactElement {
+  const navigate = useNavigate();
+  const hasDetails = outcomeCount > 0 || skillCount > 0;
+
+  return (
+    <LinkProvider component={RouterLink}>
+      <Item
+        align="center"
+        description={summary}
+        endContent={
+          hasDetails ? (
+            <HStack gap={2} wrap="wrap" vAlign="center">
+              {outcomeCount > 0 ? (
+                <>
+                  <Text type="supporting" color="secondary">
+                    Highlights
+                  </Text>
+                  <CountBadge count={outcomeCount} />
+                </>
+              ) : null}
+              {skillCount > 0 ? (
+                <>
+                  <Text type="supporting" color="secondary">
+                    Relevant skills
+                  </Text>
+                  <CountBadge count={skillCount} />
+                </>
+              ) : null}
+            </HStack>
+          ) : undefined
+        }
+        href={href}
+        label={title}
+        labelLines={2}
+        onClick={() => navigate(href)}
+      />
+    </LinkProvider>
+  );
+}
 
 export function SkillExperienceCardShell({
   appearance = 'card',
@@ -115,9 +161,13 @@ export function SkillExperienceCardShell({
   }
 
   return href ? (
-    <RouterLink href={href} {...stylex.props(styles.summaryLink)}>
-      {content}
-    </RouterLink>
+    <InspectorExperienceItem
+      href={href}
+      outcomeCount={outcomeCount}
+      skillCount={skillCount}
+      summary={summary}
+      title={title}
+    />
   ) : (
     content
   );

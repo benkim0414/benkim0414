@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:d0cdcf89f89692f0658544a9973f53cba6984f49783ef62849e24584cee86909",
+  "pageVersion": "sha256:7de0fb6d257d8f3e57ea7c6b2195c52ed41d89140aad0f0e0aa741c9ac482633",
   "claims": [
     {
       "id": "claim_da9ac46eb2204e9b9a555848aea5550d",
@@ -148,7 +148,7 @@
     },
     {
       "id": "claim_f90a317960e146e4bae983a38e99d06e",
-      "statement": "Experience projections use card-framed controlled disclosures on the standalone route and unframed full-row links with labels and count badges in the table inspector; each inspector link targets the matching standalone card fragment.",
+      "statement": "Experience projections use card-framed controlled disclosures on the standalone route and unframed, router-aware Astryx Item rows in the table inspector. Each Item uses the experience title and summary as primary slots and labels with count badges as end content, and its whole row activates the matching standalone card fragment.",
       "evidence": [
         {
           "resource": "repo://apps/github.io/src/app/skills/skill-experience-card-list.tsx",
@@ -156,7 +156,7 @@
         },
         {
           "resource": "repo://apps/github.io/src/app/skills/skill-experience-card-shell.tsx",
-          "version": "repo-file-v1:sha256:18cac2df2b8899d99cd07ac030bbebb2118015510116128cb8eee821fb96e7ec"
+          "version": "repo-file-v1:sha256:a624ad050c14e93136859f6c0fd164c5b561b108fdb1be7caf273db9fcdd3410"
         },
         {
           "resource": "repo://apps/github.io/src/app/skills/skill-experience-list.tsx",
@@ -199,6 +199,6 @@
   ],
   "verification": {
     "by": "openwiki/0.5.0",
-    "at": "2026-09-15T03:53:28.142Z"
+    "at": "2026-09-15T04:13:47.240Z"
   }
 }

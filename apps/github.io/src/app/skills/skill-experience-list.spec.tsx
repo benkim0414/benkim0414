@@ -62,9 +62,7 @@ describe('SkillExperienceList', () => {
     expect(evidenceLink.getAttribute('href')).toBe(
       `/portfolio/skills/kubernetes#experience-evidence-${evidence.id}`,
     );
-    expect(evidenceLink.firstElementChild?.classList).toContain(
-      'astryx-stack',
-    );
+    expect(evidenceLink.parentElement?.classList).toContain('astryx-item');
   });
 
   it('starts collapsed on a coarse tablet compact surface and reveals distinct outcomes on request', () => {

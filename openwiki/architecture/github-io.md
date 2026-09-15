@@ -46,10 +46,10 @@ sources:
     resource: repo://apps/github.io/src/app/skills/skill-experience-list.tsx
   - id: openwiki-source-b7cc9784bea6b15d468f9f23
     resource: repo://apps/github.io/src/app/skills/skill-table-detail-layout.tsx
-generated: { by: "codex", at: "2026-09-15T03:53:28.142Z" }
+generated: { by: "codex", at: "2026-09-15T04:13:47.240Z" }
 verified:
   - by: openwiki/0.5.0
-    at: 2026-09-15T03:53:28.142Z
+    at: 2026-09-15T04:13:47.240Z
 ---
 
 # Application architecture
@@ -144,10 +144,10 @@ single-column and does not render a one-item outline.
 Within either detail presentation, the Experience section appears when either
 primary experiences or supporting evidence exists. On the standalone route, an
 adjacent app-level `CountBadge` reports their combined rendered-item count. The
-badge is a sibling of the level-two heading so the section's accessible heading
-name remains `Experience`; the inspector instead uses a secondary supporting
-text label without an aggregate count. Only the standalone route renders
-Projects.
+badge is a sibling of the heading so the section's accessible heading name
+remains `Experience`; the standalone heading is level two and the inspector
+heading is level three, both with the aggregate count. Only the standalone route
+renders Projects.
 
 The two experience renderers keep their source-specific projection work at the
 boundary. Authored records pass ordered narrative strings to the shared
@@ -159,8 +159,9 @@ authored-experience and capability-evidence models.
 
 Both projections then enter the same controlled experience shell. The
 standalone route uses its card-framed disclosures, while the table inspector uses
-an unframed always-visible full-row link appearance with labels and count badges;
-each link targets the corresponding standalone card fragment. Mixed entries show both counts while closed, retain
+unframed always-visible, router-aware Astryx `Item` rows with title, summary,
+labels, and count badges; every Item row targets the corresponding standalone
+card fragment. Mixed entries show both counts while closed, retain
 `Highlights` in the open trigger,
 and move `Relevant skills` above the token list. Skills-only cards keep the
 skill label, count, and chevron together in the trigger in both states, while

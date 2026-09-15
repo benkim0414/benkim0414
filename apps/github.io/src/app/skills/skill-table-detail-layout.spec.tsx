@@ -1,7 +1,7 @@
 import { fireEvent, render } from '@testing-library/react';
 import { Theme } from '@astryxdesign/core';
 import { neutralTheme } from '@astryxdesign/theme-neutral/built';
-import { MemoryRouter } from 'react-router-dom';
+import { MemoryRouter, useLocation } from 'react-router-dom';
 import { vi } from 'vitest';
 
 import { resolveSkillDetail } from './skill-detail-resolver';
@@ -59,6 +59,12 @@ function requiredDetail(skillId: string): ResolvedSkillDetail {
   return result.value;
 }
 
+function LocationProbe() {
+  const location = useLocation();
+
+  return <output data-testid="location">{`${location.pathname}${location.hash}`}</output>;
+}
+
 const kubernetesDetail = requiredDetail('kubernetes');
 
 function renderLayout({
@@ -85,6 +91,7 @@ function renderLayout({
             onSelectedCategoriesChange={vi.fn()}
             onSkillActivate={onSkillActivate}
           />
+          <LocationProbe />
         </Theme>
       </MemoryRouter>,
     ),
@@ -173,12 +180,12 @@ describe('SkillTableDetailLayout', () => {
     expect(queryByRole('heading', { name: 'Projects' })).toBeNull();
   });
 
-  it('renders inspector experience as linked unframed summary rows', () => {
+  it('renders inspector experience as unframed Item summary rows', () => {
     setMediaMatches({
       [TABLE_QUERY]: true,
       [COMPACT_SURFACE_QUERY]: false,
     });
-    const { getByRole } = renderLayout();
+    const { container, getByRole } = renderLayout();
     const detailPanel = getByRole('region', { name: 'Kubernetes details' });
 
     expect(
@@ -198,15 +205,23 @@ describe('SkillTableDetailLayout', () => {
     );
 
     expect(experience).toBeTruthy();
-    const experienceLink = getByRole('link', {
+    const experienceItem = getByRole('link', {
       name: /Production Kubernetes platform operations on Amazon EKS/,
     });
 
-    expect(experienceLink.getAttribute('href')).toBe(
-      `/portfolio/skills/kubernetes#experience-${experience?.id}`,
-    );
-    expect(experienceLink.firstElementChild?.classList).toContain(
-      'astryx-stack',
+    expect(experienceItem.parentElement?.classList).toContain('astryx-item');
+    const relevantSkillsLabel = Array.from(
+      experienceItem.parentElement?.querySelectorAll('span') ?? [],
+    ).find((element) => element.textContent === 'Relevant skills');
+
+    expect(relevantSkillsLabel).toBeTruthy();
+    if (!relevantSkillsLabel) {
+      throw new Error('Expected the Item end slot to include Relevant skills.');
+    }
+
+    fireEvent.click(relevantSkillsLabel);
+    expect(container.querySelector('[data-testid="location"]')?.textContent).toBe(
+      `/skills/kubernetes#experience-${experience?.id}`,
     );
     expect(detailPanel.querySelectorAll('.astryx-card')).toHaveLength(0);
     expect(

@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:e5303c57d2cec09e706db69e126f0bd5bef38d978b365880be53a4a7398e843d",
+  "pageVersion": "sha256:a4753a60e52d79f9642b25a05ab6b2c406bf78470080a35f67e26e7babaca132",
   "claims": [
     {
       "id": "claim_41253c1ed05946c38b803e4b8b5d55dc",
@@ -104,7 +104,7 @@
     },
     {
       "id": "claim_ab095bf1773b445c8515b8d44168e5da",
-      "statement": "Skill-detail entries keep source summaries visible and label only non-empty evidence projections. The standalone route frames entries in cards and disclosures, while the table inspector presents the same labels and count badges in an unframed always-visible list of full-row links without chevrons; each link targets the corresponding standalone experience-card fragment.",
+      "statement": "Skill-detail entries keep source summaries visible and label only non-empty evidence projections. The standalone route frames entries in cards and disclosures, while the table inspector presents the same title, summary, labels, and count badges in an unframed always-visible list of router-aware Astryx Item rows without chevrons; each entire row targets the corresponding standalone experience-card fragment.",
       "evidence": [
         {
           "resource": "repo://apps/github.io/src/app/skills/skill-experience-card-list.tsx",
@@ -112,7 +112,7 @@
         },
         {
           "resource": "repo://apps/github.io/src/app/skills/skill-experience-card-shell.tsx",
-          "version": "repo-file-v1:sha256:18cac2df2b8899d99cd07ac030bbebb2118015510116128cb8eee821fb96e7ec"
+          "version": "repo-file-v1:sha256:a624ad050c14e93136859f6c0fd164c5b561b108fdb1be7caf273db9fcdd3410"
         },
         {
           "resource": "repo://apps/github.io/src/app/skills/skill-experience-list.tsx",
@@ -137,6 +137,6 @@
   ],
   "verification": {
     "by": "openwiki/0.5.0",
-    "at": "2026-09-15T03:53:28.142Z"
+    "at": "2026-09-15T04:13:47.240Z"
   }
 }
