@@ -222,8 +222,9 @@ describe('SkillTableDetailLayout', () => {
       detailPanel.querySelectorAll('.astryx-collapsible-trigger'),
     ).toHaveLength(0);
     expect(experienceItem.parentElement?.textContent).toContain(
-      '3 highlights·5 relevant skills',
+      '3 highlights · 5 relevant skills',
     );
+    expect(experienceItem.parentElement?.querySelector('span > div')).toBeNull();
     expect(experienceItem.parentElement?.querySelector('.astryx-badge')).toBeNull();
     expect(detailPanel.textContent).not.toContain(experience?.summary);
     expect(detailPanel.querySelectorAll('.astryx-list')).toHaveLength(0);

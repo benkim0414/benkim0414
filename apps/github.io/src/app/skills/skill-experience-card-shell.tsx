@@ -6,7 +6,7 @@ import { HStack, VStack } from '@astryxdesign/core/Layout';
 import { LinkProvider } from '@astryxdesign/core/Link';
 import { Text } from '@astryxdesign/core/Text';
 import { useState, type ReactElement, type ReactNode } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useInRouterContext } from 'react-router-dom';
 
 import { CountBadge } from '../count-badge';
 import { shouldStartCollapsibleExpanded } from '../responsive-collapsible';
@@ -36,39 +36,60 @@ function InspectorExperienceItem({
   skillCount,
   title,
 }: InspectorExperienceItemProps): ReactElement {
-  const navigate = useNavigate();
-  const hasDetails = outcomeCount > 0 || skillCount > 0;
+  const isRouterContext = useInRouterContext();
+  const description = getInspectorDescription(outcomeCount, skillCount);
 
+  if (!isRouterContext) {
+    return (
+      <Item
+        align="center"
+        description={description}
+        href={href}
+        label={title}
+        labelLines={2}
+      />
+    );
+  }
+
+  return (
+    <RoutedInspectorExperienceItem
+      description={description}
+      href={href}
+      title={title}
+    />
+  );
+}
+
+function RoutedInspectorExperienceItem({
+  description,
+  href,
+  title,
+}: Pick<InspectorExperienceItemProps, 'href' | 'title'> & {
+  readonly description?: string;
+}): ReactElement {
   return (
     <LinkProvider component={RouterLink}>
       <Item
         align="center"
-        description={hasDetails ? (
-          <HStack gap={1} wrap="wrap" vAlign="center">
-            {outcomeCount > 0 ? (
-              <Text type="supporting" color="secondary">
-                {outcomeCount} highlights
-              </Text>
-            ) : null}
-            {outcomeCount > 0 && skillCount > 0 ? (
-              <Text aria-hidden="true" type="supporting" color="secondary">
-                ·
-              </Text>
-            ) : null}
-            {skillCount > 0 ? (
-              <Text type="supporting" color="secondary">
-                {skillCount} relevant skills
-              </Text>
-            ) : null}
-          </HStack>
-        ) : undefined}
+        description={description}
         href={href}
         label={title}
         labelLines={2}
-        onClick={() => navigate(href)}
       />
     </LinkProvider>
   );
+}
+
+function getInspectorDescription(
+  outcomeCount: number,
+  skillCount: number,
+): string | undefined {
+  const descriptions = [
+    outcomeCount > 0 ? `${outcomeCount} highlights` : null,
+    skillCount > 0 ? `${skillCount} relevant skills` : null,
+  ].filter((description): description is string => description != null);
+
+  return descriptions.length > 0 ? descriptions.join(' · ') : undefined;
 }
 
 export function SkillExperienceCardShell({

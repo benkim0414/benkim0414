@@ -1,10 +1,11 @@
 import { fireEvent, render, screen, within } from '@testing-library/react';
-import { MemoryRouter } from 'react-router-dom';
+import { MemoryRouter, Route, Routes } from 'react-router-dom';
 import { afterEach, vi } from 'vitest';
 
 import { devOpsCapabilityEvidenceItems } from '../devops-capability-evidence/devops-capability-evidence.data';
 import { skills } from './skill-list.data';
 import { SkillExperienceList } from './skill-experience-list';
+import { SkillDetailRoute } from './skill-detail-route';
 import { COMPACT_SURFACE_QUERY } from './skill-table-responsive';
 
 const experienceFixtures = devOpsCapabilityEvidenceItems.filter((item) =>
@@ -63,6 +64,48 @@ describe('SkillExperienceList', () => {
       `/portfolio/skills/kubernetes#experience-evidence-${evidence.id}`,
     );
     expect(evidenceLink.parentElement?.classList).toContain('astryx-item');
+  });
+
+  it('navigates an inspector evidence row to the focused standalone card', () => {
+    const [evidence] = experienceFixtures;
+    const scrollIntoView = vi.fn();
+    const originalScrollIntoView = HTMLElement.prototype.scrollIntoView;
+
+    HTMLElement.prototype.scrollIntoView = scrollIntoView;
+
+    try {
+      render(
+        <MemoryRouter initialEntries={['/skills']}>
+          <Routes>
+            <Route
+              path="/skills"
+              element={
+                <SkillExperienceList
+                  appearance="plain"
+                  detailSkillId="kubernetes"
+                  evidence={[evidence]}
+                  skills={skills}
+                />
+              }
+            />
+            <Route path="/skills/:skillId" element={<SkillDetailRoute />} />
+          </Routes>
+        </MemoryRouter>,
+      );
+
+      fireEvent.click(
+        screen.getByRole('link', { name: new RegExp(`^${evidence.title}`) }),
+      );
+
+      const target = document.getElementById(
+        `experience-evidence-${evidence.id}`,
+      );
+
+      expect(target).toBe(document.activeElement);
+      expect(scrollIntoView).toHaveBeenCalledWith({ block: 'start' });
+    } finally {
+      HTMLElement.prototype.scrollIntoView = originalScrollIntoView;
+    }
   });
 
   it('starts collapsed on a coarse tablet compact surface and reveals distinct outcomes on request', () => {

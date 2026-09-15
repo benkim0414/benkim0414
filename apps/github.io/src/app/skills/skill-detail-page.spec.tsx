@@ -5,6 +5,7 @@ import { Theme } from '@astryxdesign/core';
 import { VStack } from '@astryxdesign/core/Layout';
 import { neutralTheme } from '@astryxdesign/theme-neutral/built';
 import { MemoryRouter } from 'react-router-dom';
+import { vi } from 'vitest';
 
 import { devOpsCapabilityEvidenceItems } from '../devops-capability-evidence/devops-capability-evidence.data';
 import { experiences } from '../experience/experience.data';
@@ -503,18 +504,28 @@ describe('SkillDetailPage', () => {
     );
   });
 
-  it('focuses the experience card addressed by the router fragment', () => {
+  it('scrolls and focuses the experience card addressed by the router fragment', () => {
     const detail = getResolvedDetail('kubernetes');
     const experience = detail.experiences[0];
-    const { container } = render(
-      <MemoryRouter initialEntries={[`/skills/kubernetes#experience-${experience.id}`]}>
-        <SkillDetailPage detail={detail} />
-      </MemoryRouter>,
-    );
-    const experienceCard = container.querySelector(
-      `#experience-${experience.id}`,
-    );
+    const scrollIntoView = vi.fn();
+    const originalScrollIntoView = HTMLElement.prototype.scrollIntoView;
 
-    expect(experienceCard).toBe(document.activeElement);
+    HTMLElement.prototype.scrollIntoView = scrollIntoView;
+
+    try {
+      const { container } = render(
+        <MemoryRouter initialEntries={[`/skills/kubernetes#experience-${experience.id}`]}>
+          <SkillDetailPage detail={detail} />
+        </MemoryRouter>,
+      );
+      const experienceCard = container.querySelector(
+        `#experience-${experience.id}`,
+      );
+
+      expect(experienceCard).toBe(document.activeElement);
+      expect(scrollIntoView).toHaveBeenCalledWith({ block: 'start' });
+    } finally {
+      HTMLElement.prototype.scrollIntoView = originalScrollIntoView;
+    }
   });
 });

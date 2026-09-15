@@ -305,9 +305,8 @@ describe('SkillsPage', () => {
       ),
     ).toBeTruthy();
     expect(
-      getByRole('heading', {
-        level: 3,
-        name: 'Production Kubernetes platform operations on Amazon EKS',
+      getByRole('link', {
+        name: /Production Kubernetes platform operations on Amazon EKS/,
       }),
     ).toBeTruthy();
     expect(
