@@ -78,10 +78,10 @@ sources:
     resource: repo://scripts/setup-openwiki.test.mjs
   - id: openwiki-source-165465422a61a00b62b0f6d3
     resource: repo://scripts/sync-github-pages-artifact.test.mjs
-generated: { by: "codex", at: "2026-09-15T04:30:09.723Z" }
+generated: { by: "codex", at: "2026-09-15T04:37:16.458Z" }
 verified:
   - by: openwiki/0.5.0
-    at: 2026-09-15T04:30:09.723Z
+    at: 2026-09-15T04:37:16.458Z
 ---
 
 # Validation workflow
@@ -209,7 +209,7 @@ restoration, and selection cleanup. The detail-layout suite also asserts the
 inspector's named same-tab detail link, full-width divider hierarchy, title-row
 far-right close control, omission of Projects, level-three Experience heading
 with aggregate count, and unframed always-visible authored and supporting-evidence
-Astryx Item summary rows without end content that activate standalone card
+Astryx Item summary rows in zero-gap stacks without end content that activate standalone card
 fragments under the router base path.
 Storybook provides explicit desktop-table and
 compact-card viewport stories. These DOM assertions still do not prove that

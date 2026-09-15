@@ -5,7 +5,7 @@ description: How Astryx, StyleX, theme persistence, and browser layout checks fi
 tags: [astryx, stylex, theme, layout]
 verified:
   - by: openwiki/0.5.0
-    at: 2026-09-15T04:30:09.723Z
+    at: 2026-09-15T04:37:16.458Z
 sources:
   - id: openwiki-source-45b1d77b308bd57403f55ff9
     resource: repo://apps/github.io/.storybook/story-taxonomy.spec.ts
@@ -75,7 +75,7 @@ sources:
     resource: repo://apps/github.io/src/styles.css
   - id: openwiki-source-fcfa3ced1d03143bb27d5018
     resource: repo://apps/github.io/vite.config.ts
-generated: { by: "codex", at: "2026-09-15T04:30:09.723Z" }
+generated: { by: "codex", at: "2026-09-15T04:37:16.458Z" }
 ---
 
 # Design system and layout
@@ -198,8 +198,8 @@ visible while placing non-empty detail projections inside Astryx `Collapsible`.
 Its `appearance` option wraps standalone-detail entries in cards and disclosures,
 but presents table-inspector entries as unframed, router-aware Astryx `Item`
 rows: title and summary use the primary slots without an end slot or chevrons.
-The Item's whole row activates the corresponding card fragment on the standalone
-skill-detail route.
+Authored and supporting Item lists use zero-gap VStacks; each Item's whole row
+activates the corresponding card fragment on the standalone skill-detail route.
 Closed mixed-content triggers show both `Highlights` and `Relevant skills`
 counts; opening retains `Highlights` in the trigger and places the skill label
 above its accessible token list. A skills-only card keeps `Relevant skills` and

@@ -28,10 +28,10 @@ sources:
     resource: repo://apps/github.io/src/app/skills/skill-experience-list.tsx
   - id: openwiki-source-b4039a7397de0bc8565df5e3
     resource: repo://apps/github.io/src/app/skills/skill-list.data.ts
-generated: { by: "codex", at: "2026-09-15T04:30:09.723Z" }
+generated: { by: "codex", at: "2026-09-15T04:37:16.458Z" }
 verified:
   - by: openwiki/0.5.0
-    at: 2026-09-15T04:30:09.723Z
+    at: 2026-09-15T04:37:16.458Z
 ---
 
 # Skills and capability evidence
@@ -78,8 +78,8 @@ keeps that label and count in its trigger beside the chevron in both states, and
 omits a duplicate heading above the tokens. An entry with neither projection has
 no disclosure. The standalone detail route presents entries in cards and
 disclosures, whereas the table inspector uses an unframed always-visible list
-of router-aware Astryx `Item` rows with title and summary; each entire row
-targets the matching experience-card fragment on the standalone
+of router-aware Astryx `Item` rows with title and summary in zero-gap stacks;
+each entire row targets the matching experience-card fragment on the standalone
 skill-detail route.
 The proof starts collapsed when the initial viewport selects the shared compact
 bottom-sheet surface and expanded on the non-compact adjacent-panel surface.

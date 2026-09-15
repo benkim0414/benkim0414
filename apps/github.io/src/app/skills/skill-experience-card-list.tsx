@@ -63,10 +63,15 @@ export function SkillExperienceCardList({
   skills = [],
 }: SkillExperienceCardListProps): ReactElement {
   return (
-    <ul aria-label="Skill experience" {...stylex.props(styles.list)}>
+    <VStack
+      aria-label="Skill experience"
+      as="ul"
+      gap={appearance === 'plain' ? 0 : undefined}
+      xstyle={styles.list}
+    >
       {experiences.map((experience) => (
         <li key={experience.id} {...stylex.props(styles.item)}>
-          <VStack paddingBlock={2}>
+          <VStack paddingBlock={appearance === 'plain' ? undefined : 2}>
             <SkillExperienceCard
               appearance={appearance}
               detailSkillId={detailSkillId}
@@ -76,7 +81,7 @@ export function SkillExperienceCardList({
           </VStack>
         </li>
       ))}
-    </ul>
+    </VStack>
   );
 }
 

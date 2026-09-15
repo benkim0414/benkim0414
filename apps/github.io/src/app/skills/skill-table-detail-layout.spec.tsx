@@ -211,6 +211,12 @@ describe('SkillTableDetailLayout', () => {
 
     expect(experienceItem.parentElement?.classList).toContain('astryx-item');
     expect(experienceItem.parentElement?.querySelector('.astryx-item-end')).toBeNull();
+    expect(
+      getByRole('list', { name: 'Skill experience' }).getAttribute('data-gap'),
+    ).toBe('0');
+    expect(
+      getByRole('list', { name: 'Supporting experience' }).getAttribute('data-gap'),
+    ).toBe('0');
     expect(detailPanel.querySelectorAll('.astryx-card')).toHaveLength(0);
     expect(
       detailPanel.querySelectorAll('.astryx-collapsible-trigger'),

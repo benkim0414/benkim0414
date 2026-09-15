@@ -50,7 +50,12 @@ export function SkillExperienceList({
   skills = [],
 }: SkillExperienceListProps): ReactElement {
   return (
-    <ul aria-label="Supporting experience" {...stylex.props(styles.list)}>
+    <VStack
+      aria-label="Supporting experience"
+      as="ul"
+      gap={appearance === 'plain' ? 0 : undefined}
+      xstyle={styles.list}
+    >
       {evidence.map((item) => {
         const relevantSkills = getRelevantSkills(item, skills);
         const facts = [...new Set(item.details?.facts ?? [])].filter(
@@ -59,7 +64,7 @@ export function SkillExperienceList({
 
         return (
           <li key={item.id} {...stylex.props(styles.item)}>
-            <VStack paddingBlock={3}>
+            <VStack paddingBlock={appearance === 'plain' ? undefined : 3}>
               <SkillExperienceCardShell
                 appearance={appearance}
                 anchorId={`experience-evidence-${item.id}`}
@@ -109,7 +114,7 @@ export function SkillExperienceList({
           </li>
         );
       })}
-    </ul>
+    </VStack>
   );
 }
 
