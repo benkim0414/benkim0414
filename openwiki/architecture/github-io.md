@@ -42,14 +42,16 @@ sources:
     resource: repo://apps/github.io/src/app/skills/skill-experience-card-list.tsx
   - id: openwiki-source-6d3d436c779dec5facaf5f2d
     resource: repo://apps/github.io/src/app/skills/skill-experience-card-shell.tsx
+  - id: openwiki-source-1da2c5712de0a298fd2a580a
+    resource: repo://apps/github.io/src/app/skills/skill-experience-list.spec.tsx
   - id: openwiki-source-ba5c27392181e6c65798f3c4
     resource: repo://apps/github.io/src/app/skills/skill-experience-list.tsx
   - id: openwiki-source-b7cc9784bea6b15d468f9f23
     resource: repo://apps/github.io/src/app/skills/skill-table-detail-layout.tsx
-generated: { by: "codex", at: "2026-09-15T04:37:16.458Z" }
+generated: { by: "codex", at: "2026-09-15T10:54:57.218Z" }
 verified:
   - by: openwiki/0.5.0
-    at: 2026-09-15T04:53:14.676Z
+    at: 2026-09-15T10:54:57.218Z
 ---
 
 # Application architecture
@@ -159,8 +161,11 @@ authored-experience and capability-evidence models.
 
 Both projections then enter the same controlled experience shell. The
 standalone route uses its card-framed disclosures, while the table inspector uses
-unframed always-visible, router-aware Astryx `Item` rows with title and summary
-in zero-gap authored and supporting stacks; every Item row targets the corresponding standalone card fragment. Mixed entries show both counts while closed, retain
+unframed always-visible, router-aware Astryx `Item` rows with an experience title
+and a compact description of highlight and relevant-skill counts in zero-gap
+authored and supporting stacks; every Item row targets the corresponding
+standalone card fragment, while a routerless render remains a native link. Mixed
+entries show both counts while closed, retain
 `Highlights` in the open trigger,
 and move `Relevant skills` above the token list. Skills-only cards keep the
 skill label, count, and chevron together in the trigger in both states, while

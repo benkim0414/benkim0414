@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:7886b3e97ed4953a1a64fd4c6cbb751848de2c407d0266f2b91b28602e363e6f",
+  "pageVersion": "sha256:9fba7f427e667d0fb7aab297f10a8be9b5da2d11669d67605d7fbdb74ed67562",
   "claims": [
     {
       "id": "claim_67f0a6341495404e8eefce3e45fd6173",
@@ -96,7 +96,7 @@
         },
         {
           "resource": "repo://apps/github.io/src/app/skills/skills-page.spec.tsx",
-          "version": "repo-file-v1:sha256:65fde5b796c45d27465f3a93c76818619da534d780df56f70f879ad193fd1745"
+          "version": "repo-file-v1:sha256:9b784a99480a2be5b4e0de068293f19d5fda0380b516c85e45a0c750737a5fbc"
         },
         {
           "resource": "repo://apps/github.io/src/app/skills/skills-page.tsx",
@@ -174,7 +174,7 @@
       "evidence": [
         {
           "resource": "repo://apps/github.io/src/app/skills/skill-detail-page.tsx",
-          "version": "repo-file-v1:sha256:14dd35cc4a8f3399dfacaa8fc0b9c3249ab820286278ef49c02776850334e59a"
+          "version": "repo-file-v1:sha256:2e852ba1aa8a9b66b96230166f63b48655254c4b1d4ab28463f105b2cefc2163"
         }
       ]
     },
@@ -228,11 +228,11 @@
     },
     {
       "id": "claim_05e7e8bb2330425eab7333cbc2b3498b",
-      "statement": "Skill experience entries share a presentation shell. The standalone page uses controlled Astryx Collapsible cards; the table inspector uses unframed, router-aware Astryx Item rows whose title and summary occupy primary slots without an end slot or chevrons. Authored and supporting Item lists use zero-gap VStacks. Each Item's whole row activates the corresponding standalone card fragment; on arrival, the matching card scrolls into view and receives focus. The standalone disclosure preserves its responsive initial state and visitor choice.",
+      "statement": "Skill experience entries share a presentation shell. The standalone page uses controlled Astryx Collapsible cards; the table inspector uses unframed, router-aware Astryx Item rows whose title leads and whose supporting description states highlight and relevant-skill counts without an end slot or chevrons. Outside a router, the Item remains a native link. Authored and supporting Item lists use zero-gap VStacks. Each Item's whole row activates the corresponding standalone card fragment; on arrival, the matching card scrolls into view and receives focus. The standalone disclosure preserves its responsive initial state and visitor choice.",
       "evidence": [
         {
           "resource": "repo://apps/github.io/src/app/skills/skill-detail-page.tsx",
-          "version": "repo-file-v1:sha256:14dd35cc4a8f3399dfacaa8fc0b9c3249ab820286278ef49c02776850334e59a"
+          "version": "repo-file-v1:sha256:2e852ba1aa8a9b66b96230166f63b48655254c4b1d4ab28463f105b2cefc2163"
         },
         {
           "resource": "repo://apps/github.io/src/app/skills/skill-experience-card-list.tsx",
@@ -240,7 +240,11 @@
         },
         {
           "resource": "repo://apps/github.io/src/app/skills/skill-experience-card-shell.tsx",
-          "version": "repo-file-v1:sha256:7bf6be49d89d48c2e61d10344ad8e28113c012bc0d4034a6c86e6b9c4ab6d076"
+          "version": "repo-file-v1:sha256:9feb67cec75e6d683a61b65ce48082e32d42cd6c35f9dc052360de7362ad1fa3"
+        },
+        {
+          "resource": "repo://apps/github.io/src/app/skills/skill-experience-list.spec.tsx",
+          "version": "repo-file-v1:sha256:f7b5d0f39da20dddf07b6a5484b449dd39b462a0fcf85b88ad5da79127d82063"
         },
         {
           "resource": "repo://apps/github.io/src/app/skills/skill-experience-list.tsx",
@@ -309,6 +313,6 @@
   ],
   "verification": {
     "by": "openwiki/0.5.0",
-    "at": "2026-09-15T04:53:14.676Z"
+    "at": "2026-09-15T10:54:57.218Z"
   }
 }

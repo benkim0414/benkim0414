@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:5dc4581ad0220b6b6ae9ffd6d6a02dee4fff3973f26c8d9a679bdc4d3bb9b104",
+  "pageVersion": "sha256:12d53b512094a6b8806140ab98bb3813a18408d638d8c5714f1e54cfb3bb6468",
   "claims": [
     {
       "id": "claim_41253c1ed05946c38b803e4b8b5d55dc",
@@ -104,7 +104,7 @@
     },
     {
       "id": "claim_ab095bf1773b445c8515b8d44168e5da",
-      "statement": "Skill-detail entries keep source summaries visible and label only non-empty evidence projections. The standalone route frames entries in cards and disclosures, while the table inspector presents the same title and summary in unframed always-visible zero-gap stacks of router-aware Astryx Item rows without chevrons; each entire row targets the corresponding standalone experience-card fragment.",
+      "statement": "Skill-detail entries keep source summaries visible and label only non-empty evidence projections. The standalone route frames entries in cards and disclosures, while the table inspector presents an experience title and compact highlight and relevant-skill counts in unframed always-visible zero-gap stacks of router-aware Astryx Item rows without chevrons; outside a router, each remains a native link. Each entire row targets the corresponding standalone experience-card fragment.",
       "evidence": [
         {
           "resource": "repo://apps/github.io/src/app/skills/skill-experience-card-list.tsx",
@@ -112,7 +112,11 @@
         },
         {
           "resource": "repo://apps/github.io/src/app/skills/skill-experience-card-shell.tsx",
-          "version": "repo-file-v1:sha256:7bf6be49d89d48c2e61d10344ad8e28113c012bc0d4034a6c86e6b9c4ab6d076"
+          "version": "repo-file-v1:sha256:9feb67cec75e6d683a61b65ce48082e32d42cd6c35f9dc052360de7362ad1fa3"
+        },
+        {
+          "resource": "repo://apps/github.io/src/app/skills/skill-experience-list.spec.tsx",
+          "version": "repo-file-v1:sha256:f7b5d0f39da20dddf07b6a5484b449dd39b462a0fcf85b88ad5da79127d82063"
         },
         {
           "resource": "repo://apps/github.io/src/app/skills/skill-experience-list.tsx",
@@ -137,6 +141,6 @@
   ],
   "verification": {
     "by": "openwiki/0.5.0",
-    "at": "2026-09-15T04:53:14.676Z"
+    "at": "2026-09-15T10:54:57.218Z"
   }
 }

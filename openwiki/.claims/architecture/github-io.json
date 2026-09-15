@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:b75660261ca2693e12e3e73cdcbb2c9b317bedecdea19e530b5f14a26c824efa",
+  "pageVersion": "sha256:33f5e0a21cf085aff31b52da6b98673f3f2318fa6a157650d4d173934d37ecff",
   "claims": [
     {
       "id": "claim_da9ac46eb2204e9b9a555848aea5550d",
@@ -60,7 +60,7 @@
         },
         {
           "resource": "repo://apps/github.io/src/app/skills/skill-detail-page.spec.tsx",
-          "version": "repo-file-v1:sha256:a837ad51b2759a19a91d603ed8aeae5d2d45d289fbe274fd8e10df9b8699847b"
+          "version": "repo-file-v1:sha256:26a68df115ede0978afe43bad5d8b4f7cc8e49e40d666cc0a61e949aab80cab9"
         }
       ]
     },
@@ -74,7 +74,7 @@
         },
         {
           "resource": "repo://apps/github.io/src/app/skills/skill-detail-page.spec.tsx",
-          "version": "repo-file-v1:sha256:a837ad51b2759a19a91d603ed8aeae5d2d45d289fbe274fd8e10df9b8699847b"
+          "version": "repo-file-v1:sha256:26a68df115ede0978afe43bad5d8b4f7cc8e49e40d666cc0a61e949aab80cab9"
         }
       ]
     },
@@ -124,11 +124,11 @@
         },
         {
           "resource": "repo://apps/github.io/src/app/skills/skill-detail-page.spec.tsx",
-          "version": "repo-file-v1:sha256:a837ad51b2759a19a91d603ed8aeae5d2d45d289fbe274fd8e10df9b8699847b"
+          "version": "repo-file-v1:sha256:26a68df115ede0978afe43bad5d8b4f7cc8e49e40d666cc0a61e949aab80cab9"
         },
         {
           "resource": "repo://apps/github.io/src/app/skills/skill-detail-page.tsx",
-          "version": "repo-file-v1:sha256:14dd35cc4a8f3399dfacaa8fc0b9c3249ab820286278ef49c02776850334e59a"
+          "version": "repo-file-v1:sha256:2e852ba1aa8a9b66b96230166f63b48655254c4b1d4ab28463f105b2cefc2163"
         }
       ]
     },
@@ -148,7 +148,7 @@
     },
     {
       "id": "claim_f90a317960e146e4bae983a38e99d06e",
-      "statement": "Experience projections use card-framed controlled disclosures on the standalone route and unframed, router-aware Astryx Item rows in zero-gap authored and supporting stacks in the table inspector. Each Item uses the experience title and summary as primary slots without end content, and its whole row activates the matching standalone card fragment.",
+      "statement": "Experience projections use card-framed controlled disclosures on the standalone route and unframed, router-aware Astryx Item rows in zero-gap authored and supporting stacks in the table inspector. Each Item leads with the experience title and uses a compact description of highlight and relevant-skill counts without end content; outside a router it remains a native link. Its whole row activates the matching standalone card fragment.",
       "evidence": [
         {
           "resource": "repo://apps/github.io/src/app/skills/skill-experience-card-list.tsx",
@@ -156,7 +156,11 @@
         },
         {
           "resource": "repo://apps/github.io/src/app/skills/skill-experience-card-shell.tsx",
-          "version": "repo-file-v1:sha256:7bf6be49d89d48c2e61d10344ad8e28113c012bc0d4034a6c86e6b9c4ab6d076"
+          "version": "repo-file-v1:sha256:9feb67cec75e6d683a61b65ce48082e32d42cd6c35f9dc052360de7362ad1fa3"
+        },
+        {
+          "resource": "repo://apps/github.io/src/app/skills/skill-experience-list.spec.tsx",
+          "version": "repo-file-v1:sha256:f7b5d0f39da20dddf07b6a5484b449dd39b462a0fcf85b88ad5da79127d82063"
         },
         {
           "resource": "repo://apps/github.io/src/app/skills/skill-experience-list.tsx",
@@ -199,6 +203,6 @@
   ],
   "verification": {
     "by": "openwiki/0.5.0",
-    "at": "2026-09-15T04:53:14.676Z"
+    "at": "2026-09-15T10:54:57.218Z"
   }
 }

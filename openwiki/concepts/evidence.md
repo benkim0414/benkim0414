@@ -24,14 +24,16 @@ sources:
     resource: repo://apps/github.io/src/app/skills/skill-experience-card-list.tsx
   - id: openwiki-source-6d3d436c779dec5facaf5f2d
     resource: repo://apps/github.io/src/app/skills/skill-experience-card-shell.tsx
+  - id: openwiki-source-1da2c5712de0a298fd2a580a
+    resource: repo://apps/github.io/src/app/skills/skill-experience-list.spec.tsx
   - id: openwiki-source-ba5c27392181e6c65798f3c4
     resource: repo://apps/github.io/src/app/skills/skill-experience-list.tsx
   - id: openwiki-source-b4039a7397de0bc8565df5e3
     resource: repo://apps/github.io/src/app/skills/skill-list.data.ts
-generated: { by: "codex", at: "2026-09-15T04:37:16.458Z" }
+generated: { by: "codex", at: "2026-09-15T10:54:57.218Z" }
 verified:
   - by: openwiki/0.5.0
-    at: 2026-09-15T04:53:14.676Z
+    at: 2026-09-15T10:54:57.218Z
 ---
 
 # Skills and capability evidence
@@ -78,9 +80,10 @@ keeps that label and count in its trigger beside the chevron in both states, and
 omits a duplicate heading above the tokens. An entry with neither projection has
 no disclosure. The standalone detail route presents entries in cards and
 disclosures, whereas the table inspector uses an unframed always-visible list
-of router-aware Astryx `Item` rows with title and summary in zero-gap stacks;
-each entire row targets the matching experience-card fragment on the standalone
-skill-detail route.
+of router-aware Astryx `Item` rows with an experience title and compact
+highlight and relevant-skill counts in zero-gap stacks; each entire row targets
+the matching experience-card fragment on the standalone skill-detail route, and
+is a native link when rendered outside a router.
 The proof starts collapsed when the initial viewport selects the shared compact
 bottom-sheet surface and expanded on the non-compact adjacent-panel surface.
 Later viewport changes preserve the visitor's choice without truncating or

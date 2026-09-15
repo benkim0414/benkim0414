@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:2a5c4bf4b71c74e406a45d93334603e3f1c96e39ae8afd7b28251f6bce855940",
+  "pageVersion": "sha256:f831ae8929fd8b09cdeec2663001617c9b51fe7bb8183bf8c9feb8829ff9c866",
   "claims": [
     {
       "id": "claim_6cbb6dd0080f4763aaf4dec964f7f76e",
@@ -72,7 +72,7 @@
         },
         {
           "resource": "repo://apps/github.io/src/app/skills/skills-page.spec.tsx",
-          "version": "repo-file-v1:sha256:65fde5b796c45d27465f3a93c76818619da534d780df56f70f879ad193fd1745"
+          "version": "repo-file-v1:sha256:9b784a99480a2be5b4e0de068293f19d5fda0380b516c85e45a0c750737a5fbc"
         }
       ]
     },
@@ -220,27 +220,27 @@
     },
     {
       "id": "claim_22b012bc44d34a13bbc0244b91b44d5b",
-      "statement": "Skill experience tests cover all four highlight and relevant-skill combinations, including independent omission for empty collections and no disclosure when both are empty. Skills-only regressions at both renderer boundaries require the same Relevant skills label and count to remain the trigger after expansion with no duplicate panel heading. Tests also protect state-dependent mixed-content label movement, shared compact-surface and non-compact initial defaults including coarse-tablet compact behavior, retained user choice through a compact-surface round trip, complete evidence text, deduplication, and the inspector evidence Item row with its router-base fragment link.",
+      "statement": "Skill experience tests cover all four highlight and relevant-skill combinations, including independent omission for empty collections and no disclosure when both are empty. Skills-only regressions at both renderer boundaries require the same Relevant skills label and count to remain the trigger after expansion with no duplicate panel heading. Tests also protect state-dependent mixed-content label movement, shared compact-surface and non-compact initial defaults including coarse-tablet compact behavior, retained user choice through a compact-surface round trip, complete evidence text, deduplication, and inspector Item rows with router-base fragment links. MemoryRouter and BrowserRouter tests cover the link navigation, target scroll, and focus behavior.",
       "evidence": [
         {
           "resource": "repo://apps/github.io/src/app/skills/skill-experience-card-list.spec.tsx",
           "version": "repo-file-v1:sha256:d255ce3e40348b71544b22fa0c6a290b225c32a32b2d08f3448b0e1eddd3460f"
         },
         {
-          "resource": "repo://apps/github.io/src/app/skills/skill-experience-card.stories.spec.ts#L1-L14",
-          "version": "repo-lines-v1:sha256:78b2deafc7d8c710baaa9198afdc2188a53b71ec30f41e9db45e88ff26e7c321:eyJzZWxlY3RlZExpbmVDb3VudCI6MTQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImU0ZDIzNTIyOTg2Y2VlYWNhZjZjOGU5MDFkZmY1NDA3YjZlMWE3Zjg2YTgwNzA4NjQxNTIzZmE0N2QwYjIxZDgiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImY2ZjViNDBiMTU4NDU3ZDE3ODY0ZjIxNzkwNzg2ZGQ1YTJlY2RiNjRiNjZhNjUxZjc4OGQ0ZTI1Y2QzMzAzZDIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+          "resource": "repo://apps/github.io/src/app/skills/skill-experience-card.stories.spec.ts",
+          "version": "repo-file-v1:sha256:78b2deafc7d8c710baaa9198afdc2188a53b71ec30f41e9db45e88ff26e7c321"
         },
         {
-          "resource": "repo://apps/github.io/src/app/skills/skill-experience-card.stories.tsx#L24-L49",
-          "version": "repo-lines-v1:sha256:1606275818a628966d992e0d5286683289759cd3061003a8272095283a97f00c:eyJzZWxlY3RlZExpbmVDb3VudCI6MjYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijk2MjI1MmY2MTgyOTBmNTc5M2JkMzIzMzE5MjQzOWQ2YjIzZmU4NzJlNGVlNGM1MzI2YTVmOThmYWNhOTE5MWYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxNGNjYWQ3MzQzZWI5N2NiZTRlMGRlYWJkNDkyMzU2YjVlZDAwZjYwYzc2ZGJhY2I1Yjg4ZmY3NTZmNmNjOTUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImEwNGZiYjdmYjkyNmE1ZGQxM2UwMmNjYjExNTBjNzE0MGEwMTk3ZWM4NTQxMmEyNzY3YThlYWZmZTE0MGIzZGQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImNiYzM0ZTViZGI4OTY3YzhmZjExZWUwOWU4ZTFmYjEzNzhlNThiZTBmMTQ1NTg4NmRhODU1MzZiMjBmMGJjOGQifQ"
+          "resource": "repo://apps/github.io/src/app/skills/skill-experience-card.stories.tsx",
+          "version": "repo-file-v1:sha256:183581a72fcb3c370f7d4a7ddf6892c52b4f251fa5e8660ea3a1c00524c9e25d"
         },
         {
           "resource": "repo://apps/github.io/src/app/skills/skill-experience-list.spec.tsx",
-          "version": "repo-file-v1:sha256:cfd2e59f7a16be9650ab3b6c161e86153b3d0916e8c12d10473d8adbb0d3fe88"
+          "version": "repo-file-v1:sha256:f7b5d0f39da20dddf07b6a5484b449dd39b462a0fcf85b88ad5da79127d82063"
         },
         {
-          "resource": "repo://apps/github.io/src/app/skills/skill-table-responsive.ts#L1-L3",
-          "version": "repo-lines-v1:sha256:4a8eefbbdd92e49d8b68817de81a373d2a9aeb3a99a64bce216ad176efffb0fa:eyJzZWxlY3RlZExpbmVDb3VudCI6MywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMjdkN2VkNmM5ZDkxODUyZWIxZWM4ODQ3NmJlMTM0YzI4N2RhNDQ2MTEwYmVlNTc3YjVhODMxNTkxYjkyZDJjZSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiZDBkNDM2NDE3MTM3YmRlODg5YTM2ZDUxNjgxMGNiZDhlOWQ2MmI5MDlkZTNlZmNhZWMyZjdiMTYwZjZjZmE2NCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjAsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjAsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSJ9"
+          "resource": "repo://apps/github.io/src/app/skills/skill-table-responsive.ts",
+          "version": "repo-file-v1:sha256:4a8eefbbdd92e49d8b68817de81a373d2a9aeb3a99a64bce216ad176efffb0fa"
         }
       ]
     },
@@ -278,19 +278,19 @@
     },
     {
       "id": "claim_e77cd36300514575ae7cfc6bbe3f3be7",
-      "statement": "SkillsPage tests protect the responsive card-to-table switch, bounded master-detail layout, selection and focus behavior. The detail-layout suite protects the inspector's same-tab detail link, full-width dividers, title-row far-right close control, level-three Experience heading with aggregate count, omission of Projects, and unframed always-visible authored and supporting-evidence Astryx Item summary rows in zero-gap stacks without end content that activate standalone card fragments under the router base path. SkillTable Storybook stories provide desktop-table and compact-card visual scenarios.",
+      "statement": "SkillsPage tests protect the responsive card-to-table switch, bounded master-detail layout, selection and focus behavior. The detail-layout suite protects the inspector's same-tab detail link, full-width dividers, title-row far-right close control, level-three Experience heading with aggregate count, omission of Projects, and unframed always-visible authored and supporting-evidence Astryx Item rows in zero-gap stacks with compact highlight and relevant-skill descriptions and no end content. Router tests verify that the rows activate standalone card fragments and that fragment arrival scrolls and focuses the matching card. SkillTable Storybook stories provide desktop-table and compact-card visual scenarios.",
       "evidence": [
         {
           "resource": "repo://apps/github.io/src/app/skills/skill-detail-page.spec.tsx",
-          "version": "repo-file-v1:sha256:a837ad51b2759a19a91d603ed8aeae5d2d45d289fbe274fd8e10df9b8699847b"
+          "version": "repo-file-v1:sha256:26a68df115ede0978afe43bad5d8b4f7cc8e49e40d666cc0a61e949aab80cab9"
         },
         {
           "resource": "repo://apps/github.io/src/app/skills/skill-experience-list.spec.tsx",
-          "version": "repo-file-v1:sha256:cfd2e59f7a16be9650ab3b6c161e86153b3d0916e8c12d10473d8adbb0d3fe88"
+          "version": "repo-file-v1:sha256:f7b5d0f39da20dddf07b6a5484b449dd39b462a0fcf85b88ad5da79127d82063"
         },
         {
           "resource": "repo://apps/github.io/src/app/skills/skill-table-detail-layout.spec.tsx",
-          "version": "repo-file-v1:sha256:24efff40ad1cd60f4ed9389f044e107a45ce0526681abbb76ee8bdf326a6a942"
+          "version": "repo-file-v1:sha256:88f9712a0ec54420d6b74657eb60ad3fdce2ee7bd261a87a1d4413e8b6c69ac4"
         },
         {
           "resource": "repo://apps/github.io/src/app/skills/skill-table.stories.tsx",
@@ -298,7 +298,7 @@
         },
         {
           "resource": "repo://apps/github.io/src/app/skills/skills-page.spec.tsx",
-          "version": "repo-file-v1:sha256:65fde5b796c45d27465f3a93c76818619da534d780df56f70f879ad193fd1745"
+          "version": "repo-file-v1:sha256:9b784a99480a2be5b4e0de068293f19d5fda0380b516c85e45a0c750737a5fbc"
         }
       ]
     },
@@ -337,6 +337,6 @@
   ],
   "verification": {
     "by": "openwiki/0.5.0",
-    "at": "2026-09-15T04:53:14.676Z"
+    "at": "2026-09-15T10:54:57.218Z"
   }
 }

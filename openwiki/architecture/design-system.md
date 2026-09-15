@@ -5,7 +5,7 @@ description: How Astryx, StyleX, theme persistence, and browser layout checks fi
 tags: [astryx, stylex, theme, layout]
 verified:
   - by: openwiki/0.5.0
-    at: 2026-09-15T04:53:14.676Z
+    at: 2026-09-15T10:54:57.218Z
 sources:
   - id: openwiki-source-45b1d77b308bd57403f55ff9
     resource: repo://apps/github.io/.storybook/story-taxonomy.spec.ts
@@ -59,6 +59,8 @@ sources:
     resource: repo://apps/github.io/src/app/skills/skill-experience-card-list.tsx
   - id: openwiki-source-6d3d436c779dec5facaf5f2d
     resource: repo://apps/github.io/src/app/skills/skill-experience-card-shell.tsx
+  - id: openwiki-source-1da2c5712de0a298fd2a580a
+    resource: repo://apps/github.io/src/app/skills/skill-experience-list.spec.tsx
   - id: openwiki-source-ba5c27392181e6c65798f3c4
     resource: repo://apps/github.io/src/app/skills/skill-experience-list.tsx
   - id: openwiki-source-2944a7e4b1284a70a09ee95a
@@ -75,7 +77,7 @@ sources:
     resource: repo://apps/github.io/src/styles.css
   - id: openwiki-source-fcfa3ced1d03143bb27d5018
     resource: repo://apps/github.io/vite.config.ts
-generated: { by: "codex", at: "2026-09-15T04:53:14.676Z" }
+generated: { by: "codex", at: "2026-09-15T10:54:57.218Z" }
 ---
 
 # Design system and layout
@@ -197,10 +199,12 @@ The shared `SkillExperienceCardShell` keeps each experience heading and summary
 visible while placing non-empty detail projections inside Astryx `Collapsible`.
 Its `appearance` option wraps standalone-detail entries in cards and disclosures,
 but presents table-inspector entries as unframed, router-aware Astryx `Item`
-rows: title and summary use the primary slots without an end slot or chevrons.
+rows: the experience title leads, while its supporting description compactly
+states the highlight and relevant-skill counts without an end slot or chevrons.
 Authored and supporting Item lists use zero-gap VStacks; each Item's whole row
 activates the corresponding card fragment on the standalone skill-detail route.
-On arrival, the matching card scrolls into view and receives focus.
+The same Item remains a native link when rendered outside a router. On arrival,
+the matching card scrolls into view and receives focus.
 Closed mixed-content triggers show both `Highlights` and `Relevant skills`
 counts; opening retains `Highlights` in the trigger and places the skill label
 above its accessible token list. A skills-only card keeps `Relevant skills` and

@@ -78,10 +78,10 @@ sources:
     resource: repo://scripts/setup-openwiki.test.mjs
   - id: openwiki-source-165465422a61a00b62b0f6d3
     resource: repo://scripts/sync-github-pages-artifact.test.mjs
-generated: { by: "codex", at: "2026-09-15T04:37:16.458Z" }
+generated: { by: "codex", at: "2026-09-15T10:54:57.218Z" }
 verified:
   - by: openwiki/0.5.0
-    at: 2026-09-15T04:53:14.676Z
+    at: 2026-09-15T10:54:57.218Z
 ---
 
 # Validation workflow
@@ -209,8 +209,10 @@ restoration, and selection cleanup. The detail-layout suite also asserts the
 inspector's named same-tab detail link, full-width divider hierarchy, title-row
 far-right close control, omission of Projects, level-three Experience heading
 with aggregate count, and unframed always-visible authored and supporting-evidence
-Astryx Item summary rows in zero-gap stacks without end content that activate standalone card
-fragments under the router base path.
+Astryx Item rows in zero-gap stacks whose compact descriptions state highlight and
+relevant-skill counts without end content. The rows activate standalone card
+fragments under the router base path, with BrowserRouter coverage for the
+arrival scroll and focus behavior.
 Storybook provides explicit desktop-table and
 compact-card viewport stories. These DOM assertions still do not prove that
 estimated column widths fit rendered content; that remains a visual check.
@@ -230,8 +232,9 @@ breakpoint. Round-trip tests cross from non-compact to compact and back,
 re-querying the disclosure to prove later viewport changes retain the user's
 choice. Coverage also protects user expansion, complete authored and capability
 list text, capability-fact deduplication, and omission when there is nothing to
-disclose. The evidence summary test also protects its Item row and router-base
-fragment link. The authored stories include a mobile viewport for the
+disclose. The evidence summary test protects the Item row, router-base fragment
+link, and BrowserRouter navigation to the focused card. The authored stories
+include a mobile viewport for the
 long wrapping narrative, selecting Storybook's `mobile1` viewport through the
 Storybook 10 `globals.viewport` contract with rotation disabled. Its story-module
 test protects both values. The capability story supplies multiple facts for
