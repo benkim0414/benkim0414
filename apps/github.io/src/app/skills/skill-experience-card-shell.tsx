@@ -86,8 +86,6 @@ export function SkillExperienceCardShell({
         >
           <VStack gap={3}>{children}</VStack>
         </Collapsible>
-      ) : !isCollapsible ? (
-        <VStack gap={3}>{children}</VStack>
       ) : null}
     </VStack>
   );

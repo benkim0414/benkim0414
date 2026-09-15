@@ -136,7 +136,7 @@ describe('SkillTableDetailLayout', () => {
     );
   });
 
-  it('keeps the close control beside the skill title', () => {
+  it('keeps the close control in the top-right corner', () => {
     setMediaMatches({
       [TABLE_QUERY]: true,
       [COMPACT_SURFACE_QUERY]: false,
@@ -147,9 +147,9 @@ describe('SkillTableDetailLayout', () => {
     });
     const heading = getByRole('heading', { name: 'Kubernetes' });
 
-    expect(closeButton.parentElement?.contains(heading)).toBe(true);
+    expect(closeButton.parentElement?.contains(heading)).toBe(false);
     expect(closeButton.compareDocumentPosition(heading)).toBe(
-      Node.DOCUMENT_POSITION_PRECEDING,
+      Node.DOCUMENT_POSITION_FOLLOWING,
     );
   });
 
@@ -185,6 +185,8 @@ describe('SkillTableDetailLayout', () => {
     ).toHaveLength(0);
     expect(detailPanel.textContent).toContain('Highlights');
     expect(detailPanel.textContent).toContain('Relevant skills');
+    expect(detailPanel.querySelectorAll('.astryx-list')).toHaveLength(0);
+    expect(detailPanel.querySelectorAll('[aria-label="Relevant skills"]')).toHaveLength(0);
   });
 
   it('keeps a long detail scroll scoped to the bounded desktop panel', () => {
