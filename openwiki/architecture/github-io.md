@@ -46,10 +46,10 @@ sources:
     resource: repo://apps/github.io/src/app/skills/skill-experience-list.tsx
   - id: openwiki-source-b7cc9784bea6b15d468f9f23
     resource: repo://apps/github.io/src/app/skills/skill-table-detail-layout.tsx
-generated: { by: "codex", at: "2026-09-15T03:33:07.986Z" }
+generated: { by: "codex", at: "2026-09-15T03:53:28.142Z" }
 verified:
   - by: openwiki/0.5.0
-    at: 2026-09-15T03:41:47.698Z
+    at: 2026-09-15T03:53:28.142Z
 ---
 
 # Application architecture
@@ -89,9 +89,9 @@ semantics, or DOM and keyboard order.
 `SkillsPage` owns one filter state across two responsive projections. At table
 widths it renders the page introduction above `SkillTableDetailLayout`; inside
 the full-width Astryx card, a padded `LayoutHeader` groups controls above the
-edge-to-edge table and adjacent in-card inspector. The inspector presents a
-top-right close control, name, description, same-tab detail link, full-width
-dividers, metadata, and always-visible Experience only; Projects remain on the standalone detail route. Pointer or
+edge-to-edge table and adjacent in-card inspector. The inspector presents the
+skill name and far-right close control in one row, then description, same-tab detail link, full-width
+dividers, metadata, and an always-visible level-three Experience heading with its aggregate count; Projects remain on the standalone detail route. Pointer or
 keyboard row activation opens resolved skill detail and returns focus to the
 originating row.
 Compact widths render the card catalog with toolbar search and category filters

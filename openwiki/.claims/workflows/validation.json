@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:e1f6eee9b95a5a5da65493153b39af3267a759b5360c507edfb0dc4834587d65",
+  "pageVersion": "sha256:86561e303137e959b5a9194b7c7cea8e9d4ff03f6f12ab21a56f9f0b90a685fc",
   "claims": [
     {
       "id": "claim_6cbb6dd0080f4763aaf4dec964f7f76e",
@@ -278,7 +278,7 @@
     },
     {
       "id": "claim_e77cd36300514575ae7cfc6bbe3f3be7",
-      "statement": "SkillsPage tests protect the responsive card-to-table switch, bounded master-detail layout, selection and focus behavior. The detail-layout suite protects the inspector's same-tab detail link, full-width dividers, top-right close control, supporting-text Experience label, omission of Projects, and unframed always-visible authored and supporting-evidence summary links to standalone card fragments under the router base path. SkillTable Storybook stories provide desktop-table and compact-card visual scenarios.",
+      "statement": "SkillsPage tests protect the responsive card-to-table switch, bounded master-detail layout, selection and focus behavior. The detail-layout suite protects the inspector's same-tab detail link, full-width dividers, title-row far-right close control, level-three Experience heading with aggregate count, omission of Projects, and unframed always-visible authored and supporting-evidence summary links to standalone card fragments under the router base path. SkillTable Storybook stories provide desktop-table and compact-card visual scenarios.",
       "evidence": [
         {
           "resource": "repo://apps/github.io/src/app/skills/skill-detail-page.spec.tsx",
@@ -290,7 +290,7 @@
         },
         {
           "resource": "repo://apps/github.io/src/app/skills/skill-table-detail-layout.spec.tsx",
-          "version": "repo-file-v1:sha256:1f653b1d9931b30460567dcaab6ee19b024359554fcc14f269cd9d2e5ec1e87c"
+          "version": "repo-file-v1:sha256:9e9752d2fb99dffa04f427c068fa7d467f002dfefe39a1866ece2bbfa9ca7389"
         },
         {
           "resource": "repo://apps/github.io/src/app/skills/skill-table.stories.tsx",
@@ -337,6 +337,6 @@
   ],
   "verification": {
     "by": "openwiki/0.5.0",
-    "at": "2026-09-15T03:38:46.861Z"
+    "at": "2026-09-15T03:53:28.142Z"
   }
 }

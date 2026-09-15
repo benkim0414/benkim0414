@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:8f50456570b71a95b41d4b5b94ed07d8bc9fddd6fb9c7f93e9523bd032183d44",
+  "pageVersion": "sha256:d0cdcf89f89692f0658544a9973f53cba6984f49783ef62849e24584cee86909",
   "claims": [
     {
       "id": "claim_da9ac46eb2204e9b9a555848aea5550d",
@@ -52,11 +52,11 @@
     },
     {
       "id": "claim_466cbd14839941c58399743b6191d5b5",
-      "statement": "The skill-detail content renders the Experience section when authored experiences or supporting evidence exist. The standalone presentation passes their combined rendered-card count to a sibling CountBadge so the level-two heading remains named Experience, while the inspector uses a supporting-text label without an aggregate count.",
+      "statement": "The skill-detail content renders the Experience section when authored experiences or supporting evidence exist. Both presentations pass their combined rendered-card count to a sibling CountBadge so the heading's accessible name remains Experience; the standalone heading is level two and the inspector heading is level three.",
       "evidence": [
         {
           "resource": "repo://apps/github.io/src/app/skills/skill-detail-content.tsx",
-          "version": "repo-file-v1:sha256:d26f4961d6bb1508e0c33a3f1a3b110420d8bbc37781d0b085dc89cea106b273"
+          "version": "repo-file-v1:sha256:f1fb4ceed0f22f8bdeb0197266f594f0617301b5d7fadfbce0cb66bbf6572b9a"
         },
         {
           "resource": "repo://apps/github.io/src/app/skills/skill-detail-page.spec.tsx",
@@ -66,11 +66,11 @@
     },
     {
       "id": "claim_2f5872dd70294613a8a5d94a687b74b5",
-      "statement": "SkillDetailContent renders the reusable app-level CountBadge immediately after the standalone Experience heading, preserving the heading's own accessible name; the inspector instead renders Experience as supporting text.",
+      "statement": "SkillDetailContent renders the reusable app-level CountBadge immediately after Experience headings, preserving each heading's accessible name; the standalone heading is level two and the inspector heading is level three.",
       "evidence": [
         {
           "resource": "repo://apps/github.io/src/app/skills/skill-detail-content.tsx",
-          "version": "repo-file-v1:sha256:d26f4961d6bb1508e0c33a3f1a3b110420d8bbc37781d0b085dc89cea106b273"
+          "version": "repo-file-v1:sha256:f1fb4ceed0f22f8bdeb0197266f594f0617301b5d7fadfbce0cb66bbf6572b9a"
         },
         {
           "resource": "repo://apps/github.io/src/app/skills/skill-detail-page.spec.tsx",
@@ -134,15 +134,15 @@
     },
     {
       "id": "claim_ecccdf8849a14979a6b246847cfcc84d",
-      "statement": "SkillsPage owns shared query and category-filter state across a table-width SkillTableDetailLayout and a compact card catalogue. At table width the inspector offers a top-right close control, skill name, description, same-tab detail navigation, full-width dividers, metadata, and always-visible Experience.",
+      "statement": "SkillsPage owns shared query and category-filter state across a table-width SkillTableDetailLayout and a compact card catalogue. At table width the inspector offers the skill name and a far-right close control in one row, then description, same-tab detail navigation, full-width dividers, metadata, and always-visible Experience with an aggregate count.",
       "evidence": [
         {
           "resource": "repo://apps/github.io/src/app/skills/skill-detail-content.tsx",
-          "version": "repo-file-v1:sha256:d26f4961d6bb1508e0c33a3f1a3b110420d8bbc37781d0b085dc89cea106b273"
+          "version": "repo-file-v1:sha256:f1fb4ceed0f22f8bdeb0197266f594f0617301b5d7fadfbce0cb66bbf6572b9a"
         },
         {
           "resource": "repo://apps/github.io/src/app/skills/skill-table-detail-layout.tsx",
-          "version": "repo-file-v1:sha256:3bfae3d69718e50688fae2b59f623a00aa697a8d86763b31125be4a98ec54695"
+          "version": "repo-file-v1:sha256:cbb693e6bade3d337f00d1dc5fbb738d25fa76de92d6292c24cbfabf8739365a"
         }
       ]
     },
@@ -199,6 +199,6 @@
   ],
   "verification": {
     "by": "openwiki/0.5.0",
-    "at": "2026-09-15T03:41:47.698Z"
+    "at": "2026-09-15T03:53:28.142Z"
   }
 }

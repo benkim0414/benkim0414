@@ -5,7 +5,7 @@ description: How Astryx, StyleX, theme persistence, and browser layout checks fi
 tags: [astryx, stylex, theme, layout]
 verified:
   - by: openwiki/0.5.0
-    at: 2026-09-15T03:41:47.698Z
+    at: 2026-09-15T03:53:28.142Z
 sources:
   - id: openwiki-source-45b1d77b308bd57403f55ff9
     resource: repo://apps/github.io/.storybook/story-taxonomy.spec.ts
@@ -75,7 +75,7 @@ sources:
     resource: repo://apps/github.io/src/styles.css
   - id: openwiki-source-fcfa3ced1d03143bb27d5018
     resource: repo://apps/github.io/vite.config.ts
-generated: { by: "codex", at: "2026-09-15T03:33:07.986Z" }
+generated: { by: "codex", at: "2026-09-15T03:53:28.142Z" }
 ---
 
 # Design system and layout
@@ -115,13 +115,13 @@ the rendered label and neutral styling to Astryx's `Badge`; its colocated
 Storybook stories are cataloged as `Components/Count Badge` and cover a
 representative populated count and zero. The standalone skill-detail page uses
 this shared badge beside both its Experience and Projects headings. The table
-inspector deliberately uses a secondary supporting-text `Experience` label
-instead; it omits Projects and directs visitors to the standalone route for the
-complete detail. Each page badge sits outside the heading's accessible name in
-the same centered horizontal layout. The Experience badge counts every rendered
-authored and supporting-experience item, while the page's Projects badge counts
-project cards. This keeps pages from recreating the design-system contract for
-count indicators.
+inspector uses the same aggregate Experience count beside a level-three heading;
+it omits Projects and directs visitors to the standalone route for the complete
+detail. Each badge sits outside its heading's accessible name in the same
+centered horizontal layout. The Experience badge counts every rendered authored
+and supporting-experience item, while the page's Projects badge counts project
+cards. This keeps pages from recreating the design-system contract for count
+indicators.
 
 The roadmap page frame also stays inside Astryx's public composition surface. A
 full-width `VStack` orders the level-two heading, two semantic body `Text`
@@ -158,8 +158,8 @@ retain their natural heights.
 At table-width viewports, the Skills page renders its introduction above the
 reusable `SkillTableDetailLayout`. Inside its full-width Astryx `Card`, a padded
 `LayoutHeader` groups the search and category controls above the edge-to-edge
-table body and adjacent in-card detail panel. The inspector begins with a
-top-right close control, then the skill name, description, and same-tab
+table body and adjacent in-card detail panel. The inspector begins with the
+skill name and its far-right close control on one row, then its description and same-tab
 `View {skill name} details` link before full-width dividers, direct metadata
 list, and an always-visible plain experience list; compact
 viewports retain the card catalog, toolbar search, and category popover. The

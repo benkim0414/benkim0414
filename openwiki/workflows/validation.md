@@ -78,10 +78,10 @@ sources:
     resource: repo://scripts/setup-openwiki.test.mjs
   - id: openwiki-source-165465422a61a00b62b0f6d3
     resource: repo://scripts/sync-github-pages-artifact.test.mjs
-generated: { by: "codex", at: "2026-09-15T03:38:46.861Z" }
+generated: { by: "codex", at: "2026-09-15T03:53:28.142Z" }
 verified:
   - by: openwiki/0.5.0
-    at: 2026-09-15T03:38:46.861Z
+    at: 2026-09-15T03:53:28.142Z
 ---
 
 # Validation workflow
@@ -206,9 +206,9 @@ Page-level tests separately prove the responsive card/table switch, the page
 introduction preceding the labelled desktop toolbar, controls preceding the
 table, the bounded master-detail layout, same-page detail selection, focus
 restoration, and selection cleanup. The detail-layout suite also asserts the
-inspector's named same-tab detail link, full-width divider hierarchy, top-right
-close control, omission of Projects, supporting-text Experience label, and
-unframed always-visible authored and supporting-evidence summary links to
+inspector's named same-tab detail link, full-width divider hierarchy, title-row
+far-right close control, omission of Projects, level-three Experience heading
+with aggregate count, and unframed always-visible authored and supporting-evidence summary links to
 standalone card fragments under the router base path.
 Storybook provides explicit desktop-table and
 compact-card viewport stories. These DOM assertions still do not prove that

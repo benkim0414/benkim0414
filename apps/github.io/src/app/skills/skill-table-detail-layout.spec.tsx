@@ -139,7 +139,7 @@ describe('SkillTableDetailLayout', () => {
     );
   });
 
-  it('keeps the close control in the top-right corner', () => {
+  it('shares the title row with a far-right close control', () => {
     setMediaMatches({
       [TABLE_QUERY]: true,
       [COMPACT_SURFACE_QUERY]: false,
@@ -150,8 +150,8 @@ describe('SkillTableDetailLayout', () => {
     });
     const heading = getByRole('heading', { name: 'Kubernetes' });
 
-    expect(closeButton.parentElement?.contains(heading)).toBe(false);
-    expect(closeButton.compareDocumentPosition(heading)).toBe(
+    expect(closeButton.parentElement?.contains(heading)).toBe(true);
+    expect(heading.compareDocumentPosition(closeButton)).toBe(
       Node.DOCUMENT_POSITION_FOLLOWING,
     );
   });
@@ -178,10 +178,20 @@ describe('SkillTableDetailLayout', () => {
       [TABLE_QUERY]: true,
       [COMPACT_SURFACE_QUERY]: false,
     });
-    const { getByRole, queryByRole } = renderLayout();
+    const { getByRole } = renderLayout();
     const detailPanel = getByRole('region', { name: 'Kubernetes details' });
 
-    expect(queryByRole('heading', { name: 'Experience' })).toBeNull();
+    expect(
+      getByRole('heading', { level: 3, name: 'Experience' }),
+    ).toBeTruthy();
+    expect(
+      detailPanel.querySelector(
+        `.astryx-badge[title="${
+          kubernetesDetail.experiences.length +
+          kubernetesDetail.experienceEvidence.length
+        }"]`,
+      ),
+    ).toBeTruthy();
     expect(detailPanel.textContent).toContain('Experience');
     const experience = kubernetesDetail.experiences.find((item) =>
       item.title.includes('Production Kubernetes platform operations'),

@@ -56,17 +56,17 @@ function SkillDetailBody({
   return (
     <VStack gap={6}>
       <VStack gap={6} paddingInline={4} paddingBlockStart={4}>
-        <HStack hAlign="end">
-        <IconButton
-          icon={<Icon icon="close" size="sm" />}
-          label={`Close ${detail.skill.name} details`}
-          tooltip={`Close ${detail.skill.name} details`}
-          variant="ghost"
-          onClick={onClose}
-        />
+        <HStack hAlign="between" vAlign="center" width="100%">
+          <Heading level={2}>{detail.skill.name}</Heading>
+          <IconButton
+            icon={<Icon icon="close" size="sm" />}
+            label={`Close ${detail.skill.name} details`}
+            tooltip={`Close ${detail.skill.name} details`}
+            variant="ghost"
+            onClick={onClose}
+          />
         </HStack>
         <VStack gap={2} hAlign="start">
-          <Heading level={2}>{detail.skill.name}</Heading>
           <Text as="p" color="secondary" type="body">
             {detail.skill.description}
           </Text>

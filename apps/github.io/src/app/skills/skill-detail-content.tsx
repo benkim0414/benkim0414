@@ -106,13 +106,12 @@ export function SkillDetailContent({
     detail.experiences.length + detail.experienceEvidence.length;
   const experienceLabel =
     presentation === 'inspector' ? (
-      <Text
-        id="skill-experience-narrative-heading"
-        type="supporting"
-        color="secondary"
-      >
-        Experience
-      </Text>
+      <HStack gap={2} vAlign="center">
+        <Heading id="skill-experience-narrative-heading" level={3}>
+          Experience
+        </Heading>
+        <CountBadge count={experienceCardCount} />
+      </HStack>
     ) : (
       <HStack gap={2} vAlign="center">
         <Heading id="skill-experience-narrative-heading" level={2}>

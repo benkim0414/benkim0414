@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:c28dbd0148407140f2179f36f822bbe0402f0677d2e4b8ebd3f24864fb9fd954",
+  "pageVersion": "sha256:0c58fec8074cad22f17614b7e1c712d9c7951c04ce0b587f189d50b2f69fe112",
   "claims": [
     {
       "id": "claim_67f0a6341495404e8eefce3e45fd6173",
@@ -138,15 +138,15 @@
     },
     {
       "id": "claim_e60e9e0eb69646cba7b3570677531e65",
-      "statement": "At table-width viewports, the Skills page renders its introduction above a full-width Astryx card. A padded LayoutHeader groups controls above the edge-to-edge table body and an adjacent in-card inspector. The inspector supplies a top-right close control, skill name, description, same-tab detail link, full-width dividers, direct metadata, and an always-visible unframed experience list; compact viewports retain the card catalogue, toolbar search, and category popover.",
+      "statement": "At table-width viewports, the Skills page renders its introduction above a full-width Astryx card. A padded LayoutHeader groups controls above the edge-to-edge table body and an adjacent in-card inspector. The inspector supplies the skill name and a far-right close control in one row, then its description, same-tab detail link, full-width dividers, direct metadata, and an always-visible unframed experience list; compact viewports retain the card catalogue, toolbar search, and category popover.",
       "evidence": [
         {
           "resource": "repo://apps/github.io/src/app/skills/skill-detail-content.tsx",
-          "version": "repo-file-v1:sha256:d26f4961d6bb1508e0c33a3f1a3b110420d8bbc37781d0b085dc89cea106b273"
+          "version": "repo-file-v1:sha256:f1fb4ceed0f22f8bdeb0197266f594f0617301b5d7fadfbce0cb66bbf6572b9a"
         },
         {
           "resource": "repo://apps/github.io/src/app/skills/skill-table-detail-layout.tsx",
-          "version": "repo-file-v1:sha256:3bfae3d69718e50688fae2b59f623a00aa697a8d86763b31125be4a98ec54695"
+          "version": "repo-file-v1:sha256:cbb693e6bade3d337f00d1dc5fbb738d25fa76de92d6292c24cbfabf8739365a"
         }
       ]
     },
@@ -204,11 +204,11 @@
     },
     {
       "id": "claim_87627df0fb2a40caa8fa8de5218e3fc7",
-      "statement": "The shared detail content renders neutral count badges outside the accessible names of standalone-page headings. The standalone page renders Experience and Projects badges, while the table inspector renders Experience as a secondary supporting-text label without a heading or aggregate count; the page Experience badge counts every rendered authored and supporting-experience item, and the Projects badge counts rendered project cards.",
+      "statement": "The shared detail content renders neutral count badges outside the accessible names of Experience headings. The standalone page renders level-two Experience and Projects headings with badges, while the table inspector renders Experience as a level-three heading with an aggregate count; the Experience badge counts every rendered authored and supporting-experience item, and the Projects badge counts rendered project cards.",
       "evidence": [
         {
           "resource": "repo://apps/github.io/src/app/skills/skill-detail-content.tsx",
-          "version": "repo-file-v1:sha256:d26f4961d6bb1508e0c33a3f1a3b110420d8bbc37781d0b085dc89cea106b273"
+          "version": "repo-file-v1:sha256:f1fb4ceed0f22f8bdeb0197266f594f0617301b5d7fadfbce0cb66bbf6572b9a"
         }
       ]
     },
@@ -305,6 +305,6 @@
   ],
   "verification": {
     "by": "openwiki/0.5.0",
-    "at": "2026-09-15T03:41:47.698Z"
+    "at": "2026-09-15T03:53:28.142Z"
   }
 }
