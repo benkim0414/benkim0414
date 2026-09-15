@@ -1,4 +1,5 @@
 import { fireEvent, render, screen, within } from '@testing-library/react';
+import { MemoryRouter } from 'react-router-dom';
 import { afterEach, vi } from 'vitest';
 
 import { devOpsCapabilityEvidenceItems } from '../devops-capability-evidence/devops-capability-evidence.data';
@@ -37,6 +38,35 @@ function setCompactSurface(isCompact: boolean): void {
 }
 
 describe('SkillExperienceList', () => {
+  it('links an inspector evidence summary to its standalone card fragment', () => {
+    const [evidence] = experienceFixtures;
+
+    render(
+      <MemoryRouter
+        basename="/portfolio"
+        initialEntries={['/portfolio/skills']}
+      >
+        <SkillExperienceList
+          appearance="plain"
+          detailSkillId="kubernetes"
+          evidence={[evidence]}
+          skills={skills}
+        />
+      </MemoryRouter>,
+    );
+
+    const evidenceLink = screen.getByRole('link', {
+      name: new RegExp(`^${evidence.title}`),
+    });
+
+    expect(evidenceLink.getAttribute('href')).toBe(
+      `/portfolio/skills/kubernetes#experience-evidence-${evidence.id}`,
+    );
+    expect(evidenceLink.firstElementChild?.classList).toContain(
+      'astryx-stack',
+    );
+  });
+
   it('starts collapsed on a coarse tablet compact surface and reveals distinct outcomes on request', () => {
     setCompactSurface(true);
     const [evidence] = devOpsCapabilityEvidenceItems.filter(

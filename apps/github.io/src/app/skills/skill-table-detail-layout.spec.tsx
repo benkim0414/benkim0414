@@ -1,6 +1,7 @@
 import { fireEvent, render } from '@testing-library/react';
 import { Theme } from '@astryxdesign/core';
 import { neutralTheme } from '@astryxdesign/theme-neutral/built';
+import { MemoryRouter } from 'react-router-dom';
 import { vi } from 'vitest';
 
 import { resolveSkillDetail } from './skill-detail-resolver';
@@ -71,19 +72,21 @@ function renderLayout({
   return {
     onClose,
     ...render(
-      <Theme theme={neutralTheme}>
-        <SkillTableDetailLayout
-          activeDetail={activeDetail}
-          activeSkillId={activeDetail?.skill.id ?? null}
-          query={query}
-          selectedCategories={selectedCategories}
-          skills={skills}
-          onClose={onClose}
-          onQueryChange={vi.fn()}
-          onSelectedCategoriesChange={vi.fn()}
-          onSkillActivate={onSkillActivate}
-        />
-      </Theme>,
+      <MemoryRouter basename="/portfolio" initialEntries={['/portfolio/skills']}>
+        <Theme theme={neutralTheme}>
+          <SkillTableDetailLayout
+            activeDetail={activeDetail}
+            activeSkillId={activeDetail?.skill.id ?? null}
+            query={query}
+            selectedCategories={selectedCategories}
+            skills={skills}
+            onClose={onClose}
+            onQueryChange={vi.fn()}
+            onSelectedCategoriesChange={vi.fn()}
+            onSkillActivate={onSkillActivate}
+          />
+        </Theme>
+      </MemoryRouter>,
     ),
   };
 }
@@ -170,15 +173,31 @@ describe('SkillTableDetailLayout', () => {
     expect(queryByRole('heading', { name: 'Projects' })).toBeNull();
   });
 
-  it('renders inspector experience as an unframed list', () => {
+  it('renders inspector experience as linked unframed summary rows', () => {
     setMediaMatches({
       [TABLE_QUERY]: true,
       [COMPACT_SURFACE_QUERY]: false,
     });
-    const { getByRole } = renderLayout();
+    const { getByRole, queryByRole } = renderLayout();
     const detailPanel = getByRole('region', { name: 'Kubernetes details' });
 
-    expect(getByRole('heading', { name: 'Experience' })).toBeTruthy();
+    expect(queryByRole('heading', { name: 'Experience' })).toBeNull();
+    expect(detailPanel.textContent).toContain('Experience');
+    const experience = kubernetesDetail.experiences.find((item) =>
+      item.title.includes('Production Kubernetes platform operations'),
+    );
+
+    expect(experience).toBeTruthy();
+    const experienceLink = getByRole('link', {
+      name: /Production Kubernetes platform operations on Amazon EKS/,
+    });
+
+    expect(experienceLink.getAttribute('href')).toBe(
+      `/portfolio/skills/kubernetes#experience-${experience?.id}`,
+    );
+    expect(experienceLink.firstElementChild?.classList).toContain(
+      'astryx-stack',
+    );
     expect(detailPanel.querySelectorAll('.astryx-card')).toHaveLength(0);
     expect(
       detailPanel.querySelectorAll('.astryx-collapsible-trigger'),

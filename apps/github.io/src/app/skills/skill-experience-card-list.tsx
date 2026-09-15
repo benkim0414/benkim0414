@@ -14,12 +14,14 @@ import { SkillToken } from './skill-token';
 
 export interface SkillExperienceCardListProps {
   readonly appearance?: 'card' | 'plain';
+  readonly detailSkillId?: string;
   readonly experiences: readonly Experience[];
   readonly skills?: readonly Skill[];
 }
 
 export interface SkillExperienceCardProps {
   readonly appearance?: 'card' | 'plain';
+  readonly detailSkillId?: string;
   readonly experience: Experience;
   readonly relevantSkillLabels?: readonly string[];
   readonly relevantSkills?: readonly RelevantSkill[];
@@ -56,6 +58,7 @@ const styles = stylex.create({
 
 export function SkillExperienceCardList({
   appearance = 'card',
+  detailSkillId,
   experiences,
   skills = [],
 }: SkillExperienceCardListProps): ReactElement {
@@ -66,6 +69,7 @@ export function SkillExperienceCardList({
           <VStack paddingBlock={2}>
             <SkillExperienceCard
               appearance={appearance}
+              detailSkillId={detailSkillId}
               experience={experience}
               relevantSkills={getRelevantSkills(experience, skills)}
             />
@@ -78,6 +82,7 @@ export function SkillExperienceCardList({
 
 export function SkillExperienceCard({
   appearance = 'card',
+  detailSkillId,
   experience,
   relevantSkillLabels = [],
   relevantSkills,
@@ -92,6 +97,12 @@ export function SkillExperienceCard({
   return (
     <SkillExperienceCardShell
       appearance={appearance}
+      anchorId={`experience-${experience.id}`}
+      href={
+        appearance === 'plain' && detailSkillId
+          ? `${getSkillDetailPath(detailSkillId)}#experience-${experience.id}`
+          : undefined
+      }
       outcomeCount={experience.narrative.length}
       skillCount={resolvedRelevantSkills.length}
       summary={experience.summary}

@@ -296,6 +296,9 @@ describe('SkillDetailPage', () => {
       firstSkillExperienceCard as HTMLElement,
     ).getByRole('list', { name: 'Relevant skills' });
 
+    expect(firstSkillExperienceCard?.id).toBe(
+      `experience-${detail.experiences[0].id}`,
+    );
     expect(within(relevantSkills).getByText('AWS CodePipeline')).toBeTruthy();
     expect(within(relevantSkills).getByText('Kubernetes')).toBeTruthy();
 
@@ -317,6 +320,7 @@ describe('SkillDetailPage', () => {
       const evidence = detail.experienceEvidence[index];
       const cardQueries = within(card as HTMLElement);
 
+      expect(card.id).toBe(`experience-evidence-${evidence.id}`);
       expect(
         cardQueries.getByRole('heading', {
           level: 3,

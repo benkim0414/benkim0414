@@ -14,6 +14,7 @@ import { SkillToken } from './skill-token';
 
 export interface SkillExperienceListProps {
   readonly appearance?: 'card' | 'plain';
+  readonly detailSkillId?: string;
   evidence: readonly CapabilityEvidenceItem[];
   skills?: readonly Skill[];
 }
@@ -44,6 +45,7 @@ const styles = stylex.create({
 
 export function SkillExperienceList({
   appearance = 'card',
+  detailSkillId,
   evidence,
   skills = [],
 }: SkillExperienceListProps): ReactElement {
@@ -60,6 +62,12 @@ export function SkillExperienceList({
             <VStack paddingBlock={3}>
               <SkillExperienceCardShell
                 appearance={appearance}
+                anchorId={`experience-evidence-${item.id}`}
+                href={
+                  appearance === 'plain' && detailSkillId
+                    ? `${getSkillDetailPath(detailSkillId)}#experience-evidence-${item.id}`
+                    : undefined
+                }
                 outcomeCount={facts.length}
                 skillCount={relevantSkills.length}
                 summary={item.summary}

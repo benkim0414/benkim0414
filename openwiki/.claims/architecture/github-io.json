@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:82abc7c02e8c4626384d798f1599681740299d6dab9304818ad38f0cd346da7d",
+  "pageVersion": "sha256:8f50456570b71a95b41d4b5b94ed07d8bc9fddd6fb9c7f93e9523bd032183d44",
   "claims": [
     {
       "id": "claim_da9ac46eb2204e9b9a555848aea5550d",
@@ -52,29 +52,29 @@
     },
     {
       "id": "claim_466cbd14839941c58399743b6191d5b5",
-      "statement": "The skill-detail content renders the Experience section when authored experiences or supporting evidence exist, and passes their combined rendered-card count to a sibling CountBadge so the level-two heading remains named Experience.",
+      "statement": "The skill-detail content renders the Experience section when authored experiences or supporting evidence exist. The standalone presentation passes their combined rendered-card count to a sibling CountBadge so the level-two heading remains named Experience, while the inspector uses a supporting-text label without an aggregate count.",
       "evidence": [
         {
           "resource": "repo://apps/github.io/src/app/skills/skill-detail-content.tsx",
-          "version": "repo-file-v1:sha256:fa85e7948c5068fcfe65411ad193c0df03a4c3ec3923194211e8ce7917a39803"
+          "version": "repo-file-v1:sha256:d26f4961d6bb1508e0c33a3f1a3b110420d8bbc37781d0b085dc89cea106b273"
         },
         {
           "resource": "repo://apps/github.io/src/app/skills/skill-detail-page.spec.tsx",
-          "version": "repo-file-v1:sha256:76f20617e4e567a07ae2f55a5e827e6dd9966427f8dcbd0345459c1b52e0d5f9"
+          "version": "repo-file-v1:sha256:ccf93b5fd50e0a5e482b86c0e39d5cf54f689db23c4611c788b163ee5a81ee79"
         }
       ]
     },
     {
       "id": "claim_2f5872dd70294613a8a5d94a687b74b5",
-      "statement": "SkillDetailContent renders the reusable app-level CountBadge immediately after the Experience heading, preserving the heading's own accessible name.",
+      "statement": "SkillDetailContent renders the reusable app-level CountBadge immediately after the standalone Experience heading, preserving the heading's own accessible name; the inspector instead renders Experience as supporting text.",
       "evidence": [
         {
           "resource": "repo://apps/github.io/src/app/skills/skill-detail-content.tsx",
-          "version": "repo-file-v1:sha256:fa85e7948c5068fcfe65411ad193c0df03a4c3ec3923194211e8ce7917a39803"
+          "version": "repo-file-v1:sha256:d26f4961d6bb1508e0c33a3f1a3b110420d8bbc37781d0b085dc89cea106b273"
         },
         {
           "resource": "repo://apps/github.io/src/app/skills/skill-detail-page.spec.tsx",
-          "version": "repo-file-v1:sha256:76f20617e4e567a07ae2f55a5e827e6dd9966427f8dcbd0345459c1b52e0d5f9"
+          "version": "repo-file-v1:sha256:ccf93b5fd50e0a5e482b86c0e39d5cf54f689db23c4611c788b163ee5a81ee79"
         }
       ]
     },
@@ -106,11 +106,11 @@
       "evidence": [
         {
           "resource": "repo://apps/github.io/src/app/skills/skill-experience-card-list.tsx",
-          "version": "repo-file-v1:sha256:a7399c8a465d94ed6d55c84dd0e8959341111d1afd378279ea4095439b4797d3"
+          "version": "repo-file-v1:sha256:e09b31297a96f2a24bcdbcb4cd75973a2373fdb91939471b0302e036b07099cf"
         },
         {
           "resource": "repo://apps/github.io/src/app/skills/skill-experience-list.tsx",
-          "version": "repo-file-v1:sha256:95619ea094a31cf3bb51a5bbc5102099c53a337e9ef67c46850eacfaf35443ae"
+          "version": "repo-file-v1:sha256:2da2f2d20e54132ffdde7b708134f8c03bebc867fb263c9af8d9e181461252ff"
         }
       ]
     },
@@ -124,7 +124,7 @@
         },
         {
           "resource": "repo://apps/github.io/src/app/skills/skill-detail-page.spec.tsx",
-          "version": "repo-file-v1:sha256:76f20617e4e567a07ae2f55a5e827e6dd9966427f8dcbd0345459c1b52e0d5f9"
+          "version": "repo-file-v1:sha256:ccf93b5fd50e0a5e482b86c0e39d5cf54f689db23c4611c788b163ee5a81ee79"
         },
         {
           "resource": "repo://apps/github.io/src/app/skills/skill-detail-page.tsx",
@@ -134,33 +134,33 @@
     },
     {
       "id": "claim_ecccdf8849a14979a6b246847cfcc84d",
-      "statement": "SkillsPage owns shared query and category-filter state across a table-width SkillTableDetailLayout and a compact card catalogue. At table width the inspector offers a close control beside its skill name, description, same-tab detail navigation, full-width dividers, metadata, and always-visible Experience.",
+      "statement": "SkillsPage owns shared query and category-filter state across a table-width SkillTableDetailLayout and a compact card catalogue. At table width the inspector offers a top-right close control, skill name, description, same-tab detail navigation, full-width dividers, metadata, and always-visible Experience.",
       "evidence": [
         {
           "resource": "repo://apps/github.io/src/app/skills/skill-detail-content.tsx",
-          "version": "repo-file-v1:sha256:fa85e7948c5068fcfe65411ad193c0df03a4c3ec3923194211e8ce7917a39803"
+          "version": "repo-file-v1:sha256:d26f4961d6bb1508e0c33a3f1a3b110420d8bbc37781d0b085dc89cea106b273"
         },
         {
           "resource": "repo://apps/github.io/src/app/skills/skill-table-detail-layout.tsx",
-          "version": "repo-file-v1:sha256:e6ba376f3b11a02aa9a3df9ee9509f18a86e4b11c1ec820eec1c316cbfa02293"
+          "version": "repo-file-v1:sha256:3bfae3d69718e50688fae2b59f623a00aa697a8d86763b31125be4a98ec54695"
         }
       ]
     },
     {
       "id": "claim_f90a317960e146e4bae983a38e99d06e",
-      "statement": "Experience projections use card-framed controlled disclosures on the standalone route and unframed always-visible entries with labels and count badges in the table inspector.",
+      "statement": "Experience projections use card-framed controlled disclosures on the standalone route and unframed full-row links with labels and count badges in the table inspector; each inspector link targets the matching standalone card fragment.",
       "evidence": [
         {
           "resource": "repo://apps/github.io/src/app/skills/skill-experience-card-list.tsx",
-          "version": "repo-file-v1:sha256:a7399c8a465d94ed6d55c84dd0e8959341111d1afd378279ea4095439b4797d3"
+          "version": "repo-file-v1:sha256:e09b31297a96f2a24bcdbcb4cd75973a2373fdb91939471b0302e036b07099cf"
         },
         {
           "resource": "repo://apps/github.io/src/app/skills/skill-experience-card-shell.tsx",
-          "version": "repo-file-v1:sha256:81a308e446c949a894cff6bc6785f425c0ad2fcb51c43e1455a652e3b2778084"
+          "version": "repo-file-v1:sha256:18cac2df2b8899d99cd07ac030bbebb2118015510116128cb8eee821fb96e7ec"
         },
         {
           "resource": "repo://apps/github.io/src/app/skills/skill-experience-list.tsx",
-          "version": "repo-file-v1:sha256:95619ea094a31cf3bb51a5bbc5102099c53a337e9ef67c46850eacfaf35443ae"
+          "version": "repo-file-v1:sha256:2da2f2d20e54132ffdde7b708134f8c03bebc867fb263c9af8d9e181461252ff"
         }
       ]
     },
@@ -199,6 +199,6 @@
   ],
   "verification": {
     "by": "openwiki/0.5.0",
-    "at": "2026-09-15T03:04:17.043Z"
+    "at": "2026-09-15T03:41:47.698Z"
   }
 }

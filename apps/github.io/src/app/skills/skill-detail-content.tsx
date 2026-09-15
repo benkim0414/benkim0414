@@ -104,20 +104,33 @@ export function SkillDetailContent({
     detail.experiences.length > 0 || detail.experienceEvidence.length > 0;
   const experienceCardCount =
     detail.experiences.length + detail.experienceEvidence.length;
+  const experienceLabel =
+    presentation === 'inspector' ? (
+      <Text
+        id="skill-experience-narrative-heading"
+        type="supporting"
+        color="secondary"
+      >
+        Experience
+      </Text>
+    ) : (
+      <HStack gap={2} vAlign="center">
+        <Heading id="skill-experience-narrative-heading" level={2}>
+          Experience
+        </Heading>
+        <CountBadge count={experienceCardCount} />
+      </HStack>
+    );
 
   const experience = hasExperience ? (
     <section aria-labelledby="skill-experience-narrative-heading">
       <VStack gap={3}>
-        <HStack gap={2} vAlign="center">
-          <Heading id="skill-experience-narrative-heading" level={2}>
-            Experience
-          </Heading>
-          <CountBadge count={experienceCardCount} />
-        </HStack>
+        {experienceLabel}
 
         {detail.experiences.length > 0 ? (
           <SkillExperienceCardList
             appearance={presentation === 'inspector' ? 'plain' : 'card'}
+            detailSkillId={detail.skill.id}
             experiences={detail.experiences}
             skills={detail.relatedSkills}
           />
@@ -126,6 +139,7 @@ export function SkillDetailContent({
         {detail.experienceEvidence.length > 0 ? (
           <SkillExperienceList
             appearance={presentation === 'inspector' ? 'plain' : 'card'}
+            detailSkillId={detail.skill.id}
             evidence={detail.experienceEvidence}
             skills={detail.relatedSkills}
           />

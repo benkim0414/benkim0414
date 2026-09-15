@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:8636273a9e38aa40d1cebccfb8564a0e4921e7018c832fe5bf832229e580e776",
+  "pageVersion": "sha256:c28dbd0148407140f2179f36f822bbe0402f0677d2e4b8ebd3f24864fb9fd954",
   "claims": [
     {
       "id": "claim_67f0a6341495404e8eefce3e45fd6173",
@@ -138,15 +138,15 @@
     },
     {
       "id": "claim_e60e9e0eb69646cba7b3570677531e65",
-      "statement": "At table-width viewports, the Skills page renders its introduction above a full-width Astryx card. A padded LayoutHeader groups controls above the edge-to-edge table body and an adjacent in-card inspector. The inspector supplies a close control beside the skill name, description, same-tab detail link, full-width dividers, direct metadata, and an always-visible unframed experience list; compact viewports retain the card catalogue, toolbar search, and category popover.",
+      "statement": "At table-width viewports, the Skills page renders its introduction above a full-width Astryx card. A padded LayoutHeader groups controls above the edge-to-edge table body and an adjacent in-card inspector. The inspector supplies a top-right close control, skill name, description, same-tab detail link, full-width dividers, direct metadata, and an always-visible unframed experience list; compact viewports retain the card catalogue, toolbar search, and category popover.",
       "evidence": [
         {
           "resource": "repo://apps/github.io/src/app/skills/skill-detail-content.tsx",
-          "version": "repo-file-v1:sha256:fa85e7948c5068fcfe65411ad193c0df03a4c3ec3923194211e8ce7917a39803"
+          "version": "repo-file-v1:sha256:d26f4961d6bb1508e0c33a3f1a3b110420d8bbc37781d0b085dc89cea106b273"
         },
         {
           "resource": "repo://apps/github.io/src/app/skills/skill-table-detail-layout.tsx",
-          "version": "repo-file-v1:sha256:e6ba376f3b11a02aa9a3df9ee9509f18a86e4b11c1ec820eec1c316cbfa02293"
+          "version": "repo-file-v1:sha256:3bfae3d69718e50688fae2b59f623a00aa697a8d86763b31125be4a98ec54695"
         }
       ]
     },
@@ -156,11 +156,11 @@
       "evidence": [
         {
           "resource": "repo://apps/github.io/src/app/skills/skill-experience-card-list.tsx",
-          "version": "repo-file-v1:sha256:a7399c8a465d94ed6d55c84dd0e8959341111d1afd378279ea4095439b4797d3"
+          "version": "repo-file-v1:sha256:e09b31297a96f2a24bcdbcb4cd75973a2373fdb91939471b0302e036b07099cf"
         },
         {
           "resource": "repo://apps/github.io/src/app/skills/skill-experience-list.tsx",
-          "version": "repo-file-v1:sha256:95619ea094a31cf3bb51a5bbc5102099c53a337e9ef67c46850eacfaf35443ae"
+          "version": "repo-file-v1:sha256:2da2f2d20e54132ffdde7b708134f8c03bebc867fb263c9af8d9e181461252ff"
         },
         {
           "resource": "repo://apps/github.io/src/app/skills/skill-key-outcomes.tsx",
@@ -204,11 +204,11 @@
     },
     {
       "id": "claim_87627df0fb2a40caa8fa8de5218e3fc7",
-      "statement": "The shared detail content renders neutral count badges outside the accessible names of its headings. The standalone page renders Experience and Projects badges, while the table inspector renders only Experience; the Experience badge counts every rendered authored and supporting-experience item, and the page's Projects badge counts rendered project cards.",
+      "statement": "The shared detail content renders neutral count badges outside the accessible names of standalone-page headings. The standalone page renders Experience and Projects badges, while the table inspector renders Experience as a secondary supporting-text label without a heading or aggregate count; the page Experience badge counts every rendered authored and supporting-experience item, and the Projects badge counts rendered project cards.",
       "evidence": [
         {
           "resource": "repo://apps/github.io/src/app/skills/skill-detail-content.tsx",
-          "version": "repo-file-v1:sha256:fa85e7948c5068fcfe65411ad193c0df03a4c3ec3923194211e8ce7917a39803"
+          "version": "repo-file-v1:sha256:d26f4961d6bb1508e0c33a3f1a3b110420d8bbc37781d0b085dc89cea106b273"
         }
       ]
     },
@@ -228,19 +228,19 @@
     },
     {
       "id": "claim_05e7e8bb2330425eab7333cbc2b3498b",
-      "statement": "Skill experience entries share a presentation shell. The standalone page uses controlled Astryx Collapsible cards; the table inspector uses plain always-visible entries with Highlights and Relevant skills labels and count badges, without chevrons. The standalone disclosure preserves its responsive initial state and visitor choice.",
+      "statement": "Skill experience entries share a presentation shell. The standalone page uses controlled Astryx Collapsible cards; the table inspector uses plain full-row links with Highlights and Relevant skills labels and count badges, without chevrons. Each inspector link targets the corresponding standalone card fragment. The standalone disclosure preserves its responsive initial state and visitor choice.",
       "evidence": [
         {
           "resource": "repo://apps/github.io/src/app/skills/skill-experience-card-list.tsx",
-          "version": "repo-file-v1:sha256:a7399c8a465d94ed6d55c84dd0e8959341111d1afd378279ea4095439b4797d3"
+          "version": "repo-file-v1:sha256:e09b31297a96f2a24bcdbcb4cd75973a2373fdb91939471b0302e036b07099cf"
         },
         {
           "resource": "repo://apps/github.io/src/app/skills/skill-experience-card-shell.tsx",
-          "version": "repo-file-v1:sha256:81a308e446c949a894cff6bc6785f425c0ad2fcb51c43e1455a652e3b2778084"
+          "version": "repo-file-v1:sha256:18cac2df2b8899d99cd07ac030bbebb2118015510116128cb8eee821fb96e7ec"
         },
         {
           "resource": "repo://apps/github.io/src/app/skills/skill-experience-list.tsx",
-          "version": "repo-file-v1:sha256:95619ea094a31cf3bb51a5bbc5102099c53a337e9ef67c46850eacfaf35443ae"
+          "version": "repo-file-v1:sha256:2da2f2d20e54132ffdde7b708134f8c03bebc867fb263c9af8d9e181461252ff"
         }
       ]
     },
@@ -305,6 +305,6 @@
   ],
   "verification": {
     "by": "openwiki/0.5.0",
-    "at": "2026-09-15T03:04:17.043Z"
+    "at": "2026-09-15T03:41:47.698Z"
   }
 }

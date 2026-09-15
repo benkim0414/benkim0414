@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:93e2f4da1783703a296eb743fedd9f35313cf6873574a61eca95a178f2826c14",
+  "pageVersion": "sha256:77f1ccef64a4735e41581948aec323ebf5a1ded9929100330eceb30320263a6a",
   "claims": [
     {
       "id": "claim_41253c1ed05946c38b803e4b8b5d55dc",
@@ -104,19 +104,19 @@
     },
     {
       "id": "claim_ab095bf1773b445c8515b8d44168e5da",
-      "statement": "Skill-detail entries keep source summaries visible and label only non-empty evidence projections. The standalone route frames entries in cards and disclosures, while the table inspector presents the same labels and count badges in an unframed always-visible list without chevrons.",
+      "statement": "Skill-detail entries keep source summaries visible and label only non-empty evidence projections. The standalone route frames entries in cards and disclosures, while the table inspector presents the same labels and count badges in an unframed always-visible list of full-row links without chevrons; each link targets the corresponding standalone experience-card fragment.",
       "evidence": [
         {
           "resource": "repo://apps/github.io/src/app/skills/skill-experience-card-list.tsx",
-          "version": "repo-file-v1:sha256:a7399c8a465d94ed6d55c84dd0e8959341111d1afd378279ea4095439b4797d3"
+          "version": "repo-file-v1:sha256:e09b31297a96f2a24bcdbcb4cd75973a2373fdb91939471b0302e036b07099cf"
         },
         {
           "resource": "repo://apps/github.io/src/app/skills/skill-experience-card-shell.tsx",
-          "version": "repo-file-v1:sha256:81a308e446c949a894cff6bc6785f425c0ad2fcb51c43e1455a652e3b2778084"
+          "version": "repo-file-v1:sha256:18cac2df2b8899d99cd07ac030bbebb2118015510116128cb8eee821fb96e7ec"
         },
         {
           "resource": "repo://apps/github.io/src/app/skills/skill-experience-list.tsx",
-          "version": "repo-file-v1:sha256:95619ea094a31cf3bb51a5bbc5102099c53a337e9ef67c46850eacfaf35443ae"
+          "version": "repo-file-v1:sha256:2da2f2d20e54132ffdde7b708134f8c03bebc867fb263c9af8d9e181461252ff"
         }
       ]
     },
@@ -137,6 +137,6 @@
   ],
   "verification": {
     "by": "openwiki/0.5.0",
-    "at": "2026-09-15T03:04:17.043Z"
+    "at": "2026-09-15T03:41:47.698Z"
   }
 }

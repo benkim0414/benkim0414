@@ -3,23 +3,39 @@ import { Collapsible } from '@astryxdesign/core/Collapsible';
 import { Heading } from '@astryxdesign/core/Heading';
 import { HStack, VStack } from '@astryxdesign/core/Layout';
 import { Text } from '@astryxdesign/core/Text';
+import { colorVars } from '@astryxdesign/core/theme/tokens.stylex';
+import * as stylex from '@stylexjs/stylex';
 import { useState, type ReactElement, type ReactNode } from 'react';
 
 import { CountBadge } from '../count-badge';
 import { shouldStartCollapsibleExpanded } from '../responsive-collapsible';
+import { RouterLink } from '../router-link';
 
 export interface SkillExperienceCardShellProps {
   readonly appearance?: 'card' | 'plain';
+  readonly anchorId?: string;
   readonly children: ReactNode;
+  readonly href?: string;
   readonly outcomeCount: number;
   readonly skillCount: number;
   readonly summary: string;
   readonly title: string;
 }
 
+const styles = stylex.create({
+  summaryLink: {
+    color: colorVars['--color-text-primary'],
+    display: 'flex',
+    textDecoration: 'none',
+    width: '100%',
+  },
+});
+
 export function SkillExperienceCardShell({
   appearance = 'card',
+  anchorId,
   children,
+  href,
   outcomeCount,
   skillCount,
   summary,
@@ -90,10 +106,18 @@ export function SkillExperienceCardShell({
     </VStack>
   );
 
-  return appearance === 'card' ? (
-    <Card padding={4} width="100%">
+  if (appearance === 'card') {
+    return (
+      <Card id={anchorId} padding={4} width="100%">
+        {content}
+      </Card>
+    );
+  }
+
+  return href ? (
+    <RouterLink href={href} {...stylex.props(styles.summaryLink)}>
       {content}
-    </Card>
+    </RouterLink>
   ) : (
     content
   );
