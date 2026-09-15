@@ -44,22 +44,21 @@ function InspectorExperienceItem({
       <Item
         align="center"
         description={hasDetails ? (
-          <HStack gap={2} wrap="wrap" vAlign="center">
+          <HStack gap={1} wrap="wrap" vAlign="center">
             {outcomeCount > 0 ? (
-              <>
-                <Text type="supporting" color="secondary">
-                  Highlights
-                </Text>
-                <CountBadge count={outcomeCount} />
-              </>
+              <Text type="supporting" color="secondary">
+                {outcomeCount} highlights
+              </Text>
+            ) : null}
+            {outcomeCount > 0 && skillCount > 0 ? (
+              <Text aria-hidden="true" type="supporting" color="secondary">
+                ·
+              </Text>
             ) : null}
             {skillCount > 0 ? (
-              <>
-                <Text type="supporting" color="secondary">
-                  Relevant skills
-                </Text>
-                <CountBadge count={skillCount} />
-              </>
+              <Text type="supporting" color="secondary">
+                {skillCount} relevant skills
+              </Text>
             ) : null}
           </HStack>
         ) : undefined}
