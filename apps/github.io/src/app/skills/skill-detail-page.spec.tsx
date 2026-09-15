@@ -4,6 +4,7 @@ import { render, within } from '@testing-library/react';
 import { Theme } from '@astryxdesign/core';
 import { VStack } from '@astryxdesign/core/Layout';
 import { neutralTheme } from '@astryxdesign/theme-neutral/built';
+import { MemoryRouter } from 'react-router-dom';
 
 import { devOpsCapabilityEvidenceItems } from '../devops-capability-evidence/devops-capability-evidence.data';
 import { experiences } from '../experience/experience.data';
@@ -502,20 +503,18 @@ describe('SkillDetailPage', () => {
     );
   });
 
-  it('focuses the experience card addressed by the route fragment', () => {
+  it('focuses the experience card addressed by the router fragment', () => {
     const detail = getResolvedDetail('kubernetes');
     const experience = detail.experiences[0];
-    window.history.replaceState(
-      null,
-      '',
-      `/skills/kubernetes#experience-${experience.id}`,
+    const { container } = render(
+      <MemoryRouter initialEntries={[`/skills/kubernetes#experience-${experience.id}`]}>
+        <SkillDetailPage detail={detail} />
+      </MemoryRouter>,
     );
-    const { container } = render(<SkillDetailPage detail={detail} />);
     const experienceCard = container.querySelector(
       `#experience-${experience.id}`,
     );
 
     expect(experienceCard).toBe(document.activeElement);
-    window.history.replaceState(null, '', '/');
   });
 });

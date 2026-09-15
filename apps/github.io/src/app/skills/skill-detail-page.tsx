@@ -6,6 +6,7 @@ import { Outline, type OutlineItem } from '@astryxdesign/core/Outline';
 import { Text } from '@astryxdesign/core/Text';
 import * as stylex from '@stylexjs/stylex';
 import { useEffect, useRef, type ReactElement } from 'react';
+import { useInRouterContext, useLocation } from 'react-router-dom';
 
 import { SkillDetailContent } from './skill-detail-content';
 import type { ResolvedSkillDetail } from './skill-detail.types';
@@ -45,6 +46,29 @@ const styles = stylex.create({
 export function SkillDetailPage({
   detail,
 }: SkillDetailPageProps): ReactElement {
+  const isRouterContext = useInRouterContext();
+
+  return isRouterContext ? (
+    <RoutedSkillDetailPage detail={detail} />
+  ) : (
+    <SkillDetailPageContent detail={detail} hash={window.location.hash} />
+  );
+}
+
+function RoutedSkillDetailPage({ detail }: SkillDetailPageProps): ReactElement {
+  const { hash } = useLocation();
+
+  return <SkillDetailPageContent detail={detail} hash={hash} />;
+}
+
+interface SkillDetailPageContentProps extends SkillDetailPageProps {
+  readonly hash: string;
+}
+
+function SkillDetailPageContent({
+  detail,
+  hash,
+}: SkillDetailPageContentProps): ReactElement {
   const headingRef = useRef<HTMLHeadingElement>(null);
   const scrollContainerRef = useRef<HTMLElement | null>(null);
   const hasExperience =
@@ -57,8 +81,6 @@ export function SkillDetailPage({
   ];
 
   useEffect(() => {
-    const hash = window.location.hash;
-
     if (hash.startsWith('#experience-')) {
       const target = document.getElementById(hash.slice(1));
 
@@ -70,7 +92,7 @@ export function SkillDetailPage({
     }
 
     headingRef.current?.focus();
-  }, [detail.skill.id]);
+  }, [detail.skill.id, hash]);
 
   const content = (
     <VStack gap={6}>
