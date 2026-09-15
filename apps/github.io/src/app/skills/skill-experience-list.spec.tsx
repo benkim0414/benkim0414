@@ -1,5 +1,5 @@
 import { fireEvent, render, screen, within } from '@testing-library/react';
-import { MemoryRouter, Route, Routes } from 'react-router-dom';
+import { BrowserRouter, MemoryRouter, Route, Routes } from 'react-router-dom';
 import { afterEach, vi } from 'vitest';
 
 import { devOpsCapabilityEvidenceItems } from '../devops-capability-evidence/devops-capability-evidence.data';
@@ -105,6 +105,50 @@ describe('SkillExperienceList', () => {
       expect(scrollIntoView).toHaveBeenCalledWith({ block: 'start' });
     } finally {
       HTMLElement.prototype.scrollIntoView = originalScrollIntoView;
+    }
+  });
+
+  it('navigates an inspector evidence row through the production browser router', () => {
+    const [evidence] = experienceFixtures;
+    const scrollIntoView = vi.fn();
+    const originalScrollIntoView = HTMLElement.prototype.scrollIntoView;
+
+    HTMLElement.prototype.scrollIntoView = scrollIntoView;
+    window.history.replaceState({}, '', '/skills');
+
+    try {
+      render(
+        <BrowserRouter>
+          <Routes>
+            <Route
+              path="/skills"
+              element={
+                <SkillExperienceList
+                  appearance="plain"
+                  detailSkillId="kubernetes"
+                  evidence={[evidence]}
+                  skills={skills}
+                />
+              }
+            />
+            <Route path="/skills/:skillId" element={<SkillDetailRoute />} />
+          </Routes>
+        </BrowserRouter>,
+      );
+
+      fireEvent.click(
+        screen.getByRole('link', { name: new RegExp(`^${evidence.title}`) }),
+      );
+
+      const target = document.getElementById(
+        `experience-evidence-${evidence.id}`,
+      );
+
+      expect(target).toBe(document.activeElement);
+      expect(scrollIntoView).toHaveBeenCalledWith({ block: 'start' });
+    } finally {
+      HTMLElement.prototype.scrollIntoView = originalScrollIntoView;
+      window.history.replaceState({}, '', '/');
     }
   });
 
