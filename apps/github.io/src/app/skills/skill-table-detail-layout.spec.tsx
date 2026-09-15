@@ -206,7 +206,7 @@ describe('SkillTableDetailLayout', () => {
 
     expect(experience).toBeTruthy();
     const experienceItem = getByRole('link', {
-      name: /Production Kubernetes platform operations on Amazon EKS/,
+      name: /Production Kubernetes platform operations/,
     });
 
     expect(experienceItem.parentElement?.classList).toContain('astryx-item');
@@ -221,8 +221,9 @@ describe('SkillTableDetailLayout', () => {
     expect(
       detailPanel.querySelectorAll('.astryx-collapsible-trigger'),
     ).toHaveLength(0);
-    expect(detailPanel.textContent).not.toContain('Highlights');
-    expect(detailPanel.textContent).not.toContain('Relevant skills');
+    expect(detailPanel.textContent).toContain('Highlights');
+    expect(detailPanel.textContent).toContain('Relevant skills');
+    expect(detailPanel.textContent).not.toContain(experience?.summary);
     expect(detailPanel.querySelectorAll('.astryx-list')).toHaveLength(0);
     expect(detailPanel.querySelectorAll('[aria-label="Relevant skills"]')).toHaveLength(0);
   });
