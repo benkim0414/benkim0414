@@ -1,12 +1,15 @@
 import { Card } from '@astryxdesign/core/Card';
+import { Collapsible } from '@astryxdesign/core/Collapsible';
 import { Heading } from '@astryxdesign/core/Heading';
-import { VStack } from '@astryxdesign/core/Layout';
+import { HStack, VStack } from '@astryxdesign/core/Layout';
 import { Text } from '@astryxdesign/core/Text';
 import { spacingVars } from '@astryxdesign/core/theme/tokens.stylex';
 import * as stylex from '@stylexjs/stylex';
-import { useId, type ReactElement } from 'react';
+import { useId, useState, type ReactElement } from 'react';
 
 import { CapabilityEvidence } from './capability-evidence';
+import { CountBadge } from '../count-badge';
+import { shouldStartCollapsibleExpanded } from '../responsive-collapsible';
 import {
   getDoraCapabilityCardEvidenceRows,
   getDoraCapabilityCardEvidenceSummary,
@@ -33,11 +36,6 @@ const visibleEvidenceGroupLabels: Partial<
 };
 
 const styles = stylex.create({
-  evidenceRows: {
-    display: 'flex',
-    flexDirection: 'column',
-    gap: spacingVars['--spacing-2'],
-  },
   evidenceRow: {
     display: 'flex',
     flexWrap: 'wrap',
@@ -96,6 +94,29 @@ function DoraCapabilityEvidenceRow({
   );
 }
 
+function DoraCapabilityEvidenceTrigger({
+  rows,
+}: {
+  rows: readonly DoraCapabilityCardEvidenceRow[];
+}): ReactElement {
+  return (
+    <HStack gap={2} wrap="wrap" vAlign="center">
+      {rows.map((row) => {
+        const label = visibleEvidenceGroupLabels[row.group];
+
+        return label ? (
+          <HStack gap={2} key={row.group} vAlign="center">
+            <Text type="supporting" color="secondary">
+              {label}
+            </Text>
+            <CountBadge count={row.evidence.length} />
+          </HStack>
+        ) : null;
+      })}
+    </HStack>
+  );
+}
+
 export function DoraCapabilityCard({
   capability,
   description,
@@ -103,6 +124,7 @@ export function DoraCapabilityCard({
   scores,
 }: DoraCapabilityCardProps): ReactElement {
   const titleId = useId();
+  const [isOpen, setIsOpen] = useState(shouldStartCollapsibleExpanded);
   const rows = getDoraCapabilityCardEvidenceRows(
     capability.key,
     evidence,
@@ -132,15 +154,21 @@ export function DoraCapabilityCard({
           </VStack>
 
           {rows.length > 0 ? (
-            <div {...stylex.props(styles.evidenceRows)}>
-              {rows.map((row) => (
-                <DoraCapabilityEvidenceRow
-                  capabilityLabel={capability.label}
-                  key={row.group}
-                  row={row}
-                />
-              ))}
-            </div>
+            <Collapsible
+              isOpen={isOpen}
+              onOpenChange={setIsOpen}
+              trigger={<DoraCapabilityEvidenceTrigger rows={rows} />}
+            >
+              <VStack gap={2}>
+                {rows.map((row) => (
+                  <DoraCapabilityEvidenceRow
+                    capabilityLabel={capability.label}
+                    key={row.group}
+                    row={row}
+                  />
+                ))}
+              </VStack>
+            </Collapsible>
           ) : null}
         </VStack>
       </article>

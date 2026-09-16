@@ -1,4 +1,5 @@
-import { render, screen, within } from '@testing-library/react';
+import { fireEvent, render, screen, within } from '@testing-library/react';
+import { afterEach, vi } from 'vitest';
 
 import {
   curatedDevOpsCapabilityRadarScores,
@@ -8,6 +9,7 @@ import {
 import { DoraCapabilityCard } from './dora-capability-card';
 import { doraCapabilityDescriptions } from './dora-capability-card.evidence';
 import type { CapabilityEvidenceItem } from './devops-capability-evidence.types';
+import { COMPACT_SURFACE_QUERY } from '../skills/skill-table-responsive';
 
 const flexibleInfrastructure = doraCapabilityDefinitions.find(
   (capability) => capability.key === 'flexible-infrastructure',
@@ -55,6 +57,25 @@ if (
   throw new Error('Missing DORA capability fixture');
 }
 
+const originalMatchMedia = window.matchMedia;
+
+afterEach(() => {
+  window.matchMedia = originalMatchMedia;
+});
+
+function setCompactSurface(isCompact: boolean): void {
+  window.matchMedia = vi.fn().mockImplementation((query: string) => ({
+    matches: query === COMPACT_SURFACE_QUERY ? isCompact : false,
+    media: query,
+    onchange: null,
+    addEventListener: vi.fn(),
+    removeEventListener: vi.fn(),
+    addListener: vi.fn(),
+    removeListener: vi.fn(),
+    dispatchEvent: vi.fn(),
+  }));
+}
+
 function evidence(
   overrides: Partial<CapabilityEvidenceItem>,
 ): CapabilityEvidenceItem {
@@ -72,6 +93,30 @@ function evidence(
 }
 
 describe('DoraCapabilityCard', () => {
+  it('starts compact evidence collapsed with count badges and reveals rows on request', () => {
+    setCompactSurface(true);
+
+    render(
+      <DoraCapabilityCard
+        capability={flexibleInfrastructure}
+        description={doraCapabilityDescriptions['flexible-infrastructure']}
+        evidence={devOpsCapabilityEvidenceItems}
+        scores={curatedDevOpsCapabilityRadarScores}
+      />,
+    );
+
+    const disclosure = screen.getByRole('button', {
+      name: 'Relevant experience 5 Certifications 2 Technical skills 12',
+    });
+
+    expect(disclosure.getAttribute('aria-expanded')).toBe('false');
+
+    fireEvent.click(disclosure);
+
+    expect(disclosure.getAttribute('aria-expanded')).toBe('true');
+    expect(screen.getAllByTestId('dora-capability-evidence-row')).toHaveLength(3);
+  });
+
   it.each([
     [
       testAutomation,
@@ -590,9 +635,9 @@ describe('DoraCapabilityCard', () => {
       'certifications',
       'skills',
     ]);
-    expect(screen.getByText('Relevant experience')).toBeTruthy();
-    expect(screen.getByText('Certifications')).toBeTruthy();
-    expect(screen.getByText('Technical skills')).toBeTruthy();
+    expect(screen.getAllByText('Relevant experience')).toHaveLength(2);
+    expect(screen.getAllByText('Certifications')).toHaveLength(2);
+    expect(screen.getAllByText('Technical skills')).toHaveLength(2);
     expect(screen.queryByText('Learning')).toBeNull();
 
     expect(certificationRow).toBe(rows[1]);
