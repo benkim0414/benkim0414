@@ -42,16 +42,14 @@ sources:
     resource: repo://apps/github.io/src/app/skills/skill-experience-card-list.tsx
   - id: openwiki-source-6d3d436c779dec5facaf5f2d
     resource: repo://apps/github.io/src/app/skills/skill-experience-card-shell.tsx
-  - id: openwiki-source-1da2c5712de0a298fd2a580a
-    resource: repo://apps/github.io/src/app/skills/skill-experience-list.spec.tsx
   - id: openwiki-source-ba5c27392181e6c65798f3c4
     resource: repo://apps/github.io/src/app/skills/skill-experience-list.tsx
   - id: openwiki-source-b7cc9784bea6b15d468f9f23
     resource: repo://apps/github.io/src/app/skills/skill-table-detail-layout.tsx
-generated: { by: "codex", at: "2026-09-15T10:54:57.218Z" }
+generated: { by: "codex", at: "2026-09-16T05:20:11.442Z" }
 verified:
   - by: openwiki/0.5.0
-    at: 2026-09-16T03:32:31.450Z
+    at: 2026-09-16T05:20:11.442Z
 ---
 
 # Application architecture
@@ -106,7 +104,9 @@ mounted Experience cards closed; a non-compact match selects the adjacent panel
 and seeds them open. The seed is not synchronized after mount, so later viewport
 changes preserve each visitor's disclosure choice.
 
-Project cards reuse that same seed for their `Skills used` disclosure. Their
+Project cards reuse that same seed for their `Skills used` disclosure. The
+collapsed trigger carries its skill-count badge; once expanded, the visible
+tokens make that summary redundant and the trigger retains only its label. Their
 repository action is a labelled GitHub icon link rather than a card-wide link,
 so the external navigation stays independent from disclosure interaction.
 
@@ -165,12 +165,12 @@ unframed always-visible, router-aware Astryx `Item` rows with an experience titl
 and a compact description of highlight and relevant-skill counts in zero-gap
 authored and supporting stacks; every Item row targets the corresponding
 standalone card fragment, while a routerless render remains a native link. Mixed
-entries show both counts while closed, retain
-`Highlights` in the open trigger,
-and move `Relevant skills` above the token list. Skills-only cards keep the
-skill label, count, and chevron together in the trigger in both states, while
-their renderers omit the duplicate panel heading. Entries without either
-projection do not render a disclosure.
+entries show both counts while closed, retain `Highlights` in the open trigger,
+and move `Relevant skills` above the token list. Expanded disclosures remove all
+count badges because their outcomes and tokens are visible; skills-only cards
+therefore retain only the skill label and chevron once open, while their
+renderers omit the duplicate panel heading. Entries without either projection do
+not render a disclosure.
 
 Continue with [evidence semantics](../concepts/evidence.md),
 [theme and layout](design-system.md), and [validation](../workflows/validation.md).

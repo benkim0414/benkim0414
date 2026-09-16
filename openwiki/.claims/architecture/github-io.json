@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:6e2caf268350b4e4d5b34ce150172975c23be8dbdc171e3b6f04ddd6f7d83eb4",
+  "pageVersion": "sha256:d0f81fbdaaa995fcae58d8cdddd057ff416131c308cc00b9ec8b5a5e5b5f6d5f",
   "claims": [
     {
       "id": "claim_da9ac46eb2204e9b9a555848aea5550d",
@@ -106,11 +106,11 @@
       "evidence": [
         {
           "resource": "repo://apps/github.io/src/app/skills/skill-experience-card-list.tsx",
-          "version": "repo-file-v1:sha256:10dc140a5f68513cf9cdb0965e6d3c1ae872d1ce40ddefd38df4ffac2b088a06"
+          "version": "repo-file-v1:sha256:f2cfef06b6bb277b79c0f05e2c2ec88538307c7fa17c499e9eaec0102df42679"
         },
         {
           "resource": "repo://apps/github.io/src/app/skills/skill-experience-list.tsx",
-          "version": "repo-file-v1:sha256:1f18832ac6f21aeada2d02efd2a5b3ee5149b7af57a677833b0b1b8ed95f962b"
+          "version": "repo-file-v1:sha256:9ccbac876190667b39846bad1d543b5cea258c19120151d4029ba7915bf88757"
         }
       ]
     },
@@ -148,33 +148,29 @@
     },
     {
       "id": "claim_f90a317960e146e4bae983a38e99d06e",
-      "statement": "Experience projections use card-framed controlled disclosures on the standalone route and unframed, router-aware Astryx Item rows in zero-gap authored and supporting stacks in the table inspector. Each Item leads with the experience title and uses a compact description of highlight and relevant-skill counts without end content; outside a router it remains a native link. Its whole row activates the matching standalone card fragment.",
+      "statement": "Experience projections use card-framed controlled disclosures on the standalone route and unframed, router-aware Astryx Item rows in zero-gap authored and supporting stacks in the table inspector. Each Item leads with the experience title and uses a compact description of highlight and relevant-skill counts without end content; outside a router it remains a native link. Its whole row activates the matching standalone card fragment. Card triggers show highlight and relevant-skill count badges only while closed; expanded disclosures retain their labels but omit every count badge because the outcomes and tokens are visible.",
       "evidence": [
         {
           "resource": "repo://apps/github.io/src/app/skills/skill-experience-card-list.tsx",
-          "version": "repo-file-v1:sha256:10dc140a5f68513cf9cdb0965e6d3c1ae872d1ce40ddefd38df4ffac2b088a06"
+          "version": "repo-file-v1:sha256:f2cfef06b6bb277b79c0f05e2c2ec88538307c7fa17c499e9eaec0102df42679"
         },
         {
           "resource": "repo://apps/github.io/src/app/skills/skill-experience-card-shell.tsx",
-          "version": "repo-file-v1:sha256:9feb67cec75e6d683a61b65ce48082e32d42cd6c35f9dc052360de7362ad1fa3"
-        },
-        {
-          "resource": "repo://apps/github.io/src/app/skills/skill-experience-list.spec.tsx",
-          "version": "repo-file-v1:sha256:f7b5d0f39da20dddf07b6a5484b449dd39b462a0fcf85b88ad5da79127d82063"
+          "version": "repo-file-v1:sha256:bf921a604db3f479a9234ba88b47ec81e1766c5978764365e00d991340190b42"
         },
         {
           "resource": "repo://apps/github.io/src/app/skills/skill-experience-list.tsx",
-          "version": "repo-file-v1:sha256:1f18832ac6f21aeada2d02efd2a5b3ee5149b7af57a677833b0b1b8ed95f962b"
+          "version": "repo-file-v1:sha256:9ccbac876190667b39846bad1d543b5cea258c19120151d4029ba7915bf88757"
         }
       ]
     },
     {
       "id": "claim_e7009ff6c7694e66a5a66d6cc9b7d420",
-      "statement": "Project cards use the same compact-surface disclosure seed for their skills and keep repository navigation as a separately labelled GitHub icon link.",
+      "statement": "Project cards use the same compact-surface disclosure seed for their skills, show the Skills used count badge only while that disclosure is collapsed, and keep repository navigation as a separately labelled GitHub icon link.",
       "evidence": [
         {
           "resource": "repo://apps/github.io/src/app/projects/project-card.tsx#L48-L113",
-          "version": "repo-lines-v1:sha256:1e30137fd48cbc8e17b64f431ab902388a518ad66b35a5c4dd89879ee45bf554:eyJzZWxlY3RlZExpbmVDb3VudCI6NjYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjVhMjBiYjA4MTdlYjBjNmM3NjQ0NDhkNGUwZjhjMjMzODE1OGYxYTFiOTM2ZmY1OWU1OWY0ODViZmNmY2ZhMzkiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijk1ZWYwMWJjMDhkYmMzYjYzZTRlNzVlYTNkMjZhNWI5NDE4OTE4NzdlMjdhZDg5MTMyOWM4NDExZDdkOGRjNGQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjEzODNhYzE5OThhZDg4Mjg4NDVjNzBlZGZmOWQyNWZjYzc4OTU3ZjU1MzBhNzk4MzhkNTE4NGExZTE3MGZlNDIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImMzMWE0Njg1NzkxNTFjMTJlZWVjZmM0NzlhMDQ2YjExN2U2ZDQ4OWUwMzVhMzQ3NGRhYmI4NWIyYjE2MmEwNzEifQ"
+          "version": "repo-lines-v1:sha256:7ec806d990840c856483ae6efa32f3976042fd89d9389c90688c15ae57fedfa3:eyJzZWxlY3RlZExpbmVDb3VudCI6NjgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjVhMjBiYjA4MTdlYjBjNmM3NjQ0NDhkNGUwZjhjMjMzODE1OGYxYTFiOTM2ZmY1OWU1OWY0ODViZmNmY2ZhMzkiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijk1ZWYwMWJjMDhkYmMzYjYzZTRlNzVlYTNkMjZhNWI5NDE4OTE4NzdlMjdhZDg5MTMyOWM4NDExZDdkOGRjNGQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjEzODNhYzE5OThhZDg4Mjg4NDVjNzBlZGZmOWQyNWZjYzc4OTU3ZjU1MzBhNzk4MzhkNTE4NGExZTE3MGZlNDIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImMzMWE0Njg1NzkxNTFjMTJlZWVjZmM0NzlhMDQ2YjExN2U2ZDQ4OWUwMzVhMzQ3NGRhYmI4NWIyYjE2MmEwNzEifQ"
         },
         {
           "resource": "repo://apps/github.io/src/app/responsive-collapsible.ts#L1-L9",
@@ -188,7 +184,7 @@
       "evidence": [
         {
           "resource": "repo://apps/github.io/src/app/devops-capability-evidence/dora-capability-card.tsx",
-          "version": "repo-file-v1:sha256:ef805559534ceb64b582ad0ddbb67dedcd5b2e3ba8f850f983c48693b0e8b361"
+          "version": "repo-file-v1:sha256:090fecfaa95da3d6adce95382210442f7a0140e0453f473e635931e410fba6a9"
         },
         {
           "resource": "repo://apps/github.io/src/app/home/dora-capability-masonry.tsx",
@@ -203,6 +199,6 @@
   ],
   "verification": {
     "by": "openwiki/0.5.0",
-    "at": "2026-09-16T03:32:31.450Z"
+    "at": "2026-09-16T05:20:11.442Z"
   }
 }

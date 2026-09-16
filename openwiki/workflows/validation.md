@@ -20,24 +20,20 @@ sources:
     resource: repo://apps/github.io/src/app/count-badge.spec.tsx
   - id: openwiki-source-7710c13ca861e757d9eac20c
     resource: repo://apps/github.io/src/app/count-badge.stories.spec.ts
+  - id: openwiki-source-8b9676dd32c8ca2f65ed1a2c
+    resource: repo://apps/github.io/src/app/devops-capability-evidence/dora-capability-card.spec.tsx
   - id: openwiki-source-5dbaa213d52c3aac678d1838
     resource: repo://apps/github.io/src/app/global-navigation-layout.tsx
   - id: openwiki-source-2378d83f7f8fd8fc756c71f4
     resource: repo://apps/github.io/src/app/home/dora-capability-masonry.spec.tsx
   - id: openwiki-source-9a75dff41bf8e0bd1f49b6bc
     resource: repo://apps/github.io/src/app/home/home-page.spec.tsx
-  - id: openwiki-source-0e3b0dfb231db070ffd8340f
-    resource: repo://apps/github.io/src/app/home/home-page.tsx
   - id: openwiki-source-d97b9e088d941d15580a0bd7
     resource: repo://apps/github.io/src/app/skills/skill-detail-page.spec.tsx
   - id: openwiki-source-0a3e47ce778a625f17d42cfd
     resource: repo://apps/github.io/src/app/skills/skill-detail-page.stories.spec.ts
   - id: openwiki-source-3d8376b39a8411106c980cf0
     resource: repo://apps/github.io/src/app/skills/skill-experience-card-list.spec.tsx
-  - id: openwiki-source-048000f67a10f22b6e816b63
-    resource: repo://apps/github.io/src/app/skills/skill-experience-card.stories.spec.ts
-  - id: openwiki-source-595128ced7876e4f8579bc14
-    resource: repo://apps/github.io/src/app/skills/skill-experience-card.stories.tsx
   - id: openwiki-source-1da2c5712de0a298fd2a580a
     resource: repo://apps/github.io/src/app/skills/skill-experience-list.spec.tsx
   - id: openwiki-source-35c77a9dd102047c8a1b9103
@@ -78,10 +74,10 @@ sources:
     resource: repo://scripts/setup-openwiki.test.mjs
   - id: openwiki-source-165465422a61a00b62b0f6d3
     resource: repo://scripts/sync-github-pages-artifact.test.mjs
-generated: { by: "codex", at: "2026-09-15T10:54:57.218Z" }
+generated: { by: "codex", at: "2026-09-16T05:20:11.442Z" }
 verified:
   - by: openwiki/0.5.0
-    at: 2026-09-16T03:32:31.450Z
+    at: 2026-09-16T05:20:11.442Z
 ---
 
 # Validation workflow
@@ -187,7 +183,8 @@ page-level test when the component is wired into an application page, proving
 its actual accessible and data-derived context.
 
 The Home-page DORA-card layout test confirms that the rendered masonry wrappers
-retain the canonical card order. Its colocated unit test verifies that the
+retain the canonical card order and that expanded capability disclosures expose
+their evidence without count badges. Its colocated unit test verifies that the
 packing algorithm selects the shortest column, applies a uniform 16 px gap,
 and switches from one to two columns at the 736 px capacity threshold. Validate
 those focused contracts before
@@ -221,12 +218,12 @@ Skill experience readability is protected at both renderer boundaries. Focused
 tests cover all four collection combinations: both labels appear when both
 collections exist, each label is omitted when its collection is empty, and
 neither collection produces a disclosure or chevron. Skills-only regressions at
-both renderer boundaries assert that the same `Relevant skills` label and count
-remain the disclosure trigger after expansion and that no duplicate panel
-heading appears. With both collections, expansion keeps only
-the highlight count in the trigger and moves the visible relevant-skill label
-and count above the token list. Coverage also protects absence of the former combined
-outcome/skill sentence and the shared compact-surface versus non-compact
+both renderer boundaries assert that the `Relevant skills` count appears only in
+the closed trigger, disappears after expansion, and has no duplicate panel
+heading. With both collections, the collapsed trigger shows both counts;
+expansion keeps only the `Highlights` label in the trigger and moves the visible
+relevant-skill label above the token list without count badges. Coverage also
+protects absence of the former combined outcome/skill sentence and the shared compact-surface versus non-compact
 defaults, including the coarse-tablet compact case beyond the former phone-only
 breakpoint. Round-trip tests cross from non-compact to compact and back,
 re-querying the disclosure to prove later viewport changes retain the user's

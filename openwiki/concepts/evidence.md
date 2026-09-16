@@ -14,8 +14,6 @@ sources:
     resource: repo://apps/github.io/src/app/devops-roadmap/devops-roadmap-stepper.tsx
   - id: openwiki-source-43f6485bd500f1f79408e2e3
     resource: repo://apps/github.io/src/app/devops-roadmap/devops-roadmap.data.ts
-  - id: openwiki-source-e15aaceb559c1219a1e6667c
-    resource: repo://apps/github.io/src/app/projects/project-card.spec.tsx
   - id: openwiki-source-bd7d75b07e3062c09dcab6e9
     resource: repo://apps/github.io/src/app/projects/project-card.tsx
   - id: openwiki-source-bcd58fc33f104c190f9326be
@@ -24,16 +22,14 @@ sources:
     resource: repo://apps/github.io/src/app/skills/skill-experience-card-list.tsx
   - id: openwiki-source-6d3d436c779dec5facaf5f2d
     resource: repo://apps/github.io/src/app/skills/skill-experience-card-shell.tsx
-  - id: openwiki-source-1da2c5712de0a298fd2a580a
-    resource: repo://apps/github.io/src/app/skills/skill-experience-list.spec.tsx
   - id: openwiki-source-ba5c27392181e6c65798f3c4
     resource: repo://apps/github.io/src/app/skills/skill-experience-list.tsx
   - id: openwiki-source-b4039a7397de0bc8565df5e3
     resource: repo://apps/github.io/src/app/skills/skill-list.data.ts
-generated: { by: "codex", at: "2026-09-15T10:54:57.218Z" }
+generated: { by: "codex", at: "2026-09-16T05:20:11.442Z" }
 verified:
   - by: openwiki/0.5.0
-    at: 2026-09-16T03:32:31.450Z
+    at: 2026-09-16T05:20:11.442Z
 ---
 
 # Skills and capability evidence
@@ -74,11 +70,11 @@ rather than `Outcomes`: the collection includes actions, methods, context, and
 effects, so the broader presentation label avoids implying that every point is
 a measured result. The disclosure labels and counts only non-empty projections.
 While both exist, the collapsed trigger names both; once expanded, it retains
-the highlight count and each renderer moves the visible `Relevant skills` label
-and count above the accessible token list. A skills-only disclosure instead
-keeps that label and count in its trigger beside the chevron in both states, and
-omits a duplicate heading above the tokens. An entry with neither projection has
-no disclosure. The standalone detail route presents entries in cards and
+`Highlights` but removes every count badge, and each renderer moves the visible
+`Relevant skills` label above the accessible token list. A skills-only disclosure
+likewise keeps its count beside the chevron only while closed and omits a
+duplicate heading above the tokens. An entry with neither projection has no
+disclosure. The standalone detail route presents entries in cards and
 disclosures, whereas the table inspector uses an unframed always-visible list
 of router-aware Astryx `Item` rows with an experience title and compact
 highlight and relevant-skill counts in zero-gap stacks; each entire row targets
@@ -94,9 +90,10 @@ does not collapse the two source models or move projection rules into the
 resolver.
 
 Project cards similarly keep the project summary visible and place only their
-skill-token projection behind a `Skills used` disclosure with a count. The
-repository link remains a separate, labelled GitHub action rather than turning
-the evidence card into navigation.
+skill-token projection behind a `Skills used` disclosure. Its count badge is a
+collapsed-state summary and disappears when the tokens are shown. The repository
+link remains a separate, labelled GitHub action rather than turning the evidence
+card into navigation.
 
 The DevOps roadmap inventory is another separate, display-oriented projection.
 Its 22 canonical topics and concise descriptions define the source order, while

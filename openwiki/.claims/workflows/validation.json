@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:d4a82299ed16a548c6449d95637b533b41048bbf94fc23be6ae1280d69eb6c46",
+  "pageVersion": "sha256:edf954d27eaae2e661912bf27d8c6e6dd917bd294000d30b7d63e2df883668f7",
   "claims": [
     {
       "id": "claim_6cbb6dd0080f4763aaf4dec964f7f76e",
@@ -220,23 +220,15 @@
     },
     {
       "id": "claim_22b012bc44d34a13bbc0244b91b44d5b",
-      "statement": "Skill experience tests cover all four highlight and relevant-skill combinations, including independent omission for empty collections and no disclosure when both are empty. Skills-only regressions at both renderer boundaries require the same Relevant skills label and count to remain the trigger after expansion with no duplicate panel heading. Tests also protect state-dependent mixed-content label movement, shared compact-surface and non-compact initial defaults including coarse-tablet compact behavior, retained user choice through a compact-surface round trip, complete evidence text, deduplication, and inspector Item rows with router-base fragment links. MemoryRouter and BrowserRouter tests cover the link navigation, target scroll, and focus behavior.",
+      "statement": "Skill experience tests cover all four highlight and relevant-skill combinations, including independent omission for empty collections and no disclosure when both are empty. Skills-only regressions at both renderer boundaries require the Relevant skills count to remain in the closed trigger and disappear after expansion with no duplicate panel heading. Tests also protect state-dependent mixed-content label movement and absence of every expanded count badge, shared compact-surface and non-compact initial defaults including coarse-tablet compact behavior, retained user choice through a compact-surface round trip, complete evidence text, deduplication, and inspector Item rows with router-base fragment links. MemoryRouter and BrowserRouter tests cover the link navigation, target scroll, and focus behavior.",
       "evidence": [
         {
           "resource": "repo://apps/github.io/src/app/skills/skill-experience-card-list.spec.tsx",
-          "version": "repo-file-v1:sha256:d255ce3e40348b71544b22fa0c6a290b225c32a32b2d08f3448b0e1eddd3460f"
-        },
-        {
-          "resource": "repo://apps/github.io/src/app/skills/skill-experience-card.stories.spec.ts",
-          "version": "repo-file-v1:sha256:78b2deafc7d8c710baaa9198afdc2188a53b71ec30f41e9db45e88ff26e7c321"
-        },
-        {
-          "resource": "repo://apps/github.io/src/app/skills/skill-experience-card.stories.tsx",
-          "version": "repo-file-v1:sha256:183581a72fcb3c370f7d4a7ddf6892c52b4f251fa5e8660ea3a1c00524c9e25d"
+          "version": "repo-file-v1:sha256:5d124ade2c2b0b267a3ae52aa46093d1239c09ba631f723e6097797e6601c743"
         },
         {
           "resource": "repo://apps/github.io/src/app/skills/skill-experience-list.spec.tsx",
-          "version": "repo-file-v1:sha256:f7b5d0f39da20dddf07b6a5484b449dd39b462a0fcf85b88ad5da79127d82063"
+          "version": "repo-file-v1:sha256:73184f49b36841ffc2f1923c9e616435228d99596aade82825be37aa085d0374"
         },
         {
           "resource": "repo://apps/github.io/src/app/skills/skill-table-responsive.ts",
@@ -286,7 +278,7 @@
         },
         {
           "resource": "repo://apps/github.io/src/app/skills/skill-experience-list.spec.tsx",
-          "version": "repo-file-v1:sha256:f7b5d0f39da20dddf07b6a5484b449dd39b462a0fcf85b88ad5da79127d82063"
+          "version": "repo-file-v1:sha256:73184f49b36841ffc2f1923c9e616435228d99596aade82825be37aa085d0374"
         },
         {
           "resource": "repo://apps/github.io/src/app/skills/skill-table-detail-layout.spec.tsx",
@@ -318,25 +310,25 @@
     },
     {
       "id": "claim_d742979a1d1a4d4aa1d59e3c7ef190bc",
-      "statement": "The Home-page DORA-card tests protect canonical source order through the masonry wrappers, while the colocated masonry unit test verifies shortest-column packing, a uniform 16 px gap, the single-column fallback, and the 736 px two-column capacity threshold before broader application validation.",
+      "statement": "The Home-page DORA-card tests protect canonical source order through the masonry wrappers and verify that expanded evidence disclosures have no count badges, while the colocated masonry unit test verifies shortest-column packing, a uniform 16 px gap, the single-column fallback, and the 736 px two-column capacity threshold before broader application validation.",
       "evidence": [
+        {
+          "resource": "repo://apps/github.io/src/app/devops-capability-evidence/dora-capability-card.spec.tsx",
+          "version": "repo-file-v1:sha256:53d4d821961dd37522db1464937dc93b01ce99f279b9075a7eb18ac43971e153"
+        },
         {
           "resource": "repo://apps/github.io/src/app/home/dora-capability-masonry.spec.tsx",
           "version": "repo-file-v1:sha256:2f56d47769bf99504b550029b602758995cb3f026d7f12e64863c1d01f217782"
         },
         {
           "resource": "repo://apps/github.io/src/app/home/home-page.spec.tsx",
-          "version": "repo-file-v1:sha256:a4229079486726f35173e1b52a1337b449aa73c3faa68ca222529f8f8bda8067"
-        },
-        {
-          "resource": "repo://apps/github.io/src/app/home/home-page.tsx",
-          "version": "repo-file-v1:sha256:69ae85a22ae0ca027e21a64f564d07832750e217e1374ac72ea1f00051c7355c"
+          "version": "repo-file-v1:sha256:a9b285bbe6f0f2f07076224d39aba963f2350ed607bf9d1894275b5821515f8b"
         }
       ]
     }
   ],
   "verification": {
     "by": "openwiki/0.5.0",
-    "at": "2026-09-16T03:32:31.450Z"
+    "at": "2026-09-16T05:20:11.442Z"
   }
 }

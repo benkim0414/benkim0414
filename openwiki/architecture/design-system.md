@@ -5,7 +5,7 @@ description: How Astryx, StyleX, theme persistence, and browser layout checks fi
 tags: [astryx, stylex, theme, layout]
 verified:
   - by: openwiki/0.5.0
-    at: 2026-09-16T03:32:31.450Z
+    at: 2026-09-16T05:20:11.442Z
 sources:
   - id: openwiki-source-45b1d77b308bd57403f55ff9
     resource: repo://apps/github.io/.storybook/story-taxonomy.spec.ts
@@ -59,8 +59,6 @@ sources:
     resource: repo://apps/github.io/src/app/skills/skill-experience-card-list.tsx
   - id: openwiki-source-6d3d436c779dec5facaf5f2d
     resource: repo://apps/github.io/src/app/skills/skill-experience-card-shell.tsx
-  - id: openwiki-source-1da2c5712de0a298fd2a580a
-    resource: repo://apps/github.io/src/app/skills/skill-experience-list.spec.tsx
   - id: openwiki-source-ba5c27392181e6c65798f3c4
     resource: repo://apps/github.io/src/app/skills/skill-experience-list.tsx
   - id: openwiki-source-2944a7e4b1284a70a09ee95a
@@ -77,7 +75,7 @@ sources:
     resource: repo://apps/github.io/src/styles.css
   - id: openwiki-source-fcfa3ced1d03143bb27d5018
     resource: repo://apps/github.io/vite.config.ts
-generated: { by: "codex", at: "2026-09-15T10:54:57.218Z" }
+generated: { by: "codex", at: "2026-09-16T05:20:11.442Z" }
 ---
 
 # Design system and layout
@@ -206,16 +204,17 @@ activates the corresponding card fragment on the standalone skill-detail route.
 The same Item remains a native link when rendered outside a router. On arrival,
 the matching card scrolls into view and receives focus.
 Closed mixed-content triggers show both `Highlights` and `Relevant skills`
-counts; opening retains `Highlights` in the trigger and places the skill label
-above its accessible token list. A skills-only card keeps `Relevant skills` and
-its count beside the chevron in both states, so each renderer omits the duplicate
-panel heading. Cards with neither projection omit the disclosure entirely. The
+counts; opening retains its label in the trigger and places the skill label
+above its accessible token list, but removes all disclosure count badges. A
+skills-only card likewise keeps its `Relevant skills` label beside the chevron
+while omitting its count once open, so each renderer avoids duplicate count
+information beside visible content. Cards with neither projection omit the disclosure entirely. The
 initial viewport seeds the disclosure closed whenever the shared compact-surface
 query selects the bottom-sheet detail treatment, and open otherwise. Later
 viewport changes do not override the visitor's disclosure choice.
 
 Project cards apply the same responsive disclosure default to their `Skills used`
-token list and show its count in a `CountBadge`. A separately labelled ghost
+token list, showing its count in a `CountBadge` only while collapsed. A separately labelled ghost
 `IconButton` opens the repository in a new tab, using the top navigation's
 theme-aware `currentColor` GitHub SVG instead of making the whole card a link.
 

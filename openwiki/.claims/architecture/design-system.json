@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:de3ff3259e85688ce7e89a0113c4fcba12a4aabe2f20a00209de9b22e44078e5",
+  "pageVersion": "sha256:428d0762b0fa080affe8eb93c42403e6ec27133c205ddb056a73cdd4cc436144",
   "claims": [
     {
       "id": "claim_67f0a6341495404e8eefce3e45fd6173",
@@ -88,7 +88,7 @@
         },
         {
           "resource": "repo://apps/github.io/src/app/home/home-page.spec.tsx",
-          "version": "repo-file-v1:sha256:a4229079486726f35173e1b52a1337b449aa73c3faa68ca222529f8f8bda8067"
+          "version": "repo-file-v1:sha256:a9b285bbe6f0f2f07076224d39aba963f2350ed607bf9d1894275b5821515f8b"
         },
         {
           "resource": "repo://apps/github.io/src/app/home/home-page.tsx",
@@ -156,11 +156,11 @@
       "evidence": [
         {
           "resource": "repo://apps/github.io/src/app/skills/skill-experience-card-list.tsx",
-          "version": "repo-file-v1:sha256:10dc140a5f68513cf9cdb0965e6d3c1ae872d1ce40ddefd38df4ffac2b088a06"
+          "version": "repo-file-v1:sha256:f2cfef06b6bb277b79c0f05e2c2ec88538307c7fa17c499e9eaec0102df42679"
         },
         {
           "resource": "repo://apps/github.io/src/app/skills/skill-experience-list.tsx",
-          "version": "repo-file-v1:sha256:1f18832ac6f21aeada2d02efd2a5b3ee5149b7af57a677833b0b1b8ed95f962b"
+          "version": "repo-file-v1:sha256:9ccbac876190667b39846bad1d543b5cea258c19120151d4029ba7915bf88757"
         },
         {
           "resource": "repo://apps/github.io/src/app/skills/skill-key-outcomes.tsx",
@@ -228,45 +228,33 @@
     },
     {
       "id": "claim_05e7e8bb2330425eab7333cbc2b3498b",
-      "statement": "Skill experience entries share a presentation shell. The standalone page uses controlled Astryx Collapsible cards; the table inspector uses unframed, router-aware Astryx Item rows whose title leads and whose supporting description states highlight and relevant-skill counts without an end slot or chevrons. Outside a router, the Item remains a native link. Authored and supporting Item lists use zero-gap VStacks. Each Item's whole row activates the corresponding standalone card fragment; on arrival, the matching card scrolls into view and receives focus. The standalone disclosure preserves its responsive initial state and visitor choice.",
+      "statement": "Skill experience entries share a presentation shell. The standalone page uses controlled Astryx Collapsible cards; the table inspector uses unframed, router-aware Astryx Item rows whose title leads and whose supporting description states highlight and relevant-skill counts without an end slot or chevrons. Outside a router, the Item remains a native link. Authored and supporting Item lists use zero-gap VStacks. Each Item's whole row activates the corresponding standalone card fragment; on arrival, the matching card scrolls into view and receives focus. The standalone disclosure preserves its responsive initial state and visitor choice. Count badges summarize closed disclosures and are omitted while their detail content is open.",
       "evidence": [
         {
-          "resource": "repo://apps/github.io/src/app/skills/skill-detail-page.tsx",
-          "version": "repo-file-v1:sha256:2e852ba1aa8a9b66b96230166f63b48655254c4b1d4ab28463f105b2cefc2163"
-        },
-        {
           "resource": "repo://apps/github.io/src/app/skills/skill-experience-card-list.tsx",
-          "version": "repo-file-v1:sha256:10dc140a5f68513cf9cdb0965e6d3c1ae872d1ce40ddefd38df4ffac2b088a06"
+          "version": "repo-file-v1:sha256:f2cfef06b6bb277b79c0f05e2c2ec88538307c7fa17c499e9eaec0102df42679"
         },
         {
           "resource": "repo://apps/github.io/src/app/skills/skill-experience-card-shell.tsx",
-          "version": "repo-file-v1:sha256:9feb67cec75e6d683a61b65ce48082e32d42cd6c35f9dc052360de7362ad1fa3"
-        },
-        {
-          "resource": "repo://apps/github.io/src/app/skills/skill-experience-list.spec.tsx",
-          "version": "repo-file-v1:sha256:f7b5d0f39da20dddf07b6a5484b449dd39b462a0fcf85b88ad5da79127d82063"
+          "version": "repo-file-v1:sha256:bf921a604db3f479a9234ba88b47ec81e1766c5978764365e00d991340190b42"
         },
         {
           "resource": "repo://apps/github.io/src/app/skills/skill-experience-list.tsx",
-          "version": "repo-file-v1:sha256:1f18832ac6f21aeada2d02efd2a5b3ee5149b7af57a677833b0b1b8ed95f962b"
+          "version": "repo-file-v1:sha256:9ccbac876190667b39846bad1d543b5cea258c19120151d4029ba7915bf88757"
         }
       ]
     },
     {
       "id": "claim_a757b9a14db242739ba23a185f162191",
-      "statement": "Project cards keep the project heading and description visible, place skill tokens behind a responsive Astryx Collapsible with a CountBadge, and use a separately labelled GitHub ghost IconButton rendered as a link with the global navigation's theme-aware currentColor SVG rather than making the whole card interactive.",
+      "statement": "Project cards keep the project heading and description visible, place skill tokens behind a responsive Astryx Collapsible, and show the skills CountBadge only while that disclosure is collapsed. They use a separately labelled GitHub ghost IconButton rendered as a link with the global navigation's theme-aware currentColor SVG rather than making the whole card interactive.",
       "evidence": [
         {
-          "resource": "repo://apps/github.io/src/app/global-navigation-layout.tsx#L54-L66",
-          "version": "repo-lines-v1:sha256:b73d45e299faa2e4940e588e12b012ed4945c1e61a26a373da4d753555effa6e:eyJzZWxlY3RlZExpbmVDb3VudCI6MTMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImQyOTIyODUxNjY2NTJkOTc5ZjAzZTVkOWEyZmJkNTc0MDAzYTM2NThmOTFjNGMxN2Y0ZTJlNzNmYTJkNWVlMDIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijk1ZWYwMWJjMDhkYmMzYjYzZTRlNzVlYTNkMjZhNWI5NDE4OTE4NzdlMjdhZDg5MTMyOWM4NDExZDdkOGRjNGQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImE3OGJhZDI1MTQ0ZTlkMDk0MTFjY2JmMDExY2I4NmRiZmY2Y2ZlOGQ3OGE4M2VjYThjNThkNTIxMmU3M2FlZjciLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjIzNTdmZWQ1N2UwZjg1YTA1ZGNkYmM1MTU0MjJmNTlhMjNiZmJiMmRjNThjNDUwZWMxOTk1NzI5MmFmNWNkOGQifQ"
+          "resource": "repo://apps/github.io/src/app/projects/project-card.spec.tsx#L162-L203",
+          "version": "repo-lines-v1:sha256:7d35d635c5c004884fdb7f7254b8df3072cf17d34a1d003b6a961f87e225c84b:eyJzZWxlY3RlZExpbmVDb3VudCI6NDIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjVlYzhiOGUyZGE1MjZmZTY0ZjJiZmZlOWExOTU0OWNjMzhlMGM3MzJlYTBjZmI3YzY5MzAyMWY5YTU3ZjYwZTEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijk4MzlkZThlMDI0MmRkZTk0YjY2Yzk5MzFkNzIxZDEyYTZiY2UxY2NjOWIyOTE3MDAwMTViOTM5OWZjNDIwZjgiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjIxZjljOTZmODYyYmRjYjhiZTNlM2E4ZjZiZDU2OWY4ODhmZTY5MzU1ODdhMGEzMzMwZTYwZDRiMjVmNWIyNGQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImI2MmJhMmZhZGZmYmRiN2Y4YmE1NDc5YTY4MTI2YjU0NTU2NDIxZjU5MWY4Y2ZjODMwNmZjMmRjMWEzYTlkNjIifQ"
         },
         {
-          "resource": "repo://apps/github.io/src/app/projects/project-card.spec.tsx#L132-L220",
-          "version": "repo-lines-v1:sha256:a351a5e6104db3dacf93a6bdea48a621c072b6c86c9cf4d08cc67cf4ab7da35c:eyJzZWxlY3RlZExpbmVDb3VudCI6ODksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijk2MGYzZjQyMWIwYzYyNWU2OWM4ZDc0OTJlYWYxMDU2MDhmN2QzYTFkMzY4ZWRjMTI0NWRkZmU2Nzk1MDdhOTIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjgxYmEyYjJiOWMwOGYzZTE1NmEzNjQ2NWRmMmNlYWM2YjExYjhkNWM0ZTc4OWI2NTgzZGZkMTZkZGQwOGE2ZmYiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjU2ZDM5MjQzNjdhMzUxYjU5OGU5NmJiZTZkOGE5NDljYzE2NGZkNmU3NDFiOGI4NDkzZTkzY2EwOWJiZGU5OGEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImI3NzlkMTE4ZDZlM2NiZjQ1MDUzOTc0OGRlZTdhNDMwN2FjYmU2NDQ2Y2JhMjk3ZjI3NjBmYTVkMGJiYTFiYzIifQ"
-        },
-        {
-          "resource": "repo://apps/github.io/src/app/projects/project-card.tsx#L48-L129",
-          "version": "repo-lines-v1:sha256:8e0f4b8133d7463fab9d96ee1c30d2874e456be4395c867f522447bdabc25733:eyJzZWxlY3RlZExpbmVDb3VudCI6ODIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjVhMjBiYjA4MTdlYjBjNmM3NjQ0NDhkNGUwZjhjMjMzODE1OGYxYTFiOTM2ZmY1OWU1OWY0ODViZmNmY2ZhMzkiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjEzODNhYzE5OThhZDg4Mjg4NDVjNzBlZGZmOWQyNWZjYzc4OTU3ZjU1MzBhNzk4MzhkNTE4NGExZTE3MGZlNDIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+          "resource": "repo://apps/github.io/src/app/projects/project-card.tsx#L48-L111",
+          "version": "repo-lines-v1:sha256:44ff8e837da2d340e7143c72f68d3485fa386ff3665b512cb929a8317ecd63aa:eyJzZWxlY3RlZExpbmVDb3VudCI6NjQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjVhMjBiYjA4MTdlYjBjNmM3NjQ0NDhkNGUwZjhjMjMzODE1OGYxYTFiOTM2ZmY1OWU1OWY0ODViZmNmY2ZhMzkiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImU4OThiNWE3YzYzOTZkMzRlYTZlM2U2YWQ0MTk3YTMzOTA0M2JlMDNiYmRjODE1YmM2NDdjYWNhMjQzOGI5N2IiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjEzODNhYzE5OThhZDg4Mjg4NDVjNzBlZGZmOWQyNWZjYzc4OTU3ZjU1MzBhNzk4MzhkNTE4NGExZTE3MGZlNDIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjllYTUzODE5MGU3MTFlMDBlMDdkOTVkNmQzMTc1NTk2YzhiYjJiZmI2YWRjMGI2MGMyMTI3ZTFlMTlkYzA1MmMifQ"
         },
         {
           "resource": "repo://apps/github.io/src/app/responsive-collapsible.ts#L1-L9",
@@ -313,6 +301,6 @@
   ],
   "verification": {
     "by": "openwiki/0.5.0",
-    "at": "2026-09-16T03:32:31.450Z"
+    "at": "2026-09-16T05:20:11.442Z"
   }
 }
