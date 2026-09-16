@@ -71,9 +71,12 @@ function DoraCapabilityEvidenceRow({
   return (
     <VStack gap={1}>
       {visibleLabel ? (
-        <Text id={labelId} type="supporting" color="secondary">
-          {visibleLabel}
-        </Text>
+        <HStack gap={2} vAlign="center">
+          <Text id={labelId} type="supporting" color="secondary">
+            {visibleLabel}
+          </Text>
+          <CountBadge count={row.evidence.length} />
+        </HStack>
       ) : null}
       <ul
         {...stylex.props(styles.evidenceRow)}
