@@ -99,13 +99,17 @@ function DoraCapabilityEvidenceRow({
 }
 
 function DoraCapabilityEvidenceTrigger({
+  isOpen,
   rows,
 }: {
+  isOpen: boolean;
   rows: readonly DoraCapabilityCardEvidenceRow[];
 }): ReactElement {
+  const visibleRows = isOpen ? rows.slice(0, 1) : rows;
+
   return (
     <HStack gap={2} wrap="wrap" vAlign="center">
-      {rows.map((row) => {
+      {visibleRows.map((row) => {
         const label = visibleEvidenceGroupLabels[row.group];
 
         return label ? (
@@ -161,7 +165,9 @@ export function DoraCapabilityCard({
             <Collapsible
               isOpen={isOpen}
               onOpenChange={setIsOpen}
-              trigger={<DoraCapabilityEvidenceTrigger rows={rows} />}
+              trigger={
+                <DoraCapabilityEvidenceTrigger isOpen={isOpen} rows={rows} />
+              }
             >
               <VStack gap={2}>
                 {rows.map((row) => (

@@ -114,6 +114,9 @@ describe('DoraCapabilityCard', () => {
     fireEvent.click(disclosure);
 
     expect(disclosure.getAttribute('aria-expanded')).toBe('true');
+    expect(
+      screen.getByRole('button', { name: 'Relevant experience 5' }),
+    ).toBe(disclosure);
     const rows = screen.getAllByTestId('dora-capability-evidence-row');
 
     expect(rows).toHaveLength(3);
@@ -668,8 +671,8 @@ describe('DoraCapabilityCard', () => {
       'skills',
     ]);
     expect(screen.getAllByText('Relevant experience')).toHaveLength(2);
-    expect(screen.getAllByText('Certifications')).toHaveLength(2);
-    expect(screen.getAllByText('Technical skills')).toHaveLength(2);
+    expect(screen.getByText('Certifications')).toBeTruthy();
+    expect(screen.getByText('Technical skills')).toBeTruthy();
     expect(screen.queryByText('Learning')).toBeNull();
 
     expect(certificationRow).toBe(rows[1]);
