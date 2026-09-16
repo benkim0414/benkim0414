@@ -3,6 +3,7 @@ import { Collapsible } from '@astryxdesign/core/Collapsible';
 import { Heading } from '@astryxdesign/core/Heading';
 import { HStack, VStack } from '@astryxdesign/core/Layout';
 import { Text } from '@astryxdesign/core/Text';
+import { VisuallyHidden } from '@astryxdesign/core/VisuallyHidden';
 import { spacingVars } from '@astryxdesign/core/theme/tokens.stylex';
 import * as stylex from '@stylexjs/stylex';
 import { useId, useState, type ReactElement } from 'react';
@@ -105,11 +106,13 @@ function DoraCapabilityEvidenceTrigger({
   isOpen: boolean;
   rows: readonly DoraCapabilityCardEvidenceRow[];
 }): ReactElement {
-  const visibleRows = isOpen ? rows.slice(0, 1) : rows;
+  if (isOpen) {
+    return <VisuallyHidden>Collapse evidence</VisuallyHidden>;
+  }
 
   return (
     <HStack gap={2} wrap="wrap" vAlign="center">
-      {visibleRows.map((row) => {
+      {rows.map((row) => {
         const label = visibleEvidenceGroupLabels[row.group];
 
         return label ? (
