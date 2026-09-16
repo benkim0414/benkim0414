@@ -15,7 +15,7 @@ import { RouterLink } from '../router-link';
 export interface SkillExperienceCardShellProps {
   readonly appearance?: 'card' | 'plain';
   readonly anchorId?: string;
-  readonly children: ReactNode;
+  readonly children: ReactNode | ((isOpen: boolean) => ReactNode);
   readonly href?: string;
   readonly outcomeCount: number;
   readonly skillCount: number;
@@ -105,6 +105,8 @@ export function SkillExperienceCardShell({
   const hasDetails = outcomeCount > 0 || skillCount > 0;
   const isCollapsible = appearance === 'card';
   const [isOpen, setIsOpen] = useState(shouldStartCollapsibleExpanded);
+  const detailContent =
+    typeof children === 'function' ? children(isOpen) : children;
 
   const content = (
     <VStack gap={3}>
@@ -147,7 +149,7 @@ export function SkillExperienceCardShell({
                   <Text type="supporting" color="secondary">
                     Highlights
                   </Text>
-                  <CountBadge count={outcomeCount} />
+                  {!isOpen ? <CountBadge count={outcomeCount} /> : null}
                 </>
               ) : null}
               {skillCount > 0 && (!isOpen || outcomeCount === 0) ? (
@@ -155,13 +157,13 @@ export function SkillExperienceCardShell({
                   <Text type="supporting" color="secondary">
                     Relevant skills
                   </Text>
-                  <CountBadge count={skillCount} />
+                  {!isOpen ? <CountBadge count={skillCount} /> : null}
                 </>
               ) : null}
             </HStack>
           }
         >
-          <VStack gap={3}>{children}</VStack>
+          <VStack gap={3}>{detailContent}</VStack>
         </Collapsible>
       ) : null}
     </VStack>

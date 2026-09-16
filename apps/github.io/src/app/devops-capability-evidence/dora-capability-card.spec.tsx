@@ -114,9 +114,9 @@ describe('DoraCapabilityCard', () => {
     fireEvent.click(disclosure);
 
     expect(disclosure.getAttribute('aria-expanded')).toBe('true');
-    expect(
-      screen.getByRole('button', { name: 'Relevant experience 5' }),
-    ).toBe(disclosure);
+    expect(screen.getByRole('button', { name: 'Relevant experience' })).toBe(
+      disclosure,
+    );
     expect(screen.getAllByText('Relevant experience')).toHaveLength(2);
     const rows = screen.getAllByTestId('dora-capability-evidence-row');
 
@@ -125,7 +125,8 @@ describe('DoraCapabilityCard', () => {
       screen
         .getAllByTestId('dora-capability-evidence-group-label')
         .map((label) => label.parentElement?.textContent),
-    ).toEqual(['Certifications2', 'Technical skills12']);
+    ).toEqual(['Certifications', 'Technical skills']);
+    expect(disclosure.closest('[data-testid="dora-capability-card"]')?.querySelectorAll('.astryx-badge')).toHaveLength(0);
   });
 
   it('includes learning evidence in the disclosure count', () => {

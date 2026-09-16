@@ -78,6 +78,8 @@ export function SkillExperienceList({
                 summary={item.summary}
                 title={item.title}
               >
+                {(isOpen) => (
+                  <>
                 <SkillKeyOutcomes outcomes={facts} />
 
                 {relevantSkills.length > 0 ? (
@@ -87,7 +89,9 @@ export function SkillExperienceList({
                         <Text type="supporting" color="secondary">
                           Relevant skills
                         </Text>
-                        <CountBadge count={relevantSkills.length} />
+                        {!isOpen ? (
+                          <CountBadge count={relevantSkills.length} />
+                        ) : null}
                       </HStack>
                     ) : null}
                     <HStack
@@ -109,6 +113,8 @@ export function SkillExperienceList({
                     </HStack>
                   </VStack>
                 ) : null}
+                  </>
+                )}
               </SkillExperienceCardShell>
             </VStack>
           </li>

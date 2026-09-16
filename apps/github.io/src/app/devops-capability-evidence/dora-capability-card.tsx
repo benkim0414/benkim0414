@@ -62,10 +62,12 @@ function rowLabel(
 function DoraCapabilityEvidenceRow({
   capabilityLabel,
   row,
+  showCount,
   showVisibleLabel,
 }: {
   capabilityLabel: string;
   row: DoraCapabilityCardEvidenceRow;
+  showCount: boolean;
   showVisibleLabel: boolean;
 }): ReactElement {
   const labelId = useId();
@@ -84,7 +86,7 @@ function DoraCapabilityEvidenceRow({
           >
             {visibleLabel}
           </Text>
-          <CountBadge count={row.evidence.length} />
+          {showCount ? <CountBadge count={row.evidence.length} /> : null}
         </HStack>
       ) : (
         <VisuallyHidden id={labelId}>{accessibleLabel}</VisuallyHidden>
@@ -124,7 +126,6 @@ function DoraCapabilityEvidenceTrigger({
         <Text type="supporting" color="secondary">
           {primaryLabel}
         </Text>
-        <CountBadge count={primaryRow.evidence.length} />
       </HStack>
     ) : (
       <VisuallyHidden>Collapse evidence</VisuallyHidden>
@@ -199,6 +200,7 @@ export function DoraCapabilityCard({
                     capabilityLabel={capability.label}
                     key={row.group}
                     row={row}
+                    showCount={!isOpen}
                     showVisibleLabel={!isOpen || row !== rows[0]}
                   />
                 ))}

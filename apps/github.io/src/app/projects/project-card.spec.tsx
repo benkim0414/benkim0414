@@ -159,8 +159,9 @@ describe('ProjectCard', () => {
     ).toBeTruthy();
   });
 
-  it('shows the skill count beside its supporting label', () => {
-    const { container } = render(<ProjectCard project={project} />);
+  it('keeps the skill count beside its supporting label while collapsed', () => {
+    setSmallViewport(true);
+    render(<ProjectCard project={project} />);
 
     const label = screen.getByText('Skills used');
     const badge = screen.getByText(String(project.skills.length));
@@ -192,6 +193,8 @@ describe('ProjectCard', () => {
     expect(disclosure.getAttribute('aria-expanded')).toBe('false');
     fireEvent.click(disclosure);
     expect(disclosure.getAttribute('aria-expanded')).toBe('true');
+    expect(disclosure.textContent).toBe('Skills used');
+    expect(disclosure.querySelector('.astryx-badge')).toBeNull();
     expect(screen.getByRole('list', { name: 'Skills used' })).toBeTruthy();
   });
 

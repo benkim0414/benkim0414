@@ -218,7 +218,7 @@ describe('HomePage', () => {
     ).toBeTruthy();
     expect(
       within(firstCard).getByRole('button', {
-        name: /Relevant experience 5/,
+        name: 'Relevant experience',
       }),
     ).toBeTruthy();
   });

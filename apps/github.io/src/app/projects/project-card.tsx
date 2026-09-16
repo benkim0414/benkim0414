@@ -92,7 +92,9 @@ export function ProjectCard({
                 <Text type="supporting" color="secondary">
                   Skills used
                 </Text>
-                <CountBadge count={project.skills.length} />
+                {!areSkillsOpen ? (
+                  <CountBadge count={project.skills.length} />
+                ) : null}
               </HStack>
             }
           >

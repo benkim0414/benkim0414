@@ -96,14 +96,15 @@ describe('SkillExperienceCard', () => {
 
     expect(disclosure.getAttribute('aria-expanded')).toBe('true');
     expect(disclosure.getAttribute('aria-label')).toBeNull();
-    expect(disclosure.textContent).toContain('Highlights2');
+    expect(disclosure.textContent).toBe('Highlights');
     expect(disclosure.textContent).not.toContain('Relevant skills');
     expect(screen.getAllByRole('list')).toHaveLength(2);
     expect(screen.getByText(ciCdExperience.narrative[0])).toBeTruthy();
     expect(screen.getByRole('list', { name: 'Relevant skills' })).toBeTruthy();
     expect(screen.getByText('Relevant skills').parentElement?.textContent).toBe(
-      'Relevant skills2',
+      'Relevant skills',
     );
+    expect(disclosure.closest('.astryx-card')?.querySelectorAll('.astryx-badge')).toHaveLength(0);
   });
 
   it('starts expanded on a non-compact surface', () => {
@@ -114,7 +115,7 @@ describe('SkillExperienceCard', () => {
     expect(
       screen
         .getByRole('button', {
-          name: 'Highlights 2',
+          name: 'Highlights',
         })
         .getAttribute('aria-expanded'),
     ).toBe('true');
@@ -128,7 +129,7 @@ describe('SkillExperienceCard', () => {
       <SkillExperienceCard experience={ciCdExperience} />,
     );
     const disclosure = screen.getByRole('button', {
-      name: 'Highlights 2',
+      name: 'Highlights',
     });
 
     fireEvent.click(disclosure);
@@ -198,10 +199,10 @@ describe('SkillExperienceCard', () => {
     fireEvent.click(disclosure);
 
     expect(disclosure.getAttribute('aria-expanded')).toBe('true');
-    expect(screen.getByRole('button', { name: 'Relevant skills 1' })).toBe(
+    expect(screen.getByRole('button', { name: 'Relevant skills' })).toBe(
       disclosure,
     );
-    expect(disclosure.textContent).toContain('Relevant skills1');
+    expect(disclosure.textContent).toBe('Relevant skills');
     expect(disclosure.textContent).not.toContain('Highlights');
     expect(screen.getAllByText('Relevant skills')).toHaveLength(1);
   });

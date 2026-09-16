@@ -172,12 +172,13 @@ describe('SkillExperienceList', () => {
     fireEvent.click(disclosure);
 
     expect(disclosure.getAttribute('aria-expanded')).toBe('true');
-    expect(disclosure.textContent).toContain('Highlights1');
+    expect(disclosure.textContent).toBe('Highlights');
     expect(disclosure.textContent).not.toContain('Relevant skills');
     expect(screen.getByRole('list', { name: 'Relevant skills' })).toBeTruthy();
     expect(screen.getByText('Relevant skills').parentElement?.textContent).toBe(
-      'Relevant skills6',
+      'Relevant skills',
     );
+    expect(disclosure.closest('.astryx-card')?.querySelectorAll('.astryx-badge')).toHaveLength(0);
   });
 
   it('starts expanded on a non-compact surface', () => {
@@ -190,7 +191,7 @@ describe('SkillExperienceList', () => {
 
     expect(
       screen
-        .getByRole('button', { name: 'Highlights 1' })
+        .getByRole('button', { name: 'Highlights' })
         .getAttribute('aria-expanded'),
     ).toBe('true');
   });
@@ -204,7 +205,7 @@ describe('SkillExperienceList', () => {
       <SkillExperienceList evidence={[evidence]} skills={skills} />,
     );
     const disclosure = screen.getByRole('button', {
-      name: 'Highlights 1',
+      name: 'Highlights',
     });
 
     fireEvent.click(disclosure);
@@ -422,7 +423,7 @@ describe('SkillExperienceList', () => {
     fireEvent.click(disclosure);
 
     expect(disclosure.getAttribute('aria-expanded')).toBe('true');
-    expect(screen.getByRole('button', { name: 'Relevant skills 6' })).toBe(
+    expect(screen.getByRole('button', { name: 'Relevant skills' })).toBe(
       disclosure,
     );
     expect(screen.getAllByText('Relevant skills')).toHaveLength(1);
