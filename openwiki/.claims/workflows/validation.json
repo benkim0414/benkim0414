@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:5ec26b9c3f4f608d70c2960bcd2d0308004bcc536dc0e341c44cdeb4c8a8fc3a",
+  "pageVersion": "sha256:d4a82299ed16a548c6449d95637b533b41048bbf94fc23be6ae1280d69eb6c46",
   "claims": [
     {
       "id": "claim_6cbb6dd0080f4763aaf4dec964f7f76e",
@@ -326,7 +326,7 @@
         },
         {
           "resource": "repo://apps/github.io/src/app/home/home-page.spec.tsx",
-          "version": "repo-file-v1:sha256:cf5feabc1a98855c929c480c9bcb5fd7547047389353961f2cf99ad944510000"
+          "version": "repo-file-v1:sha256:a4229079486726f35173e1b52a1337b449aa73c3faa68ca222529f8f8bda8067"
         },
         {
           "resource": "repo://apps/github.io/src/app/home/home-page.tsx",
@@ -337,6 +337,6 @@
   ],
   "verification": {
     "by": "openwiki/0.5.0",
-    "at": "2026-09-16T03:28:06.665Z"
+    "at": "2026-09-16T03:32:31.450Z"
   }
 }
