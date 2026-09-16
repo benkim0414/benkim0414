@@ -115,21 +115,17 @@ describe('DoraCapabilityCard', () => {
 
     expect(disclosure.getAttribute('aria-expanded')).toBe('true');
     expect(
-      screen.getByRole('button', { name: 'Collapse evidence' }),
+      screen.getByRole('button', { name: 'Relevant experience 5' }),
     ).toBe(disclosure);
-    expect(screen.getAllByText('Relevant experience')).toHaveLength(1);
+    expect(screen.getAllByText('Relevant experience')).toHaveLength(2);
     const rows = screen.getAllByTestId('dora-capability-evidence-row');
 
     expect(rows).toHaveLength(3);
-    expect(rows[0].previousElementSibling?.textContent).toBe(
-      'Relevant experience5',
-    );
-    expect(rows[1].previousElementSibling?.textContent).toBe(
-      'Certifications2',
-    );
-    expect(rows[2].previousElementSibling?.textContent).toBe(
-      'Technical skills12',
-    );
+    expect(
+      screen
+        .getAllByTestId('dora-capability-evidence-group-label')
+        .map((label) => label.parentElement?.textContent),
+    ).toEqual(['Certifications2', 'Technical skills12']);
   });
 
   it('includes learning evidence in the disclosure count', () => {
@@ -671,7 +667,7 @@ describe('DoraCapabilityCard', () => {
       'certifications',
       'skills',
     ]);
-    expect(screen.getByText('Relevant experience')).toBeTruthy();
+    expect(screen.getAllByText('Relevant experience')).toHaveLength(2);
     expect(screen.getByText('Certifications')).toBeTruthy();
     expect(screen.getByText('Technical skills')).toBeTruthy();
     expect(screen.queryByText('Learning')).toBeNull();

@@ -62,29 +62,36 @@ function rowLabel(
 function DoraCapabilityEvidenceRow({
   capabilityLabel,
   row,
+  showVisibleLabel,
 }: {
   capabilityLabel: string;
   row: DoraCapabilityCardEvidenceRow;
+  showVisibleLabel: boolean;
 }): ReactElement {
   const labelId = useId();
   const visibleLabel = visibleEvidenceGroupLabels[row.group];
+  const accessibleLabel = visibleLabel ?? rowLabel(capabilityLabel, row.group);
 
   return (
     <VStack gap={1}>
-      {visibleLabel ? (
+      {showVisibleLabel && visibleLabel ? (
         <HStack gap={2} vAlign="center">
-          <Text id={labelId} type="supporting" color="secondary">
+          <Text
+            data-testid="dora-capability-evidence-group-label"
+            id={labelId}
+            type="supporting"
+            color="secondary"
+          >
             {visibleLabel}
           </Text>
           <CountBadge count={row.evidence.length} />
         </HStack>
-      ) : null}
+      ) : (
+        <VisuallyHidden id={labelId}>{accessibleLabel}</VisuallyHidden>
+      )}
       <ul
         {...stylex.props(styles.evidenceRow)}
-        aria-label={
-          visibleLabel ? undefined : rowLabel(capabilityLabel, row.group)
-        }
-        aria-labelledby={visibleLabel ? labelId : undefined}
+        aria-labelledby={labelId}
         data-group={row.group}
         data-testid="dora-capability-evidence-row"
         data-wrap="true"
@@ -107,7 +114,21 @@ function DoraCapabilityEvidenceTrigger({
   rows: readonly DoraCapabilityCardEvidenceRow[];
 }): ReactElement {
   if (isOpen) {
-    return <VisuallyHidden>Collapse evidence</VisuallyHidden>;
+    const primaryRow = rows[0];
+    const primaryLabel = primaryRow
+      ? visibleEvidenceGroupLabels[primaryRow.group]
+      : undefined;
+
+    return primaryRow && primaryLabel ? (
+      <HStack gap={2} vAlign="center">
+        <Text type="supporting" color="secondary">
+          {primaryLabel}
+        </Text>
+        <CountBadge count={primaryRow.evidence.length} />
+      </HStack>
+    ) : (
+      <VisuallyHidden>Collapse evidence</VisuallyHidden>
+    );
   }
 
   return (
@@ -178,6 +199,7 @@ export function DoraCapabilityCard({
                     capabilityLabel={capability.label}
                     key={row.group}
                     row={row}
+                    showVisibleLabel={!isOpen || row !== rows[0]}
                   />
                 ))}
               </VStack>
