@@ -55,6 +55,12 @@ type Story = StoryObj<typeof meta>;
 
 export const FlexibleInfrastructure: Story = {};
 
+export const MobileCompact: Story = {
+  globals: {
+    viewport: { value: 'mobile1', isRotated: false },
+  },
+};
+
 export const DeploymentAutomation: Story = {
   args: {
     capability: deploymentAutomation,

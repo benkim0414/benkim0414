@@ -4,6 +4,7 @@ import meta, {
   DeploymentAutomation,
   DocumentationQuality,
   FlexibleInfrastructure,
+  MobileCompact,
   MonitoringAndObservability,
   PervasiveSecurity,
   TestAutomation,
@@ -18,6 +19,13 @@ import {
 import { doraCapabilityDescriptions } from './dora-capability-card.evidence';
 
 describe('DoraCapabilityCard stories', () => {
+  it('sets a mobile viewport for compact disclosure review', () => {
+    expect(MobileCompact.globals?.viewport).toEqual({
+      value: 'mobile1',
+      isRotated: false,
+    });
+  });
+
   it.each([
     ['test-automation', TestAutomation, []],
     ['monitoring-observability', MonitoringAndObservability, ['CKA', 'CKAD']],

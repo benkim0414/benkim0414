@@ -216,7 +216,11 @@ describe('HomePage', () => {
         doraCapabilityDescriptions[firstCapability.key],
       ),
     ).toBeTruthy();
-    expect(within(firstCard).getByText('Relevant experience')).toBeTruthy();
+    expect(
+      within(firstCard).getByRole('button', {
+        name: /Relevant experience 5/,
+      }),
+    ).toBeTruthy();
   });
 
   it('lays out DORA cards in a responsive masonry container', () => {

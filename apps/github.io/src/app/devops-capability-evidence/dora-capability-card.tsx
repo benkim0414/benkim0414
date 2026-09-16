@@ -33,6 +33,7 @@ const visibleEvidenceGroupLabels: Partial<
   applied: 'Relevant experience',
   certifications: 'Certifications',
   skills: 'Technical skills',
+  learning: 'Learning',
 };
 
 const styles = stylex.create({

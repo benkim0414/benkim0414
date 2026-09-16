@@ -117,6 +117,27 @@ describe('DoraCapabilityCard', () => {
     expect(screen.getAllByTestId('dora-capability-evidence-row')).toHaveLength(3);
   });
 
+  it('includes learning evidence in the disclosure count', () => {
+    setCompactSurface(true);
+
+    render(
+      <DoraCapabilityCard
+        capability={continuousIntegration}
+        description={doraCapabilityDescriptions['continuous-integration']}
+        evidence={[
+          evidence({
+            id: 'learning',
+            type: 'learning',
+            label: 'Delivery foundations',
+          }),
+        ]}
+      />,
+    );
+
+    expect(screen.getByRole('button', { name: 'Learning 1' })).toBeTruthy();
+    expect(screen.getByRole('list', { name: 'Learning' })).toBeTruthy();
+  });
+
   it.each([
     [
       testAutomation,
