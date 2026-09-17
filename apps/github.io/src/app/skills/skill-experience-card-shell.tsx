@@ -5,6 +5,8 @@ import { Item } from '@astryxdesign/core/Item';
 import { HStack, VStack } from '@astryxdesign/core/Layout';
 import { LinkProvider } from '@astryxdesign/core/Link';
 import { Text } from '@astryxdesign/core/Text';
+import { colorVars } from '@astryxdesign/core/theme/tokens.stylex';
+import * as stylex from '@stylexjs/stylex';
 import { useState, type ReactElement, type ReactNode } from 'react';
 import { useInRouterContext } from 'react-router-dom';
 
@@ -30,6 +32,19 @@ interface InspectorExperienceItemProps {
   readonly title: string;
 }
 
+const styles = stylex.create({
+  inspectorItem: {
+    backgroundColor: {
+      default: 'transparent',
+      ':active': colorVars['--color-overlay-pressed'],
+      '@media (hover: hover)': {
+        ':hover': colorVars['--color-overlay-hover'],
+        ':active': colorVars['--color-overlay-pressed'],
+      },
+    },
+  },
+});
+
 function InspectorExperienceItem({
   href,
   outcomeCount,
@@ -47,6 +62,7 @@ function InspectorExperienceItem({
         href={href}
         label={title}
         labelLines={2}
+        xstyle={styles.inspectorItem}
       />
     );
   }
@@ -75,6 +91,7 @@ function RoutedInspectorExperienceItem({
         href={href}
         label={title}
         labelLines={2}
+        xstyle={styles.inspectorItem}
       />
     </LinkProvider>
   );
