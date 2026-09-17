@@ -121,28 +121,31 @@ export function SkillDetailContent({
       </HStack>
     );
 
+  const experienceAppearance = presentation === 'inspector' ? 'plain' : 'card';
   const experience = hasExperience ? (
     <section aria-labelledby="skill-experience-narrative-heading">
       <VStack gap={3}>
         {experienceLabel}
 
-        {detail.experiences.length > 0 ? (
-          <SkillExperienceCardList
-            appearance={presentation === 'inspector' ? 'plain' : 'card'}
-            detailSkillId={detail.skill.id}
-            experiences={detail.experiences}
-            skills={detail.relatedSkills}
-          />
-        ) : null}
+        <VStack gap={presentation === 'inspector' ? 0 : 3}>
+          {detail.experiences.length > 0 ? (
+            <SkillExperienceCardList
+              appearance={experienceAppearance}
+              detailSkillId={detail.skill.id}
+              experiences={detail.experiences}
+              skills={detail.relatedSkills}
+            />
+          ) : null}
 
-        {detail.experienceEvidence.length > 0 ? (
-          <SkillExperienceList
-            appearance={presentation === 'inspector' ? 'plain' : 'card'}
-            detailSkillId={detail.skill.id}
-            evidence={detail.experienceEvidence}
-            skills={detail.relatedSkills}
-          />
-        ) : null}
+          {detail.experienceEvidence.length > 0 ? (
+            <SkillExperienceList
+              appearance={experienceAppearance}
+              detailSkillId={detail.skill.id}
+              evidence={detail.experienceEvidence}
+              skills={detail.relatedSkills}
+            />
+          ) : null}
+        </VStack>
       </VStack>
     </section>
   ) : null;
