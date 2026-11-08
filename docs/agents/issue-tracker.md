@@ -2,11 +2,15 @@
 
 This repository uses Hermes Kanban as the local agent task tracker for the v1 multi-profile workflow unless a task explicitly names GitHub Issues, a PR, or another tracker.
 
+Related setup docs: `docs/agents/triage-labels.md`, `docs/agents/domain.md`.
+
 ## Tracker
 
-- Primary agent tracker: Hermes Kanban
+- Primary agent tracker: Hermes Kanban (Cursor Project / Kanban board; not GitHub Issues by default)
 - Repository: `benkim0414/benkim0414`
 - Project-specific instructions: root `AGENTS.md`
+- When a skill says "publish to the issue tracker": create or update a Hermes Kanban ticket (or the tracker the task explicitly names)
+- When a skill says "fetch the relevant ticket": read the Kanban/issue reference the user or prior skill provided
 
 ## Role/state vocabulary
 

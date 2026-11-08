@@ -118,6 +118,8 @@ Typical panes/agents:
 
 For v1, use mattpocock/skills only for this workflow. Do not introduce addyosmani/agent-skills into this repo workflow unless the user explicitly changes the v1 policy.
 
+Installed project skills live under `.agents/skills/` (discovered by Cursor). Lockfile: `skills-lock.json`. Setup pointers: `CLAUDE.md` (`## Agent skills`), `docs/agents/issue-tracker.md`, `docs/agents/triage-labels.md`, `docs/agents/domain.md`. Note: `resolving-merge-conflicts` is named in the implement profile above but is not published in current `mattpocock/skills`; use poteto-mode / manual merge tooling until it is.
+
 <!-- OPENWIKI:START -->
 
 ## OpenWiki
