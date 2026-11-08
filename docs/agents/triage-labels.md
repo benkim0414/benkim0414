@@ -1,18 +1,18 @@
 # Triage Labels
 
-The skills speak in terms of five canonical triage roles. This file maps those roles to the actual label strings used in this repo's Hermes Kanban / agent tracker vocabulary (see `docs/agents/issue-tracker.md`).
+The skills speak in terms of five canonical triage roles. This file maps those roles to the actual GitHub label strings used in this repo (see `docs/agents/issue-tracker.md`).
 
 | Label in mattpocock/skills | Label in our tracker | Meaning |
 | -------------------------- | -------------------- | ------- |
-| `needs-triage`             | `needs-triage`       | Backlog/Scheduled; needs `triage` inspection |
-| `needs-info`               | `needs-info`         | Blocked; waiting for user/reporter clarification |
-| `ready-for-agent`          | `ready-for-agent`    | Ready; can be assigned to `implement` or `code-review` |
-| `ready-for-human`          | `ready-for-human`    | Awaiting handoff/user approval; do not auto-push/deploy |
-| `wontfix`                  | `wontfix`            | Cancelled/closed with reason |
+| `needs-triage`             | `needs-triage`       | Maintainer needs to evaluate this issue |
+| `needs-info`               | `needs-info`         | Waiting on reporter for more information |
+| `ready-for-agent`          | `ready-for-agent`    | Fully specified, ready for an AFK agent |
+| `ready-for-human`          | `ready-for-human`    | Requires human implementation or handoff approval |
+| `wontfix`                  | `wontfix`            | Will not be actioned |
 
 When a skill mentions a role (e.g. "apply the AFK-ready triage label"), use the corresponding label string from this table.
 
-Category labels used alongside triage roles in this repo:
+Category labels used alongside triage roles:
 
 | Category | Meaning |
 | -------- | ------- |

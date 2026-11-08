@@ -18,7 +18,7 @@ Use these general Hermes profiles; they are intentionally not repo-specific:
    - Clarify the request.
    - Inspect this repo for facts instead of guessing.
    - Use mattpocock/skills such as `triage`, `to-spec`, `to-tickets`, `grilling`, `research`, and `wayfinder`.
-   - Produce specs and Kanban-ready tickets.
+   - Produce specs and GitHub Issues tickets.
    - Do not implement app code.
    - Do not push or deploy.
 
@@ -44,13 +44,13 @@ Use these general Hermes profiles; they are intentionally not repo-specific:
 
 ## State flow
 
-Feature request -> `triage` -> Kanban tickets -> `implement` -> `code-review` -> awaiting handoff -> user explicitly prompts `handoff`.
+Feature request -> `triage` -> GitHub Issues tickets -> `implement` -> `code-review` -> awaiting handoff -> user explicitly prompts `handoff`.
 
 Do not auto-push, auto-merge, or auto-deploy. Stop in an awaiting-handoff state until the user explicitly asks for handoff/shipping.
 
-## Kanban/issue tracker policy
+## Issue tracker policy
 
-- Hermes Kanban is the local agent task board for this workflow unless a task explicitly names GitHub Issues or another tracker.
+- GitHub Issues is the task tracker for this workflow (via `gh`). Do not use Hermes Kanban for mattpocock triage/implement tickets.
 - Use `docs/agents/issue-tracker.md` for the tracker mapping expected by mattpocock/skills.
 - `docs/solutions/` contains documented solutions to past bugs, design patterns, workflow issues, and best practices, organized by category with YAML frontmatter such as `module`, `tags`, and `problem_type`.
 - `CONCEPTS.md` contains shared project vocabulary relevant when orienting to the codebase or discussing domain concepts.
@@ -101,7 +101,7 @@ not trigger wiki writes.
 
 ## Herdr usage
 
-Use Herdr as the live terminal/workspace multiplexer, not as the durable source of truth. The durable source of truth is Kanban plus repo files.
+Use Herdr as the live terminal/workspace multiplexer, not as the durable source of truth. The durable source of truth is GitHub Issues plus repo files.
 
 Recommended Herdr workspace label for this repo: `benkim0414`.
 

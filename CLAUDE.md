@@ -10,14 +10,14 @@ See [AGENTS.md](AGENTS.md) for OpenWiki agent instructions.
 
 ### Issue tracker
 
-Hermes Kanban is the primary agent tracker for the v1 workflow (GitHub Issues only when a task explicitly names them). See `docs/agents/issue-tracker.md`.
+GitHub Issues in `benkim0414/benkim0414` (via `gh`). See `docs/agents/issue-tracker.md`.
 
 ### Triage labels
 
-Canonical mattpocock triage roles map 1:1 onto this repo's tracker vocabulary. See `docs/agents/triage-labels.md`.
+Canonical mattpocock triage roles map 1:1 onto GitHub labels. See `docs/agents/triage-labels.md`.
 
 ### Domain docs
 
 Single-context: shared vocabulary in `CONCEPTS.md` (also `GLOSSARY.md` symlink) plus `docs/adr/`. See `docs/agents/domain.md`.
 
-Project skills live under `.agents/skills/` (mattpocock/skills for the Hermes profiles, plus OpenWiki). Full profile workflow: [AGENTS.md](AGENTS.md).
+Project skills live under `.agents/skills/` (mattpocock/skills for the agent profiles, plus OpenWiki). Full profile workflow: [AGENTS.md](AGENTS.md).
