@@ -55,6 +55,34 @@ test('workflow reads event JSON and passes arguments without expression interpol
   assert.match(workflow, /pnpm install --frozen-lockfile/);
 });
 
+function extractWorkflowProgram() {
+  const match = workflow.match(
+    /node --input-type=module <<'NODE'\n([\s\S]*?)\n          NODE/,
+  );
+  assert.ok(match, 'workflow must contain its event runner');
+  return match[1]
+    .split('\n')
+    .map((line) => line.replace(/^ {10}/, ''))
+    .join('\n');
+}
+
+function installWorkflowHarness(cwd) {
+  const sourceScripts = dirname(
+    new URL('./check-commit-scopes.mjs', import.meta.url).pathname,
+  );
+  symlinkSync(sourceScripts, join(cwd, 'scripts'), 'dir');
+  const bin = join(cwd, 'bin');
+  mkdirSync(bin);
+  const invocationLog = join(cwd, 'pnpm-invoked');
+  const fakePnpm = join(bin, 'pnpm');
+  writeFileSync(
+    fakePnpm,
+    '#!/bin/sh\nif [ "$1" = "exec" ] && [ "$2" = "commitlint" ]; then\n  printf invoked > "$INVOCATION_LOG"\n  exit 0\nfi\nprintf unexpected > "$INVOCATION_LOG"\nexit 1\n',
+  );
+  chmodSync(fakePnpm, 0o755);
+  return { invocationLog, bin };
+}
+
 test('a resolved divergent push base fails before commitlint is invoked', (t) => {
   const cwd = mkdtempSync(join(tmpdir(), 'scope-workflow-'));
   t.after(() => rmSync(cwd, { recursive: true, force: true }));
@@ -79,30 +107,13 @@ test('a resolved divergent push base fails before commitlint is invoked', (t) =>
   git('commit', '-q', '-m', 'chore: old history');
   const before = git('rev-parse', 'HEAD');
 
-  const sourceScripts = dirname(
-    new URL('./check-commit-scopes.mjs', import.meta.url).pathname,
-  );
-  symlinkSync(sourceScripts, join(cwd, 'scripts'), 'dir');
-  const bin = join(cwd, 'bin');
-  mkdirSync(bin);
-  const invocationLog = join(cwd, 'pnpm-invoked');
-  const fakePnpm = join(bin, 'pnpm');
-  writeFileSync(fakePnpm, '#!/bin/sh\nprintf invoked > "$INVOCATION_LOG"\n');
-  chmodSync(fakePnpm, 0o755);
+  const { invocationLog, bin } = installWorkflowHarness(cwd);
   const eventPath = join(cwd, 'event.json');
   writeFileSync(eventPath, JSON.stringify({ before, after: head }));
 
-  const match = workflow.match(
-    /node --input-type=module <<'NODE'\n([\s\S]*?)\n          NODE/,
-  );
-  assert.ok(match, 'workflow must contain its event runner');
-  const program = match[1]
-    .split('\n')
-    .map((line) => line.replace(/^ {10}/, ''))
-    .join('\n');
   const result = spawnSync(process.execPath, ['--input-type=module'], {
     cwd,
-    input: program,
+    input: extractWorkflowProgram(),
     encoding: 'utf8',
     env: {
       ...process.env,
@@ -115,6 +126,56 @@ test('a resolved divergent push base fails before commitlint is invoked', (t) =>
   assert.equal(result.status, 1);
   assert.match(result.stderr, /explicit documented baseline/);
   assert.equal(existsSync(invocationLog), false, 'commitlint must be skipped');
+});
+
+test('a zero-before new-branch push uses the default-branch tip baseline', (t) => {
+  const cwd = mkdtempSync(join(tmpdir(), 'scope-workflow-zero-'));
+  t.after(() => rmSync(cwd, { recursive: true, force: true }));
+  const git = (...args) =>
+    execFileSync('git', args, { cwd, encoding: 'utf8' }).trim();
+  git('init', '-q', '-b', 'main');
+  git('config', 'user.name', 'Test');
+  git('config', 'user.email', 'test@example.com');
+  git('config', 'core.hooksPath', '/dev/null');
+  writeFileSync(join(cwd, 'root'), 'root');
+  git('add', '--', 'root');
+  git('commit', '-q', '-m', 'chore: initialize repository');
+  const main = git('rev-parse', 'HEAD');
+  git('checkout', '-q', '-b', 'feature');
+  writeFileSync(join(cwd, 'feature'), 'feature');
+  git('add', '--', 'feature');
+  git('commit', '-q', '-m', 'chore(workflow): add feature');
+  const head = git('rev-parse', 'HEAD');
+  // Simulate fetch-depth: 0 remote-tracking default branch.
+  git('update-ref', 'refs/remotes/origin/main', main);
+
+  const { invocationLog, bin } = installWorkflowHarness(cwd);
+  const eventPath = join(cwd, 'event.json');
+  writeFileSync(
+    eventPath,
+    JSON.stringify({
+      before: '0'.repeat(40),
+      after: head,
+      repository: { default_branch: 'main' },
+    }),
+  );
+
+  const result = spawnSync(process.execPath, ['--input-type=module'], {
+    cwd,
+    input: extractWorkflowProgram(),
+    encoding: 'utf8',
+    env: {
+      ...process.env,
+      GITHUB_EVENT_NAME: 'push',
+      GITHUB_EVENT_PATH: eventPath,
+      INVOCATION_LOG: invocationLog,
+      PATH: `${bin}:${process.env.PATH}`,
+    },
+  });
+  assert.equal(result.status, 0, result.stderr || result.stdout);
+  assert.equal(existsSync(invocationLog), true, 'commitlint must run');
+  assert.match(workflow, /origin\/\$\{defaultBranch\}|origin\/\$\{default_branch\}|origin\/\$\{/);
+  assert.match(workflow, /zeroOid|0\{40\}/);
 });
 
 test('installed commitlint validates PR titles from stdin including breaking syntax', () => {
