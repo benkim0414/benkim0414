@@ -30,8 +30,29 @@ jobs:
           import { readFileSync } from 'node:fs';
           const event = JSON.parse(readFileSync(process.env.GITHUB_EVENT_PATH, 'utf8'));
           const isPr = process.env.GITHUB_EVENT_NAME === 'pull_request';
-          const base = isPr ? event.pull_request.base.sha : event.before;
+          const zeroOid = /^(?:0{40}|0{64})$/;
+          const resolveOid = (ref, label) => {
+            const result = spawnSync(
+              'git',
+              ['rev-parse', '--verify', `${ref}^{commit}`],
+              { encoding: 'utf8' },
+            );
+            if (result.status !== 0) {
+              process.stderr.write(
+                `error: Cannot resolve ${label} ${ref}; provide an explicit documented baseline.\n`,
+              );
+              process.exit(result.status ?? 1);
+            }
+            return result.stdout.trim();
+          };
+          let base = isPr ? event.pull_request.base.sha : event.before;
           const head = isPr ? event.pull_request.head.sha : event.after;
+          // New-branch pushes set before to the zero OID. Use the default-branch
+          // tip as the explicit documented baseline (see docs/agents/commit-scopes.md).
+          if (!isPr && zeroOid.test(base)) {
+            const defaultBranch = event.repository?.default_branch || 'main';
+            base = resolveOid(`origin/${defaultBranch}`, 'default-branch tip');
+          }
           const run = (command, args, options = {}) => {
             const result = spawnSync(command, args, { stdio: 'inherit', ...options });
             if (result.status !== 0) process.exitCode = result.status ?? 1;
